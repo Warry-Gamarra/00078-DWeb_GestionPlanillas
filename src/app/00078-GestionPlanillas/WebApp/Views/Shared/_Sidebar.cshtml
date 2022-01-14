@@ -2,7 +2,7 @@
 <div class="main-sidebar">
     <ul class="nav side-nav">
         <li class="nav-item"><a href="@Url.Action("Index", "Home")" class="nav-link"><i class="fa fa-fw fa-home"></i> Dashboard</a></li>
-        @if (User.IsInRole("Administrador") || User.IsInRole("Consulta") || User.IsInRole("Tesorería"))
+        @if (User.IsInRole("Administrador") || User.IsInRole("Consulta") || User.IsInRole("Remuneraciones"))
         {
             <li class="nav-item">
                 <a href="javascript:;" class="nav-link" data-toggle="collapse" data-target="#inquiries">
@@ -24,7 +24,7 @@
             </li>
         }
 
-        @if (User.IsInRole("Administrador") || User.IsInRole("Tesorería"))
+        @if (User.IsInRole("Administrador") || User.IsInRole("Remuneraciones"))
         {
             <li class="nav-item">
                 <a href="javascript:;" class="nav-link" data-toggle="collapse" data-target="#operations">
@@ -53,7 +53,7 @@
                 </ul>
             </li>
 
-            if (User.IsInRole("Administrador") || User.IsInRole("Tesorería"))
+            if (User.IsInRole("Administrador") || User.IsInRole("Remuneraciones"))
             {
 
                 <li class="nav-item">
@@ -63,8 +63,6 @@
                     <ul id="maintenance" class="collapse">
                         <li class="dropdown-header">Plantillas</li>
                         <li><a href="@Url.Action("Index", "CategoriaPago")"><i class="fa fa-fw bi-grid-1x2-fill"></i>&nbsp; Cuotas de pago</a></li>
-                        <li><a href="@Url.Action("Index", "Concepto", new { tipo = Domain.Helpers.TipoPago.Obligacion })"><i class="fa fa-fw bi-ui-checks-grid"></i>&nbsp; Conceptos obligaciones</a></li>
-                        <li><a href="@Url.Action("Index", "Concepto", new { tipo = Domain.Helpers.TipoPago.Tasa })"><i class="fa fa-fw bi-ui-checks"></i>&nbsp; Conceptos tasas</a></li>
                         @if (User.IsInRole("Administrador"))
                         {
                             <li class="dropdown-header">Recaudación</li>

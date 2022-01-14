@@ -30,14 +30,8 @@ namespace WebApp
                     if (!Roles.RoleExists("Consulta"))
                         Roles.CreateRole("Consulta");
 
-                    if (!Roles.RoleExists("Contabilidad"))
-                        Roles.CreateRole("Contabilidad");
-
-                    if (!Roles.RoleExists("Tesorería"))
-                        Roles.CreateRole("Tesorería");
-
-                    if (!Roles.RoleExists("Dependencia"))
-                        Roles.CreateRole("Dependencia");
+                    if (!Roles.RoleExists("Remuneraciones"))
+                        Roles.CreateRole("Remuneraciones");
 
                 }
             }

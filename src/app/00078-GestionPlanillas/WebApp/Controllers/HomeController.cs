@@ -8,23 +8,20 @@ namespace WebApp.Controllers
 {
     public class HomeController : Controller
     {
+        //[Authorize]
         public ActionResult Index()
         {
+            ViewBag.Title = "Dashboard";
+
             return View();
         }
 
-        public ActionResult About()
+        public ActionResult Dashboard()
         {
-            ViewBag.Message = "Your application description page.";
+            ViewBag.Title = "Dashboard";
 
-            return View();
+            return View("Index");
         }
 
-        public ActionResult Contact()
-        {
-            ViewBag.Message = "Your contact page.";
-
-            return View();
-        }
     }
 }

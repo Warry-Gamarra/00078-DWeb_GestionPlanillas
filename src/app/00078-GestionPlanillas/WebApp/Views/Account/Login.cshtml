@@ -1,0 +1,123 @@
+﻿
+@model WebApp.ViewModels.LoginViewModel
+@{
+    Layout = null;
+    string AppName = System.Configuration.ConfigurationManager.AppSettings["AppName"].ToString();
+}
+
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <link rel="shortcut icon" href="~/favicon.ico" type="image/x-icon">
+    <link rel="icon" href="~/favicon.ico">
+    <title>.:: UNFV - @AppName ::.</title>
+
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@600&display=swap" rel="stylesheet" />
+    <link href="@Url.Content("~/Assets/bootstrap/css/bootstrap.min.css")" rel="stylesheet" />
+    <link href="@Url.Content("~/Assets/font-awesome/css/font-awesome.css")" rel="stylesheet" />
+    <link href="@Url.Content("~/Assets/application/css/login.css")" rel="stylesheet" />
+    <link href="@Url.Content("~/Assets/application/css/loaders.css")" rel="stylesheet" />
+</head>
+<body>
+    <div class="login-container">
+        <div class="login-content">
+            @using (Html.BeginForm("Login", "Account", new { returnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { @class = "form-signin" }))
+            {
+                @Html.AntiForgeryToken()
+
+                <img class="avatar" src="~/Assets/images/logo.png" alt="avatar" loading="lazy" />
+                <h1>@AppName</h1>
+                <p class="col-12 text-center">
+                    <div class="text-danger"> @Html.ValidationSummary(true) </div>
+                </p>
+                <br />
+
+                <div class="input-div one">
+                    <div class="i">
+                        <i class="fa fa-user"></i>
+                    </div>
+                    <div>
+                        @Html.LabelFor(m => m.UserName)
+                        @Html.TextBoxFor(m => m.UserName, new { @class = "input" })
+                        <p class="text-error text-danger">@Html.ValidationMessageFor(m => m.UserName)</p>
+                    </div>
+                </div>
+                <div class="input-div two">
+                    <div class="i">
+                        <i class="fa fa-lock"></i>
+                    </div>
+                    <div>
+                        @Html.LabelFor(m => m.Password)
+                        @Html.PasswordFor(m => m.Password, new { @class = "input" })
+                        <p class="text-error text-danger">@Html.ValidationMessageFor(m => m.Password)</p>
+                    </div>
+                </div>
+                <div class="remember-checkbox">
+                    <label>
+                        @Html.CheckBoxFor(m => m.RememberMe) Recordar Cuenta
+                    </label>
+                </div>
+                <button type="submit" class="btn">
+                    <span id="loading" class="spinner-border spinner-border-md" style="margin-right: .5em; display:none;" role="status" aria-hidden="true"></span>
+                    Ingresar
+                </button>
+                <a href="@Url.Action("RecuperarPassword", "Account")" class="modal-link">¿Olvidó su contraseña?</a>
+                <br />
+            }
+        </div>
+        <div class="img">
+            <img src="~/Assets/images/backgound.png" alt="backgound" />
+        </div>
+    </div>
+
+    <div class="modal fade" id="modal-container" tabindex="-1" role="dialog" aria-labelledby="modal-container-label" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <p style="margin:50px;" class="text-center text-muted"><i class="fa fa-spin fa-3x fa-cog"></i></p>
+            </div>
+        </div>
+    </div>
+
+
+    <script src="@Url.Content("~/Assets/jquery/jquery-3.3.1.min.js")"></script>
+    <script src="@Url.Content("~/Assets/jquery/jquery.validate.js")"></script>
+    <script src="@Url.Content("~/Assets/jquery/jquery.validate.unobtrusive.js")"></script>
+    <script src="@Url.Content("~/Assets/jquery/jquery.unobtrusive-ajax.js")"></script>
+    <script src="@Url.Content("~/Assets/bootstrap/js/bootstrap.min.js")"></script>
+    <script src="@Url.Content("~/Assets/application/js/login.js")"></script>
+
+    <script>
+        $('form.form-signin').on('submit', function () {
+            $('#loading').show();
+            if ($('#UserName').val() === '' || $('#Password').val() === '') {
+                $('#loading').hide();
+            }
+        });
+
+        $('body').on('click', '.modal-link', function (e) {
+            e.preventDefault();
+            $(this).attr('data-target', '#modal-container');
+            $(this).attr('data-toggle', 'modal');
+        });
+
+        $('#modal-container').on('show.bs.modal', function (event) {
+            var button = $(event.relatedTarget);
+            var url = button.attr("href");
+            var modal = $(this);
+            modal.find('.modal-content').load(url);
+        });
+
+        $('#modal-container').on('hide.bs.modal', function () {
+            $(this).removeData('bs.modal');
+            $('#modal-container .modal-content').html('<p style="margin:50px;" class="text-center text-muted"><i class="fa fa-spin fa-3x fa-cog"></i></p>');
+        });
+
+    </script>
+</body>
+</html>
