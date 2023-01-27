@@ -343,3 +343,59 @@ CREATE TABLE TR_Concepto_TrabajadorPlanilla
 	CONSTRAINT FK_Planilla_ConceptoTrabajadorPlanilla FOREIGN KEY (I_TrabajadorPlanillaID) REFERENCES TR_TrabajadorPlanilla(I_TrabajadorPlanillaID),
 	CONSTRAINT FK_Concepto_ConceptoTrabajadorPlanilla FOREIGN KEY (I_ConceptoID) REFERENCES TC_Concepto(I_ConceptoID)
 )
+
+CREATE TABLE TC_CategoriaDocente
+(
+	I_CategoriaDocenteID INT IDENTITY(1,1),
+	C_CategoriaDocenteCod VARCHAR(20) NOT NULL,
+	T_CategoriaDocenteDesc VARCHAR(250) NOT NULL,
+	B_Habilitado BIT NOT NULL,
+	B_Eliminado BIT NOT NULL,
+	I_UsuarioCre INT,
+	D_FecCre DATETIME,
+	I_UsuarioMod INT,
+	D_FecMod DATETIME,
+	CONSTRAINT PK_CategoriaDocente PRIMARY KEY (I_CategoriaDocenteID)
+)
+
+CREATE TABLE TC_DedicacionDocente
+(
+	I_DedicacionDocenteID INT IDENTITY(1,1),
+	C_DedicacionDocenteCod VARCHAR(20) NOT NULL,
+	T_DedicacionDocenteDesc VARCHAR(250) NOT NULL,
+	B_Habilitado BIT NOT NULL,
+	B_Eliminado BIT NOT NULL,
+	I_UsuarioCre INT,
+	D_FecCre DATETIME,
+	I_UsuarioMod INT,
+	D_FecMod DATETIME,
+	CONSTRAINT PK_DedicacionDocente PRIMARY KEY (I_DedicacionDocenteID)
+)
+
+CREATE TABLE TC_GrupoOcupacional
+(
+	I_GrupoOcupacionalID INT IDENTITY(1,1),
+	C_GrupoOcupacionalCod VARCHAR(20) NOT NULL,
+	T_GrupoOcupacionalDesc VARCHAR(250) NOT NULL,
+	B_Habilitado BIT NOT NULL,
+	B_Eliminado BIT NOT NULL,
+	I_UsuarioCre INT,
+	D_FecCre DATETIME,
+	I_UsuarioMod INT,
+	D_FecMod DATETIME,
+	CONSTRAINT PK_GrupoOcupacional PRIMARY KEY (I_GrupoOcupacionalID)
+)
+
+CREATE TABLE TC_NivelRemunerativo
+(
+	I_NivelRemunerativoID INT IDENTITY(1,1),
+	C_NivelRemunerativoCod VARCHAR(20) NOT NULL,
+	T_NivelRemunerativoDesc VARCHAR(250) NOT NULL,
+	B_Habilitado BIT NOT NULL,
+	B_Eliminado BIT NOT NULL,
+	I_UsuarioCre INT,
+	D_FecCre DATETIME,
+	I_UsuarioMod INT,
+	D_FecMod DATETIME,
+	CONSTRAINT PK_NivelRemunerativo PRIMARY KEY (I_NivelRemunerativoID)
+)
