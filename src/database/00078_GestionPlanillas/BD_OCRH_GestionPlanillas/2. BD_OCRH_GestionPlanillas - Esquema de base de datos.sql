@@ -164,6 +164,7 @@ CREATE TABLE TC_Concepto
 (
 	I_ConceptoID INT IDENTITY(1,1),
 	I_TipoConceptoID INT NOT NULL,
+	C_ConceptoCod VARCHAR(20) NOT NULL,
 	T_ConceptoDesc VARCHAR(250) NOT NULL,
 	M_Valor DECIMAL(15,2),
 	B_EsFijo BIT,
@@ -332,6 +333,7 @@ CREATE TABLE TR_Concepto_TrabajadorPlanilla
 	I_ConceptoTrabajadorPlanilla INT IDENTITY(1,1),
 	I_TrabajadorPlanillaID INT NOT NULL,
 	I_ConceptoID INT NOT NULL,
+	C_ConceptoCod VARCHAR(20) NOT NULL,
 	T_ConceptoDesc VARCHAR(250) NOT NULL,
 	M_Monto DECIMAL(15,2) NOT NULL,
 	B_Anulado BIT NOT NULL,
@@ -372,6 +374,37 @@ CREATE TABLE TC_DedicacionDocente
 	CONSTRAINT PK_DedicacionDocente PRIMARY KEY (I_DedicacionDocenteID)
 )
 
+CREATE TABLE TC_HorasDocente
+(
+	I_HorasDocenteID INT IDENTITY(1,1),
+	I_DedicacionDocenteID INT NOT NULL,
+	I_Horas INT NOT NULL,
+	B_Habilitado BIT NOT NULL,
+	B_Eliminado BIT NOT NULL,
+	I_UsuarioCre INT,
+	D_FecCre DATETIME,
+	I_UsuarioMod INT,
+	D_FecMod DATETIME,
+	CONSTRAINT PK_HorasDocente PRIMARY KEY (I_HorasDocenteID)
+)
+
+CREATE TABLE TC_Docente
+(
+	I_DocenteID INT IDENTITY(1,1),
+	I_TrabajadorID INT NOT NULL,
+	I_CategoriaDocenteID INT NOT NULL,
+	I_HorasDocenteID INT NOT NULL,
+	B_Habilitado BIT NOT NULL,
+	B_Eliminado BIT NOT NULL,
+	I_UsuarioCre INT,
+	D_FecCre DATETIME,
+	I_UsuarioMod INT,
+	D_FecMod DATETIME,
+	CONSTRAINT PK_Docente PRIMARY KEY (I_DocenteID),
+	CONSTRAINT FK_CategoriaDocente_Docente FOREIGN KEY (I_CategoriaDocenteID) REFERENCES TC_CategoriaDocente(I_CategoriaDocenteID),
+	CONSTRAINT FK_HorasDocente_Docente FOREIGN KEY (I_HorasDocenteID) REFERENCES TC_HorasDocente(I_HorasDocenteID)
+)
+
 CREATE TABLE TC_GrupoOcupacional
 (
 	I_GrupoOcupacionalID INT IDENTITY(1,1),
@@ -398,4 +431,21 @@ CREATE TABLE TC_NivelRemunerativo
 	I_UsuarioMod INT,
 	D_FecMod DATETIME,
 	CONSTRAINT PK_NivelRemunerativo PRIMARY KEY (I_NivelRemunerativoID)
+)
+
+CREATE TABLE TC_Administrativo
+(
+	I_AdministrativoID INT IDENTITY(1,1),
+	I_TrabajadorID INT NOT NULL,
+	I_GrupoOcupacionalID INT NOT NULL,
+	I_NivelRemunerativoID INT NOT NULL,
+	B_Habilitado BIT NOT NULL,
+	B_Eliminado BIT NOT NULL,
+	I_UsuarioCre INT,
+	D_FecCre DATETIME,
+	I_UsuarioMod INT,
+	D_FecMod DATETIME,
+	CONSTRAINT PK_Administrativo PRIMARY KEY (I_AdministrativoID),
+	CONSTRAINT FK_GrupoOcupacional_Administrativo FOREIGN KEY (I_GrupoOcupacionalID) REFERENCES TC_GrupoOcupacional(I_GrupoOcupacionalID),
+	CONSTRAINT FK_NivelRemunerativo_Administrativo FOREIGN KEY (I_NivelRemunerativoID) REFERENCES TC_NivelRemunerativo(I_NivelRemunerativoID)
 )
