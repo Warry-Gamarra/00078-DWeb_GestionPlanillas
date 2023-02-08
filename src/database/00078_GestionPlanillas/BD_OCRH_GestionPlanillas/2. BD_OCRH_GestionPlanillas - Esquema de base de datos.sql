@@ -481,3 +481,39 @@ CREATE TABLE TC_Administrativo
 	CONSTRAINT FK_GrupoOcupacional_Administrativo FOREIGN KEY (I_GrupoOcupacionalID) REFERENCES TC_GrupoOcupacional(I_GrupoOcupacionalID),
 	CONSTRAINT FK_NivelRemunerativo_Administrativo FOREIGN KEY (I_NivelRemunerativoID) REFERENCES TC_NivelRemunerativo(I_NivelRemunerativoID)
 )
+
+CREATE TABLE TI_MontoTrabajador
+(
+	I_MontoTrabajadorID INT IDENTITY(1,1),
+	I_TrabajadorID INT NOT NULL,
+	I_PeriodoID INT NOT NULL,
+	B_Habilitado BIT NOT NULL,
+	B_Eliminado BIT NOT NULL,
+	I_UsuarioCre INT,
+	D_FecCre DATETIME,
+	I_UsuarioMod INT,
+	D_FecMod DATETIME,
+	CONSTRAINT PK_MontoTrabajador PRIMARY KEY (I_MontoTrabajadorID),
+	CONSTRAINT FK_Trabajador_MontoTrabajador FOREIGN KEY (I_TrabajadorID) REFERENCES TC_Trabajador(I_TrabajadorID),
+	CONSTRAINT FK_Periodo_MontoTrabajador FOREIGN KEY (I_PeriodoID) REFERENCES TR_Periodo(I_PeriodoID)
+)
+
+CREATE TABLE TI_Concepto_MontoTrabajador
+(
+	I_ConceptoMontoTrabajadorID INT IDENTITY(1,1),
+	I_MontoTrabajadorID INT,
+	I_ConceptoID INT,
+	C_ConceptoCod VARCHAR(20) NOT NULL,
+	T_ConceptoDesc VARCHAR(250) NOT NULL,
+	M_Monto DECIMAL(15,2) NOT NULL,
+	T_EntidadOrigen VARCHAR(250) NOT NULL,
+	B_Habilitado BIT NOT NULL,
+	B_Eliminado BIT NOT NULL,
+	I_UsuarioCre INT,
+	D_FecCre DATETIME,
+	I_UsuarioMod INT,
+	D_FecMod DATETIME,
+	CONSTRAINT PK_ConceptoMontoTrabajador PRIMARY KEY (I_ConceptoMontoTrabajadorID),
+	CONSTRAINT FK_MontoTrabajador_ConceptoMontoTrabajador FOREIGN KEY (I_MontoTrabajadorID) REFERENCES TI_MontoTrabajador(I_MontoTrabajadorID),
+	CONSTRAINT FK_Concepto_ConceptoMontoTrabajador FOREIGN KEY (I_ConceptoID) REFERENCES TC_Concepto(I_ConceptoID)
+)
