@@ -147,6 +147,21 @@ CREATE TABLE TC_ClasePlanilla
 	CONSTRAINT FK_TipoPlanilla_ClasePlanilla FOREIGN KEY (I_TipoPlanillaID) REFERENCES TC_TipoPlanilla(I_TipoPlanillaID)
 )
 
+CREATE TABLE TC_CategoriaPlanilla
+(
+	I_CategoriaPlanillaID INT IDENTITY(1,1),
+	I_ClasePlanillaID INT NOT NULL,
+	T_CategoriaPlanillaDesc VARCHAR(250) NOT NULL,
+	B_Habilitado BIT NOT NULL,
+	B_Eliminado BIT NOT NULL,
+	I_UsuarioCre INT,
+	D_FecCre DATETIME,
+	I_UsuarioMod INT,
+	D_FecMod DATETIME,
+	CONSTRAINT PK_CategoriaPlanilla PRIMARY KEY (I_CategoriaPlanillaID),
+	CONSTRAINT FK_ClasePlanilla_CategoriaPlanilla FOREIGN KEY (I_ClasePlanillaID) REFERENCES TC_ClasePlanilla(I_ClasePlanillaID)
+)
+
 CREATE TABLE TC_TipoConcepto
 (
 	I_TipoConceptoID INT IDENTITY(1,1),
@@ -166,8 +181,6 @@ CREATE TABLE TC_Concepto
 	I_TipoConceptoID INT NOT NULL,
 	C_ConceptoCod VARCHAR(20) NOT NULL,
 	T_ConceptoDesc VARCHAR(250) NOT NULL,
-	M_Valor DECIMAL(15,2),
-	B_EsFijo BIT,
 	B_Habilitado BIT NOT NULL,
 	B_Eliminado BIT NOT NULL,
 	I_UsuarioCre INT,
@@ -181,7 +194,8 @@ CREATE TABLE TC_Concepto
 CREATE TABLE TI_PlantillaPlanilla
 (
 	I_PlantillaPlanillaID INT IDENTITY(1,1),
-	I_ClasePlanillaID INT NOT NULL,
+	I_CategoriaPlanillaID INT NOT NULL,
+	T_PlantillaPlanillaDesc VARCHAR(250),
 	B_Habilitado BIT NOT NULL,
 	B_Eliminado BIT NOT NULL,
 	I_UsuarioCre INT,
@@ -189,7 +203,7 @@ CREATE TABLE TI_PlantillaPlanilla
 	I_UsuarioMod INT,
 	D_FecMod DATETIME,
 	CONSTRAINT PK_PlantillaPlanilla PRIMARY KEY (I_PlantillaPlanillaID),
-	CONSTRAINT FK_ClasePlanilla_PlantillaPlanilla FOREIGN KEY (I_ClasePlanillaID) REFERENCES TC_ClasePlanilla(I_ClasePlanillaID)
+	CONSTRAINT FK_CategoriaPlanilla_PlantillaPlanilla FOREIGN KEY (I_CategoriaPlanillaID) REFERENCES TC_CategoriaPlanilla(I_CategoriaPlanillaID)
 )
 
 CREATE TABLE TI_PlantillaPlanilla_Concepto
@@ -197,6 +211,10 @@ CREATE TABLE TI_PlantillaPlanilla_Concepto
 	I_PlantillaPlanillaConceptoID INT IDENTITY(1,1),
 	I_PlantillaPlanillaID INT NOT NULL,
 	I_ConceptoID INT NOT NULL,
+	B_MontoEstaAqui BIT NOT NULL,
+	M_Monto DECIMAL(15,2),
+	I_Filtro1 INT,
+	I_Filtro2 INT,
 	B_Habilitado BIT NOT NULL,
 	B_Eliminado BIT NOT NULL,
 	I_UsuarioCre INT,
@@ -259,7 +277,6 @@ CREATE TABLE TC_Trabajador
 	D_FechaIngreso DATE,
 	X_Regimen VARCHAR(250),
 	X_Dependencia VARCHAR(250),
-	I_ClasePlanillaID INT NOT NULL,
 	I_VinculoID INT NOT NULL,
 	B_Habilitado BIT NOT NULL,
 	B_Eliminado BIT NOT NULL,
@@ -269,8 +286,22 @@ CREATE TABLE TC_Trabajador
 	D_FecMod DATETIME,
 	CONSTRAINT PK_Trabajador PRIMARY KEY (I_TrabajadorID),
 	CONSTRAINT FK_Persona_Trabajador FOREIGN KEY (I_PersonaID) REFERENCES TC_Persona(I_PersonaID),
-	CONSTRAINT FK_ClasePlanilla_Trabajador FOREIGN KEY (I_ClasePlanillaID) REFERENCES TC_ClasePlanilla(I_ClasePlanillaID),
 	CONSTRAINT FK_Vinculo_Trabajador FOREIGN KEY (I_VinculoID) REFERENCES TC_Vinculo(I_VinculoID),
+)
+
+CREATE TABLE TC_Trabajador_CategoriaPlanilla
+(
+	I_TrabajadorCategoriaPlanillaID INT IDENTITY(1,1),
+	I_TrabajadorID INT NOT NULL,
+	I_CategoriaPlanillaID INT NOT NULL,
+	B_Habilitado BIT NOT NULL,
+	B_Eliminado BIT NOT NULL,
+	I_UsuarioCre INT,
+	D_FecCre DATETIME,
+	I_UsuarioMod INT,
+	D_FecMod DATETIME,
+	CONSTRAINT PK_Trabajador_TrabajadorCategoriaPlanilla PRIMARY KEY (I_TrabajadorCategoriaPlanillaID),
+	CONSTRAINT FK_CategoriaPlanilla_TrabajadorCategoriaPlanilla FOREIGN KEY (I_CategoriaPlanillaID) REFERENCES TC_CategoriaPlanilla(I_CategoriaPlanillaID)
 )
 
 CREATE TABLE TR_Periodo
@@ -290,7 +321,7 @@ CREATE TABLE TR_Planilla
 (
 	I_PlanillaID INT IDENTITY(1,1),
 	I_PeriodoID INT NOT NULL,
-	I_ClasePlanillaID INT NOT NULL,
+	I_CategoriaPlanillaID INT NOT NULL,
 	I_Correlativo INT NOT NULL,
 	I_CantRegistros INT NOT NULL,
 	I_TotalRemuneracion DECIMAL(15,2) NOT NULL,
@@ -305,7 +336,7 @@ CREATE TABLE TR_Planilla
 	D_FecMod DATETIME,
 	CONSTRAINT PK_Planilla PRIMARY KEY (I_PlanillaID),
 	CONSTRAINT FK_Periodo_Planilla FOREIGN KEY (I_PeriodoID) REFERENCES TR_Periodo(I_PeriodoID),
-	CONSTRAINT FK_ClasePlanilla_Planilla FOREIGN KEY (I_ClasePlanillaID) REFERENCES TC_ClasePlanilla(I_ClasePlanillaID)
+	CONSTRAINT FK_CategoriaPlanilla_Planilla FOREIGN KEY (I_CategoriaPlanillaID) REFERENCES TC_CategoriaPlanilla(I_CategoriaPlanillaID)
 )
 
 CREATE TABLE TR_TrabajadorPlanilla
@@ -401,6 +432,7 @@ CREATE TABLE TC_Docente
 	I_UsuarioMod INT,
 	D_FecMod DATETIME,
 	CONSTRAINT PK_Docente PRIMARY KEY (I_DocenteID),
+	CONSTRAINT FK_Trabajador_Docente FOREIGN KEY (I_TrabajadorID) REFERENCES TC_Trabajador(I_TrabajadorID),
 	CONSTRAINT FK_CategoriaDocente_Docente FOREIGN KEY (I_CategoriaDocenteID) REFERENCES TC_CategoriaDocente(I_CategoriaDocenteID),
 	CONSTRAINT FK_HorasDocente_Docente FOREIGN KEY (I_HorasDocenteID) REFERENCES TC_HorasDocente(I_HorasDocenteID)
 )

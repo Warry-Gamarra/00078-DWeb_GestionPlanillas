@@ -18,12 +18,12 @@ SET IDENTITY_INSERT TC_TipoConcepto OFF
 GO
 
 
-INSERT TC_Concepto(I_TipoConceptoID, C_ConceptoCod, T_ConceptoDesc, M_Valor, B_EsFijo, B_Habilitado, B_Eliminado) VALUES(1, '001', 'BÁSICO', 135.0, 1, 1, 0)
-INSERT TC_Concepto(I_TipoConceptoID, C_ConceptoCod, T_ConceptoDesc, M_Valor, B_EsFijo, B_Habilitado, B_Eliminado) VALUES(1, '002','BONIF.D.S.276', 7.5, 1, 1, 0)
-INSERT TC_Concepto(I_TipoConceptoID, C_ConceptoCod, T_ConceptoDesc, M_Valor, B_EsFijo, B_Habilitado, B_Eliminado) VALUES(1, '003','DEC.URG.N°666', 15.4, 1, 1, 0)
-INSERT TC_Concepto(I_TipoConceptoID, C_ConceptoCod, T_ConceptoDesc, M_Valor, B_EsFijo, B_Habilitado, B_Eliminado) VALUES(2, '004','DESCTO.AFP', 0.08, 0, 1, 0)
-INSERT TC_Concepto(I_TipoConceptoID, C_ConceptoCod, T_ConceptoDesc, M_Valor, B_EsFijo, B_Habilitado, B_Eliminado) VALUES(3, '005','', 0, 0, 1, 0)
-INSERT TC_Concepto(I_TipoConceptoID, C_ConceptoCod, T_ConceptoDesc, M_Valor, B_EsFijo, B_Habilitado, B_Eliminado) VALUES(4, '006','', 0, 0, 1, 0)
+INSERT TC_Concepto(I_TipoConceptoID, C_ConceptoCod, T_ConceptoDesc, B_Habilitado, B_Eliminado) VALUES(1, '001', 'BÁSICO', 1, 0)
+INSERT TC_Concepto(I_TipoConceptoID, C_ConceptoCod, T_ConceptoDesc, B_Habilitado, B_Eliminado) VALUES(1, '002','BONIF.D.S.276', 1, 0)
+INSERT TC_Concepto(I_TipoConceptoID, C_ConceptoCod, T_ConceptoDesc, B_Habilitado, B_Eliminado) VALUES(1, '003','DEC.URG.N°666', 1, 0)
+INSERT TC_Concepto(I_TipoConceptoID, C_ConceptoCod, T_ConceptoDesc, B_Habilitado, B_Eliminado) VALUES(2, '004','DESCTO.AFP', 1, 0)
+INSERT TC_Concepto(I_TipoConceptoID, C_ConceptoCod, T_ConceptoDesc, B_Habilitado, B_Eliminado) VALUES(3, '005','', 1, 0)
+INSERT TC_Concepto(I_TipoConceptoID, C_ConceptoCod, T_ConceptoDesc, B_Habilitado, B_Eliminado) VALUES(4, '006','', 1, 0)
 GO
 
 
@@ -52,17 +52,37 @@ INSERT dbo.TC_ClasePlanilla(I_TipoPlanillaID, C_ClasePlanillaCod, T_ClasePlanill
 INSERT dbo.TC_ClasePlanilla(I_TipoPlanillaID, C_ClasePlanillaCod, T_ClasePlanillaDesc, B_Habilitado, B_Eliminado) VALUES(6, '99', 'OTROS', 1, 0)
 GO
 
-
-INSERT TI_PlantillaPlanilla(I_ClasePlanillaID, B_Habilitado, B_Eliminado) VALUES(1, 1, 0)
+INSERT dbo.TC_CategoriaPlanilla(I_ClasePlanillaID, T_CategoriaPlanillaDesc, B_Habilitado, B_Eliminado) VALUES(1, 'Haberes Administrativo', 1, 0)
+INSERT dbo.TC_CategoriaPlanilla(I_ClasePlanillaID, T_CategoriaPlanillaDesc, B_Habilitado, B_Eliminado) VALUES(1, 'Haberes Docente', 1, 0)
+INSERT dbo.TC_CategoriaPlanilla(I_ClasePlanillaID, T_CategoriaPlanillaDesc, B_Habilitado, B_Eliminado) VALUES(1, 'Haberes Médico', 1, 0)
+INSERT dbo.TC_CategoriaPlanilla(I_ClasePlanillaID, T_CategoriaPlanillaDesc, B_Habilitado, B_Eliminado) VALUES(7, 'Pensiones', 1, 0)
+INSERT dbo.TC_CategoriaPlanilla(I_ClasePlanillaID, T_CategoriaPlanillaDesc, B_Habilitado, B_Eliminado) VALUES(2, 'CAFAE', 1, 0)
+INSERT dbo.TC_CategoriaPlanilla(I_ClasePlanillaID, T_CategoriaPlanillaDesc, B_Habilitado, B_Eliminado) VALUES(14, 'Docente Investigador', 1, 0)
+INSERT dbo.TC_CategoriaPlanilla(I_ClasePlanillaID, T_CategoriaPlanillaDesc, B_Habilitado, B_Eliminado) VALUES(6, 'Practicante', 1, 0)
+INSERT dbo.TC_CategoriaPlanilla(I_ClasePlanillaID, T_CategoriaPlanillaDesc, B_Habilitado, B_Eliminado) VALUES(14, 'Productividad', 1, 0)
+INSERT dbo.TC_CategoriaPlanilla(I_ClasePlanillaID, T_CategoriaPlanillaDesc, B_Habilitado, B_Eliminado) VALUES(14, 'Generadora de Recursos', 1, 0)
 GO
 
 
-INSERT TI_PlantillaPlanilla_Concepto(I_PlantillaPlanillaID, I_ConceptoID, B_Habilitado, B_Eliminado) VALUES(1, 1, 1, 0)
-INSERT TI_PlantillaPlanilla_Concepto(I_PlantillaPlanillaID, I_ConceptoID, B_Habilitado, B_Eliminado) VALUES(1, 2, 1, 0)
-INSERT TI_PlantillaPlanilla_Concepto(I_PlantillaPlanillaID, I_ConceptoID, B_Habilitado, B_Eliminado) VALUES(1, 3, 1, 0)
-INSERT TI_PlantillaPlanilla_Concepto(I_PlantillaPlanillaID, I_ConceptoID, B_Habilitado, B_Eliminado) VALUES(1, 4, 1, 0)
-INSERT TI_PlantillaPlanilla_Concepto(I_PlantillaPlanillaID, I_ConceptoID, B_Habilitado, B_Eliminado) VALUES(1, 5, 1, 0)
-INSERT TI_PlantillaPlanilla_Concepto(I_PlantillaPlanillaID, I_ConceptoID, B_Habilitado, B_Eliminado) VALUES(1, 6, 1, 0)
+INSERT TI_PlantillaPlanilla(I_CategoriaPlanillaID, B_Habilitado, B_Eliminado) VALUES(1, 1, 0)
+INSERT TI_PlantillaPlanilla(I_CategoriaPlanillaID, B_Habilitado, B_Eliminado) VALUES(2, 1, 0)
+GO
+
+
+INSERT TI_PlantillaPlanilla_Concepto(I_PlantillaPlanillaID, I_ConceptoID, B_MontoEstaAqui, M_Monto, I_Filtro1, I_Filtro2, B_Habilitado, B_Eliminado) VALUES(1, 1, 1, 130, NULL, NULL, 1, 0)
+INSERT TI_PlantillaPlanilla_Concepto(I_PlantillaPlanillaID, I_ConceptoID, B_MontoEstaAqui, M_Monto, I_Filtro1, I_Filtro2, B_Habilitado, B_Eliminado) VALUES(1, 2, 1, 130, NULL, NULL, 1, 0)
+INSERT TI_PlantillaPlanilla_Concepto(I_PlantillaPlanillaID, I_ConceptoID, B_MontoEstaAqui, M_Monto, I_Filtro1, I_Filtro2, B_Habilitado, B_Eliminado) VALUES(1, 3, 1, 130, NULL, NULL, 1, 0)
+INSERT TI_PlantillaPlanilla_Concepto(I_PlantillaPlanillaID, I_ConceptoID, B_MontoEstaAqui, M_Monto, I_Filtro1, I_Filtro2, B_Habilitado, B_Eliminado) VALUES(1, 4, 1, 130, NULL, NULL, 1, 0)
+INSERT TI_PlantillaPlanilla_Concepto(I_PlantillaPlanillaID, I_ConceptoID, B_MontoEstaAqui, M_Monto, I_Filtro1, I_Filtro2, B_Habilitado, B_Eliminado) VALUES(1, 5, 1, 130, NULL, NULL, 1, 0)
+INSERT TI_PlantillaPlanilla_Concepto(I_PlantillaPlanillaID, I_ConceptoID, B_MontoEstaAqui, M_Monto, I_Filtro1, I_Filtro2, B_Habilitado, B_Eliminado) VALUES(1, 6, 1, 130, NULL, NULL, 1, 0)
+GO
+
+INSERT TI_PlantillaPlanilla_Concepto(I_PlantillaPlanillaID, I_ConceptoID, B_MontoEstaAqui, M_Monto, I_Filtro1, I_Filtro2, B_Habilitado, B_Eliminado) VALUES(2, 1, 1, 130, NULL, NULL, 1, 0)
+INSERT TI_PlantillaPlanilla_Concepto(I_PlantillaPlanillaID, I_ConceptoID, B_MontoEstaAqui, M_Monto, I_Filtro1, I_Filtro2, B_Habilitado, B_Eliminado) VALUES(2, 2, 1, 130, NULL, NULL, 1, 0)
+INSERT TI_PlantillaPlanilla_Concepto(I_PlantillaPlanillaID, I_ConceptoID, B_MontoEstaAqui, M_Monto, I_Filtro1, I_Filtro2, B_Habilitado, B_Eliminado) VALUES(2, 3, 1, 130, NULL, NULL, 1, 0)
+INSERT TI_PlantillaPlanilla_Concepto(I_PlantillaPlanillaID, I_ConceptoID, B_MontoEstaAqui, M_Monto, I_Filtro1, I_Filtro2, B_Habilitado, B_Eliminado) VALUES(2, 4, 1, 130, NULL, NULL, 1, 0)
+INSERT TI_PlantillaPlanilla_Concepto(I_PlantillaPlanillaID, I_ConceptoID, B_MontoEstaAqui, M_Monto, I_Filtro1, I_Filtro2, B_Habilitado, B_Eliminado) VALUES(2, 5, 1, 130, NULL, NULL, 1, 0)
+INSERT TI_PlantillaPlanilla_Concepto(I_PlantillaPlanillaID, I_ConceptoID, B_MontoEstaAqui, M_Monto, I_Filtro1, I_Filtro2, B_Habilitado, B_Eliminado) VALUES(2, 6, 1, 130, NULL, NULL, 1, 0)
 GO
 
 
@@ -154,18 +174,32 @@ INSERT dbo.TC_Persona(I_TipoDocumentoID, C_NumDocumento, T_Nombre, T_ApellidoPat
 GO
 
 
-INSERT dbo.TC_Trabajador(I_PersonaID, D_FechaIngreso, I_ClasePlanillaID, I_VinculoID, B_Habilitado, B_Eliminado) VALUES(1, '20230101', 1, 1, 1, 0)
-INSERT dbo.TC_Trabajador(I_PersonaID, D_FechaIngreso, I_ClasePlanillaID, I_VinculoID, B_Habilitado, B_Eliminado) VALUES(2, '20230101', 1, 1, 1, 0)
-INSERT dbo.TC_Trabajador(I_PersonaID, D_FechaIngreso, I_ClasePlanillaID, I_VinculoID, B_Habilitado, B_Eliminado) VALUES(3, '20230101', 1, 1, 1, 0)
-INSERT dbo.TC_Trabajador(I_PersonaID, D_FechaIngreso, I_ClasePlanillaID, I_VinculoID, B_Habilitado, B_Eliminado) VALUES(4, '20230101', 1, 1, 1, 0)
-INSERT dbo.TC_Trabajador(I_PersonaID, D_FechaIngreso, I_ClasePlanillaID, I_VinculoID, B_Habilitado, B_Eliminado) VALUES(5, '20230101', 1, 1, 1, 0)
-INSERT dbo.TC_Trabajador(I_PersonaID, D_FechaIngreso, I_ClasePlanillaID, I_VinculoID, B_Habilitado, B_Eliminado) VALUES(6, '20230101', 1, 1, 1, 0)
-INSERT dbo.TC_Trabajador(I_PersonaID, D_FechaIngreso, I_ClasePlanillaID, I_VinculoID, B_Habilitado, B_Eliminado) VALUES(7, '20230101', 1, 1, 1, 0)
+INSERT dbo.TC_Trabajador(I_PersonaID, D_FechaIngreso, I_VinculoID, B_Habilitado, B_Eliminado) VALUES(1, '20230101', 1, 1, 0)
+INSERT dbo.TC_Trabajador(I_PersonaID, D_FechaIngreso, I_VinculoID, B_Habilitado, B_Eliminado) VALUES(2, '20230101', 1, 1, 0)
+INSERT dbo.TC_Trabajador(I_PersonaID, D_FechaIngreso, I_VinculoID, B_Habilitado, B_Eliminado) VALUES(3, '20230101', 1, 1, 0)
+INSERT dbo.TC_Trabajador(I_PersonaID, D_FechaIngreso, I_VinculoID, B_Habilitado, B_Eliminado) VALUES(4, '20230101', 1, 1, 0)
+INSERT dbo.TC_Trabajador(I_PersonaID, D_FechaIngreso, I_VinculoID, B_Habilitado, B_Eliminado) VALUES(5, '20230101', 1, 1, 0)
+INSERT dbo.TC_Trabajador(I_PersonaID, D_FechaIngreso, I_VinculoID, B_Habilitado, B_Eliminado) VALUES(6, '20230101', 1, 1, 0)
+INSERT dbo.TC_Trabajador(I_PersonaID, D_FechaIngreso, I_VinculoID, B_Habilitado, B_Eliminado) VALUES(7, '20230101', 1, 1, 0)
+GO
+
+--docente
+INSERT dbo.TC_Trabajador_CategoriaPlanilla(I_TrabajadorID, I_CategoriaPlanillaID, B_Habilitado, B_Eliminado) VALUES(1, 2, 1, 0)
+INSERT dbo.TC_Trabajador_CategoriaPlanilla(I_TrabajadorID, I_CategoriaPlanillaID, B_Habilitado, B_Eliminado) VALUES(2, 2, 1, 0)
+INSERT dbo.TC_Trabajador_CategoriaPlanilla(I_TrabajadorID, I_CategoriaPlanillaID, B_Habilitado, B_Eliminado) VALUES(3, 2, 1, 0)
 GO
 
 INSERT dbo.TC_Docente(I_TrabajadorID, I_CategoriaDocenteID, I_HorasDocenteID, B_Habilitado, B_Eliminado) VALUES(1, 1, 1, 1, 0)
 INSERT dbo.TC_Docente(I_TrabajadorID, I_CategoriaDocenteID, I_HorasDocenteID, B_Habilitado, B_Eliminado) VALUES(2, 2, 2, 1, 0)
 INSERT dbo.TC_Docente(I_TrabajadorID, I_CategoriaDocenteID, I_HorasDocenteID, B_Habilitado, B_Eliminado) VALUES(3, 3, 3, 1, 0)
+GO
+
+
+--administrativo
+INSERT dbo.TC_Trabajador_CategoriaPlanilla(I_TrabajadorID, I_CategoriaPlanillaID, B_Habilitado, B_Eliminado) VALUES(4, 1, 1, 0)
+INSERT dbo.TC_Trabajador_CategoriaPlanilla(I_TrabajadorID, I_CategoriaPlanillaID, B_Habilitado, B_Eliminado) VALUES(5, 1, 1, 0)
+INSERT dbo.TC_Trabajador_CategoriaPlanilla(I_TrabajadorID, I_CategoriaPlanillaID, B_Habilitado, B_Eliminado) VALUES(6, 1, 1, 0)
+INSERT dbo.TC_Trabajador_CategoriaPlanilla(I_TrabajadorID, I_CategoriaPlanillaID, B_Habilitado, B_Eliminado) VALUES(7, 1, 1, 0)
 GO
 
 INSERT dbo.TC_Administrativo(I_TrabajadorID, I_GrupoOcupacionalID, I_NivelRemunerativoID, B_Habilitado, B_Eliminado) VALUES(4, 1, 3, 1, 0)
@@ -174,24 +208,6 @@ INSERT dbo.TC_Administrativo(I_TrabajadorID, I_GrupoOcupacionalID, I_NivelRemune
 INSERT dbo.TC_Administrativo(I_TrabajadorID, I_GrupoOcupacionalID, I_NivelRemunerativoID, B_Habilitado, B_Eliminado) VALUES(7, 4, 7, 1, 0)
 GO
 
-
-
-
-
-
-SELECT t.T_TipoConceptoDesc, c.T_ConceptoDesc, c.M_Valor, c.B_EsFijo FROM dbo.TC_Concepto c
-INNER JOIN dbo.TC_TipoConcepto t ON t.I_TipoConceptoID = c.I_TipoConceptoID
-
-select tp.C_TipoPlanillaCod, tp.T_TipoPlanillaDesc, cl.C_ClasePlanillaCod, cl.T_ClasePlanillaDesc, 
-t.T_TipoConceptoDesc, c.T_ConceptoDesc, c.M_Valor, c.B_EsFijo from dbo.TI_PlantillaPlanilla pp
-INNER JOIN dbo.TC_ClasePlanilla cl on cl.I_ClasePlanillaID = pp.I_ClasePlanillaID
-INNER JOIN dbo.TC_TipoPlanilla tp on tp.I_TipoPlanillaID = cl.I_TipoPlanillaID
-INNER JOIN  dbo.TI_PlantillaPlanilla_Concepto ppc on ppc.I_PlantillaPlanillaID = pp.I_PlantillaPlanillaID
-INNER JOIN dbo.TC_Concepto c on c.I_ConceptoID = ppc.I_ConceptoID
-INNER JOIN dbo.TC_TipoConcepto t ON t.I_TipoConceptoID = c.I_TipoConceptoID
-
-
-SELECT * FROM DBO.TC_Vinculo
 
 --Estado 1
 INSERT dbo.TC_Vinculo(T_VinculoDesc, B_Habilitado, B_Eliminado) VALUES('ACTIVO', 1, 0)
@@ -214,6 +230,19 @@ INSERT dbo.TC_Vinculo(T_VinculoDesc, B_Habilitado, B_Eliminado) VALUES('CESANTE 
 INSERT dbo.TC_Vinculo(T_VinculoDesc, B_Habilitado, B_Eliminado) VALUES('SERVIDOR PERMANENTE', 1, 0)
 
 
+
+select * from dbo.TC_CategoriaPlanilla c1
+inner join dbo.TC_ClasePlanilla c2 ON c1.I_ClasePlanillaID = c2.I_ClasePlanillaID
+
+--Lista de conceptos
+SELECT pp.T_PlantillaPlanillaDesc, cp.T_CategoriaPlanillaDesc, t.T_TipoConceptoDesc, c.T_ConceptoDesc, ppc.B_MontoEstaAqui, ppc.M_Monto, ppc.I_Filtro1, ppc.I_Filtro2
+FROM dbo.TI_PlantillaPlanilla pp
+INNER JOIN dbo.TC_CategoriaPlanilla cp on cp.I_CategoriaPlanillaID = pp.I_CategoriaPlanillaID
+INNER JOIN  dbo.TI_PlantillaPlanilla_Concepto ppc on ppc.I_PlantillaPlanillaID = pp.I_PlantillaPlanillaID
+INNER JOIN dbo.TC_Concepto c on c.I_ConceptoID = ppc.I_ConceptoID
+INNER JOIN dbo.TC_TipoConcepto t ON t.I_TipoConceptoID = c.I_TipoConceptoID
+
+
 SELECT * FROM dbo.TC_Persona
 SELECT * FROM dbo.TC_Trabajador
 SELECT * FROM dbo.TC_Docente
@@ -221,28 +250,30 @@ SELECT * FROM dbo.TC_Administrativo
 
 
 --PERSONAL DOCENTE
-SELECT p.T_Nombre, p.T_ApellidoPaterno, p.T_ApellidoMaterno, td.T_TipoDocumentoDesc, p.C_NumDocumento, t.D_FechaIngreso, cp.T_ClasePlanillaDesc, 
-	cd.C_CategoriaDocenteCod, cd.T_CategoriaDocenteDesc, dd.C_DedicacionDocenteCod, dd.T_DedicacionDocenteDesc, hd.I_Horas
-FROM dbo.TC_Docente d
-INNER JOIN dbo.TC_Trabajador t ON t.I_TrabajadorID = d.I_TrabajadorID
-INNER JOIN dbo.TC_Persona p ON p.I_PersonaID = t.I_PersonaID
-INNER JOIN dbo.TC_TipoDocumento td ON td.I_TipoDocumentoID = p.I_TipoDocumentoID
-INNER JOIN dbo.TC_ClasePlanilla cp ON cp.I_ClasePlanillaID = t.I_ClasePlanillaID
-INNER JOIN dbo.TC_CategoriaDocente cd ON cd.I_CategoriaDocenteID = d.I_CategoriaDocenteID
-INNER JOIN dbo.TC_HorasDocente hd ON hd.I_HorasDocenteID = d.I_HorasDocenteID
-INNER JOIN dbo.TC_DedicacionDocente dd ON dd.I_DedicacionDocenteID = hd.I_DedicacionDocenteID
-
+SELECT catpla.T_CategoriaPlanillaDesc, per.T_Nombre, per.T_ApellidoPaterno, per.T_ApellidoMaterno, tipdoc.T_TipoDocumentoDesc, per.C_NumDocumento, trab.D_FechaIngreso, 
+	clapla.T_ClasePlanillaDesc, catdoc.C_CategoriaDocenteCod, catdoc.T_CategoriaDocenteDesc, deddoc.C_DedicacionDocenteCod, deddoc.T_DedicacionDocenteDesc, hordoc.I_Horas
+FROM TC_Docente AS doc INNER JOIN
+	TC_Trabajador AS trab ON trab.I_TrabajadorID = doc.I_TrabajadorID INNER JOIN
+	TC_Persona AS per ON per.I_PersonaID = trab.I_PersonaID INNER JOIN
+	TC_TipoDocumento AS tipdoc ON tipdoc.I_TipoDocumentoID = per.I_TipoDocumentoID INNER JOIN
+	TC_Trabajador_CategoriaPlanilla AS tracatpla ON tracatpla.I_TrabajadorID = trab.I_TrabajadorID INNER JOIN
+	TC_CategoriaPlanilla AS catpla ON catpla.I_CategoriaPlanillaID = tracatpla.I_CategoriaPlanillaID INNER JOIN
+	TC_ClasePlanilla AS clapla ON clapla.I_ClasePlanillaID = catpla.I_ClasePlanillaID INNER JOIN
+	TC_CategoriaDocente AS catdoc ON catdoc.I_CategoriaDocenteID = doc.I_CategoriaDocenteID INNER JOIN
+	TC_HorasDocente AS hordoc ON hordoc.I_HorasDocenteID = doc.I_HorasDocenteID INNER JOIN
+	TC_DedicacionDocente AS deddoc ON deddoc.I_DedicacionDocenteID = hordoc.I_DedicacionDocenteID
+GO
 
 --PERSONAL ADMINISTRATIVO
-SELECT p.T_Nombre, p.T_ApellidoPaterno, p.T_ApellidoMaterno, td.T_TipoDocumentoDesc, p.C_NumDocumento, t.D_FechaIngreso, cp.T_ClasePlanillaDesc,
-	gr.C_GrupoOcupacionalCod, gr.T_GrupoOcupacionalDesc, nr.C_NivelRemunerativoCod
-FROM dbo.TC_Administrativo a
-INNER JOIN dbo.TC_Trabajador t ON t.I_TrabajadorID = a.I_TrabajadorID
-INNER JOIN dbo.TC_Persona p ON p.I_PersonaID = t.I_PersonaID
-INNER JOIN dbo.TC_TipoDocumento td ON td.I_TipoDocumentoID = p.I_TipoDocumentoID
-INNER JOIN dbo.TC_ClasePlanilla cp ON cp.I_ClasePlanillaID = t.I_ClasePlanillaID
-INNER JOIN dbo.TC_NivelRemunerativo nr ON nr.I_NivelRemunerativoID = a.I_NivelRemunerativoID
-INNER JOIN dbo.TC_GrupoOcupacional gr ON gr.I_GrupoOcupacionalID = a.I_GrupoOcupacionalID
-
-
-
+SELECT catpla.T_CategoriaPlanillaDesc, per.T_Nombre, per.T_ApellidoPaterno, per.T_ApellidoMaterno, tipdoc.T_TipoDocumentoDesc, per.C_NumDocumento, trab.D_FechaIngreso, clapla.T_ClasePlanillaDesc, 
+	grupocup.C_GrupoOcupacionalCod, grupocup.T_GrupoOcupacionalDesc, nivremu.C_NivelRemunerativoCod
+FROM TC_Administrativo AS adm INNER JOIN
+    TC_Trabajador AS trab ON trab.I_TrabajadorID = adm.I_TrabajadorID INNER JOIN
+    TC_Persona AS per ON per.I_PersonaID = trab.I_PersonaID INNER JOIN
+    TC_TipoDocumento AS tipdoc ON tipdoc.I_TipoDocumentoID = per.I_TipoDocumentoID INNER JOIN
+    TC_Trabajador_CategoriaPlanilla AS tracatpla ON tracatpla.I_TrabajadorID = trab.I_TrabajadorID INNER JOIN
+    TC_CategoriaPlanilla AS catpla ON catpla.I_CategoriaPlanillaID = tracatpla.I_CategoriaPlanillaID INNER JOIN
+    TC_ClasePlanilla AS clapla ON clapla.I_ClasePlanillaID = catpla.I_ClasePlanillaID INNER JOIN
+    TC_NivelRemunerativo AS nivremu ON nivremu.I_NivelRemunerativoID = adm.I_NivelRemunerativoID INNER JOIN
+    TC_GrupoOcupacional AS grupocup ON grupocup.I_GrupoOcupacionalID = adm.I_GrupoOcupacionalID
+GO

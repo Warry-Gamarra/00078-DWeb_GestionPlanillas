@@ -25,7 +25,7 @@ CREATE PROCEDURE [dbo].[USP_I_GenerarPlanillaDocente]
 @Tbl_Docentes [dbo].[type_dataTrabajador] READONLY,
 @I_Anio INT,
 @I_Mes INT,
-@I_ClasePlanillaID INT,
+@I_CategoriaPlanillaID INT,
 @I_UserID INT
 AS
 BEGIN
@@ -40,8 +40,8 @@ BEGIN
 			RAISERROR('El mes es obligatorio.', 11, 1);
 		END
 
-		IF (@I_ClasePlanillaID IS NULL) BEGIN
-			RAISERROR('La clase de planilla es obligatorio.', 11, 1);
+		IF (@I_categoriaPlanillaID IS NULL) BEGIN
+			RAISERROR('La categoría de planilla es obligatorio.', 11, 1);
 		END
 
 		IF (@I_UserID IS NULL) BEGIN
@@ -93,18 +93,21 @@ BEGIN
 		SET @I_PeriodoID = (SELECT pr.I_PeriodoID FROM dbo.TR_Periodo pr WHERE pr.I_Anio = @I_Anio AND pr.I_Mes = @I_Mes);
 
 		SET @I_Correlativo = ISNULL((SELECT MAX(pl.I_Correlativo) FROM dbo.TR_Planilla pl 
-			WHERE pl.B_Anulado = 0 AND pl.I_PeriodoID = @I_PeriodoID AND pl.I_ClasePlanillaID = @I_ClasePlanillaID), 0) + 1;
+			WHERE pl.B_Anulado = 0 AND pl.I_PeriodoID = @I_PeriodoID AND pl.I_CategoriaPlanillaID = @I_CategoriaPlanillaID), 0) + 1;
 
 		INSERT #tmp_docentes(I_TrabajadorID, I_CategoriaDocenteID, I_HorasDocenteID)
 		SELECT d.I_TrabajadorID, cd.I_CategoriaDocenteID, hd.I_HorasDocenteID FROM dbo.TC_Docente d
 		INNER JOIN dbo.TC_Trabajador t ON t.I_TrabajadorID = d.I_TrabajadorID
+		INNER JOIN dbo.TC_Trabajador_CategoriaPlanilla tca ON tca.I_TrabajadorID = t.I_TrabajadorID 
 		INNER JOIN dbo.TC_CategoriaDocente cd ON cd.I_CategoriaDocenteID = d.I_CategoriaDocenteID
 		INNER JOIN dbo.TC_HorasDocente hd ON hd.I_HorasDocenteID = d.I_HorasDocenteID
 		INNER JOIN @Tbl_Docentes tmp ON tmp.I_TrabajadorID = d.I_TrabajadorID
-		WHERE d.B_Habilitado = 1 AND d.B_Eliminado = 0 AND 
+		WHERE t.B_Habilitado = 1 AND t.B_Eliminado = 0 AND 
+			d.B_Habilitado = 1 AND d.B_Eliminado = 0 AND 
+			tca.B_Habilitado = 1 AND tca.B_Eliminado = 0 AND tca.I_CategoriaPlanillaID = @I_CategoriaPlanillaID AND
 			NOT EXISTS(SELECT pl.I_PlanillaID FROM dbo.TR_Planilla pl 
 				INNER JOIN dbo.TR_TrabajadorPlanilla tpl ON tpl.I_PlanillaID = pl.I_PlanillaID 
-				WHERE tpl.B_Anulado = 0 AND pl.I_PeriodoID = @I_PeriodoID AND pl.I_ClasePlanillaID = @I_ClasePlanillaID AND tpl.I_TrabajadorID = t.I_TrabajadorID);--*****
+				WHERE tpl.B_Anulado = 0 AND pl.I_PeriodoID = @I_PeriodoID AND pl.I_CategoriaPlanillaID = @I_CategoriaPlanillaID AND tpl.I_TrabajadorID = t.I_TrabajadorID);--**Falta confirmar si se repite el trabajador en un mismo mes en una misma planilla
 
 		SET @I_Indicador = 1;
 
@@ -115,9 +118,9 @@ BEGIN
 		END 
 
 		--2. Crear la cabecera de la planilla
-		INSERT dbo.TR_Planilla(I_PeriodoID, I_ClasePlanillaID, I_Correlativo, I_CantRegistros, 
+		INSERT dbo.TR_Planilla(I_PeriodoID, I_CategoriaPlanillaID, I_Correlativo, I_CantRegistros, 
 			I_TotalRemuneracion, I_TotalDescuento, I_TotalReintegro, I_TotalDeduccion, I_TotalSueldo, B_Anulado, I_UsuarioCre, D_FecCre)
-		VALUES(@I_PeriodoID, @I_ClasePlanillaID, @I_Correlativo, @I_CantRegistros, 0, 0, 0, 0, 0, 0, @I_UserID, @D_FecRegistro);
+		VALUES(@I_PeriodoID, @I_CategoriaPlanillaID, @I_Correlativo, @I_CantRegistros, 0, 0, 0, 0, 0, 0, @I_UserID, @D_FecRegistro);
 
 		SET @I_PlantillaID = SCOPE_IDENTITY();
 
@@ -139,59 +142,59 @@ BEGIN
 
 			--5. Obtener REMUNERACIONES
 			INSERT dbo.TR_Concepto_TrabajadorPlanilla(I_TrabajadorPlanillaID, I_ConceptoID, C_ConceptoCod, T_ConceptoDesc, M_Monto, B_Anulado, I_UsuarioCre, D_FecCre)
-			SELECT @I_TrabajadorPlanillaID, ppc.I_ConceptoID, c.C_ConceptoCod, c.T_ConceptoDesc, c.M_Valor, 0, @I_UserID, @D_FecRegistro FROM dbo.TI_PlantillaPlanilla pp
+			SELECT @I_TrabajadorPlanillaID, ppc.I_ConceptoID, c.C_ConceptoCod, c.T_ConceptoDesc, ppc.M_Monto, 0, @I_UserID, @D_FecRegistro FROM dbo.TI_PlantillaPlanilla pp
 			INNER JOIN  dbo.TI_PlantillaPlanilla_Concepto ppc ON ppc.I_PlantillaPlanillaID = pp.I_PlantillaPlanillaID
 			INNER JOIN dbo.TC_Concepto c ON c.I_ConceptoID = ppc.I_ConceptoID
 			WHERE pp.B_Habilitado = 1  AND pp.B_Eliminado = 0 AND ppc.B_Habilitado = 1 AND ppc.B_Eliminado = 0 AND 
-				pp.I_ClasePlanillaID = @I_ClasePlanillaID AND c.I_TipoConceptoID = @I_Remunerativo;
+				pp.I_CategoriaPlanillaID = @I_CategoriaPlanillaID AND c.I_TipoConceptoID = @I_Remunerativo;
 
-			SET @I_TotalRemuneracionTrabajador = (SELECT SUM(c.M_Valor) from dbo.TI_PlantillaPlanilla pp
+			SET @I_TotalRemuneracionTrabajador = (SELECT SUM(ppc.M_Monto) from dbo.TI_PlantillaPlanilla pp
 				INNER JOIN  dbo.TI_PlantillaPlanilla_Concepto ppc ON ppc.I_PlantillaPlanillaID = pp.I_PlantillaPlanillaID
 				INNER JOIN dbo.TC_Concepto c ON c.I_ConceptoID = ppc.I_ConceptoID
 				WHERE pp.B_Habilitado = 1  AND pp.B_Eliminado = 0 AND ppc.B_Habilitado = 1 AND ppc.B_Eliminado = 0 AND 
-					pp.I_ClasePlanillaID = @I_ClasePlanillaID AND c.I_TipoConceptoID = @I_Remunerativo);
+					pp.I_CategoriaPlanillaID = @I_CategoriaPlanillaID AND c.I_TipoConceptoID = @I_Remunerativo);
 
 			--6. Obtener DESCUENTOS
 			INSERT dbo.TR_Concepto_TrabajadorPlanilla(I_TrabajadorPlanillaID, I_ConceptoID, C_ConceptoCod, T_ConceptoDesc, M_Monto, B_Anulado, I_UsuarioCre, D_FecCre)
-			SELECT @I_TrabajadorPlanillaID, ppc.I_ConceptoID, c.C_ConceptoCod, c.T_ConceptoDesc, c.M_Valor, 0, @I_UserID, @D_FecRegistro FROM dbo.TI_PlantillaPlanilla pp
+			SELECT @I_TrabajadorPlanillaID, ppc.I_ConceptoID, c.C_ConceptoCod, c.T_ConceptoDesc, ppc.M_Monto, 0, @I_UserID, @D_FecRegistro FROM dbo.TI_PlantillaPlanilla pp
 			INNER JOIN  dbo.TI_PlantillaPlanilla_Concepto ppc ON ppc.I_PlantillaPlanillaID = pp.I_PlantillaPlanillaID
 			INNER JOIN dbo.TC_Concepto c ON c.I_ConceptoID = ppc.I_ConceptoID
 			WHERE pp.B_Habilitado = 1  AND pp.B_Eliminado = 0 AND ppc.B_Habilitado = 1 AND ppc.B_Eliminado = 0 AND 
-				pp.I_ClasePlanillaID = @I_ClasePlanillaID AND c.I_TipoConceptoID = @I_Descuento;
+				pp.I_CategoriaPlanillaID = @I_CategoriaPlanillaID AND c.I_TipoConceptoID = @I_Descuento;
 
-			SET @I_TotalDescuentoTrabajador = (SELECT SUM(c.M_Valor) FROM dbo.TI_PlantillaPlanilla pp
+			SET @I_TotalDescuentoTrabajador = (SELECT SUM(ppc.M_Monto) FROM dbo.TI_PlantillaPlanilla pp
 				INNER JOIN  dbo.TI_PlantillaPlanilla_Concepto ppc ON ppc.I_PlantillaPlanillaID = pp.I_PlantillaPlanillaID
 				INNER JOIN dbo.TC_Concepto c ON c.I_ConceptoID = ppc.I_ConceptoID
 				WHERE pp.B_Habilitado = 1  AND pp.B_Eliminado = 0 AND ppc.B_Habilitado = 1 AND ppc.B_Eliminado = 0 AND 
-					pp.I_ClasePlanillaID = @I_ClasePlanillaID AND c.I_TipoConceptoID = @I_Descuento);
+					pp.I_CategoriaPlanillaID = @I_CategoriaPlanillaID AND c.I_TipoConceptoID = @I_Descuento);
 
 			--7. Obtener REINTEGRO
 			INSERT dbo.TR_Concepto_TrabajadorPlanilla(I_TrabajadorPlanillaID, I_ConceptoID, C_ConceptoCod, T_ConceptoDesc, M_Monto, B_Anulado, I_UsuarioCre, D_FecCre)
-			SELECT @I_TrabajadorPlanillaID, ppc.I_ConceptoID, c.C_ConceptoCod, c.T_ConceptoDesc, c.M_Valor, 0, @I_UserID, @D_FecRegistro FROM dbo.TI_PlantillaPlanilla pp
+			SELECT @I_TrabajadorPlanillaID, ppc.I_ConceptoID, c.C_ConceptoCod, c.T_ConceptoDesc, ppc.M_Monto, 0, @I_UserID, @D_FecRegistro FROM dbo.TI_PlantillaPlanilla pp
 			INNER JOIN  dbo.TI_PlantillaPlanilla_Concepto ppc ON ppc.I_PlantillaPlanillaID = pp.I_PlantillaPlanillaID
 			INNER JOIN dbo.TC_Concepto c ON c.I_ConceptoID = ppc.I_ConceptoID
 			WHERE pp.B_Habilitado = 1  AND pp.B_Eliminado = 0 AND ppc.B_Habilitado = 1 AND ppc.B_Eliminado = 0 AND 
-				pp.I_ClasePlanillaID = @I_ClasePlanillaID AND c.I_TipoConceptoID = @I_Reintegro;
+				pp.I_CategoriaPlanillaID = @I_CategoriaPlanillaID AND c.I_TipoConceptoID = @I_Reintegro;
 
-			SET @I_TotalReintegroTrabajador = (SELECT SUM(c.M_Valor) FROM dbo.TI_PlantillaPlanilla pp
+			SET @I_TotalReintegroTrabajador = (SELECT SUM(ppc.M_Monto) FROM dbo.TI_PlantillaPlanilla pp
 				INNER JOIN  dbo.TI_PlantillaPlanilla_Concepto ppc ON ppc.I_PlantillaPlanillaID = pp.I_PlantillaPlanillaID
 				INNER JOIN dbo.TC_Concepto c ON c.I_ConceptoID = ppc.I_ConceptoID
 				WHERE pp.B_Habilitado = 1  AND pp.B_Eliminado = 0 AND ppc.B_Habilitado = 1 AND ppc.B_Eliminado = 0 AND 
-					pp.I_ClasePlanillaID = @I_ClasePlanillaID AND c.I_TipoConceptoID = @I_Reintegro);
+					pp.I_CategoriaPlanillaID = @I_CategoriaPlanillaID AND c.I_TipoConceptoID = @I_Reintegro);
 
 			--8. Obtener DEDUCCIONES
 			INSERT dbo.TR_Concepto_TrabajadorPlanilla(I_TrabajadorPlanillaID, I_ConceptoID, C_ConceptoCod, T_ConceptoDesc, M_Monto, B_Anulado, I_UsuarioCre, D_FecCre)
-			SELECT @I_TrabajadorPlanillaID, ppc.I_ConceptoID, c.C_ConceptoCod, c.T_ConceptoDesc, c.M_Valor, 0, @I_UserID, @D_FecRegistro FROM dbo.TI_PlantillaPlanilla pp
+			SELECT @I_TrabajadorPlanillaID, ppc.I_ConceptoID, c.C_ConceptoCod, c.T_ConceptoDesc, ppc.M_Monto, 0, @I_UserID, @D_FecRegistro FROM dbo.TI_PlantillaPlanilla pp
 			INNER JOIN  dbo.TI_PlantillaPlanilla_Concepto ppc ON ppc.I_PlantillaPlanillaID = pp.I_PlantillaPlanillaID
 			INNER JOIN dbo.TC_Concepto c ON c.I_ConceptoID = ppc.I_ConceptoID
 			WHERE pp.B_Habilitado = 1  AND pp.B_Eliminado = 0 AND ppc.B_Habilitado = 1 AND ppc.B_Eliminado = 0 AND 
-				pp.I_ClasePlanillaID = @I_ClasePlanillaID AND c.I_TipoConceptoID = @I_Deduccion;
+				pp.I_CategoriaPlanillaID = @I_CategoriaPlanillaID AND c.I_TipoConceptoID = @I_Deduccion;
 
-			SET @I_TotalDeduccionTrabajador = (SELECT SUM(c.M_Valor) FROM dbo.TI_PlantillaPlanilla pp
+			SET @I_TotalDeduccionTrabajador = (SELECT SUM(ppc.M_Monto) FROM dbo.TI_PlantillaPlanilla pp
 				INNER JOIN  dbo.TI_PlantillaPlanilla_Concepto ppc ON ppc.I_PlantillaPlanillaID = pp.I_PlantillaPlanillaID
 				INNER JOIN dbo.TC_Concepto c ON c.I_ConceptoID = ppc.I_ConceptoID
 				WHERE pp.B_Habilitado = 1  AND pp.B_Eliminado = 0 AND ppc.B_Habilitado = 1 AND ppc.B_Eliminado = 0 AND 
-					pp.I_ClasePlanillaID = @I_ClasePlanillaID AND c.I_TipoConceptoID = @I_Deduccion);
+					pp.I_CategoriaPlanillaID = @I_CategoriaPlanillaID AND c.I_TipoConceptoID = @I_Deduccion);
 
 			SET @I_TotalSueldoTrabajador = @I_TotalRemuneracionTrabajador - @I_TotalDescuentoTrabajador + @I_TotalReintegroTrabajador - @I_TotalDeduccionTrabajador;
 
@@ -238,19 +241,26 @@ END
 GO
 
 
+
+
+--Ejecución SP
 DECLARE @tmp_docentes AS type_dataTrabajador,
 		@I_Anio INT = 2022,
 		@I_Mes INT = 1,
-		@I_ClasePlanillaID INT = 1,
+		@I_CategoriaPlanillaID INT = 2,
 		@I_UserID INT = 1,
 		@return_status INT
 
 INSERT @tmp_docentes(I_TrabajadorID) VALUES(1), (2), (3)
 
-EXEC @return_status = USP_I_GenerarPlanillaDocente @Tbl_Docentes = @tmp_docentes, @I_Anio = @I_Anio, @I_Mes = @I_Mes, @I_ClasePlanillaID = @I_ClasePlanillaID, @I_UserID = @I_UserID
+EXEC @return_status = USP_I_GenerarPlanillaDocente @Tbl_Docentes = @tmp_docentes, @I_Anio = @I_Anio, @I_Mes = @I_Mes, @I_CategoriaPlanillaID = @I_CategoriaPlanillaID, @I_UserID = @I_UserID
 
 SELECT 'return_status' = @return_status
 GO
+
+
+--Consutlas
+
 
 SELECT * FROM dbo.TR_Planilla
 
@@ -258,13 +268,12 @@ SELECT * FROM dbo.TR_TrabajadorPlanilla
 
 SELECT * FROM dbo.TR_Concepto_TrabajadorPlanilla
 
-SELECT        tp.C_TipoPlanillaCod, tp.T_TipoPlanillaDesc, cp.C_ClasePlanillaCod, cp.T_ClasePlanillaDesc, per.I_Anio, per.T_MesDesc, pl.I_Correlativo, p.T_Nombre, p.T_ApellidoPaterno, p.T_ApellidoMaterno, cd.C_CategoriaDocenteCod, 
-                         dd.C_DedicacionDocenteCod, hd.I_Horas, tpl.I_TotalRemuneracion, tpl.I_TotalDescuento, tpl.I_TotalReintegro, tpl.I_TotalDeduccion, ctpl.C_ConceptoCod, ctpl.T_ConceptoDesc
+SELECT        cap.T_CategoriaPlanillaDesc, per.I_Anio, per.T_MesDesc, pl.I_Correlativo, p.T_Nombre, p.T_ApellidoPaterno, p.T_ApellidoMaterno, cd.C_CategoriaDocenteCod, 
+                         dd.C_DedicacionDocenteCod, hd.I_Horas, ctpl.C_ConceptoCod, ctpl.T_ConceptoDesc
 FROM            TR_Planilla AS pl INNER JOIN
                          TR_TrabajadorPlanilla AS tpl ON pl.I_PlanillaID = tpl.I_PlanillaID INNER JOIN
                          TR_Concepto_TrabajadorPlanilla AS ctpl ON tpl.I_TrabajadorPlanillaID = ctpl.I_TrabajadorPlanillaID INNER JOIN
-                         TC_ClasePlanilla AS cp ON pl.I_ClasePlanillaID = cp.I_ClasePlanillaID INNER JOIN
-                         TC_TipoPlanilla AS tp ON cp.I_TipoPlanillaID = tp.I_TipoPlanillaID INNER JOIN
+                         TC_CategoriaPlanilla AS cap ON cap.I_CategoriaPlanillaID = pl.I_CategoriaPlanillaID INNER JOIN
                          TC_Trabajador AS t ON tpl.I_TrabajadorID = t.I_TrabajadorID INNER JOIN
                          TC_Docente AS doc ON t.I_TrabajadorID = doc.I_TrabajadorID INNER JOIN
                          TC_Persona AS p ON t.I_PersonaID = p.I_PersonaID INNER JOIN
@@ -273,9 +282,14 @@ FROM            TR_Planilla AS pl INNER JOIN
                          TC_HorasDocente AS hd ON doc.I_HorasDocenteID = hd.I_HorasDocenteID INNER JOIN
                          TC_DedicacionDocente AS dd ON hd.I_DedicacionDocenteID = dd.I_DedicacionDocenteID
 GO
---delete  TR_Concepto_TrabajadorPlanilla
+
+--DELETE TR_Concepto_TrabajadorPlanilla
 --DELETE TR_TrabajadorPlanilla
 --DELETE TR_Planilla
 --DBCC CHECKIDENT (TR_TrabajadorPlanilla, RESEED, 0)
 --DBCC CHECKIDENT (TR_Planilla, RESEED, 0)
+
+
+select * from dbo.TC_TipoPlanilla
+select * from dbo.TC_Concepto
 
