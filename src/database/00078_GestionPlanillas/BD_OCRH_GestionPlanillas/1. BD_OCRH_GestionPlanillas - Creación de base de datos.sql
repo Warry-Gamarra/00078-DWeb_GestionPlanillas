@@ -7,8 +7,10 @@ CREATE DATABASE [BD_OCRH_GestionPlanillas]
  CONTAINMENT = NONE
  ON  PRIMARY 
 ( NAME = N'BD_OCRH_GestionPlanillas', FILENAME = N'F:\Microsoft SQL Server\DATA\BD_OCRH_GestionPlanillas.mdf' , SIZE = 10240KB , FILEGROWTH = 1024KB )
+--( NAME = N'BD_OCRH_GestionPlanillas', FILENAME = N'C:\Program Files\Microsoft SQL Server\MSSQL13.SQL_2016E\MSSQL\DATA\BD_OCRH_GestionPlanillas.mdf' , SIZE = 10240KB , FILEGROWTH = 1024KB )
  LOG ON 
 ( NAME = N'BD_OCRH_GestionPlanillas_log', FILENAME = N'F:\Microsoft SQL Server\DATA\BD_OCRH_GestionPlanillas_log.ldf' , SIZE = 6144KB , FILEGROWTH = 10%)
+--( NAME = N'BD_OCRH_GestionPlanillas_log', FILENAME = N'C:\Program Files\Microsoft SQL Server\MSSQL13.SQL_2016E\MSSQL\DATA\BD_OCRH_GestionPlanillas_log.ldf' , SIZE = 6144KB , FILEGROWTH = 10%)
  COLLATE Modern_Spanish_CI_AS
 GO
 
