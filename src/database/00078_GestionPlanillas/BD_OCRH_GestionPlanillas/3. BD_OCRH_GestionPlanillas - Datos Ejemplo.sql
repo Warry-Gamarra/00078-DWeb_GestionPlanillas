@@ -1,10 +1,20 @@
 USE [BD_OCRH_GestionPlanillas]
 GO
 
-INSERT TC_TipoConcepto(T_TipoConceptoDesc, B_Habilitado, B_Eliminado) VALUES('REMUNERATIVO', 1, 0)
-INSERT TC_TipoConcepto(T_TipoConceptoDesc, B_Habilitado, B_Eliminado) VALUES('DESCUENTO', 1, 0)
-INSERT TC_TipoConcepto(T_TipoConceptoDesc, B_Habilitado, B_Eliminado) VALUES('REINTEGRO', 1, 0)
-INSERT TC_TipoConcepto(T_TipoConceptoDesc, B_Habilitado, B_Eliminado) VALUES('DEDUCCIÓN', 1, 0)
+SET IDENTITY_INSERT TC_TipoConcepto ON
+GO
+
+INSERT TC_TipoConcepto(I_TipoConceptoID, T_TipoConceptoDesc, B_Habilitado, B_Eliminado) VALUES(1, 'INGRESOS ', 1, 0)
+INSERT TC_TipoConcepto(I_TipoConceptoID, T_TipoConceptoDesc, B_Habilitado, B_Eliminado) VALUES(2, 'DESCUENTOS ', 1, 0)
+INSERT TC_TipoConcepto(I_TipoConceptoID, T_TipoConceptoDesc, B_Habilitado, B_Eliminado) VALUES(3, 'APORTES', 1, 0)
+INSERT TC_TipoConcepto(I_TipoConceptoID, T_TipoConceptoDesc, B_Habilitado, B_Eliminado) VALUES(4, 'REINTEGROS', 1, 0)
+INSERT TC_TipoConcepto(I_TipoConceptoID, T_TipoConceptoDesc, B_Habilitado, B_Eliminado) VALUES(5, 'ENCARGATURAS', 1, 0)
+INSERT TC_TipoConcepto(I_TipoConceptoID, T_TipoConceptoDesc, B_Habilitado, B_Eliminado) VALUES(6, 'OTROS INGRESOS', 1, 0)
+INSERT TC_TipoConcepto(I_TipoConceptoID, T_TipoConceptoDesc, B_Habilitado, B_Eliminado) VALUES(9, 'NETO', 1, 0)
+
+GO
+
+SET IDENTITY_INSERT TC_TipoConcepto OFF
 GO
 
 
