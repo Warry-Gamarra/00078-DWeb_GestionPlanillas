@@ -238,10 +238,15 @@ INSERT dbo.TC_Vinculo(T_VinculoDesc, B_Habilitado, B_Eliminado) VALUES('CESANTE 
 INSERT dbo.TC_Vinculo(T_VinculoDesc, B_Habilitado, B_Eliminado) VALUES('SERVIDOR PERMANENTE', 1, 0)
 
 
+select * from TC_TipoPlanilla
+select * from TC_ClasePlanilla
+select * from TC_CategoriaPlanilla
 
-select * from dbo.TC_CategoriaPlanilla c1
+
+select p.T_TipoPlanillaDesc, c2.T_ClasePlanillaDesc, c1.T_CategoriaPlanillaDesc from dbo.TC_CategoriaPlanilla c1
 inner join dbo.TC_ClasePlanilla c2 ON c1.I_ClasePlanillaID = c2.I_ClasePlanillaID
 inner join dbo.TC_TipoPlanilla p ON p.I_TipoPlanillaID = c2.I_TipoPlanillaID
+order by 1
 
 --Lista de conceptos
 SELECT pp.T_PlantillaPlanillaDesc, cp.T_CategoriaPlanillaDesc, t.T_TipoConceptoDesc, c.I_ConceptoID, c.T_ConceptoDesc, ppc.B_MontoEstaAqui, ppc.M_Monto, ppc.I_Filtro1, ppc.I_Filtro2
@@ -290,3 +295,24 @@ FROM TC_Administrativo AS adm INNER JOIN
 GO
 
 
+
+
+
+
+INSERT dbo.TC_Concepto(I_TipoConceptoID, C_ConceptoCod, T_ConceptoDesc, B_Habilitado, B_Eliminado) VALUES(1, '0001', 'MUC', 1, 0)
+INSERT dbo.TC_Concepto(I_TipoConceptoID, C_ConceptoCod, T_ConceptoDesc, B_Habilitado, B_Eliminado) VALUES(1, '0002', 'BET FIJO', 1, 0)
+INSERT dbo.TC_Concepto(I_TipoConceptoID, C_ConceptoCod, T_ConceptoDesc, B_Habilitado, B_Eliminado) VALUES(1, '0003', 'BET VARIABLE', 1, 0)
+INSERT dbo.TC_Concepto(I_TipoConceptoID, C_ConceptoCod, T_ConceptoDesc, B_Habilitado, B_Eliminado) VALUES(1, '0004', 'REMUNERACIÓN DOCENTE', 1, 0)
+INSERT dbo.TC_Concepto(I_TipoConceptoID, C_ConceptoCod, T_ConceptoDesc, B_Habilitado, B_Eliminado) VALUES(1, '0700', 'FALTAS Y TARDANZAS', 1, 0)
+INSERT dbo.TC_Concepto(I_TipoConceptoID, C_ConceptoCod, T_ConceptoDesc, B_Habilitado, B_Eliminado) VALUES(1, '5040', 'DSCTO. A FAVOR DE BANCO DE CREDITO DEL PERU', 1, 0)
+
+
+INSERT dbo.TI_PlantillaPlanilla_Concepto(I_PlantillaPlanillaID, I_ConceptoID, B_MontoEstaAqui, M_Monto, B_Habilitado, B_Eliminado) VALUES(1, 7, 1, 700, 1, 0)
+INSERT dbo.TI_PlantillaPlanilla_Concepto(I_PlantillaPlanillaID, I_ConceptoID, B_MontoEstaAqui, M_Monto, B_Habilitado, B_Eliminado) VALUES(1, 8, 1, 350, 1, 0)
+INSERT dbo.TI_PlantillaPlanilla_Concepto(I_PlantillaPlanillaID, I_ConceptoID, B_MontoEstaAqui, M_Monto, B_Habilitado, B_Eliminado) VALUES(1, 9, 0, 0, 1, 0)
+INSERT dbo.TI_PlantillaPlanilla_Concepto(I_PlantillaPlanillaID, I_ConceptoID, B_MontoEstaAqui, M_Monto, B_Habilitado, B_Eliminado) VALUES(1, 11, 0, 0, 1, 0)
+INSERT dbo.TI_PlantillaPlanilla_Concepto(I_PlantillaPlanillaID, I_ConceptoID, B_MontoEstaAqui, M_Monto, B_Habilitado, B_Eliminado) VALUES(1, 12, 0, 0, 1, 0)
+
+INSERT dbo.TI_PlantillaPlanilla_Concepto(I_PlantillaPlanillaID, I_ConceptoID, B_MontoEstaAqui, M_Monto, B_Habilitado, B_Eliminado) VALUES(2, 10, 1, 1100, 1, 0)
+INSERT dbo.TI_PlantillaPlanilla_Concepto(I_PlantillaPlanillaID, I_ConceptoID, B_MontoEstaAqui, M_Monto, B_Habilitado, B_Eliminado) VALUES(2, 11, 0, 0, 1, 0)
+INSERT dbo.TI_PlantillaPlanilla_Concepto(I_PlantillaPlanillaID, I_ConceptoID, B_MontoEstaAqui, M_Monto, B_Habilitado, B_Eliminado) VALUES(2, 12, 0, 0, 1, 0)
