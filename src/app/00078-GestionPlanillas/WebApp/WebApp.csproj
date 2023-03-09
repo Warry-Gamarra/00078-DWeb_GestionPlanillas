@@ -130,12 +130,16 @@
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\TrabajadoresController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Models\TrabajadorModel.cs" />
     <Compile Include="Models\UsersModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ServiceFacade\Implementations\TrabajadorServiceFacade.cs" />
+    <Compile Include="ServiceFacade\ITrabajadorServiceFacade.cs" />
     <Compile Include="ViewModels\AccountViewModels.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -375,6 +379,7 @@
     <Content Include="Views\Shared\_Grid.cshtml" />
     <Content Include="Grid.mvc.readme" />
     <Content Include="Views\Account\Login.cshtml" />
+    <Content Include="Views\Trabajadores\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -383,10 +388,6 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Data\Data.csproj">
-      <Project>{169ff18f-f96f-4293-b79b-1637e0c8effc}</Project>
-      <Name>Data</Name>
-    </ProjectReference>
     <ProjectReference Include="..\Domain\Domain.csproj">
       <Project>{9c55515f-edac-4599-a226-4cfd955303bd}</Project>
       <Name>Domain</Name>

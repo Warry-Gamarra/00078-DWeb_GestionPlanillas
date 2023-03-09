@@ -1,0 +1,43 @@
+﻿@model IEnumerable<WebApp.Models.TrabajadorModel>
+@using GridMvc.Html
+
+<div class="container-fluid">
+    <div class="col-12">
+        <section class="content-header">
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb float-right small d-none d-sm-inline-flex">
+                    <li class="breadcrumb-item"><a href="@Url.Action("Index", "Home")"><i class="fa fa-home">&nbsp;</i>Inicio</a></li>
+                    <li class="breadcrumb-item"><span><i class="fa bi-tools">&nbsp;</i>Mantenimiento </span></li>
+                    <li class="breadcrumb-item active"><span><i class="fa bi-ui-checks-grid">&nbsp;</i>@ViewBag.Title </span></li>
+                </ol>
+            </nav>
+            <h1 class="">@ViewBag.Title <small></small></h1>
+        </section>
+    </div>
+
+    <br />
+
+    <div class="col-12">
+        <a href="@Url.Action("Create", "Concepto", new { tipoPago = ViewBag.TipoPago })" class="btn btn-primary pull-right modal-link">
+            <i class="fa bi-ui-checks-grid"></i> Agregar concepto
+        </a>
+
+        <p class="h3"><small>@ViewBag.Title</small></p>
+        <br />
+
+        <br />
+        <div class="table-responsive" style="min-height:300px">
+            @Html.Grid(Model).Columns(columns =>
+            {
+                columns.Add(c => c.T_TipoDocumentoDesc).Titled("Tip.Documento").Css("text-left").Filterable(true);
+                columns.Add(c => c.C_NumDocumento).Titled("Num.Documento").Css("text-center").Filterable(true);
+                columns.Add(c => c.T_ApellidosNombre).Titled("Apellidos y Nombres").Css("text-left").Filterable(true);
+                columns.Add(c => c.T_FechaIngreso).Titled("Fech.Ingreso").Css("text-center").Filterable(true);
+                columns.Add(c => c.T_RegimenDesc).Titled("Régimen").Css("text-center").Filterable(true);
+                columns.Add(c => c.T_VinculoDesc).Titled("Vínculo").Css("text-left").Filterable(true);
+                columns.Add(c => c.T_EstadoDesc).Titled("Estado").Css("text-center").Filterable(true);
+            }).WithPaging(12).Sortable(true).WithGridItemsCount("Registros encontrados").EmptyText("No se encontraron registros")
+        </div>
+
+    </div>
+</div>

@@ -166,6 +166,8 @@ CREATE TABLE TC_TipoConcepto
 (
 	I_TipoConceptoID INT IDENTITY(1,1),
 	T_TipoConceptoDesc VARCHAR(250) NOT NULL,
+	B_EsAdicion BIT NOT NULL,
+	B_IncluirEnTotalBruto BIT NOT NULL,
 	B_Habilitado BIT NOT NULL,
 	B_Eliminado BIT NOT NULL,
 	I_UsuarioCre INT,
@@ -211,9 +213,12 @@ CREATE TABLE TI_PlantillaPlanilla_Concepto
 	I_PlantillaPlanillaConceptoID INT IDENTITY(1,1),
 	I_PlantillaPlanillaID INT NOT NULL,
 	I_ConceptoID INT NOT NULL,
+	B_EsMontoFijo BIT NOT NULL,
 	B_MontoEstaAqui BIT NOT NULL,
 	M_Monto DECIMAL(15,2),
+	B_AplicarFiltro1 BIT,
 	I_Filtro1 INT,
+	B_AplicarFiltro2 BIT,
 	I_Filtro2 INT,
 	B_Habilitado BIT NOT NULL,
 	B_Eliminado BIT NOT NULL,
@@ -247,6 +252,8 @@ CREATE TABLE TC_Persona
 	T_Nombre VARCHAR(250) NOT NULL,
 	T_ApellidoPaterno VARCHAR(250),
 	T_ApellidoMaterno VARCHAR(250),
+	D_FecNac DATE,
+	C_Cui varchar(20),
 	B_Habilitado BIT NOT NULL,
 	B_Eliminado BIT NOT NULL,
 	I_UsuarioCre INT,
@@ -261,6 +268,7 @@ CREATE TABLE TC_Vinculo
 (
 	I_VinculoID INT IDENTITY(1,1),
 	T_VinculoDesc VARCHAR(250) NOT NULL,
+	C_VinculoCod VARCHAR(20),
 	B_Habilitado BIT NOT NULL,
 	B_Eliminado BIT NOT NULL,
 	I_UsuarioCre INT,
@@ -270,14 +278,57 @@ CREATE TABLE TC_Vinculo
 	CONSTRAINT PK_Vinculo PRIMARY KEY (I_VinculoID)
 )
 
+CREATE TABLE TC_Estado
+(
+	I_EstadoID INT IDENTITY(1,1),
+	T_EstadoDesc VARCHAR(250) NOT NULL,
+	C_EstadoCod VARCHAR(20),
+	B_Habilitado BIT NOT NULL,
+	B_Eliminado BIT NOT NULL,
+	I_UsuarioCre INT,
+	D_FecCre DATETIME,
+	I_UsuarioMod INT,
+	D_FecMod DATETIME,
+	CONSTRAINT PK_Estado PRIMARY KEY (I_EstadoID)
+)
+
+CREATE TABLE TC_Regimen
+(
+	I_RegimenID INT IDENTITY(1,1),
+	T_RegimenDesc VARCHAR(250) NOT NULL,
+	C_RegimenCod VARCHAR(20) NOT NULL,
+	B_Habilitado BIT NOT NULL,
+	B_Eliminado BIT NOT NULL,
+	I_UsuarioCre INT,
+	D_FecCre DATETIME,
+	I_UsuarioMod INT,
+	D_FecMod DATETIME,
+	CONSTRAINT PK_Regimen PRIMARY KEY (I_RegimenID)
+)
+
+CREATE TABLE TC_Banco
+(
+	I_BancoID INT IDENTITY(1,1),
+	T_BancoDesc VARCHAR(250) NOT NULL,
+	B_Habilitado BIT NOT NULL,
+	B_Eliminado BIT NOT NULL,
+	I_UsuarioCre INT,
+	D_FecCre DATETIME,
+	I_UsuarioMod INT,
+	D_FecMod DATETIME,
+	CONSTRAINT PK_Banco PRIMARY KEY (I_BancoID)
+)
+
 CREATE TABLE TC_Trabajador
 (
 	I_TrabajadorID INT IDENTITY(1,1),
 	I_PersonaID INT NOT NULL,
 	D_FechaIngreso DATE,
-	X_Regimen VARCHAR(250),
+	I_RegimenID INT,
+	I_EstadoID INT NOT NULL,
 	X_Dependencia VARCHAR(250),
 	I_VinculoID INT NOT NULL,
+	X_CodAfp VARCHAR(20),
 	B_Habilitado BIT NOT NULL,
 	B_Eliminado BIT NOT NULL,
 	I_UsuarioCre INT,
@@ -286,7 +337,26 @@ CREATE TABLE TC_Trabajador
 	D_FecMod DATETIME,
 	CONSTRAINT PK_Trabajador PRIMARY KEY (I_TrabajadorID),
 	CONSTRAINT FK_Persona_Trabajador FOREIGN KEY (I_PersonaID) REFERENCES TC_Persona(I_PersonaID),
-	CONSTRAINT FK_Vinculo_Trabajador FOREIGN KEY (I_VinculoID) REFERENCES TC_Vinculo(I_VinculoID),
+	CONSTRAINT FK_Regimen_Trabajador FOREIGN KEY (I_RegimenID) REFERENCES TC_Regimen(I_RegimenID),
+	CONSTRAINT FK_Estado_Trabajador FOREIGN KEY (I_EstadoID) REFERENCES TC_Estado(I_EstadoID),
+	CONSTRAINT FK_Vinculo_Trabajador FOREIGN KEY (I_VinculoID) REFERENCES TC_Vinculo(I_VinculoID)
+)
+
+CREATE TABLE TC_CuentaBancaria
+(
+	I_CuentaBancariaID INT IDENTITY(1,1),
+	I_TrabajadorID INT NOT NULL,
+	I_BancoID INT NOT NULL,
+	T_NroCuentaBancaria VARCHAR(250) NOT NULL,
+	B_Habilitado BIT NOT NULL,
+	B_Eliminado BIT NOT NULL,
+	I_UsuarioCre INT,
+	D_FecCre DATETIME,
+	I_UsuarioMod INT,
+	D_FecMod DATETIME,
+	CONSTRAINT PK_CuentaBancaria PRIMARY KEY (I_CuentaBancariaID),
+	CONSTRAINT PK_Trabajador_CuentaBancaria FOREIGN KEY (I_TrabajadorID) REFERENCES TC_Trabajador(I_TrabajadorID),
+	CONSTRAINT PK_Banco_CuentaBancaria FOREIGN KEY (I_BancoID) REFERENCES TC_Banco(I_BancoID)
 )
 
 CREATE TABLE TC_Trabajador_CategoriaPlanilla
@@ -516,4 +586,16 @@ CREATE TABLE TI_Concepto_MontoTrabajador
 	CONSTRAINT PK_ConceptoMontoTrabajador PRIMARY KEY (I_ConceptoMontoTrabajadorID),
 	CONSTRAINT FK_MontoTrabajador_ConceptoMontoTrabajador FOREIGN KEY (I_MontoTrabajadorID) REFERENCES TI_MontoTrabajador(I_MontoTrabajadorID),
 	CONSTRAINT FK_Concepto_ConceptoMontoTrabajador FOREIGN KEY (I_ConceptoID) REFERENCES TC_Concepto(I_ConceptoID)
+)
+
+CREATE TABLE TI_AsistenciaTrabajador
+(
+	I_AsistenciaTrabajadorID INT IDENTITY(1,1),
+	I_TrabajadorID INT NOT NULL,
+	I_PeriodoID INT NOT NULL,
+	B_TipoMedicion BIT NOT NULL,
+	I_Valor INT NOT NULL,
+	CONSTRAINT PK_AsistenciaTrabajador PRIMARY KEY(I_AsistenciaTrabajadorID),
+	CONSTRAINT FK_Trabajador_AsistenciaTrabajador FOREIGN KEY (I_TrabajadorID) REFERENCES TC_Trabajador(I_TrabajadorID),
+	CONSTRAINT FK_Periodo_AsistenciaTrabajador FOREIGN KEY (I_PeriodoID) REFERENCES TR_Periodo(I_PeriodoID)
 )
