@@ -41,12 +41,15 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Entities\ResumenPlanillaTrabajadorDTO.cs" />
     <Compile Include="Entities\TrabajadorDTO.cs" />
     <Compile Include="Helpers\Mapper.cs" />
     <Compile Include="Helpers\Response.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Services\Implementations\PlanillaService.cs" />
     <Compile Include="Services\ITrabajadorService.cs" />
     <Compile Include="Services\Implementations\TrabajadorService.cs" />
+    <Compile Include="Services\IPlanillaService.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Data\Data.csproj">

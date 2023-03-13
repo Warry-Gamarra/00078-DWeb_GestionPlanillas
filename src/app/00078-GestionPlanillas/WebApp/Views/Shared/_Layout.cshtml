@@ -72,12 +72,12 @@
     </header>
 
     <main class="wrapper">
-        @if (Request.IsAuthenticated)
-        {
-            <div id="sidebar">
-                @Html.Partial("_Sidebar")
-            </div>
-        }
+        @*@if (Request.IsAuthenticated)
+        {*@
+        <div id="sidebar">
+            @Html.Partial("_Sidebar")
+        </div>
+        @*}*@
         <div class="content-wrapper pt-3">
             @RenderBody()
         </div>
