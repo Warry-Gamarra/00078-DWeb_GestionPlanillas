@@ -48,6 +48,8 @@
     <Compile Include="Connection\Database.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Views\VW_ResumenPlanillaTrabajador.cs" />
+    <Compile Include="Views\VW_Administrativo.cs" />
+    <Compile Include="Views\VW_Docentes.cs" />
     <Compile Include="Views\VW_Trabajadores.cs" />
   </ItemGroup>
   <ItemGroup>

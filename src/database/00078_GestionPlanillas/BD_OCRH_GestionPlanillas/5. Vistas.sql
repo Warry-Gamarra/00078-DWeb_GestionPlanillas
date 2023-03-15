@@ -22,6 +22,7 @@ WHERE trab.B_Eliminado = 0 AND per.B_Eliminado = 0
 GO
 
 
+
 IF EXISTS (SELECT * FROM INFORMATION_SCHEMA.VIEWS WHERE TABLE_NAME = 'VW_ResumenPlanillaTrabajador')
 	DROP VIEW [dbo].[VW_ResumenPlanillaTrabajador]
 GO
@@ -42,4 +43,50 @@ FROM dbo.VW_Trabajadores AS trab INNER JOIN
 WHERE trabpla.B_Anulado = 0 AND pla.B_Anulado = 0
 GO
 
-SELECT * FROM VW_ResumenPlanillaTrabajador
+
+
+IF EXISTS (SELECT * FROM INFORMATION_SCHEMA.VIEWS WHERE TABLE_NAME = 'VW_Docentes')
+	DROP VIEW [dbo].[VW_Docentes]
+GO
+
+
+CREATE VIEW [dbo].[VW_Docentes]
+AS
+SELECT 
+	trab.I_TrabajadorID, trab.T_Nombre, trab.T_ApellidoPaterno, trab.T_ApellidoMaterno, trab.I_TipoDocumentoID, trab.T_TipoDocumentoDesc, trab.C_NumDocumento, 
+	trab.D_FechaIngreso, trab.I_RegimenID, trab.T_RegimenDesc, trab.I_EstadoID, trab.T_EstadoDesc, trab.I_VinculoID, trab.T_VinculoDesc,
+	doc.I_DocenteID, catdoc.I_CategoriaDocenteID, catdoc.C_CategoriaDocenteCod, catdoc.T_CategoriaDocenteDesc,
+	hdoc.I_HorasDocenteID, hdoc.I_Horas, dedoc.I_DedicacionDocenteID, dedoc.C_DedicacionDocenteCod, dedoc.T_DedicacionDocenteDesc
+FROM dbo.VW_Trabajadores AS trab INNER JOIN
+	dbo.TC_Docente AS doc ON doc.I_TrabajadorID = trab.I_TrabajadorID INNER JOIN
+	dbo.TC_CategoriaDocente AS catdoc ON catdoc.I_CategoriaDocenteID = doc.I_CategoriaDocenteID INNER JOIN
+	dbo.TC_HorasDocente AS hdoc ON hdoc.I_HorasDocenteID = doc.I_HorasDocenteID INNER JOIN
+	dbo.TC_DedicacionDocente dedoc ON dedoc.I_DedicacionDocenteID = hdoc.I_DedicacionDocenteID
+WHERE doc.B_Eliminado = 0
+GO
+
+
+
+IF EXISTS (SELECT * FROM INFORMATION_SCHEMA.VIEWS WHERE TABLE_NAME = 'VW_Administrativo')
+	DROP VIEW [dbo].[VW_Administrativo]
+GO
+
+
+CREATE VIEW [dbo].[VW_Administrativo]
+AS
+SELECT 
+	trab.I_TrabajadorID, trab.T_Nombre, trab.T_ApellidoPaterno, trab.T_ApellidoMaterno, trab.I_TipoDocumentoID, trab.T_TipoDocumentoDesc, trab.C_NumDocumento, 
+	trab.D_FechaIngreso, trab.I_RegimenID, trab.T_RegimenDesc, trab.I_EstadoID, trab.T_EstadoDesc, trab.I_VinculoID, trab.T_VinculoDesc,
+	adm.I_AdministrativoID, grup.I_GrupoOcupacionalID, grup.C_GrupoOcupacionalCod, grup.T_GrupoOcupacionalDesc, 
+	nivrem.I_NivelRemunerativoID, nivrem.C_NivelRemunerativoCod, nivrem.T_NivelRemunerativoDesc
+FROM dbo.VW_Trabajadores AS trab INNER JOIN
+	dbo.TC_Administrativo AS adm ON adm.I_TrabajadorID = trab.I_TrabajadorID INNER JOIN
+	dbo.TC_GrupoOcupacional AS grup ON grup.I_GrupoOcupacionalID = adm.I_GrupoOcupacionalID INNER JOIN
+	dbo.TC_NivelRemunerativo AS nivrem ON nivrem.I_NivelRemunerativoID = adm.I_NivelRemunerativoID
+WHERE adm.B_Eliminado = 0
+GO
+
+
+
+SELECT * FROM dbo.VW_Docentes doc WHERE doc.I_DocenteID = 1
+
