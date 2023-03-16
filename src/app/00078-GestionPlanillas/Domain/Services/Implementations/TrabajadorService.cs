@@ -13,9 +13,7 @@ namespace Domain.Services.Implementations
     {
         public List<TrabajadorDTO> ListarTrabajadores()
         {
-            var lista = new List<TrabajadorDTO>();
-
-            lista = VW_Trabajadores.FindAll().Select( x => Mapper.VW_Trabajadores_To_TrabajadorDTO(x)).ToList();
+            var lista = VW_Trabajadores.FindAll().Select( x => Mapper.VW_Trabajadores_To_TrabajadorDTO(x)).ToList();
 
             return lista;
         }

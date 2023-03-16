@@ -48,6 +48,10 @@
     <Compile Include="Helpers\Mapper.cs" />
     <Compile Include="Helpers\Response.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Services\IAdministrativoService.cs" />
+    <Compile Include="Services\IDocenteService.cs" />
+    <Compile Include="Services\Implementations\AdministrativoService.cs" />
+    <Compile Include="Services\Implementations\DocenteService.cs" />
     <Compile Include="Services\Implementations\PlanillaService.cs" />
     <Compile Include="Services\ITrabajadorService.cs" />
     <Compile Include="Services\Implementations\TrabajadorService.cs" />
