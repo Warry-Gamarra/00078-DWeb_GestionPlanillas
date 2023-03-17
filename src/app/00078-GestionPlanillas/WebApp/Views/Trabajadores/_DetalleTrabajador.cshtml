@@ -8,23 +8,53 @@
 </div>
 
 <div class="modal-body">
-    
-    <div class="col-lg-6 col-12">
-
-        <div class="form-row">
-            <div class="col-7">
-                <div class="form-group">
-                    @Html.LabelFor(model => model.T_ApellidosNombre, new { @class = "control-label" })
-                    @Html.TextBoxFor(model => model.T_ApellidosNombre, new { @class = "form-control" })
-                    <p class="text-danger small">@Html.ValidationMessageFor(model => model.T_ApellidosNombre)</p>
-                </div>
+    <div class="form-row">
+        <div class="col-2">
+            <div class="form-group">
+                @Html.LabelFor(model => model.C_TrabajadorCod, new { @class = "control-label" })
+                @Html.TextBoxFor(model => model.C_TrabajadorCod, new { @class = "form-control" })
+                <p class="text-danger small">@Html.ValidationMessageFor(model => model.C_TrabajadorCod)</p>
             </div>
-            <div class="col-5">
-                <div class="form-group">
-                    @Html.LabelFor(model => model.T_TipoDocumentoDesc, new { @class = "control-label" })
-                    @Html.TextBoxFor(model => model.T_TipoDocumentoDesc, new { @class = "form-control" })
-                    <p class="text-danger small">@Html.ValidationMessageFor(model => model.T_TipoDocumentoDesc)</p>
-                </div>
+        </div>
+        <div class="col-4">
+            <div class="form-group">
+                @Html.LabelFor(model => model.T_ApellidosNombre, new { @class = "control-label" })
+                @Html.TextBoxFor(model => model.T_ApellidosNombre, new { @class = "form-control" })
+                <p class="text-danger small">@Html.ValidationMessageFor(model => model.T_ApellidosNombre)</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="form-row">
+        <div class="col-3">
+            <div class="form-group">
+                @Html.LabelFor(model => model.T_TipoDocumentoDesc, new { @class = "control-label" })
+                @Html.TextBoxFor(model => model.T_TipoDocumentoDesc, new { @class = "form-control" })
+                <p class="text-danger small">@Html.ValidationMessageFor(model => model.T_TipoDocumentoDesc)</p>
+            </div>
+        </div>
+        <div class="col-3">
+            <div class="form-group">
+                @Html.LabelFor(model => model.C_NumDocumento, new { @class = "control-label" })
+                @Html.TextBoxFor(model => model.C_NumDocumento, new { @class = "form-control" })
+                <p class="text-danger small">@Html.ValidationMessageFor(model => model.C_NumDocumento)</p>
+            </div>
+        </div>
+        <div class="col-3">
+            <div class="form-group">
+                @Html.LabelFor(model => model.T_EstadoDesc, new { @class = "control-label" })
+                @Html.TextBoxFor(model => model.T_EstadoDesc, new { @class = "form-control" })
+                <p class="text-danger small">@Html.ValidationMessageFor(model => model.T_EstadoDesc)</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="form-row">
+        <div class="col-2">
+            <div class="form-group">
+                @Html.LabelFor(model => model.T_RegimenDesc, new { @class = "control-label" })
+                @Html.TextBoxFor(model => model.T_RegimenDesc, new { @class = "form-control" })
+                <p class="text-danger small">@Html.ValidationMessageFor(model => model.T_RegimenDesc)</p>
             </div>
         </div>
     </div>
