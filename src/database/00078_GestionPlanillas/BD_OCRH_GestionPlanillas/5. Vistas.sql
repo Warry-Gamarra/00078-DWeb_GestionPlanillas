@@ -89,4 +89,6 @@ GO
 
 
 
+SELECT * FROM dbo.TC_TipoDocumento
+SELECT * FROM dbo.TC_Banco
 
