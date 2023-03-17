@@ -4,12 +4,15 @@ using System.Linq;
 using System.Reflection.Emit;
 using System.Text;
 using System.Threading.Tasks;
+using System.Web.UI.WebControls;
 
 namespace WebApp.Models
 {
     public class TrabajadorModel
     {
         public int I_TrabajadorID { get; set; }
+
+        public string C_TrabajadorCod { get; set; }
 
         public string T_Nombre { get; set; }
 

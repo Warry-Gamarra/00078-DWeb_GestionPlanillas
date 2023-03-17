@@ -13,6 +13,8 @@ namespace Data.Views
     {
         public int I_TrabajadorID { get; set; }
 
+        public string C_TrabajadorCod { get; set; }
+
         public string T_Nombre { get; set; }
 
         public string T_ApellidoPaterno { get; set; }

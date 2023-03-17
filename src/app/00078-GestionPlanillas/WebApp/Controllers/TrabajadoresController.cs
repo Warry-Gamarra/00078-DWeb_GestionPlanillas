@@ -13,29 +13,51 @@ namespace WebApp.Controllers
     public class TrabajadoresController : Controller
     {
 
-        private ITrabajadorServiceFacade trabajadorServiceFacade;
+        private ITrabajadorServiceFacade _trabajadorServiceFacade;
+
+        private IAdministrativoServiceFacade _administrativoServiceFacade;
+
+        private IDocenteServiceFacade _docenteServiceFacade;
 
         public TrabajadoresController()
         {
-            trabajadorServiceFacade = new TrabajadorServiceFacade();
+            _trabajadorServiceFacade = new TrabajadorServiceFacade();
+
+            _administrativoServiceFacade = new AdministrativoServiceFacade();
+
+            _docenteServiceFacade = new DocenteServiceFacade();
         }
 
         public ActionResult Index()
         {
             ViewBag.Title = "Consulta";
 
-            var lista = trabajadorServiceFacade.ListarTrabajadores();
+            var lista = _trabajadorServiceFacade.ListarTrabajadores();
 
             return View(lista);
         }
 
         public ActionResult Editar(int id)
         {
-            ViewBag.Title = "Editar Trabajador";
+            ViewBag.Title = "Detalle del Trabajador";
 
-            var model = new TrabajadorModel();
+            var trabajador = _trabajadorServiceFacade.ListarTrabajadores().Where(x => x.I_TrabajadorID == id).FirstOrDefault();
 
-            return PartialView("_MantenimientoDocente", model);
+            //if (trabajador.I_VinculoID == 1)//administrativo
+            //{
+            //    var administrativo = _administrativoServiceFacade.ListarAdministrativoPorTrabajadorID(trabajador.I_TrabajadorID).FirstOrDefault();
+
+            //    return PartialView("_MantenimientoAdministrativo", administrativo);
+            //}
+
+            //if (trabajador.I_VinculoID == 4)//docente
+            //{
+            //    var docente = _docenteServiceFacade.ListarDocentePorTrabajadorID(trabajador.I_TrabajadorID).FirstOrDefault();
+
+            //    return PartialView("_MantenimientoDocente", docente);
+            //}
+
+            return PartialView("_DetalleTrabajador", trabajador);
         }
     }
 }

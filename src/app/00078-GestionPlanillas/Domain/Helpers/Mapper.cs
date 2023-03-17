@@ -15,6 +15,7 @@ namespace Domain.Helpers
             var trabajadorDTO = new TrabajadorDTO()
             {
                 I_TrabajadorID = view.I_TrabajadorID,
+                C_TrabajadorCod = view.C_TrabajadorCod,
                 T_Nombre = view.T_Nombre,
                 T_ApellidoPaterno = view.T_ApellidoPaterno,
                 T_ApellidoMaterno = view.T_ApellidoMaterno,
@@ -38,6 +39,7 @@ namespace Domain.Helpers
             var trabajadorDTO = new ResumenPlanillaTrabajadorDTO()
             {
                 I_TrabajadorID = view.I_TrabajadorID,
+                C_TrabajadorCod = view.C_TrabajadorCod,
                 T_Nombre = view.T_Nombre,
                 T_ApellidoPaterno = view.T_ApellidoPaterno,
                 T_ApellidoMaterno = view.T_ApellidoMaterno,
@@ -73,6 +75,7 @@ namespace Domain.Helpers
             var docenteDTO = new DocenteDTO()
             {
                 I_TrabajadorID = view.I_TrabajadorID,
+                C_TrabajadorCod = view.C_TrabajadorCod,
                 T_Nombre = view.T_Nombre,
                 T_ApellidoPaterno = view.T_ApellidoPaterno,
                 T_ApellidoMaterno = view.T_ApellidoMaterno,
@@ -105,6 +108,7 @@ namespace Domain.Helpers
             var administrativoDTO = new AdministrativoDTO()
             {
                 I_TrabajadorID = view.I_TrabajadorID,
+                C_TrabajadorCod = view.C_TrabajadorCod,
                 T_Nombre = view.T_Nombre,
                 T_ApellidoPaterno = view.T_ApellidoPaterno,
                 T_ApellidoMaterno = view.T_ApellidoMaterno,

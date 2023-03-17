@@ -1,0 +1,39 @@
+﻿@model WebApp.Models.TrabajadorModel
+@Scripts.Render("~/bundles/jqueryval")
+
+
+<div class="modal-header bg-dark-gray" style="border-radius: .2rem .2rem 0px 0px">
+    <h5 class="modal-title text-center"><i class="fa fa-tag">&nbsp;</i> @ViewBag.Title</h5>
+    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+</div>
+
+<div class="modal-body">
+    
+    <div class="col-lg-6 col-12">
+
+        <div class="form-row">
+            <div class="col-7">
+                <div class="form-group">
+                    @Html.LabelFor(model => model.T_ApellidosNombre, new { @class = "control-label" })
+                    @Html.TextBoxFor(model => model.T_ApellidosNombre, new { @class = "form-control" })
+                    <p class="text-danger small">@Html.ValidationMessageFor(model => model.T_ApellidosNombre)</p>
+                </div>
+            </div>
+            <div class="col-5">
+                <div class="form-group">
+                    @Html.LabelFor(model => model.T_TipoDocumentoDesc, new { @class = "control-label" })
+                    @Html.TextBoxFor(model => model.T_TipoDocumentoDesc, new { @class = "form-control" })
+                    <p class="text-danger small">@Html.ValidationMessageFor(model => model.T_TipoDocumentoDesc)</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row d-flex justify-content-center">
+        <button type="submit" class="btn btn-primary center" id="btnsubmit"><i class="fa fa-save"></i> Guardar</button>
+    </div>
+</div>
+
+<div class="modal-footer" id="div_msg">
+    <button type="button" class="btn btn-secondary" id="btnCancel" data-dismiss="modal"><i class="fa fa-times-circle-o"> </i>Cancelar</button>
+</div>

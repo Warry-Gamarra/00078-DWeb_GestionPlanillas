@@ -392,9 +392,13 @@
     <Content Include="Views\Account\Login.cshtml" />
     <Content Include="Views\Trabajadores\Index.cshtml" />
     <Content Include="Views\Planillas\Index.cshtml" />
+    <Content Include="Views\Trabajadores\_MantenimientoDocente.cshtml" />
+    <Content Include="Views\Trabajadores\_DetalleTrabajador.cshtml" />
+    <Content Include="Views\Trabajadores\_MantenimientoAdministrativo.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Views\Default\" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

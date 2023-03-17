@@ -14,6 +14,7 @@ namespace WebApp.Models
             var model = new TrabajadorModel()
             {
                 I_TrabajadorID = dto.I_TrabajadorID,
+                C_TrabajadorCod = dto.C_TrabajadorCod,
                 T_Nombre = dto.T_Nombre,
                 T_ApellidoPaterno = dto.T_ApellidoPaterno,
                 T_ApellidoMaterno = dto.T_ApellidoMaterno,
@@ -37,6 +38,7 @@ namespace WebApp.Models
             var model = new ResumenPlanillaTrabajadorModel()
             {
                 I_TrabajadorID = dto.I_TrabajadorID,
+                C_TrabajadorCod = dto.C_TrabajadorCod,
                 T_Nombre = dto.T_Nombre,
                 T_ApellidoPaterno = dto.T_ApellidoPaterno,
                 T_ApellidoMaterno = dto.T_ApellidoMaterno,
@@ -72,6 +74,7 @@ namespace WebApp.Models
             var model = new DocenteModel()
             {
                 I_TrabajadorID = dto.I_TrabajadorID,
+                C_TrabajadorCod = dto.C_TrabajadorCod,
                 T_Nombre = dto.T_Nombre,
                 T_ApellidoPaterno = dto.T_ApellidoPaterno,
                 T_ApellidoMaterno = dto.T_ApellidoMaterno,
@@ -104,6 +107,7 @@ namespace WebApp.Models
             var model = new AdministrativoModel()
             {
                 I_TrabajadorID = dto.I_TrabajadorID,
+                C_TrabajadorCod = dto.C_TrabajadorCod,
                 T_Nombre = dto.T_Nombre,
                 T_ApellidoPaterno = dto.T_ApellidoPaterno,
                 T_ApellidoMaterno = dto.T_ApellidoMaterno,
