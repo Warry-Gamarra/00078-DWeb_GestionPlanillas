@@ -45,6 +45,7 @@
     <Compile Include="Entities\DocenteDTO.cs" />
     <Compile Include="Entities\AdministrativoDTO.cs" />
     <Compile Include="Entities\TrabajadorDTO.cs" />
+    <Compile Include="Entities\TrabajadorEntity.cs" />
     <Compile Include="Helpers\Mapper.cs" />
     <Compile Include="Helpers\Response.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

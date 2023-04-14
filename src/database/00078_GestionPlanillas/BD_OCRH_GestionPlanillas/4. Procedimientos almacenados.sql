@@ -473,43 +473,55 @@ SELECT 'return_status' = @return_status
 GO
 
 
---Administrativo
-SELECT        cap.T_CategoriaPlanillaDesc, per.I_Anio, per.T_MesDesc, pl.I_Correlativo, p.T_Nombre, p.T_ApellidoPaterno, p.T_ApellidoMaterno, nvr.C_NivelRemunerativoCod, 
-                         grup.C_GrupoOcupacionalCod, ctpl.C_ConceptoCod, ctpl.T_ConceptoDesc, ctpl.M_Monto
-FROM            TR_Planilla AS pl INNER JOIN
-                         TR_TrabajadorPlanilla AS tpl ON pl.I_PlanillaID = tpl.I_PlanillaID INNER JOIN
-                         TR_Concepto_TrabajadorPlanilla AS ctpl ON tpl.I_TrabajadorPlanillaID = ctpl.I_TrabajadorPlanillaID INNER JOIN
-                         TC_CategoriaPlanilla AS cap ON cap.I_CategoriaPlanillaID = pl.I_CategoriaPlanillaID INNER JOIN
-                         TC_Trabajador AS t ON tpl.I_TrabajadorID = t.I_TrabajadorID INNER JOIN
-                         TC_Administrativo AS adm ON t.I_TrabajadorID = adm.I_TrabajadorID INNER JOIN
-                         TC_Persona AS p ON t.I_PersonaID = p.I_PersonaID INNER JOIN
-                         TR_Periodo AS per ON pl.I_PeriodoID = per.I_PeriodoID INNER JOIN
-                         TC_NivelRemunerativo AS nvr ON adm.I_NivelRemunerativoID = nvr.I_NivelRemunerativoID INNER JOIN
-                         TC_GrupoOcupacional AS grup ON adm.I_GrupoOcupacionalID = grup.I_GrupoOcupacionalID
-WHERE pl.I_CategoriaPlanillaID = 1 AND per.I_Anio = 2022 AND per.I_Mes = 4
+
+
+IF EXISTS (SELECT * FROM INFORMATION_SCHEMA.ROUTINES WHERE ROUTINE_TYPE = 'PROCEDURE' AND ROUTINE_NAME = 'USP_I_GrabarDocente')
+	DROP PROCEDURE [dbo].[USP_I_GrabarDocente]
 GO
 
---Docente
-SELECT        cap.T_CategoriaPlanillaDesc, per.I_Anio, per.T_MesDesc, pl.I_Correlativo, p.T_Nombre, p.T_ApellidoPaterno, p.T_ApellidoMaterno, cd.C_CategoriaDocenteCod, 
-                         dd.C_DedicacionDocenteCod, hd.I_Horas, ctpl.C_ConceptoCod, ctpl.T_ConceptoDesc, ctpl.M_Monto
-FROM            TR_Planilla AS pl INNER JOIN
-                         TR_TrabajadorPlanilla AS tpl ON pl.I_PlanillaID = tpl.I_PlanillaID INNER JOIN
-                         TR_Concepto_TrabajadorPlanilla AS ctpl ON tpl.I_TrabajadorPlanillaID = ctpl.I_TrabajadorPlanillaID INNER JOIN
-                         TC_CategoriaPlanilla AS cap ON cap.I_CategoriaPlanillaID = pl.I_CategoriaPlanillaID INNER JOIN
-                         TC_Trabajador AS t ON tpl.I_TrabajadorID = t.I_TrabajadorID INNER JOIN
-                         TC_Docente AS doc ON t.I_TrabajadorID = doc.I_TrabajadorID INNER JOIN
-                         TC_Persona AS p ON t.I_PersonaID = p.I_PersonaID INNER JOIN
-                         TR_Periodo AS per ON pl.I_PeriodoID = per.I_PeriodoID INNER JOIN
-                         TC_CategoriaDocente AS cd ON doc.I_CategoriaDocenteID = cd.I_CategoriaDocenteID INNER JOIN
-                         TC_HorasDocente AS hd ON doc.I_HorasDocenteID = hd.I_HorasDocenteID INNER JOIN
-                         TC_DedicacionDocente AS dd ON hd.I_DedicacionDocenteID = dd.I_DedicacionDocenteID
-WHERE pl.I_CategoriaPlanillaID = 2 AND per.I_Anio = 2022 AND per.I_Mes = 4
+CREATE PROCEDURE [dbo].[USP_I_GrabarDocente]
+@C_TrabajadorCod VARCHAR(20),
+@T_ApellidoPaterno VARCHAR(250),
+@T_ApellidoMaterno VARCHAR(250),
+@T_Nombre VARCHAR(250),
+@I_TipoDocumentoID INT,
+@C_NumDocumento VARCHAR(20),
+@I_RegimenID INT,
+@I_EstadoID INT,
+@I_VinculoID INT,
+@I_UserID INT,
+@B_Result BIT OUTPUT,
+@T_Message VARCHAR(250) OUTPUT
+AS
+BEGIN
+	SET NOCOUNT ON;
+
+	DECLARE @I_PersonaID INT,
+			@D_FecCre DATETIME
+
+	BEGIN TRAN
+	BEGIN TRY
+		SET @D_FecCre = GETDATE()
+
+		INSERT dbo.TC_Persona(T_ApellidoPaterno, T_ApellidoMaterno, T_Nombre, I_TipoDocumentoID, C_NumDocumento, I_UsuarioCre, D_FecCre)
+		VALUES(@T_ApellidoPaterno, @T_ApellidoMaterno, @T_Nombre, @I_TipoDocumentoID, @C_NumDocumento, @I_UserID, @D_FecCre)
+
+		SET @I_PersonaID = SCOPE_IDENTITY()
+
+		INSERT dbo.TC_Trabajador(I_PersonaID, C_TrabajadorCod, I_RegimenID, I_EstadoID, I_VinculoID, I_UsuarioCre, D_FecCre)
+		VALUES(@I_PersonaID, @C_TrabajadorCod, @I_RegimenID, @I_EstadoID, @I_VinculoID, @I_UserID, @D_FecCre)
+
+		COMMIT TRAN
+
+		SET @B_Result = 1
+
+		SET @T_Message = 'Registro correcto.'
+	END TRY
+	BEGIN CATCH
+		ROLLBACK TRAN
+		SET @B_Result = 0
+
+		SET @T_Message = ERROR_MESSAGE()
+	END CATCH
+END
 GO
-
-
-
---delete from TR_Concepto_TrabajadorPlanilla
---delete from TR_TrabajadorPlanilla
---delete from TR_Planilla
-
-

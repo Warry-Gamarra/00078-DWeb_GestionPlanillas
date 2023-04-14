@@ -8,15 +8,26 @@ namespace Domain.Helpers
 {
     public class Response
     {
-        public bool Value { get; set; }
-        public string Action { get; set; }
-        public string Redirect { get; set; }
+        public bool Success { get; set; }
+
         public string Message { get; set; }
-        public string Icon { get; set; }
-        public string Color { get; set; }
-        public string CurrentID { get; set; }
 
-        public Response() { }
+        public dynamic Result { get; set; }
+
+        public string Icon
+        {
+            get
+            {
+                return Success ? "fa fa-check-circle" : "fa fa-exclamation-triangle";
+            }
+        }
+
+        public string Color
+        {
+            get
+            {
+                return Success ? "success" : "danger";
+            }
+        }
     }
-
 }

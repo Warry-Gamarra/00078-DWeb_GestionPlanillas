@@ -1,4 +1,5 @@
-﻿using Data.Views;
+﻿using Data.Connection;
+using Data.Views;
 using Domain.Entities;
 using System;
 using System.Collections.Generic;
@@ -10,6 +11,17 @@ namespace Domain.Helpers
 {
     internal static class Mapper
     {
+        public static Response Result_To_Response(Result result)
+        {
+            var response = new Response()
+            {
+                Success = result.Success,
+                Message = result.Message
+            };
+
+            return response;
+        }
+
         public static TrabajadorDTO VW_Trabajadores_To_TrabajadorDTO(VW_Trabajadores view)
         {
             var trabajadorDTO = new TrabajadorDTO()

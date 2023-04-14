@@ -1,4 +1,6 @@
-﻿using Domain.Services;
+﻿using Domain.Entities;
+using Domain.Helpers;
+using Domain.Services;
 using Domain.Services.Implementations;
 using System;
 using System.Collections.Generic;
@@ -25,6 +27,36 @@ namespace WebApp.ServiceFacade.Implementations
                 .ToList();
 
             return lista;
+        }
+
+        public Response GrabarTrabajador(TrabajadorModel model, int userID)
+        {
+            Response response;
+
+            try
+            {
+                var trabajadorEntity = new TrabajadorEntity()
+                {
+                    C_TrabajadorCod = model.C_TrabajadorCod,
+                    T_ApellidoPaterno = model.T_ApellidoPaterno,
+                    T_ApellidoMaterno = model.T_ApellidoMaterno,
+                    T_Nombre = model.T_Nombre,
+                    I_TipoDocumentoID = model.I_TipoDocumentoID,
+                    C_NumDocumento = model.C_NumDocumento,
+                    I_RegimenID = model.I_RegimenID.Value,
+                    I_EstadoID = model.I_EstadoID.Value,
+                    I_VinculoID = model.I_VinculoID.Value
+                };
+            }
+            catch (Exception ex)
+            {
+
+            }
+            
+
+            var response = _trabajadorService.GrabarTrabajador(trabajadorEntity, userID);
+
+            return response;
         }
     }
 }

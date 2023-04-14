@@ -1,0 +1,29 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace Domain.Entities
+{
+    public class TrabajadorEntity
+    {
+        public string C_TrabajadorCod { get; set; }
+
+        public string T_ApellidoPaterno { get; set; }
+
+        public string T_ApellidoMaterno { get; set; }
+
+        public string T_Nombre { get; set; }
+
+        public int I_TipoDocumentoID { get; set; }
+
+        public string C_NumDocumento { get; set; }
+
+        public int I_RegimenID { get; set; }
+
+        public int I_EstadoID { get; set; }
+
+        public int I_VinculoID { get; set; }
+    }
+}

@@ -1,4 +1,5 @@
 ﻿using Domain.Entities;
+using Domain.Helpers;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,5 +11,7 @@ namespace Domain.Services
     public interface ITrabajadorService
     {
         List<TrabajadorDTO> ListarTrabajadores();
+
+        Response GrabarTrabajador(TrabajadorEntity trabajadorEntity, int userID);
     }
 }

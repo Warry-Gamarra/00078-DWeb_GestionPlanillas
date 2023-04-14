@@ -6,7 +6,6 @@ IF EXISTS (SELECT * FROM INFORMATION_SCHEMA.VIEWS WHERE TABLE_NAME = 'VW_Trabaja
 	DROP VIEW [dbo].[VW_Trabajadores]
 GO
 
-
 CREATE VIEW [dbo].[VW_Trabajadores]
 AS
 SELECT 
@@ -23,32 +22,9 @@ GO
 
 
 
-IF EXISTS (SELECT * FROM INFORMATION_SCHEMA.VIEWS WHERE TABLE_NAME = 'VW_ResumenPlanillaTrabajador')
-	DROP VIEW [dbo].[VW_ResumenPlanillaTrabajador]
-GO
-
-
-CREATE VIEW [dbo].[VW_ResumenPlanillaTrabajador]
-AS
-SELECT
-	trab.I_TrabajadorID, trab.C_TrabajadorCod, trab.T_Nombre, trab.T_ApellidoPaterno, trab.T_ApellidoMaterno, trab.I_TipoDocumentoID, trab.T_TipoDocumentoDesc, trab.C_NumDocumento, 
-	trab.D_FechaIngreso, trab.I_RegimenID, trab.T_RegimenDesc, trab.I_EstadoID, trab.T_EstadoDesc, trab.I_VinculoID, trab.T_VinculoDesc,
-	trabpla.I_TrabajadorPlanillaID, trabpla.I_TotalRemuneracion, trabpla.I_TotalDescuento, trabpla.I_TotalReintegro, trabpla.I_TotalDeduccion, trabpla.I_TotalSueldo,
-	pla.I_PlanillaID, pla.I_PeriodoID, per.I_Anio, per.T_MesDesc, pla.I_CategoriaPlanillaID, catpla.T_CategoriaPlanillaDesc
-FROM dbo.VW_Trabajadores AS trab INNER JOIN
-	dbo.TR_TrabajadorPlanilla AS trabpla ON trabpla.I_TrabajadorID = trab.I_TrabajadorID INNER JOIN
-	dbo.TR_Planilla AS pla ON pla.I_PlanillaID = trabpla.I_PlanillaID INNER JOIN
-	dbo.TR_Periodo AS per ON per.I_PeriodoID = pla.I_PeriodoID INNER JOIN
-	dbo.TC_CategoriaPlanilla AS catpla ON catpla.I_CategoriaPlanillaID = pla.I_CategoriaPlanillaID
-WHERE trabpla.B_Anulado = 0 AND pla.B_Anulado = 0
-GO
-
-
-
 IF EXISTS (SELECT * FROM INFORMATION_SCHEMA.VIEWS WHERE TABLE_NAME = 'VW_Docentes')
 	DROP VIEW [dbo].[VW_Docentes]
 GO
-
 
 CREATE VIEW [dbo].[VW_Docentes]
 AS
@@ -71,7 +47,6 @@ IF EXISTS (SELECT * FROM INFORMATION_SCHEMA.VIEWS WHERE TABLE_NAME = 'VW_Adminis
 	DROP VIEW [dbo].[VW_Administrativo]
 GO
 
-
 CREATE VIEW [dbo].[VW_Administrativo]
 AS
 SELECT 
@@ -88,7 +63,72 @@ GO
 
 
 
+IF EXISTS (SELECT * FROM INFORMATION_SCHEMA.VIEWS WHERE TABLE_NAME = 'VW_ResumenPlanillaTrabajador')
+	DROP VIEW [dbo].[VW_ResumenPlanillaTrabajador]
+GO
+
+CREATE VIEW [dbo].[VW_ResumenPlanillaTrabajador]
+AS
+SELECT
+	trab.I_TrabajadorID, trab.C_TrabajadorCod, trab.T_Nombre, trab.T_ApellidoPaterno, trab.T_ApellidoMaterno, trab.I_TipoDocumentoID, trab.T_TipoDocumentoDesc, trab.C_NumDocumento, 
+	trab.D_FechaIngreso, trab.I_RegimenID, trab.T_RegimenDesc, trab.I_EstadoID, trab.T_EstadoDesc, trab.I_VinculoID, trab.T_VinculoDesc,
+	trabpla.I_TrabajadorPlanillaID, trabpla.I_TotalRemuneracion, trabpla.I_TotalDescuento, trabpla.I_TotalReintegro, trabpla.I_TotalDeduccion, trabpla.I_TotalSueldo,
+	pla.I_PlanillaID, pla.I_PeriodoID, per.I_Anio, per.T_MesDesc, pla.I_CategoriaPlanillaID, catpla.T_CategoriaPlanillaDesc
+FROM dbo.VW_Trabajadores AS trab INNER JOIN
+	dbo.TR_TrabajadorPlanilla AS trabpla ON trabpla.I_TrabajadorID = trab.I_TrabajadorID INNER JOIN
+	dbo.TR_Planilla AS pla ON pla.I_PlanillaID = trabpla.I_PlanillaID INNER JOIN
+	dbo.TR_Periodo AS per ON per.I_PeriodoID = pla.I_PeriodoID INNER JOIN
+	dbo.TC_CategoriaPlanilla AS catpla ON catpla.I_CategoriaPlanillaID = pla.I_CategoriaPlanillaID
+WHERE trabpla.B_Anulado = 0 AND pla.B_Anulado = 0
+GO
+
+
+
 
 SELECT * FROM dbo.TC_TipoDocumento
 SELECT * FROM dbo.TC_Banco
+
+
+
+
+
+--Administrativo
+SELECT        cap.T_CategoriaPlanillaDesc, per.I_Anio, per.T_MesDesc, pl.I_Correlativo, p.T_Nombre, p.T_ApellidoPaterno, p.T_ApellidoMaterno, nvr.C_NivelRemunerativoCod, 
+                         grup.C_GrupoOcupacionalCod, ctpl.C_ConceptoCod, ctpl.T_ConceptoDesc, ctpl.M_Monto
+FROM            TR_Planilla AS pl INNER JOIN
+                         TR_TrabajadorPlanilla AS tpl ON pl.I_PlanillaID = tpl.I_PlanillaID INNER JOIN
+                         TR_Concepto_TrabajadorPlanilla AS ctpl ON tpl.I_TrabajadorPlanillaID = ctpl.I_TrabajadorPlanillaID INNER JOIN
+                         TC_CategoriaPlanilla AS cap ON cap.I_CategoriaPlanillaID = pl.I_CategoriaPlanillaID INNER JOIN
+                         TC_Trabajador AS t ON tpl.I_TrabajadorID = t.I_TrabajadorID INNER JOIN
+                         TC_Administrativo AS adm ON t.I_TrabajadorID = adm.I_TrabajadorID INNER JOIN
+                         TC_Persona AS p ON t.I_PersonaID = p.I_PersonaID INNER JOIN
+                         TR_Periodo AS per ON pl.I_PeriodoID = per.I_PeriodoID INNER JOIN
+                         TC_NivelRemunerativo AS nvr ON adm.I_NivelRemunerativoID = nvr.I_NivelRemunerativoID INNER JOIN
+                         TC_GrupoOcupacional AS grup ON adm.I_GrupoOcupacionalID = grup.I_GrupoOcupacionalID
+WHERE pl.I_CategoriaPlanillaID = 1 AND per.I_Anio = 2022 AND per.I_Mes = 4
+GO
+
+--Docente
+SELECT        cap.T_CategoriaPlanillaDesc, per.I_Anio, per.T_MesDesc, pl.I_Correlativo, p.T_Nombre, p.T_ApellidoPaterno, p.T_ApellidoMaterno, cd.C_CategoriaDocenteCod, 
+                         dd.C_DedicacionDocenteCod, hd.I_Horas, ctpl.C_ConceptoCod, ctpl.T_ConceptoDesc, ctpl.M_Monto
+FROM            TR_Planilla AS pl INNER JOIN
+                         TR_TrabajadorPlanilla AS tpl ON pl.I_PlanillaID = tpl.I_PlanillaID INNER JOIN
+                         TR_Concepto_TrabajadorPlanilla AS ctpl ON tpl.I_TrabajadorPlanillaID = ctpl.I_TrabajadorPlanillaID INNER JOIN
+                         TC_CategoriaPlanilla AS cap ON cap.I_CategoriaPlanillaID = pl.I_CategoriaPlanillaID INNER JOIN
+                         TC_Trabajador AS t ON tpl.I_TrabajadorID = t.I_TrabajadorID INNER JOIN
+                         TC_Docente AS doc ON t.I_TrabajadorID = doc.I_TrabajadorID INNER JOIN
+                         TC_Persona AS p ON t.I_PersonaID = p.I_PersonaID INNER JOIN
+                         TR_Periodo AS per ON pl.I_PeriodoID = per.I_PeriodoID INNER JOIN
+                         TC_CategoriaDocente AS cd ON doc.I_CategoriaDocenteID = cd.I_CategoriaDocenteID INNER JOIN
+                         TC_HorasDocente AS hd ON doc.I_HorasDocenteID = hd.I_HorasDocenteID INNER JOIN
+                         TC_DedicacionDocente AS dd ON hd.I_DedicacionDocenteID = dd.I_DedicacionDocenteID
+WHERE pl.I_CategoriaPlanillaID = 2 AND per.I_Anio = 2022 AND per.I_Mes = 4
+GO
+
+
+
+--delete from TR_Concepto_TrabajadorPlanilla
+--delete from TR_TrabajadorPlanilla
+--delete from TR_Planilla
+
 
