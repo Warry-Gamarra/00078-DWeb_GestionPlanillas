@@ -1,4 +1,5 @@
 ﻿using Data.Connection;
+using Data.Tables;
 using Data.Views;
 using Domain.Entities;
 using System;
@@ -144,6 +145,48 @@ namespace Domain.Helpers
             };
 
             return administrativoDTO;
+        }
+
+        public static EstadoDTO TC_Estado_To_EstadoDTO(TC_Estado table)
+        {
+            var estadoDTO = new EstadoDTO()
+            { 
+                I_EstadoID = table.I_EstadoID,
+                T_EstadoDesc = table.T_EstadoDesc,
+                C_EstadoCod = table.C_EstadoCod,
+                B_Habilitado = table.B_Habilitado,
+                B_Eliminado = table.B_Eliminado
+            };
+
+            return estadoDTO;
+        }
+
+        public static RegimenDTO TC_Regimen_To_RegimenDTO(TC_Regimen table)
+        {
+            var regimenDTO = new RegimenDTO()
+            {
+                I_RegimenID = table.I_RegimenID,
+                T_RegimenDesc = table.T_RegimenDesc,
+                C_RegimenCod = table.C_RegimenCod,
+                B_Habilitado = table.B_Habilitado,
+                B_Eliminado = table.B_Eliminado
+            };
+
+            return regimenDTO;
+        }
+
+        public static VinculoDTO TC_Vinculo_To_VinculoDTO(TC_Vinculo table)
+        {
+            var vinculoDTO = new VinculoDTO()
+            {
+                I_VinculoID = table.I_VinculoID,
+                T_VinculoDesc = table.T_VinculoDesc,
+                C_VinculoCod = table.C_VinculoCod,
+                B_Habilitado = table.B_Habilitado,
+                B_Eliminado = table.B_Eliminado
+            };
+
+            return vinculoDTO;
         }
     }
 }

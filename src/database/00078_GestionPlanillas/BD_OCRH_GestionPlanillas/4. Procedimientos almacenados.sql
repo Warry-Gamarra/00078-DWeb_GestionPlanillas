@@ -503,13 +503,13 @@ BEGIN
 	BEGIN TRY
 		SET @D_FecCre = GETDATE()
 
-		INSERT dbo.TC_Persona(T_ApellidoPaterno, T_ApellidoMaterno, T_Nombre, I_TipoDocumentoID, C_NumDocumento, I_UsuarioCre, D_FecCre)
-		VALUES(@T_ApellidoPaterno, @T_ApellidoMaterno, @T_Nombre, @I_TipoDocumentoID, @C_NumDocumento, @I_UserID, @D_FecCre)
+		INSERT dbo.TC_Persona(T_ApellidoPaterno, T_ApellidoMaterno, T_Nombre, I_TipoDocumentoID, C_NumDocumento, I_UsuarioCre, D_FecCre, B_Habilitado, B_Eliminado)
+		VALUES(@T_ApellidoPaterno, @T_ApellidoMaterno, @T_Nombre, @I_TipoDocumentoID, @C_NumDocumento, @I_UserID, @D_FecCre, 1, 0)
 
 		SET @I_PersonaID = SCOPE_IDENTITY()
 
-		INSERT dbo.TC_Trabajador(I_PersonaID, C_TrabajadorCod, I_RegimenID, I_EstadoID, I_VinculoID, I_UsuarioCre, D_FecCre)
-		VALUES(@I_PersonaID, @C_TrabajadorCod, @I_RegimenID, @I_EstadoID, @I_VinculoID, @I_UserID, @D_FecCre)
+		INSERT dbo.TC_Trabajador(I_PersonaID, C_TrabajadorCod, I_RegimenID, I_EstadoID, I_VinculoID, I_UsuarioCre, D_FecCre, B_Habilitado, B_Eliminado)
+		VALUES(@I_PersonaID, @C_TrabajadorCod, @I_RegimenID, @I_EstadoID, @I_VinculoID, @I_UserID, @D_FecCre, 1, 0)
 
 		COMMIT TRAN
 

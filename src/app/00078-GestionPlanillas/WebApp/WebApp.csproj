@@ -145,12 +145,18 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ServiceFacade\IAdministrativoServiceFacade.cs" />
     <Compile Include="ServiceFacade\IDocenteServiceFacade.cs" />
+    <Compile Include="ServiceFacade\IEstadoServiceFacade.cs" />
     <Compile Include="ServiceFacade\Implementations\AdministrativoServiceFacade.cs" />
     <Compile Include="ServiceFacade\Implementations\DocenteServiceFacade.cs" />
+    <Compile Include="ServiceFacade\Implementations\EstadoServiceFacade.cs" />
     <Compile Include="ServiceFacade\Implementations\PlanillaServiceFacade.cs" />
+    <Compile Include="ServiceFacade\Implementations\RegimenServiceFacade.cs" />
     <Compile Include="ServiceFacade\Implementations\TrabajadorServiceFacade.cs" />
+    <Compile Include="ServiceFacade\Implementations\VinculoServiceFacade.cs" />
     <Compile Include="ServiceFacade\IPlanillaServiceFacade.cs" />
+    <Compile Include="ServiceFacade\IRegimenServiceFacade.cs" />
     <Compile Include="ServiceFacade\ITrabajadorServiceFacade.cs" />
+    <Compile Include="ServiceFacade\IVinculoServiceFacade.cs" />
     <Compile Include="ViewModels\AccountViewModels.cs" />
   </ItemGroup>
   <ItemGroup>

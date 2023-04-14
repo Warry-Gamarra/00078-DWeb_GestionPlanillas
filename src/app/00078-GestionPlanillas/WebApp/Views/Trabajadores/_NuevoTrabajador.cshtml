@@ -62,8 +62,8 @@
         <div class="form-row">
             <div class="col-3">
                 <div class="form-group">
-                    @Html.LabelFor(model => model.T_TipoDocumentoDesc, new { @class = "control-label" })
-                    @Html.TextBoxFor(model => model.T_TipoDocumentoDesc, new { @class = "form-control" })
+                    @Html.LabelFor(model => model.I_TipoDocumentoID, new { @class = "control-label" })
+                    @Html.TextBoxFor(model => model.I_TipoDocumentoID, new { @class = "form-control" })
                 </div>
             </div>
             <div class="col-2">
@@ -86,8 +86,8 @@
             </div>
             <div class="col-3">
                 <div class="form-group">
-                    @Html.LabelFor(model => model.T_EstadoDesc, new { @class = "control-label" })
-                    @Html.TextBoxFor(model => model.T_EstadoDesc, new { @class = "form-control" })
+                    @Html.LabelFor(model => model.I_EstadoID, new { @class = "control-label" })
+                    @Html.DropDownListFor(model => model.I_EstadoID, ViewBag.ListaEstados as SelectList, null, new { @class = "form-control form-control-sm text-uppercase" })
                 </div>
             </div>
         </div>
@@ -115,8 +115,14 @@
         <div class="form-row">
             <div class="col-2">
                 <div class="form-group">
-                    @Html.LabelFor(model => model.T_RegimenDesc, new { @class = "control-label" })
-                    @Html.TextBoxFor(model => model.T_RegimenDesc, new { @class = "form-control" })
+                    @Html.LabelFor(model => model.I_VinculoID, new { @class = "control-label" })
+                    @Html.DropDownListFor(model => model.I_VinculoID, ViewBag.ListaVinculos as SelectList, null, new { @class = "form-control form-control-sm text-uppercase" })
+                </div>
+            </div>
+            <div class="col-2">
+                <div class="form-group">
+                    @Html.LabelFor(model => model.I_RegimenID, new { @class = "control-label" })
+                    @Html.DropDownListFor(model => model.I_RegimenID, ViewBag.ListaRegimenes as SelectList, null, new { @class = "form-control form-control-sm text-uppercase" })
                 </div>
             </div>
             <div class="col-3">

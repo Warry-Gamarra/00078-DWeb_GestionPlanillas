@@ -47,7 +47,7 @@ namespace Data.Views
 
             try
             {
-                string s_command = @"SELECT * FROM dbo.VW_Trabajadores;";
+                string s_command = "SELECT * FROM dbo.VW_Trabajadores;";
 
                 using (var _dbConnection = new SqlConnection(Database.ConnectionString))
                 {

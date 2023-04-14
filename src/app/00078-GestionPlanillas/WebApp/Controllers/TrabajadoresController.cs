@@ -9,25 +9,27 @@ using System.Web.Mvc;
 using WebApp.Models;
 using WebApp.ServiceFacade;
 using WebApp.ServiceFacade.Implementations;
+using WebMatrix.WebData;
 
 namespace WebApp.Controllers
 {
     public class TrabajadoresController : Controller
     {
-
         private ITrabajadorServiceFacade _trabajadorServiceFacade;
-
         private IAdministrativoServiceFacade _administrativoServiceFacade;
-
         private IDocenteServiceFacade _docenteServiceFacade;
+        private IEstadoServiceFacade _estadoServiceFacade;
+        private IVinculoServiceFacade _vinculoServiceFacade;
+        private IRegimenServiceFacade _regimenServiceFacade;
 
         public TrabajadoresController()
         {
             _trabajadorServiceFacade = new TrabajadorServiceFacade();
-
             _administrativoServiceFacade = new AdministrativoServiceFacade();
-
             _docenteServiceFacade = new DocenteServiceFacade();
+            _estadoServiceFacade = new EstadoServiceFacade();
+            _vinculoServiceFacade = new VinculoServiceFacade();
+            _regimenServiceFacade = new RegimenServiceFacade();
         }
 
         public ActionResult Index()
@@ -43,7 +45,11 @@ namespace WebApp.Controllers
         {
             ViewBag.Title = "Nuevo Trabajador";
 
-            ViewBag.EsNuevoRegistro = true;
+            ViewBag.ListaEstados = _estadoServiceFacade.ListarEstados();
+
+            ViewBag.ListaVinculos = _vinculoServiceFacade.ListarVinculos();
+
+            ViewBag.ListaRegimenes = _regimenServiceFacade.ListarRegimenes();
 
             var trabajador = new TrabajadorModel();
 
@@ -56,9 +62,7 @@ namespace WebApp.Controllers
 
             if (ModelState.IsValid)
             {
-                response.Success = true;
-
-                response.Message = "Registro correcto.";
+                response = _trabajadorServiceFacade.GrabarTrabajador(model, WebSecurity.CurrentUserId);
             }
             else
             {

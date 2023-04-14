@@ -52,12 +52,12 @@ namespace Data.Procedures
                     parameters.Add(name: "C_TrabajadorCod", dbType: DbType.String, value: C_TrabajadorCod);
                     parameters.Add(name: "T_ApellidoPaterno", dbType: DbType.String, value: T_ApellidoPaterno);
                     parameters.Add(name: "T_ApellidoMaterno", dbType: DbType.String, value: T_ApellidoMaterno);
-                    parameters.Add(name: "I_TipoDocumentoID", dbType: DbType.String, value: I_TipoDocumentoID);
-                    parameters.Add(name: "T_ApellidoMaterno", dbType: DbType.Int32, value: T_ApellidoMaterno);
+                    parameters.Add(name: "T_Nombre", dbType: DbType.String, value: T_Nombre);
+                    parameters.Add(name: "I_TipoDocumentoID", dbType: DbType.Int32, value: I_TipoDocumentoID);
                     parameters.Add(name: "C_NumDocumento", dbType: DbType.String, value: C_NumDocumento);
-                    parameters.Add(name: "I_RegimenID", dbType: DbType.String, value: I_RegimenID);
-                    parameters.Add(name: "I_EstadoID", dbType: DbType.String, value: I_EstadoID);
-                    parameters.Add(name: "I_VinculoID", dbType: DbType.String, value: I_VinculoID);
+                    parameters.Add(name: "I_RegimenID", dbType: DbType.Int32, value: I_RegimenID);
+                    parameters.Add(name: "I_EstadoID", dbType: DbType.Int32, value: I_EstadoID);
+                    parameters.Add(name: "I_VinculoID", dbType: DbType.Int32, value: I_VinculoID);
                     parameters.Add(name: "I_UserID", dbType: DbType.Int32, value: I_UserID);
                     parameters.Add(name: "B_Result", dbType: DbType.Boolean, direction: ParameterDirection.Output);
                     parameters.Add(name: "T_Message", dbType: DbType.String, size: 4000, direction: ParameterDirection.Output);

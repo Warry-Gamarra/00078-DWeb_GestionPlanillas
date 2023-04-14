@@ -61,7 +61,7 @@ namespace Data.Views
 
             try
             {
-                string s_command = @"SELECT * FROM dbo.VW_Administrativo;";
+                string s_command = "SELECT * FROM dbo.VW_Administrativo;";
 
                 using (var _dbConnection = new SqlConnection(Database.ConnectionString))
                 {
@@ -82,7 +82,7 @@ namespace Data.Views
 
             try
             {
-                string s_command = @"SELECT * FROM dbo.VW_Administrativo adm WHERE adm.I_AdministrativoID = @I_AdministrativoID;";
+                string s_command = "SELECT * FROM dbo.VW_Administrativo adm WHERE adm.I_AdministrativoID = @I_AdministrativoID;";
 
                 using (var _dbConnection = new SqlConnection(Database.ConnectionString))
                 {
@@ -103,7 +103,7 @@ namespace Data.Views
 
             try
             {
-                string s_command = @"SELECT * FROM dbo.VW_Administrativo adm WHERE adm.I_TrabajadorID = @I_TrabajadorID;";
+                string s_command = "SELECT * FROM dbo.VW_Administrativo adm WHERE adm.I_TrabajadorID = @I_TrabajadorID;";
 
                 using (var _dbConnection = new SqlConnection(Database.ConnectionString))
                 {

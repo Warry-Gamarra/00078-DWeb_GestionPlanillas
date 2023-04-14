@@ -47,14 +47,17 @@ namespace WebApp.ServiceFacade.Implementations
                     I_EstadoID = model.I_EstadoID.Value,
                     I_VinculoID = model.I_VinculoID.Value
                 };
+
+                response = _trabajadorService.GrabarTrabajador(trabajadorEntity, userID);
             }
             catch (Exception ex)
             {
-
-            }
-            
-
-            var response = _trabajadorService.GrabarTrabajador(trabajadorEntity, userID);
+                response = new Response()
+                {
+                    Success = false,
+                    Message = ex.Message
+                };
+            }            
 
             return response;
         }

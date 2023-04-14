@@ -49,6 +49,9 @@
     <Compile Include="Connection\Response.cs" />
     <Compile Include="Procedures\USP_I_GrabarDocente.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Tables\TC_Estado.cs" />
+    <Compile Include="Tables\TC_Regimen.cs" />
+    <Compile Include="Tables\TC_Vinculo.cs" />
     <Compile Include="Views\VW_ResumenPlanillaTrabajador.cs" />
     <Compile Include="Views\VW_Administrativo.cs" />
     <Compile Include="Views\VW_Docentes.cs" />

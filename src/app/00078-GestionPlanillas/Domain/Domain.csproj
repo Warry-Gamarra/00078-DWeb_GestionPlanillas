@@ -41,22 +41,31 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Entities\EstadoDTO.cs" />
+    <Compile Include="Entities\RegimenDTO.cs" />
     <Compile Include="Entities\ResumenPlanillaTrabajadorDTO.cs" />
     <Compile Include="Entities\DocenteDTO.cs" />
     <Compile Include="Entities\AdministrativoDTO.cs" />
     <Compile Include="Entities\TrabajadorDTO.cs" />
     <Compile Include="Entities\TrabajadorEntity.cs" />
+    <Compile Include="Entities\VinculoDTO.cs" />
     <Compile Include="Helpers\Mapper.cs" />
     <Compile Include="Helpers\Response.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Services\IAdministrativoService.cs" />
     <Compile Include="Services\IDocenteService.cs" />
+    <Compile Include="Services\IEstadoService.cs" />
     <Compile Include="Services\Implementations\AdministrativoService.cs" />
     <Compile Include="Services\Implementations\DocenteService.cs" />
+    <Compile Include="Services\Implementations\EstadoService.cs" />
     <Compile Include="Services\Implementations\PlanillaService.cs" />
+    <Compile Include="Services\Implementations\RegimenService.cs" />
+    <Compile Include="Services\Implementations\VinculoService.cs" />
+    <Compile Include="Services\IRegimenService.cs" />
     <Compile Include="Services\ITrabajadorService.cs" />
     <Compile Include="Services\Implementations\TrabajadorService.cs" />
     <Compile Include="Services\IPlanillaService.cs" />
+    <Compile Include="Services\IVinculoService.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Data\Data.csproj">
