@@ -151,10 +151,12 @@
     <Compile Include="ServiceFacade\Implementations\EstadoServiceFacade.cs" />
     <Compile Include="ServiceFacade\Implementations\PlanillaServiceFacade.cs" />
     <Compile Include="ServiceFacade\Implementations\RegimenServiceFacade.cs" />
+    <Compile Include="ServiceFacade\Implementations\TipoDocumentoServiceFacade.cs" />
     <Compile Include="ServiceFacade\Implementations\TrabajadorServiceFacade.cs" />
     <Compile Include="ServiceFacade\Implementations\VinculoServiceFacade.cs" />
     <Compile Include="ServiceFacade\IPlanillaServiceFacade.cs" />
     <Compile Include="ServiceFacade\IRegimenServiceFacade.cs" />
+    <Compile Include="ServiceFacade\ITipoDocumentoServiceFacade.cs" />
     <Compile Include="ServiceFacade\ITrabajadorServiceFacade.cs" />
     <Compile Include="ServiceFacade\IVinculoServiceFacade.cs" />
     <Compile Include="ViewModels\AccountViewModels.cs" />

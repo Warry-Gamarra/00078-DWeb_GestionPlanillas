@@ -46,6 +46,7 @@
     <Compile Include="Entities\ResumenPlanillaTrabajadorDTO.cs" />
     <Compile Include="Entities\DocenteDTO.cs" />
     <Compile Include="Entities\AdministrativoDTO.cs" />
+    <Compile Include="Entities\TipoDocumentoDTO.cs" />
     <Compile Include="Entities\TrabajadorDTO.cs" />
     <Compile Include="Entities\TrabajadorEntity.cs" />
     <Compile Include="Entities\VinculoDTO.cs" />
@@ -60,8 +61,10 @@
     <Compile Include="Services\Implementations\EstadoService.cs" />
     <Compile Include="Services\Implementations\PlanillaService.cs" />
     <Compile Include="Services\Implementations\RegimenService.cs" />
+    <Compile Include="Services\Implementations\TipoDocumentoService.cs" />
     <Compile Include="Services\Implementations\VinculoService.cs" />
     <Compile Include="Services\IRegimenService.cs" />
+    <Compile Include="Services\ITipoDocumentoService.cs" />
     <Compile Include="Services\ITrabajadorService.cs" />
     <Compile Include="Services\Implementations\TrabajadorService.cs" />
     <Compile Include="Services\IPlanillaService.cs" />

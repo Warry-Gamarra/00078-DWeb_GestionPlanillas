@@ -188,5 +188,18 @@ namespace Domain.Helpers
 
             return vinculoDTO;
         }
+
+        public static TipoDocumentoDTO TC_TipoDocumento_To_TipoDocumentoDTO(TC_TipoDocumento table)
+        {
+            var tipoDocumentoDTO = new TipoDocumentoDTO()
+            {
+                I_TipoDocumentoID = table.I_TipoDocumentoID,
+                T_TipoDocumentoDesc = table.T_TipoDocumentoDesc,
+                B_Habilitado = table.B_Habilitado,
+                B_Eliminado = table.B_Eliminado
+            };
+
+            return tipoDocumentoDTO;
+        }
     }
 }

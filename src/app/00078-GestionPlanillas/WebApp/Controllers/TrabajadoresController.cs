@@ -21,6 +21,7 @@ namespace WebApp.Controllers
         private IEstadoServiceFacade _estadoServiceFacade;
         private IVinculoServiceFacade _vinculoServiceFacade;
         private IRegimenServiceFacade _regimenServiceFacade;
+        private ITipoDocumentoServiceFacade _tipoDocumentoServiceFacade;
 
         public TrabajadoresController()
         {
@@ -30,6 +31,7 @@ namespace WebApp.Controllers
             _estadoServiceFacade = new EstadoServiceFacade();
             _vinculoServiceFacade = new VinculoServiceFacade();
             _regimenServiceFacade = new RegimenServiceFacade();
+            _tipoDocumentoServiceFacade = new TipoDocumentoServiceFacade();
         }
 
         public ActionResult Index()
@@ -50,6 +52,8 @@ namespace WebApp.Controllers
             ViewBag.ListaVinculos = _vinculoServiceFacade.ListarVinculos();
 
             ViewBag.ListaRegimenes = _regimenServiceFacade.ListarRegimenes();
+
+            ViewBag.ListaTipoDocumentos = _tipoDocumentoServiceFacade.ListarTipoDocumentos();
 
             var trabajador = new TrabajadorModel();
 

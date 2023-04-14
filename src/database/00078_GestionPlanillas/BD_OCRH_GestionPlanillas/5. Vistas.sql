@@ -132,3 +132,63 @@ GO
 --delete from TR_Planilla
 
 
+SELECT * FROM dbo.TC_Vinculo WHERE B_Eliminado = 0;
+SELECT * FROM dbo.TC_TipoDocumento WHERE B_Eliminado = 0;
+SELECT * FROM dbo.TC_Regimen WHERE B_Eliminado = 0;
+SELECT * FROM dbo.TC_Estado WHERE B_Eliminado = 0;
+
+
+
+
+--Lista de tipos de planilla
+select p.T_TipoPlanillaDesc, c2.T_ClasePlanillaDesc, c1.T_CategoriaPlanillaDesc from dbo.TC_CategoriaPlanilla c1
+inner join dbo.TC_ClasePlanilla c2 ON c1.I_ClasePlanillaID = c2.I_ClasePlanillaID
+inner join dbo.TC_TipoPlanilla p ON p.I_TipoPlanillaID = c2.I_TipoPlanillaID
+order by 1
+
+--Lista de conceptos
+SELECT pp.T_PlantillaPlanillaDesc, cp.T_CategoriaPlanillaDesc, t.T_TipoConceptoDesc, c.I_ConceptoID, c.T_ConceptoDesc, ppc.B_MontoEstaAqui, ppc.M_Monto, ppc.I_Filtro1, ppc.I_Filtro2
+FROM dbo.TI_PlantillaPlanilla pp
+INNER JOIN dbo.TC_CategoriaPlanilla cp on cp.I_CategoriaPlanillaID = pp.I_CategoriaPlanillaID
+INNER JOIN  dbo.TI_PlantillaPlanilla_Concepto ppc on ppc.I_PlantillaPlanillaID = pp.I_PlantillaPlanillaID
+INNER JOIN dbo.TC_Concepto c on c.I_ConceptoID = ppc.I_ConceptoID
+INNER JOIN dbo.TC_TipoConcepto t ON t.I_TipoConceptoID = c.I_TipoConceptoID
+
+
+SELECT * FROM dbo.TC_Persona
+SELECT * FROM dbo.TC_Trabajador
+SELECT * FROM dbo.TC_Docente
+SELECT * FROM dbo.TC_Administrativo
+
+select * from dbo.TI_Concepto_MontoTrabajador
+
+
+--PERSONAL DOCENTE
+SELECT catpla.T_CategoriaPlanillaDesc, trab.I_TrabajadorID, per.T_Nombre, per.T_ApellidoPaterno, per.T_ApellidoMaterno, tipdoc.T_TipoDocumentoDesc, per.C_NumDocumento, trab.D_FechaIngreso, 
+	clapla.T_ClasePlanillaDesc, catdoc.C_CategoriaDocenteCod, catdoc.T_CategoriaDocenteDesc, deddoc.C_DedicacionDocenteCod, deddoc.T_DedicacionDocenteDesc, hordoc.I_Horas
+FROM TC_Docente AS doc INNER JOIN
+	TC_Trabajador AS trab ON trab.I_TrabajadorID = doc.I_TrabajadorID INNER JOIN
+	TC_Persona AS per ON per.I_PersonaID = trab.I_PersonaID INNER JOIN
+	TC_TipoDocumento AS tipdoc ON tipdoc.I_TipoDocumentoID = per.I_TipoDocumentoID INNER JOIN
+	TC_Trabajador_CategoriaPlanilla AS tracatpla ON tracatpla.I_TrabajadorID = trab.I_TrabajadorID INNER JOIN
+	TC_CategoriaPlanilla AS catpla ON catpla.I_CategoriaPlanillaID = tracatpla.I_CategoriaPlanillaID INNER JOIN
+	TC_ClasePlanilla AS clapla ON clapla.I_ClasePlanillaID = catpla.I_ClasePlanillaID INNER JOIN
+	TC_CategoriaDocente AS catdoc ON catdoc.I_CategoriaDocenteID = doc.I_CategoriaDocenteID INNER JOIN
+	TC_HorasDocente AS hordoc ON hordoc.I_HorasDocenteID = doc.I_HorasDocenteID INNER JOIN
+	TC_DedicacionDocente AS deddoc ON deddoc.I_DedicacionDocenteID = hordoc.I_DedicacionDocenteID
+GO
+
+--PERSONAL ADMINISTRATIVO
+SELECT catpla.T_CategoriaPlanillaDesc, trab.I_TrabajadorID, per.T_Nombre, per.T_ApellidoPaterno, per.T_ApellidoMaterno, tipdoc.T_TipoDocumentoDesc, per.C_NumDocumento, trab.D_FechaIngreso, clapla.T_ClasePlanillaDesc, 
+	grupocup.C_GrupoOcupacionalCod, grupocup.T_GrupoOcupacionalDesc, nivremu.C_NivelRemunerativoCod
+FROM TC_Administrativo AS adm INNER JOIN
+    TC_Trabajador AS trab ON trab.I_TrabajadorID = adm.I_TrabajadorID INNER JOIN
+    TC_Persona AS per ON per.I_PersonaID = trab.I_PersonaID INNER JOIN
+    TC_TipoDocumento AS tipdoc ON tipdoc.I_TipoDocumentoID = per.I_TipoDocumentoID INNER JOIN
+    TC_Trabajador_CategoriaPlanilla AS tracatpla ON tracatpla.I_TrabajadorID = trab.I_TrabajadorID INNER JOIN
+    TC_CategoriaPlanilla AS catpla ON catpla.I_CategoriaPlanillaID = tracatpla.I_CategoriaPlanillaID INNER JOIN
+    TC_ClasePlanilla AS clapla ON clapla.I_ClasePlanillaID = catpla.I_ClasePlanillaID INNER JOIN
+    TC_NivelRemunerativo AS nivremu ON nivremu.I_NivelRemunerativoID = adm.I_NivelRemunerativoID INNER JOIN
+    TC_GrupoOcupacional AS grupocup ON grupocup.I_GrupoOcupacionalID = adm.I_GrupoOcupacionalID
+GO
+

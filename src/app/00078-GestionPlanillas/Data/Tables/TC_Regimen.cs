@@ -27,7 +27,7 @@ namespace Data.Tables
 
             try
             {
-                string s_command = "SELECT * FROM dbo.TC_Regimen;";
+                string s_command = "SELECT * FROM dbo.TC_Regimen WHERE B_Eliminado = 0;";
 
                 using (var _dbConnection = new SqlConnection(Database.ConnectionString))
                 {

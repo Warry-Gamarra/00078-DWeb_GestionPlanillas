@@ -306,6 +306,44 @@ CREATE TABLE TC_Regimen
 	CONSTRAINT PK_Regimen PRIMARY KEY (I_RegimenID)
 )
 
+CREATE TABLE TC_Afp
+(
+	I_AfpID INT IDENTITY(1,1),
+	T_AfpDesc VARCHAR(250) NOT NULL,
+	C_AfpCod VARCHAR(20),
+	B_Habilitado BIT NOT NULL,
+	B_Eliminado BIT NOT NULL,
+	I_UsuarioCre INT,
+	D_FecCre DATETIME,
+	I_UsuarioMod INT,
+	D_FecMod DATETIME,
+	CONSTRAINT PK_Afp PRIMARY KEY (I_AfpID)
+)
+
+CREATE TABLE TC_Trabajador
+(
+	I_TrabajadorID INT IDENTITY(1,1),
+	I_PersonaID INT NOT NULL,
+	C_TrabajadorCod VARCHAR(20) NOT NULL,
+	D_FechaIngreso DATE,
+	I_RegimenID INT,
+	I_EstadoID INT NOT NULL,
+	I_VinculoID INT NOT NULL,
+	I_AfpID INT,
+	B_Habilitado BIT NOT NULL,
+	B_Eliminado BIT NOT NULL,
+	I_UsuarioCre INT,
+	D_FecCre DATETIME,
+	I_UsuarioMod INT,
+	D_FecMod DATETIME,
+	CONSTRAINT PK_Trabajador PRIMARY KEY (I_TrabajadorID),
+	CONSTRAINT FK_Persona_Trabajador FOREIGN KEY (I_PersonaID) REFERENCES TC_Persona(I_PersonaID),
+	CONSTRAINT FK_Regimen_Trabajador FOREIGN KEY (I_RegimenID) REFERENCES TC_Regimen(I_RegimenID),
+	CONSTRAINT FK_Estado_Trabajador FOREIGN KEY (I_EstadoID) REFERENCES TC_Estado(I_EstadoID),
+	CONSTRAINT FK_Vinculo_Trabajador FOREIGN KEY (I_VinculoID) REFERENCES TC_Vinculo(I_VinculoID),
+	CONSTRAINT FK_Afp_Trabajador FOREIGN KEY (I_AfpID) REFERENCES TC_Afp(I_AfpID)
+)
+
 CREATE TABLE TC_Banco
 (
 	I_BancoID INT IDENTITY(1,1),
@@ -318,30 +356,6 @@ CREATE TABLE TC_Banco
 	I_UsuarioMod INT,
 	D_FecMod DATETIME,
 	CONSTRAINT PK_Banco PRIMARY KEY (I_BancoID)
-)
-
-CREATE TABLE TC_Trabajador
-(
-	I_TrabajadorID INT IDENTITY(1,1),
-	I_PersonaID INT NOT NULL,
-	C_TrabajadorCod VARCHAR(20) NOT NULL,
-	D_FechaIngreso DATE,
-	I_RegimenID INT,
-	I_EstadoID INT NOT NULL,
-	X_Dependencia VARCHAR(250),
-	I_VinculoID INT NOT NULL,
-	X_CodAfp VARCHAR(20),
-	B_Habilitado BIT NOT NULL,
-	B_Eliminado BIT NOT NULL,
-	I_UsuarioCre INT,
-	D_FecCre DATETIME,
-	I_UsuarioMod INT,
-	D_FecMod DATETIME,
-	CONSTRAINT PK_Trabajador PRIMARY KEY (I_TrabajadorID),
-	CONSTRAINT FK_Persona_Trabajador FOREIGN KEY (I_PersonaID) REFERENCES TC_Persona(I_PersonaID),
-	CONSTRAINT FK_Regimen_Trabajador FOREIGN KEY (I_RegimenID) REFERENCES TC_Regimen(I_RegimenID),
-	CONSTRAINT FK_Estado_Trabajador FOREIGN KEY (I_EstadoID) REFERENCES TC_Estado(I_EstadoID),
-	CONSTRAINT FK_Vinculo_Trabajador FOREIGN KEY (I_VinculoID) REFERENCES TC_Vinculo(I_VinculoID)
 )
 
 CREATE TABLE TC_CuentaBancaria
@@ -359,6 +373,36 @@ CREATE TABLE TC_CuentaBancaria
 	CONSTRAINT PK_CuentaBancaria PRIMARY KEY (I_CuentaBancariaID),
 	CONSTRAINT PK_Trabajador_CuentaBancaria FOREIGN KEY (I_TrabajadorID) REFERENCES TC_Trabajador(I_TrabajadorID),
 	CONSTRAINT PK_Banco_CuentaBancaria FOREIGN KEY (I_BancoID) REFERENCES TC_Banco(I_BancoID)
+)
+
+CREATE TABLE TC_Dependencia
+(
+	I_DependenciaID INT IDENTITY(1,1),
+	T_DependenciaDesc VARCHAR(250) NOT NULL,
+	C_DependenciaCod VARCHAR(20) NOT NULL,
+	B_Habilitado BIT NOT NULL,
+	B_Eliminado BIT NOT NULL,
+	I_UsuarioCre INT,
+	D_FecCre DATETIME,
+	I_UsuarioMod INT,
+	D_FecMod DATETIME,
+	CONSTRAINT PK_Dependencia PRIMARY KEY (I_DependenciaID)
+)
+
+CREATE TABLE TC_Trabajador_Dependencia
+(
+	I_TrabajadorDependenciaID INT IDENTITY(1,1),
+	I_TrabajadorID INT NOT NULL,
+	I_DependenciaID INT NOT NULL,
+	B_Habilitado BIT NOT NULL,
+	B_Eliminado BIT NOT NULL,
+	I_UsuarioCre INT,
+	D_FecCre DATETIME,
+	I_UsuarioMod INT,
+	D_FecMod DATETIME,
+	CONSTRAINT PK_TrabajadorDependencia PRIMARY KEY (I_TrabajadorDependenciaID),
+	CONSTRAINT FK_Trabajador_TrabajadorDependencia FOREIGN KEY (I_TrabajadorID) REFERENCES TC_Trabajador(I_TrabajadorID),
+	CONSTRAINT FK_Dependencia_TrabajadorDependencia FOREIGN KEY (I_DependenciaID) REFERENCES TC_Dependencia(I_DependenciaID)
 )
 
 CREATE TABLE TC_Trabajador_CategoriaPlanilla

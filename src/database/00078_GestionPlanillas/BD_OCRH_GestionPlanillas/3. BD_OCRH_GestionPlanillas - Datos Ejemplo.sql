@@ -246,6 +246,62 @@ INSERT dbo.TC_Banco(T_BancoDesc, B_Habilitado, B_Eliminado) VALUES('BBVA', 1, 0)
 GO
 
 
+INSERT dbo.TC_Dependencia(T_DependenciaDesc, C_DependenciaCod, B_Habilitado, B_Eliminado) VALUES('OFICINA CENTRAL DE GESTION DEL EGRESADO', '020700', 1, 0)
+INSERT dbo.TC_Dependencia(T_DependenciaDesc, C_DependenciaCod, B_Habilitado, B_Eliminado) VALUES('RECTORADO', '010000', 1, 0)
+INSERT dbo.TC_Dependencia(T_DependenciaDesc, C_DependenciaCod, B_Habilitado, B_Eliminado) VALUES('OFICINA CENTRAL DE CALIDAD', '010002', 1, 0)
+INSERT dbo.TC_Dependencia(T_DependenciaDesc, C_DependenciaCod, B_Habilitado, B_Eliminado) VALUES('ORGANO DE CONTROL INSTITUCIONAL', '010100', 1, 0)
+INSERT dbo.TC_Dependencia(T_DependenciaDesc, C_DependenciaCod, B_Habilitado, B_Eliminado) VALUES('OFICINA CENTRAL DE PLANIFICACIÓN', '010200', 1, 0)
+INSERT dbo.TC_Dependencia(T_DependenciaDesc, C_DependenciaCod, B_Habilitado, B_Eliminado) VALUES('OFICINA CENTRAL DE RELACIONES NACIONALES E INTERNACIONALES', '010300', 1, 0)
+INSERT dbo.TC_Dependencia(T_DependenciaDesc, C_DependenciaCod, B_Habilitado, B_Eliminado) VALUES('OFICINA CENTRAL DE ASESORIA JURÍDICA', '010400', 1, 0)
+INSERT dbo.TC_Dependencia(T_DependenciaDesc, C_DependenciaCod, B_Habilitado, B_Eliminado) VALUES('SECRETARIA GENERAL', '010500', 1, 0)
+INSERT dbo.TC_Dependencia(T_DependenciaDesc, C_DependenciaCod, B_Habilitado, B_Eliminado) VALUES('OFICINA CENTRAL DE COMUNICACIONES E IMAGEN INSTITUCIONAL', '010600', 1, 0)
+INSERT dbo.TC_Dependencia(T_DependenciaDesc, C_DependenciaCod, B_Habilitado, B_Eliminado) VALUES('OFICINA CENTRAL DE BIENESTAR UNIVERSITARIO', '010700', 1, 0)
+INSERT dbo.TC_Dependencia(T_DependenciaDesc, C_DependenciaCod, B_Habilitado, B_Eliminado) VALUES('OFICINA CENTRAL DE GESTION DE TECNOLOGIAS DE LA INFORMACION', '010800', 1, 0)
+INSERT dbo.TC_Dependencia(T_DependenciaDesc, C_DependenciaCod, B_Habilitado, B_Eliminado) VALUES('CENTRO DE PRODRUCCION DE BIENES Y SERVICIOS', '010900', 1, 0)
+INSERT dbo.TC_Dependencia(T_DependenciaDesc, C_DependenciaCod, B_Habilitado, B_Eliminado) VALUES('CENTRO PRE UNIVERSITARIO', '010901', 1, 0)
+INSERT dbo.TC_Dependencia(T_DependenciaDesc, C_DependenciaCod, B_Habilitado, B_Eliminado) VALUES('EDITORIAL UNIVERSITARIA', '010902', 1, 0)
+INSERT dbo.TC_Dependencia(T_DependenciaDesc, C_DependenciaCod, B_Habilitado, B_Eliminado) VALUES('ESCUELA UNIVERSITARIA DE POST GRADO', '011000', 1, 0)
+INSERT dbo.TC_Dependencia(T_DependenciaDesc, C_DependenciaCod, B_Habilitado, B_Eliminado) VALUES('CENTRO UNIVERSITARIO DE RESPONSABILIDAD SOCIAL', '011300', 1, 0)
+INSERT dbo.TC_Dependencia(T_DependenciaDesc, C_DependenciaCod, B_Habilitado, B_Eliminado) VALUES('UNIDAD SUPRIMIDA', '011400', 1, 0)
+INSERT dbo.TC_Dependencia(T_DependenciaDesc, C_DependenciaCod, B_Habilitado, B_Eliminado) VALUES('CENTRO UNIVERSITARIO DE IDIOMAS', '011500', 1, 0)
+INSERT dbo.TC_Dependencia(T_DependenciaDesc, C_DependenciaCod, B_Habilitado, B_Eliminado) VALUES('VICE RECTORADO ACADEMICO', '020000', 1, 0)
+INSERT dbo.TC_Dependencia(T_DependenciaDesc, C_DependenciaCod, B_Habilitado, B_Eliminado) VALUES('OFICINA CENTRAL DE ADMISIÓN', '020100', 1, 0)
+INSERT dbo.TC_Dependencia(T_DependenciaDesc, C_DependenciaCod, B_Habilitado, B_Eliminado) VALUES('OFICINA CENTRAL DE ASUNTOS ACADÉMICOS', '020200', 1, 0)
+INSERT dbo.TC_Dependencia(T_DependenciaDesc, C_DependenciaCod, B_Habilitado, B_Eliminado) VALUES('INSTITUTO CENTRAL DE GESTION DE LA INVESTIGACION', '020300', 1, 0)
+INSERT dbo.TC_Dependencia(T_DependenciaDesc, C_DependenciaCod, B_Habilitado, B_Eliminado) VALUES('CENTRO DE GESTIÓN CULTURAL FEDERICO VILLARREAL', '020400', 1, 0)
+INSERT dbo.TC_Dependencia(T_DependenciaDesc, C_DependenciaCod, B_Habilitado, B_Eliminado) VALUES('INSTITUTO CENTRAL DE RECREACIÓN EDUCACIÓN FÍSICA Y DEPORTES', '020500', 1, 0)
+INSERT dbo.TC_Dependencia(T_DependenciaDesc, C_DependenciaCod, B_Habilitado, B_Eliminado) VALUES('OFICINA CENTRAL DE REGISTROS ACADÉMICOS', '020600', 1, 0)
+INSERT dbo.TC_Dependencia(T_DependenciaDesc, C_DependenciaCod, B_Habilitado, B_Eliminado) VALUES('OFICINA DE RECURSOS HUMANOS', '030100', 1, 0)
+INSERT dbo.TC_Dependencia(T_DependenciaDesc, C_DependenciaCod, B_Habilitado, B_Eliminado) VALUES('OFICINA DE ABASTECIMIENTO Y SERVICIOS GENERALES', '030200', 1, 0)
+INSERT dbo.TC_Dependencia(T_DependenciaDesc, C_DependenciaCod, B_Habilitado, B_Eliminado) VALUES('OFICINA DE CONTABILIDAD / OFICINA DE TESORERIA', '030300', 1, 0)
+INSERT dbo.TC_Dependencia(T_DependenciaDesc, C_DependenciaCod, B_Habilitado, B_Eliminado) VALUES('OFICINA DE INVERSIONES', '030500', 1, 0)
+INSERT dbo.TC_Dependencia(T_DependenciaDesc, C_DependenciaCod, B_Habilitado, B_Eliminado) VALUES('OFICINA DE PATRIMONIO', '700000', 1, 0)
+INSERT dbo.TC_Dependencia(T_DependenciaDesc, C_DependenciaCod, B_Habilitado, B_Eliminado) VALUES('VICE RECTORADO DE INVESTIGACION', '040000', 1, 0)
+INSERT dbo.TC_Dependencia(T_DependenciaDesc, C_DependenciaCod, B_Habilitado, B_Eliminado) VALUES('DIRECCION GENERAL DE ADMINISTRACION', '050000', 1, 0)
+INSERT dbo.TC_Dependencia(T_DependenciaDesc, C_DependenciaCod, B_Habilitado, B_Eliminado) VALUES('OFICINA CENTRAL DE INNOVACION DESARROLLO Y EMPREND', '060000', 1, 0)
+INSERT dbo.TC_Dependencia(T_DependenciaDesc, C_DependenciaCod, B_Habilitado, B_Eliminado) VALUES('FACULTAD DE ARQUITECTURA Y URBANISMO', '100000', 1, 0)
+INSERT dbo.TC_Dependencia(T_DependenciaDesc, C_DependenciaCod, B_Habilitado, B_Eliminado) VALUES('FACULTAD DE ADMINISTRACION', '110000', 1, 0)
+INSERT dbo.TC_Dependencia(T_DependenciaDesc, C_DependenciaCod, B_Habilitado, B_Eliminado) VALUES('FACULTAD DE CIENCIAS ECONOMICAS', '120000', 1, 0)
+INSERT dbo.TC_Dependencia(T_DependenciaDesc, C_DependenciaCod, B_Habilitado, B_Eliminado) VALUES('FACULTAD DE CIENCIAS FINANCIERAS Y CONTABLES', '130000', 1, 0)
+INSERT dbo.TC_Dependencia(T_DependenciaDesc, C_DependenciaCod, B_Habilitado, B_Eliminado) VALUES('FACULTAD DE CIENCIAS NATURALES Y MATEMATICA', '140000', 1, 0)
+INSERT dbo.TC_Dependencia(T_DependenciaDesc, C_DependenciaCod, B_Habilitado, B_Eliminado) VALUES('FACULTAD DE CIENCIAS SOCIALES', '150000', 1, 0)
+INSERT dbo.TC_Dependencia(T_DependenciaDesc, C_DependenciaCod, B_Habilitado, B_Eliminado) VALUES('FACULTAD DE HUMANIDADES', '160000', 1, 0)
+INSERT dbo.TC_Dependencia(T_DependenciaDesc, C_DependenciaCod, B_Habilitado, B_Eliminado) VALUES('FACULTAD DE DERECHO Y CIENCIA  POLITICA', '170000', 1, 0)
+INSERT dbo.TC_Dependencia(T_DependenciaDesc, C_DependenciaCod, B_Habilitado, B_Eliminado) VALUES('FACULTAD DE EDUCACIÓN', '180000', 1, 0)
+INSERT dbo.TC_Dependencia(T_DependenciaDesc, C_DependenciaCod, B_Habilitado, B_Eliminado) VALUES('FACULTAD DE INGENIERÍA CIVIL', '190000', 1, 0)
+INSERT dbo.TC_Dependencia(T_DependenciaDesc, C_DependenciaCod, B_Habilitado, B_Eliminado) VALUES('FACULTAD DE INGENIERÍA GEOGRAFICA,  AMBIENTAL Y ECOTURISMO', '200000', 1, 0)
+INSERT dbo.TC_Dependencia(T_DependenciaDesc, C_DependenciaCod, B_Habilitado, B_Eliminado) VALUES('FACULTAD DE INGENIERÍA INDUSTRIAL Y DE SISTEMAS', '210000', 1, 0)
+INSERT dbo.TC_Dependencia(T_DependenciaDesc, C_DependenciaCod, B_Habilitado, B_Eliminado) VALUES('FACULTAD DE MEDICINA "HIPOLITO UNANUE"', '220000', 1, 0)
+INSERT dbo.TC_Dependencia(T_DependenciaDesc, C_DependenciaCod, B_Habilitado, B_Eliminado) VALUES('FACULTAD DE OCEANOGRAFÍA, PESQUERÍA, CIENCIA ALIMENTARIAS Y ACUICULTUR', '230000', 1, 0)
+INSERT dbo.TC_Dependencia(T_DependenciaDesc, C_DependenciaCod, B_Habilitado, B_Eliminado) VALUES('FACULTAD DE ODONTOLOGÍA', '240000', 1, 0)
+INSERT dbo.TC_Dependencia(T_DependenciaDesc, C_DependenciaCod, B_Habilitado, B_Eliminado) VALUES('FACULTAD DE PSICOLOGÍA', '250000', 1, 0)
+INSERT dbo.TC_Dependencia(T_DependenciaDesc, C_DependenciaCod, B_Habilitado, B_Eliminado) VALUES('FACULTAD DE TECNOLOGÍA MÉDICA', '260000', 1, 0)
+INSERT dbo.TC_Dependencia(T_DependenciaDesc, C_DependenciaCod, B_Habilitado, B_Eliminado) VALUES('FACULTAD DE INGENIERÍA ELECTRÓNICA E INFORMÁTICA', '270000', 1, 0)
+INSERT dbo.TC_Dependencia(T_DependenciaDesc, C_DependenciaCod, B_Habilitado, B_Eliminado) VALUES('BIBLIOTECA CENTRAL', '041000', 1, 0)
+INSERT dbo.TC_Dependencia(T_DependenciaDesc, C_DependenciaCod, B_Habilitado, B_Eliminado) VALUES('DEFENSORIA UNIVERSITARIA', '010001', 1, 0)
+GO
+
+
 --DATA EJEMPLO
 INSERT TR_Periodo(I_Anio, I_Mes, T_MesDesc)VALUES(2022, 1, 'Enero')
 INSERT TR_Periodo(I_Anio, I_Mes, T_MesDesc)VALUES(2022, 2, 'Febrero')
@@ -277,13 +333,13 @@ INSERT dbo.TC_Persona(I_TipoDocumentoID, C_NumDocumento, T_Nombre, T_ApellidoPat
 GO
 
 
-INSERT dbo.TC_Trabajador(I_PersonaID, D_FechaIngreso, I_VinculoID, I_EstadoID, B_Habilitado, B_Eliminado) VALUES(1, '20230101', 4, 1, 1, 0)
-INSERT dbo.TC_Trabajador(I_PersonaID, D_FechaIngreso, I_VinculoID, I_EstadoID, B_Habilitado, B_Eliminado) VALUES(2, '20230101', 4, 1, 1, 0)
-INSERT dbo.TC_Trabajador(I_PersonaID, D_FechaIngreso, I_VinculoID, I_EstadoID, B_Habilitado, B_Eliminado) VALUES(3, '20230101', 4, 1, 1, 0)
-INSERT dbo.TC_Trabajador(I_PersonaID, D_FechaIngreso, I_VinculoID, I_EstadoID, B_Habilitado, B_Eliminado) VALUES(4, '20230101', 1, 1, 1, 0)
-INSERT dbo.TC_Trabajador(I_PersonaID, D_FechaIngreso, I_VinculoID, I_EstadoID, B_Habilitado, B_Eliminado) VALUES(5, '20230101', 1, 1, 1, 0)
-INSERT dbo.TC_Trabajador(I_PersonaID, D_FechaIngreso, I_VinculoID, I_EstadoID, B_Habilitado, B_Eliminado) VALUES(6, '20230101', 1, 1, 1, 0)
-INSERT dbo.TC_Trabajador(I_PersonaID, D_FechaIngreso, I_VinculoID, I_EstadoID, B_Habilitado, B_Eliminado) VALUES(7, '20230101', 1, 1, 1, 0)
+INSERT dbo.TC_Trabajador(I_PersonaID, C_TrabajadorCod, D_FechaIngreso, I_VinculoID, I_EstadoID, B_Habilitado, B_Eliminado) VALUES(1, 'COD0001', '20230101', 4, 1, 1, 0)
+INSERT dbo.TC_Trabajador(I_PersonaID, C_TrabajadorCod, D_FechaIngreso, I_VinculoID, I_EstadoID, B_Habilitado, B_Eliminado) VALUES(2, 'COD0002', '20230101', 4, 1, 1, 0)
+INSERT dbo.TC_Trabajador(I_PersonaID, C_TrabajadorCod, D_FechaIngreso, I_VinculoID, I_EstadoID, B_Habilitado, B_Eliminado) VALUES(3, 'COD0003', '20230101', 4, 1, 1, 0)
+INSERT dbo.TC_Trabajador(I_PersonaID, C_TrabajadorCod, D_FechaIngreso, I_VinculoID, I_EstadoID, B_Habilitado, B_Eliminado) VALUES(4, 'COD0004', '20230101', 1, 1, 1, 0)
+INSERT dbo.TC_Trabajador(I_PersonaID, C_TrabajadorCod, D_FechaIngreso, I_VinculoID, I_EstadoID, B_Habilitado, B_Eliminado) VALUES(5, 'COD0005', '20230101', 1, 1, 1, 0)
+INSERT dbo.TC_Trabajador(I_PersonaID, C_TrabajadorCod, D_FechaIngreso, I_VinculoID, I_EstadoID, B_Habilitado, B_Eliminado) VALUES(6, 'COD0006', '20230101', 1, 1, 1, 0)
+INSERT dbo.TC_Trabajador(I_PersonaID, C_TrabajadorCod, D_FechaIngreso, I_VinculoID, I_EstadoID, B_Habilitado, B_Eliminado) VALUES(7, 'COD0007', '20230101', 1, 1, 1, 0)
 GO
 
 --docente
@@ -296,6 +352,7 @@ INSERT dbo.TC_Docente(I_TrabajadorID, I_CategoriaDocenteID, I_HorasDocenteID, B_
 INSERT dbo.TC_Docente(I_TrabajadorID, I_CategoriaDocenteID, I_HorasDocenteID, B_Habilitado, B_Eliminado) VALUES(2, 2, 2, 1, 0)
 INSERT dbo.TC_Docente(I_TrabajadorID, I_CategoriaDocenteID, I_HorasDocenteID, B_Habilitado, B_Eliminado) VALUES(3, 3, 3, 1, 0)
 GO
+
 
 --INSERT dbo.TI_MontoTrabajador(I_TrabajadorID, I_PeriodoID, B_Habilitado, B_Eliminado) VALUES(1, 1, 1, 0)
 --GO
@@ -318,56 +375,3 @@ INSERT dbo.TC_Administrativo(I_TrabajadorID, I_GrupoOcupacionalID, I_NivelRemune
 INSERT dbo.TC_Administrativo(I_TrabajadorID, I_GrupoOcupacionalID, I_NivelRemunerativoID, B_Habilitado, B_Eliminado) VALUES(6, 3, 6, 1, 0)
 INSERT dbo.TC_Administrativo(I_TrabajadorID, I_GrupoOcupacionalID, I_NivelRemunerativoID, B_Habilitado, B_Eliminado) VALUES(7, 4, 7, 1, 0)
 GO
-
---Lista de tipos de planilla
-select p.T_TipoPlanillaDesc, c2.T_ClasePlanillaDesc, c1.T_CategoriaPlanillaDesc from dbo.TC_CategoriaPlanilla c1
-inner join dbo.TC_ClasePlanilla c2 ON c1.I_ClasePlanillaID = c2.I_ClasePlanillaID
-inner join dbo.TC_TipoPlanilla p ON p.I_TipoPlanillaID = c2.I_TipoPlanillaID
-order by 1
-
---Lista de conceptos
-SELECT pp.T_PlantillaPlanillaDesc, cp.T_CategoriaPlanillaDesc, t.T_TipoConceptoDesc, c.I_ConceptoID, c.T_ConceptoDesc, ppc.B_MontoEstaAqui, ppc.M_Monto, ppc.I_Filtro1, ppc.I_Filtro2
-FROM dbo.TI_PlantillaPlanilla pp
-INNER JOIN dbo.TC_CategoriaPlanilla cp on cp.I_CategoriaPlanillaID = pp.I_CategoriaPlanillaID
-INNER JOIN  dbo.TI_PlantillaPlanilla_Concepto ppc on ppc.I_PlantillaPlanillaID = pp.I_PlantillaPlanillaID
-INNER JOIN dbo.TC_Concepto c on c.I_ConceptoID = ppc.I_ConceptoID
-INNER JOIN dbo.TC_TipoConcepto t ON t.I_TipoConceptoID = c.I_TipoConceptoID
-
-
-SELECT * FROM dbo.TC_Persona
-SELECT * FROM dbo.TC_Trabajador
-SELECT * FROM dbo.TC_Docente
-SELECT * FROM dbo.TC_Administrativo
-
-select * from dbo.TI_Concepto_MontoTrabajador
-
-
---PERSONAL DOCENTE
-SELECT catpla.T_CategoriaPlanillaDesc, trab.I_TrabajadorID, per.T_Nombre, per.T_ApellidoPaterno, per.T_ApellidoMaterno, tipdoc.T_TipoDocumentoDesc, per.C_NumDocumento, trab.D_FechaIngreso, 
-	clapla.T_ClasePlanillaDesc, catdoc.C_CategoriaDocenteCod, catdoc.T_CategoriaDocenteDesc, deddoc.C_DedicacionDocenteCod, deddoc.T_DedicacionDocenteDesc, hordoc.I_Horas
-FROM TC_Docente AS doc INNER JOIN
-	TC_Trabajador AS trab ON trab.I_TrabajadorID = doc.I_TrabajadorID INNER JOIN
-	TC_Persona AS per ON per.I_PersonaID = trab.I_PersonaID INNER JOIN
-	TC_TipoDocumento AS tipdoc ON tipdoc.I_TipoDocumentoID = per.I_TipoDocumentoID INNER JOIN
-	TC_Trabajador_CategoriaPlanilla AS tracatpla ON tracatpla.I_TrabajadorID = trab.I_TrabajadorID INNER JOIN
-	TC_CategoriaPlanilla AS catpla ON catpla.I_CategoriaPlanillaID = tracatpla.I_CategoriaPlanillaID INNER JOIN
-	TC_ClasePlanilla AS clapla ON clapla.I_ClasePlanillaID = catpla.I_ClasePlanillaID INNER JOIN
-	TC_CategoriaDocente AS catdoc ON catdoc.I_CategoriaDocenteID = doc.I_CategoriaDocenteID INNER JOIN
-	TC_HorasDocente AS hordoc ON hordoc.I_HorasDocenteID = doc.I_HorasDocenteID INNER JOIN
-	TC_DedicacionDocente AS deddoc ON deddoc.I_DedicacionDocenteID = hordoc.I_DedicacionDocenteID
-GO
-
---PERSONAL ADMINISTRATIVO
-SELECT catpla.T_CategoriaPlanillaDesc, trab.I_TrabajadorID, per.T_Nombre, per.T_ApellidoPaterno, per.T_ApellidoMaterno, tipdoc.T_TipoDocumentoDesc, per.C_NumDocumento, trab.D_FechaIngreso, clapla.T_ClasePlanillaDesc, 
-	grupocup.C_GrupoOcupacionalCod, grupocup.T_GrupoOcupacionalDesc, nivremu.C_NivelRemunerativoCod
-FROM TC_Administrativo AS adm INNER JOIN
-    TC_Trabajador AS trab ON trab.I_TrabajadorID = adm.I_TrabajadorID INNER JOIN
-    TC_Persona AS per ON per.I_PersonaID = trab.I_PersonaID INNER JOIN
-    TC_TipoDocumento AS tipdoc ON tipdoc.I_TipoDocumentoID = per.I_TipoDocumentoID INNER JOIN
-    TC_Trabajador_CategoriaPlanilla AS tracatpla ON tracatpla.I_TrabajadorID = trab.I_TrabajadorID INNER JOIN
-    TC_CategoriaPlanilla AS catpla ON catpla.I_CategoriaPlanillaID = tracatpla.I_CategoriaPlanillaID INNER JOIN
-    TC_ClasePlanilla AS clapla ON clapla.I_ClasePlanillaID = catpla.I_ClasePlanillaID INNER JOIN
-    TC_NivelRemunerativo AS nivremu ON nivremu.I_NivelRemunerativoID = adm.I_NivelRemunerativoID INNER JOIN
-    TC_GrupoOcupacional AS grupocup ON grupocup.I_GrupoOcupacionalID = adm.I_GrupoOcupacionalID
-GO
-
