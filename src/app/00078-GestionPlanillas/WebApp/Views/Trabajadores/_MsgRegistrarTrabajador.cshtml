@@ -12,6 +12,11 @@
 </div>
 
 <button type="button" class="btn btn-secondary" id="btnCancel" data-dismiss="modal">
-    <i class="fa fa-times-circle-o"></i> Cancelar
+    <i class="fa fa-times-circle-o"></i> Cerrar
 </button>
 
+<script>
+    $(".modal").on('hide.bs.modal', function () {
+        location.reload();
+    })
+</script>

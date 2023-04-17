@@ -489,6 +489,9 @@ CREATE PROCEDURE [dbo].[USP_I_GrabarDocente]
 @I_RegimenID INT,
 @I_EstadoID INT,
 @I_VinculoID INT,
+@I_BancoID INT,
+@T_NroCuentaBancaria VARCHAR(250),
+@I_DependenciaID INT,
 @I_UserID INT,
 @B_Result BIT OUTPUT,
 @T_Message VARCHAR(250) OUTPUT
@@ -497,19 +500,28 @@ BEGIN
 	SET NOCOUNT ON;
 
 	DECLARE @I_PersonaID INT,
+			@I_Trabajador INT,
 			@D_FecCre DATETIME
 
 	BEGIN TRAN
 	BEGIN TRY
 		SET @D_FecCre = GETDATE()
 
-		INSERT dbo.TC_Persona(T_ApellidoPaterno, T_ApellidoMaterno, T_Nombre, I_TipoDocumentoID, C_NumDocumento, I_UsuarioCre, D_FecCre, B_Habilitado, B_Eliminado)
-		VALUES(@T_ApellidoPaterno, @T_ApellidoMaterno, @T_Nombre, @I_TipoDocumentoID, @C_NumDocumento, @I_UserID, @D_FecCre, 1, 0)
+		INSERT dbo.TC_Persona(T_ApellidoPaterno, T_ApellidoMaterno, T_Nombre, I_TipoDocumentoID, C_NumDocumento, B_Habilitado, B_Eliminado, I_UsuarioCre, D_FecCre)
+		VALUES(@T_ApellidoPaterno, @T_ApellidoMaterno, @T_Nombre, @I_TipoDocumentoID, @C_NumDocumento, 1, 0, @I_UserID, @D_FecCre)
 
 		SET @I_PersonaID = SCOPE_IDENTITY()
 
-		INSERT dbo.TC_Trabajador(I_PersonaID, C_TrabajadorCod, I_RegimenID, I_EstadoID, I_VinculoID, I_UsuarioCre, D_FecCre, B_Habilitado, B_Eliminado)
-		VALUES(@I_PersonaID, @C_TrabajadorCod, @I_RegimenID, @I_EstadoID, @I_VinculoID, @I_UserID, @D_FecCre, 1, 0)
+		INSERT dbo.TC_Trabajador(I_PersonaID, C_TrabajadorCod, I_RegimenID, I_EstadoID, I_VinculoID, B_Habilitado, B_Eliminado, I_UsuarioCre, D_FecCre)
+		VALUES(@I_PersonaID, @C_TrabajadorCod, @I_RegimenID, @I_EstadoID, @I_VinculoID, 1, 0, @I_UserID, @D_FecCre)
+
+		SET @I_Trabajador = SCOPE_IDENTITY()
+
+		INSERT dbo.TC_Trabajador_Dependencia(I_TrabajadorID, I_DependenciaID, B_Habilitado, B_Eliminado, I_UsuarioCre, D_FecCre)
+		VALUES(@I_Trabajador, @I_DependenciaID, 1, 0, @I_UserID, @D_FecCre)
+
+		INSERT dbo.TC_CuentaBancaria(I_TrabajadorID, I_BancoID, T_NroCuentaBancaria, B_Habilitado, B_Eliminado, I_UsuarioCre, D_FecCre)
+		VALUES(@I_Trabajador, @I_BancoID, @T_NroCuentaBancaria, 1, 0, @I_UserID, @D_FecCre)
 
 		COMMIT TRAN
 

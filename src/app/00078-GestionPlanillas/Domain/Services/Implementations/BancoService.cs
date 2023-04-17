@@ -9,15 +9,15 @@ using System.Threading.Tasks;
 
 namespace Domain.Services.Implementations
 {
-    public class VinculoService : IVinculoService
+    public class BancoService : IBancoService
     {
-        public List<VinculoDTO> ListarVinculos()
+        public List<BancoDTO> ListarBancos()
         {
-            var lista = TC_Vinculo.FindAll()
+            var lista = TC_Banco.FindAll()
                 .Where(x => !x.B_Eliminado)
-                .Select(x => Mapper.TC_Vinculo_To_VinculoDTO(x))
+                .Select(x => Mapper.TC_Banco_To_BancoDTO(x))
                 .ToList();
-
+            
             return lista;
         }
     }

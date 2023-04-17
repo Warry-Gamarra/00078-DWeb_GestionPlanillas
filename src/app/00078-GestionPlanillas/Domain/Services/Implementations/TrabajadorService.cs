@@ -35,6 +35,9 @@ namespace Domain.Services.Implementations
                 I_RegimenID = trabajadorEntity.I_RegimenID,
                 I_EstadoID = trabajadorEntity.I_EstadoID,
                 I_VinculoID = trabajadorEntity.I_VinculoID,
+                I_BancoID = trabajadorEntity.I_BancoID,
+                T_NroCuentaBancaria = trabajadorEntity.T_NroCuentaBancaria,
+                I_DependenciaID = trabajadorEntity.I_BancoID,
                 I_UserID = userID
             };
 

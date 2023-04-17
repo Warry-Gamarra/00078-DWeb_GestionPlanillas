@@ -14,6 +14,7 @@ namespace Domain.Services.Implementations
         public List<TipoDocumentoDTO> ListaTipoDocumentos()
         {
             var lista = TC_TipoDocumento.FindAll()
+                .Where(x => !x.B_Eliminado)
                 .Select(x => Mapper.TC_TipoDocumento_To_TipoDocumentoDTO(x))
                 .ToList();
 

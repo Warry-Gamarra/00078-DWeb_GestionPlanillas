@@ -9,13 +9,13 @@ using System.Threading.Tasks;
 
 namespace Domain.Services.Implementations
 {
-    public class VinculoService : IVinculoService
+    public class DependenciaService : IDependenciaService
     {
-        public List<VinculoDTO> ListarVinculos()
+        public List<DependenciaDTO> ListarDependencias()
         {
-            var lista = TC_Vinculo.FindAll()
+            var lista = TC_Dependencia.FindAll()
                 .Where(x => !x.B_Eliminado)
-                .Select(x => Mapper.TC_Vinculo_To_VinculoDTO(x))
+                .Select(x => Mapper.TC_Dependencia_To_DependenciaDTO(x))
                 .ToList();
 
             return lista;

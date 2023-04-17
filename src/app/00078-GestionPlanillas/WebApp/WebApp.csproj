@@ -144,9 +144,13 @@
     <Compile Include="Models\UsersModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ServiceFacade\IAdministrativoServiceFacade.cs" />
+    <Compile Include="ServiceFacade\IBancoServiceFacade.cs" />
+    <Compile Include="ServiceFacade\IDependenciaServiceFacade.cs" />
     <Compile Include="ServiceFacade\IDocenteServiceFacade.cs" />
     <Compile Include="ServiceFacade\IEstadoServiceFacade.cs" />
     <Compile Include="ServiceFacade\Implementations\AdministrativoServiceFacade.cs" />
+    <Compile Include="ServiceFacade\Implementations\BancoServiceFacade.cs" />
+    <Compile Include="ServiceFacade\Implementations\DependenciaServiceFacade.cs" />
     <Compile Include="ServiceFacade\Implementations\DocenteServiceFacade.cs" />
     <Compile Include="ServiceFacade\Implementations\EstadoServiceFacade.cs" />
     <Compile Include="ServiceFacade\Implementations\PlanillaServiceFacade.cs" />

@@ -30,11 +30,17 @@ namespace Data.Procedures
 
         public int I_VinculoID { get; set; }
 
+        public int I_BancoID { get; set; }
+
+        public string T_NroCuentaBancaria { get;set; }
+
+        public int I_DependenciaID { get;set; }
+
         public int I_UserID { get; set; }
 
-        public bool B_Result { get; set; }
+        public bool B_Result { get; }
 
-        public string T_Message { get; set; }
+        public string T_Message { get; }
 
         public Result Execute()
         {
@@ -58,6 +64,9 @@ namespace Data.Procedures
                     parameters.Add(name: "I_RegimenID", dbType: DbType.Int32, value: I_RegimenID);
                     parameters.Add(name: "I_EstadoID", dbType: DbType.Int32, value: I_EstadoID);
                     parameters.Add(name: "I_VinculoID", dbType: DbType.Int32, value: I_VinculoID);
+                    parameters.Add(name: "I_BancoID", dbType: DbType.Int32, value: I_BancoID);
+                    parameters.Add(name: "T_NroCuentaBancaria", dbType: DbType.String, value: T_NroCuentaBancaria);
+                    parameters.Add(name: "I_DependenciaID", dbType: DbType.Int32, value: I_DependenciaID);
                     parameters.Add(name: "I_UserID", dbType: DbType.Int32, value: I_UserID);
                     parameters.Add(name: "B_Result", dbType: DbType.Boolean, direction: ParameterDirection.Output);
                     parameters.Add(name: "T_Message", dbType: DbType.String, size: 4000, direction: ParameterDirection.Output);

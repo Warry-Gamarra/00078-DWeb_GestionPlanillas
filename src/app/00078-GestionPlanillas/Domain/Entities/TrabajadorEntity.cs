@@ -25,5 +25,11 @@ namespace Domain.Entities
         public int I_EstadoID { get; set; }
 
         public int I_VinculoID { get; set; }
+
+        public int I_BancoID { get; set; }
+
+        public string T_NroCuentaBancaria { get; set; }
+
+        public int I_DependenciaID { get; set; }
     }
 }

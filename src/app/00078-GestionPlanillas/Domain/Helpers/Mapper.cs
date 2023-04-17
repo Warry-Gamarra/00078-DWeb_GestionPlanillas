@@ -201,5 +201,33 @@ namespace Domain.Helpers
 
             return tipoDocumentoDTO;
         }
+
+        public static BancoDTO TC_Banco_To_BancoDTO(TC_Banco table)
+        {
+            var bancoDTO = new BancoDTO()
+            {
+                I_BancoID = table.I_BancoID,
+                T_BancoDesc = table.T_BancoDesc,
+                T_BancoAbrv = table.T_BancoAbrv,
+                B_Habilitado = table.B_Habilitado,
+                B_Eliminado = table.B_Eliminado
+            };
+
+            return bancoDTO;
+        }
+
+        public static DependenciaDTO TC_Dependencia_To_DependenciaDTO(TC_Dependencia table)
+        {
+            var dependenciaDTO = new DependenciaDTO()
+            {
+                I_DependenciaID = table.I_DependenciaID,
+                T_DependenciaDesc = table.T_DependenciaDesc,
+                C_DependenciaCod = table.C_DependenciaCod,
+                B_Habilitado = table.B_Habilitado,
+                B_Eliminado = table.B_Eliminado
+            };
+
+            return dependenciaDTO;
+        }
     }
 }

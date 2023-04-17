@@ -192,3 +192,13 @@ FROM TC_Administrativo AS adm INNER JOIN
     TC_GrupoOcupacional AS grupocup ON grupocup.I_GrupoOcupacionalID = adm.I_GrupoOcupacionalID
 GO
 
+
+
+
+		select top 1 * from TC_Persona
+		select top 1* from TC_Trabajador
+		select * from TC_Trabajador_Dependencia
+		select * from TC_CuentaBancaria
+
+		SELECT * FROM dbo.TC_Banco WHERE B_Eliminado = 0;
+		SELECT * FROM dbo.TC_Dependencia WHERE B_Eliminado = 0;

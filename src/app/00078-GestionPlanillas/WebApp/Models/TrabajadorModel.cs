@@ -53,5 +53,15 @@ namespace WebApp.Models
         public int? I_VinculoID { get; set; }
 
         public string T_VinculoDesc { get; set; }
+
+        public int? I_DependenciaID { get; set; }
+
+        public string T_DependenciaID { get; set; }
+
+        public int? I_BancoID { get; set; }
+
+        public string T_BancoDesc { get; set; }
+
+        public string T_NroCuentaBancaria { get; set; }
     }
 }
