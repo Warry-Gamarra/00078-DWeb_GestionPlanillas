@@ -24,7 +24,7 @@ namespace Domain.Services.Implementations
 
         public Response GrabarTrabajador(TrabajadorEntity trabajadorEntity, int userID)
         {
-            USP_I_GrabarDocente grabarDocente = new USP_I_GrabarDocente()
+            USP_I_GrabarTrabajador grabarDocente = new USP_I_GrabarTrabajador()
             {
                 C_TrabajadorCod = trabajadorEntity.C_TrabajadorCod,
                 T_ApellidoPaterno = trabajadorEntity.T_ApellidoPaterno,
@@ -38,6 +38,8 @@ namespace Domain.Services.Implementations
                 I_BancoID = trabajadorEntity.I_BancoID,
                 T_NroCuentaBancaria = trabajadorEntity.T_NroCuentaBancaria,
                 I_DependenciaID = trabajadorEntity.I_BancoID,
+                I_AfpID = trabajadorEntity.I_Afp,
+                T_Cuspp = trabajadorEntity.T_Cuspp,
                 I_UserID = userID
             };
 

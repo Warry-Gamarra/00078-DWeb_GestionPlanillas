@@ -38,10 +38,22 @@ namespace Domain.Helpers
                 D_FechaIngreso = view.D_FechaIngreso,
                 I_RegimenID = view.I_RegimenID,
                 T_RegimenDesc = view.T_RegimenDesc,
+                I_AfpID = view.I_AfpID,
+                T_AfpDesc = view.T_AfpDesc,
+                T_Cuspp = view.T_Cuspp,
                 I_EstadoID = view.I_EstadoID,
                 T_EstadoDesc = view.T_EstadoDesc,
                 I_VinculoID = view.I_VinculoID,
-                T_VinculoDesc = view.T_VinculoDesc
+                T_VinculoDesc = view.T_VinculoDesc,
+                I_TrabajadorDependenciaID = view.I_TrabajadorDependenciaID,
+                I_DependenciaID = view.I_DependenciaID,
+                C_DependenciaCod = view.C_DependenciaCod,
+                T_DependenciaDesc = view.T_DependenciaDesc,
+                I_CuentaBancariaID = view.I_CuentaBancariaID,
+                T_NroCuentaBancaria = view.T_NroCuentaBancaria,
+                I_BancoID = view.I_BancoID,
+                T_BancoDesc = view.T_BancoDesc,
+                T_BancoAbrv = view.T_BancoAbrv
             };
 
             return trabajadorDTO;
@@ -228,6 +240,20 @@ namespace Domain.Helpers
             };
 
             return dependenciaDTO;
+        }
+
+        public static AfpDTO TC_Afp_To_AfpDTO(TC_Afp table) 
+        {
+            var afpDTO = new AfpDTO()
+            {
+                I_AfpID = table.I_AfpID,
+                T_AfpDesc = table.T_AfpDesc,
+                C_AfpCod = table.C_AfpCod,
+                B_Habilitado = table.B_Habilitado,
+                B_Eliminado = table.B_Eliminado
+            };
+
+            return afpDTO;
         }
     }
 }

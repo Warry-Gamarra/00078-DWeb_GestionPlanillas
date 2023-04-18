@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace Data.Procedures
 {
-    public class USP_I_GrabarDocente
+    public class USP_I_GrabarTrabajador
     {
         public string C_TrabajadorCod { get; set; }
 
@@ -36,6 +36,10 @@ namespace Data.Procedures
 
         public int I_DependenciaID { get;set; }
 
+        public int? I_AfpID { get; set; }
+
+        public string T_Cuspp { get; set; }
+
         public int I_UserID { get; set; }
 
         public bool B_Result { get; }
@@ -50,7 +54,7 @@ namespace Data.Procedures
 
             try
             {
-                string s_command = "USP_I_GrabarDocente";
+                string s_command = "USP_I_GrabarTrabajador";
 
                 using (var _dbConnection = new SqlConnection(Database.ConnectionString))
                 {
@@ -67,6 +71,8 @@ namespace Data.Procedures
                     parameters.Add(name: "I_BancoID", dbType: DbType.Int32, value: I_BancoID);
                     parameters.Add(name: "T_NroCuentaBancaria", dbType: DbType.String, value: T_NroCuentaBancaria);
                     parameters.Add(name: "I_DependenciaID", dbType: DbType.Int32, value: I_DependenciaID);
+                    parameters.Add(name: "I_AfpID", dbType: DbType.Int32, value: I_AfpID);
+                    parameters.Add(name: "T_Cuspp", dbType: DbType.String, value: T_Cuspp);
                     parameters.Add(name: "I_UserID", dbType: DbType.Int32, value: I_UserID);
                     parameters.Add(name: "B_Result", dbType: DbType.Boolean, direction: ParameterDirection.Output);
                     parameters.Add(name: "T_Message", dbType: DbType.String, size: 4000, direction: ParameterDirection.Output);

@@ -9,14 +9,23 @@ GO
 CREATE VIEW [dbo].[VW_Trabajadores]
 AS
 SELECT 
-	trab.I_TrabajadorID, trab.C_TrabajadorCod, per.T_Nombre, per.T_ApellidoPaterno, per.T_ApellidoMaterno, tipdoc.I_TipoDocumentoID, tipdoc.T_TipoDocumentoDesc, per.C_NumDocumento, 
-	trab.D_FechaIngreso, reg.I_RegimenID, reg.T_RegimenDesc, est.I_EstadoID, est.T_EstadoDesc, vin.I_VinculoID, vin.T_VinculoDesc
+	trab.I_TrabajadorID, trab.C_TrabajadorCod, per.T_Nombre, per.T_ApellidoPaterno, per.T_ApellidoMaterno, 
+	tipdoc.I_TipoDocumentoID, tipdoc.T_TipoDocumentoDesc, per.C_NumDocumento, 
+	trab.D_FechaIngreso, reg.I_RegimenID, reg.T_RegimenDesc, afp.I_AfpID, afp.T_AfpDesc, trab.T_Cuspp, 
+	est.I_EstadoID, est.T_EstadoDesc, vin.I_VinculoID, vin.T_VinculoDesc,
+	trabdep.I_TrabajadorDependenciaID, dep.I_DependenciaID, dep.C_DependenciaCod, dep.T_DependenciaDesc,
+	cta.I_CuentaBancariaID, cta.T_NroCuentaBancaria, bco.I_BancoID, bco.T_BancoDesc, bco.T_BancoAbrv
 FROM dbo.TC_Trabajador AS trab INNER JOIN
 	dbo.TC_Persona AS per ON per.I_PersonaID = trab.I_PersonaID INNER JOIN
 	dbo.TC_TipoDocumento AS tipdoc ON tipdoc.I_TipoDocumentoID = per.I_TipoDocumentoID LEFT JOIN
-	dbo.TC_Regimen AS reg ON reg.I_RegimenID = trab.I_RegimenID INNER JOIN 
+	dbo.TC_Regimen AS reg ON reg.I_RegimenID = trab.I_RegimenID LEFT JOIN 
+	dbo.TC_Afp AS afp ON afp.I_AfpID = trab.I_AfpID INNER JOIN
 	dbo.TC_Estado AS est ON est.I_EstadoID = trab.I_EstadoID INNER JOIN 
-	dbo.TC_Vinculo AS vin ON vin.I_VinculoID = trab.I_VinculoID
+	dbo.TC_Vinculo AS vin ON vin.I_VinculoID = trab.I_VinculoID LEFT JOIN
+	dbo.TC_Trabajador_Dependencia AS trabdep ON trabdep.I_TrabajadorID = trab.I_TrabajadorID AND trabdep.B_Habilitado = 1 LEFT JOIN
+	dbo.TC_Dependencia AS dep ON dep.I_DependenciaID = trabdep.I_DependenciaID LEFT JOIN
+	dbo.TC_CuentaBancaria AS cta ON cta.I_TrabajadorID = trab.I_TrabajadorID AND cta.B_Habilitado = 1 LEFT JOIN
+	dbo.TC_Banco AS bco ON bco.I_BancoID = cta.I_BancoID
 WHERE trab.B_Eliminado = 0 AND per.B_Eliminado = 0
 GO
 
@@ -92,7 +101,7 @@ SELECT * FROM dbo.TC_Banco
 
 
 
---Administrativo
+--PLANILLA Administrativo
 SELECT        cap.T_CategoriaPlanillaDesc, per.I_Anio, per.T_MesDesc, pl.I_Correlativo, p.T_Nombre, p.T_ApellidoPaterno, p.T_ApellidoMaterno, nvr.C_NivelRemunerativoCod, 
                          grup.C_GrupoOcupacionalCod, ctpl.C_ConceptoCod, ctpl.T_ConceptoDesc, ctpl.M_Monto
 FROM            TR_Planilla AS pl INNER JOIN
@@ -197,6 +206,9 @@ GO
 
 		select top 1 * from TC_Persona
 		select top 1* from TC_Trabajador
+
+		SELECT * FROM dbo.TC_Afp WHERE B_Eliminado = 0;
+
 		select * from TC_Trabajador_Dependencia
 		select * from TC_CuentaBancaria
 

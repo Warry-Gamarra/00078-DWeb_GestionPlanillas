@@ -46,6 +46,12 @@ namespace WebApp.Models
 
         public string T_RegimenDesc { get; set; }
 
+        public int? I_AfpID { get; set; }
+
+        public string T_AfpDesc { get; set; }
+
+        public string T_Cuspp { get; set; }
+
         public int? I_EstadoID { get; set; }
 
         public string T_EstadoDesc { get; set; }
@@ -54,14 +60,22 @@ namespace WebApp.Models
 
         public string T_VinculoDesc { get; set; }
 
+        public int? I_TrabajadorDependenciaID { get; set; }
+
         public int? I_DependenciaID { get; set; }
 
-        public string T_DependenciaID { get; set; }
+        public string C_DependenciaCod { get; set; }
+
+        public string T_DependenciaDesc { get; set; }
+
+        public int? I_CuentaBancariaID { get; set; }
+
+        public string T_NroCuentaBancaria { get; set; }
 
         public int? I_BancoID { get; set; }
 
         public string T_BancoDesc { get; set; }
 
-        public string T_NroCuentaBancaria { get; set; }
+        public string T_BancoAbrv { get; set; }
     }
 }

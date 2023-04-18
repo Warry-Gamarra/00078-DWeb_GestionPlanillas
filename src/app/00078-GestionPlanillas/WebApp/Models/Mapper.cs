@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Web.UI.WebControls;
 
 namespace WebApp.Models
 {
@@ -24,10 +25,22 @@ namespace WebApp.Models
                 D_FechaIngreso = dto.D_FechaIngreso,
                 I_RegimenID = dto.I_RegimenID,
                 T_RegimenDesc = dto.T_RegimenDesc,
+                I_AfpID = dto.I_AfpID,
+                T_AfpDesc = dto.T_AfpDesc,
+                T_Cuspp = dto.T_Cuspp,
                 I_EstadoID = dto.I_EstadoID,
                 T_EstadoDesc = dto.T_EstadoDesc,
                 I_VinculoID = dto.I_VinculoID,
-                T_VinculoDesc = dto.T_VinculoDesc
+                T_VinculoDesc = dto.T_VinculoDesc,
+                I_TrabajadorDependenciaID = dto.I_TrabajadorDependenciaID,
+                I_DependenciaID = dto.I_DependenciaID,
+                C_DependenciaCod = dto.C_DependenciaCod,
+                T_DependenciaDesc = dto.T_DependenciaDesc,
+                I_CuentaBancariaID = dto.I_CuentaBancariaID,
+                T_NroCuentaBancaria = dto.T_NroCuentaBancaria,
+                I_BancoID = dto.I_BancoID,
+                T_BancoDesc = dto.T_BancoDesc,
+                T_BancoAbrv = dto.T_BancoAbrv
             };
 
             return model;

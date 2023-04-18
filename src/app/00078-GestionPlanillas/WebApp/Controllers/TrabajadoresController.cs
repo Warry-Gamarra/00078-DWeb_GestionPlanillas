@@ -24,6 +24,7 @@ namespace WebApp.Controllers
         private ITipoDocumentoServiceFacade _tipoDocumentoServiceFacade;
         private IBancoServiceFacade _bancoServiceFacade;
         private IDependenciaServiceFacade _dependenciaServiceFacade;
+        private IAfpServiceFacade _afpServiceFacade;
 
         public TrabajadoresController()
         {
@@ -36,6 +37,7 @@ namespace WebApp.Controllers
             _tipoDocumentoServiceFacade = new TipoDocumentoServiceFacade();
             _bancoServiceFacade = new BancoServiceFacade();
             _dependenciaServiceFacade = new DependenciaServiceFacade();
+            _afpServiceFacade = new AfpServiceFacade();
         }
 
         public ActionResult Index()
@@ -63,11 +65,14 @@ namespace WebApp.Controllers
 
             ViewBag.ListaDependencias = _dependenciaServiceFacade.ListarDependencias();
 
+            ViewBag.ListaAfps = _afpServiceFacade.ListarAfps();
+
             var trabajador = new TrabajadorModel();
 
             return PartialView("_NuevoTrabajador", trabajador);
         }
 
+        [HttpPost]
         public ActionResult Registrar(TrabajadorModel model)
         {
             Response response = new Response();
@@ -88,7 +93,19 @@ namespace WebApp.Controllers
         {
             ViewBag.Title = "Detalle del Trabajador";
 
-            ViewBag.EsNuevoRegistro = false;
+            ViewBag.ListaEstados = _estadoServiceFacade.ListarEstados();
+
+            ViewBag.ListaVinculos = _vinculoServiceFacade.ListarVinculos();
+
+            ViewBag.ListaRegimenes = _regimenServiceFacade.ListarRegimenes();
+
+            ViewBag.ListaTipoDocumentos = _tipoDocumentoServiceFacade.ListarTipoDocumentos();
+
+            ViewBag.ListaBancos = _bancoServiceFacade.ListarBancos();
+
+            ViewBag.ListaDependencias = _dependenciaServiceFacade.ListarDependencias();
+
+            ViewBag.ListaAfps = _afpServiceFacade.ListarAfps();
 
             var trabajador = _trabajadorServiceFacade.ListarTrabajadores().Where(x => x.I_TrabajadorID == id).FirstOrDefault();
 
@@ -107,6 +124,23 @@ namespace WebApp.Controllers
             //}
 
             return PartialView("_MantenimientoTrabajador", trabajador);
+        }
+
+        [HttpPost]
+        public ActionResult Actualizar(TrabajadorModel model)
+        {
+            Response response = new Response();
+
+            if (ModelState.IsValid)
+            {
+                response = _trabajadorServiceFacade.GrabarTrabajador(model, WebSecurity.CurrentUserId);
+            }
+            else
+            {
+                response.Message = "Ocurrió un error.";
+            }
+
+            return PartialView("_MsgRegistrarTrabajador", response);
         }
     }
 }

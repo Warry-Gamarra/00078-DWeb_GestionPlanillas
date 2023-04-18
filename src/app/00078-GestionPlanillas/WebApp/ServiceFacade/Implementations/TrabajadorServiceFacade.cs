@@ -48,7 +48,9 @@ namespace WebApp.ServiceFacade.Implementations
                     I_VinculoID = model.I_VinculoID.Value,
                     I_BancoID = model.I_BancoID.Value,
                     T_NroCuentaBancaria = model.T_NroCuentaBancaria,
-                    I_DependenciaID = model.I_DependenciaID.Value
+                    I_DependenciaID = model.I_DependenciaID.Value,
+                    I_Afp = model.I_AfpID,
+                    T_Cuspp = model.T_Cuspp
                 };
 
                 response = _trabajadorService.GrabarTrabajador(trabajadorEntity, userID);

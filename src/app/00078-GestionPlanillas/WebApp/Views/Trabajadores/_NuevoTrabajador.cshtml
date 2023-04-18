@@ -118,14 +118,14 @@
             </div>
             <div class="col-3">
                 <div class="form-group">
-                    <label class="control-label" for="">AFPS</label>
-                    <input type="text" class="form-control" value="PROFUTURO" />
+                    @Html.LabelFor(model => model.I_AfpID, new { @class = "control-label" })
+                    @Html.DropDownListFor(model => model.I_AfpID, ViewBag.ListaAfps as SelectList, null, new { @class = "form-control text-uppercase" })
                 </div>
             </div>
             <div class="col-3">
                 <div class="form-group">
-                    <label class="control-label" for="">N° CUSPP</label>
-                    <input type="text" class="form-control" value="579111WNPRA6" readonly />
+                    @Html.LabelFor(model => model.T_Cuspp, new { @class = "control-label" })
+                    @Html.TextBoxFor(model => model.T_Cuspp, new { @class = "form-control" })
                 </div>
             </div>
             <div class="col-2">

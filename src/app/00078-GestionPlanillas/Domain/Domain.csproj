@@ -41,6 +41,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Entities\AfpDTO.cs" />
     <Compile Include="Entities\BancoDTO.cs" />
     <Compile Include="Entities\DependenciaDTO.cs" />
     <Compile Include="Entities\EstadoDTO.cs" />
@@ -56,10 +57,12 @@
     <Compile Include="Helpers\Response.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Services\IAdministrativoService.cs" />
+    <Compile Include="Services\IAfpService.cs" />
     <Compile Include="Services\IDependenciaService.cs" />
     <Compile Include="Services\IDocenteService.cs" />
     <Compile Include="Services\IEstadoService.cs" />
     <Compile Include="Services\Implementations\AdministrativoService.cs" />
+    <Compile Include="Services\Implementations\AfpService.cs" />
     <Compile Include="Services\Implementations\BancoService.cs" />
     <Compile Include="Services\Implementations\DependenciaService.cs" />
     <Compile Include="Services\Implementations\DocenteService.cs" />

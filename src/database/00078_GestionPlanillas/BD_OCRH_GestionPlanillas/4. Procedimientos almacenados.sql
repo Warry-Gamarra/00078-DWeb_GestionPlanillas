@@ -475,11 +475,11 @@ GO
 
 
 
-IF EXISTS (SELECT * FROM INFORMATION_SCHEMA.ROUTINES WHERE ROUTINE_TYPE = 'PROCEDURE' AND ROUTINE_NAME = 'USP_I_GrabarDocente')
-	DROP PROCEDURE [dbo].[USP_I_GrabarDocente]
+IF EXISTS (SELECT * FROM INFORMATION_SCHEMA.ROUTINES WHERE ROUTINE_TYPE = 'PROCEDURE' AND ROUTINE_NAME = 'USP_I_GrabarTrabajador')
+	DROP PROCEDURE [dbo].[USP_I_GrabarTrabajador]
 GO
 
-CREATE PROCEDURE [dbo].[USP_I_GrabarDocente]
+CREATE PROCEDURE [dbo].[USP_I_GrabarTrabajador]
 @C_TrabajadorCod VARCHAR(20),
 @T_ApellidoPaterno VARCHAR(250),
 @T_ApellidoMaterno VARCHAR(250),
@@ -492,6 +492,8 @@ CREATE PROCEDURE [dbo].[USP_I_GrabarDocente]
 @I_BancoID INT,
 @T_NroCuentaBancaria VARCHAR(250),
 @I_DependenciaID INT,
+@I_AfpID INT = NULL,
+@T_Cuspp VARCHAR(20),
 @I_UserID INT,
 @B_Result BIT OUTPUT,
 @T_Message VARCHAR(250) OUTPUT
@@ -512,8 +514,8 @@ BEGIN
 
 		SET @I_PersonaID = SCOPE_IDENTITY()
 
-		INSERT dbo.TC_Trabajador(I_PersonaID, C_TrabajadorCod, I_RegimenID, I_EstadoID, I_VinculoID, B_Habilitado, B_Eliminado, I_UsuarioCre, D_FecCre)
-		VALUES(@I_PersonaID, @C_TrabajadorCod, @I_RegimenID, @I_EstadoID, @I_VinculoID, 1, 0, @I_UserID, @D_FecCre)
+		INSERT dbo.TC_Trabajador(I_PersonaID, C_TrabajadorCod, I_EstadoID, I_VinculoID, I_RegimenID, I_AfpID, T_Cuspp, B_Habilitado, B_Eliminado, I_UsuarioCre, D_FecCre)
+		VALUES(@I_PersonaID, @C_TrabajadorCod, @I_EstadoID, @I_VinculoID, @I_RegimenID, @I_AfpID, @T_Cuspp, 1, 0, @I_UserID, @D_FecCre)
 
 		SET @I_Trabajador = SCOPE_IDENTITY()
 
@@ -528,6 +530,85 @@ BEGIN
 		SET @B_Result = 1
 
 		SET @T_Message = 'Registro correcto.'
+	END TRY
+	BEGIN CATCH
+		ROLLBACK TRAN
+		SET @B_Result = 0
+
+		SET @T_Message = ERROR_MESSAGE()
+	END CATCH
+END
+GO
+
+
+
+IF EXISTS (SELECT * FROM INFORMATION_SCHEMA.ROUTINES WHERE ROUTINE_TYPE = 'PROCEDURE' AND ROUTINE_NAME = 'USP_I_ActualizarTrabajador')
+	DROP PROCEDURE [dbo].[USP_I_ActualizarTrabajador]
+GO
+
+CREATE PROCEDURE [dbo].[USP_I_ActualizarTrabajador]
+@I_trabajadorID INT,
+@C_TrabajadorCod VARCHAR(20),
+@T_ApellidoPaterno VARCHAR(250),
+@T_ApellidoMaterno VARCHAR(250),
+@T_Nombre VARCHAR(250),
+@I_TipoDocumentoID INT,
+@C_NumDocumento VARCHAR(20),
+@I_RegimenID INT,
+@I_EstadoID INT,
+@I_VinculoID INT,
+@I_BancoID INT,
+@T_NroCuentaBancaria VARCHAR(250),
+@I_DependenciaID INT,
+@I_AfpID INT = NULL,
+@T_Cuspp VARCHAR(20),
+@I_UserID INT,
+@B_Result BIT OUTPUT,
+@T_Message VARCHAR(250) OUTPUT
+AS
+BEGIN
+	SET NOCOUNT ON;
+
+	DECLARE @D_FecMod DATETIME
+
+	BEGIN TRAN
+	BEGIN TRY
+		SET @D_FecMod = GETDATE()
+
+		UPDATE per SET 
+			per.T_ApellidoPaterno = @T_ApellidoPaterno,
+			per.T_ApellidoMaterno = @T_ApellidoMaterno,
+			per.T_Nombre = @T_Nombre,
+			per.I_TipoDocumentoID = @I_TipoDocumentoID,
+			per.C_NumDocumento = @C_NumDocumento,
+			per.I_UsuarioMod = @I_UserID,
+			per.D_FecMod = @D_FecMod
+		FROM dbo.TC_Persona per
+		INNER JOIN dbo.TC_Trabajador trab ON trab.I_PersonaID = per.I_PersonaID
+		WHERE trab.I_TrabajadorID = @I_trabajadorID
+
+		UPDATE dbo.TC_Trabajador SET
+			C_TrabajadorCod = @C_TrabajadorCod,
+			I_EstadoID = @I_EstadoID,
+			I_VinculoID = I_VinculoID,
+			I_RegimenID = I_RegimenID,
+			I_AfpID = @I_AfpID,
+			T_Cuspp = T_Cuspp,
+			I_UsuarioMod = @I_UserID,
+			D_FecMod = @D_FecMod
+		WHERE I_TrabajadorID = @I_TrabajadorID
+
+		--INSERT dbo.TC_Trabajador_Dependencia(I_TrabajadorID, I_DependenciaID, B_Habilitado, B_Eliminado, I_UsuarioCre, D_FecCre)
+		--VALUES(@I_Trabajador, @I_DependenciaID, 1, 0, @I_UserID, @D_FecCre)
+
+		--INSERT dbo.TC_CuentaBancaria(I_TrabajadorID, I_BancoID, T_NroCuentaBancaria, B_Habilitado, B_Eliminado, I_UsuarioCre, D_FecCre)
+		--VALUES(@I_Trabajador, @I_BancoID, @T_NroCuentaBancaria, 1, 0, @I_UserID, @D_FecCre)
+
+		COMMIT TRAN
+
+		SET @B_Result = 1
+
+		SET @T_Message = 'Actualización correcta.'
 	END TRY
 	BEGIN CATCH
 		ROLLBACK TRAN

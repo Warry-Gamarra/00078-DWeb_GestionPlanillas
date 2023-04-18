@@ -31,5 +31,9 @@ namespace Domain.Entities
         public string T_NroCuentaBancaria { get; set; }
 
         public int I_DependenciaID { get; set; }
+
+        public int? I_Afp { get; set; }
+
+        public string T_Cuspp { get; set; }
     }
 }
