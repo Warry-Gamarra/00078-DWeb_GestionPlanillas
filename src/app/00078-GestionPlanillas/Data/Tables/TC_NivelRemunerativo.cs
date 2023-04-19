@@ -9,13 +9,13 @@ using System.Threading.Tasks;
 
 namespace Data.Tables
 {
-    public class TC_Banco
+    public class TC_NivelRemunerativo
     {
-        public int I_BancoID { get; set; }
+        public int I_NivelRemunerativoID { get; set; }
 
-        public string T_BancoDesc { get; set; }
+        public string T_NivelRemunerativoCod { get; set; }
 
-        public string T_BancoAbrv { get; set; }
+        public string T_NivelRemunerativoDesc { get; set; }
 
         public bool B_Habilitado { get; set; }
 
@@ -29,17 +29,17 @@ namespace Data.Tables
 
         public DateTime? D_FecMod { get; set; }
 
-        public static IEnumerable<TC_Banco> FindAll()
+        public static IEnumerable<TC_NivelRemunerativo> FindAll()
         {
-            IEnumerable<TC_Banco> result;
+            IEnumerable<TC_NivelRemunerativo> result;
 
             try
             {
-                string s_command = "SELECT * FROM dbo.TC_Banco WHERE B_Eliminado = 0;";
+                string s_command = "SELECT * FROM dbo.TC_NivelRemunerativo WHERE B_Eliminado = 0;";
 
                 using (var _dbConnection = new SqlConnection(Database.ConnectionString))
                 {
-                    result = _dbConnection.Query<TC_Banco>(s_command, commandType: System.Data.CommandType.Text);
+                    result = _dbConnection.Query<TC_NivelRemunerativo>(s_command, commandType: System.Data.CommandType.Text);
                 }
             }
             catch (Exception ex)

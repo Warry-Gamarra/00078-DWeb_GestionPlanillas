@@ -94,13 +94,6 @@ GO
 
 
 
-SELECT * FROM dbo.TC_TipoDocumento
-SELECT * FROM dbo.TC_Banco
-
-
-
-
-
 --PLANILLA Administrativo
 SELECT        cap.T_CategoriaPlanillaDesc, per.I_Anio, per.T_MesDesc, pl.I_Correlativo, p.T_Nombre, p.T_ApellidoPaterno, p.T_ApellidoMaterno, nvr.C_NivelRemunerativoCod, 
                          grup.C_GrupoOcupacionalCod, ctpl.C_ConceptoCod, ctpl.T_ConceptoDesc, ctpl.M_Monto
@@ -136,19 +129,6 @@ GO
 
 
 
---delete from TR_Concepto_TrabajadorPlanilla
---delete from TR_TrabajadorPlanilla
---delete from TR_Planilla
-
-
-SELECT * FROM dbo.TC_Vinculo WHERE B_Eliminado = 0;
-SELECT * FROM dbo.TC_TipoDocumento WHERE B_Eliminado = 0;
-SELECT * FROM dbo.TC_Regimen WHERE B_Eliminado = 0;
-SELECT * FROM dbo.TC_Estado WHERE B_Eliminado = 0;
-
-
-
-
 --Lista de tipos de planilla
 select p.T_TipoPlanillaDesc, c2.T_ClasePlanillaDesc, c1.T_CategoriaPlanillaDesc from dbo.TC_CategoriaPlanilla c1
 inner join dbo.TC_ClasePlanilla c2 ON c1.I_ClasePlanillaID = c2.I_ClasePlanillaID
@@ -162,14 +142,6 @@ INNER JOIN dbo.TC_CategoriaPlanilla cp on cp.I_CategoriaPlanillaID = pp.I_Catego
 INNER JOIN  dbo.TI_PlantillaPlanilla_Concepto ppc on ppc.I_PlantillaPlanillaID = pp.I_PlantillaPlanillaID
 INNER JOIN dbo.TC_Concepto c on c.I_ConceptoID = ppc.I_ConceptoID
 INNER JOIN dbo.TC_TipoConcepto t ON t.I_TipoConceptoID = c.I_TipoConceptoID
-
-
-SELECT * FROM dbo.TC_Persona
-SELECT * FROM dbo.TC_Trabajador
-SELECT * FROM dbo.TC_Docente
-SELECT * FROM dbo.TC_Administrativo
-
-select * from dbo.TI_Concepto_MontoTrabajador
 
 
 --PERSONAL DOCENTE
@@ -204,7 +176,7 @@ GO
 
 
 
-select * from TC_Persona where I_PersonaID = 4
-select * from TC_Trabajador where I_PersonaID = 4
-select * from TC_Trabajador_Dependencia where I_TrabajadorID = 4
-select * from TC_CuentaBancaria where I_TrabajadorID = 4
+SELECT * FROM TC_Trabajador
+SELECT * FROM dbo.TC_Administrativo
+SELECT * FROM dbo.TC_GrupoOcupacional WHERE B_Eliminado = 0;
+SELECT * FROM dbo.TC_NivelRemunerativo WHERE B_Eliminado = 0;

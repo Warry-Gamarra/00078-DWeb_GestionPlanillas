@@ -21,8 +21,14 @@
         <div class="form-row">
             <div class="col-2">
                 <div class="form-group">
-                    @Html.LabelFor(model => model.C_TrabajadorCod, new { @class = "control-label" })
-                    @Html.TextBoxFor(model => model.C_TrabajadorCod, new { @class = "form-control" })
+                    @Html.LabelFor(model => model.I_TipoDocumentoID, new { @class = "control-label" })
+                    @Html.DropDownListFor(model => model.I_TipoDocumentoID, ViewBag.ListaTipoDocumentos as SelectList, null, new { @class = "form-control text-uppercase" })
+                </div>
+            </div>
+            <div class="col-3">
+                <div class="form-group">
+                    <label class="control-label" for="">&nbsp;</label>
+                    @Html.TextBoxFor(model => model.C_NumDocumento, new { @class = "form-control", @placeholder = "Num.Documento" })
                 </div>
             </div>
             <div class="col-2">
@@ -37,28 +43,10 @@
                     @Html.TextBoxFor(model => model.T_ApellidoMaterno, new { @class = "form-control" })
                 </div>
             </div>
-            <div class="col-2">
+            <div class="col-3">
                 <div class="form-group">
                     @Html.LabelFor(model => model.T_Nombre, new { @class = "control-label" })
                     @Html.TextBoxFor(model => model.T_Nombre, new { @class = "form-control" })
-                </div>
-            </div>
-            <div class="col-1">
-                <div class="form-group">
-                    <label class="control-label" for="">Clase</label>
-                    <input type="text" class="form-control" value="AP" readonly />
-                </div>
-            </div>
-            <div class="col-1">
-                <div class="form-group">
-                    <label class="control-label" for="">Categoría</label>
-                    <input type="text" class="form-control" value="STC" readonly />
-                </div>
-            </div>
-            <div class="col-2">
-                <div class="form-group">
-                    <label class="control-label" for="">Carnet Essalud</label>
-                    <input type="text" class="form-control" value="7606021NRPAW000" readonly />
                 </div>
             </div>
         </div>
@@ -66,14 +54,46 @@
         <div class="form-row">
             <div class="col-2">
                 <div class="form-group">
-                    @Html.LabelFor(model => model.I_TipoDocumentoID, new { @class = "control-label" })
-                    @Html.DropDownListFor(model => model.I_TipoDocumentoID, ViewBag.ListaTipoDocumentos as SelectList, null, new { @class = "form-control text-uppercase" })
+                    @Html.LabelFor(model => model.C_TrabajadorCod, new { @class = "control-label" })
+                    @Html.TextBoxFor(model => model.C_TrabajadorCod, new { @class = "form-control" })
+                </div>
+            </div>
+            <div class="col-4">
+                <div class="form-group">
+                    @Html.LabelFor(model => model.I_VinculoID, new { @class = "control-label" })
+                    @Html.DropDownListFor(model => model.I_VinculoID, ViewBag.ListaVinculos as SelectList, null, new { @class = "form-control text-uppercase" })
                 </div>
             </div>
             <div class="col-2">
                 <div class="form-group">
-                    <label class="control-label" for="">&nbsp;</label>
-                    @Html.TextBoxFor(model => model.C_NumDocumento, new { @class = "form-control" })
+                    <label class="control-label" for="">Clase</label>
+                    @Html.DropDownList("cmb1", ViewBag.GruposOcupacionales as SelectList, new { @class = "form-control text-uppercase" })
+                </div>
+            </div>
+            <div class="col-2">
+                <div class="form-group">
+                    <label class="control-label" for="">Categoría</label>
+                    @Html.DropDownList("cmb2", ViewBag.NivelesRemunerativos as SelectList, new { @class = "form-control text-uppercase" })
+                </div>
+            </div>
+            <div class="col-2">
+                <div class="form-group">
+                    @Html.LabelFor(model => model.I_EstadoID, new { @class = "control-label" })
+                    @Html.DropDownListFor(model => model.I_EstadoID, ViewBag.ListaEstados as SelectList, null, new { @class = "form-control text-uppercase" })
+                </div>
+            </div>
+        </div>
+
+        <div class="form-row">
+            <div class="col-3">
+                <div class="form-group">
+                    @Html.LabelFor(model => model.D_FechaIngreso, new { @class = "control-label" })
+                    <div class="input-group date">
+                        @Html.TextBoxFor(model => model.D_FechaIngreso, "{0:dd/MM/yyyy}", new { @class = "form-control", @readonly = "readonly" })
+                        <div class="input-group-append">
+                            <span class="input-group-text"><i class="fa fa-calendar-o"></i></span>
+                        </div>
+                    </div>
                 </div>
             </div>
             <div class="col-3">
@@ -82,16 +102,16 @@
                     @Html.DropDownListFor(model => model.I_BancoID, ViewBag.ListaBancos as SelectList, "[ SELECCIONAR ]", new { @class = "form-control text-uppercase" })
                 </div>
             </div>
-            <div class="col-2">
+            <div class="col-3">
                 <div class="form-group">
                     <label class="control-label" for="">&nbsp;</label>
-                    @Html.TextBoxFor(model => model.T_NroCuentaBancaria, new { @class = "form-control" })
+                    @Html.TextBoxFor(model => model.T_NroCuentaBancaria, new { @class = "form-control", @placeholder = "Num.Cuenta" })
                 </div>
             </div>
             <div class="col-3">
                 <div class="form-group">
-                    @Html.LabelFor(model => model.I_EstadoID, new { @class = "control-label" })
-                    @Html.DropDownListFor(model => model.I_EstadoID, ViewBag.ListaEstados as SelectList, null, new { @class = "form-control text-uppercase" })
+                    <label class="control-label" for="">Carnet Essalud</label>
+                    <input type="text" class="form-control" value="7606021NRPAW000" readonly />
                 </div>
             </div>
         </div>
@@ -108,42 +128,25 @@
         </div>
 
         <div class="form-row">
-            <div class="col-2">
-                <div class="form-group">
-                    @Html.LabelFor(model => model.D_FechaIngreso, new { @class = "control-label" })
-                    <div class="input-group date">
-                        @Html.TextBoxFor(model => model.D_FechaIngreso, "{0:dd/MM/yyyy}", new { @class = "form-control" })
-                        <div class="input-group-append">
-                            <span class="input-group-text"><i class="fa fa-calendar-o"></i></span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="col-2">
-                <div class="form-group">
-                    @Html.LabelFor(model => model.I_VinculoID, new { @class = "control-label" })
-                    @Html.DropDownListFor(model => model.I_VinculoID, ViewBag.ListaVinculos as SelectList, null, new { @class = "form-control text-uppercase" })
-                </div>
-            </div>
-            <div class="col-2">
+            <div class="col-3">
                 <div class="form-group">
                     @Html.LabelFor(model => model.I_RegimenID, new { @class = "control-label" })
                     @Html.DropDownListFor(model => model.I_RegimenID, ViewBag.ListaRegimenes as SelectList, null, new { @class = "form-control text-uppercase" })
                 </div>
             </div>
-            <div class="col-2">
+            <div class="col-3">
                 <div class="form-group">
                     @Html.LabelFor(model => model.I_AfpID, new { @class = "control-label" })
                     @Html.DropDownListFor(model => model.I_AfpID, ViewBag.ListaAfps as SelectList, "[ SELECCIONAR ]", new { @class = "form-control text-uppercase" })
                 </div>
             </div>
-            <div class="col-2">
+            <div class="col-3">
                 <div class="form-group">
                     @Html.LabelFor(model => model.T_Cuspp, new { @class = "control-label" })
                     @Html.TextBoxFor(model => model.T_Cuspp, new { @class = "form-control" })
                 </div>
             </div>
-            <div class="col-2">
+            <div class="col-3">
                 <div class="form-group">
                     <label class="control-label" for="">CARGO</label>
                     <input type="text" class="form-control" value="" readonly />

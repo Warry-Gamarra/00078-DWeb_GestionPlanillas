@@ -255,5 +255,33 @@ namespace Domain.Helpers
 
             return afpDTO;
         }
+
+        public static GrupoOcupacionalDTO TC_GrupoOcupacional_To_GrupoOcupacionalDTO(TC_GrupoOcupacional table)
+        {
+            var grupoOcupacionalDTO = new GrupoOcupacionalDTO()
+            {
+                I_GrupoOcupacionalID = table.I_GrupoOcupacionalID,
+                T_GrupoOcupacionalCod = table.T_GrupoOcupacionalCod,
+                T_GrupoOcupacionalDesc = table.T_GrupoOcupacionalDesc,
+                B_Habilitado = table.B_Habilitado,
+                B_Eliminado = table.B_Eliminado
+            };
+
+            return grupoOcupacionalDTO;
+        }
+
+        public static NivelRemunerativoDTO TC_NivelRemunerativo_To_NivelRemunerativoDTO(TC_NivelRemunerativo table)
+        {
+            var nivelRemunerativoDTO = new NivelRemunerativoDTO()
+            {
+                I_NivelRemunerativoID = table.I_NivelRemunerativoID,
+                T_NivelRemunerativoCod = table.T_NivelRemunerativoCod,
+                T_NivelRemunerativoDesc = table.T_NivelRemunerativoDesc,
+                B_Habilitado = table.B_Habilitado,
+                B_Eliminado = table.B_Eliminado
+            };
+
+            return nivelRemunerativoDTO;
+        }
     }
 }

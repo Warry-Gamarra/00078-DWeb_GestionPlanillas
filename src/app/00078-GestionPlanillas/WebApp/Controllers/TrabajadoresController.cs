@@ -27,6 +27,9 @@ namespace WebApp.Controllers
         private IDependenciaServiceFacade _dependenciaServiceFacade;
         private IAfpServiceFacade _afpServiceFacade;
 
+        private INivelRemunerativoServiceFacade _nivelRemunerativoServiceFacade;
+        private IGrupoOcupacionalServiceFacade _grupoOcupacionalServiceFacade;
+
         public TrabajadoresController()
         {
             _trabajadorServiceFacade = new TrabajadorServiceFacade();
@@ -39,6 +42,9 @@ namespace WebApp.Controllers
             _bancoServiceFacade = new BancoServiceFacade();
             _dependenciaServiceFacade = new DependenciaServiceFacade();
             _afpServiceFacade = new AfpServiceFacade();
+
+            _nivelRemunerativoServiceFacade = new NivelRemunerativoServiceFacade();
+            _grupoOcupacionalServiceFacade = new GrupoOcupacionalServiceFacade();
         }
 
         public ActionResult Index()
@@ -69,6 +75,10 @@ namespace WebApp.Controllers
             ViewBag.ListaDependencias = _dependenciaServiceFacade.ListarDependencias();
 
             ViewBag.ListaAfps = _afpServiceFacade.ListarAfps();
+
+            ViewBag.GruposOcupacionales = _grupoOcupacionalServiceFacade.ListarGruposOcupacionales();
+
+            ViewBag.NivelesRemunerativos = _nivelRemunerativoServiceFacade.ListarNivelesRemunerativos();
 
             var trabajador = new TrabajadorModel();
 
@@ -112,6 +122,10 @@ namespace WebApp.Controllers
             ViewBag.ListaDependencias = _dependenciaServiceFacade.ListarDependencias();
 
             ViewBag.ListaAfps = _afpServiceFacade.ListarAfps();
+
+            ViewBag.GruposOcupacionales = _grupoOcupacionalServiceFacade.ListarGruposOcupacionales();
+
+            ViewBag.NivelesRemunerativos = _nivelRemunerativoServiceFacade.ListarNivelesRemunerativos();
 
             var trabajador = _trabajadorServiceFacade.ListarTrabajadores().Where(x => x.I_TrabajadorID == id).FirstOrDefault();
 
