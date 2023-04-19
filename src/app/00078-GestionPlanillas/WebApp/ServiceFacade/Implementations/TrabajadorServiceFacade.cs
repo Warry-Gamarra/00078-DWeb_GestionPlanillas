@@ -1,4 +1,5 @@
 ﻿using Domain.Entities;
+using Domain.Enums;
 using Domain.Helpers;
 using Domain.Services;
 using Domain.Services.Implementations;
@@ -29,7 +30,7 @@ namespace WebApp.ServiceFacade.Implementations
             return lista;
         }
 
-        public Response GrabarTrabajador(TrabajadorModel model, int userID)
+        public Response GrabarTrabajador(Operacion operacion, TrabajadorModel model, int userID)
         {
             Response response;
 
@@ -37,23 +38,25 @@ namespace WebApp.ServiceFacade.Implementations
             {
                 var trabajadorEntity = new TrabajadorEntity()
                 {
+                    I_TrabajadorID = model.I_TrabajadorID,
                     C_TrabajadorCod = model.C_TrabajadorCod,
                     T_ApellidoPaterno = model.T_ApellidoPaterno,
                     T_ApellidoMaterno = model.T_ApellidoMaterno,
                     T_Nombre = model.T_Nombre,
                     I_TipoDocumentoID = model.I_TipoDocumentoID,
                     C_NumDocumento = model.C_NumDocumento,
+                    D_FechaIngreso = model.D_FechaIngreso,
                     I_RegimenID = model.I_RegimenID.Value,
                     I_EstadoID = model.I_EstadoID.Value,
                     I_VinculoID = model.I_VinculoID.Value,
-                    I_BancoID = model.I_BancoID.Value,
+                    I_BancoID = model.I_BancoID,
                     T_NroCuentaBancaria = model.T_NroCuentaBancaria,
-                    I_DependenciaID = model.I_DependenciaID.Value,
+                    I_DependenciaID = model.I_DependenciaID,
                     I_Afp = model.I_AfpID,
                     T_Cuspp = model.T_Cuspp
                 };
 
-                response = _trabajadorService.GrabarTrabajador(trabajadorEntity, userID);
+                response = _trabajadorService.GrabarTrabajador(operacion, trabajadorEntity, userID);
             }
             catch (Exception ex)
             {

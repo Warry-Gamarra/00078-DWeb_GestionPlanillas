@@ -1,4 +1,5 @@
 ﻿using Domain.Entities;
+using Domain.Enums;
 using Domain.Helpers;
 using System;
 using System.Collections.Generic;
@@ -12,6 +13,6 @@ namespace Domain.Services
     {
         List<TrabajadorDTO> ListarTrabajadores();
 
-        Response GrabarTrabajador(TrabajadorEntity trabajadorEntity, int userID);
+        Response GrabarTrabajador(Operacion operacion, TrabajadorEntity trabajadorEntity, int userID);
     }
 }

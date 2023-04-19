@@ -10,8 +10,10 @@ using System.Threading.Tasks;
 
 namespace Data.Procedures
 {
-    public class USP_I_GrabarTrabajador
+    public class USP_I_ActualizarTrabajador
     {
+        public int I_TrabajadorID { get; set; }
+
         public string C_TrabajadorCod { get; set; }
 
         public string T_ApellidoPaterno { get; set; }
@@ -24,17 +26,19 @@ namespace Data.Procedures
 
         public string C_NumDocumento { get; set; }
 
+        public DateTime? D_FechaIngreso { get; set; }
+
         public int I_RegimenID { get; set; }
 
         public int I_EstadoID { get; set; }
 
         public int I_VinculoID { get; set; }
 
-        public int I_BancoID { get; set; }
+        public int? I_BancoID { get; set; }
 
-        public string T_NroCuentaBancaria { get;set; }
+        public string T_NroCuentaBancaria { get; set; }
 
-        public int I_DependenciaID { get;set; }
+        public int? I_DependenciaID { get; set; }
 
         public int? I_AfpID { get; set; }
 
@@ -54,17 +58,19 @@ namespace Data.Procedures
 
             try
             {
-                string s_command = "USP_I_GrabarTrabajador";
+                string s_command = "USP_I_ActualizarTrabajador";
 
                 using (var _dbConnection = new SqlConnection(Database.ConnectionString))
                 {
                     parameters = new DynamicParameters();
+                    parameters.Add(name: "I_TrabajadorID", dbType: DbType.Int32, value: I_TrabajadorID);
                     parameters.Add(name: "C_TrabajadorCod", dbType: DbType.String, value: C_TrabajadorCod);
                     parameters.Add(name: "T_ApellidoPaterno", dbType: DbType.String, value: T_ApellidoPaterno);
                     parameters.Add(name: "T_ApellidoMaterno", dbType: DbType.String, value: T_ApellidoMaterno);
                     parameters.Add(name: "T_Nombre", dbType: DbType.String, value: T_Nombre);
                     parameters.Add(name: "I_TipoDocumentoID", dbType: DbType.Int32, value: I_TipoDocumentoID);
                     parameters.Add(name: "C_NumDocumento", dbType: DbType.String, value: C_NumDocumento);
+                    parameters.Add(name: "D_FechaIngreso", dbType: DbType.DateTime, value: D_FechaIngreso);
                     parameters.Add(name: "I_RegimenID", dbType: DbType.Int32, value: I_RegimenID);
                     parameters.Add(name: "I_EstadoID", dbType: DbType.Int32, value: I_EstadoID);
                     parameters.Add(name: "I_VinculoID", dbType: DbType.Int32, value: I_VinculoID);

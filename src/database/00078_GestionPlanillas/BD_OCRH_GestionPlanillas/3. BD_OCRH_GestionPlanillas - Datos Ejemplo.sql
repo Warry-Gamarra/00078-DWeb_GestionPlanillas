@@ -238,11 +238,11 @@ INSERT dbo.TC_Regimen(T_RegimenDesc, C_RegimenCod, B_Habilitado, B_Eliminado) VA
 GO
 
 
-INSERT dbo.TC_Banco(T_BancoDesc, B_Habilitado, B_Eliminado) VALUES('BANCO DE CRÉDITO', 1, 0)
-INSERT dbo.TC_Banco(T_BancoDesc, B_Habilitado, B_Eliminado) VALUES('BANCO DE LA NACIÓN', 1, 0)
-INSERT dbo.TC_Banco(T_BancoDesc, B_Habilitado, B_Eliminado) VALUES('SCOTIABANK', 1, 0)
-INSERT dbo.TC_Banco(T_BancoDesc, B_Habilitado, B_Eliminado) VALUES('INTERBANK', 1, 0)
-INSERT dbo.TC_Banco(T_BancoDesc, B_Habilitado, B_Eliminado) VALUES('BBVA', 1, 0)
+INSERT dbo.TC_Banco(T_BancoDesc, C_BancoCod, B_Habilitado, B_Eliminado) VALUES('BANCO DE CRÉDITO', 'CODBAN001', 1, 0)
+INSERT dbo.TC_Banco(T_BancoDesc, C_BancoCod,B_Habilitado, B_Eliminado) VALUES('BANCO DE LA NACIÓN', 'CODBAN002', 1, 0)
+INSERT dbo.TC_Banco(T_BancoDesc, C_BancoCod,B_Habilitado, B_Eliminado) VALUES('SCOTIABANK', 'CODBAN002', 1, 0)
+INSERT dbo.TC_Banco(T_BancoDesc, C_BancoCod,B_Habilitado, B_Eliminado) VALUES('INTERBANK', 'CODBAN003', 1, 0)
+INSERT dbo.TC_Banco(T_BancoDesc, C_BancoCod,B_Habilitado, B_Eliminado) VALUES('BBVA', 'CODBAN004', 1, 0)
 GO
 
 

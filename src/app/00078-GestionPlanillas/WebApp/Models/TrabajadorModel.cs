@@ -10,7 +10,7 @@ namespace WebApp.Models
 {
     public class TrabajadorModel
     {
-        public int I_TrabajadorID { get; set; }
+        public int? I_TrabajadorID { get; set; }
 
         public string C_TrabajadorCod { get; set; }
 

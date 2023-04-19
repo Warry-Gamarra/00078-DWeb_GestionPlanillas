@@ -1,4 +1,5 @@
-﻿using Domain.Helpers;
+﻿using Domain.Enums;
+using Domain.Helpers;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,6 +13,6 @@ namespace WebApp.ServiceFacade
     {
         List<TrabajadorModel> ListarTrabajadores();
 
-        Response GrabarTrabajador(TrabajadorModel model, int userID);
+        Response GrabarTrabajador(Operacion operacion, TrabajadorModel model, int userID);
     }
 }

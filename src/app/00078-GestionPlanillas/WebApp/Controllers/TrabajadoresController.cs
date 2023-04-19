@@ -1,4 +1,5 @@
-﻿using Domain.Helpers;
+﻿using Domain.Enums;
+using Domain.Helpers;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -73,13 +74,14 @@ namespace WebApp.Controllers
         }
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public ActionResult Registrar(TrabajadorModel model)
         {
             Response response = new Response();
 
             if (ModelState.IsValid)
             {
-                response = _trabajadorServiceFacade.GrabarTrabajador(model, WebSecurity.CurrentUserId);
+                response = _trabajadorServiceFacade.GrabarTrabajador(Operacion.Registrar, model, WebSecurity.CurrentUserId);
             }
             else
             {
@@ -127,13 +129,14 @@ namespace WebApp.Controllers
         }
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public ActionResult Actualizar(TrabajadorModel model)
         {
             Response response = new Response();
 
             if (ModelState.IsValid)
             {
-                response = _trabajadorServiceFacade.GrabarTrabajador(model, WebSecurity.CurrentUserId);
+                response = _trabajadorServiceFacade.GrabarTrabajador(Operacion.Actualizar, model, WebSecurity.CurrentUserId);
             }
             else
             {

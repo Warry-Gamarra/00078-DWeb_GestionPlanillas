@@ -350,6 +350,7 @@ CREATE TABLE TC_Banco
 	I_BancoID INT IDENTITY(1,1),
 	T_BancoDesc VARCHAR(250) NOT NULL,
 	T_BancoAbrv VARCHAR(20),
+	C_BancoCod VARCHAR(20) NOT NULL,
 	B_Habilitado BIT NOT NULL,
 	B_Eliminado BIT NOT NULL,
 	I_UsuarioCre INT,

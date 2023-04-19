@@ -185,7 +185,31 @@
                 allowClear: true
             });
 
-            $('[data-toggle="tooltip"]').tooltip()
+            $('[data-toggle="tooltip"]').tooltip();
+
+            //$.validator.methods.date = function (value, element) {
+            //    if ($.browser.webkit) {
+            //        var d = new Date();
+            //        return this.optional(element) || !/Invalid|NaN/.test(new Date(d.toLocaleDateString(value)));
+            //    }
+            //    else {
+            //        return this.optional(element) || !/Invalid|NaN/.test(new Date(value));
+            //    }
+            //};
+
+            $.validator.addMethod('date', function (value, element) {
+                if (this.optional(element)) {
+                    return true;
+                }
+                var valid = true;
+                try {
+                    $.datepicker.parseDate('dd/mm/yyyy', value);
+                }
+                catch (err) {
+                    valid = false;
+                }
+                return valid;
+            });
         });
     </script>
 </body>

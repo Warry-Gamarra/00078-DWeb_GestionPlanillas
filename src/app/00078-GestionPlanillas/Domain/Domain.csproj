@@ -53,6 +53,7 @@
     <Compile Include="Entities\TrabajadorDTO.cs" />
     <Compile Include="Entities\TrabajadorEntity.cs" />
     <Compile Include="Entities\VinculoDTO.cs" />
+    <Compile Include="Enums\Operacion.cs" />
     <Compile Include="Helpers\Mapper.cs" />
     <Compile Include="Helpers\Response.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

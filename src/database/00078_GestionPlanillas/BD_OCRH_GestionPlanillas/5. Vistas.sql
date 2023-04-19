@@ -117,7 +117,7 @@ FROM            TR_Planilla AS pl INNER JOIN
 WHERE pl.I_CategoriaPlanillaID = 1 AND per.I_Anio = 2022 AND per.I_Mes = 4
 GO
 
---Docente
+--PLANILLA Docente
 SELECT        cap.T_CategoriaPlanillaDesc, per.I_Anio, per.T_MesDesc, pl.I_Correlativo, p.T_Nombre, p.T_ApellidoPaterno, p.T_ApellidoMaterno, cd.C_CategoriaDocenteCod, 
                          dd.C_DedicacionDocenteCod, hd.I_Horas, ctpl.C_ConceptoCod, ctpl.T_ConceptoDesc, ctpl.M_Monto
 FROM            TR_Planilla AS pl INNER JOIN
@@ -204,13 +204,7 @@ GO
 
 
 
-		select top 1 * from TC_Persona
-		select top 1* from TC_Trabajador
-
-		SELECT * FROM dbo.TC_Afp WHERE B_Eliminado = 0;
-
-		select * from TC_Trabajador_Dependencia
-		select * from TC_CuentaBancaria
-
-		SELECT * FROM dbo.TC_Banco WHERE B_Eliminado = 0;
-		SELECT * FROM dbo.TC_Dependencia WHERE B_Eliminado = 0;
+select * from TC_Persona where I_PersonaID = 4
+select * from TC_Trabajador where I_PersonaID = 4
+select * from TC_Trabajador_Dependencia where I_TrabajadorID = 4
+select * from TC_CuentaBancaria where I_TrabajadorID = 4
