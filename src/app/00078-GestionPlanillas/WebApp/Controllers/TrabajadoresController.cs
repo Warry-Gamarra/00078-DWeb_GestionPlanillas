@@ -54,6 +54,8 @@ namespace WebApp.Controllers
         {
             ViewBag.Title = "Nuevo Trabajador";
 
+            ViewBag.Action = "Registrar";
+
             ViewBag.ListaEstados = _estadoServiceFacade.ListarEstados();
 
             ViewBag.ListaVinculos = _vinculoServiceFacade.ListarVinculos();
@@ -70,7 +72,7 @@ namespace WebApp.Controllers
 
             var trabajador = new TrabajadorModel();
 
-            return PartialView("_NuevoTrabajador", trabajador);
+            return PartialView("_MantenimientoTrabajador", trabajador);
         }
 
         [HttpPost]
@@ -94,6 +96,8 @@ namespace WebApp.Controllers
         public ActionResult Editar(int id)
         {
             ViewBag.Title = "Detalle del Trabajador";
+
+            ViewBag.Action = "Actualizar";
 
             ViewBag.ListaEstados = _estadoServiceFacade.ListarEstados();
 

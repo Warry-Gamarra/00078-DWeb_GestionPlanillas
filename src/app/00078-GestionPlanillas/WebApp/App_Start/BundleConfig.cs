@@ -30,10 +30,12 @@ namespace WebApp
 
 
             bundles.Add(new ScriptBundle("~/bundles/jquery").Include(
-                "~/Assets/jquery/jquery-3.3.1.min.js"));
+                "~/Assets/jquery/jquery-3.3.1.min.js",
+                "~/Assets/jquery/jquery-ui.min.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/jqueryval").Include(
-                "~/Assets/jquery/jquery.validate*"));
+                "~/Assets/jquery/jquery.validate*",
+                "~/Assets/jquery/jquery.validate.date.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/bootstrap").Include(
                 "~/Assets/bootstrap/js/popper.min.js",

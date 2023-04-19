@@ -73,7 +73,7 @@
 
     <main class="wrapper">
         @*@if (Request.IsAuthenticated)
-        {*@
+            {*@
         <div id="sidebar">
             @Html.Partial("_Sidebar")
         </div>
@@ -179,37 +179,7 @@
                 $('#modal-container-xl .modal-content').html('<p style="margin:50px;" class="text-center text-muted"><i class="fa fa-spin fa-3x fa-cog"></i></p>');
             });
 
-            $('.select-filter').select2({
-                theme: 'bootstrap4',
-                placeholder: 'SELECCIONAR',
-                allowClear: true
-            });
-
             $('[data-toggle="tooltip"]').tooltip();
-
-            //$.validator.methods.date = function (value, element) {
-            //    if ($.browser.webkit) {
-            //        var d = new Date();
-            //        return this.optional(element) || !/Invalid|NaN/.test(new Date(d.toLocaleDateString(value)));
-            //    }
-            //    else {
-            //        return this.optional(element) || !/Invalid|NaN/.test(new Date(value));
-            //    }
-            //};
-
-            $.validator.addMethod('date', function (value, element) {
-                if (this.optional(element)) {
-                    return true;
-                }
-                var valid = true;
-                try {
-                    $.datepicker.parseDate('dd/mm/yyyy', value);
-                }
-                catch (err) {
-                    valid = false;
-                }
-                return valid;
-            });
         });
     </script>
 </body>

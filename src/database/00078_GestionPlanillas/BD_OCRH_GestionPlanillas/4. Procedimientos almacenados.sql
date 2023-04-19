@@ -418,24 +418,24 @@ GO
 
 
 
---Ejecución SP
-DECLARE @tmp_trabajadores AS type_dataTrabajador,
-		@I_Anio INT = 2022,
-		@I_Mes INT = 4,
-		@I_CategoriaPlanillaID INT = 1,
-		@I_UserID INT = 1,
-		@return_status INT
+----Ejecución SP
+--DECLARE @tmp_trabajadores AS type_dataTrabajador,
+--		@I_Anio INT = 2022,
+--		@I_Mes INT = 4,
+--		@I_CategoriaPlanillaID INT = 1,
+--		@I_UserID INT = 1,
+--		@return_status INT
 
-INSERT @tmp_trabajadores(I_TrabajadorID) VALUES(4), (5), (6), (7)
+--INSERT @tmp_trabajadores(I_TrabajadorID) VALUES(4), (5), (6), (7)
 
-EXEC @return_status = USP_I_GenerarPlanilla_Docente_Administrativo @Tbl_Trabajador = @tmp_trabajadores, @I_Anio = @I_Anio, @I_Mes = @I_Mes, @I_CategoriaPlanillaID = @I_CategoriaPlanillaID, @I_UserID = @I_UserID
+--EXEC @return_status = USP_I_GenerarPlanilla_Docente_Administrativo @Tbl_Trabajador = @tmp_trabajadores, @I_Anio = @I_Anio, @I_Mes = @I_Mes, @I_CategoriaPlanillaID = @I_CategoriaPlanillaID, @I_UserID = @I_UserID
 
-SELECT 'return_status' = @return_status
-GO
-select * from dbo.TC_CategoriaPlanilla
-select * from dbo.TI_PlantillaPlanilla
-select * from dbo.TI_PlantillaPlanilla_Concepto
-
+--SELECT 'return_status' = @return_status
+--GO
+--select * from dbo.TC_CategoriaPlanilla
+--select * from dbo.TI_PlantillaPlanilla
+--select * from dbo.TI_PlantillaPlanilla_Concepto
+--GO
 
 
 IF EXISTS (SELECT * FROM INFORMATION_SCHEMA.ROUTINES WHERE ROUTINE_TYPE = 'PROCEDURE' AND ROUTINE_NAME = 'USP_I_RegistrarTrabajador')
@@ -559,10 +559,10 @@ BEGIN
 			C_TrabajadorCod = @C_TrabajadorCod,
 			D_FechaIngreso = @D_FechaIngreso,
 			I_EstadoID = @I_EstadoID,
-			I_VinculoID = I_VinculoID,
-			I_RegimenID = I_RegimenID,
+			I_VinculoID = @I_VinculoID,
+			I_RegimenID = @I_RegimenID,
 			I_AfpID = @I_AfpID,
-			T_Cuspp = T_Cuspp,
+			T_Cuspp = @T_Cuspp,
 			I_UsuarioMod = @I_UserID,
 			D_FecMod = @D_FecMod
 		WHERE I_TrabajadorID = @I_TrabajadorID

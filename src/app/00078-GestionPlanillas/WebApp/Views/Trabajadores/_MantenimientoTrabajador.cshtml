@@ -7,7 +7,7 @@
 </div>
 
 <div class="modal-body">
-    @using (Ajax.BeginForm("Actualizar", "Trabajadores", new { area = "" }, new AjaxOptions
+    @using (Ajax.BeginForm((string)ViewBag.Action, "Trabajadores", new { area = "" }, new AjaxOptions
     {
         HttpMethod = "POST",
         InsertionMode = InsertionMode.Replace,
@@ -84,7 +84,7 @@
             </div>
             <div class="col-2">
                 <div class="form-group">
-                    @Html.LabelFor(model => model.T_NroCuentaBancaria, new { @class = "control-label" })
+                    <label class="control-label" for="">&nbsp;</label>
                     @Html.TextBoxFor(model => model.T_NroCuentaBancaria, new { @class = "form-control" })
                 </div>
             </div>
@@ -99,7 +99,7 @@
         <div class="form-row">
             <div class="col-12">
                 <div class="mb-3 row">
-                    @Html.LabelFor(model => model.I_DependenciaID, new { @class = "col-sm-2 col-form-label" })
+                    @Html.LabelFor(model => model.I_DependenciaID, new { @class = "col-sm-2 control-label" })
                     <div class="col-sm-10">
                         @Html.DropDownListFor(model => model.I_DependenciaID, ViewBag.ListaDependencias as SelectList, "[ SELECCIONAR ]", new { @class = "form-control text-uppercase select-filter-modal" })
                     </div>
@@ -109,14 +109,15 @@
 
         <div class="form-row">
             <div class="col-2">
-                <div class="input-group date">
+                <div class="form-group">
                     @Html.LabelFor(model => model.D_FechaIngreso, new { @class = "control-label" })
-                    @Html.TextBoxFor(model => model.D_FechaIngreso, new { @class = "form-control required" })
-                    <div class="input-group-append">
-                        <span class="input-group-text"><i class="fa fa-calendar-o"></i></span>
+                    <div class="input-group date">
+                        @Html.TextBoxFor(model => model.D_FechaIngreso, "{0:dd/MM/yyyy}", new { @class = "form-control" })
+                        <div class="input-group-append">
+                            <span class="input-group-text"><i class="fa fa-calendar-o"></i></span>
+                        </div>
                     </div>
                 </div>
-                <p>@Html.ValidationMessageFor(m => m.D_FechaIngreso)</p>
             </div>
             <div class="col-2">
                 <div class="form-group">
@@ -183,7 +184,6 @@
             todayBtn: 'linked',
             language: 'es',
             format: 'dd/mm/yyyy',
-            dateFormat: 'dd/mm/yyyy',
             autoclose: true,
             weekStart: 0,
             orientation: 'auto'
