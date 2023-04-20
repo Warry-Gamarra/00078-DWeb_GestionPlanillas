@@ -19,9 +19,27 @@ namespace WebApp.ServiceFacade.Implementations
 
         public SelectList ListarHorasDedicacionDocente()
         {
+            var result = new List<SelectListItem>();
+
             var lista = _horasDocenteService.ListarHorasDedicacionDocente();
 
-            return new SelectList(lista, "I_HorasDocenteID", "I_Horas", "T_DedicacionDocenteDesc", null, null);
+            foreach (var group in lista.GroupBy(x => x.T_DedicacionDocenteDesc))
+            {
+                var optionGroup = new SelectListGroup() { Name = group.Key };
+
+                var range = group.Select(x => new SelectListItem() 
+                {
+                    Value = x.I_HorasDocenteID.ToString(),
+                    Text = String.Format("{0} / {1}", x.C_DedicacionDocenteCod,x.I_Horas.ToString()),
+                    Group = optionGroup
+                });
+
+                result.AddRange(
+                   range 
+                );
+            }
+
+            return new SelectList(result, "Value", "Text", "Group.Name", null, null);
         }
     }
 }

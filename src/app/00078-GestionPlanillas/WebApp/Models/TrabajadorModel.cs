@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Domain.Enums;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
@@ -64,12 +65,20 @@ namespace WebApp.Models
         public string T_Cuspp { get; set; }
 
         [DisplayName("Estado")]
-        public int? I_EstadoID { get; set; }
+        public int I_EstadoID { get; set; }
 
         public string T_EstadoDesc { get; set; }
 
         [DisplayName("Vínculo")]
-        public int? I_VinculoID { get; set; }
+        public int I_VinculoID { get; set; }
+
+        public Vinculo Vinculo
+        {
+            get 
+            {
+                return (Vinculo)I_VinculoID;
+            }
+        }
 
         public string T_VinculoDesc { get; set; }
 
@@ -92,5 +101,25 @@ namespace WebApp.Models
         public string T_BancoDesc { get; set; }
 
         public string T_BancoAbrv { get; set; }
+
+        [DisplayName("Cat.Docente")]
+        public int? I_CategoriaDocenteID { get; set; }
+
+        public string T_CategoriaDocenteDesc { get; set; }
+
+        [DisplayName("Ded.Docente/Horas")]
+        public int? I_HorasDocenteID { get; set; }
+
+        public string I_Horas { get; set; }
+
+        [DisplayName("Grup.Ocupacional")]
+        public int? I_GrupoOcupacionalID { get; set; }
+
+        public string T_GrupoOcupacionalDesc { get; set; }
+
+        [DisplayName("Niv.Remunerativo")]
+        public int? I_NivelRemunerativoID { get; set; }
+
+        public string T_NivelRemunerativoDesc { get; set; }
     }
 }

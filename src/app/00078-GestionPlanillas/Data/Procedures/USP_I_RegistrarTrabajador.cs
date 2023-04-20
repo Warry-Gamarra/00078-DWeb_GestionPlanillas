@@ -42,6 +42,14 @@ namespace Data.Procedures
 
         public string T_Cuspp { get; set; }
 
+        public int? I_CategoriaDocenteID { get; set; }
+
+        public int? I_HorasDocenteID { get; set; }
+
+        public int? I_GrupoOcupacionalID { get; set; }
+
+        public int? I_NivelRemunerativoID { get; set; }
+
         public int I_UserID { get; set; }
 
         public bool B_Result { get; }
@@ -77,6 +85,10 @@ namespace Data.Procedures
                     parameters.Add(name: "I_AfpID", dbType: DbType.Int32, value: I_AfpID);
                     parameters.Add(name: "T_Cuspp", dbType: DbType.String, value: T_Cuspp);
                     parameters.Add(name: "I_UserID", dbType: DbType.Int32, value: I_UserID);
+                    parameters.Add(name: "I_CategoriaDocenteID", dbType: DbType.Int32, value: I_CategoriaDocenteID);
+                    parameters.Add(name: "I_HorasDocenteID", dbType: DbType.Int32, value: I_HorasDocenteID);
+                    parameters.Add(name: "I_GrupoOcupacionalID", dbType: DbType.Int32, value: I_GrupoOcupacionalID);
+                    parameters.Add(name: "I_NivelRemunerativoID", dbType: DbType.Int32, value: I_NivelRemunerativoID);
                     parameters.Add(name: "B_Result", dbType: DbType.Boolean, direction: ParameterDirection.Output);
                     parameters.Add(name: "T_Message", dbType: DbType.String, size: 4000, direction: ParameterDirection.Output);
 

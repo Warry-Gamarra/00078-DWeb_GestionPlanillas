@@ -458,6 +458,10 @@ CREATE PROCEDURE [dbo].[USP_I_RegistrarTrabajador]
 @I_DependenciaID INT = NULL,
 @I_AfpID INT = NULL,
 @T_Cuspp VARCHAR(20) = NULL,
+@I_CategoriaDocenteID INT = NULL,
+@I_HorasDocenteID INT = NULL,
+@I_GrupoOcupacionalID INT = NULL,
+@I_NivelRemunerativoID INT = NULL,
 @I_UserID INT,
 @B_Result BIT OUTPUT,
 @T_Message VARCHAR(250) OUTPUT
@@ -488,6 +492,16 @@ BEGIN
 
 		INSERT dbo.TC_CuentaBancaria(I_TrabajadorID, I_BancoID, T_NroCuentaBancaria, B_Habilitado, B_Eliminado, I_UsuarioCre, D_FecCre)
 		VALUES(@I_TrabajadorID, @I_BancoID, @T_NroCuentaBancaria, 1, 0, @I_UserID, @D_FecCre)
+
+		IF (@I_VinculoID IN (1,2)) BEGIN
+			INSERT dbo.TC_Administrativo(I_TrabajadorID, I_GrupoOcupacionalID, I_NivelRemunerativoID, B_Habilitado, B_Eliminado, I_UsuarioCre, D_FecCre)
+			VALUES(@I_TrabajadorID, @I_GrupoOcupacionalID, @I_NivelRemunerativoID, 1, 0, @I_UserID, @D_FecCre)
+		END
+
+		IF (@I_VinculoID = 4) BEGIN
+			INSERT dbo.TC_Docente(I_TrabajadorID, I_CategoriaDocenteID, I_HorasDocenteID, B_Habilitado, B_Eliminado, I_UsuarioCre, D_FecCre)
+			VALUES(@I_TrabajadorID, @I_CategoriaDocenteID, @I_HorasDocenteID, 1, 0, @I_UserID, @D_FecCre)
+		END
 
 		COMMIT TRAN
 
@@ -527,6 +541,10 @@ CREATE PROCEDURE [dbo].[USP_I_ActualizarTrabajador]
 @I_DependenciaID INT = NULL,
 @I_AfpID INT = NULL,
 @T_Cuspp VARCHAR(20) = NULL,
+@I_CategoriaDocenteID INT = NULL,
+@I_HorasDocenteID INT = NULL,
+@I_GrupoOcupacionalID INT = NULL,
+@I_NivelRemunerativoID INT = NULL,
 @I_UserID INT,
 @B_Result BIT OUTPUT,
 @T_Message VARCHAR(250) OUTPUT
@@ -657,6 +675,24 @@ BEGIN
 				VALUES(@I_TrabajadorID, @I_BancoID, @T_NroCuentaBancaria, 1, 0, @I_UserID, @D_FecMod)
 			END
 
+		END
+
+		IF (@I_VinculoID IN (1,2)) BEGIN
+			UPDATE dbo.TC_Administrativo SET 
+				I_GrupoOcupacionalID = @I_GrupoOcupacionalID,
+				I_NivelRemunerativoID = @I_NivelRemunerativoID,
+				I_UsuarioMod = @I_UserID,
+				D_FecMod = @D_FecMod
+			WHERE I_TrabajadorID = @I_TrabajadorID
+		END
+
+		IF (@I_VinculoID = 4) BEGIN
+			UPDATE dbo.TC_Docente SET 
+				I_CategoriaDocenteID = @I_CategoriaDocenteID,
+				I_HorasDocenteID = @I_HorasDocenteID,
+				I_UsuarioMod = @I_UserID,
+				D_FecMod = @D_FecMod
+			WHERE I_TrabajadorID = @I_TrabajadorID
 		END
 		
 		COMMIT TRAN

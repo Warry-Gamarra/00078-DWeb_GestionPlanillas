@@ -64,28 +64,28 @@
                     @Html.DropDownListFor(model => model.I_VinculoID, ViewBag.ListaVinculos as SelectList, null, new { @class = "form-control text-uppercase" })
                 </div>
             </div>
-            <div class="col-2">
+            <div class="col-2 administrativo">
                 <div class="form-group">
-                    <label class="control-label" for="">Grup.Ocupacional</label>
-                    @Html.DropDownList("cmb1", ViewBag.GruposOcupacionales as SelectList, new { @class = "form-control text-uppercase" })
+                    @Html.LabelFor(model => model.I_GrupoOcupacionalID, new { @class = "control-label" })
+                    @Html.DropDownListFor(model => model.I_GrupoOcupacionalID, ViewBag.GruposOcupacionales as SelectList, new { @class = "form-control text-uppercase" })
                 </div>
             </div>
-            <div class="col-2">
+            <div class="col-2 administrativo">
                 <div class="form-group">
-                    <label class="control-label" for="">Niv.Remunerativo</label>
-                    @Html.DropDownList("cmb2", ViewBag.NivelesRemunerativos as SelectList, new { @class = "form-control text-uppercase" })
+                    @Html.LabelFor(model => model.I_NivelRemunerativoID, new { @class = "control-label" })
+                    @Html.DropDownListFor(model => model.I_NivelRemunerativoID, ViewBag.NivelesRemunerativos as SelectList, new { @class = "form-control text-uppercase" })
                 </div>
             </div>
-            <div class="col-2">
+            <div class="col-2 docente">
                 <div class="form-group">
-                    <label class="control-label" for="">Cat.Docente</label>
-                    @Html.DropDownList("cmb3", ViewBag.CategoriasDocente as SelectList, new { @class = "form-control text-uppercase" })
+                    @Html.LabelFor(model => model.I_CategoriaDocenteID, new { @class = "control-label" })
+                    @Html.DropDownListFor(model => model.I_CategoriaDocenteID, ViewBag.CategoriasDocente as SelectList, new { @class = "form-control text-uppercase" })
                 </div>
             </div>
-            <div class="col-2">
+            <div class="col-2 docente">
                 <div class="form-group">
-                    <label class="control-label" for="">Hor.Docente</label>
-                    @Html.DropDownList("cmb4", ViewBag.HorasDocente as SelectList, new { @class = "form-control text-uppercase" })
+                    @Html.LabelFor(model => model.I_HorasDocenteID, new { @class = "control-label" })
+                    @Html.DropDownListFor(model => model.I_HorasDocenteID, ViewBag.HorasDocente as SelectList, new { @class = "form-control text-uppercase" })
                 </div>
             </div>
             <div class="col-2">
@@ -204,6 +204,30 @@
             orientation: 'auto'
         }).on('hide', function (e) {
             e.stopPropagation();
+        });
+
+        $('.modal-body .administrativo').css("display", "@ViewBag.DisplayDivAdministrativo");
+        $('.modal-body .docente').css("display", "@ViewBag.DisplayDivDocente");
+
+        $(".modal-body").on("change", "#I_VinculoID", function () {
+            let vinculoID = parseInt(this.value);
+
+            $('.modal-body .administrativo').css("display", "none");
+            $('.modal-body .docente').css("display", "none");
+
+            switch (vinculoID) {
+                case VINCULO.ADMINISTRATIVO_PERMANENTE:
+                    $('.modal-body .administrativo').css("display", "block");
+                    break;
+
+                case VINCULO.ADMINISTRATIVO_CONTRATADO:
+                    $('.modal-body .administrativo').css("display", "block");
+                    break;
+
+                case VINCULO.DOCENTE_PERMANENTE:
+                    $('.modal-body .docente').css("display", "block");
+                    break;
+            }
         });
     });
 </script>

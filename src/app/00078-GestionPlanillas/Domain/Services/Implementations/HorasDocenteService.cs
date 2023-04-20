@@ -33,7 +33,7 @@ namespace Domain.Services.Implementations
                 result.Add(item);
             }
 
-            return result;
+            return result.OrderBy(x => x.I_Horas).ToList();
         }
     }
 }

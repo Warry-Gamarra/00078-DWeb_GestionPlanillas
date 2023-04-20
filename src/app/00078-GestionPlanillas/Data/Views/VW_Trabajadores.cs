@@ -39,11 +39,11 @@ namespace Data.Views
 
         public string T_Cuspp { get; set; }
 
-        public int? I_EstadoID { get; set; }
+        public int I_EstadoID { get; set; }
 
         public string T_EstadoDesc { get; set; }
 
-        public int? I_VinculoID { get; set; }
+        public int I_VinculoID { get; set; }
 
         public string T_VinculoDesc { get; set; }
 

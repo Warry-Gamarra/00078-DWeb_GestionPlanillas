@@ -15,6 +15,7 @@ namespace Domain.Services.Implementations
         {
             var lista = TC_Dependencia.FindAll()
                 .Select(x => Mapper.TC_Dependencia_To_DependenciaDTO(x))
+                .OrderBy(x => x.T_DependenciaDesc)
                 .ToList();
 
             return lista;

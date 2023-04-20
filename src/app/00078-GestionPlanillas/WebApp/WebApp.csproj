@@ -181,6 +181,7 @@
     <Content Include="Assets\application\css\main.css" />
     <Content Include="Assets\application\css\sidebar.css" />
     <Content Include="Assets\application\css\wizard-form.css" />
+    <Content Include="Assets\application\js\constantes.js" />
     <Content Include="Assets\application\js\datetimepicker.js" />
     <Content Include="Assets\application\js\login.js" />
     <Content Include="Assets\application\js\main.js" />

@@ -182,7 +182,7 @@ SELECT * FROM dbo.TC_Administrativo
 SELECT * FROM dbo.TC_GrupoOcupacional WHERE B_Eliminado = 0;
 SELECT * FROM dbo.TC_NivelRemunerativo WHERE B_Eliminado = 0;
 
+SELECT * FROM dbo.TC_Docente
 SELECT * FROM dbo.TC_CategoriaDocente WHERE B_Eliminado = 0;
-
 SELECT * FROM dbo.TC_DedicacionDocente WHERE B_Eliminado = 0 AND I_DedicacionDocenteID = 1;
 SELECT * FROM dbo.TC_HorasDocente WHERE B_Eliminado = 0;

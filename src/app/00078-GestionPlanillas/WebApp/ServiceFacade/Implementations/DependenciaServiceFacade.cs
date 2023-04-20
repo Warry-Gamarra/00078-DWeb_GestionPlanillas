@@ -19,8 +19,7 @@ namespace WebApp.ServiceFacade.Implementations
 
         public SelectList ListarDependencias()
         {
-            var lista = _dependenciaService.ListarDependencias()
-                .OrderBy(x => x.T_DependenciaDesc);
+            var lista = _dependenciaService.ListarDependencias();
 
             return new SelectList(lista, "I_DependenciaID", "T_DependenciaCodDesc");
         }

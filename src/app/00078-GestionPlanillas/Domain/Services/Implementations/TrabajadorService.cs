@@ -46,9 +46,13 @@ namespace Domain.Services.Implementations
                         I_VinculoID = trabajadorEntity.I_VinculoID,
                         I_BancoID = trabajadorEntity.I_BancoID,
                         T_NroCuentaBancaria = trabajadorEntity.T_NroCuentaBancaria,
-                        I_DependenciaID = trabajadorEntity.I_BancoID,
+                        I_DependenciaID = trabajadorEntity.I_DependenciaID,
                         I_AfpID = trabajadorEntity.I_Afp,
                         T_Cuspp = trabajadorEntity.T_Cuspp,
+                        I_CategoriaDocenteID = trabajadorEntity.I_CategoriaDocenteID,
+                        I_HorasDocenteID = trabajadorEntity.I_HorasDocenteID,
+                        I_GrupoOcupacionalID = trabajadorEntity.I_GrupoOcupacionalID,
+                        I_NivelRemunerativoID = trabajadorEntity.I_NivelRemunerativoID,
                         I_UserID = userID
                     };
 
@@ -76,6 +80,10 @@ namespace Domain.Services.Implementations
                         I_DependenciaID = trabajadorEntity.I_DependenciaID,
                         I_AfpID = trabajadorEntity.I_Afp,
                         T_Cuspp = trabajadorEntity.T_Cuspp,
+                        I_CategoriaDocenteID = trabajadorEntity.I_CategoriaDocenteID,
+                        I_HorasDocenteID = trabajadorEntity.I_HorasDocenteID,
+                        I_GrupoOcupacionalID = trabajadorEntity.I_GrupoOcupacionalID,
+                        I_NivelRemunerativoID = trabajadorEntity.I_NivelRemunerativoID,
                         I_UserID = userID
                     };
 

@@ -39,5 +39,13 @@ namespace Domain.Entities
         public int? I_Afp { get; set; }
 
         public string T_Cuspp { get; set; }
+
+        public int? I_CategoriaDocenteID { get; set; }
+
+        public int? I_HorasDocenteID { get; set; }
+
+        public int? I_GrupoOcupacionalID { get; set; }
+
+        public int? I_NivelRemunerativoID { get; set; }
     }
 }

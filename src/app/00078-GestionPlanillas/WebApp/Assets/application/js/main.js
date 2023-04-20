@@ -8,30 +8,30 @@ function Load() {
     $('#loading').show();
     $('#btnsubmit').addClass('disabled');
     $('#btnCancel').addClass('disabled');
-    $('#modal-container').attr('data-backdrop', 'static');
+    
 }
 
 function Stop() {
     $('#loading').hide();
+    $('#btnsubmit').removeClass('disabled');
     $('#btnCancel').removeClass('disabled');
-    $('#modal-container').removeAttr('data-backdrop');
 }
 
-function Submited() {
-    var submited = parseInt($("#submited").val());
-    $("#submited").val(submited + 1);
-}
+//function Submited() {
+//    var submited = parseInt($("#submited").val());
+//    $("#submited").val(submited + 1);
+//}
 
-function Begin() {
-    $('#loading').show();
-    $('#div-resultado').html('');
-    $('#div-resultado').hide();
-}
+//function Begin() {
+//    $('#loading').show();
+//    $('#div-resultado').html('');
+//    $('#div-resultado').hide();
+//}
 
-function onComplete() {
-    $('#loading').hide();
-    $('#div-resultado').show();
-}
+//function onComplete() {
+//    $('#loading').hide();
+//    $('#div-resultado').show();
+//}
 
 function FormatearNumero(number, decimals = 2, round = true) {
     if (isNaN(number) || number.lenght == 0) number = 0;

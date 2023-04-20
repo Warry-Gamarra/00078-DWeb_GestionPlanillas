@@ -55,7 +55,8 @@ namespace WebApp
                 "~/Assets/toastr/js/toastr.min.js",
                 "~/Assets/toastr/js/toastr.config.js",
                 "~/Assets/application/js/main.js",
-                "~/Assets/application/js/sidebar.js"));
+                "~/Assets/application/js/sidebar.js",
+                "~/Assets/application/js/constantes.js"));
 
         }
     }
