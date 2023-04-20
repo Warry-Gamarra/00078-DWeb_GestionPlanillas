@@ -6,13 +6,13 @@ using System.Threading.Tasks;
 
 namespace Domain.Entities
 {
-    public class BancoDTO
+    public class CategoriaDocenteDTO
     {
-        public int I_BancoID { get; set; }
+        public int I_CategoriaDocenteID { get; set; }
 
-        public string T_BancoDesc { get; set; }
+        public string T_CategoriaDocenteDesc { get; set; }
 
-        public string T_BancoAbrv { get; set; }
+        public string C_CategoriaDocenteCod { get; set; }
 
         public bool B_Habilitado { get; set; }
     }

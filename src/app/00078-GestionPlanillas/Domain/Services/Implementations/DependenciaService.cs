@@ -14,7 +14,6 @@ namespace Domain.Services.Implementations
         public List<DependenciaDTO> ListarDependencias()
         {
             var lista = TC_Dependencia.FindAll()
-                .Where(x => !x.B_Eliminado)
                 .Select(x => Mapper.TC_Dependencia_To_DependenciaDTO(x))
                 .ToList();
 

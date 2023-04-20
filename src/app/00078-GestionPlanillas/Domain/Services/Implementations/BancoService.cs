@@ -14,7 +14,6 @@ namespace Domain.Services.Implementations
         public List<BancoDTO> ListarBancos()
         {
             var lista = TC_Banco.FindAll()
-                .Where(x => !x.B_Eliminado)
                 .Select(x => Mapper.TC_Banco_To_BancoDTO(x))
                 .ToList();
             

@@ -14,7 +14,6 @@ namespace Domain.Services.Implementations
         public List<RegimenDTO> ListarRegimenes()
         {
             var lista = TC_Regimen.FindAll()
-                .Where(x => !x.B_Eliminado)
                 .Select(x => Mapper.TC_Regimen_To_RegimenDTO(x))
                 .ToList();  
 

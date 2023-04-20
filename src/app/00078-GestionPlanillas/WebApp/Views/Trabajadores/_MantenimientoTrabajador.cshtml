@@ -66,14 +66,26 @@
             </div>
             <div class="col-2">
                 <div class="form-group">
-                    <label class="control-label" for="">Clase</label>
+                    <label class="control-label" for="">Grup.Ocupacional</label>
                     @Html.DropDownList("cmb1", ViewBag.GruposOcupacionales as SelectList, new { @class = "form-control text-uppercase" })
                 </div>
             </div>
             <div class="col-2">
                 <div class="form-group">
-                    <label class="control-label" for="">Categoría</label>
+                    <label class="control-label" for="">Niv.Remunerativo</label>
                     @Html.DropDownList("cmb2", ViewBag.NivelesRemunerativos as SelectList, new { @class = "form-control text-uppercase" })
+                </div>
+            </div>
+            <div class="col-2">
+                <div class="form-group">
+                    <label class="control-label" for="">Cat.Docente</label>
+                    @Html.DropDownList("cmb3", ViewBag.CategoriasDocente as SelectList, new { @class = "form-control text-uppercase" })
+                </div>
+            </div>
+            <div class="col-2">
+                <div class="form-group">
+                    <label class="control-label" for="">Hor.Docente</label>
+                    @Html.DropDownList("cmb4", ViewBag.HorasDocente as SelectList, new { @class = "form-control text-uppercase" })
                 </div>
             </div>
             <div class="col-2">

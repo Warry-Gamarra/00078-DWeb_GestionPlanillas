@@ -14,7 +14,6 @@ namespace Domain.Services.Implementations
         public List<AfpDTO> ListarAfps()
         {
             var lista = TC_Afp.FindAll()
-                .Where(x => !x.B_Eliminado)
                 .Select(x => Mapper.TC_Afp_To_AfpDTO(x))
                 .ToList();
 

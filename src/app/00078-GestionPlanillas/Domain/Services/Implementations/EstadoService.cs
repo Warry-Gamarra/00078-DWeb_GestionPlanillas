@@ -14,7 +14,6 @@ namespace Domain.Services.Implementations
         public List<EstadoDTO> ListarEstados() 
         {
             var lista = TC_Estado.FindAll()
-                .Where(x => !x.B_Eliminado)
                 .Select(x => Mapper.TC_Estado_To_EstadoDTO(x))
                 .ToList();
 

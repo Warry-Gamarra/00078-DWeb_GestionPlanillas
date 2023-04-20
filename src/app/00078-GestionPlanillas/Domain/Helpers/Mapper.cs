@@ -166,8 +166,7 @@ namespace Domain.Helpers
                 I_EstadoID = table.I_EstadoID,
                 T_EstadoDesc = table.T_EstadoDesc,
                 C_EstadoCod = table.C_EstadoCod,
-                B_Habilitado = table.B_Habilitado,
-                B_Eliminado = table.B_Eliminado
+                B_Habilitado = table.B_Habilitado
             };
 
             return estadoDTO;
@@ -180,8 +179,7 @@ namespace Domain.Helpers
                 I_RegimenID = table.I_RegimenID,
                 T_RegimenDesc = table.T_RegimenDesc,
                 C_RegimenCod = table.C_RegimenCod,
-                B_Habilitado = table.B_Habilitado,
-                B_Eliminado = table.B_Eliminado
+                B_Habilitado = table.B_Habilitado
             };
 
             return regimenDTO;
@@ -194,8 +192,7 @@ namespace Domain.Helpers
                 I_VinculoID = table.I_VinculoID,
                 T_VinculoDesc = table.T_VinculoDesc,
                 C_VinculoCod = table.C_VinculoCod,
-                B_Habilitado = table.B_Habilitado,
-                B_Eliminado = table.B_Eliminado
+                B_Habilitado = table.B_Habilitado
             };
 
             return vinculoDTO;
@@ -207,8 +204,7 @@ namespace Domain.Helpers
             {
                 I_TipoDocumentoID = table.I_TipoDocumentoID,
                 T_TipoDocumentoDesc = table.T_TipoDocumentoDesc,
-                B_Habilitado = table.B_Habilitado,
-                B_Eliminado = table.B_Eliminado
+                B_Habilitado = table.B_Habilitado
             };
 
             return tipoDocumentoDTO;
@@ -221,8 +217,7 @@ namespace Domain.Helpers
                 I_BancoID = table.I_BancoID,
                 T_BancoDesc = table.T_BancoDesc,
                 T_BancoAbrv = table.T_BancoAbrv,
-                B_Habilitado = table.B_Habilitado,
-                B_Eliminado = table.B_Eliminado
+                B_Habilitado = table.B_Habilitado
             };
 
             return bancoDTO;
@@ -235,8 +230,7 @@ namespace Domain.Helpers
                 I_DependenciaID = table.I_DependenciaID,
                 T_DependenciaDesc = table.T_DependenciaDesc,
                 C_DependenciaCod = table.C_DependenciaCod,
-                B_Habilitado = table.B_Habilitado,
-                B_Eliminado = table.B_Eliminado
+                B_Habilitado = table.B_Habilitado
             };
 
             return dependenciaDTO;
@@ -249,8 +243,7 @@ namespace Domain.Helpers
                 I_AfpID = table.I_AfpID,
                 T_AfpDesc = table.T_AfpDesc,
                 C_AfpCod = table.C_AfpCod,
-                B_Habilitado = table.B_Habilitado,
-                B_Eliminado = table.B_Eliminado
+                B_Habilitado = table.B_Habilitado
             };
 
             return afpDTO;
@@ -263,8 +256,7 @@ namespace Domain.Helpers
                 I_GrupoOcupacionalID = table.I_GrupoOcupacionalID,
                 T_GrupoOcupacionalCod = table.T_GrupoOcupacionalCod,
                 T_GrupoOcupacionalDesc = table.T_GrupoOcupacionalDesc,
-                B_Habilitado = table.B_Habilitado,
-                B_Eliminado = table.B_Eliminado
+                B_Habilitado = table.B_Habilitado
             };
 
             return grupoOcupacionalDTO;
@@ -277,11 +269,23 @@ namespace Domain.Helpers
                 I_NivelRemunerativoID = table.I_NivelRemunerativoID,
                 T_NivelRemunerativoCod = table.T_NivelRemunerativoCod,
                 T_NivelRemunerativoDesc = table.T_NivelRemunerativoDesc,
-                B_Habilitado = table.B_Habilitado,
-                B_Eliminado = table.B_Eliminado
+                B_Habilitado = table.B_Habilitado
             };
 
             return nivelRemunerativoDTO;
+        }
+
+        public static CategoriaDocenteDTO TC_CategoriaDocente_To_CategoriaDocenteDTO(TC_CategoriaDocente table)
+        {
+            var categoriaDocenteDTO = new CategoriaDocenteDTO()
+            {
+                I_CategoriaDocenteID = table.I_CategoriaDocenteID,
+                T_CategoriaDocenteDesc = table.T_CategoriaDocenteDesc,
+                C_CategoriaDocenteCod = table.C_CategoriaDocenteCod,
+                B_Habilitado = table.B_Habilitado
+            };
+
+            return categoriaDocenteDTO;
         }
     }
 }

@@ -13,7 +13,5 @@ namespace Domain.Entities
         public string T_TipoDocumentoDesc { get; set; }
 
         public bool B_Habilitado { get; set; }
-
-        public bool B_Eliminado { get; set; }
     }
 }

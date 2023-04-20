@@ -9,12 +9,12 @@ using System.Threading.Tasks;
 
 namespace Domain.Services.Implementations
 {
-    public class VinculoService : IVinculoService
+    public class CategoriaDocenteService : ICategoriaDocenteService
     {
-        public List<VinculoDTO> ListarVinculos()
+        public List<CategoriaDocenteDTO> ListarCategoriasDocente()
         {
-            var lista = TC_Vinculo.FindAll()
-                .Select(x => Mapper.TC_Vinculo_To_VinculoDTO(x))
+            var lista = TC_CategoriaDocente.FindAll()
+                .Select(x => Mapper.TC_CategoriaDocente_To_CategoriaDocenteDTO(x))
                 .ToList();
 
             return lista;

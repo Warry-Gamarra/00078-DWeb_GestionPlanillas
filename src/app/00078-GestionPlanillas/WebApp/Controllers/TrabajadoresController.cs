@@ -30,6 +30,9 @@ namespace WebApp.Controllers
         private INivelRemunerativoServiceFacade _nivelRemunerativoServiceFacade;
         private IGrupoOcupacionalServiceFacade _grupoOcupacionalServiceFacade;
 
+        private ICategoriaDocenteServiceFacade _categoriaDocenteServiceFacade;
+        private IHorasDocenteServiceFacade _horasDocenteServiceFacade;
+
         public TrabajadoresController()
         {
             _trabajadorServiceFacade = new TrabajadorServiceFacade();
@@ -45,6 +48,9 @@ namespace WebApp.Controllers
 
             _nivelRemunerativoServiceFacade = new NivelRemunerativoServiceFacade();
             _grupoOcupacionalServiceFacade = new GrupoOcupacionalServiceFacade();
+
+            _categoriaDocenteServiceFacade = new CategoriaDocenteServiceFacade();
+            _horasDocenteServiceFacade = new HorasDocenteServiceFacade();
         }
 
         public ActionResult Index()
@@ -79,6 +85,10 @@ namespace WebApp.Controllers
             ViewBag.GruposOcupacionales = _grupoOcupacionalServiceFacade.ListarGruposOcupacionales();
 
             ViewBag.NivelesRemunerativos = _nivelRemunerativoServiceFacade.ListarNivelesRemunerativos();
+
+            ViewBag.CategoriasDocente = _categoriaDocenteServiceFacade.ListarCategoriasDocente();
+
+            ViewBag.HorasDocente = _horasDocenteServiceFacade.ListarHorasDedicacionDocente();
 
             var trabajador = new TrabajadorModel();
 
@@ -127,21 +137,11 @@ namespace WebApp.Controllers
 
             ViewBag.NivelesRemunerativos = _nivelRemunerativoServiceFacade.ListarNivelesRemunerativos();
 
+            ViewBag.CategoriasDocente = _categoriaDocenteServiceFacade.ListarCategoriasDocente();
+
+            ViewBag.HorasDocente = _horasDocenteServiceFacade.ListarHorasDedicacionDocente();
+
             var trabajador = _trabajadorServiceFacade.ListarTrabajadores().Where(x => x.I_TrabajadorID == id).FirstOrDefault();
-
-            //if (trabajador.I_VinculoID == 1)//administrativo
-            //{
-            //    var administrativo = _administrativoServiceFacade.ListarAdministrativoPorTrabajadorID(trabajador.I_TrabajadorID).FirstOrDefault();
-
-            //    return PartialView("_MantenimientoAdministrativo", administrativo);
-            //}
-            
-            //if (trabajador.I_VinculoID == 4)//docente
-            //{
-            //    var docente = _docenteServiceFacade.ListarDocentePorTrabajadorID(trabajador.I_TrabajadorID).FirstOrDefault();
-
-            //    return PartialView("_MantenimientoDocente", docente);
-            //}
 
             return PartialView("_MantenimientoTrabajador", trabajador);
         }

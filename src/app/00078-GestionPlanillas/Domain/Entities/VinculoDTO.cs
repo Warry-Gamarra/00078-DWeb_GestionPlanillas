@@ -15,7 +15,5 @@ namespace Domain.Entities
         public string C_VinculoCod { get; set; }
 
         public bool B_Habilitado { get; set; }
-
-        public bool B_Eliminado { get; set; }
     }
 }

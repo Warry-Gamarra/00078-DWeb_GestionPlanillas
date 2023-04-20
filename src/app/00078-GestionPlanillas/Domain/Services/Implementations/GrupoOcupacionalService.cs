@@ -14,7 +14,6 @@ namespace Domain.Services.Implementations
         public List<GrupoOcupacionalDTO> ListarGruposOcupacionales()
         {
             var lista = TC_GrupoOcupacional.FindAll()
-                .Where(x => !x.B_Eliminado)
                 .Select(x => Mapper.TC_GrupoOcupacional_To_GrupoOcupacionalDTO(x))
                 .ToList();
 

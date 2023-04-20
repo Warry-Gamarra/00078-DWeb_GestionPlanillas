@@ -14,7 +14,6 @@ namespace Domain.Services.Implementations
         public List<NivelRemunerativoDTO> ListarNivelesRemunerativos()
         {
             var lista = TC_NivelRemunerativo.FindAll()
-                .Where(x => !x.B_Eliminado)
                 .Select(x => Mapper.TC_NivelRemunerativo_To_NivelRemunerativoDTO(x))
                 .ToList();
 

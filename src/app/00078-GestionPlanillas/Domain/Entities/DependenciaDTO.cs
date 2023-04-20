@@ -23,7 +23,5 @@ namespace Domain.Entities
         }
 
         public bool B_Habilitado { get; set; }
-
-        public bool B_Eliminado { get; set; }
     }
 }

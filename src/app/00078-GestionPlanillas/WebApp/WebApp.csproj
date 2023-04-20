@@ -146,17 +146,21 @@
     <Compile Include="ServiceFacade\IAdministrativoServiceFacade.cs" />
     <Compile Include="ServiceFacade\IAfpServiceFacade.cs" />
     <Compile Include="ServiceFacade\IBancoServiceFacade.cs" />
+    <Compile Include="ServiceFacade\ICategoriaDocenteServiceFacade.cs" />
     <Compile Include="ServiceFacade\IDependenciaServiceFacade.cs" />
     <Compile Include="ServiceFacade\IDocenteServiceFacade.cs" />
     <Compile Include="ServiceFacade\IEstadoServiceFacade.cs" />
     <Compile Include="ServiceFacade\IGrupoOcupacionalServiceFacade.cs" />
+    <Compile Include="ServiceFacade\IHorasDocenteServiceFacade.cs" />
     <Compile Include="ServiceFacade\Implementations\AdministrativoServiceFacade.cs" />
     <Compile Include="ServiceFacade\Implementations\AfpServiceFacade.cs" />
     <Compile Include="ServiceFacade\Implementations\BancoServiceFacade.cs" />
+    <Compile Include="ServiceFacade\Implementations\CategoriaDocenteServiceFacade.cs" />
     <Compile Include="ServiceFacade\Implementations\DependenciaServiceFacade.cs" />
     <Compile Include="ServiceFacade\Implementations\DocenteServiceFacade.cs" />
     <Compile Include="ServiceFacade\Implementations\EstadoServiceFacade.cs" />
     <Compile Include="ServiceFacade\Implementations\GrupoOcupacionalServiceFacade.cs" />
+    <Compile Include="ServiceFacade\Implementations\HorasDocenteServiceFacade.cs" />
     <Compile Include="ServiceFacade\Implementations\NivelRemunerativoServiceFacade.cs" />
     <Compile Include="ServiceFacade\Implementations\PlanillaServiceFacade.cs" />
     <Compile Include="ServiceFacade\Implementations\RegimenServiceFacade.cs" />
@@ -412,9 +416,7 @@
     <Content Include="Views\Account\Login.cshtml" />
     <Content Include="Views\Trabajadores\Index.cshtml" />
     <Content Include="Views\Planillas\Index.cshtml" />
-    <Content Include="Views\Trabajadores\_MantenimientoDocente.cshtml" />
     <Content Include="Views\Trabajadores\_MantenimientoTrabajador.cshtml" />
-    <Content Include="Views\Trabajadores\_MantenimientoAdministrativo.cshtml" />
     <Content Include="Views\Trabajadores\_MsgRegistrarTrabajador.cshtml" />
   </ItemGroup>
   <ItemGroup>

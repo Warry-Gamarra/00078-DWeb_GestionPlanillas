@@ -15,7 +15,5 @@ namespace Domain.Entities
         public string T_GrupoOcupacionalDesc { get; set; }
 
         public bool B_Habilitado { get; set; }
-
-        public bool B_Eliminado { get; set; }
     }
 }
