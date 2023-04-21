@@ -54,10 +54,6 @@ namespace Data.Procedures
 
         public int I_UserID { get; set; }
 
-        public bool B_Result { get; }
-
-        public string T_Message { get; }
-
         public Result Execute()
         {
             Result result;

@@ -25,7 +25,7 @@ CREATE PROCEDURE [dbo].[USP_I_GenerarPlanilla_Docente_Administrativo]
 @Tbl_Trabajador [dbo].[type_dataTrabajador] READONLY,
 @I_Anio INT,
 @I_Mes INT,
-@I_CategoriaPlanillaID INT,
+@I_CategoriaPlanillaID INT = NULL,
 @I_UserID INT
 AS
 BEGIN
