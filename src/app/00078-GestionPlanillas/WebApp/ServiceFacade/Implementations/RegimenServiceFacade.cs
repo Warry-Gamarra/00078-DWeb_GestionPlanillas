@@ -17,9 +17,9 @@ namespace WebApp.ServiceFacade.Implementations
             _regimenService = new RegimenService();
         }
 
-        public SelectList ListarRegimenes()
+        public SelectList ListarRegimenes(bool incluirDeshabilitados = false)
         {
-            var lista  = _regimenService.ListarRegimenes();
+            var lista  = _regimenService.ListarRegimenes(incluirDeshabilitados);
 
             return new SelectList(lista, "I_RegimenID", "T_RegimenDesc");
         }

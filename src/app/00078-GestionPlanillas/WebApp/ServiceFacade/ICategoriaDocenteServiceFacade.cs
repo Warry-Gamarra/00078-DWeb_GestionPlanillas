@@ -9,6 +9,6 @@ namespace WebApp.ServiceFacade
 {
     public interface ICategoriaDocenteServiceFacade
     {
-        SelectList ListarCategoriasDocente();
+        SelectList ListarCategoriasDocente(bool incluirDeshabilitados = false);
     }
 }

@@ -17,9 +17,9 @@ namespace WebApp.ServiceFacade.Implementations
             _grupoOcupacionalService = new GrupoOcupacionalService();
         }
 
-        public SelectList ListarGruposOcupacionales()
+        public SelectList ListarGruposOcupacionales(bool incluirDeshabilitados = false)
         {
-            var lista = _grupoOcupacionalService.ListarGruposOcupacionales();
+            var lista = _grupoOcupacionalService.ListarGruposOcupacionales(incluirDeshabilitados);
 
             return new SelectList(lista, "I_GrupoOcupacionalID", "T_GrupoOcupacionalDesc");
         }

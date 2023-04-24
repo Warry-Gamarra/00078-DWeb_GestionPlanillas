@@ -17,9 +17,9 @@ namespace WebApp.ServiceFacade.Implementations
             _categoriaDocenteService = new CategoriaDocenteService();
         }
 
-        public SelectList ListarCategoriasDocente()
+        public SelectList ListarCategoriasDocente(bool incluirDeshabilitados = false)
         {
-            var lista = _categoriaDocenteService.ListarCategoriasDocente();
+            var lista = _categoriaDocenteService.ListarCategoriasDocente(incluirDeshabilitados);
 
             return new SelectList(lista, "I_CategoriaDocenteID", "T_CategoriaDocenteDesc");
         }

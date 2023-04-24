@@ -11,13 +11,20 @@ namespace Domain.Services.Implementations
 {
     public class VinculoService : IVinculoService
     {
-        public List<VinculoDTO> ListarVinculos()
+        public List<VinculoDTO> ListarVinculos(bool incluirDeshabilitados = false)
         {
-            var lista = TC_Vinculo.FindAll()
+            var lista = TC_Vinculo.FindAll();
+
+            if (!incluirDeshabilitados)
+            {
+                lista = lista.Where(x => x.B_Habilitado);
+            }
+
+            var result = lista
                 .Select(x => Mapper.TC_Vinculo_To_VinculoDTO(x))
                 .ToList();
 
-            return lista;
+            return result;
         }
     }
 }

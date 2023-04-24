@@ -197,3 +197,12 @@ SELECT * FROM dbo.TC_Docente
 SELECT * FROM dbo.TC_CategoriaDocente WHERE B_Eliminado = 0;
 SELECT * FROM dbo.TC_DedicacionDocente WHERE B_Eliminado = 0 AND I_DedicacionDocenteID = 1;
 SELECT * FROM dbo.TC_HorasDocente WHERE B_Eliminado = 0;
+
+select * from dbo.TC_Trabajador
+select * from dbo.TC_Trabajador_CategoriaPlanilla
+
+SELECT * FROM dbo.TC_Vinculo
+SELECT * FROM dbo.TC_CategoriaPlanilla
+
+
+

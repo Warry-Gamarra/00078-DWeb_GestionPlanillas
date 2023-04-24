@@ -9,6 +9,6 @@ namespace Domain.Services
 {
     public interface ITipoDocumentoService
     {
-        List<TipoDocumentoDTO> ListaTipoDocumentos();
+        List<TipoDocumentoDTO> ListaTipoDocumentos(bool incluirDeshabilitados = false);
     }
 }

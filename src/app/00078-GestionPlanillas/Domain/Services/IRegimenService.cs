@@ -9,6 +9,6 @@ namespace Domain.Services
 {
     public interface IRegimenService
     {
-        List<RegimenDTO> ListarRegimenes();
+        List<RegimenDTO> ListarRegimenes(bool incluirDeshabilitados = false);
     }
 }

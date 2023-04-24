@@ -19,16 +19,6 @@ namespace Data.Tables
 
         public bool B_Habilitado { get; set; }
 
-        public bool B_Eliminado { get; set; }
-
-        public int? I_UsuarioCre { get; set; }
-
-        public DateTime? D_FecCre { get; set; }
-
-        public int? I_UsuarioMod { get; set; }
-
-        public DateTime? D_FecMod { get; set; }
-
         public static IEnumerable<TC_Afp> FindAll()
         {
             IEnumerable<TC_Afp> result;
@@ -42,9 +32,9 @@ namespace Data.Tables
                     result = _dbConnection.Query<TC_Afp>(s_command, commandType: System.Data.CommandType.Text);
                 }
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                throw ex;
+                result = new List<TC_Afp>();
             }
 
             return result;

@@ -9,6 +9,6 @@ namespace WebApp.ServiceFacade
 {
     public interface IRegimenServiceFacade
     {
-        SelectList ListarRegimenes();
+        SelectList ListarRegimenes(bool incluirDeshabilitados = false);
     }
 }

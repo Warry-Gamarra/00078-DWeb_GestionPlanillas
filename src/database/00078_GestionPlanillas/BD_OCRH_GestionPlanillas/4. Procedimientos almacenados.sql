@@ -2,6 +2,290 @@ USE [BD_OCRH_GestionPlanillas]
 GO
 
 
+IF EXISTS (SELECT * FROM INFORMATION_SCHEMA.ROUTINES WHERE ROUTINE_TYPE = 'PROCEDURE' AND ROUTINE_NAME = 'USP_I_RegistrarTrabajador')
+	DROP PROCEDURE [dbo].[USP_I_RegistrarTrabajador]
+GO
+
+CREATE PROCEDURE [dbo].[USP_I_RegistrarTrabajador]
+@C_TrabajadorCod VARCHAR(20),
+@T_ApellidoPaterno VARCHAR(250),
+@T_ApellidoMaterno VARCHAR(250),
+@T_Nombre VARCHAR(250),
+@I_TipoDocumentoID INT,
+@C_NumDocumento VARCHAR(20),
+@D_FechaIngreso DATETIME = NULL,
+@I_RegimenID INT,
+@I_EstadoID INT,
+@I_VinculoID INT,
+@I_BancoID INT = NULL,
+@T_NroCuentaBancaria VARCHAR(250) = NULL,
+@I_DependenciaID INT = NULL,
+@I_AfpID INT = NULL,
+@T_Cuspp VARCHAR(20) = NULL,
+@I_CategoriaDocenteID INT = NULL,
+@I_HorasDocenteID INT = NULL,
+@I_GrupoOcupacionalID INT = NULL,
+@I_NivelRemunerativoID INT = NULL,
+@I_UserID INT,
+@B_Result BIT OUTPUT,
+@T_Message VARCHAR(250) OUTPUT
+AS
+BEGIN
+	SET NOCOUNT ON;
+
+	--CONSTANTE
+	DECLARE @I_ADMINISTRATIVOID INT = 1,
+			@I_DOCENTEID INT = 2
+
+	DECLARE @I_PersonaID INT,
+			@I_TrabajadorID INT,
+			@D_FecCre DATETIME
+
+	BEGIN TRAN
+	BEGIN TRY
+		SET @D_FecCre = GETDATE()
+
+		INSERT dbo.TC_Persona(T_ApellidoPaterno, T_ApellidoMaterno, T_Nombre, I_TipoDocumentoID, C_NumDocumento, B_Habilitado, B_Eliminado, I_UsuarioCre, D_FecCre)
+		VALUES(@T_ApellidoPaterno, @T_ApellidoMaterno, @T_Nombre, @I_TipoDocumentoID, @C_NumDocumento, 1, 0, @I_UserID, @D_FecCre)
+
+		SET @I_PersonaID = SCOPE_IDENTITY()
+
+		INSERT dbo.TC_Trabajador(I_PersonaID, C_TrabajadorCod, D_FechaIngreso, I_EstadoID, I_VinculoID, I_RegimenID, I_AfpID, T_Cuspp, B_Habilitado, B_Eliminado, I_UsuarioCre, D_FecCre)
+		VALUES(@I_PersonaID, @C_TrabajadorCod, @D_FechaIngreso, @I_EstadoID, @I_VinculoID, @I_RegimenID, @I_AfpID, @T_Cuspp, 1, 0, @I_UserID, @D_FecCre)
+
+		SET @I_TrabajadorID = SCOPE_IDENTITY()
+
+		INSERT dbo.TC_Trabajador_Dependencia(I_TrabajadorID, I_DependenciaID, B_Habilitado, B_Eliminado, I_UsuarioCre, D_FecCre)
+		VALUES(@I_TrabajadorID, @I_DependenciaID, 1, 0, @I_UserID, @D_FecCre)
+
+		INSERT dbo.TC_CuentaBancaria(I_TrabajadorID, I_BancoID, T_NroCuentaBancaria, B_Habilitado, B_Eliminado, I_UsuarioCre, D_FecCre)
+		VALUES(@I_TrabajadorID, @I_BancoID, @T_NroCuentaBancaria, 1, 0, @I_UserID, @D_FecCre)
+
+		IF (@I_VinculoID IN (1,2)) BEGIN
+			INSERT dbo.TC_Administrativo(I_TrabajadorID, I_GrupoOcupacionalID, I_NivelRemunerativoID, B_Habilitado, B_Eliminado, I_UsuarioCre, D_FecCre)
+			VALUES(@I_TrabajadorID, @I_GrupoOcupacionalID, @I_NivelRemunerativoID, 1, 0, @I_UserID, @D_FecCre)
+
+			INSERT dbo.TC_Trabajador_CategoriaPlanilla(I_TrabajadorID, I_CategoriaPlanillaID, B_Habilitado, B_Eliminado, I_UsuarioCre, D_FecCre)
+			VALUES(@I_TrabajadorID, @I_ADMINISTRATIVOID, 1, 0, @I_UserID, @D_FecCre)
+		END
+
+		IF (@I_VinculoID = 4) BEGIN
+			INSERT dbo.TC_Docente(I_TrabajadorID, I_CategoriaDocenteID, I_HorasDocenteID, B_Habilitado, B_Eliminado, I_UsuarioCre, D_FecCre)
+			VALUES(@I_TrabajadorID, @I_CategoriaDocenteID, @I_HorasDocenteID, 1, 0, @I_UserID, @D_FecCre)
+
+			INSERT dbo.TC_Trabajador_CategoriaPlanilla(I_TrabajadorID, I_CategoriaPlanillaID, B_Habilitado, B_Eliminado, I_UsuarioCre, D_FecCre)
+			VALUES(@I_TrabajadorID, @I_DOCENTEID, 1, 0, @I_UserID, @D_FecCre)
+		END
+
+		COMMIT TRAN
+
+		SET @B_Result = 1
+
+		SET @T_Message = 'Registro correcto.'
+	END TRY
+	BEGIN CATCH
+		ROLLBACK TRAN
+		SET @B_Result = 0
+
+		SET @T_Message = ERROR_MESSAGE()
+	END CATCH
+END
+GO
+
+
+
+IF EXISTS (SELECT * FROM INFORMATION_SCHEMA.ROUTINES WHERE ROUTINE_TYPE = 'PROCEDURE' AND ROUTINE_NAME = 'USP_I_ActualizarTrabajador')
+	DROP PROCEDURE [dbo].[USP_I_ActualizarTrabajador]
+GO
+
+CREATE PROCEDURE [dbo].[USP_I_ActualizarTrabajador]
+@I_trabajadorID INT,
+@C_TrabajadorCod VARCHAR(20),
+@T_ApellidoPaterno VARCHAR(250),
+@T_ApellidoMaterno VARCHAR(250),
+@T_Nombre VARCHAR(250),
+@I_TipoDocumentoID INT,
+@C_NumDocumento VARCHAR(20),
+@D_FechaIngreso DATETIME = NULL,
+@I_RegimenID INT,
+@I_EstadoID INT,
+@I_VinculoID INT,
+@I_BancoID INT = NULL,
+@T_NroCuentaBancaria VARCHAR(250) = NULL,
+@I_DependenciaID INT = NULL,
+@I_AfpID INT = NULL,
+@T_Cuspp VARCHAR(20) = NULL,
+@I_CategoriaDocenteID INT = NULL,
+@I_HorasDocenteID INT = NULL,
+@I_GrupoOcupacionalID INT = NULL,
+@I_NivelRemunerativoID INT = NULL,
+@I_UserID INT,
+@B_Result BIT OUTPUT,
+@T_Message VARCHAR(250) OUTPUT
+AS
+BEGIN
+	SET NOCOUNT ON;
+
+	DECLARE @D_FecMod DATETIME
+
+	BEGIN TRAN
+	BEGIN TRY
+		SET @D_FecMod = GETDATE()
+
+
+		--Actualizar Persona
+		UPDATE per SET 
+			per.T_ApellidoPaterno = @T_ApellidoPaterno,
+			per.T_ApellidoMaterno = @T_ApellidoMaterno,
+			per.T_Nombre = @T_Nombre,
+			per.I_TipoDocumentoID = @I_TipoDocumentoID,
+			per.C_NumDocumento = @C_NumDocumento,
+			per.I_UsuarioMod = @I_UserID,
+			per.D_FecMod = @D_FecMod
+		FROM dbo.TC_Persona per
+		INNER JOIN dbo.TC_Trabajador trab ON trab.I_PersonaID = per.I_PersonaID
+		WHERE trab.I_TrabajadorID = @I_trabajadorID
+
+		--Actualizar Trabajador
+		UPDATE dbo.TC_Trabajador SET
+			C_TrabajadorCod = @C_TrabajadorCod,
+			D_FechaIngreso = @D_FechaIngreso,
+			I_EstadoID = @I_EstadoID,
+			I_VinculoID = @I_VinculoID,
+			I_RegimenID = @I_RegimenID,
+			I_AfpID = @I_AfpID,
+			T_Cuspp = @T_Cuspp,
+			I_UsuarioMod = @I_UserID,
+			D_FecMod = @D_FecMod
+		WHERE I_TrabajadorID = @I_TrabajadorID
+
+		--Actualizar Dependencia
+		IF (@I_DependenciaID IS NULL) BEGIN
+
+			UPDATE dbo.TC_Trabajador_Dependencia SET 
+				B_Habilitado = 0,
+				I_UsuarioMod = @I_UserID,
+				D_FecMod = @D_FecMod
+			WHERE I_TrabajadorID = @I_trabajadorID AND B_Habilitado = 1 AND B_Eliminado = 0
+
+		END ELSE BEGIN
+
+			IF EXISTS(SELECT I_trabajadorID FROM dbo.TC_Trabajador_Dependencia 
+				WHERE I_TrabajadorID = @I_trabajadorID AND I_DependenciaID = @I_DependenciaID AND B_Eliminado = 0)
+			BEGIN
+				IF NOT EXISTS(SELECT I_trabajadorID FROM dbo.TC_Trabajador_Dependencia 
+					WHERE I_TrabajadorID = @I_trabajadorID AND I_DependenciaID = @I_DependenciaID AND B_Habilitado = 1 AND B_Eliminado = 0)
+				BEGIN
+					UPDATE dbo.TC_Trabajador_Dependencia SET 
+						B_Habilitado = 0,
+						I_UsuarioMod = @I_UserID,
+						D_FecMod = @D_FecMod
+					WHERE I_TrabajadorID = @I_trabajadorID AND B_Habilitado = 1 AND B_Eliminado = 0
+
+					UPDATE dbo.TC_Trabajador_Dependencia SET 
+						B_Habilitado = 1,
+						I_UsuarioMod = @I_UserID,
+						D_FecMod = @D_FecMod
+					WHERE I_TrabajadorID = @I_trabajadorID AND I_DependenciaID = @I_DependenciaID AND B_Eliminado = 0
+				END
+			
+			END ELSE BEGIN 
+				UPDATE dbo.TC_Trabajador_Dependencia SET 
+					B_Habilitado = 0,
+					I_UsuarioMod = @I_UserID,
+					D_FecMod = @D_FecMod
+				WHERE I_TrabajadorID = @I_trabajadorID AND B_Habilitado = 1 AND B_Eliminado = 0
+
+				INSERT dbo.TC_Trabajador_Dependencia(I_TrabajadorID, I_DependenciaID, B_Habilitado, B_Eliminado, I_UsuarioCre, D_FecCre)
+				VALUES(@I_TrabajadorID, @I_DependenciaID, 1, 0, @I_UserID, @D_FecMod)
+			END
+
+		END
+
+		--Actualizar Cuentas Bancarias
+		IF (@I_BancoID IS NULL) BEGIN
+
+			UPDATE dbo.TC_CuentaBancaria SET
+				B_Habilitado = 0,
+				I_UsuarioMod = @I_UserID,
+				D_FecMod = @D_FecMod
+			WHERE I_TrabajadorID = @I_trabajadorID AND B_Habilitado = 1 AND B_Eliminado = 0
+
+		END ELSE BEGIN
+
+			IF EXISTS(SELECT I_TrabajadorID FROM dbo.TC_CuentaBancaria 
+				WHERE I_TrabajadorID = @I_trabajadorID AND I_BancoID = @I_BancoID AND B_Eliminado = 0)
+			BEGIN
+				IF EXISTS(SELECT I_TrabajadorID FROM dbo.TC_CuentaBancaria 
+					WHERE I_TrabajadorID = @I_trabajadorID AND I_BancoID = @I_BancoID AND B_Habilitado = 1 AND B_Eliminado = 0)
+				BEGIN
+					UPDATE dbo.TC_CuentaBancaria SET
+						T_NroCuentaBancaria = @T_NroCuentaBancaria,
+						I_UsuarioMod = @I_UserID,
+						D_FecMod = @D_FecMod
+					WHERE I_TrabajadorID = @I_trabajadorID AND I_BancoID = @I_BancoID AND B_Habilitado = 1 AND B_Eliminado = 0
+				END ELSE BEGIN
+					UPDATE dbo.TC_CuentaBancaria SET
+						B_Habilitado = 0,
+						I_UsuarioMod = @I_UserID,
+						D_FecMod = @D_FecMod
+					WHERE I_TrabajadorID = @I_trabajadorID AND B_Habilitado = 1 AND B_Eliminado = 0
+
+					UPDATE dbo.TC_CuentaBancaria SET
+						T_NroCuentaBancaria = @T_NroCuentaBancaria,
+						B_Habilitado = 1,
+						I_UsuarioMod = @I_UserID,
+						D_FecMod = @D_FecMod
+					WHERE I_TrabajadorID = @I_trabajadorID AND I_BancoID = @I_BancoID AND B_Eliminado = 0
+				END
+			END ELSE BEGIN
+				UPDATE dbo.TC_CuentaBancaria SET
+					B_Habilitado = 0,
+					I_UsuarioMod = @I_UserID,
+					D_FecMod = @D_FecMod
+				WHERE I_TrabajadorID = @I_trabajadorID AND B_Habilitado = 1 AND B_Eliminado = 0
+
+				INSERT dbo.TC_CuentaBancaria(I_TrabajadorID, I_BancoID, T_NroCuentaBancaria, B_Habilitado, B_Eliminado, I_UsuarioCre, D_FecCre)
+				VALUES(@I_TrabajadorID, @I_BancoID, @T_NroCuentaBancaria, 1, 0, @I_UserID, @D_FecMod)
+			END
+
+		END
+
+		IF (@I_VinculoID IN (1,2)) BEGIN
+			UPDATE dbo.TC_Administrativo SET 
+				I_GrupoOcupacionalID = @I_GrupoOcupacionalID,
+				I_NivelRemunerativoID = @I_NivelRemunerativoID,
+				I_UsuarioMod = @I_UserID,
+				D_FecMod = @D_FecMod
+			WHERE I_TrabajadorID = @I_TrabajadorID
+		END
+
+		IF (@I_VinculoID = 4) BEGIN
+			UPDATE dbo.TC_Docente SET 
+				I_CategoriaDocenteID = @I_CategoriaDocenteID,
+				I_HorasDocenteID = @I_HorasDocenteID,
+				I_UsuarioMod = @I_UserID,
+				D_FecMod = @D_FecMod
+			WHERE I_TrabajadorID = @I_TrabajadorID
+		END
+		
+		COMMIT TRAN
+
+		SET @B_Result = 1
+
+		SET @T_Message = 'Actualización correcta.'
+	END TRY
+	BEGIN CATCH
+		ROLLBACK TRAN
+		SET @B_Result = 0
+
+		SET @T_Message = ERROR_MESSAGE()
+	END CATCH
+END
+GO
+
+
+
 IF EXISTS (SELECT * FROM INFORMATION_SCHEMA.DOMAINS WHERE DOMAIN_NAME = 'type_dataTrabajador') BEGIN
 	IF EXISTS (SELECT * FROM INFORMATION_SCHEMA.ROUTINES WHERE ROUTINE_TYPE = 'PROCEDURE' AND ROUTINE_NAME = 'USP_I_GenerarPlanilla_Docente_Administrativo') BEGIN
 		DROP PROCEDURE [dbo].[USP_I_GenerarPlanilla_Docente_Administrativo]
@@ -436,276 +720,3 @@ GO
 --select * from dbo.TI_PlantillaPlanilla
 --select * from dbo.TI_PlantillaPlanilla_Concepto
 --GO
-
-
-IF EXISTS (SELECT * FROM INFORMATION_SCHEMA.ROUTINES WHERE ROUTINE_TYPE = 'PROCEDURE' AND ROUTINE_NAME = 'USP_I_RegistrarTrabajador')
-	DROP PROCEDURE [dbo].[USP_I_RegistrarTrabajador]
-GO
-
-CREATE PROCEDURE [dbo].[USP_I_RegistrarTrabajador]
-@C_TrabajadorCod VARCHAR(20),
-@T_ApellidoPaterno VARCHAR(250),
-@T_ApellidoMaterno VARCHAR(250),
-@T_Nombre VARCHAR(250),
-@I_TipoDocumentoID INT,
-@C_NumDocumento VARCHAR(20),
-@D_FechaIngreso DATETIME = NULL,
-@I_RegimenID INT,
-@I_EstadoID INT,
-@I_VinculoID INT,
-@I_BancoID INT = NULL,
-@T_NroCuentaBancaria VARCHAR(250) = NULL,
-@I_DependenciaID INT = NULL,
-@I_AfpID INT = NULL,
-@T_Cuspp VARCHAR(20) = NULL,
-@I_CategoriaDocenteID INT = NULL,
-@I_HorasDocenteID INT = NULL,
-@I_GrupoOcupacionalID INT = NULL,
-@I_NivelRemunerativoID INT = NULL,
-@I_UserID INT,
-@B_Result BIT OUTPUT,
-@T_Message VARCHAR(250) OUTPUT
-AS
-BEGIN
-	SET NOCOUNT ON;
-
-	DECLARE @I_PersonaID INT,
-			@I_TrabajadorID INT,
-			@D_FecCre DATETIME
-
-	BEGIN TRAN
-	BEGIN TRY
-		SET @D_FecCre = GETDATE()
-
-		INSERT dbo.TC_Persona(T_ApellidoPaterno, T_ApellidoMaterno, T_Nombre, I_TipoDocumentoID, C_NumDocumento, B_Habilitado, B_Eliminado, I_UsuarioCre, D_FecCre)
-		VALUES(@T_ApellidoPaterno, @T_ApellidoMaterno, @T_Nombre, @I_TipoDocumentoID, @C_NumDocumento, 1, 0, @I_UserID, @D_FecCre)
-
-		SET @I_PersonaID = SCOPE_IDENTITY()
-
-		INSERT dbo.TC_Trabajador(I_PersonaID, C_TrabajadorCod, D_FechaIngreso, I_EstadoID, I_VinculoID, I_RegimenID, I_AfpID, T_Cuspp, B_Habilitado, B_Eliminado, I_UsuarioCre, D_FecCre)
-		VALUES(@I_PersonaID, @C_TrabajadorCod, @D_FechaIngreso, @I_EstadoID, @I_VinculoID, @I_RegimenID, @I_AfpID, @T_Cuspp, 1, 0, @I_UserID, @D_FecCre)
-
-		SET @I_TrabajadorID = SCOPE_IDENTITY()
-
-		INSERT dbo.TC_Trabajador_Dependencia(I_TrabajadorID, I_DependenciaID, B_Habilitado, B_Eliminado, I_UsuarioCre, D_FecCre)
-		VALUES(@I_TrabajadorID, @I_DependenciaID, 1, 0, @I_UserID, @D_FecCre)
-
-		INSERT dbo.TC_CuentaBancaria(I_TrabajadorID, I_BancoID, T_NroCuentaBancaria, B_Habilitado, B_Eliminado, I_UsuarioCre, D_FecCre)
-		VALUES(@I_TrabajadorID, @I_BancoID, @T_NroCuentaBancaria, 1, 0, @I_UserID, @D_FecCre)
-
-		IF (@I_VinculoID IN (1,2)) BEGIN
-			INSERT dbo.TC_Administrativo(I_TrabajadorID, I_GrupoOcupacionalID, I_NivelRemunerativoID, B_Habilitado, B_Eliminado, I_UsuarioCre, D_FecCre)
-			VALUES(@I_TrabajadorID, @I_GrupoOcupacionalID, @I_NivelRemunerativoID, 1, 0, @I_UserID, @D_FecCre)
-		END
-
-		IF (@I_VinculoID = 4) BEGIN
-			INSERT dbo.TC_Docente(I_TrabajadorID, I_CategoriaDocenteID, I_HorasDocenteID, B_Habilitado, B_Eliminado, I_UsuarioCre, D_FecCre)
-			VALUES(@I_TrabajadorID, @I_CategoriaDocenteID, @I_HorasDocenteID, 1, 0, @I_UserID, @D_FecCre)
-		END
-
-		COMMIT TRAN
-
-		SET @B_Result = 1
-
-		SET @T_Message = 'Registro correcto.'
-	END TRY
-	BEGIN CATCH
-		ROLLBACK TRAN
-		SET @B_Result = 0
-
-		SET @T_Message = ERROR_MESSAGE()
-	END CATCH
-END
-GO
-
-
-
-IF EXISTS (SELECT * FROM INFORMATION_SCHEMA.ROUTINES WHERE ROUTINE_TYPE = 'PROCEDURE' AND ROUTINE_NAME = 'USP_I_ActualizarTrabajador')
-	DROP PROCEDURE [dbo].[USP_I_ActualizarTrabajador]
-GO
-
-CREATE PROCEDURE [dbo].[USP_I_ActualizarTrabajador]
-@I_trabajadorID INT,
-@C_TrabajadorCod VARCHAR(20),
-@T_ApellidoPaterno VARCHAR(250),
-@T_ApellidoMaterno VARCHAR(250),
-@T_Nombre VARCHAR(250),
-@I_TipoDocumentoID INT,
-@C_NumDocumento VARCHAR(20),
-@D_FechaIngreso DATETIME = NULL,
-@I_RegimenID INT,
-@I_EstadoID INT,
-@I_VinculoID INT,
-@I_BancoID INT = NULL,
-@T_NroCuentaBancaria VARCHAR(250) = NULL,
-@I_DependenciaID INT = NULL,
-@I_AfpID INT = NULL,
-@T_Cuspp VARCHAR(20) = NULL,
-@I_CategoriaDocenteID INT = NULL,
-@I_HorasDocenteID INT = NULL,
-@I_GrupoOcupacionalID INT = NULL,
-@I_NivelRemunerativoID INT = NULL,
-@I_UserID INT,
-@B_Result BIT OUTPUT,
-@T_Message VARCHAR(250) OUTPUT
-AS
-BEGIN
-	SET NOCOUNT ON;
-
-	DECLARE @D_FecMod DATETIME
-
-	BEGIN TRAN
-	BEGIN TRY
-		SET @D_FecMod = GETDATE()
-
-
-		--Actualizar Persona
-		UPDATE per SET 
-			per.T_ApellidoPaterno = @T_ApellidoPaterno,
-			per.T_ApellidoMaterno = @T_ApellidoMaterno,
-			per.T_Nombre = @T_Nombre,
-			per.I_TipoDocumentoID = @I_TipoDocumentoID,
-			per.C_NumDocumento = @C_NumDocumento,
-			per.I_UsuarioMod = @I_UserID,
-			per.D_FecMod = @D_FecMod
-		FROM dbo.TC_Persona per
-		INNER JOIN dbo.TC_Trabajador trab ON trab.I_PersonaID = per.I_PersonaID
-		WHERE trab.I_TrabajadorID = @I_trabajadorID
-
-		--Actualizar Trabajador
-		UPDATE dbo.TC_Trabajador SET
-			C_TrabajadorCod = @C_TrabajadorCod,
-			D_FechaIngreso = @D_FechaIngreso,
-			I_EstadoID = @I_EstadoID,
-			I_VinculoID = @I_VinculoID,
-			I_RegimenID = @I_RegimenID,
-			I_AfpID = @I_AfpID,
-			T_Cuspp = @T_Cuspp,
-			I_UsuarioMod = @I_UserID,
-			D_FecMod = @D_FecMod
-		WHERE I_TrabajadorID = @I_TrabajadorID
-
-		--Actualizar Dependencia
-		IF (@I_DependenciaID IS NULL) BEGIN
-
-			UPDATE dbo.TC_Trabajador_Dependencia SET 
-				B_Habilitado = 0,
-				I_UsuarioMod = @I_UserID,
-				D_FecMod = @D_FecMod
-			WHERE I_TrabajadorID = @I_trabajadorID AND B_Habilitado = 1 AND B_Eliminado = 0
-
-		END ELSE BEGIN
-
-			IF EXISTS(SELECT I_trabajadorID FROM dbo.TC_Trabajador_Dependencia 
-				WHERE I_TrabajadorID = @I_trabajadorID AND I_DependenciaID = @I_DependenciaID AND B_Eliminado = 0)
-			BEGIN
-				IF NOT EXISTS(SELECT I_trabajadorID FROM dbo.TC_Trabajador_Dependencia 
-					WHERE I_TrabajadorID = @I_trabajadorID AND I_DependenciaID = @I_DependenciaID AND B_Habilitado = 1 AND B_Eliminado = 0)
-				BEGIN
-					UPDATE dbo.TC_Trabajador_Dependencia SET 
-						B_Habilitado = 0,
-						I_UsuarioMod = @I_UserID,
-						D_FecMod = @D_FecMod
-					WHERE I_TrabajadorID = @I_trabajadorID AND B_Habilitado = 1 AND B_Eliminado = 0
-
-					UPDATE dbo.TC_Trabajador_Dependencia SET 
-						B_Habilitado = 1,
-						I_UsuarioMod = @I_UserID,
-						D_FecMod = @D_FecMod
-					WHERE I_TrabajadorID = @I_trabajadorID AND I_DependenciaID = @I_DependenciaID AND B_Eliminado = 0
-				END
-			
-			END ELSE BEGIN 
-				UPDATE dbo.TC_Trabajador_Dependencia SET 
-					B_Habilitado = 0,
-					I_UsuarioMod = @I_UserID,
-					D_FecMod = @D_FecMod
-				WHERE I_TrabajadorID = @I_trabajadorID AND B_Habilitado = 1 AND B_Eliminado = 0
-
-				INSERT dbo.TC_Trabajador_Dependencia(I_TrabajadorID, I_DependenciaID, B_Habilitado, B_Eliminado, I_UsuarioCre, D_FecCre)
-				VALUES(@I_TrabajadorID, @I_DependenciaID, 1, 0, @I_UserID, @D_FecMod)
-			END
-
-		END
-
-		--Actualizar Cuentas Bancarias
-		IF (@I_BancoID IS NULL) BEGIN
-
-			UPDATE dbo.TC_CuentaBancaria SET
-				B_Habilitado = 0,
-				I_UsuarioMod = @I_UserID,
-				D_FecMod = @D_FecMod
-			WHERE I_TrabajadorID = @I_trabajadorID AND B_Habilitado = 1 AND B_Eliminado = 0
-
-		END ELSE BEGIN
-
-			IF EXISTS(SELECT I_TrabajadorID FROM dbo.TC_CuentaBancaria 
-				WHERE I_TrabajadorID = @I_trabajadorID AND I_BancoID = @I_BancoID AND B_Eliminado = 0)
-			BEGIN
-				IF EXISTS(SELECT I_TrabajadorID FROM dbo.TC_CuentaBancaria 
-					WHERE I_TrabajadorID = @I_trabajadorID AND I_BancoID = @I_BancoID AND B_Habilitado = 1 AND B_Eliminado = 0)
-				BEGIN
-					UPDATE dbo.TC_CuentaBancaria SET
-						T_NroCuentaBancaria = @T_NroCuentaBancaria,
-						I_UsuarioMod = @I_UserID,
-						D_FecMod = @D_FecMod
-					WHERE I_TrabajadorID = @I_trabajadorID AND I_BancoID = @I_BancoID AND B_Habilitado = 1 AND B_Eliminado = 0
-				END ELSE BEGIN
-					UPDATE dbo.TC_CuentaBancaria SET
-						B_Habilitado = 0,
-						I_UsuarioMod = @I_UserID,
-						D_FecMod = @D_FecMod
-					WHERE I_TrabajadorID = @I_trabajadorID AND B_Habilitado = 1 AND B_Eliminado = 0
-
-					UPDATE dbo.TC_CuentaBancaria SET
-						T_NroCuentaBancaria = @T_NroCuentaBancaria,
-						B_Habilitado = 1,
-						I_UsuarioMod = @I_UserID,
-						D_FecMod = @D_FecMod
-					WHERE I_TrabajadorID = @I_trabajadorID AND I_BancoID = @I_BancoID AND B_Eliminado = 0
-				END
-			END ELSE BEGIN
-				UPDATE dbo.TC_CuentaBancaria SET
-					B_Habilitado = 0,
-					I_UsuarioMod = @I_UserID,
-					D_FecMod = @D_FecMod
-				WHERE I_TrabajadorID = @I_trabajadorID AND B_Habilitado = 1 AND B_Eliminado = 0
-
-				INSERT dbo.TC_CuentaBancaria(I_TrabajadorID, I_BancoID, T_NroCuentaBancaria, B_Habilitado, B_Eliminado, I_UsuarioCre, D_FecCre)
-				VALUES(@I_TrabajadorID, @I_BancoID, @T_NroCuentaBancaria, 1, 0, @I_UserID, @D_FecMod)
-			END
-
-		END
-
-		IF (@I_VinculoID IN (1,2)) BEGIN
-			UPDATE dbo.TC_Administrativo SET 
-				I_GrupoOcupacionalID = @I_GrupoOcupacionalID,
-				I_NivelRemunerativoID = @I_NivelRemunerativoID,
-				I_UsuarioMod = @I_UserID,
-				D_FecMod = @D_FecMod
-			WHERE I_TrabajadorID = @I_TrabajadorID
-		END
-
-		IF (@I_VinculoID = 4) BEGIN
-			UPDATE dbo.TC_Docente SET 
-				I_CategoriaDocenteID = @I_CategoriaDocenteID,
-				I_HorasDocenteID = @I_HorasDocenteID,
-				I_UsuarioMod = @I_UserID,
-				D_FecMod = @D_FecMod
-			WHERE I_TrabajadorID = @I_TrabajadorID
-		END
-		
-		COMMIT TRAN
-
-		SET @B_Result = 1
-
-		SET @T_Message = 'Actualización correcta.'
-	END TRY
-	BEGIN CATCH
-		ROLLBACK TRAN
-		SET @B_Result = 0
-
-		SET @T_Message = ERROR_MESSAGE()
-	END CATCH
-END
-GO

@@ -9,6 +9,6 @@ namespace Domain.Services
 {
     public interface INivelRemunerativoService
     {
-        List<NivelRemunerativoDTO> ListarNivelesRemunerativos();
+        List<NivelRemunerativoDTO> ListarNivelesRemunerativos(bool incluirDeshabilitados = false);
     }
 }

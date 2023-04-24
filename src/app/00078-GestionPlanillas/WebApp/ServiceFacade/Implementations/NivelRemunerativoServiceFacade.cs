@@ -16,9 +16,9 @@ namespace WebApp.ServiceFacade.Implementations
             _nivelRemunerativoService = new NivelRemunerativoService();
         }
 
-        public SelectList ListarNivelesRemunerativos()
+        public SelectList ListarNivelesRemunerativos(bool incluirDeshabilitados = false)
         {
-            var lista = _nivelRemunerativoService.ListarNivelesRemunerativos();
+            var lista = _nivelRemunerativoService.ListarNivelesRemunerativos(incluirDeshabilitados);
 
             return new SelectList(lista, "I_NivelRemunerativoID", "T_NivelRemunerativoDesc");
         }

@@ -222,12 +222,12 @@ GO
 
 INSERT dbo.TC_Vinculo(T_VinculoDesc, C_VinculoCod, B_Habilitado, B_Eliminado) VALUES('ADMINISTRATIVO PERMANENTE', 'AP', 1, 0)
 INSERT dbo.TC_Vinculo(T_VinculoDesc, C_VinculoCod, B_Habilitado, B_Eliminado) VALUES('ADMINISTRATIVO CONTRATADO', 'AC', 1, 0)
-INSERT dbo.TC_Vinculo(T_VinculoDesc, C_VinculoCod, B_Habilitado, B_Eliminado) VALUES('MÉDICO PERMANENTE', 'MP', 1, 0)
+INSERT dbo.TC_Vinculo(T_VinculoDesc, C_VinculoCod, B_Habilitado, B_Eliminado) VALUES('MÉDICO PERMANENTE', 'MP', 0, 0)
 INSERT dbo.TC_Vinculo(T_VinculoDesc, C_VinculoCod, B_Habilitado, B_Eliminado) VALUES('DOCENTE PERMANENTE', 'DP', 1, 0)
-INSERT dbo.TC_Vinculo(T_VinculoDesc, C_VinculoCod, B_Habilitado, B_Eliminado) VALUES('DOCENTE CONTRATADO', 'DC', 1, 0)
-INSERT dbo.TC_Vinculo(T_VinculoDesc, C_VinculoCod, B_Habilitado, B_Eliminado) VALUES('CESANTE ADMINISTRATIVO', 'CA', 1, 0)
-INSERT dbo.TC_Vinculo(T_VinculoDesc, C_VinculoCod, B_Habilitado, B_Eliminado) VALUES('CESANTE MÉDICO', 'CM', 1, 0)
-INSERT dbo.TC_Vinculo(T_VinculoDesc, C_VinculoCod, B_Habilitado, B_Eliminado) VALUES('SERVIDOR PERMANENTE', 'SP', 1, 0)
+INSERT dbo.TC_Vinculo(T_VinculoDesc, C_VinculoCod, B_Habilitado, B_Eliminado) VALUES('DOCENTE CONTRATADO', 'DC', 0, 0)
+INSERT dbo.TC_Vinculo(T_VinculoDesc, C_VinculoCod, B_Habilitado, B_Eliminado) VALUES('CESANTE ADMINISTRATIVO', 'CA', 0, 0)
+INSERT dbo.TC_Vinculo(T_VinculoDesc, C_VinculoCod, B_Habilitado, B_Eliminado) VALUES('CESANTE MÉDICO', 'CM', 0, 0)
+INSERT dbo.TC_Vinculo(T_VinculoDesc, C_VinculoCod, B_Habilitado, B_Eliminado) VALUES('SERVIDOR PERMANENTE', 'SP', 0, 0)
 GO
 
 
@@ -311,55 +311,50 @@ GO
 
 
 --DATA EJEMPLO
-INSERT TR_Periodo(I_Anio, I_Mes, T_MesDesc)VALUES(2022, 1, 'Enero')
-INSERT TR_Periodo(I_Anio, I_Mes, T_MesDesc)VALUES(2022, 2, 'Febrero')
-INSERT TR_Periodo(I_Anio, I_Mes, T_MesDesc)VALUES(2022, 3, 'Marzo')
-INSERT TR_Periodo(I_Anio, I_Mes, T_MesDesc)VALUES(2022, 4, 'Abril')
-INSERT TR_Periodo(I_Anio, I_Mes, T_MesDesc)VALUES(2022, 5, 'Mayo')
-INSERT TR_Periodo(I_Anio, I_Mes, T_MesDesc)VALUES(2022, 6, 'Junio')
-INSERT TR_Periodo(I_Anio, I_Mes, T_MesDesc)VALUES(2022, 7, 'Julio')
-INSERT TR_Periodo(I_Anio, I_Mes, T_MesDesc)VALUES(2022, 8, 'Agosto')
-INSERT TR_Periodo(I_Anio, I_Mes, T_MesDesc)VALUES(2022, 9, 'Setiembre')
-INSERT TR_Periodo(I_Anio, I_Mes, T_MesDesc)VALUES(2022, 10, 'Octubre')
-INSERT TR_Periodo(I_Anio, I_Mes, T_MesDesc)VALUES(2022, 11, 'Noviembre')
-INSERT TR_Periodo(I_Anio, I_Mes, T_MesDesc)VALUES(2022, 12, 'Diciembre')
 INSERT TR_Periodo(I_Anio, I_Mes, T_MesDesc)VALUES(2023, 1, 'Enero')
 INSERT TR_Periodo(I_Anio, I_Mes, T_MesDesc)VALUES(2023, 2, 'Febrero')
 INSERT TR_Periodo(I_Anio, I_Mes, T_MesDesc)VALUES(2023, 3, 'Marzo')
 INSERT TR_Periodo(I_Anio, I_Mes, T_MesDesc)VALUES(2023, 4, 'Abril')
 INSERT TR_Periodo(I_Anio, I_Mes, T_MesDesc)VALUES(2023, 5, 'Mayo')
+INSERT TR_Periodo(I_Anio, I_Mes, T_MesDesc)VALUES(2023, 6, 'Junio')
+INSERT TR_Periodo(I_Anio, I_Mes, T_MesDesc)VALUES(2023, 7, 'Julio')
+INSERT TR_Periodo(I_Anio, I_Mes, T_MesDesc)VALUES(2023, 8, 'Agosto')
+INSERT TR_Periodo(I_Anio, I_Mes, T_MesDesc)VALUES(2023, 9, 'Setiembre')
+INSERT TR_Periodo(I_Anio, I_Mes, T_MesDesc)VALUES(2023, 10, 'Octubre')
+INSERT TR_Periodo(I_Anio, I_Mes, T_MesDesc)VALUES(2023, 11, 'Noviembre')
+INSERT TR_Periodo(I_Anio, I_Mes, T_MesDesc)VALUES(2023, 12, 'Diciembre')
 GO
 
 
-INSERT dbo.TC_Persona(I_TipoDocumentoID, C_NumDocumento, T_Nombre, T_ApellidoPaterno, T_ApellidoMaterno, B_Habilitado, B_Eliminado) VALUES(1, '12345678', 'Juan', 'Rodrigo', 'Jiménez', 1, 0)
-INSERT dbo.TC_Persona(I_TipoDocumentoID, C_NumDocumento, T_Nombre, T_ApellidoPaterno, T_ApellidoMaterno, B_Habilitado, B_Eliminado) VALUES(1, '12345679', 'José', 'Medrano', 'Estrada', 1, 0)
-INSERT dbo.TC_Persona(I_TipoDocumentoID, C_NumDocumento, T_Nombre, T_ApellidoPaterno, T_ApellidoMaterno, B_Habilitado, B_Eliminado) VALUES(1, '12345680', 'Abel', 'Ayuso', 'Alcalde', 1, 0)
-INSERT dbo.TC_Persona(I_TipoDocumentoID, C_NumDocumento, T_Nombre, T_ApellidoPaterno, T_ApellidoMaterno, B_Habilitado, B_Eliminado) VALUES(1, '12345681', 'Manolo', 'Chaves', 'Trillo', 1, 0)
-INSERT dbo.TC_Persona(I_TipoDocumentoID, C_NumDocumento, T_Nombre, T_ApellidoPaterno, T_ApellidoMaterno, B_Habilitado, B_Eliminado) VALUES(1, '12345682', 'Carol', 'Toledo', 'Monzón', 1, 0)
-INSERT dbo.TC_Persona(I_TipoDocumentoID, C_NumDocumento, T_Nombre, T_ApellidoPaterno, T_ApellidoMaterno, B_Habilitado, B_Eliminado) VALUES(1, '12345683', 'Rosa', 'Cardona', 'Díaz', 1, 0)
-INSERT dbo.TC_Persona(I_TipoDocumentoID, C_NumDocumento, T_Nombre, T_ApellidoPaterno, T_ApellidoMaterno, B_Habilitado, B_Eliminado) VALUES(1, '12345684', 'Sofía', 'Terejo', 'Crespo', 1, 0)
-GO
+--INSERT dbo.TC_Persona(I_TipoDocumentoID, C_NumDocumento, T_Nombre, T_ApellidoPaterno, T_ApellidoMaterno, B_Habilitado, B_Eliminado) VALUES(1, '12345678', 'Juan', 'Rodrigo', 'Jiménez', 1, 0)
+--INSERT dbo.TC_Persona(I_TipoDocumentoID, C_NumDocumento, T_Nombre, T_ApellidoPaterno, T_ApellidoMaterno, B_Habilitado, B_Eliminado) VALUES(1, '12345679', 'José', 'Medrano', 'Estrada', 1, 0)
+--INSERT dbo.TC_Persona(I_TipoDocumentoID, C_NumDocumento, T_Nombre, T_ApellidoPaterno, T_ApellidoMaterno, B_Habilitado, B_Eliminado) VALUES(1, '12345680', 'Abel', 'Ayuso', 'Alcalde', 1, 0)
+--INSERT dbo.TC_Persona(I_TipoDocumentoID, C_NumDocumento, T_Nombre, T_ApellidoPaterno, T_ApellidoMaterno, B_Habilitado, B_Eliminado) VALUES(1, '12345681', 'Manolo', 'Chaves', 'Trillo', 1, 0)
+--INSERT dbo.TC_Persona(I_TipoDocumentoID, C_NumDocumento, T_Nombre, T_ApellidoPaterno, T_ApellidoMaterno, B_Habilitado, B_Eliminado) VALUES(1, '12345682', 'Carol', 'Toledo', 'Monzón', 1, 0)
+--INSERT dbo.TC_Persona(I_TipoDocumentoID, C_NumDocumento, T_Nombre, T_ApellidoPaterno, T_ApellidoMaterno, B_Habilitado, B_Eliminado) VALUES(1, '12345683', 'Rosa', 'Cardona', 'Díaz', 1, 0)
+--INSERT dbo.TC_Persona(I_TipoDocumentoID, C_NumDocumento, T_Nombre, T_ApellidoPaterno, T_ApellidoMaterno, B_Habilitado, B_Eliminado) VALUES(1, '12345684', 'Sofía', 'Terejo', 'Crespo', 1, 0)
+--GO
 
 
-INSERT dbo.TC_Trabajador(I_PersonaID, C_TrabajadorCod, D_FechaIngreso, I_VinculoID, I_EstadoID, B_Habilitado, B_Eliminado) VALUES(1, 'COD0001', '20230101', 4, 1, 1, 0)
-INSERT dbo.TC_Trabajador(I_PersonaID, C_TrabajadorCod, D_FechaIngreso, I_VinculoID, I_EstadoID, B_Habilitado, B_Eliminado) VALUES(2, 'COD0002', '20230101', 4, 1, 1, 0)
-INSERT dbo.TC_Trabajador(I_PersonaID, C_TrabajadorCod, D_FechaIngreso, I_VinculoID, I_EstadoID, B_Habilitado, B_Eliminado) VALUES(3, 'COD0003', '20230101', 4, 1, 1, 0)
-INSERT dbo.TC_Trabajador(I_PersonaID, C_TrabajadorCod, D_FechaIngreso, I_VinculoID, I_EstadoID, B_Habilitado, B_Eliminado) VALUES(4, 'COD0004', '20230101', 1, 1, 1, 0)
-INSERT dbo.TC_Trabajador(I_PersonaID, C_TrabajadorCod, D_FechaIngreso, I_VinculoID, I_EstadoID, B_Habilitado, B_Eliminado) VALUES(5, 'COD0005', '20230101', 1, 1, 1, 0)
-INSERT dbo.TC_Trabajador(I_PersonaID, C_TrabajadorCod, D_FechaIngreso, I_VinculoID, I_EstadoID, B_Habilitado, B_Eliminado) VALUES(6, 'COD0006', '20230101', 1, 1, 1, 0)
-INSERT dbo.TC_Trabajador(I_PersonaID, C_TrabajadorCod, D_FechaIngreso, I_VinculoID, I_EstadoID, B_Habilitado, B_Eliminado) VALUES(7, 'COD0007', '20230101', 1, 1, 1, 0)
-GO
+--INSERT dbo.TC_Trabajador(I_PersonaID, C_TrabajadorCod, D_FechaIngreso, I_VinculoID, I_EstadoID, B_Habilitado, B_Eliminado) VALUES(1, 'COD0001', '20230101', 4, 1, 1, 0)
+--INSERT dbo.TC_Trabajador(I_PersonaID, C_TrabajadorCod, D_FechaIngreso, I_VinculoID, I_EstadoID, B_Habilitado, B_Eliminado) VALUES(2, 'COD0002', '20230101', 4, 1, 1, 0)
+--INSERT dbo.TC_Trabajador(I_PersonaID, C_TrabajadorCod, D_FechaIngreso, I_VinculoID, I_EstadoID, B_Habilitado, B_Eliminado) VALUES(3, 'COD0003', '20230101', 4, 1, 1, 0)
+--INSERT dbo.TC_Trabajador(I_PersonaID, C_TrabajadorCod, D_FechaIngreso, I_VinculoID, I_EstadoID, B_Habilitado, B_Eliminado) VALUES(4, 'COD0004', '20230101', 1, 1, 1, 0)
+--INSERT dbo.TC_Trabajador(I_PersonaID, C_TrabajadorCod, D_FechaIngreso, I_VinculoID, I_EstadoID, B_Habilitado, B_Eliminado) VALUES(5, 'COD0005', '20230101', 1, 1, 1, 0)
+--INSERT dbo.TC_Trabajador(I_PersonaID, C_TrabajadorCod, D_FechaIngreso, I_VinculoID, I_EstadoID, B_Habilitado, B_Eliminado) VALUES(6, 'COD0006', '20230101', 1, 1, 1, 0)
+--INSERT dbo.TC_Trabajador(I_PersonaID, C_TrabajadorCod, D_FechaIngreso, I_VinculoID, I_EstadoID, B_Habilitado, B_Eliminado) VALUES(7, 'COD0007', '20230101', 1, 1, 1, 0)
+--GO
 
---docente
-INSERT dbo.TC_Trabajador_CategoriaPlanilla(I_TrabajadorID, I_CategoriaPlanillaID, B_Habilitado, B_Eliminado) VALUES(1, 2, 1, 0)
-INSERT dbo.TC_Trabajador_CategoriaPlanilla(I_TrabajadorID, I_CategoriaPlanillaID, B_Habilitado, B_Eliminado) VALUES(2, 2, 1, 0)
-INSERT dbo.TC_Trabajador_CategoriaPlanilla(I_TrabajadorID, I_CategoriaPlanillaID, B_Habilitado, B_Eliminado) VALUES(3, 2, 1, 0)
-GO
+----docente
+--INSERT dbo.TC_Trabajador_CategoriaPlanilla(I_TrabajadorID, I_CategoriaPlanillaID, B_Habilitado, B_Eliminado) VALUES(1, 2, 1, 0)
+--INSERT dbo.TC_Trabajador_CategoriaPlanilla(I_TrabajadorID, I_CategoriaPlanillaID, B_Habilitado, B_Eliminado) VALUES(2, 2, 1, 0)
+--INSERT dbo.TC_Trabajador_CategoriaPlanilla(I_TrabajadorID, I_CategoriaPlanillaID, B_Habilitado, B_Eliminado) VALUES(3, 2, 1, 0)
+--GO
 
-INSERT dbo.TC_Docente(I_TrabajadorID, I_CategoriaDocenteID, I_HorasDocenteID, B_Habilitado, B_Eliminado) VALUES(1, 1, 1, 1, 0)
-INSERT dbo.TC_Docente(I_TrabajadorID, I_CategoriaDocenteID, I_HorasDocenteID, B_Habilitado, B_Eliminado) VALUES(2, 2, 2, 1, 0)
-INSERT dbo.TC_Docente(I_TrabajadorID, I_CategoriaDocenteID, I_HorasDocenteID, B_Habilitado, B_Eliminado) VALUES(3, 3, 3, 1, 0)
-GO
+--INSERT dbo.TC_Docente(I_TrabajadorID, I_CategoriaDocenteID, I_HorasDocenteID, B_Habilitado, B_Eliminado) VALUES(1, 1, 1, 1, 0)
+--INSERT dbo.TC_Docente(I_TrabajadorID, I_CategoriaDocenteID, I_HorasDocenteID, B_Habilitado, B_Eliminado) VALUES(2, 2, 2, 1, 0)
+--INSERT dbo.TC_Docente(I_TrabajadorID, I_CategoriaDocenteID, I_HorasDocenteID, B_Habilitado, B_Eliminado) VALUES(3, 3, 3, 1, 0)
+--GO
 
 
 --INSERT dbo.TI_MontoTrabajador(I_TrabajadorID, I_PeriodoID, B_Habilitado, B_Eliminado) VALUES(1, 1, 1, 0)
@@ -371,15 +366,15 @@ GO
 --GO
 
 
---administrativo
-INSERT dbo.TC_Trabajador_CategoriaPlanilla(I_TrabajadorID, I_CategoriaPlanillaID, B_Habilitado, B_Eliminado) VALUES(4, 1, 1, 0)
-INSERT dbo.TC_Trabajador_CategoriaPlanilla(I_TrabajadorID, I_CategoriaPlanillaID, B_Habilitado, B_Eliminado) VALUES(5, 1, 1, 0)
-INSERT dbo.TC_Trabajador_CategoriaPlanilla(I_TrabajadorID, I_CategoriaPlanillaID, B_Habilitado, B_Eliminado) VALUES(6, 1, 1, 0)
-INSERT dbo.TC_Trabajador_CategoriaPlanilla(I_TrabajadorID, I_CategoriaPlanillaID, B_Habilitado, B_Eliminado) VALUES(7, 1, 1, 0)
-GO
+----administrativo
+--INSERT dbo.TC_Trabajador_CategoriaPlanilla(I_TrabajadorID, I_CategoriaPlanillaID, B_Habilitado, B_Eliminado) VALUES(4, 1, 1, 0)
+--INSERT dbo.TC_Trabajador_CategoriaPlanilla(I_TrabajadorID, I_CategoriaPlanillaID, B_Habilitado, B_Eliminado) VALUES(5, 1, 1, 0)
+--INSERT dbo.TC_Trabajador_CategoriaPlanilla(I_TrabajadorID, I_CategoriaPlanillaID, B_Habilitado, B_Eliminado) VALUES(6, 1, 1, 0)
+--INSERT dbo.TC_Trabajador_CategoriaPlanilla(I_TrabajadorID, I_CategoriaPlanillaID, B_Habilitado, B_Eliminado) VALUES(7, 1, 1, 0)
+--GO
 
-INSERT dbo.TC_Administrativo(I_TrabajadorID, I_GrupoOcupacionalID, I_NivelRemunerativoID, B_Habilitado, B_Eliminado) VALUES(4, 1, 3, 1, 0)
-INSERT dbo.TC_Administrativo(I_TrabajadorID, I_GrupoOcupacionalID, I_NivelRemunerativoID, B_Habilitado, B_Eliminado) VALUES(5, 2, 5, 1, 0)
-INSERT dbo.TC_Administrativo(I_TrabajadorID, I_GrupoOcupacionalID, I_NivelRemunerativoID, B_Habilitado, B_Eliminado) VALUES(6, 3, 6, 1, 0)
-INSERT dbo.TC_Administrativo(I_TrabajadorID, I_GrupoOcupacionalID, I_NivelRemunerativoID, B_Habilitado, B_Eliminado) VALUES(7, 4, 7, 1, 0)
-GO
+--INSERT dbo.TC_Administrativo(I_TrabajadorID, I_GrupoOcupacionalID, I_NivelRemunerativoID, B_Habilitado, B_Eliminado) VALUES(4, 1, 3, 1, 0)
+--INSERT dbo.TC_Administrativo(I_TrabajadorID, I_GrupoOcupacionalID, I_NivelRemunerativoID, B_Habilitado, B_Eliminado) VALUES(5, 2, 5, 1, 0)
+--INSERT dbo.TC_Administrativo(I_TrabajadorID, I_GrupoOcupacionalID, I_NivelRemunerativoID, B_Habilitado, B_Eliminado) VALUES(6, 3, 6, 1, 0)
+--INSERT dbo.TC_Administrativo(I_TrabajadorID, I_GrupoOcupacionalID, I_NivelRemunerativoID, B_Habilitado, B_Eliminado) VALUES(7, 4, 7, 1, 0)
+--GO

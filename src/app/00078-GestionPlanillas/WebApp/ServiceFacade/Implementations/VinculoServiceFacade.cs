@@ -17,9 +17,9 @@ namespace WebApp.ServiceFacade.Implementations
             _vinculoService = new VinculoService();
         }
 
-        public SelectList ListarVinculos()
+        public SelectList ListarVinculos(bool incluirDeshabilitados = false)
         {
-            var lista = _vinculoService.ListarVinculos();
+            var lista = _vinculoService.ListarVinculos(incluirDeshabilitados);
 
             return new SelectList(lista, "I_VinculoID", "T_VinculoDesc");
         }

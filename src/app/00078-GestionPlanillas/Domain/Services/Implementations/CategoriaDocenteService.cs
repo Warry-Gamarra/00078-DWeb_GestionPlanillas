@@ -11,13 +11,20 @@ namespace Domain.Services.Implementations
 {
     public class CategoriaDocenteService : ICategoriaDocenteService
     {
-        public List<CategoriaDocenteDTO> ListarCategoriasDocente()
+        public List<CategoriaDocenteDTO> ListarCategoriasDocente(bool incluirDeshabilitados = false)
         {
-            var lista = TC_CategoriaDocente.FindAll()
+            var lista = TC_CategoriaDocente.FindAll();
+
+            if (!incluirDeshabilitados)
+            {
+                lista = lista.Where(x => x.B_Habilitado);
+            }
+
+            var result= lista
                 .Select(x => Mapper.TC_CategoriaDocente_To_CategoriaDocenteDTO(x))
                 .ToList();
 
-            return lista;
+            return result;
         }
     }
 }

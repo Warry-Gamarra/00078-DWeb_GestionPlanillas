@@ -11,13 +11,20 @@ namespace Domain.Services.Implementations
 {
     public class GrupoOcupacionalService : IGrupoOcupacionalService
     {
-        public List<GrupoOcupacionalDTO> ListarGruposOcupacionales()
+        public List<GrupoOcupacionalDTO> ListarGruposOcupacionales(bool incluirDeshabilitados = false)
         {
-            var lista = TC_GrupoOcupacional.FindAll()
+            var lista = TC_GrupoOcupacional.FindAll();
+
+            if (!incluirDeshabilitados)
+            {
+                lista = lista.Where(x => x.B_Habilitado);
+            }
+
+            var result = lista
                 .Select(x => Mapper.TC_GrupoOcupacional_To_GrupoOcupacionalDTO(x))
                 .ToList();
 
-            return lista;
+            return result;
         }
     }
 }

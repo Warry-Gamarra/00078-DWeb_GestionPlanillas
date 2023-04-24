@@ -9,6 +9,6 @@ namespace Domain.Services
 {
     public interface IGrupoOcupacionalService
     {
-        List<GrupoOcupacionalDTO> ListarGruposOcupacionales();
+        List<GrupoOcupacionalDTO> ListarGruposOcupacionales(bool incluirDeshabilitados = false);
     }
 }

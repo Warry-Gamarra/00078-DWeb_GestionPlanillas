@@ -9,6 +9,6 @@ namespace Domain.Services
 {
     public interface ICategoriaDocenteService
     {
-        List<CategoriaDocenteDTO> ListarCategoriasDocente();
+        List<CategoriaDocenteDTO> ListarCategoriasDocente(bool incluirDeshabilitados = false);
     }
 }

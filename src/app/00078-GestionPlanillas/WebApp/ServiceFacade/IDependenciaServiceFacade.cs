@@ -9,6 +9,6 @@ namespace WebApp.ServiceFacade
 {
     public interface IDependenciaServiceFacade
     {
-        SelectList ListarDependencias();
+        SelectList ListarDependencias(bool incluirDeshabilitados = false);
     }
 }

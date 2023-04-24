@@ -9,6 +9,6 @@ namespace Domain.Services
 {
     public interface IEstadoService
     {
-        List<EstadoDTO> ListarEstados();
+        List<EstadoDTO> ListarEstados(bool incluirDeshabilitados = false);
     }
 }

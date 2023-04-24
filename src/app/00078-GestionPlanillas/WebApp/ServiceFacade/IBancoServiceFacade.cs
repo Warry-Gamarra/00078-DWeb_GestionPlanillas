@@ -8,6 +8,6 @@ namespace WebApp.ServiceFacade
 {
     public interface IBancoServiceFacade
     {
-        SelectList ListarBancos();
+        SelectList ListarBancos(bool incluirDeshabilitados = false);
     }
 }

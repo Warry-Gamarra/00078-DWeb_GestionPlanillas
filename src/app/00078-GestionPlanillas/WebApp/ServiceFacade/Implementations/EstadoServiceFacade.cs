@@ -17,9 +17,9 @@ namespace WebApp.ServiceFacade.Implementations
             _estadoService = new EstadoService();
         }
 
-        public SelectList ListarEstados()
+        public SelectList ListarEstados(bool incluirDeshabilitados = false)
         {
-            var lista = _estadoService.ListarEstados();
+            var lista = _estadoService.ListarEstados(incluirDeshabilitados);
 
             return new SelectList(lista, "I_EstadoID", "T_EstadoDesc");
         }

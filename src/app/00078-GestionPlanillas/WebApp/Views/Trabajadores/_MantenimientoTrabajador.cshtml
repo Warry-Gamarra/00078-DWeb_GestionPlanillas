@@ -206,28 +206,49 @@
             e.stopPropagation();
         });
 
-        $('.modal-body .administrativo').css("display", "@ViewBag.DisplayDivAdministrativo");
-        $('.modal-body .docente').css("display", "@ViewBag.DisplayDivDocente");
+        mostrarFiltroSegunVinculo(parseInt($('.modal-body #I_VinculoID').val()));
+
+        habilitarAfp(parseInt($('.modal-body #I_RegimenID').val()));
 
         $(".modal-body").on("change", "#I_VinculoID", function () {
             let vinculoID = parseInt(this.value);
 
-            $('.modal-body .administrativo').css("display", "none");
-            $('.modal-body .docente').css("display", "none");
+            mostrarFiltroSegunVinculo(vinculoID);
+        });
 
-            switch (vinculoID) {
-                case VINCULO.ADMINISTRATIVO_PERMANENTE:
-                    $('.modal-body .administrativo').css("display", "block");
-                    break;
+        $(".modal-body").on("change", "#I_RegimenID", function () {
+            let regimenID = parseInt(this.value);
 
-                case VINCULO.ADMINISTRATIVO_CONTRATADO:
-                    $('.modal-body .administrativo').css("display", "block");
-                    break;
-
-                case VINCULO.DOCENTE_PERMANENTE:
-                    $('.modal-body .docente').css("display", "block");
-                    break;
-            }
+            habilitarAfp(regimenID);
         });
     });
+
+    function mostrarFiltroSegunVinculo(vinculoID) {
+        $('.modal-body .administrativo').css("display", "none");
+        $('.modal-body .docente').css("display", "none");
+
+        switch (vinculoID) {
+            case VINCULO.ADMINISTRATIVO_PERMANENTE:
+                $('.modal-body .administrativo').css("display", "block");
+                break;
+
+            case VINCULO.ADMINISTRATIVO_CONTRATADO:
+                $('.modal-body .administrativo').css("display", "block");
+                break;
+
+            case VINCULO.DOCENTE_PERMANENTE:
+                $('.modal-body .docente').css("display", "block");
+                break;
+        }
+    }
+
+    function habilitarAfp(regimenID) {
+        if (regimenID === REGIMEN.AFP) {
+            $('.modal-body #I_AfpID').prop("disabled", "");
+            $('.modal-body #T_Cuspp').prop("disabled", "");
+        } else {
+            $('.modal-body #I_AfpID').prop("disabled", "disabled");
+            $('.modal-body #T_Cuspp').prop("disabled", "disabled");
+        }
+    }
 </script>

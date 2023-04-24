@@ -11,13 +11,20 @@ namespace Domain.Services.Implementations
 {
     public class BancoService : IBancoService
     {
-        public List<BancoDTO> ListarBancos()
+        public List<BancoDTO> ListarBancos(bool incluirDeshabilitados = false)
         {
-            var lista = TC_Banco.FindAll()
+            var lista = TC_Banco.FindAll();
+
+            if (!incluirDeshabilitados)
+            {
+                lista = lista.Where(x => x.B_Habilitado);
+            }
+
+            var result = lista
                 .Select(x => Mapper.TC_Banco_To_BancoDTO(x))
                 .ToList();
             
-            return lista;
+            return result;
         }
     }
 }

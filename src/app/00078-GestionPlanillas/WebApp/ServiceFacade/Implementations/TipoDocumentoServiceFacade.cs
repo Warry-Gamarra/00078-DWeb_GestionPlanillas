@@ -17,9 +17,9 @@ namespace WebApp.ServiceFacade.Implementations
             _tipoDocumentoService = new TipoDocumentoService();
         }
 
-        public SelectList ListarTipoDocumentos()
+        public SelectList ListarTipoDocumentos(bool incluirDeshabilitados = false)
         {
-            var lista = _tipoDocumentoService.ListaTipoDocumentos();
+            var lista = _tipoDocumentoService.ListaTipoDocumentos(incluirDeshabilitados);
 
             return new SelectList(lista, "I_TipoDocumentoID", "T_TipoDocumentoDesc");
         }

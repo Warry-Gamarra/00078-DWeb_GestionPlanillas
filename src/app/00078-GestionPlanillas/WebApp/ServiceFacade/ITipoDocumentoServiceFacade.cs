@@ -8,6 +8,6 @@ namespace WebApp.ServiceFacade
 {
     public interface ITipoDocumentoServiceFacade
     {
-        SelectList ListarTipoDocumentos();
+        SelectList ListarTipoDocumentos(bool incluirDeshabilitados = false);
     }
 }

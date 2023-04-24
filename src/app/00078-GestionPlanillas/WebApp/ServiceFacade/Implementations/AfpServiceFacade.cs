@@ -17,9 +17,9 @@ namespace WebApp.ServiceFacade.Implementations
             _afpService = new AfpService();
         }
 
-        public SelectList ListarAfps()
+        public SelectList ListarAfps(bool incluirDeshabilitados = false)
         {
-            var lista = _afpService.ListarAfps();
+            var lista = _afpService.ListarAfps(incluirDeshabilitados);
 
             return new SelectList(lista, "I_AfpID", "T_AfpDesc");
         }

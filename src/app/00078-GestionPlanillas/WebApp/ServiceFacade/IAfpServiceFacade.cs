@@ -9,6 +9,6 @@ namespace WebApp.ServiceFacade
 {
     public interface IAfpServiceFacade
     {
-        SelectList ListarAfps();
+        SelectList ListarAfps(bool incluirDeshabilitados = false);
     }
 }

@@ -9,6 +9,6 @@ namespace Domain.Services
 {
     public interface IAfpService
     {
-        List<AfpDTO> ListarAfps();
+        List<AfpDTO> ListarAfps(bool incluirDeshabilitados = false);
     }
 }

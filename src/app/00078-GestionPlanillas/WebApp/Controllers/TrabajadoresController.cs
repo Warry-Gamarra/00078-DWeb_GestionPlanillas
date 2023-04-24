@@ -90,10 +90,6 @@ namespace WebApp.Controllers
 
             ViewBag.HorasDocente = _horasDocenteServiceFacade.ListarHorasDedicacionDocente();
 
-            ViewBag.DisplayDivAdministrativo = "block";
-
-            ViewBag.DisplayDivDocente = "none";
-
             var trabajador = new TrabajadorModel();
 
             return PartialView("_MantenimientoTrabajador", trabajador);
@@ -146,23 +142,6 @@ namespace WebApp.Controllers
             ViewBag.HorasDocente = _horasDocenteServiceFacade.ListarHorasDedicacionDocente();
 
             var trabajador = _trabajadorServiceFacade.ListarTrabajadores().Where(x => x.I_TrabajadorID == id).FirstOrDefault();
-
-            var displayDivAdministrativo = "none";
-
-            var displayDivDocente = "none";
-
-            if (trabajador.Vinculo == Vinculo.AdministrativoPermanente || trabajador.Vinculo.Equals(Vinculo.AdministrativoContratado))
-            {
-                displayDivAdministrativo = "block";
-            }
-            else if (trabajador.Vinculo.Equals(Vinculo.DocentePermanente))
-            {
-                displayDivDocente = "block";
-            }
-
-            ViewBag.DisplayDivAdministrativo = displayDivAdministrativo;
-
-            ViewBag.DisplayDivDocente = displayDivDocente;
 
             return PartialView("_MantenimientoTrabajador", trabajador);
         }

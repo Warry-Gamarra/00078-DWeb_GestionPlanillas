@@ -17,9 +17,9 @@ namespace WebApp.ServiceFacade.Implementations
             _dependenciaService = new DependenciaService();
         }
 
-        public SelectList ListarDependencias()
+        public SelectList ListarDependencias(bool incluirDeshabilitados = false)
         {
-            var lista = _dependenciaService.ListarDependencias();
+            var lista = _dependenciaService.ListarDependencias(incluirDeshabilitados);
 
             return new SelectList(lista, "I_DependenciaID", "T_DependenciaCodDesc");
         }

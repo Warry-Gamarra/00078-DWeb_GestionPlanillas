@@ -9,6 +9,6 @@ namespace Domain.Services
 {
     public interface IDependenciaService
     {
-        List<DependenciaDTO> ListarDependencias();
+        List<DependenciaDTO> ListarDependencias(bool incluirDeshabilitados = false);
     }
 }

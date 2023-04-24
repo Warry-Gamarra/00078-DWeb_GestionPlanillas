@@ -17,9 +17,9 @@ namespace WebApp.ServiceFacade.Implementations
             _bancoService = new BancoService();
         }
 
-        public SelectList ListarBancos()
+        public SelectList ListarBancos(bool incluirDeshabilitados = false)
         {
-            var lista = _bancoService.ListarBancos();
+            var lista = _bancoService.ListarBancos(incluirDeshabilitados);
 
             return new SelectList(lista, "I_BancoID", "T_BancoDesc");
         }

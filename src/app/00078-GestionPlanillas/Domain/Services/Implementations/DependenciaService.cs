@@ -11,14 +11,21 @@ namespace Domain.Services.Implementations
 {
     public class DependenciaService : IDependenciaService
     {
-        public List<DependenciaDTO> ListarDependencias()
+        public List<DependenciaDTO> ListarDependencias(bool incluirDeshabilitados = false)
         {
-            var lista = TC_Dependencia.FindAll()
+            var lista = TC_Dependencia.FindAll();
+
+            if (!incluirDeshabilitados)
+            {
+                lista = lista.Where(x => x.B_Habilitado);
+            }
+
+            var result = lista
                 .Select(x => Mapper.TC_Dependencia_To_DependenciaDTO(x))
                 .OrderBy(x => x.T_DependenciaDesc)
                 .ToList();
 
-            return lista;
+            return result;
         }
     }
 }

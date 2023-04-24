@@ -9,6 +9,6 @@ namespace WebApp.ServiceFacade
 {
     public interface IVinculoServiceFacade
     {
-        SelectList ListarVinculos();
+        SelectList ListarVinculos(bool incluirDeshabilitados = false);
     }
 }

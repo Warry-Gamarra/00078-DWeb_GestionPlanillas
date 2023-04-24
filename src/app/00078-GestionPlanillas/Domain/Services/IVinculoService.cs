@@ -9,6 +9,6 @@ namespace Domain.Services
 {
     public interface IVinculoService
     {
-        List<VinculoDTO> ListarVinculos();
+        List<VinculoDTO> ListarVinculos(bool incluirDeshabilitados = false);
     }
 }
