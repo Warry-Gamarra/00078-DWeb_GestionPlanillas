@@ -13,6 +13,8 @@ namespace WebApp.ServiceFacade
     {
         List<TrabajadorModel> ListarTrabajadores();
 
+        TrabajadorModel ObtenerTrabajador(int I_TrabajadorID);
+
         Response GrabarTrabajador(Operacion operacion, TrabajadorModel model, int userID);
     }
 }

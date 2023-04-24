@@ -141,7 +141,7 @@ namespace WebApp.Controllers
 
             ViewBag.HorasDocente = _horasDocenteServiceFacade.ListarHorasDedicacionDocente();
 
-            var trabajador = _trabajadorServiceFacade.ListarTrabajadores().Where(x => x.I_TrabajadorID == id).FirstOrDefault();
+            var trabajador = _trabajadorServiceFacade.ObtenerTrabajador(id);
 
             return PartialView("_MantenimientoTrabajador", trabajador);
         }

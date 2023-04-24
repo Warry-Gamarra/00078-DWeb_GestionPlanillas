@@ -78,9 +78,30 @@ namespace Data.Views
                     result = _dbConnection.Query<VW_Trabajadores>(s_command, commandType: System.Data.CommandType.Text);
                 }
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                throw ex;
+                result = new List<VW_Trabajadores>();
+            }
+
+            return result;
+        }
+
+        public static VW_Trabajadores FindByID(int I_TrabajadorID)
+        {
+            VW_Trabajadores result;
+
+            try
+            {
+                string s_command = "SELECT * FROM dbo.VW_Trabajadores WHERE I_TrabajadorID = @I_TrabajadorID;";
+
+                using (var _dbConnection = new SqlConnection(Database.ConnectionString))
+                {
+                    result = _dbConnection.QuerySingle<VW_Trabajadores>(s_command, new { I_TrabajadorID  = I_TrabajadorID  }, commandType: System.Data.CommandType.Text);
+                }
+            }
+            catch (Exception)
+            {
+                result = null;
             }
 
             return result;

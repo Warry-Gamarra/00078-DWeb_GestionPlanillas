@@ -27,26 +27,30 @@
             </div>
             <div class="col-3">
                 <div class="form-group">
-                    <label class="control-label" for="">&nbsp;</label>
+                    <label class="control-label" for="C_NumDocumento">&nbsp;</label>
                     @Html.TextBoxFor(model => model.C_NumDocumento, new { @class = "form-control", @placeholder = "Num.Documento" })
+                    @Html.ValidationMessageFor(model => model.C_NumDocumento, null, new { @class = "text-danger" })
                 </div>
             </div>
             <div class="col-2">
                 <div class="form-group">
                     @Html.LabelFor(model => model.T_ApellidoPaterno, new { @class = "control-label" })
                     @Html.TextBoxFor(model => model.T_ApellidoPaterno, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(model => model.T_ApellidoPaterno, null, new { @class = "text-danger" })
                 </div>
             </div>
             <div class="col-2">
                 <div class="form-group">
                     @Html.LabelFor(model => model.T_ApellidoMaterno, new { @class = "control-label" })
                     @Html.TextBoxFor(model => model.T_ApellidoMaterno, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(model => model.T_ApellidoMaterno, null, new { @class = "text-danger" })
                 </div>
             </div>
             <div class="col-3">
                 <div class="form-group">
                     @Html.LabelFor(model => model.T_Nombre, new { @class = "control-label" })
                     @Html.TextBoxFor(model => model.T_Nombre, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(model => model.T_Nombre, null, new { @class = "text-danger" })
                 </div>
             </div>
         </div>
@@ -56,6 +60,7 @@
                 <div class="form-group">
                     @Html.LabelFor(model => model.C_TrabajadorCod, new { @class = "control-label" })
                     @Html.TextBoxFor(model => model.C_TrabajadorCod, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(model => model.C_TrabajadorCod, null, new { @class = "text-danger" })
                 </div>
             </div>
             <div class="col-4">
@@ -112,12 +117,14 @@
                 <div class="form-group">
                     @Html.LabelFor(model => model.I_BancoID, new { @class = "control-label" })
                     @Html.DropDownListFor(model => model.I_BancoID, ViewBag.ListaBancos as SelectList, "[ SELECCIONAR ]", new { @class = "form-control text-uppercase" })
+                    @Html.ValidationMessageFor(model => model.I_BancoID, null, new { @class = "text-danger" })
                 </div>
             </div>
             <div class="col-3">
                 <div class="form-group">
-                    <label class="control-label" for="">&nbsp;</label>
+                    <label class="control-label" for="T_NroCuentaBancaria">&nbsp;</label>
                     @Html.TextBoxFor(model => model.T_NroCuentaBancaria, new { @class = "form-control", @placeholder = "Num.Cuenta" })
+                    @Html.ValidationMessageFor(model => model.T_NroCuentaBancaria, null, new { @class = "text-danger" })
                 </div>
             </div>
             <div class="col-3">
@@ -134,6 +141,7 @@
                     @Html.LabelFor(model => model.I_DependenciaID, new { @class = "col-sm-2 control-label" })
                     <div class="col-sm-10">
                         @Html.DropDownListFor(model => model.I_DependenciaID, ViewBag.ListaDependencias as SelectList, "[ SELECCIONAR ]", new { @class = "form-control text-uppercase select-filter-modal" })
+                        @Html.ValidationMessageFor(model => model.I_DependenciaID, null, new { @class = "text-danger" })
                     </div>
                 </div>
             </div>

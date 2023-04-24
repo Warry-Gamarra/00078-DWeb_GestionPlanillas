@@ -287,5 +287,23 @@ namespace Domain.Helpers
 
             return categoriaDocenteDTO;
         }
+
+        public static PersonaDTO TC_Persona_To_PersonaDTO(TC_Persona table)
+        {
+            var personaDTO = new PersonaDTO()
+            {
+                I_PersonaID = table.I_PersonaID,
+                I_TipoDocumentoID = table.I_TipoDocumentoID,
+                C_NumDocumento = table.C_NumDocumento,
+                T_Nombre = table.T_Nombre,
+                T_ApellidoPaterno = table.T_ApellidoPaterno,
+                T_ApellidoMaterno = table.T_ApellidoMaterno,
+                D_FecNac = table.D_FecNac,
+                C_Cui = table.C_Cui,
+                B_Habilitado = table.B_Habilitado
+            };
+
+            return personaDTO;
+        }
     }
 }

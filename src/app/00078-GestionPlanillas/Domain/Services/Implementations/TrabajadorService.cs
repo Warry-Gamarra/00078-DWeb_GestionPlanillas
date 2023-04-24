@@ -24,6 +24,24 @@ namespace Domain.Services.Implementations
             return lista;
         }
 
+        public TrabajadorDTO ObtenerTrabajador(int I_TrabajadorID)
+        {
+            TrabajadorDTO trabajadorDTO;
+
+            var view = VW_Trabajadores.FindByID(I_TrabajadorID);
+
+            if (view == null)
+            {
+                trabajadorDTO = null;
+            }
+            else
+            {
+                trabajadorDTO = Mapper.VW_Trabajadores_To_TrabajadorDTO(view);
+            }
+
+            return trabajadorDTO;
+        }
+
         public Response GrabarTrabajador(Operacion operacion, TrabajadorEntity trabajadorEntity, int userID)
         {
             Result result;

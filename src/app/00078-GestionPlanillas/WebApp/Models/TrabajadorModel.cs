@@ -16,12 +16,15 @@ namespace WebApp.Models
         public int? I_TrabajadorID { get; set; }
 
         [DisplayName("Código")]
+        [Required(ErrorMessage = "El {0} es obligatorio.")]
         public string C_TrabajadorCod { get; set; }
 
         [DisplayName("Nombres")]
+        [Required(ErrorMessage = "El Nombre es obligatorio.")]
         public string T_Nombre { get; set; }
 
         [DisplayName("Ape.Paterno")]
+        [Required(ErrorMessage = "El {0} es obligatorio.")]
         public string T_ApellidoPaterno { get; set; }
 
         [DisplayName("Ape.Materno")]
@@ -37,6 +40,7 @@ namespace WebApp.Models
 
         public string T_TipoDocumentoDesc { get; set; }
 
+        [Required(ErrorMessage = "El Num.Documento es obligatorio.")]
         public string C_NumDocumento { get; set; }
 
         [DisplayName("Fec.Ingreso")]
@@ -85,6 +89,7 @@ namespace WebApp.Models
         public int? I_TrabajadorDependenciaID { get; set; }
 
         [DisplayName("Dependencia")]
+        [Required(ErrorMessage = "La {0} es obligatoria.")]
         public int? I_DependenciaID { get; set; }
 
         public string C_DependenciaCod { get; set; }
@@ -93,9 +98,11 @@ namespace WebApp.Models
 
         public int? I_CuentaBancariaID { get; set; }
 
+        [Required(ErrorMessage = "El Num.Cuenta es obligatorio.")]
         public string T_NroCuentaBancaria { get; set; }
 
         [DisplayName("Cta.Banco")]
+        [Required(ErrorMessage = "Seleccionar la {0}.")]
         public int? I_BancoID { get; set; }
 
         public string T_BancoDesc { get; set; }

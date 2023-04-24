@@ -49,6 +49,7 @@
     <Compile Include="Entities\GrupoOcupacionalDTO.cs" />
     <Compile Include="Entities\HorasDedicacionDocenteDTO.cs" />
     <Compile Include="Entities\NivelRemunerativoDTO.cs" />
+    <Compile Include="Entities\PersonaDTO.cs" />
     <Compile Include="Entities\RegimenDTO.cs" />
     <Compile Include="Entities\ResumenPlanillaTrabajadorDTO.cs" />
     <Compile Include="Entities\DocenteDTO.cs" />
@@ -80,12 +81,14 @@
     <Compile Include="Services\Implementations\GrupoOcupacionalService.cs" />
     <Compile Include="Services\Implementations\HorasDocenteService.cs" />
     <Compile Include="Services\Implementations\NivelRemunerativoService.cs" />
+    <Compile Include="Services\Implementations\PersonaService.cs" />
     <Compile Include="Services\Implementations\PlanillaService.cs" />
     <Compile Include="Services\Implementations\RegimenService.cs" />
     <Compile Include="Services\Implementations\TipoDocumentoService.cs" />
     <Compile Include="Services\Implementations\VinculoService.cs" />
     <Compile Include="Services\IBancoService.cs" />
     <Compile Include="Services\INivelRemunerativoService.cs" />
+    <Compile Include="Services\IPersonaService.cs" />
     <Compile Include="Services\IRegimenService.cs" />
     <Compile Include="Services\ITipoDocumentoService.cs" />
     <Compile Include="Services\ITrabajadorService.cs" />

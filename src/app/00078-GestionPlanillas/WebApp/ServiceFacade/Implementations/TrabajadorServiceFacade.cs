@@ -14,10 +14,12 @@ namespace WebApp.ServiceFacade.Implementations
 {
     public class TrabajadorServiceFacade : ITrabajadorServiceFacade
     {
+        private IPersonaService _personaService;
         private ITrabajadorService _trabajadorService;
 
         public TrabajadorServiceFacade()
         {
+            _personaService = new PersonaService();
             _trabajadorService = new TrabajadorService();
         }
 
@@ -30,12 +32,35 @@ namespace WebApp.ServiceFacade.Implementations
             return lista;
         }
 
+        public TrabajadorModel ObtenerTrabajador(int I_TrabajadorID)
+        {
+            TrabajadorModel trabajadorModel;
+
+            var trabajadorDTO = _trabajadorService.ObtenerTrabajador(I_TrabajadorID);
+
+            if (trabajadorDTO == null)
+            {
+                trabajadorModel = null;
+            }
+            else
+            {
+                trabajadorModel = Mapper.TrabajadorDTO_To_TrabajadorModel(trabajadorDTO);
+            }
+
+            return trabajadorModel;
+        }
+
         public Response GrabarTrabajador(Operacion operacion, TrabajadorModel model, int userID)
         {
             Response response;
 
             try
             {
+                if (operacion.Equals(Operacion.Registrar) && _personaService.ObtenerPersona(model.I_TipoDocumentoID, model.C_NumDocumento) != null)
+                {
+                    throw new Exception("El Num.Documento se encuentra repetido.");
+                }
+
                 var trabajadorEntity = new TrabajadorEntity()
                 {
                     I_TrabajadorID = model.I_TrabajadorID,

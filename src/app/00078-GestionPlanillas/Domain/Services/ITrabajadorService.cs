@@ -13,6 +13,8 @@ namespace Domain.Services
     {
         List<TrabajadorDTO> ListarTrabajadores();
 
+        TrabajadorDTO ObtenerTrabajador(int I_TrabajadorID);
+
         Response GrabarTrabajador(Operacion operacion, TrabajadorEntity trabajadorEntity, int userID);
     }
 }
