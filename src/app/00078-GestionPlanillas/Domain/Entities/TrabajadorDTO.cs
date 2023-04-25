@@ -12,6 +12,8 @@ namespace Domain.Entities
 
         public string C_TrabajadorCod { get; set; }
 
+        public int I_PersonaID { get; set; }
+
         public string T_Nombre { get; set; }
 
         public string T_ApellidoPaterno { get; set; }

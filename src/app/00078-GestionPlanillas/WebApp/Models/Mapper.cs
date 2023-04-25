@@ -16,6 +16,7 @@ namespace WebApp.Models
             {
                 I_TrabajadorID = dto.I_TrabajadorID,
                 C_TrabajadorCod = dto.C_TrabajadorCod,
+                I_PersonaID = dto.I_PersonaID,
                 T_Nombre = dto.T_Nombre,
                 T_ApellidoPaterno = dto.T_ApellidoPaterno,
                 T_ApellidoMaterno = dto.T_ApellidoMaterno,

@@ -9,7 +9,7 @@ GO
 CREATE VIEW [dbo].[VW_Trabajadores]
 AS
 SELECT 
-	trab.I_TrabajadorID, trab.C_TrabajadorCod, per.T_Nombre, per.T_ApellidoPaterno, per.T_ApellidoMaterno, 
+	trab.I_TrabajadorID, trab.C_TrabajadorCod, per.I_PersonaID, per.T_Nombre, per.T_ApellidoPaterno, per.T_ApellidoMaterno, 
 	tipdoc.I_TipoDocumentoID, tipdoc.T_TipoDocumentoDesc, per.C_NumDocumento, 
 	trab.D_FechaIngreso, reg.I_RegimenID, reg.T_RegimenDesc, afp.I_AfpID, afp.T_AfpDesc, trab.T_Cuspp, 
 	est.I_EstadoID, est.T_EstadoDesc, vin.I_VinculoID, vin.T_VinculoDesc,

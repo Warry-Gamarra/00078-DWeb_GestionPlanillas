@@ -19,6 +19,8 @@ namespace WebApp.Models
         [Required(ErrorMessage = "El {0} es obligatorio.")]
         public string C_TrabajadorCod { get; set; }
 
+        public int I_PersonaID { get; set; }
+
         [DisplayName("Nombres")]
         [Required(ErrorMessage = "El Nombre es obligatorio.")]
         public string T_Nombre { get; set; }

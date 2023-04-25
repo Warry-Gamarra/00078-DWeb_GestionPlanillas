@@ -29,6 +29,7 @@ namespace Domain.Helpers
             {
                 I_TrabajadorID = view.I_TrabajadorID,
                 C_TrabajadorCod = view.C_TrabajadorCod,
+                I_PersonaID = view.I_PersonaID,
                 T_Nombre = view.T_Nombre,
                 T_ApellidoPaterno = view.T_ApellidoPaterno,
                 T_ApellidoMaterno = view.T_ApellidoMaterno,
