@@ -147,6 +147,7 @@
     <Compile Include="ServiceFacade\IAfpServiceFacade.cs" />
     <Compile Include="ServiceFacade\IBancoServiceFacade.cs" />
     <Compile Include="ServiceFacade\ICategoriaDocenteServiceFacade.cs" />
+    <Compile Include="ServiceFacade\ICategoriaPlanillaServiceFacade.cs" />
     <Compile Include="ServiceFacade\IDependenciaServiceFacade.cs" />
     <Compile Include="ServiceFacade\IDocenteServiceFacade.cs" />
     <Compile Include="ServiceFacade\IEstadoServiceFacade.cs" />
@@ -156,6 +157,7 @@
     <Compile Include="ServiceFacade\Implementations\AfpServiceFacade.cs" />
     <Compile Include="ServiceFacade\Implementations\BancoServiceFacade.cs" />
     <Compile Include="ServiceFacade\Implementations\CategoriaDocenteServiceFacade.cs" />
+    <Compile Include="ServiceFacade\Implementations\CategoriaPlanillaServiceFacade.cs" />
     <Compile Include="ServiceFacade\Implementations\DependenciaServiceFacade.cs" />
     <Compile Include="ServiceFacade\Implementations\DocenteServiceFacade.cs" />
     <Compile Include="ServiceFacade\Implementations\EstadoServiceFacade.cs" />

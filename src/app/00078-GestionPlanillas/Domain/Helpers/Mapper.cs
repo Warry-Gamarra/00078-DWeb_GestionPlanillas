@@ -306,5 +306,17 @@ namespace Domain.Helpers
 
             return personaDTO;
         }
+
+        public static CategoriaPlanillaDTO TC_CategoriaPlanilla_To_CategoriaPlanillaDTO(TC_CategoriaPlanilla table)
+        {
+            var categoriaPlanillaDTO = new CategoriaPlanillaDTO()
+            {
+                I_CategoriaPlanillaID = table.I_CategoriaPlanillaID,
+                T_CategoriaPlanillaDesc = table.T_CategoriaPlanillaDesc,
+                B_Habilitado = table.B_Habilitado
+            };
+
+            return categoriaPlanillaDTO;
+        }
     }
 }

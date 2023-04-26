@@ -10,18 +10,20 @@ namespace WebApp.Controllers
 {
     public class PlanillasController : Controller
     {
-        private IPlanillaServiceFacade planillaServiceFacade;
+        private IPlanillaServiceFacade _planillaServiceFacade;
+        private ICategoriaPlanillaServiceFacade _categoriaPlanillaServiceFacade;
 
         public PlanillasController()
         {
-            planillaServiceFacade = new PlanillaServiceFacade();
+            _planillaServiceFacade = new PlanillaServiceFacade();
+            _categoriaPlanillaServiceFacade = new CategoriaPlanillaServiceFacade();
         }
 
         public ActionResult Index()
         {
             ViewBag.Title = "Resumen Planilla de Trabajadores";
 
-            var lista = planillaServiceFacade.ListarResumenPlanillaTrabajador();
+            var lista = _planillaServiceFacade.ListarResumenPlanillaTrabajador();
 
             return View(lista);
         }
@@ -29,6 +31,8 @@ namespace WebApp.Controllers
         public ActionResult Generar()
         {
             ViewBag.Title = "Generar Planillas";
+
+            ViewBag.ListaCategoriasPlanillas = _categoriaPlanillaServiceFacade.ListarCategoriasPlanillas();
 
             return View();
         }

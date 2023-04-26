@@ -173,36 +173,6 @@ FROM TC_Administrativo AS adm INNER JOIN
     TC_GrupoOcupacional AS grupocup ON grupocup.I_GrupoOcupacionalID = adm.I_GrupoOcupacionalID
 GO
 
+SELECT DISTINCT I_Anio FROM dbo.TR_Periodo;
 
-
-
-SELECT * FROM TC_Trabajador
-
-SELECT * FROM dbo.TC_Administrativo
-SELECT * FROM dbo.TC_GrupoOcupacional WHERE B_Eliminado = 0;
-SELECT * FROM dbo.TC_NivelRemunerativo WHERE B_Eliminado = 0;
-
-SELECT * FROM TC_Trabajador
-select * from dbo.TC_Dependencia
-select * from dbo.TC_Trabajador_Dependencia
-
-select * from dbo.TC_CuentaBancaria
-
-select * from dbo.TC_Persona
-SELECT * FROM TC_Trabajador
-
-
-
-SELECT * FROM dbo.TC_Docente
-SELECT * FROM dbo.TC_CategoriaDocente WHERE B_Eliminado = 0;
-SELECT * FROM dbo.TC_DedicacionDocente WHERE B_Eliminado = 0 AND I_DedicacionDocenteID = 1;
-SELECT * FROM dbo.TC_HorasDocente WHERE B_Eliminado = 0;
-
-select * from dbo.TC_Trabajador
-select * from dbo.TC_Trabajador_CategoriaPlanilla
-
-SELECT * FROM dbo.TC_Vinculo
-SELECT * FROM dbo.TC_CategoriaPlanilla
-
-
-
+SELECT * FROM dbo.TR_Periodo WHERE I_Anio = 2023;

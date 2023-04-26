@@ -54,6 +54,7 @@
     <Compile Include="Tables\TC_CategoriaDocente.cs" />
     <Compile Include="Tables\TC_Afp.cs" />
     <Compile Include="Tables\TC_Banco.cs" />
+    <Compile Include="Tables\TC_CategoriaPlanilla.cs" />
     <Compile Include="Tables\TC_DedicacionDocente.cs" />
     <Compile Include="Tables\TC_Dependencia.cs" />
     <Compile Include="Tables\TC_Estado.cs" />
@@ -64,6 +65,7 @@
     <Compile Include="Tables\TC_Regimen.cs" />
     <Compile Include="Tables\TC_TipoDocumento.cs" />
     <Compile Include="Tables\TC_Vinculo.cs" />
+    <Compile Include="Tables\TR_Periodo.cs" />
     <Compile Include="Views\VW_ResumenPlanillaTrabajador.cs" />
     <Compile Include="Views\VW_Administrativo.cs" />
     <Compile Include="Views\VW_Docentes.cs" />
