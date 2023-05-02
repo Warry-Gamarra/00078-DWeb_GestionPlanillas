@@ -12,11 +12,13 @@ namespace WebApp.Controllers
     {
         private IPlanillaServiceFacade _planillaServiceFacade;
         private ICategoriaPlanillaServiceFacade _categoriaPlanillaServiceFacade;
+        private IPeriodoServiceFacade _periodoServiceFacade;
 
         public PlanillasController()
         {
             _planillaServiceFacade = new PlanillaServiceFacade();
             _categoriaPlanillaServiceFacade = new CategoriaPlanillaServiceFacade();
+            _periodoServiceFacade = new PeriodoServiceFacade();
         }
 
         public ActionResult Index()
@@ -33,6 +35,10 @@ namespace WebApp.Controllers
             ViewBag.Title = "Generar Planillas";
 
             ViewBag.ListaCategoriasPlanillas = _categoriaPlanillaServiceFacade.ListarCategoriasPlanillas();
+
+            ViewBag.ListaAños = _periodoServiceFacade.ListarAños();
+
+            ViewBag.ListaMeses = _periodoServiceFacade.ListarMeses(2023);
 
             return View();
         }

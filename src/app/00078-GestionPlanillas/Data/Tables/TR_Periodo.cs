@@ -17,7 +17,7 @@ namespace Data.Tables
 
         public int I_Mes { get; set; }
 
-        public int T_MesDesc { get; set; }
+        public string T_MesDesc { get; set; }
 
         public static IEnumerable<TR_Periodo> GetYears()
         {
@@ -40,7 +40,7 @@ namespace Data.Tables
             return result;
         }
 
-        public static IEnumerable<TR_Periodo> FindByYear(int I_Anio)
+        public static IEnumerable<TR_Periodo> FindMonthsByYear(int I_Anio)
         {
             IEnumerable<TR_Periodo> result;
 

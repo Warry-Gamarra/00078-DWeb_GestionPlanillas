@@ -164,12 +164,14 @@
     <Compile Include="ServiceFacade\Implementations\GrupoOcupacionalServiceFacade.cs" />
     <Compile Include="ServiceFacade\Implementations\HorasDocenteServiceFacade.cs" />
     <Compile Include="ServiceFacade\Implementations\NivelRemunerativoServiceFacade.cs" />
+    <Compile Include="ServiceFacade\Implementations\PeriodoServiceFacade.cs" />
     <Compile Include="ServiceFacade\Implementations\PlanillaServiceFacade.cs" />
     <Compile Include="ServiceFacade\Implementations\RegimenServiceFacade.cs" />
     <Compile Include="ServiceFacade\Implementations\TipoDocumentoServiceFacade.cs" />
     <Compile Include="ServiceFacade\Implementations\TrabajadorServiceFacade.cs" />
     <Compile Include="ServiceFacade\Implementations\VinculoServiceFacade.cs" />
     <Compile Include="ServiceFacade\INivelRemunerativoServiceFacade.cs" />
+    <Compile Include="ServiceFacade\IPeriodoServiceFacade.cs" />
     <Compile Include="ServiceFacade\IPlanillaServiceFacade.cs" />
     <Compile Include="ServiceFacade\IRegimenServiceFacade.cs" />
     <Compile Include="ServiceFacade\ITipoDocumentoServiceFacade.cs" />

@@ -318,5 +318,16 @@ namespace Domain.Helpers
 
             return categoriaPlanillaDTO;
         }
+
+        public static MesDTO TR_Periodo_To_MesDTO(TR_Periodo table)
+        {
+            var mesDTO = new MesDTO()
+            {
+                I_Mes = table.I_Mes,
+                T_MesDesc = table.T_MesDesc
+            };
+
+            return mesDTO;
+        }
     }
 }
