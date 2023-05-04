@@ -16,5 +16,7 @@ namespace Domain.Services
         TrabajadorDTO ObtenerTrabajador(int I_TrabajadorID);
 
         Response GrabarTrabajador(Operacion operacion, TrabajadorEntity trabajadorEntity, int userID);
+
+        List<TrabajadorCategoriaPlanillaDTO> ListarTrabajadoresCategoriaPlanilla(int? I_CategoriaPlanillaID = null);
     }
 }

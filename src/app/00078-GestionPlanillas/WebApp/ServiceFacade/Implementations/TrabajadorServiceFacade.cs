@@ -120,5 +120,14 @@ namespace WebApp.ServiceFacade.Implementations
 
             return response;
         }
+
+        public List<TrabajadorCategoriaPlanillaModel> ListarTrabajadoresCategoriaPlanilla(int? I_CategoriaPlanillaID = null)
+        {
+            var lista = _trabajadorService.ListarTrabajadoresCategoriaPlanilla(I_CategoriaPlanillaID)
+                .Select(x => Mapper.TrabajadorCategoriaPlanillaDTO_To_TrabajadorCategoriaPlanillaModel(x))
+                .ToList();
+
+            return lista;
+        }
     }
 }

@@ -16,7 +16,7 @@ namespace Domain.Services.Implementations
             var listar = TR_Periodo.GetYears();
 
             var result = listar
-                .OrderBy(x => x.I_Anio)
+                .OrderByDescending(x => x.I_Anio)
                 .Select(x => x.I_Anio)
                 .ToList();
 
@@ -28,6 +28,7 @@ namespace Domain.Services.Implementations
             var lista = TR_Periodo.FindMonthsByYear(I_Anio);
 
             var result = lista
+                .OrderBy(x => x.I_Mes)
                 .Select(x => Mapper.TR_Periodo_To_MesDTO(x))
                 .ToList();
 

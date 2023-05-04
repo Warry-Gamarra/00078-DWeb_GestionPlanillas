@@ -122,5 +122,14 @@ namespace Domain.Services.Implementations
 
             return Mapper.Result_To_Response(result);
         }
+
+        public List<TrabajadorCategoriaPlanillaDTO> ListarTrabajadoresCategoriaPlanilla(int? I_CategoriaPlanillaID = null)
+        {
+            var lista = VW_TrabajadoresCategoriaPlanilla.FindByFilters(I_CategoriaPlanillaID)
+                .Select(x => Mapper.VW_TrabajadoresCategoriaPlanilla_To_TrabajadorCategoriaPlanillaDTO(x))
+                .ToList();
+
+            return lista;
+        }
     }
 }

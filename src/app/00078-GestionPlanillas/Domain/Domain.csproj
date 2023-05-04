@@ -59,6 +59,7 @@
     <Compile Include="Entities\TipoDocumentoDTO.cs" />
     <Compile Include="Entities\TrabajadorDTO.cs" />
     <Compile Include="Entities\TrabajadorEntity.cs" />
+    <Compile Include="Entities\TrabajadorCategoriaPlanillaDTO.cs" />
     <Compile Include="Entities\VinculoDTO.cs" />
     <Compile Include="Enums\Operacion.cs" />
     <Compile Include="Enums\Vinculo.cs" />

@@ -16,5 +16,7 @@ namespace WebApp.ServiceFacade
         TrabajadorModel ObtenerTrabajador(int I_TrabajadorID);
 
         Response GrabarTrabajador(Operacion operacion, TrabajadorModel model, int userID);
+
+        List<TrabajadorCategoriaPlanillaModel> ListarTrabajadoresCategoriaPlanilla(int? I_CategoriaPlanillaID = null);
     }
 }

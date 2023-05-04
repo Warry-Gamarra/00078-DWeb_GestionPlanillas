@@ -15,3 +15,9 @@ const REGIMEN = {
     '20530': 3,
     'AFP': 4
 };
+
+const MENSAJE = {
+    SUCCESS: 'success',
+    ERROR: 'error',
+    WARNING: 'warning'
+};

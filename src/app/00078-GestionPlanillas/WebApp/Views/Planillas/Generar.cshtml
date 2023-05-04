@@ -17,38 +17,20 @@
             <div class="col-12">
                 <div class="card">
                     <div class="card-body bg-light-gray">
-                        @using (Html.BeginForm("Generar", "Planillas", FormMethod.Post))
+                        @using (Html.BeginForm("Generar", "Planillas", FormMethod.Post, new { id = "frmBusquedaTrabajador" }))
                         {
                             @Html.AntiForgeryToken()
                             <div class="form-row">
                                 <div class="form-group col-lg-2 col-md-4 col-6">
-                                    <label for="anio">Año</label>
-                                    <select id="anio" name="anio" class="form-control">
-                                        <option value="2022">2022</option>
-                                        <option value="2023">2023</option>
-                                        <option value="2024">2024</option>
-                                        <option value="2025">2025</option>
-                                    </select>
+                                    @Html.Label("anio", "Año", new { @class = "control-label" })
+                                    @Html.DropDownList("anio", ViewBag.ListaAños as SelectList, null, new { @class = "form-control" })
                                 </div>
 
                                 <div class="form-group col-lg-2 col-md-4 col-6">
-                                    <label for="periodo">Mes</label>
-                                    <select id="mes" name="mes" class="form-control text-uppercase">
-                                        <option value="1">Enero</option>
-                                        <option value="2">Febrero</option>
-                                        <option value="3">Marzo</option>
-                                        <option value="4">Abril</option>
-                                        <option value="5">Mayo</option>
-                                        <option value="6">Junio</option>
-                                        <option value="7">Julio</option>
-                                        <option value="8">Agosto</option>
-                                        <option value="9">Setiembre</option>
-                                        <option value="10">Octubre</option>
-                                        <option value="11">Noviembre</option>
-                                        <option value="12">Diciembrer</option>
-                                    </select>
+                                    @Html.Label("mes", "Mes", new { @class = "control-label" })
+                                    @Html.DropDownList("mes", ViewBag.ListaMeses as SelectList, null, new { @class = "form-control text-uppercase" })
                                 </div>
-                                
+
                                 <div class="form-group col-lg-3 col-md-4 col-6">
                                     <label for="idCategoria">Categoria</label>
                                     @Html.DropDownList("idCategoria", ViewBag.ListaCategoriasPlanillas as SelectList, new { @class = "form-control text-uppercase" })
@@ -66,3 +48,13 @@
         </div>
     </div>
 </div>
+
+<script>
+    $("#frmBusquedaTrabajador").on("change", "#anio", function () {
+        let cmbDestino = $('#frmBusquedaTrabajador #mes');
+
+        let url = '@Url.Action("ObtenerMesesPorAnio", "General")';
+
+        CargarMeses(this, cmbDestino, url);
+    });
+</script>

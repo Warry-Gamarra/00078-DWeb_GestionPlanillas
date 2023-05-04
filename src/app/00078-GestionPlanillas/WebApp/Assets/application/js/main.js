@@ -129,3 +129,57 @@ function ChangeState(RowID, B_habilitado, ActionName) {
         }
     });
 }
+
+function mostrarMensajeSistema(mensaje, icon, recargarPagina = null) {
+    Swal.fire({
+        title: '',
+        text: mensaje,
+        icon: icon,
+        timer: 6000,
+        confirmButtonColor: '#0069d9',
+
+    }).then((result) => {
+        if (result.isConfirmed && recargarPagina !== undefined && recargarPagina !== null) {
+            recargarPagina();
+        }
+    });
+}
+
+function recargarPagina() {
+    location.reload();
+}
+
+function CargarMeses(cmbAnio, cmbMeses, url) {
+    let anio = cmbAnio.value;
+
+    let parametros = {
+        I_Anio: anio
+    };
+
+    $.ajax({
+        type: 'GET',
+        url: url,
+        data: parametros,
+        dataType: 'json',
+        beforeSend: function () {
+        },
+        success: function (response) {
+            if (response.Success) {
+                cmbMeses.html("");
+
+                let html = "";
+
+                $.each(response.Result, function (i, item) {
+                    html += '<option value="' + item.Value + '">' + item.Text + '</option>'
+                });
+
+                cmbMeses.html(html);
+            } else {
+                mostrarMensajeSistema(response.Message, MENSAJE.ERROR);
+            }
+        },
+        error: function (xhr, ajaxOptions, thrownError) {
+            mostrarMensajeSistema(thrownError, MENSAJE.ERROR);
+        }
+    });
+}

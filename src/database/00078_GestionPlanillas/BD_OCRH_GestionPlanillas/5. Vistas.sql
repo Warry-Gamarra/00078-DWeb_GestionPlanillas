@@ -31,6 +31,29 @@ GO
 
 
 
+IF EXISTS (SELECT * FROM INFORMATION_SCHEMA.VIEWS WHERE TABLE_NAME = 'VW_TrabajadoresCategoriaPlanilla')
+	DROP VIEW [dbo].[VW_TrabajadoresCategoriaPlanilla]
+GO
+
+CREATE VIEW [dbo].[VW_TrabajadoresCategoriaPlanilla]
+AS
+SELECT 
+	trab.I_TrabajadorID, trab.C_TrabajadorCod, per.I_PersonaID, per.T_Nombre, per.T_ApellidoPaterno, per.T_ApellidoMaterno, 
+	tipdoc.I_TipoDocumentoID, tipdoc.T_TipoDocumentoDesc, per.C_NumDocumento,
+	est.I_EstadoID, est.T_EstadoDesc, vin.I_VinculoID, vin.T_VinculoDesc,
+	trabcat.I_TrabajadorCategoriaPlanillaID, catpla.I_CategoriaPlanillaID, catpla.T_CategoriaPlanillaDesc
+FROM dbo.TC_Trabajador AS trab INNER JOIN
+	dbo.TC_Persona AS per ON per.I_PersonaID = trab.I_PersonaID INNER JOIN
+	dbo.TC_TipoDocumento AS tipdoc ON tipdoc.I_TipoDocumentoID = per.I_TipoDocumentoID INNER JOIN
+	dbo.TC_Estado AS est ON est.I_EstadoID = trab.I_EstadoID INNER JOIN 
+	dbo.TC_Vinculo AS vin ON vin.I_VinculoID = trab.I_VinculoID INNER JOIN
+	dbo.TC_Trabajador_CategoriaPlanilla AS trabcat ON trabcat.I_TrabajadorID = trab.I_TrabajadorID INNER JOIN
+	dbo.TC_CategoriaPlanilla AS catpla ON catpla.I_CategoriaPlanillaID = trabcat.I_CategoriaPlanillaID
+WHERE trab.B_Eliminado = 0 AND per.B_Eliminado = 0 AND trabcat.B_Habilitado = 1 AND trabcat.B_Eliminado = 0 
+GO
+
+
+
 IF EXISTS (SELECT * FROM INFORMATION_SCHEMA.VIEWS WHERE TABLE_NAME = 'VW_Docentes')
 	DROP VIEW [dbo].[VW_Docentes]
 GO

@@ -329,5 +329,31 @@ namespace Domain.Helpers
 
             return mesDTO;
         }
+
+        public static TrabajadorCategoriaPlanillaDTO VW_TrabajadoresCategoriaPlanilla_To_TrabajadorCategoriaPlanillaDTO(
+            VW_TrabajadoresCategoriaPlanilla view)
+        {
+            var trabajadorCategoriaPlanillaDTO = new TrabajadorCategoriaPlanillaDTO()
+            {
+                I_TrabajadorID = view.I_TrabajadorID,
+                C_TrabajadorCod = view.C_TrabajadorCod,
+                I_PersonaID = view.I_PersonaID,
+                T_Nombre = view.T_Nombre,
+                T_ApellidoPaterno = view.T_ApellidoPaterno,
+                T_ApellidoMaterno = view.T_ApellidoMaterno,
+                I_TipoDocumentoID = view.I_TipoDocumentoID,
+                T_TipoDocumentoDesc = view.T_TipoDocumentoDesc,
+                C_NumDocumento = view.C_NumDocumento,
+                I_EstadoID = view.I_EstadoID,
+                T_EstadoDesc = view.T_EstadoDesc,
+                I_VinculoID = view.I_VinculoID,
+                T_VinculoDesc = view.T_VinculoDesc,
+                I_TrabajadorCategoriaPlanillaID = view.I_TrabajadorCategoriaPlanillaID,
+                I_CategoriaPlanillaID = view.I_CategoriaPlanillaID,
+                T_CategoriaPlanillaDesc = view.T_CategoriaPlanillaDesc
+            };
+
+            return trabajadorCategoriaPlanillaDTO;
+        }
     }
 }

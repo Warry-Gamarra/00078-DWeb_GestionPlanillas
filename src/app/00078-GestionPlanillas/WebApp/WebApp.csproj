@@ -130,6 +130,7 @@
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\GeneralController.cs" />
     <Compile Include="Controllers\PlanillasController.cs" />
     <Compile Include="Controllers\TrabajadoresController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
@@ -140,6 +141,7 @@
     <Compile Include="Models\DocenteModel.cs" />
     <Compile Include="Models\Mapper.cs" />
     <Compile Include="Models\ResumenPlanillaTrabajadorModel.cs" />
+    <Compile Include="Models\TrabajadorCategoriaPlanillaModel.cs" />
     <Compile Include="Models\TrabajadorModel.cs" />
     <Compile Include="Models\UsersModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -428,6 +430,7 @@
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Views\Default\" />
+    <Folder Include="Views\General\" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

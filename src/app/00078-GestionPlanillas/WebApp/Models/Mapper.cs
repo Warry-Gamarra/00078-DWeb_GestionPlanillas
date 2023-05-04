@@ -146,5 +146,31 @@ namespace WebApp.Models
 
             return model;
         }
+
+        public static TrabajadorCategoriaPlanillaModel TrabajadorCategoriaPlanillaDTO_To_TrabajadorCategoriaPlanillaModel(
+            TrabajadorCategoriaPlanillaDTO dto)
+        {
+            var model = new TrabajadorCategoriaPlanillaModel()
+            {
+                I_TrabajadorID = dto.I_TrabajadorID,
+                C_TrabajadorCod = dto.C_TrabajadorCod,
+                I_PersonaID = dto.I_PersonaID,
+                T_Nombre = dto.T_Nombre,
+                T_ApellidoPaterno = dto.T_ApellidoPaterno,
+                T_ApellidoMaterno = dto.T_ApellidoMaterno,
+                I_TipoDocumentoID = dto.I_TipoDocumentoID,
+                T_TipoDocumentoDesc = dto.T_TipoDocumentoDesc,
+                C_NumDocumento = dto.C_NumDocumento,
+                I_EstadoID = dto.I_EstadoID,
+                T_EstadoDesc = dto.T_EstadoDesc,
+                I_VinculoID = dto.I_VinculoID,
+                T_VinculoDesc = dto.T_VinculoDesc,
+                I_TrabajadorCategoriaPlanillaID = dto.I_TrabajadorCategoriaPlanillaID,
+                I_CategoriaPlanillaID = dto.I_CategoriaPlanillaID,
+                T_CategoriaPlanillaDesc = dto.T_CategoriaPlanillaDesc
+            };
+
+            return model;
+        }
     }
 }

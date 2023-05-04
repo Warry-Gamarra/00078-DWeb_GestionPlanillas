@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Domain.Helpers;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -13,12 +14,14 @@ namespace WebApp.Controllers
         private IPlanillaServiceFacade _planillaServiceFacade;
         private ICategoriaPlanillaServiceFacade _categoriaPlanillaServiceFacade;
         private IPeriodoServiceFacade _periodoServiceFacade;
+        private ITrabajadorServiceFacade _trabajadorServiceFacade;
 
         public PlanillasController()
         {
             _planillaServiceFacade = new PlanillaServiceFacade();
             _categoriaPlanillaServiceFacade = new CategoriaPlanillaServiceFacade();
             _periodoServiceFacade = new PeriodoServiceFacade();
+            _trabajadorServiceFacade = new TrabajadorServiceFacade();
         }
 
         public ActionResult Index()
@@ -32,13 +35,17 @@ namespace WebApp.Controllers
 
         public ActionResult Generar()
         {
+            var listaAños = _periodoServiceFacade.ListarAños();
+
+            int año = (listaAños.Count() > 0) ? int.Parse(listaAños.First().Value) : DateTime.Now.Year;
+
             ViewBag.Title = "Generar Planillas";
 
             ViewBag.ListaCategoriasPlanillas = _categoriaPlanillaServiceFacade.ListarCategoriasPlanillas();
+            
+            ViewBag.ListaAños = listaAños;
 
-            ViewBag.ListaAños = _periodoServiceFacade.ListarAños();
-
-            ViewBag.ListaMeses = _periodoServiceFacade.ListarMeses(2023);
+            ViewBag.ListaMeses = _periodoServiceFacade.ListarMeses(año);
 
             return View();
         }
@@ -48,6 +55,16 @@ namespace WebApp.Controllers
         public ActionResult Generar(int anio, int mes, int? idCategoria)
         {
             ViewBag.Title = "Generar Planillas";
+
+            var listaAños = _periodoServiceFacade.ListarAños();
+
+            ViewBag.ListaCategoriasPlanillas = _categoriaPlanillaServiceFacade.ListarCategoriasPlanillas();
+
+            ViewBag.ListaAños = listaAños;
+
+            ViewBag.ListaMeses = _periodoServiceFacade.ListarMeses(anio);
+
+            var lista = _trabajadorServiceFacade.ListarTrabajadoresCategoriaPlanilla(idCategoria);
 
             return View();
         }
