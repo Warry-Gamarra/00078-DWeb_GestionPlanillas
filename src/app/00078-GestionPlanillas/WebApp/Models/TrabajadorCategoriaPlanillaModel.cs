@@ -19,6 +19,14 @@ namespace WebApp.Models
 
         public string T_ApellidoMaterno { get; set; }
 
+        public string T_ApellidosNombre
+        {
+            get
+            {
+                return String.Format("{0} {1}, {2}", T_ApellidoPaterno, T_ApellidoMaterno, T_Nombre);
+            }
+        }
+
         public int I_TipoDocumentoID { get; set; }
 
         public string T_TipoDocumentoDesc { get; set; }

@@ -1,4 +1,7 @@
-﻿<div class="container-fluid">
+﻿@model IEnumerable<WebApp.Models.TrabajadorCategoriaPlanillaModel>
+@using GridMvc.Html
+
+<div class="container-fluid">
     <div class="col-12 mb-4">
         <section class="content-header">
             <nav aria-label="breadcrumb">
@@ -36,13 +39,35 @@
                                     @Html.DropDownList("idCategoria", ViewBag.ListaCategoriasPlanillas as SelectList, new { @class = "form-control text-uppercase" })
                                 </div>
 
-                                <div class="form-group col-lg-3 col-6">
+                                <div class="form-group col-lg-2 col-4">
                                     <label>&nbsp;</label>
-                                    <button type="submit" id="btnGenerar" class="btn btn-block btn-outline-primary"><i class="fa fa-fw fa-cogs"></i> Generar Planilla</button>
+                                    <button type="submit" id="btnConsultar" class="btn btn-block btn-outline-primary"><i class="fa fa-fw fa-search"></i> Verificar</button>
                                 </div>
                             </div>
                         }
                     </div>
+                </div>
+
+                <div class="table-responsive mt-4">
+                    <p class="h5">Relación de estudiantes registrados en el sistema</p>
+                    @if (Model != null && Model.Count() > 0)
+                    {
+                        <div class="form-group col-lg-2 col-4">
+                            <button type="button" id="btnGenerar" class="btn btn-block btn-outline-primary"><i class="fa fa-fw fa-cogs"></i> Generar Planilla</button>
+                        </div>
+                    }
+
+                   @Html.Grid(Model).Columns(columns =>
+                   {
+                       columns.Add().Titled("-").Encoded(false).Sanitized(false).RenderValueAs(model => "<input type=\"checkbox\" name=\"chkTrabajador\" value=\"" + model.I_TrabajadorID + "\" checked /> ");
+                       columns.Add(c => c.T_CategoriaPlanillaDesc).Titled("Planilla").Css("text-left").Filterable(true);
+                       columns.Add(c => c.T_VinculoDesc).Titled("Vínculo").Css("text-left").Filterable(true);
+                       columns.Add(c => c.C_TrabajadorCod).Titled("Cod.Per.").Css("text-left").Filterable(true);
+                       columns.Add(c => c.T_TipoDocumentoDesc).Titled("Tip.Doc.").Css("text-left").Filterable(true);
+                       columns.Add(c => c.C_NumDocumento).Titled("Num.Doc.").Css("text-center").Filterable(true);
+                       columns.Add(c => c.T_ApellidosNombre).Titled("Apellidos y Nombres").Css("text-left").Filterable(true);
+                       columns.Add(c => c.T_EstadoDesc).Titled("Estado").Css("text-left").Filterable(true);    
+                   }).WithPaging(3).Sortable(true).WithGridItemsCount("Registros encontrados").EmptyText("No se encontraron registros")
                 </div>
             </div>
         </div>
@@ -56,5 +81,9 @@
         let url = '@Url.Action("ObtenerMesesPorAnio", "General")';
 
         CargarMeses(this, cmbDestino, url);
+    });
+
+    $(document).on("click", "#btnGenerar", function () {
+        alert('Click');
     });
 </script>

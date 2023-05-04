@@ -4,6 +4,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using System.Web.UI;
+using WebApp.Models;
 using WebApp.ServiceFacade;
 using WebApp.ServiceFacade.Implementations;
 
@@ -47,7 +49,9 @@ namespace WebApp.Controllers
 
             ViewBag.ListaMeses = _periodoServiceFacade.ListarMeses(año);
 
-            return View();
+            var model = new List<TrabajadorCategoriaPlanillaModel>();
+
+            return View(model);
         }
 
         [HttpPost]
@@ -66,7 +70,7 @@ namespace WebApp.Controllers
 
             var lista = _trabajadorServiceFacade.ListarTrabajadoresCategoriaPlanilla(idCategoria);
 
-            return View();
+            return View(lista);
         }
     }
 }
