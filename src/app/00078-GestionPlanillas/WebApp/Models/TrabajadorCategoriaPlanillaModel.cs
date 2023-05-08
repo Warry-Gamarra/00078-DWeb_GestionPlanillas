@@ -46,5 +46,7 @@ namespace WebApp.Models
         public int I_CategoriaPlanillaID { get; set; }
 
         public string T_CategoriaPlanillaDesc { get; set; }
+
+        public bool B_Checked { get; set; }
     }
 }

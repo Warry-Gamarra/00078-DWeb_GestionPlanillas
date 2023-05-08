@@ -1,5 +1,6 @@
 ﻿using Domain.Helpers;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -35,11 +36,16 @@ namespace WebApp.Controllers
             return View(lista);
         }
 
-        public ActionResult Generar()
+        public ActionResult Generar(int? anio, int? mes, int? idCategoria)
         {
+            string page = Request.QueryString["grid-page"];
+
+            List<TrabajadorCategoriaPlanillaModel> model;
+
             var listaAños = _periodoServiceFacade.ListarAños();
 
-            int año = (listaAños.Count() > 0) ? int.Parse(listaAños.First().Value) : DateTime.Now.Year;
+            if (!anio.HasValue)
+                anio = (listaAños.Count() > 0) ? int.Parse(listaAños.First().Value) : DateTime.Now.Year;
 
             ViewBag.Title = "Generar Planillas";
 
@@ -47,30 +53,74 @@ namespace WebApp.Controllers
             
             ViewBag.ListaAños = listaAños;
 
-            ViewBag.ListaMeses = _periodoServiceFacade.ListarMeses(año);
+            ViewBag.ListaMeses = _periodoServiceFacade.ListarMeses(anio.Value);
 
-            var model = new List<TrabajadorCategoriaPlanillaModel>();
+            if (anio.HasValue && mes.HasValue)
+            {
+                if (page == null)
+                {
+                    model = _trabajadorServiceFacade.ListarTrabajadoresCategoriaPlanilla(idCategoria);
+
+                    if (Session["lista"] != null)
+                    {
+                        Session.Remove("lista");
+                    }
+
+                    Session["lista"] = model;
+                }
+                else
+                {
+                    model = (List<TrabajadorCategoriaPlanillaModel>)Session["lista"];
+                }
+            }
+            else
+            {
+                model = new List<TrabajadorCategoriaPlanillaModel>();
+            }
 
             return View(model);
         }
 
+        public JsonResult DeshabilitarTrabajador(int id, bool isChecked)
+        {
+            Response response;
+
+            try
+            {
+                var lista = (List<TrabajadorCategoriaPlanillaModel>)Session["lista"];
+
+                lista.ForEach(x => {
+                    if (x.I_TrabajadorID == id)
+                    {
+                        x.B_Checked = isChecked;
+                    }
+                });
+
+                Session.Remove("lista");
+
+                Session["lista"] = lista;
+
+                response = new Response()
+                {
+                    Success = true
+                };
+            }
+            catch (Exception ex)
+            {
+                response = new Response()
+                {
+                    Message = ex.Message
+                };
+            }
+
+            return Json(response, JsonRequestBehavior.AllowGet);
+        }
+
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Generar(int anio, int mes, int? idCategoria)
+        public ActionResult Generar()
         {
-            ViewBag.Title = "Generar Planillas";
-
-            var listaAños = _periodoServiceFacade.ListarAños();
-
-            ViewBag.ListaCategoriasPlanillas = _categoriaPlanillaServiceFacade.ListarCategoriasPlanillas();
-
-            ViewBag.ListaAños = listaAños;
-
-            ViewBag.ListaMeses = _periodoServiceFacade.ListarMeses(anio);
-
-            var lista = _trabajadorServiceFacade.ListarTrabajadoresCategoriaPlanilla(idCategoria);
-
-            return View(lista);
-        }
+            return View();
+        }   
     }
 }

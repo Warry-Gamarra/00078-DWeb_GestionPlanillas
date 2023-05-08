@@ -199,3 +199,5 @@ GO
 SELECT DISTINCT I_Anio FROM dbo.TR_Periodo;
 
 SELECT * FROM dbo.TR_Periodo WHERE I_Anio = 2023;
+select * from dbo.TC_Estado
+

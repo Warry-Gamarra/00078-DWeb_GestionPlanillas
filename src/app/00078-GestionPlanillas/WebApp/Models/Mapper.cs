@@ -167,7 +167,8 @@ namespace WebApp.Models
                 T_VinculoDesc = dto.T_VinculoDesc,
                 I_TrabajadorCategoriaPlanillaID = dto.I_TrabajadorCategoriaPlanillaID,
                 I_CategoriaPlanillaID = dto.I_CategoriaPlanillaID,
-                T_CategoriaPlanillaDesc = dto.T_CategoriaPlanillaDesc
+                T_CategoriaPlanillaDesc = dto.T_CategoriaPlanillaDesc,
+                B_Checked = true
             };
 
             return model;

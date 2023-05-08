@@ -20,9 +20,8 @@
             <div class="col-12">
                 <div class="card">
                     <div class="card-body bg-light-gray">
-                        @using (Html.BeginForm("Generar", "Planillas", FormMethod.Post, new { id = "frmBusquedaTrabajador" }))
+                        @using (Html.BeginForm("Generar", "Planillas", FormMethod.Get, new { id = "frmBusquedaTrabajador" }))
                         {
-                            @Html.AntiForgeryToken()
                             <div class="form-row">
                                 <div class="form-group col-lg-2 col-md-4 col-6">
                                     @Html.Label("anio", "Año", new { @class = "control-label" })
@@ -41,7 +40,7 @@
 
                                 <div class="form-group col-lg-2 col-4">
                                     <label>&nbsp;</label>
-                                    <button type="submit" id="btnConsultar" class="btn btn-block btn-outline-primary"><i class="fa fa-fw fa-search"></i> Verificar</button>
+                                    <button type="submit" class="btn btn-block btn-outline-primary"><i class="fa fa-fw fa-search"></i> Verificar</button>
                                 </div>
                             </div>
                         }
@@ -52,14 +51,15 @@
                     <p class="h5">Relación de estudiantes registrados en el sistema</p>
                     @if (Model != null && Model.Count() > 0)
                     {
-                        <div class="form-group col-lg-2 col-4">
+                        <div class="form-group col-lg-2 col-4 pl-0">
                             <button type="button" id="btnGenerar" class="btn btn-block btn-outline-primary"><i class="fa fa-fw fa-cogs"></i> Generar Planilla</button>
                         </div>
                     }
 
                    @Html.Grid(Model).Columns(columns =>
                    {
-                       columns.Add().Titled("-").Encoded(false).Sanitized(false).RenderValueAs(model => "<input type=\"checkbox\" name=\"chkTrabajador\" value=\"" + model.I_TrabajadorID + "\" checked /> ");
+                       columns.Add().Titled("-").Encoded(false).Sanitized(false)
+                        .RenderValueAs(model => "<input type=\"checkbox\" name=\"chkTrabajador\" value=\"" + model.I_TrabajadorID + "\"" + (model.B_Checked ? "checked" : "") + " onclick=\"deshabilitarTrabajador(this);\" /> ");
                        columns.Add(c => c.T_CategoriaPlanillaDesc).Titled("Planilla").Css("text-left").Filterable(true);
                        columns.Add(c => c.T_VinculoDesc).Titled("Vínculo").Css("text-left").Filterable(true);
                        columns.Add(c => c.C_TrabajadorCod).Titled("Cod.Per.").Css("text-left").Filterable(true);
@@ -83,7 +83,31 @@
         CargarMeses(this, cmbDestino, url);
     });
 
+    function deshabilitarTrabajador(element) {
+        let parametros = {
+            id: element.value,
+            isChecked: $(element).is(':checked')
+        };
+
+        $.ajax({
+            type: 'GET',
+            url: '@Url.Action("DeshabilitarTrabajador", "Planillas")',
+            data: parametros,
+            dataType: 'json',
+            beforeSend: function () {
+            },
+            success: function (response) {
+                if (!response.Success) {
+                    mostrarMensajeSistema(response.Message, MENSAJE.ERROR);
+                }
+            },
+            error: function (xhr, ajaxOptions, thrownError) {
+                mostrarMensajeSistema(thrownError, MENSAJE.ERROR);
+            }
+        });
+    }
+
     $(document).on("click", "#btnGenerar", function () {
-        alert('Click');
+
     });
 </script>
