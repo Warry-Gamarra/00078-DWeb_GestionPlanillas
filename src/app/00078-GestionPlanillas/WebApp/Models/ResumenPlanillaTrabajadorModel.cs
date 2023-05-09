@@ -115,6 +115,8 @@ namespace WebApp.Models
 
         public int I_Anio { get; set; }
 
+        public int I_Mes { get; set; }
+
         public string T_MesDesc { get; set; }
 
         public int I_CategoriaPlanillaID { get; set; }

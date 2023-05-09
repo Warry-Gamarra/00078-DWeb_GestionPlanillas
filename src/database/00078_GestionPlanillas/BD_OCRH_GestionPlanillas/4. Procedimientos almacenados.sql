@@ -309,13 +309,17 @@ CREATE PROCEDURE [dbo].[USP_I_GenerarPlanilla_Docente_Administrativo]
 @Tbl_Trabajador [dbo].[type_dataTrabajador] READONLY,
 @I_Anio INT,
 @I_Mes INT,
-@I_CategoriaPlanillaID INT = NULL,
-@I_UserID INT
+@I_CategoriaPlanillaID INT,
+@I_UserID INT,
+@B_Result BIT OUTPUT,
+@T_Message VARCHAR(250) OUTPUT
 AS
 BEGIN
 	SET NOCOUNT ON;
 
 	BEGIN TRY
+	BEGIN TRAN
+
 		IF (@I_Anio IS NULL) BEGIN
 			RAISERROR('El año es obligatorio.', 11, 1);
 		END
@@ -453,7 +457,8 @@ BEGIN
 		SET @I_CantRegistros = (SELECT COUNT(*) FROM #tmp_trabajador);
 
 		IF (@I_CantRegistros = 0) BEGIN
-			RETURN 0;
+			--RETURN 0;
+			RAISERROR('Todos los trabajadores seleccionados ya tienen una plantilla generada para el presente periodo.', 11, 1);
 		END 
 
 		--4. Crear la cabecera de la planilla
@@ -688,12 +693,19 @@ BEGIN
 			I_TotalDeduccion = @I_TotalDeduccion,
 			I_TotalSueldo = @I_TotalSueldo
 		WHERE I_PlanillaID = @I_PlantillaID;
+
+		COMMIT TRAN
+
+		SET @B_Result = 1
+		SET @T_Message = 'Planilla generada correctamente.'
 	END TRY
 	BEGIN CATCH
+		ROLLBACK TRAN
+
 		DECLARE @ERROR_MESSAGE NVARCHAR(4000) = ERROR_MESSAGE(),
 				@ERROR_SEVERITY INT = ERROR_SEVERITY(),
 				@ERROR_STATE INT = ERROR_STATE()
-   
+
 		RAISERROR (@ERROR_MESSAGE, @ERROR_SEVERITY, @ERROR_STATE);
 	END CATCH
 END
@@ -708,15 +720,20 @@ GO
 --		@I_Mes INT = 4,
 --		@I_CategoriaPlanillaID INT = 1,
 --		@I_UserID INT = 1,
+--		@B_Result BIT,
+--		@T_Message VARCHAR(250),
 --		@return_status INT
 
 --INSERT @tmp_trabajadores(I_TrabajadorID) VALUES(4), (5), (6), (7)
 
---EXEC @return_status = USP_I_GenerarPlanilla_Docente_Administrativo @Tbl_Trabajador = @tmp_trabajadores, @I_Anio = @I_Anio, @I_Mes = @I_Mes, @I_CategoriaPlanillaID = @I_CategoriaPlanillaID, @I_UserID = @I_UserID
+--EXEC @return_status = USP_I_GenerarPlanilla_Docente_Administrativo @Tbl_Trabajador = @tmp_trabajadores, 
+--	@I_Anio = @I_Anio, @I_Mes = @I_Mes, @I_CategoriaPlanillaID = @I_CategoriaPlanillaID, @I_UserID = @I_UserID,
+--	@B_Result = @B_Result OUTPUT, @T_Message = @T_Message OUTPUT
 
 --SELECT 'return_status' = @return_status
+--SELECT @B_Result AS B_Result, @T_Message AS T_Message
 --GO
---select * from dbo.TC_CategoriaPlanilla
---select * from dbo.TI_PlantillaPlanilla
---select * from dbo.TI_PlantillaPlanilla_Concepto
---GO
+----select * from dbo.TC_CategoriaPlanilla
+----select * from dbo.TI_PlantillaPlanilla
+----select * from dbo.TI_PlantillaPlanilla_Concepto
+----GO

@@ -75,6 +75,7 @@ namespace WebApp.Models
                 I_PlanillaID = dto.I_PlanillaID,
                 I_PeriodoID = dto.I_PeriodoID,
                 I_Anio = dto.I_Anio,
+                I_Mes = dto.I_Mes,
                 T_MesDesc = dto.T_MesDesc,
                 I_CategoriaPlanillaID = dto.I_CategoriaPlanillaID,
                 T_CategoriaPlanillaDesc = dto.T_CategoriaPlanillaDesc

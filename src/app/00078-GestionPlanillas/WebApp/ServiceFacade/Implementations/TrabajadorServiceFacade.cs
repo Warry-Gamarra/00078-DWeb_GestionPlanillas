@@ -104,7 +104,6 @@ namespace WebApp.ServiceFacade.Implementations
                 {
                     response = new Response()
                     {
-                        Success = false,
                         Message = "El Num.Documento se encuentra repetido."
                     };
                 }
@@ -113,7 +112,6 @@ namespace WebApp.ServiceFacade.Implementations
             {
                 response = new Response()
                 {
-                    Success = false,
                     Message = ex.Message
                 };
             }            

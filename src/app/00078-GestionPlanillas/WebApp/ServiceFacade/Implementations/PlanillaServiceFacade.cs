@@ -1,4 +1,5 @@
-﻿using Domain.Services;
+﻿using Domain.Helpers;
+using Domain.Services;
 using Domain.Services.Implementations;
 using System;
 using System.Collections.Generic;
@@ -28,6 +29,25 @@ namespace WebApp.ServiceFacade.Implementations
                 .ToList();
 
             return lista;
+        }
+
+        public Response GenerarPlanilla(List<int> trabajadores, int I_Anio, int I_Mes, int I_CategoriaPlanillaID, int userID)
+        {
+            Response response;
+
+            try
+            {
+                response = _planillaService.GenerarPlanilla(trabajadores, I_Anio, I_Mes, I_CategoriaPlanillaID, userID);
+            }
+            catch (Exception ex)
+            {
+                response = new Response()
+                {
+                    Message = ex.Message
+                };
+            }
+
+            return response;
         }
     }
 }

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Domain.Helpers;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -10,5 +11,7 @@ namespace WebApp.ServiceFacade
     public interface IPlanillaServiceFacade
     {
         List<ResumenPlanillaTrabajadorModel> ListarResumenPlanillaTrabajador();
+
+        Response GenerarPlanilla(List<int> trabajadores, int I_Anio, int I_Mes, int I_CategoriaPlanillaID, int userID);
     }
 }

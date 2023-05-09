@@ -12,11 +12,13 @@ namespace Data.Procedures
 {
     public class USP_I_GenerarPlanilla_Docente_Administrativo
     {
+        public DataTable Tbl_Trabajador { get; set; }
+
         public int I_Anio { get; set; }
         
         public int I_Mes { get; set; }
 
-        public int? I_CategoriaPlanillaID { get; set; }
+        public int I_CategoriaPlanillaID { get; set; }
 
         public int I_UserID { get; set; }
 
@@ -33,6 +35,7 @@ namespace Data.Procedures
                 using (var _dbConnection = new SqlConnection(Database.ConnectionString))
                 {
                     parameters = new DynamicParameters();
+                    parameters.Add(name: "Tbl_Trabajador", value: Tbl_Trabajador.AsTableValuedParameter("dbo.type_dataTrabajador"));
                     parameters.Add(name: "I_Anio", dbType: DbType.Int32, value: this.I_Anio);
                     parameters.Add(name: "I_Mes", dbType: DbType.Int32, value: this.I_Mes);
                     parameters.Add(name: "I_CategoriaPlanillaID", dbType: DbType.Int32, value: this.I_CategoriaPlanillaID);

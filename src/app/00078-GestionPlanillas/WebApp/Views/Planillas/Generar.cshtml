@@ -22,6 +22,7 @@
                     <div class="card-body bg-light-gray">
                         @using (Html.BeginForm("Generar", "Planillas", FormMethod.Get, new { id = "frmBusquedaTrabajador" }))
                         {
+                            @Html.AntiForgeryToken()
                             <div class="form-row">
                                 <div class="form-group col-lg-2 col-md-4 col-6">
                                     @Html.Label("anio", "Año", new { @class = "control-label" })
@@ -40,6 +41,7 @@
 
                                 <div class="form-group col-lg-2 col-4">
                                     <label>&nbsp;</label>
+                                    @Html.Hidden("busqueda", true)
                                     <button type="submit" class="btn btn-block btn-outline-primary"><i class="fa fa-fw fa-search"></i> Verificar</button>
                                 </div>
                             </div>
@@ -60,14 +62,14 @@
                    {
                        columns.Add().Titled("-").Encoded(false).Sanitized(false)
                         .RenderValueAs(model => "<input type=\"checkbox\" name=\"chkTrabajador\" value=\"" + model.I_TrabajadorID + "\"" + (model.B_Checked ? "checked" : "") + " onclick=\"deshabilitarTrabajador(this);\" /> ");
-                       columns.Add(c => c.T_CategoriaPlanillaDesc).Titled("Planilla").Css("text-left").Filterable(true);
+                       columns.Add(c => c.T_CategoriaPlanillaDesc).Titled("Planilla").Css("text-left");
                        columns.Add(c => c.T_VinculoDesc).Titled("Vínculo").Css("text-left").Filterable(true);
                        columns.Add(c => c.C_TrabajadorCod).Titled("Cod.Per.").Css("text-left").Filterable(true);
                        columns.Add(c => c.T_TipoDocumentoDesc).Titled("Tip.Doc.").Css("text-left").Filterable(true);
                        columns.Add(c => c.C_NumDocumento).Titled("Num.Doc.").Css("text-center").Filterable(true);
                        columns.Add(c => c.T_ApellidosNombre).Titled("Apellidos y Nombres").Css("text-left").Filterable(true);
                        columns.Add(c => c.T_EstadoDesc).Titled("Estado").Css("text-left").Filterable(true);    
-                   }).WithPaging(3).Sortable(true).WithGridItemsCount("Registros encontrados").EmptyText("No se encontraron registros")
+                   }).WithPaging(15).Sortable(true).WithGridItemsCount("Registros encontrados").EmptyText("No se encontraron registros")
                 </div>
             </div>
         </div>
@@ -108,6 +110,30 @@
     }
 
     $(document).on("click", "#btnGenerar", function () {
+        let parametros = {
+            I_Anio: $('#frmBusquedaTrabajador #anio').val(),
+            I_Mes: $('#frmBusquedaTrabajador #mes').val(),
+            I_CategoriaPlanillaID: $('#frmBusquedaTrabajador #idCategoria').val(),
+            __RequestVerificationToken: $('#frmBusquedaTrabajador input[name="__RequestVerificationToken"]').val()
+        };
 
+        $.ajax({
+            type: 'POST',
+            url: '@Url.Action("Generar", "Planillas")',
+            data: parametros,
+            dataType: 'json',
+            beforeSend: function () {
+            },
+            success: function (response) {
+                if (response.Success) {
+                    mostrarMensajeSistema(response.Message, MENSAJE.SUCCESS);
+                } else {
+                    mostrarMensajeSistema(response.Message, MENSAJE.ERROR);
+                }
+            },
+            error: function (xhr, ajaxOptions, thrownError) {
+                mostrarMensajeSistema(thrownError, MENSAJE.ERROR);
+            }
+        });
     });
 </script>

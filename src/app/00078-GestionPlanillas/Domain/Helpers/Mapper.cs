@@ -88,6 +88,7 @@ namespace Domain.Helpers
                 I_PlanillaID = view.I_PlanillaID,
                 I_PeriodoID = view.I_PeriodoID,
                 I_Anio = view.I_Anio,
+                I_Mes = view.I_Mes,
                 T_MesDesc = view.T_MesDesc,
                 I_CategoriaPlanillaID = view.I_CategoriaPlanillaID,
                 T_CategoriaPlanillaDesc = view.T_CategoriaPlanillaDesc
