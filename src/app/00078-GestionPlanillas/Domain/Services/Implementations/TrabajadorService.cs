@@ -46,79 +46,87 @@ namespace Domain.Services.Implementations
         {
             Result result;
 
-            switch (operacion)
+            try
             {
-                case Operacion.Registrar:
+                switch (operacion)
+                {
+                    case Operacion.Registrar:
 
-                    USP_I_RegistrarTrabajador grabarDocente = new USP_I_RegistrarTrabajador()
-                    {
-                        C_TrabajadorCod = trabajadorEntity.C_TrabajadorCod,
-                        T_ApellidoPaterno = trabajadorEntity.T_ApellidoPaterno,
-                        T_ApellidoMaterno = trabajadorEntity.T_ApellidoMaterno,
-                        T_Nombre = trabajadorEntity.T_Nombre,
-                        I_TipoDocumentoID = trabajadorEntity.I_TipoDocumentoID,
-                        C_NumDocumento = trabajadorEntity.C_NumDocumento,
-                        D_FechaIngreso = trabajadorEntity.D_FechaIngreso,
-                        I_RegimenID = trabajadorEntity.I_RegimenID,
-                        I_EstadoID = trabajadorEntity.I_EstadoID,
-                        I_VinculoID = trabajadorEntity.I_VinculoID,
-                        I_BancoID = trabajadorEntity.I_BancoID,
-                        T_NroCuentaBancaria = trabajadorEntity.T_NroCuentaBancaria,
-                        I_DependenciaID = trabajadorEntity.I_DependenciaID,
-                        I_AfpID = trabajadorEntity.I_Afp,
-                        T_Cuspp = trabajadorEntity.T_Cuspp,
-                        I_CategoriaDocenteID = trabajadorEntity.I_CategoriaDocenteID,
-                        I_HorasDocenteID = trabajadorEntity.I_HorasDocenteID,
-                        I_GrupoOcupacionalID = trabajadorEntity.I_GrupoOcupacionalID,
-                        I_NivelRemunerativoID = trabajadorEntity.I_NivelRemunerativoID,
-                        I_UserID = userID
-                    };
+                        var grabarDocente = new USP_I_RegistrarTrabajador()
+                        {
+                            C_TrabajadorCod = trabajadorEntity.C_TrabajadorCod,
+                            T_ApellidoPaterno = trabajadorEntity.T_ApellidoPaterno,
+                            T_ApellidoMaterno = trabajadorEntity.T_ApellidoMaterno,
+                            T_Nombre = trabajadorEntity.T_Nombre,
+                            I_TipoDocumentoID = trabajadorEntity.I_TipoDocumentoID,
+                            C_NumDocumento = trabajadorEntity.C_NumDocumento,
+                            D_FechaIngreso = trabajadorEntity.D_FechaIngreso,
+                            I_RegimenID = trabajadorEntity.I_RegimenID,
+                            I_EstadoID = trabajadorEntity.I_EstadoID,
+                            I_VinculoID = trabajadorEntity.I_VinculoID,
+                            I_BancoID = trabajadorEntity.I_BancoID,
+                            T_NroCuentaBancaria = trabajadorEntity.T_NroCuentaBancaria,
+                            I_DependenciaID = trabajadorEntity.I_DependenciaID,
+                            I_AfpID = trabajadorEntity.I_Afp,
+                            T_Cuspp = trabajadorEntity.T_Cuspp,
+                            I_CategoriaDocenteID = trabajadorEntity.I_CategoriaDocenteID,
+                            I_HorasDocenteID = trabajadorEntity.I_HorasDocenteID,
+                            I_GrupoOcupacionalID = trabajadorEntity.I_GrupoOcupacionalID,
+                            I_NivelRemunerativoID = trabajadorEntity.I_NivelRemunerativoID,
+                            I_UserID = userID
+                        };
 
-                    result = grabarDocente.Execute();
+                        result = grabarDocente.Execute();
 
-                    break;
+                        break;
 
-                case Operacion.Actualizar:
+                    case Operacion.Actualizar:
 
-                    USP_I_ActualizarTrabajador actualizarDocente = new USP_I_ActualizarTrabajador()
-                    {
-                        I_TrabajadorID = trabajadorEntity.I_TrabajadorID.Value,
-                        C_TrabajadorCod = trabajadorEntity.C_TrabajadorCod,
-                        T_ApellidoPaterno = trabajadorEntity.T_ApellidoPaterno,
-                        T_ApellidoMaterno = trabajadorEntity.T_ApellidoMaterno,
-                        T_Nombre = trabajadorEntity.T_Nombre,
-                        I_TipoDocumentoID = trabajadorEntity.I_TipoDocumentoID,
-                        C_NumDocumento = trabajadorEntity.C_NumDocumento,
-                        D_FechaIngreso = trabajadorEntity.D_FechaIngreso,
-                        I_RegimenID = trabajadorEntity.I_RegimenID,
-                        I_EstadoID = trabajadorEntity.I_EstadoID,
-                        I_VinculoID = trabajadorEntity.I_VinculoID,
-                        I_BancoID = trabajadorEntity.I_BancoID,
-                        T_NroCuentaBancaria = trabajadorEntity.T_NroCuentaBancaria,
-                        I_DependenciaID = trabajadorEntity.I_DependenciaID,
-                        I_AfpID = trabajadorEntity.I_Afp,
-                        T_Cuspp = trabajadorEntity.T_Cuspp,
-                        I_CategoriaDocenteID = trabajadorEntity.I_CategoriaDocenteID,
-                        I_HorasDocenteID = trabajadorEntity.I_HorasDocenteID,
-                        I_GrupoOcupacionalID = trabajadorEntity.I_GrupoOcupacionalID,
-                        I_NivelRemunerativoID = trabajadorEntity.I_NivelRemunerativoID,
-                        I_UserID = userID
-                    };
+                        var actualizarDocente = new USP_U_ActualizarTrabajador()
+                        {
+                            I_TrabajadorID = trabajadorEntity.I_TrabajadorID.Value,
+                            C_TrabajadorCod = trabajadorEntity.C_TrabajadorCod,
+                            T_ApellidoPaterno = trabajadorEntity.T_ApellidoPaterno,
+                            T_ApellidoMaterno = trabajadorEntity.T_ApellidoMaterno,
+                            T_Nombre = trabajadorEntity.T_Nombre,
+                            I_TipoDocumentoID = trabajadorEntity.I_TipoDocumentoID,
+                            C_NumDocumento = trabajadorEntity.C_NumDocumento,
+                            D_FechaIngreso = trabajadorEntity.D_FechaIngreso,
+                            I_RegimenID = trabajadorEntity.I_RegimenID,
+                            I_EstadoID = trabajadorEntity.I_EstadoID,
+                            I_VinculoID = trabajadorEntity.I_VinculoID,
+                            I_BancoID = trabajadorEntity.I_BancoID,
+                            T_NroCuentaBancaria = trabajadorEntity.T_NroCuentaBancaria,
+                            I_DependenciaID = trabajadorEntity.I_DependenciaID,
+                            I_AfpID = trabajadorEntity.I_Afp,
+                            T_Cuspp = trabajadorEntity.T_Cuspp,
+                            I_CategoriaDocenteID = trabajadorEntity.I_CategoriaDocenteID,
+                            I_HorasDocenteID = trabajadorEntity.I_HorasDocenteID,
+                            I_GrupoOcupacionalID = trabajadorEntity.I_GrupoOcupacionalID,
+                            I_NivelRemunerativoID = trabajadorEntity.I_NivelRemunerativoID,
+                            I_UserID = userID
+                        };
 
-                    result = actualizarDocente.Execute();
+                        result = actualizarDocente.Execute();
 
-                    break;
+                        break;
 
-                default:
-                    result = new Result()
-                    {
-                        Message = "No se reconoce la operación a realizar."
-                    };
+                    default:
+                        result = new Result()
+                        {
+                            Message = "No se reconoce la operación a realizar."
+                        };
 
-                    break;
+                        break;
+                }
             }
-
-            
+            catch (Exception ex)
+            {
+                result = new Result()
+                {
+                    Message = ex.Message
+                };
+            }
 
             return Mapper.Result_To_Response(result);
         }

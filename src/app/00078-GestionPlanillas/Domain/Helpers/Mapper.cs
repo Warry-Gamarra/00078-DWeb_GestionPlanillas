@@ -356,5 +356,20 @@ namespace Domain.Helpers
 
             return trabajadorCategoriaPlanillaDTO;
         }
+
+        public static ConceptoDTO VW_Conceptos_To_ConceptoDTO(VW_Conceptos view)
+        {
+            var conceptoDTO = new ConceptoDTO()
+            { 
+                I_ConceptoID = view.I_ConceptoID,
+                I_TipoConceptoID = view.I_TipoConceptoID,
+                T_TipoConceptoDesc = view.T_TipoConceptoDesc,
+                C_ConceptoCod = view.C_ConceptoCod,
+                T_ConceptoDesc = view.T_ConceptoDesc,
+                B_Habilitado = view.B_Habilitado
+            };
+
+            return conceptoDTO;
+        }
     }
 }

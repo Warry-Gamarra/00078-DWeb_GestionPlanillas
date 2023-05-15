@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace Data.Procedures
 {
-    public class USP_I_ActualizarTrabajador
+    public class USP_U_ActualizarTrabajador
     {
         public int I_TrabajadorID { get; set; }
 
@@ -62,7 +62,7 @@ namespace Data.Procedures
 
             try
             {
-                string s_command = "USP_I_ActualizarTrabajador";
+                string s_command = "USP_U_ActualizarTrabajador";
 
                 using (var _dbConnection = new SqlConnection(Database.ConnectionString))
                 {

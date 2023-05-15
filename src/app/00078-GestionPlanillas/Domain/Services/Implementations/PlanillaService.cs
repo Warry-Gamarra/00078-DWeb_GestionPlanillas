@@ -28,7 +28,7 @@ namespace Domain.Services.Implementations
             DataTable dataTable = new DataTable();
             dataTable.Columns.Add("I_TrabajadorID");
 
-            trabajadores.ForEach(x => { 
+            trabajadores.ForEach(x => {
                 dataTable.Rows.Add(x);
             });
 

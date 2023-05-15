@@ -45,6 +45,8 @@
     <Compile Include="Entities\BancoDTO.cs" />
     <Compile Include="Entities\CategoriaDocenteDTO.cs" />
     <Compile Include="Entities\CategoriaPlanillaDTO.cs" />
+    <Compile Include="Entities\ConceptoDTO.cs" />
+    <Compile Include="Entities\ConceptoEntity.cs" />
     <Compile Include="Entities\DependenciaDTO.cs" />
     <Compile Include="Entities\EstadoDTO.cs" />
     <Compile Include="Entities\GrupoOcupacionalDTO.cs" />
@@ -68,6 +70,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Services\ICategoriaDocenteService.cs" />
     <Compile Include="Services\ICategoriaPlanillaService.cs" />
+    <Compile Include="Services\IConceptoService.cs" />
     <Compile Include="Services\IGrupoOcupacionalService.cs" />
     <Compile Include="Services\IAdministrativoService.cs" />
     <Compile Include="Services\IAfpService.cs" />
@@ -80,6 +83,7 @@
     <Compile Include="Services\Implementations\BancoService.cs" />
     <Compile Include="Services\Implementations\CategoriaDocenteService.cs" />
     <Compile Include="Services\Implementations\CategoriaPlanillaService.cs" />
+    <Compile Include="Services\Implementations\ConceptoService.cs" />
     <Compile Include="Services\Implementations\DependenciaService.cs" />
     <Compile Include="Services\Implementations\DocenteService.cs" />
     <Compile Include="Services\Implementations\EstadoService.cs" />

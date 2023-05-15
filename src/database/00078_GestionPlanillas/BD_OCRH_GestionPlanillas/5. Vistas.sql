@@ -54,6 +54,21 @@ GO
 
 
 
+IF EXISTS (SELECT * FROM INFORMATION_SCHEMA.VIEWS WHERE TABLE_NAME = 'VW_Conceptos')
+	DROP VIEW [dbo].[VW_Conceptos]
+GO
+
+CREATE VIEW [dbo].[VW_Conceptos]
+AS
+SELECT 
+	c.I_ConceptoID, c.I_TipoConceptoID, c.C_ConceptoCod, c.T_ConceptoDesc, c.B_Habilitado, tc.T_TipoConceptoDesc
+FROM dbo.TC_Concepto c
+INNER JOIN dbo.TC_TipoConcepto tc ON tc.I_TipoConceptoID = c.I_TipoConceptoID
+WHERE c.B_Eliminado = 0 AND tc.B_Eliminado = 0
+GO
+
+
+
 IF EXISTS (SELECT * FROM INFORMATION_SCHEMA.VIEWS WHERE TABLE_NAME = 'VW_Docentes')
 	DROP VIEW [dbo].[VW_Docentes]
 GO
@@ -195,9 +210,3 @@ FROM TC_Administrativo AS adm INNER JOIN
     TC_NivelRemunerativo AS nivremu ON nivremu.I_NivelRemunerativoID = adm.I_NivelRemunerativoID INNER JOIN
     TC_GrupoOcupacional AS grupocup ON grupocup.I_GrupoOcupacionalID = adm.I_GrupoOcupacionalID
 GO
-
-SELECT DISTINCT I_Anio FROM dbo.TR_Periodo;
-
-SELECT * FROM dbo.TR_Periodo WHERE I_Anio = 2023;
-select * from dbo.TC_Estado
-

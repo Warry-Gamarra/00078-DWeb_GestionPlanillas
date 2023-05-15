@@ -94,11 +94,11 @@ GO
 
 
 
-IF EXISTS (SELECT * FROM INFORMATION_SCHEMA.ROUTINES WHERE ROUTINE_TYPE = 'PROCEDURE' AND ROUTINE_NAME = 'USP_I_ActualizarTrabajador')
-	DROP PROCEDURE [dbo].[USP_I_ActualizarTrabajador]
+IF EXISTS (SELECT * FROM INFORMATION_SCHEMA.ROUTINES WHERE ROUTINE_TYPE = 'PROCEDURE' AND ROUTINE_NAME = 'USP_U_ActualizarTrabajador')
+	DROP PROCEDURE [dbo].[USP_U_ActualizarTrabajador]
 GO
 
-CREATE PROCEDURE [dbo].[USP_I_ActualizarTrabajador]
+CREATE PROCEDURE [dbo].[USP_U_ActualizarTrabajador]
 @I_trabajadorID INT,
 @C_TrabajadorCod VARCHAR(20),
 @T_ApellidoPaterno VARCHAR(250),
@@ -304,7 +304,7 @@ IF EXISTS (SELECT * FROM INFORMATION_SCHEMA.ROUTINES WHERE ROUTINE_TYPE = 'PROCE
 	DROP PROCEDURE [dbo].[USP_I_GenerarPlanilla_Docente_Administrativo]
 GO
 
---Pregunta: La planilla de haberes se dibide por administrativo, cas y docente, o los 3 están en la misma planilla?
+
 CREATE PROCEDURE [dbo].[USP_I_GenerarPlanilla_Docente_Administrativo]
 @Tbl_Trabajador [dbo].[type_dataTrabajador] READONLY,
 @I_Anio INT,
@@ -713,27 +713,77 @@ GO
 
 
 
+IF EXISTS (SELECT * FROM INFORMATION_SCHEMA.ROUTINES WHERE ROUTINE_TYPE = 'PROCEDURE' AND ROUTINE_NAME = 'USP_I_RegistrarConcepto')
+	DROP PROCEDURE [dbo].[USP_I_RegistrarConcepto]
+GO
 
-----Ejecución SP
---DECLARE @tmp_trabajadores AS type_dataTrabajador,
---		@I_Anio INT = 2022,
---		@I_Mes INT = 4,
---		@I_CategoriaPlanillaID INT = 1,
---		@I_UserID INT = 1,
---		@B_Result BIT,
---		@T_Message VARCHAR(250),
---		@return_status INT
+CREATE PROCEDURE USP_I_RegistrarConcepto
+@I_TipoConceptoID INT,
+@C_ConceptoCod VARCHAR(20),
+@T_ConceptoDesc VARCHAR(250),
+@I_UserID INT,
+@B_Result BIT OUTPUT,
+@T_Message VARCHAR(250) OUTPUT
+AS
+BEGIN
+	SET NOCOUNT ON;
+	
+	BEGIN TRAN
+	BEGIN TRY
+		SELECT * FROM dbo.TC_TipoConcepto
+		SELECT * FROM dbo.TC_Concepto
 
---INSERT @tmp_trabajadores(I_TrabajadorID) VALUES(4), (5), (6), (7)
+		INSERT dbo.TC_Concepto(I_TipoConceptoID, C_ConceptoCod, T_ConceptoDesc, B_Habilitado, B_Eliminado, I_UsuarioCre, D_FecCre)
+		VALUES(@I_TipoConceptoID, @C_ConceptoCod, @T_ConceptoDesc, 1, 0, @I_UserID, GETDATE())
 
---EXEC @return_status = USP_I_GenerarPlanilla_Docente_Administrativo @Tbl_Trabajador = @tmp_trabajadores, 
---	@I_Anio = @I_Anio, @I_Mes = @I_Mes, @I_CategoriaPlanillaID = @I_CategoriaPlanillaID, @I_UserID = @I_UserID,
---	@B_Result = @B_Result OUTPUT, @T_Message = @T_Message OUTPUT
+		COMMIT TRAN
+		SET @B_Result = 1
+		SET @T_Message = 'Registro correcto.'
+	END TRY
+	BEGIN CATCH
+		ROLLBACK TRAN
+		SET @B_Result = 0
+		SET @T_Message = ERROR_MESSAGE()
+	END CATCH
+END
+GO
 
---SELECT 'return_status' = @return_status
---SELECT @B_Result AS B_Result, @T_Message AS T_Message
---GO
-----select * from dbo.TC_CategoriaPlanilla
-----select * from dbo.TI_PlantillaPlanilla
-----select * from dbo.TI_PlantillaPlanilla_Concepto
-----GO
+
+
+IF EXISTS (SELECT * FROM INFORMATION_SCHEMA.ROUTINES WHERE ROUTINE_TYPE = 'PROCEDURE' AND ROUTINE_NAME = 'USP_U_ActualizarConcepto')
+	DROP PROCEDURE [dbo].[USP_U_ActualizarConcepto]
+GO
+
+CREATE PROCEDURE USP_U_ActualizarConcepto
+@I_ConceptoID INT,
+@I_TipoConceptoID INT,
+@C_ConceptoCod VARCHAR(20),
+@T_ConceptoDesc VARCHAR(250),
+@I_UserID INT,
+@B_Result BIT OUTPUT,
+@T_Message VARCHAR(250) OUTPUT
+AS
+BEGIN
+	SET NOCOUNT ON;
+	
+	BEGIN TRAN
+	BEGIN TRY
+		UPDATE dbo.TC_Concepto SET
+			I_TipoConceptoID = @I_TipoConceptoID,
+			C_ConceptoCod = @C_ConceptoCod,
+			T_ConceptoDesc = @T_ConceptoDesc,
+			I_UsuarioMod = @I_UserID,
+			D_FecMod = GETDATE()
+		WHERE I_ConceptoID = @I_ConceptoID
+
+		COMMIT TRAN
+		SET @B_Result = 1
+		SET @T_Message = 'Registro correcto.'
+	END TRY
+	BEGIN CATCH
+		ROLLBACK TRAN
+		SET @B_Result = 0
+		SET @T_Message = ERROR_MESSAGE()
+	END CATCH
+END
+GO

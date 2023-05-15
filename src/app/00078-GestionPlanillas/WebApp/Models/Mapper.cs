@@ -174,5 +174,20 @@ namespace WebApp.Models
 
             return model;
         }
+
+        public static ConceptoModel ConceptoDTO_To_ConceptoModel(ConceptoDTO dto)
+        {
+            var model = new ConceptoModel()
+            { 
+                I_ConceptoID = dto.I_ConceptoID,
+                I_TipoConceptoID = dto.I_TipoConceptoID,
+                T_TipoConceptoDesc = dto.T_TipoConceptoDesc,
+                C_ConceptoCod = dto.C_ConceptoCod,
+                T_ConceptoDesc = dto.C_ConceptoCod,
+                B_Habilitado = dto.B_Habilitado
+            };
+
+            return model;
+        }
     }
 }
