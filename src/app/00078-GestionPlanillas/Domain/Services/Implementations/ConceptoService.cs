@@ -41,6 +41,7 @@ namespace Domain.Services.Implementations
 
                         var actualizarConcepto = new USP_U_ActualizarConcepto()
                         {
+                            I_ConceptoID = conceptoEntity.I_ConceptoID.Value,
                             I_TipoConceptoID = conceptoEntity.I_TipoConceptoID,
                             T_ConceptoDesc = conceptoEntity.T_ConceptoDesc,
                             C_ConceptoCod = conceptoEntity.C_ConceptoCod,

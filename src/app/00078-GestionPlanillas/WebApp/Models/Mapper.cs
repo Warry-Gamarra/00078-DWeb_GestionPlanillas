@@ -183,7 +183,7 @@ namespace WebApp.Models
                 I_TipoConceptoID = dto.I_TipoConceptoID,
                 T_TipoConceptoDesc = dto.T_TipoConceptoDesc,
                 C_ConceptoCod = dto.C_ConceptoCod,
-                T_ConceptoDesc = dto.C_ConceptoCod,
+                T_ConceptoDesc = dto.T_ConceptoDesc,
                 B_Habilitado = dto.B_Habilitado
             };
 

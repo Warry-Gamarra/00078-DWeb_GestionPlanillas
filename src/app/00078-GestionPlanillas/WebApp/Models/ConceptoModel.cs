@@ -9,7 +9,7 @@ namespace WebApp.Models
 {
     public class ConceptoModel
     {
-        public int I_ConceptoID { get; set; }
+        public int? I_ConceptoID { get; set; }
 
         [DisplayName("Tip.Concepto")]
         [Required(ErrorMessage = "El Tipo de Concepto es obligatorio.")]

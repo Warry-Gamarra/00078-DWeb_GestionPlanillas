@@ -130,6 +130,7 @@
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\ConceptosController.cs" />
     <Compile Include="Controllers\GeneralController.cs" />
     <Compile Include="Controllers\PlanillasController.cs" />
     <Compile Include="Controllers\TrabajadoresController.cs" />
@@ -151,6 +152,7 @@
     <Compile Include="ServiceFacade\IBancoServiceFacade.cs" />
     <Compile Include="ServiceFacade\ICategoriaDocenteServiceFacade.cs" />
     <Compile Include="ServiceFacade\ICategoriaPlanillaServiceFacade.cs" />
+    <Compile Include="ServiceFacade\IConceptoServiceFacade.cs" />
     <Compile Include="ServiceFacade\IDependenciaServiceFacade.cs" />
     <Compile Include="ServiceFacade\IDocenteServiceFacade.cs" />
     <Compile Include="ServiceFacade\IEstadoServiceFacade.cs" />
@@ -161,6 +163,7 @@
     <Compile Include="ServiceFacade\Implementations\BancoServiceFacade.cs" />
     <Compile Include="ServiceFacade\Implementations\CategoriaDocenteServiceFacade.cs" />
     <Compile Include="ServiceFacade\Implementations\CategoriaPlanillaServiceFacade.cs" />
+    <Compile Include="ServiceFacade\Implementations\ConceptoServiceFacade.cs" />
     <Compile Include="ServiceFacade\Implementations\DependenciaServiceFacade.cs" />
     <Compile Include="ServiceFacade\Implementations\DocenteServiceFacade.cs" />
     <Compile Include="ServiceFacade\Implementations\EstadoServiceFacade.cs" />
@@ -170,6 +173,7 @@
     <Compile Include="ServiceFacade\Implementations\PeriodoServiceFacade.cs" />
     <Compile Include="ServiceFacade\Implementations\PlanillaServiceFacade.cs" />
     <Compile Include="ServiceFacade\Implementations\RegimenServiceFacade.cs" />
+    <Compile Include="ServiceFacade\Implementations\TipoConceptoServiceFacade.cs" />
     <Compile Include="ServiceFacade\Implementations\TipoDocumentoServiceFacade.cs" />
     <Compile Include="ServiceFacade\Implementations\TrabajadorServiceFacade.cs" />
     <Compile Include="ServiceFacade\Implementations\VinculoServiceFacade.cs" />
@@ -177,6 +181,7 @@
     <Compile Include="ServiceFacade\IPeriodoServiceFacade.cs" />
     <Compile Include="ServiceFacade\IPlanillaServiceFacade.cs" />
     <Compile Include="ServiceFacade\IRegimenServiceFacade.cs" />
+    <Compile Include="ServiceFacade\ITipoConceptoServiceFacade.cs" />
     <Compile Include="ServiceFacade\ITipoDocumentoServiceFacade.cs" />
     <Compile Include="ServiceFacade\ITrabajadorServiceFacade.cs" />
     <Compile Include="ServiceFacade\IVinculoServiceFacade.cs" />
@@ -427,6 +432,9 @@
     <Content Include="Views\Trabajadores\_MantenimientoTrabajador.cshtml" />
     <Content Include="Views\Trabajadores\_MsgRegistrarTrabajador.cshtml" />
     <Content Include="Views\Planillas\Generar.cshtml" />
+    <Content Include="Views\Conceptos\Index.cshtml" />
+    <Content Include="Views\Conceptos\_MantenimientoConcepto.cshtml" />
+    <Content Include="Views\Conceptos\_MsgRegistrarConcepto.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

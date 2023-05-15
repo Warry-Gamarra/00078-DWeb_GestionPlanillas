@@ -371,5 +371,17 @@ namespace Domain.Helpers
 
             return conceptoDTO;
         }
+
+        public static TipoConceptoDTO TC_TipoConcepto_To_TipoConceptoDTO(TC_TipoConcepto table)
+        {
+            var tipoConceptoDTO = new TipoConceptoDTO()
+            { 
+                I_TipoConceptoID = table.I_TipoConceptoID,
+                T_TipoConceptoDesc = table.T_TipoConceptoDesc,
+                B_Habilitado = table.B_Habilitado
+            };
+
+            return tipoConceptoDTO;
+        }
     }
 }
