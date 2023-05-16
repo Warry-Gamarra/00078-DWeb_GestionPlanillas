@@ -27,9 +27,9 @@ namespace Domain.Services.Implementations
 
                         var grabarConcepto = new USP_I_RegistrarConcepto()
                         {
-                            I_TipoConceptoID = conceptoEntity.I_TipoConceptoID,
-                            T_ConceptoDesc = conceptoEntity.T_ConceptoDesc,
-                            C_ConceptoCod = conceptoEntity.C_ConceptoCod,
+                            I_TipoConceptoID = conceptoEntity.tipoConceptoID,
+                            C_ConceptoCod = conceptoEntity.conceptoCod,
+                            T_ConceptoDesc = conceptoEntity.conceptoDesc,
                             I_UserID = userID
                         };
 
@@ -41,10 +41,10 @@ namespace Domain.Services.Implementations
 
                         var actualizarConcepto = new USP_U_ActualizarConcepto()
                         {
-                            I_ConceptoID = conceptoEntity.I_ConceptoID.Value,
-                            I_TipoConceptoID = conceptoEntity.I_TipoConceptoID,
-                            T_ConceptoDesc = conceptoEntity.T_ConceptoDesc,
-                            C_ConceptoCod = conceptoEntity.C_ConceptoCod,
+                            I_ConceptoID = conceptoEntity.conceptoID.Value,
+                            I_TipoConceptoID = conceptoEntity.tipoConceptoID,
+                            C_ConceptoCod = conceptoEntity.conceptoCod,
+                            T_ConceptoDesc = conceptoEntity.conceptoDesc,
                             I_UserID = userID
                         };
 
@@ -81,11 +81,11 @@ namespace Domain.Services.Implementations
             return lista;
         }
 
-        public ConceptoDTO ObtenerConcepto(int I_ConceptoID)
+        public ConceptoDTO ObtenerConcepto(int conceptoID)
         {
             ConceptoDTO conceptoDTO;
 
-            var view = VW_Conceptos.FindByID(I_ConceptoID);
+            var view = VW_Conceptos.FindByID(conceptoID);
 
             if (view == null)
             {
@@ -97,6 +97,32 @@ namespace Domain.Services.Implementations
             }
 
             return conceptoDTO;
+        }
+
+        public Response CambiarEstado(int conceptoID, bool estadHabilitado, int userID)
+        {
+            Result result;
+
+            try
+            {
+                var cambiarEstado = new USP_U_CambiarEstadoConcepto()
+                {
+                    I_ConceptoID = conceptoID,
+                    B_Habilitado = !estadHabilitado,
+                    I_UserID = userID
+                };
+
+                result = cambiarEstado.Execute();
+            }
+            catch (Exception ex)
+            {
+                result = new Result()
+                {
+                    Message = ex.Message
+                };
+            }
+
+            return Mapper.Result_To_Response(result);
         }
     }
 }

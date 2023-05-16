@@ -52,6 +52,7 @@
     <Compile Include="Procedures\USP_I_GenerarPlanilla_Docente_Administrativo.cs" />
     <Compile Include="Procedures\USP_I_RegistrarConcepto.cs" />
     <Compile Include="Procedures\USP_I_RegistrarTrabajador.cs" />
+    <Compile Include="Procedures\USP_U_CambiarEstadoConcepto.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Tables\TC_CategoriaDocente.cs" />
     <Compile Include="Tables\TC_Afp.cs" />

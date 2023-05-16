@@ -11,10 +11,12 @@ namespace Domain.Services
 {
     public interface IConceptoService
     {
+        Response GrabarConcepto(Operacion operacion, ConceptoEntity conceptoEntity, int userID);
+
         List<ConceptoDTO> ListarConceptos();
 
-        ConceptoDTO ObtenerConcepto(int I_ConceptoID);
+        ConceptoDTO ObtenerConcepto(int conceptoID);
 
-        Response GrabarConcepto(Operacion operacion, ConceptoEntity conceptoEntity, int userID);
+        Response CambiarEstado(int conceptoID, bool estadHabilitado, int userID);
     }
 }

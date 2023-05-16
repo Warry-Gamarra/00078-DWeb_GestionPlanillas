@@ -59,24 +59,24 @@ function htmlDecode(input) {
 
 
 
-function ChangeStateReloadPage(RowID, B_habilitado, ActionName) {
+function ChangeStateReloadPage(rowID, estaHabilitado, actionName) {
     var parametros = {
-        RowID: RowID,
-        B_habilitado: B_habilitado
+        rowID: rowID,
+        estaHabilitado: estaHabilitado
     };
     $.ajax({
         cache: false,
-        url: ActionName,
+        url: actionName,
         type: "POST",
         data: parametros,
         dataType: "json",
         beforeSend: function () {
-            $('#loader' + RowID).css("display", "inline");
+            $('#loader' + rowID).css("display", "inline");
         },
         success: function (data) {
-            $('#loader' + RowID).css("display", "none");
-            if (data['Value']) {
-                $('#td' + RowID).html(data['Message']);
+            $('#loader' + rowID).css("display", "none");
+            if (data['Success']) {
+                $('#td' + rowID).html(data['Message']);
 
                 location.reload();
             }
@@ -85,35 +85,35 @@ function ChangeStateReloadPage(RowID, B_habilitado, ActionName) {
             }
         },
         error: function () {
-            $('#loader' + RowID).css("display", "none");
+            $('#loader' + rowID).css("display", "none");
 
             toastr.error("No se pudo actualizar el estado. Intente nuevamente en unos segundos.<br /> Si el problema persiste comuníquese con el área de soporte de la aplicación.");
         }
     });
 }
 
-function ChangeState(RowID, B_habilitado, ActionName) {
+function ChangeState(rowID, estaHabilitado, actionName) {
     var parametros = {
-        RowID: RowID,
-        B_habilitado: B_habilitado
+        rowID: rowID,
+        estaHabilitado: estaHabilitado
     };
     $.ajax({
         cache: false,
-        url: ActionName,
+        url: actionName,
         type: "POST",
         data: parametros,
         dataType: "json",
         beforeSend: function () {
-            $('#loader' + RowID).css("display", "inline");
+            $('#loader' + rowID).css("display", "inline");
         },
         success: function (data) {
-            $('#loader' + RowID).css("display", "none");
-            if (data['Value']) {
-                if (B_habilitado) {
-                    $('#td' + RowID).html(`<button type="submit" class="btn btn-xs btn-secondary" onclick="ChangeState(${ RowID }, false, '${ ActionName }');"><i class="fa fa-minus-circle">&nbsp;</i><span class="d-none d-md-inline-block">Deshabilitado</span></button>`);
+            $('#loader' + rowID).css("display", "none");
+            if (data['Success']) {
+                if (estaHabilitado) {
+                    $('#td' + rowID).html(`<button type="submit" class="btn btn-xs btn-secondary" onclick="ChangeState(${rowID}, false, '${actionName }');"><i class="fa fa-minus-circle">&nbsp;</i><span class="d-none d-md-inline-block">Deshabilitado</span></button>`);
                 }
                 else {
-                    $('#td' + RowID).html(`<button type="submit" class="btn btn-xs btn-success" onclick="ChangeState(${ RowID }, true, '${ ActionName }');"><i class="fa fa-check-circle">&nbsp;</i><span class="d-none d-md-inline-block">Habilitado</span></button>`);
+                    $('#td' + rowID).html(`<button type="submit" class="btn btn-xs btn-success" onclick="ChangeState(${rowID}, true, '${actionName }');"><i class="fa fa-check-circle">&nbsp;</i><span class="d-none d-md-inline-block">Habilitado</span></button>`);
                 }
 
                 toastr.succees(data['Message']);

@@ -8,13 +8,13 @@ namespace Domain.Entities
 {
     public class ConceptoEntity
     {
-        public int? I_ConceptoID { get; set; }
+        public int? conceptoID { get; set; }
 
-        public int I_TipoConceptoID { get; set; }
+        public int tipoConceptoID { get; set; }
 
-        public string C_ConceptoCod { get; set; }
+        public string conceptoCod { get; set; }
 
-        public string T_ConceptoDesc { get; set; }
+        public string conceptoDesc { get; set; }
 
     }
 }

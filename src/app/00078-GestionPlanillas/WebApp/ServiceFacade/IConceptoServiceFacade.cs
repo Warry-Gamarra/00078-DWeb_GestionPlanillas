@@ -10,10 +10,12 @@ namespace WebApp.ServiceFacade
 {
     public interface IConceptoServiceFacade
     {
+        Response GrabarConcepto(Operacion operacion, ConceptoModel model, int userID);
+
         List<ConceptoModel> ListarConceptos();
 
-        ConceptoModel ObtenerConcepto(int I_ConceptoID);
+        ConceptoModel ObtenerConcepto(int conceptoID);
 
-        Response GrabarConcepto(Operacion operacion, ConceptoModel model, int userID);
+        Response CambiarEstado(int conceptoID, bool estado, int userID, string returnUrl);
     }
 }

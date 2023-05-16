@@ -778,7 +778,43 @@ BEGIN
 
 		COMMIT TRAN
 		SET @B_Result = 1
-		SET @T_Message = 'Registro correcto.'
+		SET @T_Message = 'Actualización correcta.'
+	END TRY
+	BEGIN CATCH
+		ROLLBACK TRAN
+		SET @B_Result = 0
+		SET @T_Message = ERROR_MESSAGE()
+	END CATCH
+END
+GO
+
+
+
+IF EXISTS (SELECT * FROM INFORMATION_SCHEMA.ROUTINES WHERE ROUTINE_TYPE = 'PROCEDURE' AND ROUTINE_NAME = 'USP_U_CambiarEstadoConcepto')
+	DROP PROCEDURE [dbo].[USP_U_CambiarEstadoConcepto]
+GO
+
+CREATE PROCEDURE USP_U_CambiarEstadoConcepto
+@I_ConceptoID INT,
+@B_Habilitado BIT,
+@I_UserID INT,
+@B_Result BIT OUTPUT,
+@T_Message VARCHAR(250) OUTPUT
+AS
+BEGIN
+	SET NOCOUNT ON;
+	
+	BEGIN TRAN
+	BEGIN TRY
+		UPDATE dbo.TC_Concepto SET
+			B_Habilitado = @B_Habilitado,
+			I_UsuarioMod = @I_UserID,
+			D_FecMod = GETDATE()
+		WHERE I_ConceptoID = @I_ConceptoID
+
+		COMMIT TRAN
+		SET @B_Result = 1
+		SET @T_Message = 'Actualización correcta.'
 	END TRY
 	BEGIN CATCH
 		ROLLBACK TRAN

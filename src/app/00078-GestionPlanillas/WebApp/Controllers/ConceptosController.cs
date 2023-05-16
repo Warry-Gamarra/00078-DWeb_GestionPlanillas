@@ -93,5 +93,13 @@ namespace WebApp.Controllers
 
             return PartialView("_MsgRegistrarConcepto", response);
         }
+
+        [HttpPost]
+        public JsonResult CambiarEstado(int rowID, bool estaHabilitado)
+        {
+            var result = _conceptoServiceFacade.CambiarEstado(rowID, estaHabilitado, WebSecurity.CurrentUserId, Url.Action("CambiarEstado", "Conceptos"));
+
+            return Json(result, JsonRequestBehavior.AllowGet);
+        }
     }
 }

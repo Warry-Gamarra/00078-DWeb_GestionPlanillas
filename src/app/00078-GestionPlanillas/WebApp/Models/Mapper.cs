@@ -178,13 +178,13 @@ namespace WebApp.Models
         public static ConceptoModel ConceptoDTO_To_ConceptoModel(ConceptoDTO dto)
         {
             var model = new ConceptoModel()
-            { 
-                I_ConceptoID = dto.I_ConceptoID,
-                I_TipoConceptoID = dto.I_TipoConceptoID,
-                T_TipoConceptoDesc = dto.T_TipoConceptoDesc,
-                C_ConceptoCod = dto.C_ConceptoCod,
-                T_ConceptoDesc = dto.T_ConceptoDesc,
-                B_Habilitado = dto.B_Habilitado
+            {
+                conceptoID = dto.conceptoID,
+                tipoConceptoID = dto.tipoConceptoID,
+                tipoConceptoDesc = dto.tipoConceptoDesc,
+                conceptoCod = dto.conceptoCod,
+                conceptoDesc = dto.conceptoDesc,
+                estaHabilitado = dto.estaHabilitado
             };
 
             return model;

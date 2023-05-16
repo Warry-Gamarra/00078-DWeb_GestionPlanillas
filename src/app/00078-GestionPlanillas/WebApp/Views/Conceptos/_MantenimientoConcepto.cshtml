@@ -17,13 +17,13 @@
     }))
     {
         @Html.AntiForgeryToken()
-        @Html.HiddenFor(model => model.I_ConceptoID)
+        @Html.HiddenFor(model => model.conceptoID)
         <div class="form-row">
             <div class="col-12">
                 <div class="form-group">
-                    @Html.LabelFor(model => model.I_TipoConceptoID, new { @class = "control-label" })
-                    @Html.DropDownListFor(model => model.I_TipoConceptoID, ViewBag.ListaTiposConceptos as SelectList, "[ SELECCIONAR ]", new { @class = "form-control text-uppercase" })
-                    @Html.ValidationMessageFor(model => model.I_TipoConceptoID, null, new { @class = "text-danger" })
+                    @Html.LabelFor(model => model.tipoConceptoID, new { @class = "control-label" })
+                    @Html.DropDownListFor(model => model.tipoConceptoID, ViewBag.ListaTiposConceptos as SelectList, "[ SELECCIONAR ]", new { @class = "form-control text-uppercase" })
+                    @Html.ValidationMessageFor(model => model.tipoConceptoID, null, new { @class = "text-danger" })
                 </div>
             </div>
         </div>
@@ -31,9 +31,9 @@
         <div class="form-row">
             <div class="col-12">
                 <div class="form-group">
-                    @Html.LabelFor(model => model.C_ConceptoCod, new { @class = "control-label" })
-                    @Html.TextBoxFor(model => model.C_ConceptoCod, new { @class = "form-control" })
-                    @Html.ValidationMessageFor(model => model.C_ConceptoCod, null, new { @class = "text-danger" })
+                    @Html.LabelFor(model => model.conceptoCod, new { @class = "control-label" })
+                    @Html.TextBoxFor(model => model.conceptoCod, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(model => model.conceptoCod, null, new { @class = "text-danger" })
                 </div>
             </div>
         </div>
@@ -41,9 +41,9 @@
         <div class="form-row">
             <div class="col-12">
                 <div class="form-group">
-                    @Html.LabelFor(model => model.T_ConceptoDesc, new { @class = "control-label" })
-                    @Html.TextBoxFor(model => model.T_ConceptoDesc, new { @class = "form-control" })
-                    @Html.ValidationMessageFor(model => model.T_ConceptoDesc, null, new { @class = "text-danger" })
+                    @Html.LabelFor(model => model.conceptoDesc, new { @class = "control-label" })
+                    @Html.TextBoxFor(model => model.conceptoDesc, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(model => model.conceptoDesc, null, new { @class = "text-danger" })
                 </div>
             </div>
         </div>

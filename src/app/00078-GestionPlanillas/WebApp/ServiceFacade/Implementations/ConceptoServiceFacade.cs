@@ -23,33 +23,30 @@ namespace WebApp.ServiceFacade.Implementations
         public Response GrabarConcepto(Operacion operacion, ConceptoModel model, int userID)
         {
             Response response;
-            bool grabar = true;
+            bool esCodigoConceptoUnico = true;
 
             try
             {
-                var conceptoDTO = _conceptoService.ListarConceptos().Where(x => x.C_ConceptoCod == model.C_ConceptoCod).FirstOrDefault();
+                var conceptoDTO = _conceptoService.ListarConceptos().Where(x => x.conceptoCod == model.conceptoCod).FirstOrDefault();
 
                 if (operacion.Equals(Operacion.Registrar) && conceptoDTO != null)
                 {
-                    grabar = false;
+                    esCodigoConceptoUnico = false;
                 }
 
-                if (operacion.Equals(Operacion.Actualizar))
+                if (operacion.Equals(Operacion.Actualizar) && conceptoDTO != null && conceptoDTO.conceptoID != model.conceptoID.Value)
                 {
-                    if (conceptoDTO != null && conceptoDTO.I_ConceptoID != model.I_ConceptoID.Value)
-                    {
-                        grabar = false;
-                    }
+                    esCodigoConceptoUnico = false;
                 }
 
-                if (grabar)
+                if (esCodigoConceptoUnico)
                 {
                     var conceptoEntity = new ConceptoEntity()
                     {
-                        I_ConceptoID = model.I_ConceptoID,
-                        I_TipoConceptoID = model.I_TipoConceptoID,
-                        C_ConceptoCod = model.C_ConceptoCod,
-                        T_ConceptoDesc = model.T_ConceptoDesc
+                        conceptoID = model.conceptoID,
+                        tipoConceptoID = model.tipoConceptoID,
+                        conceptoCod = model.conceptoCod,
+                        conceptoDesc = model.conceptoDesc
                     };
 
                     response = _conceptoService.GrabarConcepto(operacion, conceptoEntity, userID);
@@ -82,11 +79,11 @@ namespace WebApp.ServiceFacade.Implementations
             return lista;
         }
 
-        public ConceptoModel ObtenerConcepto(int I_ConceptoID)
+        public ConceptoModel ObtenerConcepto(int conceptoID)
         {
             ConceptoModel conceptoModel;
 
-            var conceptoDTO = _conceptoService.ObtenerConcepto(I_ConceptoID);
+            var conceptoDTO = _conceptoService.ObtenerConcepto(conceptoID);
 
             if (conceptoDTO == null)
             {
@@ -98,6 +95,13 @@ namespace WebApp.ServiceFacade.Implementations
             }
 
             return conceptoModel;
+        }
+
+        public Response CambiarEstado(int conceptoID, bool estadHabilitado, int userID, string returnUrl)
+        {
+            var result = _conceptoService.CambiarEstado(conceptoID, estadHabilitado, userID);
+
+            return result;
         }
     }
 }

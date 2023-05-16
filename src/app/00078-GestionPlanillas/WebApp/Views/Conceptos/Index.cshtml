@@ -25,12 +25,16 @@
         <div class="table-responsive" style="min-height:300px">
             @Html.Grid(Model).Columns(columns =>
             {
-                columns.Add(c => c.C_ConceptoCod).Titled("Cod.Concepto").Css("text-left").Filterable(true);
-                columns.Add(c => c.T_TipoConceptoDesc).Titled("Tip.Concepto").Css("text-left").Filterable(true);
-                columns.Add(c => c.T_ConceptoDesc).Titled("Descrirpción").Css("text-left").Filterable(true);
-                columns.Add(c => c.B_Habilitado).Titled("Estado").Css("text-center").Filterable(true);
-                columns.Add().SetWidth(150).Encoded(false).Sanitized(false).RenderValueAs(model => @<a href="@Url.Action("Editar", "Conceptos", new { id = model.I_ConceptoID })" class="modal-link"><i class="fa fa-pencil-square-o" aria-hidden="true"></i> <span class="d-none d-md-inline-block">Editar</span></a>);
-            }).WithPaging(12).Sortable(true).WithGridItemsCount("Registros encontrados").EmptyText("No se encontraron registros")
+                columns.Add(c => c.conceptoCod).Titled("Cod.Concepto").Css("text-left").Filterable(true);
+                columns.Add(c => c.tipoConceptoDesc).Titled("Tip.Concepto").Css("text-left").Filterable(true);
+                columns.Add(c => c.conceptoDesc).Titled("Descrirpción").Css("text-left").Filterable(true);
+                columns.Add(c => c.estaHabilitado).SetWidth(100).Css("text-center").Encoded(false).Sanitized(false)
+                    .RenderValueAs(model => model.estaHabilitado ?
+                        @Html.Raw("<span id=\"td" + @model.conceptoID + "\"><button type=\"submit\" class=\"btn btn-xs btn-success\" onclick=\"ChangeStateReloadPage(" + @model.conceptoID + ", " + @model.estaHabilitado.ToString().ToLower() + ", '" + @Url.Action("CambiarEstado", "Conceptos") + "');\"><i class=\"fa fa-check-circle-o\">&nbsp;</i><span class=\"d-none d-md-inline-block\">Habilitado</span></button></span>") :
+                        @Html.Raw("<span id=\"td" + @model.conceptoID + "\"><button type=\"submit\" class=\"btn btn-xs btn-secondary\" onclick=\"ChangeStateReloadPage(" + @model.conceptoID + ", " + @model.estaHabilitado.ToString().ToLower() + ", '" + @Url.Action("CambiarEstado", "Conceptos") + "');\"><i class=\"fa fa-minus-circle\">&nbsp;</i><span class=\"d-none d-md-inline-block\">Deshabilitado</span></button></span>"))
+                    .Filterable(true).SetWidth(160).Titled("Estado");
+                columns.Add().SetWidth(150).Encoded(false).Sanitized(false).RenderValueAs(model => @<a href="@Url.Action("Editar", "Conceptos", new { id = model.conceptoID })" class="modal-link"><i class="fa fa-pencil-square-o" aria-hidden="true"></i> <span class="d-none d-md-inline-block">Editar</span></a>);
+            }).WithPaging(5).Sortable(true).WithGridItemsCount("Registros encontrados").EmptyText("No se encontraron registros")
         </div>
 
     </div>
