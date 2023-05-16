@@ -16,11 +16,13 @@ namespace WebApp.Controllers
     {
         private IConceptoServiceFacade _conceptoServiceFacade;
         private ITipoConceptoServiceFacade _tipoConceptoServiceFacade;
+        private IPlantillaPlanillaServiceFacade _plantillaPlanillaServiceFacade;
 
         public ConceptosController()
         {
             _conceptoServiceFacade = new ConceptoServiceFacade();
             _tipoConceptoServiceFacade = new TipoConceptoServiceFacade();
+            _plantillaPlanillaServiceFacade = new PlantillaPlanillaServiceFacade();
         }
 
         public ActionResult Index()

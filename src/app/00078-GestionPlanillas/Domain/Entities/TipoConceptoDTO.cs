@@ -8,10 +8,10 @@ namespace Domain.Entities
 {
     public class TipoConceptoDTO
     {
-        public int I_TipoConceptoID { get; set; }
+        public int tipoConceptoID { get; set; }
 
-        public string T_TipoConceptoDesc { get; set; }
+        public string tipoConceptoDesc { get; set; }
 
-        public bool B_Habilitado { get; set; }
+        public bool estaHabilitado { get; set; }
     }
 }

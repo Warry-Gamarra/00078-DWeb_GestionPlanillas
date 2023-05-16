@@ -375,13 +375,29 @@ namespace Domain.Helpers
         public static TipoConceptoDTO TC_TipoConcepto_To_TipoConceptoDTO(TC_TipoConcepto table)
         {
             var tipoConceptoDTO = new TipoConceptoDTO()
-            { 
-                I_TipoConceptoID = table.I_TipoConceptoID,
-                T_TipoConceptoDesc = table.T_TipoConceptoDesc,
-                B_Habilitado = table.B_Habilitado
+            {
+                tipoConceptoID = table.I_TipoConceptoID,
+                tipoConceptoDesc = table.T_TipoConceptoDesc,
+                estaHabilitado = table.B_Habilitado
             };
 
             return tipoConceptoDTO;
+        }
+
+        public static PlantillaPlanillaDTO VW_PlantillaPlanilla_To_PlantillaPlanillaDTO(VW_PlantillaPlanilla view)
+        {
+            var plantillaPlanillaDTO = new PlantillaPlanillaDTO()
+            {
+                plantillaPlanillaID = view.I_PlantillaPlanillaID,
+                plantillaPlanillaDesc = view.T_PlantillaPlanillaDesc,
+                estaHabilitado = view.B_Habilitado,
+                categoriaPlanillaID = view.I_CategoriaPlanillaID,
+                categoriaPlanillaDesc = view.T_CategoriaPlanillaDesc,
+                clasePlanillaID = view.I_ClasePlanillaID,
+                clasePlanillaDesc = view.T_ClasePlanillaDesc
+            };
+
+            return plantillaPlanillaDTO;
         }
     }
 }

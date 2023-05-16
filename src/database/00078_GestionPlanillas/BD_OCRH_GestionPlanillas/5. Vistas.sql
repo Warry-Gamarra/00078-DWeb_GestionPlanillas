@@ -131,6 +131,23 @@ GO
 
 
 
+IF EXISTS (SELECT * FROM INFORMATION_SCHEMA.VIEWS WHERE TABLE_NAME = 'VW_PlantillaPlanilla')
+	DROP VIEW [dbo].[VW_PlantillaPlanilla]
+GO
+
+CREATE VIEW [dbo].[VW_PlantillaPlanilla]
+AS
+SELECT 
+	pp.I_PlantillaPlanillaID, pp.T_PlantillaPlanillaDesc, pp.B_Habilitado, cp.I_CategoriaPlanillaID, 
+	cp.T_CategoriaPlanillaDesc, cl.I_ClasePlanillaID, cl.T_ClasePlanillaDesc
+FROM dbo.TI_PlantillaPlanilla pp
+INNER JOIN dbo.TC_CategoriaPlanilla cp ON cp.I_CategoriaPlanillaID = pp.I_CategoriaPlanillaID
+INNER JOIN dbo.TC_ClasePlanilla cl ON cl.I_ClasePlanillaID = cp.I_ClasePlanillaID
+WHERE pp.B_Eliminado = 0 AND cp.B_Eliminado = 0 AND cl.B_Eliminado = 0
+GO
+
+
+
 
 --PLANILLA Administrativo
 SELECT        cap.T_CategoriaPlanillaDesc, per.I_Anio, per.T_MesDesc, pl.I_Correlativo, p.T_Nombre, p.T_ApellidoPaterno, p.T_ApellidoMaterno, nvr.C_NivelRemunerativoCod, 
@@ -167,11 +184,7 @@ GO
 
 
 
---Lista de tipos de planilla
-select p.T_TipoPlanillaDesc, c2.T_ClasePlanillaDesc, c1.T_CategoriaPlanillaDesc from dbo.TC_CategoriaPlanilla c1
-inner join dbo.TC_ClasePlanilla c2 ON c1.I_ClasePlanillaID = c2.I_ClasePlanillaID
-inner join dbo.TC_TipoPlanilla p ON p.I_TipoPlanillaID = c2.I_TipoPlanillaID
-order by 1
+
 
 --Lista de conceptos
 SELECT pp.T_PlantillaPlanillaDesc, cp.T_CategoriaPlanillaDesc, t.T_TipoConceptoDesc, c.I_ConceptoID, c.T_ConceptoDesc, ppc.B_MontoEstaAqui, ppc.M_Monto, ppc.I_Filtro1, ppc.I_Filtro2
@@ -210,3 +223,4 @@ FROM TC_Administrativo AS adm INNER JOIN
     TC_NivelRemunerativo AS nivremu ON nivremu.I_NivelRemunerativoID = adm.I_NivelRemunerativoID INNER JOIN
     TC_GrupoOcupacional AS grupocup ON grupocup.I_GrupoOcupacionalID = adm.I_GrupoOcupacionalID
 GO
+

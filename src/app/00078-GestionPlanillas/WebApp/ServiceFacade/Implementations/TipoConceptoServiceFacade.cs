@@ -21,7 +21,7 @@ namespace WebApp.ServiceFacade.Implementations
         {
             var lista = _tipoConceptoService.ListarTiposConceptos(incluirDeshabilitados);
 
-            return new SelectList(lista, "I_TipoConceptoID", "T_TipoConceptoDesc");
+            return new SelectList(lista, "tipoConceptoID", "tipoConceptoDesc");
         }
     }
 }
