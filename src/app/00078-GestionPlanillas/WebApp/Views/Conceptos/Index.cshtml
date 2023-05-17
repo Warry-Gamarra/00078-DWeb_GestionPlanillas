@@ -15,27 +15,132 @@
         </section>
     </div>
 
-    <div class="col-12">
-        <a href="@Url.Action("Nuevo", "Conceptos")" class="btn btn-primary pull-right modal-link">
-            <i class="fa bi-ui-checks-grid"></i> Nuevo concepto
-        </a>
-
-        <p class="h3"><small>@ViewBag.Title</small></p>
-        <br /><br />
-        <div class="table-responsive" style="min-height:300px">
-            @Html.Grid(Model).Columns(columns =>
-            {
-                columns.Add(c => c.conceptoCod).Titled("Cod.Concepto").Css("text-left").Filterable(true);
-                columns.Add(c => c.tipoConceptoDesc).Titled("Tip.Concepto").Css("text-left").Filterable(true);
-                columns.Add(c => c.conceptoDesc).Titled("Descrirpción").Css("text-left").Filterable(true);
-                columns.Add(c => c.estaHabilitado).SetWidth(100).Css("text-center").Encoded(false).Sanitized(false)
-                    .RenderValueAs(model => model.estaHabilitado ?
-                        @Html.Raw("<span id=\"td" + @model.conceptoID + "\"><button type=\"submit\" class=\"btn btn-xs btn-success\" onclick=\"ChangeStateReloadPage(" + @model.conceptoID + ", " + @model.estaHabilitado.ToString().ToLower() + ", '" + @Url.Action("CambiarEstado", "Conceptos") + "');\"><i class=\"fa fa-check-circle-o\">&nbsp;</i><span class=\"d-none d-md-inline-block\">Habilitado</span></button></span>") :
-                        @Html.Raw("<span id=\"td" + @model.conceptoID + "\"><button type=\"submit\" class=\"btn btn-xs btn-secondary\" onclick=\"ChangeStateReloadPage(" + @model.conceptoID + ", " + @model.estaHabilitado.ToString().ToLower() + ", '" + @Url.Action("CambiarEstado", "Conceptos") + "');\"><i class=\"fa fa-minus-circle\">&nbsp;</i><span class=\"d-none d-md-inline-block\">Deshabilitado</span></button></span>"))
-                    .Filterable(true).SetWidth(160).Titled("Estado");
-                columns.Add().SetWidth(150).Encoded(false).Sanitized(false).RenderValueAs(model => @<a href="@Url.Action("Editar", "Conceptos", new { id = model.conceptoID })" class="modal-link"><i class="fa fa-pencil-square-o" aria-hidden="true"></i> <span class="d-none d-md-inline-block">Editar</span></a>);
-            }).WithPaging(5).Sortable(true).WithGridItemsCount("Registros encontrados").EmptyText("No se encontraron registros")
+    <div class="card mb-4">
+        <div class="card-header">
+            <span class="h4">Conceptos</span>
+            <a href="@Url.Action("Nuevo", "Conceptos")" class="btn btn-primary pull-right modal-link">
+                <i class="fa fa-plus-circle"></i> Nuevo concepto
+            </a>
         </div>
+        <div class="card-body">
+            <div class="table-responsive" style="min-height:300px">
+                @Html.Grid(Model).Columns(columns =>
+                {
+                    columns.Add(c => c.conceptoCod).Titled("Cod.Concepto").Css("text-left").Filterable(true);
+                    columns.Add(c => c.tipoConceptoDesc).Titled("Tip.Concepto").Css("text-left").Filterable(true);
+                    columns.Add(c => c.conceptoDesc).Titled("Descrirpción").Css("text-left").Filterable(true);
+                    columns.Add(c => c.estaHabilitado).SetWidth(100).Css("text-center").Encoded(false).Sanitized(false)
+                        .RenderValueAs(model => model.estaHabilitado ?
+                            @Html.Raw("<span id=\"td" + @model.conceptoID + "\"><button type=\"submit\" class=\"btn btn-xs btn-success\" onclick=\"ChangeStateReloadPage(" + @model.conceptoID + ", " + @model.estaHabilitado.ToString().ToLower() + ", '" + @Url.Action("CambiarEstado", "Conceptos") + "');\"><i class=\"fa fa-check-circle-o\">&nbsp;</i><span class=\"d-none d-md-inline-block\">Habilitado</span></button></span>") :
+                            @Html.Raw("<span id=\"td" + @model.conceptoID + "\"><button type=\"submit\" class=\"btn btn-xs btn-secondary\" onclick=\"ChangeStateReloadPage(" + @model.conceptoID + ", " + @model.estaHabilitado.ToString().ToLower() + ", '" + @Url.Action("CambiarEstado", "Conceptos") + "');\"><i class=\"fa fa-minus-circle\">&nbsp;</i><span class=\"d-none d-md-inline-block\">Deshabilitado</span></button></span>"))
+                        .Filterable(true).SetWidth(160).Titled("Estado");
+                    columns.Add().SetWidth(150).Encoded(false).Sanitized(false).RenderValueAs(model => @<a href="@Url.Action("Editar", "Conceptos", new { id = model.conceptoID })" class="modal-link"><i class="fa fa-pencil-square-o" aria-hidden="true"></i> <span class="d-none d-md-inline-block">Editar</span></a>);
+                }).WithPaging(5).Sortable(true).WithGridItemsCount("Registros encontrados").EmptyText("No se encontraron registros")
+            </div>
+        </div>
+    </div>
 
+    <div class="card">
+        <div class="card-header">
+            <span class="h4">Plantillas</span>
+            <a href="@Url.Action("Nuevo", "PlantillaPlanilla")" class="btn btn-primary pull-right modal-link">
+                <i class="fa fa-plus-circle"></i> Nueva Plantilla
+            </a>
+        </div>
+        <div class="card-body">
+            <div class="table-responsive">
+                <table class="table table-hover" id="dataTablePlantillaPlanilla">
+                    <thead class="thead-dark">
+                        <tr>
+                            <th>N°</th>
+                            <th>Clase</th>
+                            <th>Categoria</th>
+                            <th>Conceptos asociados</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>1</td>
+                            <td>HABERES</td>
+                            <td>Haberes Administrativo</td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td>2</td>
+                            <td>HABERES</td>
+                            <td>Haberes Docente</td>
+                            <td></td>
+                        </tr>
+                    </tbody>
+                    <tfoot>
+                        <tr>
+                            <th>N°</th>
+                            <th>Clase</th>
+                            <th>Categoria</th>
+                            <th>Conceptos asociados</th>
+                        </tr>
+                    </tfoot>
+                </table>
+            </div>
+        </div>
     </div>
 </div>
+
+<script>
+    $(document).ready(function () {
+        $('#dataTablePlantillaPlanilla').DataTable({});
+    });
+
+    function generarDatatable() {
+        /*$('#dataTablePlantillaPlanilla').DataTable({
+            ajax: {
+                'url': 'producciones/get_datatable',
+                'type': 'get',
+                'data': parametros
+            },
+            columns: [
+                { data: 'nro_orden' },
+                { data: 'clase' },
+                { data: 'categoria' },
+                { data: 'id' },
+                { data: 'id' }
+            ],
+            columnDefs: [
+                {
+                    targets: -2,
+                    render: function (data, type, row) {
+                        return '<button class="btn btn-link btnModificar" data-id="' + data + '"><i class="fas fa-edit"></i></button>';
+                    }
+                },
+                {
+                    targets: -1,
+                    render: function (data, type, row) {
+                        return '<button class="btn btn-link btnEliminar" data-id="' + data + '"><i class="fas fa-trash"></i></button>';
+                    }
+                }
+            ],
+            "bStateSave": true,
+            bDestroy: true,
+            lengthMenu: [[10, 25, 50, -1], [10, 25, 50, "Todas"]],
+            iDisplayLength: 10,
+            language: {
+                search: "Buscar: ",
+                lengthMenu: "Mostrar _MENU_ filas",
+                info: "Mostrando del _START_ al _END_ de _TOTAL_ elementos.",
+                infoEmpty: "No se encontraron registros.",
+                zeroRecords: "No hay data disponible.",
+                emptyTable: "No hay data disponible.",
+                paginate: {
+                    first: "Primero",
+                    previous: "Previo",
+                    next: "Siguiente",
+                    last: "Último"
+                },
+                aria: {
+                    sortAscending: ": activar para ordenar la columna en orden ascendente",
+                    sortDescending: ": activar para ordenar la columna en orden descendente"
+                }
+            }
+        });*/
+    }
+</script>

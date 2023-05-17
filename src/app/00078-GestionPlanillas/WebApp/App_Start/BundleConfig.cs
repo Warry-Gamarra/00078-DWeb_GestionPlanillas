@@ -14,7 +14,8 @@ namespace WebApp
                 "~/Assets/toastr/css/toastr.min.css",
                 "~/Assets/application/css/main.css",
                 "~/Assets/application/css/loaders.css",
-                "~/Assets/application/css/sidebar.css"));
+                "~/Assets/application/css/sidebar.css",
+                "~/Assets/datatables/css/jquery.dataTables.min.css"));
 
             bundles.Add(new StyleBundle("~/content/datetime").Include(
                     "~/Assets/bootstrap-datepicker/css/bootstrap-datepicker.css",
@@ -56,7 +57,8 @@ namespace WebApp
                 "~/Assets/toastr/js/toastr.config.js",
                 "~/Assets/application/js/main.js",
                 "~/Assets/application/js/sidebar.js",
-                "~/Assets/application/js/constantes.js"));
+                "~/Assets/application/js/constantes.js",
+                "~/Assets/datatables/js/jquery.dataTables.min.js"));
 
         }
     }
