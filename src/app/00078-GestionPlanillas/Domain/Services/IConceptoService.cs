@@ -13,7 +13,7 @@ namespace Domain.Services
     {
         Response GrabarConcepto(Operacion operacion, ConceptoEntity conceptoEntity, int userID);
 
-        List<ConceptoDTO> ListarConceptos();
+        List<ConceptoDTO> ListarConceptos(bool incluirDeshabilitados = false);
 
         ConceptoDTO ObtenerConcepto(int conceptoID);
 

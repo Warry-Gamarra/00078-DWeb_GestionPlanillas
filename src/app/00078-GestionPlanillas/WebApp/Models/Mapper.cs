@@ -189,5 +189,21 @@ namespace WebApp.Models
 
             return model;
         }
+
+        public static PlantillaPlanillaModel PlantillaPlanillaDTO_To_PlantillaPlanillaModel(PlantillaPlanillaDTO dto)
+        {
+            var model = new PlantillaPlanillaModel()
+            { 
+                plantillaPlanillaID = dto.plantillaPlanillaID,
+                categoriaPlanillaID = dto.categoriaPlanillaID,
+                plantillaPlanillaDesc = dto.plantillaPlanillaDesc,
+                estaHabilitado  = dto.estaHabilitado,
+                categoriaPlanillaDesc = dto.categoriaPlanillaDesc,
+                clasePlanillaDesc = dto.clasePlanillaDesc,
+                clasePlanillaID = dto.clasePlanillaID
+            };
+
+            return model;
+        }
     }
 }

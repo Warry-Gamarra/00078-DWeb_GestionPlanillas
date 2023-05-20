@@ -1,4 +1,4 @@
-﻿@model WebApp.Models.ConceptoModel
+﻿@model WebApp.Models.PlantillaPlanillaModel
 @Scripts.Render("~/bundles/jqueryval")
 
 <div class="modal-header bg-dark-gray" style="border-radius: .2rem .2rem 0px 0px">
@@ -7,7 +7,7 @@
 </div>
 
 <div class="modal-body">
-    @using (Ajax.BeginForm((string)ViewBag.Action, "Conceptos", new { area = "" }, new AjaxOptions
+    @using (Ajax.BeginForm((string)ViewBag.Action, "PlantillaPlanilla", new { area = "" }, new AjaxOptions
     {
         HttpMethod = "POST",
         InsertionMode = InsertionMode.Replace,
@@ -17,13 +17,13 @@
     }))
     {
         @Html.AntiForgeryToken()
-        @Html.HiddenFor(model => model.conceptoID)
+        @Html.HiddenFor(model => model.plantillaPlanillaID)
         <div class="form-row">
             <div class="col-12">
                 <div class="form-group">
-                    @Html.LabelFor(model => model.tipoConceptoID, new { @class = "control-label" })
-                    @Html.DropDownListFor(model => model.tipoConceptoID, ViewBag.ListaTiposConceptos as SelectList, "[ SELECCIONAR ]", new { @class = "form-control text-uppercase" })
-                    @Html.ValidationMessageFor(model => model.tipoConceptoID, null, new { @class = "text-danger" })
+                    @Html.LabelFor(model => model.categoriaPlanillaID, new { @class = "control-label" })
+                    @Html.DropDownListFor(model => model.categoriaPlanillaID, ViewBag.ListaCategoriasPlanillas as SelectList, "[ SELECCIONAR ]", new { @class = "form-control text-uppercase" })
+                    @Html.ValidationMessageFor(model => model.categoriaPlanillaID, null, new { @class = "text-danger" })
                 </div>
             </div>
         </div>
@@ -31,19 +31,9 @@
         <div class="form-row">
             <div class="col-12">
                 <div class="form-group">
-                    @Html.LabelFor(model => model.conceptoCod, new { @class = "control-label" })
-                    @Html.TextBoxFor(model => model.conceptoCod, new { @class = "form-control" })
-                    @Html.ValidationMessageFor(model => model.conceptoCod, null, new { @class = "text-danger" })
-                </div>
-            </div>
-        </div>
-
-        <div class="form-row">
-            <div class="col-12">
-                <div class="form-group">
-                    @Html.LabelFor(model => model.conceptoDesc, new { @class = "control-label" })
-                    @Html.TextBoxFor(model => model.conceptoDesc, new { @class = "form-control" })
-                    @Html.ValidationMessageFor(model => model.conceptoDesc, null, new { @class = "text-danger" })
+                    @Html.LabelFor(model => model.plantillaPlanillaDesc, new { @class = "control-label" })
+                    @Html.TextAreaFor(model => model.plantillaPlanillaDesc, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(model => model.plantillaPlanillaDesc, null, new { @class = "text-danger" })
                 </div>
             </div>
         </div>

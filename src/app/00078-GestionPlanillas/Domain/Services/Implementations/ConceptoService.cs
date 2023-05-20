@@ -72,13 +72,20 @@ namespace Domain.Services.Implementations
             return Mapper.Result_To_Response(result);
         }
 
-        public List<ConceptoDTO> ListarConceptos()
+        public List<ConceptoDTO> ListarConceptos(bool incluirDeshabilitados = false)
         {
-            var lista = VW_Conceptos.FindAll()
+            var lista = VW_Conceptos.FindAll();
+
+            if (!incluirDeshabilitados)
+            {
+                lista = lista.Where(x => x.B_Habilitado);
+            }
+            
+            var result = lista
                 .Select(x => Mapper.VW_Conceptos_To_ConceptoDTO(x))
                 .ToList();
 
-            return lista;
+            return result;
         }
 
         public ConceptoDTO ObtenerConcepto(int conceptoID)

@@ -55,6 +55,7 @@
     <Compile Include="Entities\NivelRemunerativoDTO.cs" />
     <Compile Include="Entities\PersonaDTO.cs" />
     <Compile Include="Entities\PlantillaPlanillaDTO.cs" />
+    <Compile Include="Entities\PlantillaPlanillaEntity.cs" />
     <Compile Include="Entities\RegimenDTO.cs" />
     <Compile Include="Entities\ResumenPlanillaTrabajadorDTO.cs" />
     <Compile Include="Entities\DocenteDTO.cs" />
@@ -67,6 +68,7 @@
     <Compile Include="Entities\VinculoDTO.cs" />
     <Compile Include="Enums\Operacion.cs" />
     <Compile Include="Enums\Vinculo.cs" />
+    <Compile Include="Helpers\AjaxResponse.cs" />
     <Compile Include="Helpers\Mapper.cs" />
     <Compile Include="Helpers\Response.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

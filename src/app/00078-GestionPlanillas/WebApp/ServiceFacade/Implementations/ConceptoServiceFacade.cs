@@ -27,7 +27,9 @@ namespace WebApp.ServiceFacade.Implementations
 
             try
             {
-                var conceptoDTO = _conceptoService.ListarConceptos().Where(x => x.conceptoCod == model.conceptoCod).FirstOrDefault();
+                var conceptoDTO = _conceptoService.ListarConceptos()
+                    .Where(x => x.conceptoCod == model.conceptoCod)
+                    .FirstOrDefault();
 
                 if (operacion.Equals(Operacion.Registrar) && conceptoDTO != null)
                 {
@@ -72,7 +74,7 @@ namespace WebApp.ServiceFacade.Implementations
 
         public List<ConceptoModel> ListarConceptos()
         {
-            var lista = _conceptoService.ListarConceptos()
+            var lista = _conceptoService.ListarConceptos(true)
                 .Select(x => Mapper.ConceptoDTO_To_ConceptoModel(x))
                 .ToList();
 

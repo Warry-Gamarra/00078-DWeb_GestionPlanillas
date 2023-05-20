@@ -133,6 +133,7 @@
     <Compile Include="Controllers\ConceptosController.cs" />
     <Compile Include="Controllers\GeneralController.cs" />
     <Compile Include="Controllers\PlanillasController.cs" />
+    <Compile Include="Controllers\PlantillaPlanillaController.cs" />
     <Compile Include="Controllers\TrabajadoresController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Global.asax.cs">
@@ -142,6 +143,7 @@
     <Compile Include="Models\ConceptoModel.cs" />
     <Compile Include="Models\DocenteModel.cs" />
     <Compile Include="Models\Mapper.cs" />
+    <Compile Include="Models\PlantillaPlanillaModel.cs" />
     <Compile Include="Models\ResumenPlanillaTrabajadorModel.cs" />
     <Compile Include="Models\TrabajadorCategoriaPlanillaModel.cs" />
     <Compile Include="Models\TrabajadorModel.cs" />
@@ -215,6 +217,11 @@
     <Content Include="Assets\datatables\css\dataTables.checkboxes.css" />
     <Content Include="Assets\datatables\css\datatables.min.css" />
     <Content Include="Assets\datatables\css\jquery.dataTables.min.css" />
+    <Content Include="Assets\datatables\images\sort_asc.png" />
+    <Content Include="Assets\datatables\images\sort_asc_disabled.png" />
+    <Content Include="Assets\datatables\images\sort_both.png" />
+    <Content Include="Assets\datatables\images\sort_desc.png" />
+    <Content Include="Assets\datatables\images\sort_desc_disabled.png" />
     <Content Include="Assets\datatables\js\dataTables.bootstrap.js" />
     <Content Include="Assets\datatables\js\dataTables.bootstrap4.min.js" />
     <Content Include="Assets\datatables\js\dataTables.checkboxes.min.js" />
@@ -437,6 +444,8 @@
     <Content Include="Views\Conceptos\Index.cshtml" />
     <Content Include="Views\Conceptos\_MantenimientoConcepto.cshtml" />
     <Content Include="Views\Conceptos\_MsgRegistrarConcepto.cshtml" />
+    <Content Include="Views\PlantillaPlanilla\_MantenimientoPlantillaPlanilla.cshtml" />
+    <Content Include="Views\PlantillaPlanilla\_MsgRegistrarPlantillaPlanilla.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

@@ -100,7 +100,7 @@ namespace WebApp.Controllers
         public JsonResult CambiarEstado(int rowID, bool estaHabilitado)
         {
             var result = _conceptoServiceFacade.CambiarEstado(rowID, estaHabilitado, WebSecurity.CurrentUserId, Url.Action("CambiarEstado", "Conceptos"));
-
+            
             return Json(result, JsonRequestBehavior.AllowGet);
         }
     }

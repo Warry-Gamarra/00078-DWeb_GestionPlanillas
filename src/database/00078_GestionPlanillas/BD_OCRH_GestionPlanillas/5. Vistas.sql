@@ -131,11 +131,11 @@ GO
 
 
 
-IF EXISTS (SELECT * FROM INFORMATION_SCHEMA.VIEWS WHERE TABLE_NAME = 'VW_PlantillaPlanilla')
-	DROP VIEW [dbo].[VW_PlantillaPlanilla]
+IF EXISTS (SELECT * FROM INFORMATION_SCHEMA.VIEWS WHERE TABLE_NAME = 'VW_PlantillasPlanilla')
+	DROP VIEW [dbo].[VW_PlantillasPlanilla]
 GO
 
-CREATE VIEW [dbo].[VW_PlantillaPlanilla]
+CREATE VIEW [dbo].[VW_PlantillasPlanilla]
 AS
 SELECT 
 	pp.I_PlantillaPlanillaID, pp.T_PlantillaPlanillaDesc, pp.B_Habilitado, cp.I_CategoriaPlanillaID, 

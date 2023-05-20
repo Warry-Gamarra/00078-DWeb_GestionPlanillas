@@ -384,7 +384,7 @@ namespace Domain.Helpers
             return tipoConceptoDTO;
         }
 
-        public static PlantillaPlanillaDTO VW_PlantillaPlanilla_To_PlantillaPlanillaDTO(VW_PlantillaPlanilla view)
+        public static PlantillaPlanillaDTO VW_PlantillasPlanilla_To_PlantillaPlanillaDTO(VW_PlantillasPlanilla view)
         {
             var plantillaPlanillaDTO = new PlantillaPlanillaDTO()
             {
