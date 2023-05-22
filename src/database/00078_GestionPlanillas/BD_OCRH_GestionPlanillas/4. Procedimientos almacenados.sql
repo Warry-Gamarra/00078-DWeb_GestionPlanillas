@@ -874,7 +874,7 @@ BEGIN
 	BEGIN TRAN
 	BEGIN TRY
 		UPDATE dbo.TI_PlantillaPlanilla SET
-			I_CategoriaPlanillaID = @I_PlantillaPlanillaID,
+			I_CategoriaPlanillaID = @I_CategoriaPlanillaID,
 			T_PlantillaPlanillaDesc = @T_PlantillaPlanillaDesc,
 			I_UsuarioMod = @I_UserID,
 			D_FecMod = GETDATE()
