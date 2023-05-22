@@ -116,7 +116,7 @@ function ChangeState(rowID, estaHabilitado, actionName) {
                     $('#td' + rowID).html(`<button type="submit" class="btn btn-xs btn-success" onclick="ChangeState(${rowID}, true, '${actionName }');"><i class="fa fa-check-circle">&nbsp;</i><span class="d-none d-md-inline-block">Habilitado</span></button>`);
                 }
 
-                toastr.succees(data['Message']);
+                toastr.success(data['Message']);
             }
             else {
                 toastr.warning(data['Message']);

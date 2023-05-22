@@ -18,6 +18,7 @@
     {
         @Html.AntiForgeryToken()
         @Html.HiddenFor(model => model.plantillaPlanillaID)
+        @Html.HiddenFor(model => model.estaHabilitado)
         <div class="form-row">
             <div class="col-12">
                 <div class="form-group">

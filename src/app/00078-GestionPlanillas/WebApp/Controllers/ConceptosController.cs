@@ -16,24 +16,24 @@ namespace WebApp.Controllers
     {
         private IConceptoServiceFacade _conceptoServiceFacade;
         private ITipoConceptoServiceFacade _tipoConceptoServiceFacade;
-        private IPlantillaPlanillaServiceFacade _plantillaPlanillaServiceFacade;
 
         public ConceptosController()
         {
             _conceptoServiceFacade = new ConceptoServiceFacade();
             _tipoConceptoServiceFacade = new TipoConceptoServiceFacade();
-            _plantillaPlanillaServiceFacade = new PlantillaPlanillaServiceFacade();
         }
 
-        public ActionResult Index()
+        [HttpGet]
+        public JsonResult ObtenerListaConceptos()
         {
-            ViewBag.Title = "Configuración de conceptos";
+            var result = new AjaxResponse();
 
-            var lista = _conceptoServiceFacade.ListarConceptos();
+            result.data = _conceptoServiceFacade.ListarConceptos();
 
-            return View(lista);
+            return Json(result, JsonRequestBehavior.AllowGet);
         }
 
+        [HttpGet]
         public ActionResult Nuevo()
         {
             ViewBag.Title = "Nuevo Concepto";
@@ -65,6 +65,7 @@ namespace WebApp.Controllers
             return PartialView("_MsgRegistrarConcepto", response);
         }
 
+        [HttpGet]
         public ActionResult Editar(int id)
         {
             ViewBag.Title = "Detalle del Concepto";
@@ -97,6 +98,7 @@ namespace WebApp.Controllers
         }
 
         [HttpPost]
+        //[ValidateAntiForgeryToken]
         public JsonResult CambiarEstado(int rowID, bool estaHabilitado)
         {
             var result = _conceptoServiceFacade.CambiarEstado(rowID, estaHabilitado, WebSecurity.CurrentUserId, Url.Action("CambiarEstado", "Conceptos"));

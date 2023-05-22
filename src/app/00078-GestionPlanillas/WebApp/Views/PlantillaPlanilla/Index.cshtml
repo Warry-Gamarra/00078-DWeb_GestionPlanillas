@@ -1,0 +1,217 @@
+﻿@model IEnumerable<WebApp.Models.ConceptoModel>
+@using GridMvc.Html
+
+<div class="container-fluid">
+    <div class="col-12 mb-4">
+        <section class="content-header">
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb float-right small d-none d-sm-inline-flex">
+                    <li class="breadcrumb-item"><a href="@Url.Action("Index", "Home")"><i class="fa fa-home">&nbsp;</i>Inicio</a></li>
+                    <li class="breadcrumb-item"><span><i class="fa fa-cogs">&nbsp;</i>Configuración </span></li>
+                    <li class="breadcrumb-item active"><span><i class="fa bi-ui-checks">&nbsp;</i>@ViewBag.Title </span></li>
+                </ol>
+            </nav>
+            <h1 class="">@ViewBag.Title <small></small></h1>
+        </section>
+    </div>
+
+    <div class="card mb-4">
+        <div class="card-header">
+            <span class="h4">Conceptos</span>
+            <a href="@Url.Action("Nuevo", "Conceptos")" class="btn btn-primary pull-right modal-link">
+                <i class="fa fa-plus-circle"></i> Nuevo concepto
+            </a>
+        </div>
+        <div class="card-body">
+            <div class="table-responsive" style="min-height:300px">
+                <table class="table table-hover" id="dataTableConceptos">
+                    <thead class="thead-dark">
+                        <tr>
+                            <th>Cod.Concepto</th>
+                            <th>Tip.Concepto</th>
+                            <th>Descripción</th>
+                            <th>Estado</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tfoot>
+                        <tr>
+                            <th>categoriaPlanillaDesc</th>
+                            <th>plantillaPlanillaDesc</th>
+                            <th>estaHabilitado</th>
+                            <th>Estado</th>
+                            <th></th>
+                        </tr>
+                    </tfoot>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <div class="card">
+        <div class="card-header">
+            <span class="h4">Plantillas</span>
+            <a href="@Url.Action("Nuevo", "PlantillaPlanilla")" class="btn btn-primary pull-right modal-link">
+                <i class="fa fa-plus-circle"></i> Nueva Plantilla
+            </a>
+        </div>
+        <div class="card-body">
+            <div class="table-responsive" style="min-height:300px">
+                <table class="table table-hover" id="dataTablePlantillaPlanilla">
+                    <thead class="thead-dark">
+                        <tr>
+                            <th>Categoría</th>
+                            <th>Descripción</th>
+                            <th>Estado</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tfoot>
+                        <tr>
+                            <th>Categoría</th>
+                            <th>Descripción</th>
+                            <th>Estado</th>
+                            <th></th>
+                        </tr>
+                    </tfoot>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section scripts {
+    <script type="text/javascript">
+        $(document).ready(function () {
+            generarDatatableConceptos();
+            generarDatatablePlantillasPlanilla();
+        });
+
+        function generarDatatableConceptos() {
+            $('#dataTableConceptos').DataTable({
+                ajax: {
+                    'url': '@Url.Action("ObtenerListaConceptos", "Conceptos")',
+                    'type': 'get'
+                },
+                columns: [
+                    { data: 'conceptoCod' },
+                    { data: 'tipoConceptoDesc' },
+                    { data: 'conceptoDesc' },
+                    { data: 'conceptoID' },
+                    { data: 'conceptoID' }
+                ],
+                columnDefs: [
+                    {
+                        targets: -2,
+                        render: function (data, type, row) {
+                            let btnClass = (row.estaHabilitado === true) ? 'success' : 'secondary';
+                            let iClass = (row.estaHabilitado === true) ? 'check-circle-o' : 'minus-circle';
+                            let estado = (row.estaHabilitado === true) ? 'Habilitado' : 'Deshabilitado';
+                            let onClickFunction = `ChangeState(${data}, ${row.estaHabilitado}, '@Url.Action("CambiarEstado", "Conceptos")')`;
+
+                            let html = `<span id="td${data}">` +
+                                `<button type="submit" class="btn btn-xs btn-${btnClass}" onclick="${onClickFunction}">` +
+                                `<i class="fa fa-${iClass}"></i> <span class="d-none d-md-inline-block">${estado}</span>` +
+                                '</button>' +
+                                '</span>';
+
+                            return html;
+                        }
+                    },
+                    {
+                        targets: -1,
+                        render: function (data, type, row) {
+                            return `<a class="modal-link" href="@Url.Action("Editar", "Conceptos")/${data}` +
+                                '"><i class="fa fa-pencil-square-o" aria-hidden="true"></i> <span class="d-none d-md-inline-block">Editar</span></a>';
+                        }
+                    }
+                ],
+                "bStateSave": true,
+                bDestroy: true,
+                lengthMenu: [[10, 25, 50, -1], [10, 25, 50, "Todas"]],
+                iDisplayLength: 10,
+                language: {
+                    search: "Buscar: ",
+                    lengthMenu: "Mostrar _MENU_ filas",
+                    info: "Mostrando del _START_ al _END_ de _TOTAL_ elementos.",
+                    infoEmpty: "No se encontraron registros.",
+                    zeroRecords: "No hay data disponible.",
+                    emptyTable: "No hay data disponible.",
+                    paginate: {
+                        first: "Primero",
+                        previous: "Previo",
+                        next: "Siguiente",
+                        last: "Último"
+                    },
+                    aria: {
+                        sortAscending: ": activar para ordenar la columna en orden ascendente",
+                        sortDescending: ": activar para ordenar la columna en orden descendente"
+                    }
+                }
+            });
+        }
+
+        function generarDatatablePlantillasPlanilla() {
+            $('#dataTablePlantillaPlanilla').DataTable({
+                ajax: {
+                    'url': '@Url.Action("ObtenerListaPlantillasPlanilla", "PlantillaPlanilla")',
+                    'type': 'get'
+                },
+                columns: [
+                    { data: 'categoriaPlanillaDesc' },
+                    { data: 'plantillaPlanillaDesc' },
+                    { data: 'plantillaPlanillaID' },
+                    { data: 'plantillaPlanillaID' }
+                ],
+                columnDefs: [
+                    {
+                        targets: -2,
+                        render: function (data, type, row) {
+                            let btnClass = (row.estaHabilitado === true) ? 'success' : 'secondary';
+                            let iClass = (row.estaHabilitado === true) ? 'check-circle-o' : 'minus-circle';
+                            let estado = (row.estaHabilitado === true) ? 'Habilitado' : 'Deshabilitado';
+                            let onClickFunction = `ChangeState(${data}, ${row.estaHabilitado}, '@Url.Action("CambiarEstado", "PlantillaPlanilla")')`;
+
+                            let html = `<span id="td${data}">` +
+                                `<button type="submit" class="btn btn-xs btn-${btnClass}" onclick="${onClickFunction}">` +
+                                `<i class="fa fa-${iClass}"></i> <span class="d-none d-md-inline-block">${estado}</span>` +
+                                '</button>' +
+                                '</span>';
+
+                            return html;
+                        }
+                    },
+                    {
+                        targets: -1,
+                        render: function (data, type, row) {
+                            return `<a class="modal-link" href="@Url.Action("Editar", "PlantillaPlanilla")/${data}` +
+                                '"><i class="fa fa-pencil-square-o" aria-hidden="true"></i> <span class="d-none d-md-inline-block">Editar</span></a>';
+                        }
+                    }
+                ],
+                "bStateSave": true,
+                bDestroy: true,
+                lengthMenu: [[10, 25, 50, -1], [10, 25, 50, "Todas"]],
+                iDisplayLength: 10,
+                language: {
+                    search: "Buscar: ",
+                    lengthMenu: "Mostrar _MENU_ filas",
+                    info: "Mostrando del _START_ al _END_ de _TOTAL_ elementos.",
+                    infoEmpty: "No se encontraron registros.",
+                    zeroRecords: "No hay data disponible.",
+                    emptyTable: "No hay data disponible.",
+                    paginate: {
+                        first: "Primero",
+                        previous: "Previo",
+                        next: "Siguiente",
+                        last: "Último"
+                    },
+                    aria: {
+                        sortAscending: ": activar para ordenar la columna en orden ascendente",
+                        sortDescending: ": activar para ordenar la columna en orden descendente"
+                    }
+                }
+            });
+        }
+    </script>
+}

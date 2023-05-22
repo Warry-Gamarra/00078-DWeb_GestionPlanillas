@@ -24,6 +24,14 @@ namespace WebApp.Controllers
         }
 
         [HttpGet]
+        public ActionResult Index()
+        {
+            ViewBag.Title = "Configuración de Plantillas";
+
+            return View();
+        }
+
+        [HttpGet]
         public JsonResult ObtenerListaPlantillasPlanilla()
         {
             var result = new AjaxResponse();
@@ -33,7 +41,7 @@ namespace WebApp.Controllers
             return Json(result, JsonRequestBehavior.AllowGet);
         }
 
-
+        [HttpGet]
         public ActionResult Nuevo()
         {
             ViewBag.Title = "Nueva Plantilla";
@@ -63,6 +71,47 @@ namespace WebApp.Controllers
             }
 
             return PartialView("_MsgRegistrarPlantillaPlanilla", response);
+        }
+
+        [HttpGet]
+        public ActionResult Editar(int id)
+        {
+            ViewBag.Title = "Detalle de la Plantilla";
+
+            ViewBag.Action = "Actualizar";
+
+            ViewBag.ListaCategoriasPlanillas = _categoriaPlanillaServiceFacade.ListarCategoriasPlanillas();
+
+            var concepto = _plantillaPlanillaServiceFacade.ObtenerPlantillaPlanilla(id);
+
+            return PartialView("_MantenimientoPlantillaPlanilla", concepto);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Actualizar(PlantillaPlanillaModel model)
+        {
+            Response response = new Response();
+
+            if (ModelState.IsValid)
+            {
+                response = _plantillaPlanillaServiceFacade.GrabarPlantillaPlanilla(Operacion.Actualizar, model, WebSecurity.CurrentUserId);
+            }
+            else
+            {
+                response.Message = "Ocurrió un error.";
+            }
+
+            return PartialView("_MsgRegistrarPlantillaPlanilla", response);
+        }
+
+        [HttpPost]
+        //[ValidateAntiForgeryToken]
+        public JsonResult CambiarEstado(int rowID, bool estaHabilitado)
+        {
+            var result = _plantillaPlanillaServiceFacade.CambiarEstado(rowID, estaHabilitado, WebSecurity.CurrentUserId, Url.Action("CambiarEstado", "PlantillaPlanilla"));
+
+            return Json(result, JsonRequestBehavior.AllowGet);
         }
     }
 }

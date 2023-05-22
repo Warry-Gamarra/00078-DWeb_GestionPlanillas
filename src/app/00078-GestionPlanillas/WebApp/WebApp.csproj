@@ -401,6 +401,7 @@
     <Content Include="Assets\select2\js\select2.full.min.js" />
     <Content Include="Assets\select2\js\select2.js" />
     <Content Include="Assets\select2\js\select2.min.js" />
+    <Content Include="Assets\sweetalert\sweetalert2%4011.js" />
     <Content Include="Assets\toastr\css\toastr.min.css" />
     <Content Include="Assets\toastr\js\toastr.config.js" />
     <Content Include="Assets\toastr\js\toastr.min.js" />
@@ -441,7 +442,7 @@
     <Content Include="Views\Trabajadores\_MantenimientoTrabajador.cshtml" />
     <Content Include="Views\Trabajadores\_MsgRegistrarTrabajador.cshtml" />
     <Content Include="Views\Planillas\Generar.cshtml" />
-    <Content Include="Views\Conceptos\Index.cshtml" />
+    <Content Include="Views\PlantillaPlanilla\Index.cshtml" />
     <Content Include="Views\Conceptos\_MantenimientoConcepto.cshtml" />
     <Content Include="Views\Conceptos\_MsgRegistrarConcepto.cshtml" />
     <Content Include="Views\PlantillaPlanilla\_MantenimientoPlantillaPlanilla.cshtml" />

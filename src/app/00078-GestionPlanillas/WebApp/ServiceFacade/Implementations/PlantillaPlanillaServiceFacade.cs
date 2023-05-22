@@ -9,6 +9,8 @@ using Domain.Entities;
 using Domain.Enums;
 using Domain.Helpers;
 using WebApp.Models;
+using System.Reflection;
+using System.Web.Services.Description;
 
 namespace WebApp.ServiceFacade.Implementations
 {
@@ -37,7 +39,10 @@ namespace WebApp.ServiceFacade.Implementations
                     existeOtraPlantillaHabilitada = true;
                 }
 
-                if (operacion.Equals(Operacion.Actualizar) && plantillaPlanillaDTO != null && plantillaPlanillaDTO.plantillaPlanillaID != model.plantillaPlanillaID)
+                if (operacion.Equals(Operacion.Actualizar) && 
+                    plantillaPlanillaDTO != null && 
+                    model.estaHabilitado &&
+                    plantillaPlanillaDTO.plantillaPlanillaID != model.plantillaPlanillaID)
                 {
                     existeOtraPlantillaHabilitada = true;
                 }
@@ -57,7 +62,7 @@ namespace WebApp.ServiceFacade.Implementations
                 {
                     response = new Response()
                     {
-                        Message = "Sólo puede haber 1 plantilla de una misma categoría."
+                        Message = "Sólo puede haber 1 plantilla habilitada de una misma categoría."
                     };
                 }
             }
@@ -101,9 +106,34 @@ namespace WebApp.ServiceFacade.Implementations
 
         public Response CambiarEstado(int plantillaPlanillaID, bool estadHabilitado, int userID, string returnUrl)
         {
-            var result = _plantillaPlanillaService.CambiarEstado(plantillaPlanillaID, estadHabilitado, userID);
+            var plantillaPlanillaActua1 = _plantillaPlanillaService.ObtenerPlantillaPlanilla(plantillaPlanillaID);
 
-            return result;
+            var plantillaPlanillaDTO = _plantillaPlanillaService.ListarPlantillasPlanilla()
+                    .Where(x => x.categoriaPlanillaID == plantillaPlanillaActua1.categoriaPlanillaID)
+            .FirstOrDefault();
+
+            Response response;
+
+            bool existeOtraPlantillaHabilitada = false;
+
+            if (!estadHabilitado && plantillaPlanillaDTO != null && plantillaPlanillaDTO.plantillaPlanillaID != plantillaPlanillaID)
+            {
+                existeOtraPlantillaHabilitada = true;
+            }
+
+            if (!existeOtraPlantillaHabilitada)
+            {
+                response = _plantillaPlanillaService.CambiarEstado(plantillaPlanillaID, estadHabilitado, userID);
+            }
+            else
+            {
+                response = new Response()
+                {
+                    Message = "Sólo puede haber 1 plantilla habilitada de una misma categoría."
+                };
+            }
+
+            return response;
         }
     }
 }

@@ -58,7 +58,8 @@ namespace WebApp
                 "~/Assets/application/js/main.js",
                 "~/Assets/application/js/sidebar.js",
                 "~/Assets/application/js/constantes.js",
-                "~/Assets/datatables/js/jquery.dataTables.min.js"));
+                "~/Assets/datatables/js/jquery.dataTables.min.js",
+                "~/Assets/sweetalert/sweetalert2@11.js"));
 
         }
     }

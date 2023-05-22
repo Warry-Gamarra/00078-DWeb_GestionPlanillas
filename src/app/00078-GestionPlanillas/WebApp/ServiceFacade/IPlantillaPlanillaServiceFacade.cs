@@ -17,5 +17,7 @@ namespace WebApp.ServiceFacade
         List<PlantillaPlanillaModel> ListarPlantillasPlanilla();
 
         PlantillaPlanillaModel ObtenerPlantillaPlanilla(int plantillaPlanillaID);
+
+        Response CambiarEstado(int plantillaPlanillaID, bool estadHabilitado, int userID, string returnUrl);
     }
 }
