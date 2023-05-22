@@ -80,6 +80,8 @@
     </div>
 </div>
 
+@Html.AntiForgeryToken()
+
 @section scripts {
     <script type="text/javascript">
         $(document).ready(function () {
@@ -107,7 +109,8 @@
                             let btnClass = (row.estaHabilitado === true) ? 'success' : 'secondary';
                             let iClass = (row.estaHabilitado === true) ? 'check-circle-o' : 'minus-circle';
                             let estado = (row.estaHabilitado === true) ? 'Habilitado' : 'Deshabilitado';
-                            let onClickFunction = `ChangeState(${data}, ${row.estaHabilitado}, '@Url.Action("CambiarEstado", "Conceptos")')`;
+                            let token = $('input[name="__RequestVerificationToken"]').val();
+                            let onClickFunction = `ChangeState(${data}, ${row.estaHabilitado}, '@Url.Action("CambiarEstado", "Conceptos")', '${token}')`;
 
                             let html = `<span id="td${data}">` +
                                 `<button type="submit" class="btn btn-xs btn-${btnClass}" onclick="${onClickFunction}">` +
@@ -170,7 +173,8 @@
                             let btnClass = (row.estaHabilitado === true) ? 'success' : 'secondary';
                             let iClass = (row.estaHabilitado === true) ? 'check-circle-o' : 'minus-circle';
                             let estado = (row.estaHabilitado === true) ? 'Habilitado' : 'Deshabilitado';
-                            let onClickFunction = `ChangeState(${data}, ${row.estaHabilitado}, '@Url.Action("CambiarEstado", "PlantillaPlanilla")')`;
+                            let token = $('input[name="__RequestVerificationToken"]').val();
+                            let onClickFunction = `ChangeState(${data}, ${row.estaHabilitado}, '@Url.Action("CambiarEstado", "PlantillaPlanilla")', '${token}')`;
 
                             let html = `<span id="td${data}">` +
                                 `<button type="submit" class="btn btn-xs btn-${btnClass}" onclick="${onClickFunction}">` +

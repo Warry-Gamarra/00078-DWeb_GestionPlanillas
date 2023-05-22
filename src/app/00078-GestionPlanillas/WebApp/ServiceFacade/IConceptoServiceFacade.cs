@@ -16,6 +16,6 @@ namespace WebApp.ServiceFacade
 
         ConceptoModel ObtenerConcepto(int conceptoID);
 
-        Response CambiarEstado(int conceptoID, bool estado, int userID, string returnUrl);
+        Response CambiarEstado(int conceptoID, bool estado, int userID);
     }
 }

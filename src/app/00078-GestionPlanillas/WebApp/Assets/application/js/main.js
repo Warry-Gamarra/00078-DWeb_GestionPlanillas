@@ -59,10 +59,11 @@ function htmlDecode(input) {
 
 
 
-function ChangeStateReloadPage(rowID, estaHabilitado, actionName) {
+function ChangeStateReloadPage(rowID, estaHabilitado, actionName, token) {
     var parametros = {
         rowID: rowID,
-        estaHabilitado: estaHabilitado
+        estaHabilitado: estaHabilitado,
+        __RequestVerificationToken: token
     };
     $.ajax({
         cache: false,
@@ -92,10 +93,11 @@ function ChangeStateReloadPage(rowID, estaHabilitado, actionName) {
     });
 }
 
-function ChangeState(rowID, estaHabilitado, actionName) {
+function ChangeState(rowID, estaHabilitado, actionName, token) {
     var parametros = {
         rowID: rowID,
-        estaHabilitado: estaHabilitado
+        estaHabilitado: estaHabilitado,
+        __RequestVerificationToken: token
     };
     $.ajax({
         cache: false,

@@ -104,7 +104,7 @@ namespace WebApp.ServiceFacade.Implementations
             return plantillaPlanillaModel;
         }
 
-        public Response CambiarEstado(int plantillaPlanillaID, bool estadHabilitado, int userID, string returnUrl)
+        public Response CambiarEstado(int plantillaPlanillaID, bool estadHabilitado, int userID)
         {
             var plantillaPlanillaActua1 = _plantillaPlanillaService.ObtenerPlantillaPlanilla(plantillaPlanillaID);
 

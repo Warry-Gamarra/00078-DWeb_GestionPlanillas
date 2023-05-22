@@ -99,7 +99,7 @@ namespace WebApp.ServiceFacade.Implementations
             return conceptoModel;
         }
 
-        public Response CambiarEstado(int conceptoID, bool estadHabilitado, int userID, string returnUrl)
+        public Response CambiarEstado(int conceptoID, bool estadHabilitado, int userID)
         {
             var result = _conceptoService.CambiarEstado(conceptoID, estadHabilitado, userID);
 

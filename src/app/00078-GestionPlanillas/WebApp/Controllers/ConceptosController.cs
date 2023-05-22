@@ -98,10 +98,10 @@ namespace WebApp.Controllers
         }
 
         [HttpPost]
-        //[ValidateAntiForgeryToken]
+        [ValidateAntiForgeryToken]
         public JsonResult CambiarEstado(int rowID, bool estaHabilitado)
         {
-            var result = _conceptoServiceFacade.CambiarEstado(rowID, estaHabilitado, WebSecurity.CurrentUserId, Url.Action("CambiarEstado", "Conceptos"));
+            var result = _conceptoServiceFacade.CambiarEstado(rowID, estaHabilitado, WebSecurity.CurrentUserId);
             
             return Json(result, JsonRequestBehavior.AllowGet);
         }
