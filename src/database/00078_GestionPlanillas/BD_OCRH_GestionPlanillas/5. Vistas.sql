@@ -173,7 +173,6 @@ INNER JOIN dbo.TC_TipoConcepto t ON t.I_TipoConceptoID = c.I_TipoConceptoID
 WHERE ppc.B_Eliminado = 0
 GO
 
-select * from VW_ConceptosAsignados_Plantilla
 
 --PLANILLA Administrativo
 SELECT        cap.T_CategoriaPlanillaDesc, per.I_Anio, per.T_MesDesc, pl.I_Correlativo, p.T_Nombre, p.T_ApellidoPaterno, p.T_ApellidoMaterno, nvr.C_NivelRemunerativoCod, 
