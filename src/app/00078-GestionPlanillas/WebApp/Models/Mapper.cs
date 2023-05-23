@@ -205,5 +205,37 @@ namespace WebApp.Models
 
             return model;
         }
+
+        public static ConceptoAsignadoPlantillaModel ConceptoAsignadoPlantillaDTO_To_ConceptoAsignadoPlantillaModel(
+            ConceptoAsignadoPlantillaDTO dto)
+        {
+            var model = new ConceptoAsignadoPlantillaModel()
+            {
+                plantillaPlanillaConceptoID = dto.plantillaPlanillaConceptoID,
+                plantillaPlanillaID = dto.plantillaPlanillaID,
+                plantillaPlanillaDesc = dto.plantillaPlanillaDesc,
+                categoriaPlanillaID = dto.categoriaPlanillaID,
+                categoriaPlanillaDesc = dto.categoriaPlanillaDesc,
+                clasePlanillaID = dto.clasePlanillaID,
+                clasePlanillaDesc = dto.clasePlanillaDesc,
+                tipoConceptoID = dto.tipoConceptoID,
+                tipoConceptoDesc = dto.tipoConceptoDesc,
+                esAdicion = dto.esAdicion,
+                incluirEnTotalBruto = dto.incluirEnTotalBruto,
+                conceptoID = dto.conceptoID,
+                conceptoCod = dto.conceptoCod,
+                conceptoDesc = dto.conceptoDesc,
+                esMontoFijo = dto.esMontoFijo,
+                montoEstaAqui = dto.montoEstaAqui,
+                monto = dto.monto,
+                aplicarFiltro1 = dto.aplicarFiltro1,
+                filtro1 = dto.filtro1,
+                aplicarFiltro2 = dto.aplicarFiltro2,
+                filtro2 = dto.filtro2,
+                estaHabilitado = dto.estaHabilitado
+            };
+
+            return model;
+        }
     }
 }

@@ -1,8 +1,65 @@
+$(function () {
+    $('body').on('click', '.modal-link', function (e) {
+        e.preventDefault();
+        $(this).attr('data-target', '#modal-container');
+        $(this).attr('data-toggle', 'modal');
+    });
 
-$(document).on('ready', function () {
-    $('#btnsubmit').removeClass('disabled');
-    $('#btnCancel').removeClass('disabled');
+    $('body').on('click', '.modal-link-lg', function (e) {
+        e.preventDefault();
+        $(this).attr('data-target', '#modal-container-lg');
+        $(this).attr('data-toggle', 'modal');
+    });
+
+    $('body').on('click', '.modal-link-xl', function (e) {
+        e.preventDefault();
+        $(this).attr('data-target', '#modal-container-xl');
+        $(this).attr('data-toggle', 'modal');
+    });
+
+    $('#modal-container').on('show.bs.modal', function (event) {
+        var button = $(event.relatedTarget);
+        var url = button.attr("href");
+        var modal = $(this);
+        modal.find('.modal-content').load(url);
+    });
+
+    $('#modal-container-lg').on('show.bs.modal', function (event) {
+        var button = $(event.relatedTarget);
+        var url = button.attr("href");
+        var modal = $(this);
+        modal.find('.modal-content').load(url);
+    });
+
+    $('#modal-container-xl').on('show.bs.modal', function (event) {
+        var button = $(event.relatedTarget);
+        var url = button.attr("href");
+        var modal = $(this);
+        modal.find('.modal-content').load(url);
+    });
+
+    $('#modal-container').on('hide.bs.modal', function () {
+        $(this).removeData('bs.modal');
+        $('#modal-container .modal-content').html('<p style="margin:50px;" class="text-center text-muted"><i class="fa fa-spin fa-3x fa-cog"></i></p>');
+    });
+
+    $('#modal-container-lg').on('hide.bs.modal', function () {
+        $(this).removeData('bs.modal');
+        $('#modal-container-lg .modal-content').html('<p style="margin:50px;" class="text-center text-muted"><i class="fa fa-spin fa-3x fa-cog"></i></p>');
+    });
+
+    $('#modal-container-xl').on('hide.bs.modal', function () {
+        $(this).removeData('bs.modal');
+        $('#modal-container-xl .modal-content').html('<p style="margin:50px;" class="text-center text-muted"><i class="fa fa-spin fa-3x fa-cog"></i></p>');
+    });
+
+    $('[data-toggle="tooltip"]').tooltip();
 });
+
+//$(document).on('ready', function () {
+//    $('#btnsubmit').removeClass('disabled');
+//    $('#btnCancel').removeClass('disabled');
+//});
 
 function Load() {
     $('#loading').show();
@@ -56,8 +113,6 @@ function htmlDecode(input) {
     element.innerHTML = input;
     return element.value;
 }
-
-
 
 function ChangeStateReloadPage(rowID, estaHabilitado, actionName, token) {
     var parametros = {

@@ -15,8 +15,12 @@
     <i class="fa fa-times-circle-o"></i> Cerrar
 </button>
 
-<script>
-    $(".modal").on('hide.bs.modal', function () {
-        location.reload();
-    })
-</script>
+@if (Model.Success)
+{
+    <script type="text/javascript">
+        $(".modal").on('hide.bs.modal', function () {
+            generarDatatableConceptos();
+        });
+    </script>
+}
+

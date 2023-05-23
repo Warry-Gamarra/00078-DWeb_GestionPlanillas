@@ -137,17 +137,43 @@ GO
 
 CREATE VIEW [dbo].[VW_PlantillasPlanilla]
 AS
-SELECT 
+SELECT
 	pp.I_PlantillaPlanillaID, pp.T_PlantillaPlanillaDesc, pp.B_Habilitado, cp.I_CategoriaPlanillaID, 
 	cp.T_CategoriaPlanillaDesc, cl.I_ClasePlanillaID, cl.T_ClasePlanillaDesc
 FROM dbo.TI_PlantillaPlanilla pp
 INNER JOIN dbo.TC_CategoriaPlanilla cp ON cp.I_CategoriaPlanillaID = pp.I_CategoriaPlanillaID
 INNER JOIN dbo.TC_ClasePlanilla cl ON cl.I_ClasePlanillaID = cp.I_ClasePlanillaID
-WHERE pp.B_Eliminado = 0 AND cp.B_Eliminado = 0 AND cl.B_Eliminado = 0
+WHERE pp.B_Eliminado = 0
 GO
 
 
 
+IF EXISTS (SELECT * FROM INFORMATION_SCHEMA.VIEWS WHERE TABLE_NAME = 'VW_ConceptosAsignados_Plantilla')
+	DROP VIEW [dbo].[VW_ConceptosAsignados_Plantilla]
+GO
+
+CREATE VIEW [dbo].[VW_ConceptosAsignados_Plantilla]
+AS
+SELECT
+	ppc.I_PlantillaPlanillaConceptoID,
+	pp.I_PlantillaPlanillaID, pp.T_PlantillaPlanillaDesc, 
+	cp.I_CategoriaPlanillaID, cp.T_CategoriaPlanillaDesc, 
+	cl.I_ClasePlanillaID, cl.T_ClasePlanillaDesc,
+	t.I_TipoConceptoID, t.T_TipoConceptoDesc, t.B_EsAdicion, t.B_IncluirEnTotalBruto, 
+	c.I_ConceptoID, c.C_ConceptoCod, c.T_ConceptoDesc, 
+	ppc.B_EsMontoFijo, ppc.B_MontoEstaAqui, ppc.M_Monto, 
+	ppc.B_AplicarFiltro1, ppc.I_Filtro1, ppc.B_AplicarFiltro2, ppc.I_Filtro2,
+	ppc.B_Habilitado
+FROM dbo.TI_PlantillaPlanilla pp
+INNER JOIN dbo.TC_CategoriaPlanilla cp on cp.I_CategoriaPlanillaID = pp.I_CategoriaPlanillaID
+INNER JOIN dbo.TC_ClasePlanilla cl ON cl.I_ClasePlanillaID = cp.I_ClasePlanillaID
+INNER JOIN  dbo.TI_PlantillaPlanilla_Concepto ppc on ppc.I_PlantillaPlanillaID = pp.I_PlantillaPlanillaID
+INNER JOIN dbo.TC_Concepto c on c.I_ConceptoID = ppc.I_ConceptoID
+INNER JOIN dbo.TC_TipoConcepto t ON t.I_TipoConceptoID = c.I_TipoConceptoID
+WHERE ppc.B_Eliminado = 0
+GO
+
+select * from VW_ConceptosAsignados_Plantilla
 
 --PLANILLA Administrativo
 SELECT        cap.T_CategoriaPlanillaDesc, per.I_Anio, per.T_MesDesc, pl.I_Correlativo, p.T_Nombre, p.T_ApellidoPaterno, p.T_ApellidoMaterno, nvr.C_NivelRemunerativoCod, 
@@ -186,13 +212,7 @@ GO
 
 
 
---Lista de conceptos
-SELECT pp.T_PlantillaPlanillaDesc, cp.T_CategoriaPlanillaDesc, t.T_TipoConceptoDesc, c.I_ConceptoID, c.T_ConceptoDesc, ppc.B_MontoEstaAqui, ppc.M_Monto, ppc.I_Filtro1, ppc.I_Filtro2
-FROM dbo.TI_PlantillaPlanilla pp
-INNER JOIN dbo.TC_CategoriaPlanilla cp on cp.I_CategoriaPlanillaID = pp.I_CategoriaPlanillaID
-INNER JOIN  dbo.TI_PlantillaPlanilla_Concepto ppc on ppc.I_PlantillaPlanillaID = pp.I_PlantillaPlanillaID
-INNER JOIN dbo.TC_Concepto c on c.I_ConceptoID = ppc.I_ConceptoID
-INNER JOIN dbo.TC_TipoConcepto t ON t.I_TipoConceptoID = c.I_TipoConceptoID
+
 
 
 --PERSONAL DOCENTE

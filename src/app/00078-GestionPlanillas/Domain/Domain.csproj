@@ -47,6 +47,7 @@
     <Compile Include="Entities\CategoriaPlanillaDTO.cs" />
     <Compile Include="Entities\ConceptoDTO.cs" />
     <Compile Include="Entities\ConceptoEntity.cs" />
+    <Compile Include="Entities\ConceptoAsignadoPlantillaDTO.cs" />
     <Compile Include="Entities\DependenciaDTO.cs" />
     <Compile Include="Entities\EstadoDTO.cs" />
     <Compile Include="Entities\GrupoOcupacionalDTO.cs" />
@@ -97,6 +98,7 @@
     <Compile Include="Services\Implementations\PeriodoService.cs" />
     <Compile Include="Services\Implementations\PersonaService.cs" />
     <Compile Include="Services\Implementations\PlanillaService.cs" />
+    <Compile Include="Services\Implementations\PlantillaPlanillaConceptoService.cs" />
     <Compile Include="Services\Implementations\PlantillaPlanillaService.cs" />
     <Compile Include="Services\Implementations\RegimenService.cs" />
     <Compile Include="Services\Implementations\TipoConceptoService.cs" />
@@ -106,6 +108,7 @@
     <Compile Include="Services\INivelRemunerativoService.cs" />
     <Compile Include="Services\IPeriodoService.cs" />
     <Compile Include="Services\IPersonaService.cs" />
+    <Compile Include="Services\IPlantillaPlanillaConceptoService.cs" />
     <Compile Include="Services\IPlantillaPlanillaService.cs" />
     <Compile Include="Services\IRegimenService.cs" />
     <Compile Include="Services\ITipoConceptoService.cs" />

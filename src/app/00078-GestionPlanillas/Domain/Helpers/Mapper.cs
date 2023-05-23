@@ -399,5 +399,37 @@ namespace Domain.Helpers
 
             return plantillaPlanillaDTO;
         }
+
+        public static ConceptoAsignadoPlantillaDTO VW_ConceptosAsignados_Plantilla_To_ConceptoAsignadoPlantillaDTO(
+            VW_ConceptosAsignados_Plantilla view)
+        {
+            var conceptoAsignadoPlantillaDTO = new ConceptoAsignadoPlantillaDTO()
+            {
+                plantillaPlanillaConceptoID = view.I_PlantillaPlanillaConceptoID,
+                plantillaPlanillaID = view.I_PlantillaPlanillaID,
+                plantillaPlanillaDesc = view.T_PlantillaPlanillaDesc,
+                categoriaPlanillaID = view.I_CategoriaPlanillaID,
+                categoriaPlanillaDesc = view.T_CategoriaPlanillaDesc,
+                clasePlanillaID = view.I_ClasePlanillaID,
+                clasePlanillaDesc = view.T_ClasePlanillaDesc,
+                tipoConceptoID = view.I_TipoConceptoID,
+                tipoConceptoDesc = view.T_TipoConceptoDesc,
+                esAdicion = view.B_EsAdicion,
+                incluirEnTotalBruto = view.B_IncluirEnTotalBruto,
+                conceptoID = view.I_ConceptoID,
+                conceptoCod = view.C_ConceptoCod,
+                conceptoDesc = view.T_ConceptoDesc,
+                esMontoFijo = view.B_EsMontoFijo,
+                montoEstaAqui = view.B_MontoEstaAqui,
+                monto = view.M_Monto,
+                aplicarFiltro1 = view.B_AplicarFiltro1,
+                filtro1 = view.I_Filtro1,
+                aplicarFiltro2 = view.B_AplicarFiltro2,
+                filtro2 = view.I_Filtro2,
+                estaHabilitado = view.B_Habilitado
+            };
+
+            return conceptoAsignadoPlantillaDTO;
+        }
     }
 }

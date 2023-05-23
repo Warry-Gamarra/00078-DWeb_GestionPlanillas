@@ -141,6 +141,7 @@
     </Compile>
     <Compile Include="Models\AdministrativoModel.cs" />
     <Compile Include="Models\ConceptoModel.cs" />
+    <Compile Include="Models\ConceptoAsignadoPlantillaModel.cs" />
     <Compile Include="Models\DocenteModel.cs" />
     <Compile Include="Models\Mapper.cs" />
     <Compile Include="Models\PlantillaPlanillaModel.cs" />
@@ -174,6 +175,7 @@
     <Compile Include="ServiceFacade\Implementations\NivelRemunerativoServiceFacade.cs" />
     <Compile Include="ServiceFacade\Implementations\PeriodoServiceFacade.cs" />
     <Compile Include="ServiceFacade\Implementations\PlanillaServiceFacade.cs" />
+    <Compile Include="ServiceFacade\Implementations\PlantillaPlanillaConceptoServiceFacade.cs" />
     <Compile Include="ServiceFacade\Implementations\PlantillaPlanillaServiceFacade.cs" />
     <Compile Include="ServiceFacade\Implementations\RegimenServiceFacade.cs" />
     <Compile Include="ServiceFacade\Implementations\TipoConceptoServiceFacade.cs" />
@@ -183,6 +185,7 @@
     <Compile Include="ServiceFacade\INivelRemunerativoServiceFacade.cs" />
     <Compile Include="ServiceFacade\IPeriodoServiceFacade.cs" />
     <Compile Include="ServiceFacade\IPlanillaServiceFacade.cs" />
+    <Compile Include="ServiceFacade\IPlantillaPlanillaConceptoServiceFacade.cs" />
     <Compile Include="ServiceFacade\IPlantillaPlanillaServiceFacade.cs" />
     <Compile Include="ServiceFacade\IRegimenServiceFacade.cs" />
     <Compile Include="ServiceFacade\ITipoConceptoServiceFacade.cs" />
@@ -447,6 +450,7 @@
     <Content Include="Views\Conceptos\_MsgRegistrarConcepto.cshtml" />
     <Content Include="Views\PlantillaPlanilla\_MantenimientoPlantillaPlanilla.cshtml" />
     <Content Include="Views\PlantillaPlanilla\_MsgRegistrarPlantillaPlanilla.cshtml" />
+    <Content Include="Views\PlantillaPlanilla\_ConceptosAsignados.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

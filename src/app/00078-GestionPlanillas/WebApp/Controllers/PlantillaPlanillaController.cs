@@ -16,11 +16,13 @@ namespace WebApp.Controllers
     {
         private IPlantillaPlanillaServiceFacade _plantillaPlanillaServiceFacade;
         private ICategoriaPlanillaServiceFacade _categoriaPlanillaServiceFacade;
+        private IPlantillaPlanillaConceptoServiceFacade _plantillaPlanillaConceptoServiceFacade;
 
         public PlantillaPlanillaController()
         {
             _plantillaPlanillaServiceFacade = new PlantillaPlanillaServiceFacade();
             _categoriaPlanillaServiceFacade = new CategoriaPlanillaServiceFacade();
+            _plantillaPlanillaConceptoServiceFacade = new PlantillaPlanillaConceptoServiceFacade();
         }
 
         [HttpGet]
@@ -112,6 +114,18 @@ namespace WebApp.Controllers
             var result = _plantillaPlanillaServiceFacade.CambiarEstado(rowID, estaHabilitado, WebSecurity.CurrentUserId);
 
             return Json(result, JsonRequestBehavior.AllowGet);
+        }
+
+        [HttpGet]
+        public ActionResult AsignarConceptos(int id)
+        {
+            ViewBag.Title = "Conceptos asignados";
+
+            ViewBag.Action = "Actualizar";
+
+            var model = _plantillaPlanillaConceptoServiceFacade.ListarConceptosAsignados(id);
+
+            return PartialView("_ConceptosAsignados");
         }
     }
 }

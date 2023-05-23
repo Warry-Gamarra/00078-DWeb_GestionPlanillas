@@ -23,8 +23,8 @@
             </a>
         </div>
         <div class="card-body">
-            <div class="table-responsive" style="min-height:300px">
-                <table class="table table-hover" id="dataTableConceptos">
+            <div class="table-responsive">
+                <table class="table table-hover" id="dataTableConceptos" width="100%">
                     <thead class="thead-dark">
                         <tr>
                             <th>Cod.Concepto</th>
@@ -36,9 +36,9 @@
                     </thead>
                     <tfoot>
                         <tr>
-                            <th>categoriaPlanillaDesc</th>
-                            <th>plantillaPlanillaDesc</th>
-                            <th>estaHabilitado</th>
+                            <th>Cod.Concepto</th>
+                            <th>Tip.Concepto</th>
+                            <th>Descripción</th>
                             <th>Estado</th>
                             <th></th>
                         </tr>
@@ -56,13 +56,14 @@
             </a>
         </div>
         <div class="card-body">
-            <div class="table-responsive" style="min-height:300px">
-                <table class="table table-hover" id="dataTablePlantillaPlanilla">
+            <div class="table-responsive">
+                <table class="table table-hover" id="dataTablePlantillaPlanilla" width="100%">
                     <thead class="thead-dark">
                         <tr>
                             <th>Categoría</th>
                             <th>Descripción</th>
                             <th>Estado</th>
+                            <th></th>
                             <th></th>
                         </tr>
                     </thead>
@@ -71,6 +72,7 @@
                             <th>Categoría</th>
                             <th>Descripción</th>
                             <th>Estado</th>
+                            <th></th>
                             <th></th>
                         </tr>
                     </tfoot>
@@ -114,7 +116,7 @@
 
                             let html = `<span id="td${data}">` +
                                 `<button type="submit" class="btn btn-xs btn-${btnClass}" onclick="${onClickFunction}">` +
-                                `<i class="fa fa-${iClass}"></i> <span class="d-none d-md-inline-block">${estado}</span>` +
+                                `<i class="fa fa-${iClass}" aria-hidden="true"></i> <span class="d-none d-md-inline-block">${estado}</span>` +
                                 '</button>' +
                                 '</span>';
 
@@ -131,8 +133,8 @@
                 ],
                 "bStateSave": true,
                 bDestroy: true,
-                lengthMenu: [[10, 25, 50, -1], [10, 25, 50, "Todas"]],
-                iDisplayLength: 10,
+                lengthMenu: [[5, 10, 25, 50, -1], [5, 10, 25, 50, "Todas"]],
+                iDisplayLength: 5,
                 language: {
                     search: "Buscar: ",
                     lengthMenu: "Mostrar _MENU_ filas",
@@ -164,11 +166,12 @@
                     { data: 'categoriaPlanillaDesc' },
                     { data: 'plantillaPlanillaDesc' },
                     { data: 'plantillaPlanillaID' },
+                    { data: 'plantillaPlanillaID' },
                     { data: 'plantillaPlanillaID' }
                 ],
                 columnDefs: [
                     {
-                        targets: -2,
+                        targets: -3,
                         render: function (data, type, row) {
                             let btnClass = (row.estaHabilitado === true) ? 'success' : 'secondary';
                             let iClass = (row.estaHabilitado === true) ? 'check-circle-o' : 'minus-circle';
@@ -178,11 +181,18 @@
 
                             let html = `<span id="td${data}">` +
                                 `<button type="submit" class="btn btn-xs btn-${btnClass}" onclick="${onClickFunction}">` +
-                                `<i class="fa fa-${iClass}"></i> <span class="d-none d-md-inline-block">${estado}</span>` +
+                                `<i class="fa fa-${iClass}" aria-hidden="true"></i> <span class="d-none d-md-inline-block">${estado}</span>` +
                                 '</button>' +
                                 '</span>';
 
                             return html;
+                        }
+                    },
+                    {
+                        targets: -2,
+                        render: function (data, type, row) {
+                            return `<a class="modal-link-lg" href="@Url.Action("AsignarConceptos", "PlantillaPlanilla")/${data}` +
+                                '"><i class="fa bi-ui-checks" aria-hidden="true"></i> <span class="d-none d-md-inline-block">Asignar</span></a>';
                         }
                     },
                     {
