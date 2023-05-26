@@ -11,7 +11,7 @@ namespace WebApp.Models
     {
         public int? plantillaPlanillaID { get; set; }
 
-        [DisplayName("Cat.Concepto")]
+        [DisplayName("Cat.Planilla")]
         [Required(ErrorMessage = "La Categoría es obligatoria.")]
         public int categoriaPlanillaID { get; set; }
 

@@ -52,9 +52,9 @@ namespace WebApp.Controllers
 
             ViewBag.ListaCategoriasPlanillas = _categoriaPlanillaServiceFacade.ListarCategoriasPlanillas();
 
-            var concepto = new PlantillaPlanillaModel();
+            var plantilla = new PlantillaPlanillaModel();
 
-            return PartialView("_MantenimientoPlantillaPlanilla", concepto);
+            return PartialView("_MantenimientoPlantillaPlanilla", plantilla);
         }
 
         [HttpPost]
@@ -84,9 +84,9 @@ namespace WebApp.Controllers
 
             ViewBag.ListaCategoriasPlanillas = _categoriaPlanillaServiceFacade.ListarCategoriasPlanillas();
 
-            var concepto = _plantillaPlanillaServiceFacade.ObtenerPlantillaPlanilla(id);
+            var plantilla = _plantillaPlanillaServiceFacade.ObtenerPlantillaPlanilla(id);
 
-            return PartialView("_MantenimientoPlantillaPlanilla", concepto);
+            return PartialView("_MantenimientoPlantillaPlanilla", plantilla);
         }
 
         [HttpPost]
@@ -117,7 +117,7 @@ namespace WebApp.Controllers
         }
 
         [HttpGet]
-        public ActionResult AsignarConceptos(int id)
+        public ActionResult ConceptosAsignados(int id)
         {
             ViewBag.Title = "Conceptos asignados";
 
@@ -125,7 +125,27 @@ namespace WebApp.Controllers
 
             var model = _plantillaPlanillaConceptoServiceFacade.ListarConceptosAsignados(id);
 
-            return PartialView("_ConceptosAsignados");
+            var plantilla = _plantillaPlanillaServiceFacade.ObtenerPlantillaPlanilla(id);
+
+            ViewBag.PlantillaPlanillaID = id;
+
+            ViewBag.ClasePlanillaDesc = plantilla.clasePlanillaDesc;
+
+            ViewBag.CategoriaPlanillaDesc = plantilla.categoriaPlanillaDesc;
+
+            ViewBag.PlantillaPlanillaDesc = plantilla.plantillaPlanillaDesc;
+
+            ViewBag.EstaHabilitado = plantilla.estaHabilitado;
+
+            return PartialView("_ConceptosAsignados", model);
+        }
+
+        [HttpGet]
+        public ActionResult AsignarConcepto(int id)
+        {
+            ViewBag.PlantillaPlanillaID = id;
+
+            return PartialView("_MantenimientoAsignacionConcepto");
         }
     }
 }

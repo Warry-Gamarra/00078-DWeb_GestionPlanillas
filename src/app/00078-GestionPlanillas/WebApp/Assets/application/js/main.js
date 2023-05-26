@@ -127,12 +127,12 @@ function ChangeStateReloadPage(rowID, estaHabilitado, actionName, token) {
         data: parametros,
         dataType: "json",
         beforeSend: function () {
-            $('#loader' + rowID).css("display", "inline");
+            $(`#${container} #loader` + rowID).css("display", "inline");
         },
         success: function (data) {
-            $('#loader' + rowID).css("display", "none");
+            $(`#${container} #loader` + rowID).css("display", "none");
             if (data['Success']) {
-                $('#td' + rowID).html(data['Message']);
+                $(`#${container} #td` + rowID).html(data['Message']);
 
                 location.reload();
             }
@@ -141,14 +141,14 @@ function ChangeStateReloadPage(rowID, estaHabilitado, actionName, token) {
             }
         },
         error: function () {
-            $('#loader' + rowID).css("display", "none");
+            $(`#${container} #loader` + rowID).css("display", "none");
 
             toastr.error("No se pudo actualizar el estado. Intente nuevamente en unos segundos.<br /> Si el problema persiste comuníquese con el área de soporte de la aplicación.");
         }
     });
 }
 
-function ChangeState(rowID, estaHabilitado, actionName, token) {
+function ChangeState(rowID, estaHabilitado, actionName, token, container) {
     var parametros = {
         rowID: rowID,
         estaHabilitado: estaHabilitado,
@@ -161,16 +161,16 @@ function ChangeState(rowID, estaHabilitado, actionName, token) {
         data: parametros,
         dataType: "json",
         beforeSend: function () {
-            $('#loader' + rowID).css("display", "inline");
+            $(`#${container} #loader` + rowID).css("display", "inline");
         },
         success: function (data) {
-            $('#loader' + rowID).css("display", "none");
+            $(`#${container} #loader` + rowID).css("display", "none");
             if (data['Success']) {
                 if (estaHabilitado) {
-                    $('#td' + rowID).html(`<button type="submit" class="btn btn-xs btn-secondary" onclick="ChangeState(${rowID}, false, '${actionName }');"><i class="fa fa-minus-circle">&nbsp;</i><span class="d-none d-md-inline-block">Deshabilitado</span></button>`);
+                    $(`#${container} #td` + rowID).html(`<button type="submit" class="btn btn-xs btn-secondary" onclick="ChangeState(${rowID}, false, '${actionName}', '${token}', '${container}');"><i class="fa fa-minus-circle">&nbsp;</i><span class="d-none d-md-inline-block">Deshabilitado</span></button>`);
                 }
                 else {
-                    $('#td' + rowID).html(`<button type="submit" class="btn btn-xs btn-success" onclick="ChangeState(${rowID}, true, '${actionName }');"><i class="fa fa-check-circle">&nbsp;</i><span class="d-none d-md-inline-block">Habilitado</span></button>`);
+                    $(`#${container} #td` + rowID).html(`<button type="submit" class="btn btn-xs btn-success" onclick="ChangeState(${rowID}, true, '${actionName}', '${token}', '${container}');"><i class="fa fa-check-circle">&nbsp;</i><span class="d-none d-md-inline-block">Habilitado</span></button>`);
                 }
 
                 toastr.success(data['Message']);
@@ -180,7 +180,7 @@ function ChangeState(rowID, estaHabilitado, actionName, token) {
             }
         },
         error: function () {
-            $('#loader' + RowID).css("display", "none");
+            $(`#${container} #loader` + RowID).css("display", "none");
 
             toastr.error("No se pudo actualizar el estado. Intente nuevamente en unos segundos.<br /> Si el problema persiste comuníquese con el área de soporte de la aplicación.");
         }
