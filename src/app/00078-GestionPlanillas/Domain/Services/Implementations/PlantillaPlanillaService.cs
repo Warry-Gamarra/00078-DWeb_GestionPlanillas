@@ -104,7 +104,7 @@ namespace Domain.Services.Implementations
             return plantillaPlanillaDTO;
         }
 
-        public Response CambiarEstado(int plantillaPlanillaID, bool estadHabilitado, int userID)
+        public Response CambiarEstado(int plantillaPlanillaID, bool estaHabilitado, int userID)
         {
             Result result;
 
@@ -113,7 +113,7 @@ namespace Domain.Services.Implementations
                 var cambiarEstado = new USP_U_CambiarEstadoPlantillaPlanilla()
                 {
                     I_PlantillaPlanillaID = plantillaPlanillaID,
-                    B_Habilitado = !estadHabilitado,
+                    B_Habilitado = !estaHabilitado,
                     I_UserID = userID
                 };
 

@@ -1,4 +1,6 @@
 ﻿using Domain.Entities;
+using Domain.Enums;
+using Domain.Helpers;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,6 +11,12 @@ namespace Domain.Services
 {
     public interface IPlantillaPlanillaConceptoService
     {
+        Response GrabarPlantillaPlanillaConcepto(Operacion operacion, PlantillaPlanillaConceptoEntity conceptoEntity, int userID);
+
         List<ConceptoAsignadoPlantillaDTO> ListarConceptosAsignados(int plantillaPlanillaID);
+
+        ConceptoAsignadoPlantillaDTO ObtenerPlantillaPlanillaConcepto(int conceptoID);
+
+        Response CambiarEstado(int plantillaPlanillaConceptoID, bool estadHabilitado, int userID);
     }
 }

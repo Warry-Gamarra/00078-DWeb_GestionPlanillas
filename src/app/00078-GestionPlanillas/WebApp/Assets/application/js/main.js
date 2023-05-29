@@ -143,7 +143,7 @@ function ChangeStateReloadPage(rowID, estaHabilitado, actionName, token) {
         error: function () {
             $(`#${container} #loader` + rowID).css("display", "none");
 
-            toastr.error("No se pudo actualizar el estado. Intente nuevamente en unos segundos.<br /> Si el problema persiste comuníquese con el área de soporte de la aplicación.");
+            toastr.error("No se pudo actualizar el estado. Intente nuevamente en unos segundos.<br />Si el problema persiste comun\u00EDquese con el \u00E1rea de soporte de la aplicaci\u00F3n");
         }
     });
 }
@@ -180,9 +180,9 @@ function ChangeState(rowID, estaHabilitado, actionName, token, container) {
             }
         },
         error: function () {
-            $(`#${container} #loader` + RowID).css("display", "none");
+            $(`#${container} #loader` + rowID).css("display", "none");
 
-            toastr.error("No se pudo actualizar el estado. Intente nuevamente en unos segundos.<br /> Si el problema persiste comuníquese con el área de soporte de la aplicación.");
+            toastr.error("No se pudo actualizar el estado. Intente nuevamente en unos segundos.<br />Si el problema persiste comun\u00EDquese con el \u00E1rea de soporte de la aplicaci\u00F3n");
         }
     });
 }

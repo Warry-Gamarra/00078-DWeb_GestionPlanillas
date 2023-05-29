@@ -927,3 +927,131 @@ BEGIN
 	END CATCH
 END
 GO
+
+
+
+IF EXISTS (SELECT * FROM INFORMATION_SCHEMA.ROUTINES WHERE ROUTINE_TYPE = 'PROCEDURE' AND ROUTINE_NAME = 'USP_I_RegistrarPlantillaPlanillaConcepto')
+	DROP PROCEDURE [dbo].[USP_I_RegistrarPlantillaPlanillaConcepto]
+GO
+
+CREATE PROCEDURE USP_I_RegistrarPlantillaPlanillaConcepto
+@I_PlantillaPlanillaID INT,
+@I_ConceptoID INT,
+@B_EsMontoFijo BIT,
+@B_MontoEstaAqui BIT,
+@M_Monto DECIMAL(15,2) = NULL,
+@B_AplicarFiltro1 BIT = NULL,
+@I_Filtro1 INT = NULL,
+@B_AplicarFiltro2 BIT = NULL,
+@I_Filtro2 INT = NULL,
+@I_UserID INT,
+@B_Result BIT OUTPUT,
+@T_Message VARCHAR(250) OUTPUT
+AS
+BEGIN
+	SET NOCOUNT ON;
+	
+	BEGIN TRAN
+	BEGIN TRY
+		INSERT dbo.TI_PlantillaPlanilla_Concepto(I_PlantillaPlanillaID, I_ConceptoID, B_EsMontoFijo, B_MontoEstaAqui, M_Monto, B_AplicarFiltro1, I_Filtro1, B_AplicarFiltro2, I_Filtro2, B_Habilitado, B_Eliminado, I_UsuarioCre, D_FecCre)
+		VALUES(@I_PlantillaPlanillaID, @I_ConceptoID, @B_EsMontoFijo, @B_MontoEstaAqui, @M_Monto, @B_AplicarFiltro1, @I_Filtro1, @B_AplicarFiltro2, @I_Filtro2, 1, 0, @I_UserID, GETDATE())
+
+		COMMIT TRAN
+		SET @B_Result = 1
+		SET @T_Message = 'Registro correcto.'
+	END TRY
+	BEGIN CATCH
+		ROLLBACK TRAN
+		SET @B_Result = 0
+		SET @T_Message = ERROR_MESSAGE()
+	END CATCH
+END
+GO
+
+
+
+IF EXISTS (SELECT * FROM INFORMATION_SCHEMA.ROUTINES WHERE ROUTINE_TYPE = 'PROCEDURE' AND ROUTINE_NAME = 'USP_U_ActualizarPlantillaPlanillaConcepto')
+	DROP PROCEDURE [dbo].[USP_U_ActualizarPlantillaPlanillaConcepto]
+GO
+
+CREATE PROCEDURE USP_U_ActualizarPlantillaPlanillaConcepto
+@I_PlantillaPlanillaConceptoID INT,
+@I_PlantillaPlanillaID INT,
+@I_ConceptoID INT,
+@B_EsMontoFijo BIT,
+@B_MontoEstaAqui BIT,
+@M_Monto DECIMAL(15,2) = NULL,
+@B_AplicarFiltro1 BIT = NULL,
+@I_Filtro1 INT = NULL,
+@B_AplicarFiltro2 BIT = NULL,
+@I_Filtro2 INT = NULL,
+@I_UserID INT,
+@B_Result BIT OUTPUT,
+@T_Message VARCHAR(250) OUTPUT
+AS
+BEGIN
+	SET NOCOUNT ON;
+	
+	BEGIN TRAN
+	BEGIN TRY
+		UPDATE dbo.TI_PlantillaPlanilla_Concepto SET
+			I_PlantillaPlanillaID = @I_PlantillaPlanillaID,
+			I_ConceptoID = @I_ConceptoID,
+			B_EsMontoFijo = @B_EsMontoFijo,
+			B_MontoEstaAqui = @B_MontoEstaAqui,
+			M_Monto = @M_Monto,
+			B_AplicarFiltro1 = @B_AplicarFiltro1,
+			I_Filtro1 = @I_Filtro1,
+			B_AplicarFiltro2 = @B_AplicarFiltro2,
+			I_Filtro2 = @I_Filtro2,
+			I_UsuarioMod = @I_UserID,
+			D_FecMod = GETDATE()
+		WHERE I_PlantillaPlanillaConceptoID = @I_PlantillaPlanillaConceptoID
+
+		COMMIT TRAN
+		SET @B_Result = 1
+		SET @T_Message = 'Actualización correcta.'
+	END TRY
+	BEGIN CATCH
+		ROLLBACK TRAN
+		SET @B_Result = 0
+		SET @T_Message = ERROR_MESSAGE()
+	END CATCH
+END
+GO
+
+
+
+IF EXISTS (SELECT * FROM INFORMATION_SCHEMA.ROUTINES WHERE ROUTINE_TYPE = 'PROCEDURE' AND ROUTINE_NAME = 'USP_U_CambiarEstadoPlantillaPlanillaConcepto')
+	DROP PROCEDURE [dbo].[USP_U_CambiarEstadoPlantillaPlanillaConcepto]
+GO
+
+CREATE PROCEDURE USP_U_CambiarEstadoPlantillaPlanillaConcepto
+@I_PlantillaPlanillaConceptoID INT,
+@B_Habilitado BIT,
+@I_UserID INT,
+@B_Result BIT OUTPUT,
+@T_Message VARCHAR(250) OUTPUT
+AS
+BEGIN
+	SET NOCOUNT ON;
+	
+	BEGIN TRAN
+	BEGIN TRY
+		UPDATE dbo.TI_PlantillaPlanilla_Concepto SET
+			B_Habilitado = @B_Habilitado,
+			I_UsuarioMod = @I_UserID,
+			D_FecMod = GETDATE()
+		WHERE I_PlantillaPlanillaConceptoID = @I_PlantillaPlanillaConceptoID
+
+		COMMIT TRAN
+		SET @B_Result = 1
+		SET @T_Message = 'Actualización correcta.'
+	END TRY
+	BEGIN CATCH
+		ROLLBACK TRAN
+		SET @B_Result = 0
+		SET @T_Message = ERROR_MESSAGE()
+	END CATCH
+END
+GO

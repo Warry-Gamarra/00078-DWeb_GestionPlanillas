@@ -106,7 +106,7 @@ namespace Domain.Services.Implementations
             return conceptoDTO;
         }
 
-        public Response CambiarEstado(int conceptoID, bool estadHabilitado, int userID)
+        public Response CambiarEstado(int conceptoID, bool estaHabilitado, int userID)
         {
             Result result;
 
@@ -115,7 +115,7 @@ namespace Domain.Services.Implementations
                 var cambiarEstado = new USP_U_CambiarEstadoConcepto()
                 {
                     I_ConceptoID = conceptoID,
-                    B_Habilitado = !estadHabilitado,
+                    B_Habilitado = !estaHabilitado,
                     I_UserID = userID
                 };
 

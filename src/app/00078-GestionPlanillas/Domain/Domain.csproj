@@ -55,6 +55,7 @@
     <Compile Include="Entities\MesDTO.cs" />
     <Compile Include="Entities\NivelRemunerativoDTO.cs" />
     <Compile Include="Entities\PersonaDTO.cs" />
+    <Compile Include="Entities\PlantillaPlanillaConceptoEntity.cs" />
     <Compile Include="Entities\PlantillaPlanillaDTO.cs" />
     <Compile Include="Entities\PlantillaPlanillaEntity.cs" />
     <Compile Include="Entities\RegimenDTO.cs" />

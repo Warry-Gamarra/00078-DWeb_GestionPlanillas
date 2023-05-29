@@ -104,7 +104,7 @@ namespace WebApp.ServiceFacade.Implementations
             return plantillaPlanillaModel;
         }
 
-        public Response CambiarEstado(int plantillaPlanillaID, bool estadHabilitado, int userID)
+        public Response CambiarEstado(int plantillaPlanillaID, bool estaHabilitado, int userID)
         {
             var plantillaPlanillaActua1 = _plantillaPlanillaService.ObtenerPlantillaPlanilla(plantillaPlanillaID);
 
@@ -116,14 +116,14 @@ namespace WebApp.ServiceFacade.Implementations
 
             bool existeOtraPlantillaHabilitada = false;
 
-            if (!estadHabilitado && plantillaPlanillaDTO != null && plantillaPlanillaDTO.plantillaPlanillaID != plantillaPlanillaID)
+            if (!estaHabilitado && plantillaPlanillaDTO != null && plantillaPlanillaDTO.plantillaPlanillaID != plantillaPlanillaID)
             {
                 existeOtraPlantillaHabilitada = true;
             }
 
             if (!existeOtraPlantillaHabilitada)
             {
-                response = _plantillaPlanillaService.CambiarEstado(plantillaPlanillaID, estadHabilitado, userID);
+                response = _plantillaPlanillaService.CambiarEstado(plantillaPlanillaID, estaHabilitado, userID);
             }
             else
             {

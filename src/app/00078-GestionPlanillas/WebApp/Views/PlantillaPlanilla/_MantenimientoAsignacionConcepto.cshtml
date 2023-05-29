@@ -1,9 +1,37 @@
-﻿<div class="table-responsive mb-4">
-    Formulario de asignación
-</div>
+﻿
+
+<p>
+Formulario de asignación
+</p>
 <div class="modal-footer" id="div_msg">
-    <a href="@Url.Action("ConceptosAsignados","PlantillaPlanilla", new { id = ViewBag.PlantillaPlanillaID })" class="btn btn-primary" id="btn-agregar">
-        <i class="fa fa-plus-circle" aria-hidden="true"></i>&nbsp;Regresar concepto
+    <a href="@Url.Action("ConceptosAsignados","PlantillaPlanilla", new { id = ViewBag.PlantillaPlanillaID })" class="btn btn-outline-primary" id="btn-return">
+        <i class="fa fa-arrow-left" aria-hidden="true"></i>&nbsp;Volver a la lista
     </a>
     <button type="button" class="btn btn-secondary" id="btnCancel" data-dismiss="modal"><i class="fa fa-times-circle-o"></i>&nbsp;Cerrar</button>
 </div>
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        $('#content-body').on('click', '#btn-return', function (event) {
+            event.preventDefault();
+
+            let url = $(event.currentTarget).attr("href");
+
+            loadForm(url, "cargando formulario...")
+        });
+
+        function loadForm(url, message) {
+            $('#load-message').html(message);
+
+            $('#content-body').hide();
+            $('#spin-loader').show();
+
+            let modal = $('#modal-container-lg');
+
+            setTimeout(function () {
+                modal.find('.modal-content').load(url)
+            }, 600);
+        }
+    });
+</script>
+    

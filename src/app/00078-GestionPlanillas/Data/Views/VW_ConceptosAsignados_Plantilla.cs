@@ -55,6 +55,28 @@ namespace Data.Views
 
         public bool B_Habilitado { get; set; }
 
+        public static VW_ConceptosAsignados_Plantilla FindByID(int I_PlantillaPlanillaConceptoID)
+        {
+            VW_ConceptosAsignados_Plantilla result;
+
+            try
+            {
+                string s_command = "SELECT * FROM dbo.VW_ConceptosAsignados_Plantilla WHERE I_PlantillaPlanillaConceptoID = @I_PlantillaPlanillaConceptoID;";
+
+                using (var _dbConnection = new SqlConnection(Database.ConnectionString))
+                {
+                    result = _dbConnection.QuerySingle<VW_ConceptosAsignados_Plantilla>(s_command, new { I_PlantillaPlanillaConceptoID = I_PlantillaPlanillaConceptoID },
+                        commandType: System.Data.CommandType.Text);
+                }
+            }
+            catch (Exception)
+            {
+                result = null;
+            }
+
+            return result;
+        }
+
         public static IEnumerable<VW_ConceptosAsignados_Plantilla> FindByPlantillaPlanillaID(int I_PlantillaPlanillaID)
         {
             IEnumerable<VW_ConceptosAsignados_Plantilla> result;

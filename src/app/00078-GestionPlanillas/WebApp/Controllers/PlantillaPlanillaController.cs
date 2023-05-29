@@ -123,7 +123,7 @@ namespace WebApp.Controllers
 
             ViewBag.Action = "Actualizar";
 
-            var model = _plantillaPlanillaConceptoServiceFacade.ListarConceptosAsignados(id);
+            var lista = _plantillaPlanillaConceptoServiceFacade.ListarConceptosAsignados(id);
 
             var plantilla = _plantillaPlanillaServiceFacade.ObtenerPlantillaPlanilla(id);
 
@@ -137,13 +137,27 @@ namespace WebApp.Controllers
 
             ViewBag.EstaHabilitado = plantilla.estaHabilitado;
 
-            return PartialView("_ConceptosAsignados", model);
+            return PartialView("_ConceptosAsignados", lista);
         }
 
         [HttpGet]
         public ActionResult AsignarConcepto(int id)
         {
+            ViewBag.Title = "Agregar concepto";
+
+            ViewBag.Action = "Registrar";
+
+            var plantilla = _plantillaPlanillaServiceFacade.ObtenerPlantillaPlanilla(id);
+
             ViewBag.PlantillaPlanillaID = id;
+
+            ViewBag.ClasePlanillaDesc = plantilla.clasePlanillaDesc;
+
+            ViewBag.CategoriaPlanillaDesc = plantilla.categoriaPlanillaDesc;
+
+            ViewBag.PlantillaPlanillaDesc = plantilla.plantillaPlanillaDesc;
+
+            ViewBag.EstaHabilitado = plantilla.estaHabilitado;
 
             return PartialView("_MantenimientoAsignacionConcepto");
         }
