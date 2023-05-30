@@ -7,6 +7,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
+using System.Web.Mvc;
 using WebApp.Models;
 
 namespace WebApp.ServiceFacade.Implementations
@@ -79,6 +80,13 @@ namespace WebApp.ServiceFacade.Implementations
                 .ToList();
 
             return lista;
+        }
+
+        public SelectList ListarConceptos(bool incluirDeshabilitados)
+        {
+            var lista = _conceptoService.ListarConceptos(incluirDeshabilitados);
+
+            return new SelectList(lista, "conceptoID", "conceptoDesc");
         }
 
         public ConceptoModel ObtenerConcepto(int conceptoID)

@@ -452,6 +452,7 @@
     <Content Include="Views\PlantillaPlanilla\_MsgRegistrarPlantillaPlanilla.cshtml" />
     <Content Include="Views\PlantillaPlanilla\_ConceptosAsignados.cshtml" />
     <Content Include="Views\PlantillaPlanilla\_MantenimientoAsignacionConcepto.cshtml" />
+    <Content Include="Views\PlantillaPlanilla\_MsgRegistrarPlantillaPlanillaConcepto.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

@@ -14,14 +14,16 @@ namespace WebApp.Controllers
 {
     public class PlantillaPlanillaController : Controller
     {
-        private IPlantillaPlanillaServiceFacade _plantillaPlanillaServiceFacade;
         private ICategoriaPlanillaServiceFacade _categoriaPlanillaServiceFacade;
+        private IConceptoServiceFacade _conceptoServiceFacade;
+        private IPlantillaPlanillaServiceFacade _plantillaPlanillaServiceFacade;
         private IPlantillaPlanillaConceptoServiceFacade _plantillaPlanillaConceptoServiceFacade;
 
         public PlantillaPlanillaController()
         {
-            _plantillaPlanillaServiceFacade = new PlantillaPlanillaServiceFacade();
             _categoriaPlanillaServiceFacade = new CategoriaPlanillaServiceFacade();
+            _conceptoServiceFacade = new ConceptoServiceFacade();
+            _plantillaPlanillaServiceFacade = new PlantillaPlanillaServiceFacade();
             _plantillaPlanillaConceptoServiceFacade = new PlantillaPlanillaConceptoServiceFacade();
         }
 
@@ -145,21 +147,70 @@ namespace WebApp.Controllers
         {
             ViewBag.Title = "Agregar concepto";
 
-            ViewBag.Action = "Registrar";
+            ViewBag.Action = "RegistrarConcepto";
 
-            var plantilla = _plantillaPlanillaServiceFacade.ObtenerPlantillaPlanilla(id);
+            ViewBag.ListaConceptos = _conceptoServiceFacade.ListarConceptos(false);
 
-            ViewBag.PlantillaPlanillaID = id;
+            var model = new ConceptoAsignadoPlantillaModel()
+            {
+                plantillaPlanillaID = id
+            };
 
-            ViewBag.ClasePlanillaDesc = plantilla.clasePlanillaDesc;
+            return PartialView("_MantenimientoAsignacionConcepto", model);
+        }
 
-            ViewBag.CategoriaPlanillaDesc = plantilla.categoriaPlanillaDesc;
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult RegistrarConcepto(ConceptoAsignadoPlantillaModel model)
+        {
+            Response response = new Response();
 
-            ViewBag.PlantillaPlanillaDesc = plantilla.plantillaPlanillaDesc;
+            if (ModelState.IsValid)
+            {
+                response = _plantillaPlanillaConceptoServiceFacade.GrabarPlantillaPlanillaConcepto(Operacion.Registrar, model, WebSecurity.CurrentUserId);
+            }
+            else
+            {
+                response.Message = "Ocurrió un error.";
+            }
 
-            ViewBag.EstaHabilitado = plantilla.estaHabilitado;
+            ViewBag.PlantillaPlanillaID = model.plantillaPlanillaID;
 
-            return PartialView("_MantenimientoAsignacionConcepto");
+            return PartialView("_MsgRegistrarPlantillaPlanillaConcepto", response);
+        }
+
+        [HttpGet]
+        public ActionResult EditarConcepto(int id)
+        {
+            ViewBag.Title = "Detalle del concepto";
+
+            ViewBag.Action = "ActualizarConcepto";
+
+            ViewBag.ListaConceptos = _conceptoServiceFacade.ListarConceptos(true);
+
+            var model = _plantillaPlanillaConceptoServiceFacade.ObtenerPlantillaPlanillaConcepto(id);
+
+            return PartialView("_MantenimientoAsignacionConcepto", model);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult ActualizarConcepto(ConceptoAsignadoPlantillaModel model)
+        {
+            Response response = new Response();
+
+            if (ModelState.IsValid)
+            {
+                response = _plantillaPlanillaConceptoServiceFacade.GrabarPlantillaPlanillaConcepto(Operacion.Actualizar, model, WebSecurity.CurrentUserId);
+            }
+            else
+            {
+                response.Message = "Ocurrió un error.";
+            }
+
+            ViewBag.PlantillaPlanillaID = model.plantillaPlanillaID;
+
+            return PartialView("_MsgRegistrarPlantillaPlanillaConcepto", response);
         }
     }
 }

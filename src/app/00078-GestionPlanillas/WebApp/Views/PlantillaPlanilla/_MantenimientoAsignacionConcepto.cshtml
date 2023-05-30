@@ -1,23 +1,135 @@
-﻿
+﻿@model WebApp.Models.ConceptoAsignadoPlantillaModel
+@Scripts.Render("~/bundles/jqueryval")
 
-<p>
-Formulario de asignación
-</p>
-<div class="modal-footer" id="div_msg">
-    <a href="@Url.Action("ConceptosAsignados","PlantillaPlanilla", new { id = ViewBag.PlantillaPlanillaID })" class="btn btn-outline-primary" id="btn-return">
+@using (Ajax.BeginForm((string)ViewBag.Action, "PlantillaPlanilla", new { area = "" }, new AjaxOptions
+{
+    HttpMethod = "POST",
+    InsertionMode = InsertionMode.Replace,
+    UpdateTargetId = "div_msg",
+    OnBegin = "Load",
+    OnComplete = "Stop"
+}))
+{
+    @Html.AntiForgeryToken()
+    @Html.HiddenFor(model => model.plantillaPlanillaID)
+    @Html.HiddenFor(model => model.plantillaPlanillaConceptoID)
+    <div class="form-row">
+        <div class="col-12">
+            <div class="form-group">
+                @Html.LabelFor(model => model.conceptoID, new { @class = "control-label" })
+                @Html.DropDownListFor(model => model.conceptoID, ViewBag.ListaConceptos as SelectList, "[ SELECCIONAR ]", new { @class = "form-control text-uppercase select-filter-modal" })
+                @Html.ValidationMessageFor(model => model.conceptoID, null, new { @class = "text-danger" })
+            </div>
+        </div>
+    </div>
+
+    <div class="form-row">
+        <div class="col-6">
+            <div class="form-group">
+                <label>@Html.RadioButtonFor(model => model.esMontoFijo, true) Valor fijo</label>
+                <label>@Html.RadioButtonFor(model => model.esMontoFijo, false) Valor porcentual</label>
+            </div>
+        </div>
+        <div class="col-6">
+            <div class="form-group">
+                @Html.LabelFor(model => model.monto, new { @class = "control-label" })
+                @Html.TextBoxFor(model => model.monto, new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.monto, null, new { @class = "text-danger" })
+            </div>
+        </div>
+    </div>
+
+    <div class="form-row">
+        <div class="input-group">
+            <div class="input-group-prepend">
+                <div class="input-group-text">
+                    <input type="radio" aria-label="Radio button for following text input">
+                </div>
+            </div>
+            <input type="text" class="form-control" aria-label="Text input with radio button">
+        </div>
+        <div class="input-group">
+            <div class="input-group-prepend">
+                <div class="input-group-text">
+                    <input type="radio" aria-label="Radio button for following text input">
+                </div>
+            </div>
+            <input type="text" class="form-control" aria-label="Text input with radio button">
+        </div>
+    </div>
+
+    <div class="form-row">
+        <div class="col-12">
+            <div class="form-group form-check">
+                @Html.CheckBoxFor(model => model.montoEstaAqui, new { @class = "form-check-input" })
+                @Html.LabelFor(model => model.montoEstaAqui, new { @class = "form-check-label" })
+                @Html.ValidationMessageFor(model => model.montoEstaAqui, null, new { @class = "text-danger" })
+            </div>
+        </div>
+    </div>
+
+    <div class="form-row">
+        <div class="col-6">
+            <div class="form-group form-check">
+                @Html.CheckBoxFor(model => model.aplicarFiltro1, new { @class = "form-check-input" })
+                @Html.LabelFor(model => model.aplicarFiltro1, new { @class = "form-check-label" })
+                @Html.ValidationMessageFor(model => model.aplicarFiltro1, null, new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="col-6">
+            <div class="form-group">
+                @Html.LabelFor(model => model.filtro1, new { @class = "control-label" })
+                @Html.TextBoxFor(model => model.filtro1, new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.filtro1, null, new { @class = "text-danger" })
+            </div>
+        </div>
+    </div>
+
+    <div class="form-row">
+        <div class="col-6">
+            <div class="form-group form-check">
+                @Html.CheckBoxFor(model => model.aplicarFiltro2, new { @class = "form-check-input" })
+                @Html.LabelFor(model => model.aplicarFiltro2, new { @class = "form-check-label" })
+                @Html.ValidationMessageFor(model => model.aplicarFiltro2, null, new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="col-6">
+            <div class="form-group">
+                @Html.LabelFor(model => model.filtro2, new { @class = "control-label" })
+                @Html.TextBoxFor(model => model.filtro2, new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.filtro2, null, new { @class = "text-danger" })
+            </div>
+        </div>
+    </div>
+
+    <div class="row d-flex justify-content-center">
+        <button type="submit" class="btn btn-primary center" id="btnsubmit"><i class="fa fa-save"></i> Guardar</button>
+    </div>
+}
+
+<div class="modal-footer mt-4" id="div_msg">
+    <a href="@Url.Action("ConceptosAsignados","PlantillaPlanilla", new { id = Model.plantillaPlanillaID })" class="btn btn-outline-primary" id="btn-return">
         <i class="fa fa-arrow-left" aria-hidden="true"></i>&nbsp;Volver a la lista
     </a>
     <button type="button" class="btn btn-secondary" id="btnCancel" data-dismiss="modal"><i class="fa fa-times-circle-o"></i>&nbsp;Cerrar</button>
 </div>
 
 <script type="text/javascript">
-    $(document).ready(function () {
+    $(function () {
         $('#content-body').on('click', '#btn-return', function (event) {
             event.preventDefault();
 
             let url = $(event.currentTarget).attr("href");
 
             loadForm(url, "cargando formulario...")
+        });
+
+        $('.select-filter-modal').select2({
+            theme: 'bootstrap4',
+            dropdownParent: $('#modal-container-lg'),
+            placeholder: "[ SELECCIONAR ]"
+        }).on('hide', function (e) {
+            e.stopPropagation();
         });
 
         function loadForm(url, message) {
@@ -34,4 +146,3 @@ Formulario de asignación
         }
     });
 </script>
-    

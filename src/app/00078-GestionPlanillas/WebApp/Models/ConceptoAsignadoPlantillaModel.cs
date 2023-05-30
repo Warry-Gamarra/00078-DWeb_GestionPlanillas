@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel;
 using System.Linq;
 using System.Web;
 
@@ -7,7 +9,7 @@ namespace WebApp.Models
 {
     public class ConceptoAsignadoPlantillaModel
     {
-        public int plantillaPlanillaConceptoID { get; set; }
+        public int? plantillaPlanillaConceptoID { get; set; }
 
         public int plantillaPlanillaID { get; set; }
 
@@ -29,6 +31,8 @@ namespace WebApp.Models
 
         public bool incluirEnTotalBruto { get; set; }
 
+        [DisplayName("Concepto")]
+        [Required(ErrorMessage = "El {0} es obligatorio.")]
         public int conceptoID { get; set; }
 
         public string conceptoCod { get; set; }
@@ -37,15 +41,17 @@ namespace WebApp.Models
 
         public bool esMontoFijo { get; set; }
 
+        [DisplayName("¿El Monto se obtendrá de un archivo externo?")]
         public bool montoEstaAqui { get; set; }
 
+        [DisplayName("Valor")]
         public decimal? monto { get; set; }
 
-        public bool? aplicarFiltro1 { get; set; }
+        public bool aplicarFiltro1 { get; set; }
 
         public int? filtro1 { get; set; }
 
-        public bool? aplicarFiltro2 { get; set; }
+        public bool aplicarFiltro2 { get; set; }
 
         public int? filtro2 { get; set; }
 

@@ -42,7 +42,7 @@
     </div>
     <div class="container-fluid" id="content-body">
         <div class="table-responsive mb-4">
-            <table class="table table-hover" id="dataTableConceptosAsignados" width="100%" style="min-height: 300px;">
+            <table class="table table-hover" id="dataTableConceptosAsignados" width="100%">
                 <thead class="thead-dark">
                     <tr>
                         <th>Tip.Concepto</th>
@@ -88,89 +88,93 @@
 </div>
 
 <script type="text/javascript">
-    $(document).ready(function () {
-        $('#dataTableConceptosAsignados').DataTable({
-            columnDefs: [
-                {
-                    targets: -2,
-                    render: function (data, type, row) {
-                        let btnClass = (data === true) ? 'success' : 'secondary';
-                        let iClass = (data === true) ? 'check-circle-o' : 'minus-circle';
-                        let estado = (data === true) ? 'Habilitado' : 'Deshabilitado';
-                        let token = $('input[name="__RequestVerificationToken"]').val();
-                        let onClickFunction = `ChangeState(${row[4]}, ${data}, '@Url.Action("CambiarEstadoConcepto", "PlantillaPlanilla")', '${token}', 'dataTableConceptosAsignados')`;
+    $('#dataTableConceptosAsignados').DataTable({
+        columnDefs: [
+            {
+                targets: -2,
+                render: function (data, type, row) {
+                    let btnClass = (data === true) ? 'success' : 'secondary';
+                    let iClass = (data === true) ? 'check-circle-o' : 'minus-circle';
+                    let estado = (data === true) ? 'Habilitado' : 'Deshabilitado';
+                    let token = $('input[name="__RequestVerificationToken"]').val();
+                    let onClickFunction = `ChangeState(${row[4]}, ${data}, '@Url.Action("CambiarEstadoConcepto", "PlantillaPlanilla")', '${token}', 'dataTableConceptosAsignados')`;
 
-                        let html = `<span id="td${row[4]}">` +
-                            `<button type="submit" class="btn btn-xs btn-${btnClass}" onclick="${onClickFunction}">` +
-                            `<i class="fa fa-${iClass}" aria-hidden="true"></i> <span class="d-none d-md-inline-block">${estado}</span>` +
-                            '</button>' +
-                            '</span>';
+                    let html = `<span id="td${row[4]}">` +
+                        `<button type="submit" class="btn btn-xs btn-${btnClass}" onclick="${onClickFunction}">` +
+                        `<i class="fa fa-${iClass}" aria-hidden="true"></i> <span class="d-none d-md-inline-block">${estado}</span>` +
+                        '</button>' +
+                        '</span>';
 
-                        return html;
-                    }
-                },
-                {
-                    targets: -1,
-                    render: function (data, type, row) {
-                        return `<a class="btn-editar" href="@Url.Action("EditarConcepto", "PlantillaPlanilla")/${data}` +
-                            '"><i class="fa fa-pencil-square-o" aria-hidden="true"></i> <span class="d-none d-md-inline-block">Editar</span></a>';
-                    }
+                    return html;
                 }
-            ],
-            "bStateSave": true,
-            bDestroy: true,
-            lengthMenu: [[5, 10], [5, 10, "Todos"]],
-            iDisplayLength: 5,
-            language: {
-                search: "Buscar: ",
-                lengthMenu: "Mostrar _MENU_ filas",
-                info: "Mostrando del _START_ al _END_ de _TOTAL_ elementos.",
-                infoEmpty: "No se encontraron registros.",
-                zeroRecords: "No hay data disponible.",
-                emptyTable: "No hay data disponible.",
-                paginate: {
-                    first: "Primero",
-                    previous: "Previo",
-                    next: "Siguiente",
-                    last: "Último"
-                },
-                aria: {
-                    sortAscending: ": activar para ordenar la columna en orden ascendente",
-                    sortDescending: ": activar para ordenar la columna en orden descendente"
+            },
+            {
+                targets: -1,
+                render: function (data, type, row) {
+                    return `<a class="btn-editar" href="@Url.Action("EditarConcepto", "PlantillaPlanilla")/${data}` +
+                        '"><i class="fa fa-pencil-square-o" aria-hidden="true"></i> <span class="d-none d-md-inline-block">Editar</span></a>';
                 }
             }
-        });
-
-        $('#btn-agregar').on('click', function (event) {
-            event.preventDefault();
-            var url = $(event.currentTarget).attr('href');
-            loadForm(url, 'obteniendo formulario...')
-        });
-
-        function loadForm(url, message) {
-            $('#load-message').html(message);
-
-            $.ajax({
-                url: url,
-                type: "GET",
-                beforeSend: function () {
-                    $('#content-body').hide();
-                    $('#spin-loader').show();
-                },
-                success: function (data) {
-                    $('#content-body').html(data);
-                    setTimeout(function () {
-                        $('#spin-loader').hide();
-                        $('#content-body').show();
-                    }, 300);
-                },
-                error: function (jqXHR, textStatus, errorThrown) {
-                    $('#content-body').html('<p class="alert alert-danger">' + jqXHR.responseText + '</p>');
-                    $('#spin-loader').hide();
-                    $('#content-body').show();
-                }
-            })
+        ],
+        "bStateSave": true,
+        bDestroy: true,
+        lengthMenu: [[5, 10], [5, 10, "Todos"]],
+        iDisplayLength: 5,
+        language: {
+            search: "Buscar: ",
+            lengthMenu: "Mostrar _MENU_ filas",
+            info: "Mostrando del _START_ al _END_ de _TOTAL_ elementos.",
+            infoEmpty: "No se encontraron registros.",
+            zeroRecords: "No hay data disponible.",
+            emptyTable: "No hay data disponible.",
+            paginate: {
+                first: "Primero",
+                previous: "Previo",
+                next: "Siguiente",
+                last: "Último"
+            },
+            aria: {
+                sortAscending: ": activar para ordenar la columna en orden ascendente",
+                sortDescending: ": activar para ordenar la columna en orden descendente"
+            }
         }
     });
+
+    $('.modal-body').on('click', '#btn-agregar', function (event) {
+        event.preventDefault();
+        var url = $(event.currentTarget).attr('href');
+        loadForm(url, 'obteniendo formulario...')
+    });
+
+    $('.modal-body').on('click', '.btn-editar', function (event) {
+        event.preventDefault();
+        var url = $(event.currentTarget).attr('href');
+        loadForm(url, 'obteniendo datos del concepto...');
+    });
+
+    function loadForm(url, message) {
+        $('#load-message').html(message);
+
+        $.ajax({
+            url: url,
+            type: "GET",
+            beforeSend: function () {
+                $('#content-body').hide();
+                $('#spin-loader').show();
+            },
+            success: function (data) {
+                $('#content-body').html(data);
+                setTimeout(function () {
+                    $('#spin-loader').hide();
+                    $('#content-body').show();
+                }, 300);
+            },
+            error: function (jqXHR, textStatus, errorThrown) {
+                $('#content-body').html('<p class="alert alert-danger">' + jqXHR.responseText + '</p>');
+                $('#spin-loader').hide();
+                $('#content-body').show();
+            }
+        })
+    }
 </script>
 
