@@ -32,7 +32,7 @@ namespace WebApp.ServiceFacade.Implementations
                     plantillaPlanillaID = model.plantillaPlanillaID,
                     conceptoID = model.conceptoID,
                     esMontoFijo = model.esMontoFijo,
-                    montoEstaAqui = model.montoEstaAqui,
+                    montoEstaAqui = !model.montoEstaAqui,
                     monto = model.monto,
                     aplicarFiltro1 = model.aplicarFiltro1,
                     filtro1 = model.filtro1,

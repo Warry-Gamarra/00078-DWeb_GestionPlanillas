@@ -29,6 +29,8 @@
                 }
             </dd>
         </dl>
+
+        <hr />
     </div>
     <div class="container-fluid" id="spin-loader" style="display:none;">
         <div class="d-flex justify-content-center">
@@ -93,9 +95,10 @@
             {
                 targets: -2,
                 render: function (data, type, row) {
-                    let btnClass = (data === true) ? 'success' : 'secondary';
-                    let iClass = (data === true) ? 'check-circle-o' : 'minus-circle';
-                    let estado = (data === true) ? 'Habilitado' : 'Deshabilitado';
+                    debugger;
+                    let btnClass = (data === "true") ? 'success' : 'secondary';
+                    let iClass = (data === "true") ? 'check-circle-o' : 'minus-circle';
+                    let estado = (data === "true") ? 'Habilitado' : 'Deshabilitado';
                     let token = $('input[name="__RequestVerificationToken"]').val();
                     let onClickFunction = `ChangeState(${row[4]}, ${data}, '@Url.Action("CambiarEstadoConcepto", "PlantillaPlanilla")', '${token}', 'dataTableConceptosAsignados')`;
 

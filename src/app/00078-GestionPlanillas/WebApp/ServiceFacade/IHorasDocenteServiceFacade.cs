@@ -9,6 +9,6 @@ namespace WebApp.ServiceFacade
 {
     public interface IHorasDocenteServiceFacade
     {
-        SelectList ListarHorasDedicacionDocente();
+        SelectList ListarHorasDedicacionDocente(int? selectedItem = null);
     }
 }

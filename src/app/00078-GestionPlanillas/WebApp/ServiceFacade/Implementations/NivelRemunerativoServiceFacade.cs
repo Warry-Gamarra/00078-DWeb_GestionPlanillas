@@ -16,11 +16,19 @@ namespace WebApp.ServiceFacade.Implementations
             _nivelRemunerativoService = new NivelRemunerativoService();
         }
 
-        public SelectList ListarNivelesRemunerativos(bool incluirDeshabilitados = false)
+        public SelectList ListarNivelesRemunerativos(bool incluirDeshabilitados = false, int? selectedItem = null)
         {
             var lista = _nivelRemunerativoService.ListarNivelesRemunerativos(incluirDeshabilitados);
 
-            return new SelectList(lista, "I_NivelRemunerativoID", "T_NivelRemunerativoDesc");
+
+            if (selectedItem.HasValue)
+            {
+                return new SelectList(lista, "I_NivelRemunerativoID", "T_NivelRemunerativoDesc", selectedItem.Value);
+            }
+            else
+            {
+                return new SelectList(lista, "I_NivelRemunerativoID", "T_NivelRemunerativoDesc");
+            }
         }
     }
 }

@@ -17,11 +17,18 @@ namespace WebApp.ServiceFacade.Implementations
             _grupoOcupacionalService = new GrupoOcupacionalService();
         }
 
-        public SelectList ListarGruposOcupacionales(bool incluirDeshabilitados = false)
+        public SelectList ListarGruposOcupacionales(bool incluirDeshabilitados = false, int? selectedItem = null)
         {
             var lista = _grupoOcupacionalService.ListarGruposOcupacionales(incluirDeshabilitados);
 
-            return new SelectList(lista, "I_GrupoOcupacionalID", "T_GrupoOcupacionalDesc");
+            if (selectedItem.HasValue)
+            {
+                return new SelectList(lista, "I_GrupoOcupacionalID", "T_GrupoOcupacionalDesc", selectedItem.Value);
+            }
+            else
+            {
+                return new SelectList(lista, "I_GrupoOcupacionalID", "T_GrupoOcupacionalDesc");
+            }
         }
     }
 }

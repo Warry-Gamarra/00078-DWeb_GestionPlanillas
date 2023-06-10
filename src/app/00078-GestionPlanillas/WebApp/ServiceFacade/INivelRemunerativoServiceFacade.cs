@@ -9,6 +9,6 @@ namespace WebApp.ServiceFacade
 {
     public interface INivelRemunerativoServiceFacade
     {
-        SelectList ListarNivelesRemunerativos(bool incluirDeshabilitados = false);
+        SelectList ListarNivelesRemunerativos(bool incluirDeshabilitados = false, int? selectedItem = null);
     }
 }

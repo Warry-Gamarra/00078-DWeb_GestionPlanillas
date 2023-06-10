@@ -44,7 +44,7 @@ namespace WebApp.Models
         [DisplayName("¿El Monto se obtendrá de un archivo externo?")]
         public bool montoEstaAqui { get; set; }
 
-        [DisplayName("Valor")]
+        [DisplayName("Monto/Porcentaje")]
         public decimal? monto { get; set; }
 
         public bool aplicarFiltro1 { get; set; }

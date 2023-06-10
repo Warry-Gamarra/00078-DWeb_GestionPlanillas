@@ -17,7 +17,7 @@ namespace WebApp.ServiceFacade.Implementations
             _horasDocenteService = new HorasDocenteService();
         }
 
-        public SelectList ListarHorasDedicacionDocente()
+        public SelectList ListarHorasDedicacionDocente(int? selectedItem = null)
         {
             var result = new List<SelectListItem>();
 
@@ -27,11 +27,12 @@ namespace WebApp.ServiceFacade.Implementations
             {
                 var optionGroup = new SelectListGroup() { Name = group.Key };
 
-                var range = group.Select(x => new SelectListItem() 
+                var range = group.Select(x => new SelectListItem()
                 {
                     Value = x.I_HorasDocenteID.ToString(),
                     Text = String.Format("{0} / {1}", x.C_DedicacionDocenteCod,x.I_Horas.ToString()),
-                    Group = optionGroup
+                    Group = optionGroup,
+                    Selected = selectedItem.HasValue ? x.I_HorasDocenteID == selectedItem.Value : false
                 });
 
                 result.AddRange(

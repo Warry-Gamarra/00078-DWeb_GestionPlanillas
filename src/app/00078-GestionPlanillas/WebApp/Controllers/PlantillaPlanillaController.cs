@@ -1,5 +1,6 @@
 ﻿using Domain.Enums;
 using Domain.Helpers;
+using Microsoft.Ajax.Utilities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -19,12 +20,24 @@ namespace WebApp.Controllers
         private IPlantillaPlanillaServiceFacade _plantillaPlanillaServiceFacade;
         private IPlantillaPlanillaConceptoServiceFacade _plantillaPlanillaConceptoServiceFacade;
 
+        private INivelRemunerativoServiceFacade _nivelRemunerativoServiceFacade;
+        private IGrupoOcupacionalServiceFacade _grupoOcupacionalServiceFacade;
+
+        private ICategoriaDocenteServiceFacade _categoriaDocenteServiceFacade;
+        private IHorasDocenteServiceFacade _horasDocenteServiceFacade;
+
         public PlantillaPlanillaController()
         {
             _categoriaPlanillaServiceFacade = new CategoriaPlanillaServiceFacade();
             _conceptoServiceFacade = new ConceptoServiceFacade();
             _plantillaPlanillaServiceFacade = new PlantillaPlanillaServiceFacade();
             _plantillaPlanillaConceptoServiceFacade = new PlantillaPlanillaConceptoServiceFacade();
+
+            _nivelRemunerativoServiceFacade = new NivelRemunerativoServiceFacade();
+            _grupoOcupacionalServiceFacade = new GrupoOcupacionalServiceFacade();
+
+            _categoriaDocenteServiceFacade = new CategoriaDocenteServiceFacade();
+            _horasDocenteServiceFacade = new HorasDocenteServiceFacade();
         }
 
         [HttpGet]
@@ -149,7 +162,28 @@ namespace WebApp.Controllers
 
             ViewBag.Action = "RegistrarConcepto";
 
+            var plantilla = _plantillaPlanillaServiceFacade.ObtenerPlantillaPlanilla(id);
+
             ViewBag.ListaConceptos = _conceptoServiceFacade.ListarConceptos(false);
+
+            if (plantilla.categoriaPlanillaID == 1)
+            {
+                ViewBag.Filtro1 = _grupoOcupacionalServiceFacade.ListarGruposOcupacionales();
+
+                ViewBag.Filtro2 = _nivelRemunerativoServiceFacade.ListarNivelesRemunerativos();
+            }
+            else if (plantilla.categoriaPlanillaID == 2)
+            {
+                ViewBag.Filtro1 = _categoriaDocenteServiceFacade.ListarCategoriasDocente();
+
+                ViewBag.Filtro2 = _horasDocenteServiceFacade.ListarHorasDedicacionDocente();
+            }
+            else
+            {
+                ViewBag.Filtro1 = new SelectList(new List<SelectListItem>());
+
+                ViewBag.Filtro2 = new SelectList(new List<SelectListItem>());
+            }
 
             var model = new ConceptoAsignadoPlantillaModel()
             {
@@ -186,9 +220,30 @@ namespace WebApp.Controllers
 
             ViewBag.Action = "ActualizarConcepto";
 
+            var model = _plantillaPlanillaConceptoServiceFacade.ObtenerPlantillaPlanillaConcepto(id);
+
+            var plantilla = _plantillaPlanillaServiceFacade.ObtenerPlantillaPlanilla(model.plantillaPlanillaID);
+
             ViewBag.ListaConceptos = _conceptoServiceFacade.ListarConceptos(true);
 
-            var model = _plantillaPlanillaConceptoServiceFacade.ObtenerPlantillaPlanillaConcepto(id);
+            if (plantilla.categoriaPlanillaID == 1)
+            {
+                ViewBag.Filtro1 = _grupoOcupacionalServiceFacade.ListarGruposOcupacionales(selectedItem: model.filtro1);
+
+                ViewBag.Filtro2 = _nivelRemunerativoServiceFacade.ListarNivelesRemunerativos(selectedItem: model.filtro2);
+            }
+            else if (plantilla.categoriaPlanillaID == 2)
+            {
+                ViewBag.Filtro1 = _categoriaDocenteServiceFacade.ListarCategoriasDocente(selectedItem: model.filtro1);
+
+                ViewBag.Filtro2 = _horasDocenteServiceFacade.ListarHorasDedicacionDocente(selectedItem: model.filtro2);
+            }
+            else
+            {
+                ViewBag.Filtro1 = new SelectList(new List<SelectListItem>());
+
+                ViewBag.Filtro2 = new SelectList(new List<SelectListItem>());
+            }
 
             return PartialView("_MantenimientoAsignacionConcepto", model);
         }
@@ -211,6 +266,15 @@ namespace WebApp.Controllers
             ViewBag.PlantillaPlanillaID = model.plantillaPlanillaID;
 
             return PartialView("_MsgRegistrarPlantillaPlanillaConcepto", response);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public JsonResult CambiarEstadoConcepto(int rowID, bool estaHabilitado)
+        {
+            var result = _plantillaPlanillaConceptoServiceFacade.CambiarEstado(rowID, estaHabilitado, WebSecurity.CurrentUserId);
+
+            return Json(result, JsonRequestBehavior.AllowGet);
         }
     }
 }
