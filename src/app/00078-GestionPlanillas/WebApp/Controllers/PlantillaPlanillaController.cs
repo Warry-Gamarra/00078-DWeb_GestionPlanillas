@@ -168,21 +168,21 @@ namespace WebApp.Controllers
 
             if (plantilla.categoriaPlanillaID == 1)
             {
-                ViewBag.Filtro1 = _grupoOcupacionalServiceFacade.ListarGruposOcupacionales();
+                ViewBag.ListaFiltro1 = _grupoOcupacionalServiceFacade.ListarGruposOcupacionales();
 
-                ViewBag.Filtro2 = _nivelRemunerativoServiceFacade.ListarNivelesRemunerativos();
+                ViewBag.ListaFiltro2 = _nivelRemunerativoServiceFacade.ListarNivelesRemunerativos();
             }
             else if (plantilla.categoriaPlanillaID == 2)
             {
-                ViewBag.Filtro1 = _categoriaDocenteServiceFacade.ListarCategoriasDocente();
+                ViewBag.ListaFiltro1 = _categoriaDocenteServiceFacade.ListarCategoriasDocente();
 
-                ViewBag.Filtro2 = _horasDocenteServiceFacade.ListarHorasDedicacionDocente();
+                ViewBag.ListaFiltro2 = _horasDocenteServiceFacade.ListarHorasDedicacionDocente();
             }
             else
             {
-                ViewBag.Filtro1 = new SelectList(new List<SelectListItem>());
+                ViewBag.ListaFiltro1 = new SelectList(new List<SelectListItem>());
 
-                ViewBag.Filtro2 = new SelectList(new List<SelectListItem>());
+                ViewBag.ListaFiltro2 = new SelectList(new List<SelectListItem>());
             }
 
             var model = new ConceptoAsignadoPlantillaModel()
@@ -228,21 +228,21 @@ namespace WebApp.Controllers
 
             if (plantilla.categoriaPlanillaID == 1)
             {
-                ViewBag.Filtro1 = _grupoOcupacionalServiceFacade.ListarGruposOcupacionales(selectedItem: model.filtro1);
+                ViewBag.ListaFiltro1 = _grupoOcupacionalServiceFacade.ListarGruposOcupacionales(selectedItem: model.filtro1);
 
-                ViewBag.Filtro2 = _nivelRemunerativoServiceFacade.ListarNivelesRemunerativos(selectedItem: model.filtro2);
+                ViewBag.ListaFiltro2 = _nivelRemunerativoServiceFacade.ListarNivelesRemunerativos(selectedItem: model.filtro2);
             }
             else if (plantilla.categoriaPlanillaID == 2)
             {
-                ViewBag.Filtro1 = _categoriaDocenteServiceFacade.ListarCategoriasDocente(selectedItem: model.filtro1);
+                ViewBag.ListaFiltro1 = _categoriaDocenteServiceFacade.ListarCategoriasDocente(selectedItem: model.filtro1);
 
-                ViewBag.Filtro2 = _horasDocenteServiceFacade.ListarHorasDedicacionDocente(selectedItem: model.filtro2);
+                ViewBag.ListaFiltro2 = _horasDocenteServiceFacade.ListarHorasDedicacionDocente(selectedItem: model.filtro2);
             }
             else
             {
-                ViewBag.Filtro1 = new SelectList(new List<SelectListItem>());
+                ViewBag.ListaFiltro1 = new SelectList(new List<SelectListItem>());
 
-                ViewBag.Filtro2 = new SelectList(new List<SelectListItem>());
+                ViewBag.ListaFiltro2 = new SelectList(new List<SelectListItem>());
             }
 
             return PartialView("_MantenimientoAsignacionConcepto", model);
