@@ -61,7 +61,7 @@ GO
 CREATE VIEW [dbo].[VW_Conceptos]
 AS
 SELECT 
-	c.I_ConceptoID, c.I_TipoConceptoID, c.C_ConceptoCod, c.T_ConceptoDesc, c.B_Habilitado, tc.T_TipoConceptoDesc
+	c.I_ConceptoID, c.I_TipoConceptoID, c.C_ConceptoCod, c.T_ConceptoDesc, c.T_ConceptoAbrv, c.B_Habilitado, tc.T_TipoConceptoDesc
 FROM dbo.TC_Concepto c
 INNER JOIN dbo.TC_TipoConcepto tc ON tc.I_TipoConceptoID = c.I_TipoConceptoID
 WHERE c.B_Eliminado = 0 AND tc.B_Eliminado = 0
@@ -160,7 +160,7 @@ SELECT
 	cp.I_CategoriaPlanillaID, cp.T_CategoriaPlanillaDesc, 
 	cl.I_ClasePlanillaID, cl.T_ClasePlanillaDesc,
 	t.I_TipoConceptoID, t.T_TipoConceptoDesc, t.B_EsAdicion, t.B_IncluirEnTotalBruto, 
-	c.I_ConceptoID, c.C_ConceptoCod, c.T_ConceptoDesc, 
+	c.I_ConceptoID, c.C_ConceptoCod, c.T_ConceptoDesc, c.T_ConceptoAbrv, 
 	ppc.B_EsMontoFijo, ppc.B_MontoEstaAqui, ppc.M_Monto, 
 	ppc.B_AplicarFiltro1, ppc.I_Filtro1, ppc.B_AplicarFiltro2, ppc.I_Filtro2,
 	ppc.B_Habilitado

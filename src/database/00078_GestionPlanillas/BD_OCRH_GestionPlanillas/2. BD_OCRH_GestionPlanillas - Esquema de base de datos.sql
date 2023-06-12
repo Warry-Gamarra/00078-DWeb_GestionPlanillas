@@ -183,6 +183,7 @@ CREATE TABLE TC_Concepto
 	I_TipoConceptoID INT NOT NULL,
 	C_ConceptoCod VARCHAR(20) NOT NULL,
 	T_ConceptoDesc VARCHAR(250) NOT NULL,
+	T_ConceptoAbrv VARCHAR(250),
 	B_Habilitado BIT NOT NULL,
 	B_Eliminado BIT NOT NULL,
 	I_UsuarioCre INT,

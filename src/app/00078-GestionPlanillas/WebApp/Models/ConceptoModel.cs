@@ -25,6 +25,9 @@ namespace WebApp.Models
         [Required(ErrorMessage = "La {0} es obligatorio.")]
         public string conceptoDesc { get; set; }
 
+        [DisplayName("Abreviatura")]
+        public string conceptoAbrv { get; set; }
+
         public bool estaHabilitado { get; set; }
     }
 }

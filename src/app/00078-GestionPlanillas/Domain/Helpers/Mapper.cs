@@ -366,6 +366,7 @@ namespace Domain.Helpers
                 tipoConceptoDesc = view.T_TipoConceptoDesc,
                 conceptoCod = view.C_ConceptoCod,
                 conceptoDesc = view.T_ConceptoDesc,
+                conceptoAbrv = view.T_ConceptoAbrv,
                 estaHabilitado = view.B_Habilitado
             };
 

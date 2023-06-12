@@ -81,7 +81,7 @@
             </table>
         </div>
         <div class="modal-footer" id="div_msg">
-            <a href="@Url.Action("AsignarConcepto","PlantillaPlanilla", new { id = ViewBag.PlantillaPlanillaID })" class="btn btn-primary" id="btn-agregar">
+            <a href="@Url.Action("Asignar","PlantillaPlanillaConcepto", new { id = ViewBag.PlantillaPlanillaID })" class="btn btn-primary" id="btn-agregar">
                 <i class="fa fa-plus-circle" aria-hidden="true"></i>&nbsp;Agregar concepto
             </a>
             <button type="button" class="btn btn-secondary" id="btnCancel" data-dismiss="modal"><i class="fa fa-times-circle-o"></i>&nbsp;Cerrar</button>
@@ -100,7 +100,7 @@
                     let iClass = (data === "true") ? 'check-circle-o' : 'minus-circle';
                     let estado = (data === "true") ? 'Habilitado' : 'Deshabilitado';
                     let token = $('input[name="__RequestVerificationToken"]').val();
-                    let onClickFunction = `ChangeState(${row[4]}, ${data}, '@Url.Action("CambiarEstadoConcepto", "PlantillaPlanilla")', '${token}', 'dataTableConceptosAsignados')`;
+                    let onClickFunction = `ChangeState(${row[4]}, ${data}, '@Url.Action("CambiarEstado", "PlantillaPlanillaConcepto")', '${token}', 'dataTableConceptosAsignados')`;
 
                     let html = `<span id="td${row[4]}">` +
                         `<button type="submit" class="btn btn-xs btn-${btnClass}" onclick="${onClickFunction}">` +
@@ -114,7 +114,7 @@
             {
                 targets: -1,
                 render: function (data, type, row) {
-                    return `<a class="btn-editar" href="@Url.Action("EditarConcepto", "PlantillaPlanilla")/${data}` +
+                    return `<a class="btn-editar" href="@Url.Action("Editar", "PlantillaPlanillaConcepto")/${data}` +
                         '"><i class="fa fa-pencil-square-o" aria-hidden="true"></i> <span class="d-none d-md-inline-block">Editar</span></a>';
                 }
             }

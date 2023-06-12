@@ -1,7 +1,7 @@
 ﻿@model WebApp.Models.ConceptoAsignadoPlantillaModel
 @Scripts.Render("~/bundles/jqueryval")
 
-@using (Ajax.BeginForm((string)ViewBag.Action, "PlantillaPlanilla", new { area = "" }, new AjaxOptions
+@using (Ajax.BeginForm((string)ViewBag.Action, "PlantillaPlanillaConcepto", new { area = "" }, new AjaxOptions
 {
     HttpMethod = "POST",
     InsertionMode = InsertionMode.Replace,
@@ -90,7 +90,7 @@
 }
 
 <div class="modal-footer mt-4" id="div_msg">
-    <a href="@Url.Action("ConceptosAsignados","PlantillaPlanilla", new { id = Model.plantillaPlanillaID })" class="btn btn-outline-primary" id="btn-return">
+    <a href="@Url.Action("ConceptosAsignados","PlantillaPlanillaConcepto", new { id = Model.plantillaPlanillaID })" class="btn btn-outline-primary" id="btn-return">
         <i class="fa fa-arrow-left" aria-hidden="true"></i>&nbsp;Volver a la lista
     </a>
     <button type="button" class="btn btn-secondary" id="btnCancel" data-dismiss="modal"><i class="fa fa-times-circle-o"></i>&nbsp;Cerrar</button>

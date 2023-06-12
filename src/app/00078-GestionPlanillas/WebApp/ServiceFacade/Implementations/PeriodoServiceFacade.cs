@@ -24,7 +24,8 @@ namespace WebApp.ServiceFacade.Implementations
             var result = new List<SelectListItem>();
 
             lista.ForEach(x => {
-                var item = new SelectListItem() {
+                var item = new SelectListItem()
+                {
                     Value = x.ToString(),
                     Text = x.ToString()
                 };

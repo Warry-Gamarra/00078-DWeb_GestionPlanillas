@@ -184,6 +184,7 @@ namespace WebApp.Models
                 tipoConceptoDesc = dto.tipoConceptoDesc,
                 conceptoCod = dto.conceptoCod,
                 conceptoDesc = dto.conceptoDesc,
+                conceptoAbrv = dto.conceptoAbrv,
                 estaHabilitado = dto.estaHabilitado
             };
 

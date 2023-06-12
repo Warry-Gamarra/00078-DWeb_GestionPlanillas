@@ -721,6 +721,7 @@ CREATE PROCEDURE USP_I_RegistrarConcepto
 @I_TipoConceptoID INT,
 @C_ConceptoCod VARCHAR(20),
 @T_ConceptoDesc VARCHAR(250),
+@T_ConceptoAbrv VARCHAR(250),
 @I_UserID INT,
 @B_Result BIT OUTPUT,
 @T_Message VARCHAR(250) OUTPUT
@@ -730,8 +731,8 @@ BEGIN
 	
 	BEGIN TRAN
 	BEGIN TRY
-		INSERT dbo.TC_Concepto(I_TipoConceptoID, C_ConceptoCod, T_ConceptoDesc, B_Habilitado, B_Eliminado, I_UsuarioCre, D_FecCre)
-		VALUES(@I_TipoConceptoID, @C_ConceptoCod, @T_ConceptoDesc, 1, 0, @I_UserID, GETDATE())
+		INSERT dbo.TC_Concepto(I_TipoConceptoID, C_ConceptoCod, T_ConceptoDesc, T_ConceptoAbrv, B_Habilitado, B_Eliminado, I_UsuarioCre, D_FecCre)
+		VALUES(@I_TipoConceptoID, @C_ConceptoCod, @T_ConceptoDesc, @T_ConceptoAbrv, 1, 0, @I_UserID, GETDATE())
 
 		COMMIT TRAN
 		SET @B_Result = 1
@@ -756,6 +757,7 @@ CREATE PROCEDURE USP_U_ActualizarConcepto
 @I_TipoConceptoID INT,
 @C_ConceptoCod VARCHAR(20),
 @T_ConceptoDesc VARCHAR(250),
+@T_ConceptoAbrv VARCHAR(250),
 @I_UserID INT,
 @B_Result BIT OUTPUT,
 @T_Message VARCHAR(250) OUTPUT
@@ -769,6 +771,7 @@ BEGIN
 			I_TipoConceptoID = @I_TipoConceptoID,
 			C_ConceptoCod = @C_ConceptoCod,
 			T_ConceptoDesc = @T_ConceptoDesc,
+			T_ConceptoAbrv = @T_ConceptoAbrv,
 			I_UsuarioMod = @I_UserID,
 			D_FecMod = GETDATE()
 		WHERE I_ConceptoID = @I_ConceptoID

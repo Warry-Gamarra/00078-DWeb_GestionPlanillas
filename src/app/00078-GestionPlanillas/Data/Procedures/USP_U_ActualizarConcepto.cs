@@ -20,6 +20,8 @@ namespace Data.Procedures
 
         public string T_ConceptoDesc { get; set; }
 
+        public string T_ConceptoAbrv { get; set; }
+
         public int I_UserID { get; set; }
 
         public Result Execute()
@@ -39,6 +41,7 @@ namespace Data.Procedures
                     parameters.Add(name: "I_TipoConceptoID", dbType: DbType.Int32, value: I_TipoConceptoID);
                     parameters.Add(name: "C_ConceptoCod", dbType: DbType.String, value: C_ConceptoCod);
                     parameters.Add(name: "T_ConceptoDesc", dbType: DbType.String, value: T_ConceptoDesc);
+                    parameters.Add(name: "T_ConceptoAbrv", dbType: DbType.String, value: T_ConceptoAbrv);
                     parameters.Add(name: "I_UserID", dbType: DbType.Int32, value: I_UserID);
                     parameters.Add(name: "B_Result", dbType: DbType.Boolean, direction: ParameterDirection.Output);
                     parameters.Add(name: "T_Message", dbType: DbType.String, size: 4000, direction: ParameterDirection.Output);

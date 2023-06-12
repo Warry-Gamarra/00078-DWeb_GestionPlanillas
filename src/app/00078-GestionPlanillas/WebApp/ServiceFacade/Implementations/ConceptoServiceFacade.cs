@@ -3,6 +3,7 @@ using Domain.Enums;
 using Domain.Helpers;
 using Domain.Services;
 using Domain.Services.Implementations;
+using Microsoft.Ajax.Utilities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -49,7 +50,8 @@ namespace WebApp.ServiceFacade.Implementations
                         conceptoID = model.conceptoID,
                         tipoConceptoID = model.tipoConceptoID,
                         conceptoCod = model.conceptoCod,
-                        conceptoDesc = model.conceptoDesc
+                        conceptoDesc = model.conceptoDesc,
+                        conceptoAbrv = model.conceptoAbrv
                     };
 
                     response = _conceptoService.GrabarConcepto(operacion, conceptoEntity, userID);
@@ -86,7 +88,20 @@ namespace WebApp.ServiceFacade.Implementations
         {
             var lista = _conceptoService.ListarConceptos(incluirDeshabilitados);
 
-            return new SelectList(lista, "conceptoID", "conceptoDesc");
+            var result = new List<SelectListItem>();
+
+            lista.ForEach(x => {
+                var item = new SelectListItem()
+                {
+                    Value = x.conceptoID.ToString(),
+                    Text = String.Format("{0} - {1}{2}", x.conceptoCod, x.conceptoDesc.ToString(), 
+                        (x.conceptoAbrv != null && x.conceptoAbrv.Length > 0 ? " (" + x.conceptoAbrv + ")" : "" ))
+                };
+
+                result.Add(item);
+            });
+
+            return new SelectList(result, "Value", "Text");
         }
 
         public ConceptoModel ObtenerConcepto(int conceptoID)

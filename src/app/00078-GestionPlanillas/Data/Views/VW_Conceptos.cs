@@ -19,6 +19,8 @@ namespace Data.Views
 
         public string T_ConceptoDesc { get; set; }
 
+        public string T_ConceptoAbrv { get; set; }
+
         public bool B_Habilitado { get; set; }
 
         public string T_TipoConceptoDesc { get; set; }

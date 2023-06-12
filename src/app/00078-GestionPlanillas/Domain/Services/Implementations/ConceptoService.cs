@@ -30,6 +30,7 @@ namespace Domain.Services.Implementations
                             I_TipoConceptoID = conceptoEntity.tipoConceptoID,
                             C_ConceptoCod = conceptoEntity.conceptoCod,
                             T_ConceptoDesc = conceptoEntity.conceptoDesc,
+                            T_ConceptoAbrv = conceptoEntity.conceptoAbrv,
                             I_UserID = userID
                         };
 
@@ -45,6 +46,7 @@ namespace Domain.Services.Implementations
                             I_TipoConceptoID = conceptoEntity.tipoConceptoID,
                             C_ConceptoCod = conceptoEntity.conceptoCod,
                             T_ConceptoDesc = conceptoEntity.conceptoDesc,
+                            T_ConceptoAbrv = conceptoEntity.conceptoAbrv,
                             I_UserID = userID
                         };
 

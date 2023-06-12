@@ -133,6 +133,7 @@
     <Compile Include="Controllers\ConceptosController.cs" />
     <Compile Include="Controllers\GeneralController.cs" />
     <Compile Include="Controllers\PlanillasController.cs" />
+    <Compile Include="Controllers\PlantillaPlanillaConceptoController.cs" />
     <Compile Include="Controllers\PlantillaPlanillaController.cs" />
     <Compile Include="Controllers\TrabajadoresController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
@@ -450,9 +451,9 @@
     <Content Include="Views\Conceptos\_MsgRegistrarConcepto.cshtml" />
     <Content Include="Views\PlantillaPlanilla\_MantenimientoPlantillaPlanilla.cshtml" />
     <Content Include="Views\PlantillaPlanilla\_MsgRegistrarPlantillaPlanilla.cshtml" />
-    <Content Include="Views\PlantillaPlanilla\_ConceptosAsignados.cshtml" />
-    <Content Include="Views\PlantillaPlanilla\_MantenimientoAsignacionConcepto.cshtml" />
-    <Content Include="Views\PlantillaPlanilla\_MsgRegistrarPlantillaPlanillaConcepto.cshtml" />
+    <Content Include="Views\PlantillaPlanillaConcepto\_ConceptosAsignados.cshtml" />
+    <Content Include="Views\PlantillaPlanillaConcepto\_MantenimientoAsignacionConcepto.cshtml" />
+    <Content Include="Views\PlantillaPlanillaConcepto\_MsgRegistrarPlantillaPlanillaConcepto.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
