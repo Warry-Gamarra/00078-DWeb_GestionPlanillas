@@ -20,11 +20,11 @@ namespace Domain.Entities
 
         public decimal? valorConcepto { get; set; }
 
-        public bool? aplicarFiltro1 { get; set; }
+        public bool aplicarFiltro1 { get; set; }
 
         public int? filtro1 { get; set; }
 
-        public bool? aplicarFiltro2 { get; set; }
+        public bool aplicarFiltro2 { get; set; }
 
         public int? filtro2 { get; set; }
     }

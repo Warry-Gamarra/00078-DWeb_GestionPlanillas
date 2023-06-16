@@ -24,11 +24,11 @@ namespace Data.Procedures
 
         public decimal? M_ValorConcepto { get; set; }
 
-        public bool? B_AplicarFiltro1 { get; set; }
+        public bool B_AplicarFiltro1 { get; set; }
 
         public int? I_Filtro1 { get; set; }
 
-        public bool? B_AplicarFiltro2 { get; set; }
+        public bool B_AplicarFiltro2 { get; set; }
 
         public int? I_Filtro2 { get; set; }
 

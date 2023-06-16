@@ -217,9 +217,9 @@ CREATE TABLE TI_PlantillaPlanilla_Concepto
 	B_EsValorFijo BIT NOT NULL,
 	B_ValorEsExterno BIT NOT NULL,
 	M_ValorConcepto DECIMAL(15,2),
-	B_AplicarFiltro1 BIT,
+	B_AplicarFiltro1 BIT NOT NULL,
 	I_Filtro1 INT,
-	B_AplicarFiltro2 BIT,
+	B_AplicarFiltro2 BIT NOT NULL,
 	I_Filtro2 INT,
 	B_Habilitado BIT NOT NULL,
 	B_Eliminado BIT NOT NULL,
@@ -230,6 +230,22 @@ CREATE TABLE TI_PlantillaPlanilla_Concepto
 	CONSTRAINT PK_PlantillaPlanillaConcepto PRIMARY KEY (I_PlantillaPlanillaConceptoID),
 	CONSTRAINT FK_PlantillaPlanilla_PlantillaPlanillaConcepto FOREIGN KEY (I_PlantillaPlanillaID) REFERENCES TI_PlantillaPlanilla(I_PlantillaPlanillaID),
 	CONSTRAINT FK_Concepto_PlantillaPlanillaConcepto FOREIGN KEY (I_ConceptoID) REFERENCES TC_Concepto(I_ConceptoID)
+)
+
+CREATE TABLE TI_PlantillaPlanilla_Concepto_Incluido
+(
+	I_PlantillaPlanillaConceptoIncluidoID INT IDENTITY(1, 1),
+	I_PlantillaPlanillaConceptoID INT NOT NULL,
+	I_PlantillaPlanillaConceptoBaseID INT NOT NULL,
+	B_Habilitado BIT NOT NULL,
+	B_Eliminado BIT NOT NULL,
+	I_UsuarioCre INT,
+	D_FecCre DATETIME,
+	I_UsuarioMod INT,
+	D_FecMod DATETIME,
+	CONSTRAINT PK_PlantillaPlanillaConceptoIncluido PRIMARY KEY (I_PlantillaPlanillaConceptoIncluidoID),
+	CONSTRAINT FK_PlantillaPlanillaConcepto_PlantillaPlanillaConceptoIncluido1 FOREIGN KEY (I_PlantillaPlanillaConceptoID) REFERENCES TI_PlantillaPlanilla_Concepto(I_PlantillaPlanillaConceptoID),
+	CONSTRAINT FK_PlantillaPlanillaConcepto_PlantillaPlanillaConceptoIncluido2 FOREIGN KEY (I_PlantillaPlanillaConceptoBaseID) REFERENCES TI_PlantillaPlanilla_Concepto(I_PlantillaPlanillaConceptoID),
 )
 
 CREATE TABLE TC_TipoDocumento

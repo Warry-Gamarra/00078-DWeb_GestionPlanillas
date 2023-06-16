@@ -62,9 +62,13 @@ namespace Domain.Services.Implementations
                             throw new Exception("Ha ocurrido un error al obtener los datos. Por favor recargue la página y vuelva a intentarlo.");
                         }
 
-                        var conceptoDTO = ListarConceptos().Where(x => x.conceptoCod == conceptoEntity.conceptoCod).FirstOrDefault();
+                        var conceptoDTO = ListarConceptos()
+                            .Where(x =>
+                                x.conceptoID != conceptoEntity.conceptoID.Value &&
+                                x.conceptoCod == conceptoEntity.conceptoCod)
+                            .FirstOrDefault();
 
-                        if (conceptoDTO != null && conceptoDTO.conceptoID != conceptoEntity.conceptoID.Value)
+                        if (conceptoDTO != null)
                         {
                             esCodigoConceptoUnico = false;
                         }

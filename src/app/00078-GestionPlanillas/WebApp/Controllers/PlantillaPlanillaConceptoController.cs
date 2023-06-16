@@ -95,7 +95,8 @@ namespace WebApp.Controllers
 
             var model = new ConceptoAsignadoPlantillaModel()
             {
-                plantillaPlanillaID = id
+                plantillaPlanillaID = id,
+                esValorFijo = true
             };
 
             return PartialView("_MantenimientoAsignacionConcepto", model);

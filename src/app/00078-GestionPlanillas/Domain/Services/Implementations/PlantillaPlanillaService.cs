@@ -61,11 +61,12 @@ namespace Domain.Services.Implementations
                         }
 
                         var plantillaPlanillaDTO = ListarPlantillasPlanilla()
-                            .Where(x => x.categoriaPlanillaID == plantillaPlanillaEntity.categoriaPlanillaID)
+                            .Where(x => 
+                                x.plantillaPlanillaID != plantillaPlanillaEntity.plantillaPlanillaID.Value &&
+                                x.categoriaPlanillaID == plantillaPlanillaEntity.categoriaPlanillaID)
                             .FirstOrDefault();
 
-                        if (plantillaPlanillaDTO != null && plantillaPlanillaEntity.estaHabilitado &&
-                            plantillaPlanillaDTO.plantillaPlanillaID != plantillaPlanillaEntity.plantillaPlanillaID.Value)
+                        if (plantillaPlanillaDTO != null && plantillaPlanillaEntity.estaHabilitado)
                         {
                             existeOtraPlantillaHabilitada = true;
                         }

@@ -53,11 +53,11 @@ namespace WebApp.Models
             {
                 if (esValorFijo)
                 {
-                    return valorEsExterno ? "" : valorConcepto.HasValue ? ("S/. " + valorConcepto.Value.ToString()) : "";
+                    return valorEsExterno ? "S/ -" : valorConcepto.HasValue ? ("S/ " + valorConcepto.Value.ToString()) : "";
                 }
                 else
                 {
-                    return valorEsExterno ? "" : valorConcepto.HasValue ? (valorConcepto.Value.ToString() + " %") : "";
+                    return valorEsExterno ? "- %" : valorConcepto.HasValue ? (valorConcepto.Value.ToString() + " %") : "";
                 }
                 
             }
