@@ -50,6 +50,7 @@
                         <th>Tip.Concepto</th>
                         <th>Cod.Concepto</th>
                         <th>Descripción</th>
+                        <th>Valor</th>
                         <th>Estado</th>
                         <th></th>
                     </tr>
@@ -63,6 +64,7 @@
                                 <td>@item.tipoConceptoDesc</td>
                                 <td>@item.conceptoCod</td>
                                 <td>@item.conceptoDesc</td>
+                                <td>@item.valorConceptoFormateado</td>
                                 <td>@item.estaHabilitado.ToString().ToLower()</td>
                                 <td>@item.plantillaPlanillaConceptoID</td>
                             </tr>
@@ -74,6 +76,7 @@
                         <th>Tip.Concepto</th>
                         <th>Cod.Concepto</th>
                         <th>Descripción</th>
+                        <th>Valor</th>
                         <th>Estado</th>
                         <th></th>
                     </tr>
@@ -114,7 +117,7 @@
                 targets: -1,
                 render: function (data, type, row) {
                     return `<a class="btn-editar" href="@Url.Action("Editar", "PlantillaPlanillaConcepto")/${data}` +
-                        '"><i class="fa fa-pencil-square-o" aria-hidden="true"></i> <span class="d-none d-md-inline-block">Editar</span></a>';
+                        '" title="Editar"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a>';
                 }
             }
         ],

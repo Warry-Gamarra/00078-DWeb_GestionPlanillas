@@ -47,6 +47,22 @@ namespace WebApp.Models
         [DisplayName("Monto/Porcentaje")]
         public decimal? valorConcepto { get; set; }
 
+        public string valorConceptoFormateado
+        {
+            get
+            {
+                if (esValorFijo)
+                {
+                    return valorEsExterno ? "" : valorConcepto.HasValue ? ("S/. " + valorConcepto.Value.ToString()) : "";
+                }
+                else
+                {
+                    return valorEsExterno ? "" : valorConcepto.HasValue ? (valorConcepto.Value.ToString() + " %") : "";
+                }
+                
+            }
+        }
+
         public bool aplicarFiltro1 { get; set; }
 
         public int? filtro1 { get; set; }

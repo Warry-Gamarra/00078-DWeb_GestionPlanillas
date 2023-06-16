@@ -511,7 +511,7 @@ BEGIN
 				FROM @tmp_remuneracion
 				WHERE I_NroOrden = @I_NroOrden
 
-				IF (@B_ValorEsExterno = 0) BEGIN
+				IF (@B_ValorEsExterno = 1) BEGIN
 					SET @M_ValorConcepto = ISNULL((SELECT cmt.M_ValorConcepto FROM dbo.TI_MontoTrabajador mt 
 						INNER JOIN dbo.TI_Concepto_MontoTrabajador cmt ON cmt.I_MontoTrabajadorID = mt.I_MontoTrabajadorID 
 						WHERE mt.B_Habilitado = 1 AND mt.B_Eliminado = 0 AND cmt.B_Habilitado = 1 AND cmt.B_Eliminado = 0 AND
@@ -555,7 +555,7 @@ BEGIN
 				FROM @tmp_descuento
 				WHERE I_NroOrden = @I_NroOrden
 
-				IF (@B_ValorEsExterno = 0) BEGIN
+				IF (@B_ValorEsExterno = 1) BEGIN
 					SET @M_ValorConcepto = ISNULL((SELECT cmt.M_ValorConcepto FROM dbo.TI_MontoTrabajador mt 
 						INNER JOIN dbo.TI_Concepto_MontoTrabajador cmt ON cmt.I_MontoTrabajadorID = mt.I_MontoTrabajadorID 
 						WHERE mt.B_Habilitado = 1 AND mt.B_Eliminado = 0 AND cmt.B_Habilitado = 1 AND cmt.B_Eliminado = 0 AND
@@ -599,7 +599,7 @@ BEGIN
 				FROM @tmp_reintegro
 				WHERE I_NroOrden = @I_NroOrden
 
-				IF (@B_ValorEsExterno = 0) BEGIN
+				IF (@B_ValorEsExterno = 1) BEGIN
 					SET @M_ValorConcepto = ISNULL((SELECT cmt.M_ValorConcepto FROM dbo.TI_MontoTrabajador mt 
 						INNER JOIN dbo.TI_Concepto_MontoTrabajador cmt ON cmt.I_MontoTrabajadorID = mt.I_MontoTrabajadorID 
 						WHERE mt.B_Habilitado = 1 AND mt.B_Eliminado = 0 AND cmt.B_Habilitado = 1 AND cmt.B_Eliminado = 0 AND
@@ -643,7 +643,7 @@ BEGIN
 				FROM @tmp_deduccion
 				WHERE I_NroOrden = @I_NroOrden
 
-				IF (@B_ValorEsExterno = 0) BEGIN
+				IF (@B_ValorEsExterno = 1) BEGIN
 					SET @M_ValorConcepto = ISNULL((SELECT cmt.M_ValorConcepto FROM dbo.TI_MontoTrabajador mt 
 						INNER JOIN dbo.TI_Concepto_MontoTrabajador cmt ON cmt.I_MontoTrabajadorID = mt.I_MontoTrabajadorID 
 						WHERE mt.B_Habilitado = 1 AND mt.B_Eliminado = 0 AND cmt.B_Habilitado = 1 AND cmt.B_Eliminado = 0 AND
