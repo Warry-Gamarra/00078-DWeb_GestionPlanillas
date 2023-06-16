@@ -39,13 +39,13 @@ namespace WebApp.Models
 
         public string conceptoDesc { get; set; }
 
-        public bool esMontoFijo { get; set; }
+        public bool esValorFijo { get; set; }
 
         [DisplayName("¿El Monto se obtendrá de un archivo externo?")]
-        public bool montoEstaAqui { get; set; }
+        public bool valorEsExterno { get; set; }
 
         [DisplayName("Monto/Porcentaje")]
-        public decimal? monto { get; set; }
+        public decimal? valorConcepto { get; set; }
 
         public bool aplicarFiltro1 { get; set; }
 

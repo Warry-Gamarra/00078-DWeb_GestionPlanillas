@@ -26,45 +26,18 @@ namespace WebApp.ServiceFacade.Implementations
         public Response GrabarPlantillaPlanilla(Operacion operacion, PlantillaPlanillaModel model, int userID)
         {
             Response response;
-            bool existeOtraPlantillaHabilitada = false;
 
             try
             {
-                var plantillaPlanillaDTO = _plantillaPlanillaService.ListarPlantillasPlanilla()
-                    .Where(x => x.categoriaPlanillaID == model.categoriaPlanillaID)
-                    .FirstOrDefault();
-
-                if (operacion.Equals(Operacion.Registrar) && plantillaPlanillaDTO != null)
+                var plantillaPlanillaEntity = new PlantillaPlanillaEntity()
                 {
-                    existeOtraPlantillaHabilitada = true;
-                }
+                    plantillaPlanillaID = model.plantillaPlanillaID,
+                    categoriaPlanillaID = model.categoriaPlanillaID,
+                    plantillaPlanillaDesc = model.plantillaPlanillaDesc,
+                    estaHabilitado = model.estaHabilitado
+                };
 
-                if (operacion.Equals(Operacion.Actualizar) && 
-                    plantillaPlanillaDTO != null && 
-                    model.estaHabilitado &&
-                    plantillaPlanillaDTO.plantillaPlanillaID != model.plantillaPlanillaID)
-                {
-                    existeOtraPlantillaHabilitada = true;
-                }
-
-                if (!existeOtraPlantillaHabilitada)
-                {
-                    var plantillaPlanillaEntity = new PlantillaPlanillaEntity()
-                    {
-                        plantillaPlanillaID = model.plantillaPlanillaID,
-                        categoriaPlanillaID = model.categoriaPlanillaID,
-                        plantillaPlanillaDesc = model.plantillaPlanillaDesc
-                    };
-
-                    response = _plantillaPlanillaService.GrabarPlantillaPlanilla(operacion, plantillaPlanillaEntity, userID);
-                }
-                else
-                {
-                    response = new Response()
-                    {
-                        Message = "Sólo puede haber 1 plantilla habilitada de una misma categoría."
-                    };
-                }
+                response = _plantillaPlanillaService.GrabarPlantillaPlanilla(operacion, plantillaPlanillaEntity, userID);
             }
             catch (Exception ex)
             {

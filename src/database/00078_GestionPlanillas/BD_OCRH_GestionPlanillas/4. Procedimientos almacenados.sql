@@ -374,8 +374,8 @@ BEGIN
 				@I_ConceptoID INT,
 				@C_ConceptoCod VARCHAR(20),
 				@T_ConceptoDesc VARCHAR(250),
-				@M_Monto DECIMAL(15,2),
-				@B_MontoEstaAqui BIT,
+				@M_ValorConcepto DECIMAL(15,2),
+				@B_ValorEsExterno BIT,
 				--Variables generales
 				@I_ADMINISTRATIVOID INT = 1,
 				@I_DOCENTEID INT = 2,
@@ -395,13 +395,13 @@ BEGIN
 
 		--DECLARE @tmp_tipo_concepto TABLE(I_NroOrden INT, I_TipoConceptoID INT, B_EsAdicion BIT, B_IncluirEnTotalBruto BIT);
 
-		DECLARE @tmp_remuneracion TABLE(I_NroOrden INT, I_ConceptoID INT, C_ConceptoCod VARCHAR(20), T_ConceptoDesc VARCHAR(250), M_Monto DECIMAL(15,2), B_MontoEstaAqui BIT);
+		DECLARE @tmp_remuneracion TABLE(I_NroOrden INT, I_ConceptoID INT, C_ConceptoCod VARCHAR(20), T_ConceptoDesc VARCHAR(250), M_ValorConcepto DECIMAL(15,2), B_ValorEsExterno BIT);
 
-		DECLARE @tmp_descuento TABLE(I_NroOrden INT, I_ConceptoID INT, C_ConceptoCod VARCHAR(20), T_ConceptoDesc VARCHAR(250), M_Monto DECIMAL(15,2), B_MontoEstaAqui BIT);
+		DECLARE @tmp_descuento TABLE(I_NroOrden INT, I_ConceptoID INT, C_ConceptoCod VARCHAR(20), T_ConceptoDesc VARCHAR(250), M_ValorConcepto DECIMAL(15,2), B_ValorEsExterno BIT);
 
-		DECLARE @tmp_reintegro TABLE(I_NroOrden INT, I_ConceptoID INT, C_ConceptoCod VARCHAR(20), T_ConceptoDesc VARCHAR(250), M_Monto DECIMAL(15,2), B_MontoEstaAqui BIT);
+		DECLARE @tmp_reintegro TABLE(I_NroOrden INT, I_ConceptoID INT, C_ConceptoCod VARCHAR(20), T_ConceptoDesc VARCHAR(250), M_ValorConcepto DECIMAL(15,2), B_ValorEsExterno BIT);
 
-		DECLARE @tmp_deduccion TABLE(I_NroOrden INT, I_ConceptoID INT, C_ConceptoCod VARCHAR(20), T_ConceptoDesc VARCHAR(250), M_Monto DECIMAL(15,2), B_MontoEstaAqui BIT);
+		DECLARE @tmp_deduccion TABLE(I_NroOrden INT, I_ConceptoID INT, C_ConceptoCod VARCHAR(20), T_ConceptoDesc VARCHAR(250), M_ValorConcepto DECIMAL(15,2), B_ValorEsExterno BIT);
 
 		--1. Obtener valores para la cabecera de la planilla
 		SET @I_PeriodoID = (SELECT pr.I_PeriodoID FROM dbo.TR_Periodo pr WHERE pr.I_Anio = @I_Anio AND pr.I_Mes = @I_Mes);
@@ -489,8 +489,8 @@ BEGIN
 
 			DELETE @tmp_remuneracion;
 
-			INSERT @tmp_remuneracion(I_NroOrden, I_ConceptoID, C_ConceptoCod, T_ConceptoDesc, M_Monto, B_MontoEstaAqui)
-			SELECT ROW_NUMBER() OVER(ORDER BY c.I_ConceptoID ASC), c.I_ConceptoID, c.C_ConceptoCod, c.T_ConceptoDesc, ppc.M_Monto, ppc.B_MontoEstaAqui 
+			INSERT @tmp_remuneracion(I_NroOrden, I_ConceptoID, C_ConceptoCod, T_ConceptoDesc, M_ValorConcepto, B_ValorEsExterno)
+			SELECT ROW_NUMBER() OVER(ORDER BY c.I_ConceptoID ASC), c.I_ConceptoID, c.C_ConceptoCod, c.T_ConceptoDesc, ppc.M_ValorConcepto, ppc.B_ValorEsExterno 
 			FROM dbo.TI_PlantillaPlanilla pp
 			INNER JOIN  dbo.TI_PlantillaPlanilla_Concepto ppc ON ppc.I_PlantillaPlanillaID = pp.I_PlantillaPlanillaID
 			INNER JOIN dbo.TC_Concepto c ON c.I_ConceptoID = ppc.I_ConceptoID
@@ -506,23 +506,23 @@ BEGIN
 				SELECT	@I_ConceptoID = I_ConceptoID,
 						@C_ConceptoCod = C_ConceptoCod,
 						@T_ConceptoDesc = T_ConceptoDesc,
-						@M_Monto = M_Monto,
-						@B_MontoEstaAqui = B_MontoEstaAqui
+						@M_ValorConcepto = M_ValorConcepto,
+						@B_ValorEsExterno = B_ValorEsExterno
 				FROM @tmp_remuneracion
 				WHERE I_NroOrden = @I_NroOrden
 
-				IF (@B_MontoEstaAqui = 0) BEGIN
-					SET @M_Monto = ISNULL((SELECT cmt.M_Monto FROM dbo.TI_MontoTrabajador mt 
+				IF (@B_ValorEsExterno = 0) BEGIN
+					SET @M_ValorConcepto = ISNULL((SELECT cmt.M_ValorConcepto FROM dbo.TI_MontoTrabajador mt 
 						INNER JOIN dbo.TI_Concepto_MontoTrabajador cmt ON cmt.I_MontoTrabajadorID = mt.I_MontoTrabajadorID 
 						WHERE mt.B_Habilitado = 1 AND mt.B_Eliminado = 0 AND cmt.B_Habilitado = 1 AND cmt.B_Eliminado = 0 AND
 							mt.I_TrabajadorID = @I_TrabajadorID AND mt.I_PeriodoID = @I_PeriodoID AND cmt.I_ConceptoID = @I_ConceptoID), 0)
 				END
 
-				IF (@M_Monto IS NOT NULL AND @M_Monto > 0) BEGIN
+				IF (@M_ValorConcepto IS NOT NULL AND @M_ValorConcepto > 0) BEGIN
 					INSERT dbo.TR_Concepto_TrabajadorPlanilla(I_TrabajadorPlanillaID, I_ConceptoID, C_ConceptoCod, T_ConceptoDesc, M_Monto, B_Anulado, I_UsuarioCre, D_FecCre)
-					VALUES(@I_TrabajadorPlanillaID, @I_ConceptoID, @C_ConceptoCod, @T_ConceptoDesc, @M_Monto, 0, @I_UserID, @D_FecRegistro)
+					VALUES(@I_TrabajadorPlanillaID, @I_ConceptoID, @C_ConceptoCod, @T_ConceptoDesc, @M_ValorConcepto, 0, @I_UserID, @D_FecRegistro)
 
-					SET @I_TotalRemuneracionTrabajador = @I_TotalRemuneracionTrabajador + @M_Monto
+					SET @I_TotalRemuneracionTrabajador = @I_TotalRemuneracionTrabajador + @M_ValorConcepto
 				END
 
 				SET @I_NroOrden = @I_NroOrden + 1
@@ -533,8 +533,8 @@ BEGIN
 
 			DELETE @tmp_descuento;
 
-			INSERT @tmp_descuento(I_NroOrden, I_ConceptoID, C_ConceptoCod, T_ConceptoDesc, M_Monto, B_MontoEstaAqui)
-			SELECT ROW_NUMBER() OVER(ORDER BY c.I_ConceptoID ASC), c.I_ConceptoID, c.C_ConceptoCod, c.T_ConceptoDesc, ppc.M_Monto, ppc.B_MontoEstaAqui 
+			INSERT @tmp_descuento(I_NroOrden, I_ConceptoID, C_ConceptoCod, T_ConceptoDesc, M_ValorConcepto, B_ValorEsExterno)
+			SELECT ROW_NUMBER() OVER(ORDER BY c.I_ConceptoID ASC), c.I_ConceptoID, c.C_ConceptoCod, c.T_ConceptoDesc, ppc.M_ValorConcepto, ppc.B_ValorEsExterno 
 			FROM dbo.TI_PlantillaPlanilla pp
 			INNER JOIN  dbo.TI_PlantillaPlanilla_Concepto ppc ON ppc.I_PlantillaPlanillaID = pp.I_PlantillaPlanillaID
 			INNER JOIN dbo.TC_Concepto c ON c.I_ConceptoID = ppc.I_ConceptoID
@@ -550,23 +550,23 @@ BEGIN
 				SELECT	@I_ConceptoID = I_ConceptoID,
 						@C_ConceptoCod = C_ConceptoCod,
 						@T_ConceptoDesc = T_ConceptoDesc,
-						@M_Monto = M_Monto,
-						@B_MontoEstaAqui = B_MontoEstaAqui
+						@M_ValorConcepto = M_ValorConcepto,
+						@B_ValorEsExterno = B_ValorEsExterno
 				FROM @tmp_descuento
 				WHERE I_NroOrden = @I_NroOrden
 
-				IF (@B_MontoEstaAqui = 0) BEGIN
-					SET @M_Monto = ISNULL((SELECT cmt.M_Monto FROM dbo.TI_MontoTrabajador mt 
+				IF (@B_ValorEsExterno = 0) BEGIN
+					SET @M_ValorConcepto = ISNULL((SELECT cmt.M_ValorConcepto FROM dbo.TI_MontoTrabajador mt 
 						INNER JOIN dbo.TI_Concepto_MontoTrabajador cmt ON cmt.I_MontoTrabajadorID = mt.I_MontoTrabajadorID 
 						WHERE mt.B_Habilitado = 1 AND mt.B_Eliminado = 0 AND cmt.B_Habilitado = 1 AND cmt.B_Eliminado = 0 AND
 							mt.I_TrabajadorID = @I_TrabajadorID AND mt.I_PeriodoID = @I_PeriodoID AND cmt.I_ConceptoID = @I_ConceptoID), 0)
 				END
 
-				IF (@M_Monto IS NOT NULL AND @M_Monto > 0) BEGIN
+				IF (@M_ValorConcepto IS NOT NULL AND @M_ValorConcepto > 0) BEGIN
 					INSERT dbo.TR_Concepto_TrabajadorPlanilla(I_TrabajadorPlanillaID, I_ConceptoID, C_ConceptoCod, T_ConceptoDesc, M_Monto, B_Anulado, I_UsuarioCre, D_FecCre)
-					VALUES(@I_TrabajadorPlanillaID, @I_ConceptoID, @C_ConceptoCod, @T_ConceptoDesc, @M_Monto, 0, @I_UserID, @D_FecRegistro)
+					VALUES(@I_TrabajadorPlanillaID, @I_ConceptoID, @C_ConceptoCod, @T_ConceptoDesc, @M_ValorConcepto, 0, @I_UserID, @D_FecRegistro)
 
-					SET @I_TotalDescuentoTrabajador = @I_TotalDescuentoTrabajador + @M_Monto
+					SET @I_TotalDescuentoTrabajador = @I_TotalDescuentoTrabajador + @M_ValorConcepto
 				END
 
 				SET @I_NroOrden = @I_NroOrden + 1
@@ -577,8 +577,8 @@ BEGIN
 
 			DELETE @tmp_reintegro;
 
-			INSERT @tmp_reintegro(I_NroOrden, I_ConceptoID, C_ConceptoCod, T_ConceptoDesc, M_Monto, B_MontoEstaAqui)
-			SELECT ROW_NUMBER() OVER(ORDER BY c.I_ConceptoID ASC), c.I_ConceptoID, c.C_ConceptoCod, c.T_ConceptoDesc, ppc.M_Monto, ppc.B_MontoEstaAqui 
+			INSERT @tmp_reintegro(I_NroOrden, I_ConceptoID, C_ConceptoCod, T_ConceptoDesc, M_ValorConcepto, B_ValorEsExterno)
+			SELECT ROW_NUMBER() OVER(ORDER BY c.I_ConceptoID ASC), c.I_ConceptoID, c.C_ConceptoCod, c.T_ConceptoDesc, ppc.M_ValorConcepto, ppc.B_ValorEsExterno 
 			FROM dbo.TI_PlantillaPlanilla pp
 			INNER JOIN  dbo.TI_PlantillaPlanilla_Concepto ppc ON ppc.I_PlantillaPlanillaID = pp.I_PlantillaPlanillaID
 			INNER JOIN dbo.TC_Concepto c ON c.I_ConceptoID = ppc.I_ConceptoID
@@ -594,23 +594,23 @@ BEGIN
 				SELECT	@I_ConceptoID = I_ConceptoID,
 						@C_ConceptoCod = C_ConceptoCod,
 						@T_ConceptoDesc = T_ConceptoDesc,
-						@M_Monto = M_Monto,
-						@B_MontoEstaAqui = B_MontoEstaAqui
+						@M_ValorConcepto = M_ValorConcepto,
+						@B_ValorEsExterno = B_ValorEsExterno
 				FROM @tmp_reintegro
 				WHERE I_NroOrden = @I_NroOrden
 
-				IF (@B_MontoEstaAqui = 0) BEGIN
-					SET @M_Monto = ISNULL((SELECT cmt.M_Monto FROM dbo.TI_MontoTrabajador mt 
+				IF (@B_ValorEsExterno = 0) BEGIN
+					SET @M_ValorConcepto = ISNULL((SELECT cmt.M_ValorConcepto FROM dbo.TI_MontoTrabajador mt 
 						INNER JOIN dbo.TI_Concepto_MontoTrabajador cmt ON cmt.I_MontoTrabajadorID = mt.I_MontoTrabajadorID 
 						WHERE mt.B_Habilitado = 1 AND mt.B_Eliminado = 0 AND cmt.B_Habilitado = 1 AND cmt.B_Eliminado = 0 AND
 							mt.I_TrabajadorID = @I_TrabajadorID AND mt.I_PeriodoID = @I_PeriodoID AND cmt.I_ConceptoID = @I_ConceptoID), 0)
 				END
 
-				IF (@M_Monto IS NOT NULL AND @M_Monto > 0) BEGIN
+				IF (@M_ValorConcepto IS NOT NULL AND @M_ValorConcepto > 0) BEGIN
 					INSERT dbo.TR_Concepto_TrabajadorPlanilla(I_TrabajadorPlanillaID, I_ConceptoID, C_ConceptoCod, T_ConceptoDesc, M_Monto, B_Anulado, I_UsuarioCre, D_FecCre)
-					VALUES(@I_TrabajadorPlanillaID, @I_ConceptoID, @C_ConceptoCod, @T_ConceptoDesc, @M_Monto, 0, @I_UserID, @D_FecRegistro)
+					VALUES(@I_TrabajadorPlanillaID, @I_ConceptoID, @C_ConceptoCod, @T_ConceptoDesc, @M_ValorConcepto, 0, @I_UserID, @D_FecRegistro)
 
-					SET @I_TotalReintegroTrabajador = @I_TotalReintegroTrabajador + @M_Monto
+					SET @I_TotalReintegroTrabajador = @I_TotalReintegroTrabajador + @M_ValorConcepto
 				END
 
 				SET @I_NroOrden = @I_NroOrden + 1
@@ -621,8 +621,8 @@ BEGIN
 
 			DELETE @tmp_deduccion;
 
-			INSERT @tmp_deduccion(I_NroOrden, I_ConceptoID, C_ConceptoCod, T_ConceptoDesc, M_Monto, B_MontoEstaAqui)
-			SELECT ROW_NUMBER() OVER(ORDER BY c.I_ConceptoID ASC), c.I_ConceptoID, c.C_ConceptoCod, c.T_ConceptoDesc, ppc.M_Monto, ppc.B_MontoEstaAqui 
+			INSERT @tmp_deduccion(I_NroOrden, I_ConceptoID, C_ConceptoCod, T_ConceptoDesc, M_ValorConcepto, B_ValorEsExterno)
+			SELECT ROW_NUMBER() OVER(ORDER BY c.I_ConceptoID ASC), c.I_ConceptoID, c.C_ConceptoCod, c.T_ConceptoDesc, ppc.M_ValorConcepto, ppc.B_ValorEsExterno 
 			FROM dbo.TI_PlantillaPlanilla pp
 			INNER JOIN  dbo.TI_PlantillaPlanilla_Concepto ppc ON ppc.I_PlantillaPlanillaID = pp.I_PlantillaPlanillaID
 			INNER JOIN dbo.TC_Concepto c ON c.I_ConceptoID = ppc.I_ConceptoID
@@ -638,23 +638,23 @@ BEGIN
 				SELECT	@I_ConceptoID = I_ConceptoID,
 						@C_ConceptoCod = C_ConceptoCod,
 						@T_ConceptoDesc = T_ConceptoDesc,
-						@M_Monto = M_Monto,
-						@B_MontoEstaAqui = B_MontoEstaAqui
+						@M_ValorConcepto = M_ValorConcepto,
+						@B_ValorEsExterno = B_ValorEsExterno
 				FROM @tmp_deduccion
 				WHERE I_NroOrden = @I_NroOrden
 
-				IF (@B_MontoEstaAqui = 0) BEGIN
-					SET @M_Monto = ISNULL((SELECT cmt.M_Monto FROM dbo.TI_MontoTrabajador mt 
+				IF (@B_ValorEsExterno = 0) BEGIN
+					SET @M_ValorConcepto = ISNULL((SELECT cmt.M_ValorConcepto FROM dbo.TI_MontoTrabajador mt 
 						INNER JOIN dbo.TI_Concepto_MontoTrabajador cmt ON cmt.I_MontoTrabajadorID = mt.I_MontoTrabajadorID 
 						WHERE mt.B_Habilitado = 1 AND mt.B_Eliminado = 0 AND cmt.B_Habilitado = 1 AND cmt.B_Eliminado = 0 AND
 							mt.I_TrabajadorID = @I_TrabajadorID AND mt.I_PeriodoID = @I_PeriodoID AND cmt.I_ConceptoID = @I_ConceptoID), 0)
 				END
 
-				IF (@M_Monto IS NOT NULL AND @M_Monto > 0) BEGIN
+				IF (@M_ValorConcepto IS NOT NULL AND @M_ValorConcepto > 0) BEGIN
 					INSERT dbo.TR_Concepto_TrabajadorPlanilla(I_TrabajadorPlanillaID, I_ConceptoID, C_ConceptoCod, T_ConceptoDesc, M_Monto, B_Anulado, I_UsuarioCre, D_FecCre)
-					VALUES(@I_TrabajadorPlanillaID, @I_ConceptoID, @C_ConceptoCod, @T_ConceptoDesc, @M_Monto, 0, @I_UserID, @D_FecRegistro)
+					VALUES(@I_TrabajadorPlanillaID, @I_ConceptoID, @C_ConceptoCod, @T_ConceptoDesc, @M_ValorConcepto, 0, @I_UserID, @D_FecRegistro)
 
-					SET @I_TotalDeduccionTrabajador = @I_TotalDeduccionTrabajador + @M_Monto
+					SET @I_TotalDeduccionTrabajador = @I_TotalDeduccionTrabajador + @M_ValorConcepto
 				END
 
 				SET @I_NroOrden = @I_NroOrden + 1
@@ -940,9 +940,9 @@ GO
 CREATE PROCEDURE USP_I_RegistrarPlantillaPlanillaConcepto
 @I_PlantillaPlanillaID INT,
 @I_ConceptoID INT,
-@B_EsMontoFijo BIT,
-@B_MontoEstaAqui BIT,
-@M_Monto DECIMAL(15,2) = NULL,
+@B_EsValorFijo BIT,
+@B_ValorEsExterno BIT,
+@M_ValorConcepto DECIMAL(15,2) = NULL,
 @B_AplicarFiltro1 BIT = NULL,
 @I_Filtro1 INT = NULL,
 @B_AplicarFiltro2 BIT = NULL,
@@ -956,8 +956,8 @@ BEGIN
 	
 	BEGIN TRAN
 	BEGIN TRY
-		INSERT dbo.TI_PlantillaPlanilla_Concepto(I_PlantillaPlanillaID, I_ConceptoID, B_EsMontoFijo, B_MontoEstaAqui, M_Monto, B_AplicarFiltro1, I_Filtro1, B_AplicarFiltro2, I_Filtro2, B_Habilitado, B_Eliminado, I_UsuarioCre, D_FecCre)
-		VALUES(@I_PlantillaPlanillaID, @I_ConceptoID, @B_EsMontoFijo, @B_MontoEstaAqui, @M_Monto, @B_AplicarFiltro1, @I_Filtro1, @B_AplicarFiltro2, @I_Filtro2, 1, 0, @I_UserID, GETDATE())
+		INSERT dbo.TI_PlantillaPlanilla_Concepto(I_PlantillaPlanillaID, I_ConceptoID, B_EsValorFijo, B_ValorEsExterno, M_ValorConcepto, B_AplicarFiltro1, I_Filtro1, B_AplicarFiltro2, I_Filtro2, B_Habilitado, B_Eliminado, I_UsuarioCre, D_FecCre)
+		VALUES(@I_PlantillaPlanillaID, @I_ConceptoID, @B_EsValorFijo, @B_ValorEsExterno, @M_ValorConcepto, @B_AplicarFiltro1, @I_Filtro1, @B_AplicarFiltro2, @I_Filtro2, 1, 0, @I_UserID, GETDATE())
 
 		COMMIT TRAN
 		SET @B_Result = 1
@@ -981,9 +981,9 @@ CREATE PROCEDURE USP_U_ActualizarPlantillaPlanillaConcepto
 @I_PlantillaPlanillaConceptoID INT,
 @I_PlantillaPlanillaID INT,
 @I_ConceptoID INT,
-@B_EsMontoFijo BIT,
-@B_MontoEstaAqui BIT,
-@M_Monto DECIMAL(15,2) = NULL,
+@B_EsValorFijo BIT,
+@B_ValorEsExterno BIT,
+@M_ValorConcepto DECIMAL(15,2) = NULL,
 @B_AplicarFiltro1 BIT = NULL,
 @I_Filtro1 INT = NULL,
 @B_AplicarFiltro2 BIT = NULL,
@@ -1000,9 +1000,9 @@ BEGIN
 		UPDATE dbo.TI_PlantillaPlanilla_Concepto SET
 			I_PlantillaPlanillaID = @I_PlantillaPlanillaID,
 			I_ConceptoID = @I_ConceptoID,
-			B_EsMontoFijo = @B_EsMontoFijo,
-			B_MontoEstaAqui = @B_MontoEstaAqui,
-			M_Monto = @M_Monto,
+			B_EsValorFijo = @B_EsValorFijo,
+			B_ValorEsExterno = @B_ValorEsExterno,
+			M_ValorConcepto = @M_ValorConcepto,
 			B_AplicarFiltro1 = @B_AplicarFiltro1,
 			I_Filtro1 = @I_Filtro1,
 			B_AplicarFiltro2 = @B_AplicarFiltro2,

@@ -29,19 +29,19 @@
     <div class="form-row">
         <div class="col-8">
             <div class="form-group row">
-                @Html.LabelFor(model => model.monto, new { @class = "col-sm-3 control-label" })
+                @Html.LabelFor(model => model.valorConcepto, new { @class = "col-sm-3 control-label" })
                 <div class="col-sm-9">
-                    @Html.TextBoxFor(model => model.monto, new { @class = "form-control" })
-                    @Html.ValidationMessageFor(model => model.monto, null, new { @class = "text-danger" })
+                    @Html.TextBoxFor(model => model.valorConcepto, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(model => model.valorConcepto, null, new { @class = "text-danger" })
                 </div>
             </div>
         </div>
         <div class="col-4">
             <div class="form-check form-check-inline">
-                <label class="form-check-label">@Html.RadioButtonFor(model => model.esMontoFijo, true) Monto fijo (S/.)</label>
+                <label class="form-check-label">@Html.RadioButtonFor(model => model.esValorFijo, true) Monto fijo (S/.)</label>
             </div>
             <div class="form-check form-check-inline">
-                <label class="form-check-label">@Html.RadioButtonFor(model => model.esMontoFijo, false) Valor porcentual (%)</label>
+                <label class="form-check-label">@Html.RadioButtonFor(model => model.esValorFijo, false) Valor porcentual (%)</label>
             </div>
         </div>
     </div>
@@ -52,8 +52,8 @@
                 <label class="col-sm-2 control-label">&nbsp;</label>
                 <div class="col-sm-10">
                     <div class="form-check">
-                        @Html.CheckBoxFor(model => model.montoEstaAqui, new { @class = "form-check-input" })
-                        @Html.LabelFor(model => model.montoEstaAqui, new { @class = "form-check-label" })
+                        @Html.CheckBoxFor(model => model.valorEsExterno, new { @class = "form-check-input" })
+                        @Html.LabelFor(model => model.valorEsExterno, new { @class = "form-check-label" })
                     </div>
                 </div>
             </div>
@@ -108,6 +108,10 @@
             <text>cambiarEstadoCampoFiltro(true, 'filtro2');</text>
         }
 
+        @if(Model.valorEsExterno)
+        {
+            <text>cambiarEstadoCampoMonto(false);</text>
+        }
 
         $('#content-body').on('click', '#btn-return', function (event) {
             event.preventDefault();
@@ -134,6 +138,11 @@
             let checked = $(this).is(':checked');
             cambiarEstadoCampoFiltro(checked, 'filtro2');
         });
+
+        $('#content-body').on('click', '#valorEsExterno', function (event) {
+            let checked = $(this).is(':checked');
+            cambiarEstadoCampoMonto(!checked);
+        });
     });
 
     function loadForm(url, message) {
@@ -156,6 +165,16 @@
         } else {
             $(id).val(null);
             $(id).prop('disabled', 'disabled');
+        }
+    }
+
+    function cambiarEstadoCampoMonto(habilitarCampo) {
+        if (habilitarCampo) {
+            $('#content-body #valorConcepto').prop('disabled', '')
+        } else {
+            debugger;
+            $('#content-body #valorConcepto').val('');
+            $('#content-body #valorConcepto').prop('disabled', 'disabled')
         }
     }
 </script>

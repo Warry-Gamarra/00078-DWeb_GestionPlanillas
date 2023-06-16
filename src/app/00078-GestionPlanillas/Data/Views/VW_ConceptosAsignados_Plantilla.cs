@@ -39,11 +39,11 @@ namespace Data.Views
 
         public string T_ConceptoDesc { get; set; }
 
-        public bool B_EsMontoFijo { get; set; }
+        public bool B_EsValorFijo { get; set; }
 
-        public bool B_MontoEstaAqui { get; set; }
+        public bool B_ValorEsExterno { get; set; }
 
-        public decimal? M_Monto { get; set; }
+        public decimal? M_ValorConcepto { get; set; }
 
         public bool B_AplicarFiltro1 { get; set; }
 

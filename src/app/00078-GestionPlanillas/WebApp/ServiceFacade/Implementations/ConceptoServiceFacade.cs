@@ -25,44 +25,19 @@ namespace WebApp.ServiceFacade.Implementations
         public Response GrabarConcepto(Operacion operacion, ConceptoModel model, int userID)
         {
             Response response;
-            bool esCodigoConceptoUnico = true;
 
             try
             {
-                var conceptoDTO = _conceptoService.ListarConceptos()
-                    .Where(x => x.conceptoCod == model.conceptoCod)
-                    .FirstOrDefault();
-
-                if (operacion.Equals(Operacion.Registrar) && conceptoDTO != null)
+                var conceptoEntity = new ConceptoEntity()
                 {
-                    esCodigoConceptoUnico = false;
-                }
+                    conceptoID = model.conceptoID,
+                    tipoConceptoID = model.tipoConceptoID,
+                    conceptoCod = model.conceptoCod.Trim(),
+                    conceptoDesc = model.conceptoDesc.Trim(),
+                    conceptoAbrv = model.conceptoAbrv.Trim()
+                };
 
-                if (operacion.Equals(Operacion.Actualizar) && conceptoDTO != null && conceptoDTO.conceptoID != model.conceptoID.Value)
-                {
-                    esCodigoConceptoUnico = false;
-                }
-
-                if (esCodigoConceptoUnico)
-                {
-                    var conceptoEntity = new ConceptoEntity()
-                    {
-                        conceptoID = model.conceptoID,
-                        tipoConceptoID = model.tipoConceptoID,
-                        conceptoCod = model.conceptoCod,
-                        conceptoDesc = model.conceptoDesc,
-                        conceptoAbrv = model.conceptoAbrv
-                    };
-
-                    response = _conceptoService.GrabarConcepto(operacion, conceptoEntity, userID);
-                }
-                else
-                {
-                    response = new Response()
-                    {
-                        Message = "Código de Concepto repetido."
-                    };
-                }
+                response = _conceptoService.GrabarConcepto(operacion, conceptoEntity, userID);
             }
             catch (Exception ex)
             {

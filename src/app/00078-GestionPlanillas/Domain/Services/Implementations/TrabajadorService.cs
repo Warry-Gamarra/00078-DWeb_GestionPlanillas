@@ -15,6 +15,13 @@ namespace Domain.Services.Implementations
 {
     public class TrabajadorService : ITrabajadorService
     {
+        IPersonaService _personaService;
+
+        public TrabajadorService()
+        {
+            _personaService = new PersonaService();
+        }
+
         public List<TrabajadorDTO> ListarTrabajadores()
         {
             var lista = VW_Trabajadores.FindAll()
@@ -45,6 +52,7 @@ namespace Domain.Services.Implementations
         public Response GrabarTrabajador(Operacion operacion, TrabajadorEntity trabajadorEntity, int userID)
         {
             Result result;
+            bool nroDocumentoUnico = true;
 
             try
             {
@@ -52,62 +60,99 @@ namespace Domain.Services.Implementations
                 {
                     case Operacion.Registrar:
 
-                        var grabarDocente = new USP_I_RegistrarTrabajador()
+                        if (_personaService.ObtenerPersona(trabajadorEntity.I_TipoDocumentoID, trabajadorEntity.C_NumDocumento) != null)
                         {
-                            C_TrabajadorCod = trabajadorEntity.C_TrabajadorCod,
-                            T_ApellidoPaterno = trabajadorEntity.T_ApellidoPaterno,
-                            T_ApellidoMaterno = trabajadorEntity.T_ApellidoMaterno,
-                            T_Nombre = trabajadorEntity.T_Nombre,
-                            I_TipoDocumentoID = trabajadorEntity.I_TipoDocumentoID,
-                            C_NumDocumento = trabajadorEntity.C_NumDocumento,
-                            D_FechaIngreso = trabajadorEntity.D_FechaIngreso,
-                            I_RegimenID = trabajadorEntity.I_RegimenID,
-                            I_EstadoID = trabajadorEntity.I_EstadoID,
-                            I_VinculoID = trabajadorEntity.I_VinculoID,
-                            I_BancoID = trabajadorEntity.I_BancoID,
-                            T_NroCuentaBancaria = trabajadorEntity.T_NroCuentaBancaria,
-                            I_DependenciaID = trabajadorEntity.I_DependenciaID,
-                            I_AfpID = trabajadorEntity.I_Afp,
-                            T_Cuspp = trabajadorEntity.T_Cuspp,
-                            I_CategoriaDocenteID = trabajadorEntity.I_CategoriaDocenteID,
-                            I_HorasDocenteID = trabajadorEntity.I_HorasDocenteID,
-                            I_GrupoOcupacionalID = trabajadorEntity.I_GrupoOcupacionalID,
-                            I_NivelRemunerativoID = trabajadorEntity.I_NivelRemunerativoID,
-                            I_UserID = userID
-                        };
+                            nroDocumentoUnico = false;
+                        }
 
-                        result = grabarDocente.Execute();
+                        if (nroDocumentoUnico)
+                        {
+                            var grabarDocente = new USP_I_RegistrarTrabajador()
+                            {
+                                C_TrabajadorCod = trabajadorEntity.C_TrabajadorCod,
+                                T_ApellidoPaterno = trabajadorEntity.T_ApellidoPaterno,
+                                T_ApellidoMaterno = trabajadorEntity.T_ApellidoMaterno,
+                                T_Nombre = trabajadorEntity.T_Nombre,
+                                I_TipoDocumentoID = trabajadorEntity.I_TipoDocumentoID,
+                                C_NumDocumento = trabajadorEntity.C_NumDocumento,
+                                D_FechaIngreso = trabajadorEntity.D_FechaIngreso,
+                                I_RegimenID = trabajadorEntity.I_RegimenID,
+                                I_EstadoID = trabajadorEntity.I_EstadoID,
+                                I_VinculoID = trabajadorEntity.I_VinculoID,
+                                I_BancoID = trabajadorEntity.I_BancoID,
+                                T_NroCuentaBancaria = trabajadorEntity.T_NroCuentaBancaria,
+                                I_DependenciaID = trabajadorEntity.I_DependenciaID,
+                                I_AfpID = trabajadorEntity.I_Afp,
+                                T_Cuspp = trabajadorEntity.T_Cuspp,
+                                I_CategoriaDocenteID = trabajadorEntity.I_CategoriaDocenteID,
+                                I_HorasDocenteID = trabajadorEntity.I_HorasDocenteID,
+                                I_GrupoOcupacionalID = trabajadorEntity.I_GrupoOcupacionalID,
+                                I_NivelRemunerativoID = trabajadorEntity.I_NivelRemunerativoID,
+                                I_UserID = userID
+                            };
+
+                            result = grabarDocente.Execute();
+                        }
+                        else
+                        {
+                            result = new Result()
+                            {
+                                Message = "El Num.Documento se encuentra repetido."
+                            };
+                        }
 
                         break;
 
                     case Operacion.Actualizar:
 
-                        var actualizarDocente = new USP_U_ActualizarTrabajador()
+                        if (!trabajadorEntity.I_TrabajadorID.HasValue)
                         {
-                            I_TrabajadorID = trabajadorEntity.I_TrabajadorID.Value,
-                            C_TrabajadorCod = trabajadorEntity.C_TrabajadorCod,
-                            T_ApellidoPaterno = trabajadorEntity.T_ApellidoPaterno,
-                            T_ApellidoMaterno = trabajadorEntity.T_ApellidoMaterno,
-                            T_Nombre = trabajadorEntity.T_Nombre,
-                            I_TipoDocumentoID = trabajadorEntity.I_TipoDocumentoID,
-                            C_NumDocumento = trabajadorEntity.C_NumDocumento,
-                            D_FechaIngreso = trabajadorEntity.D_FechaIngreso,
-                            I_RegimenID = trabajadorEntity.I_RegimenID,
-                            I_EstadoID = trabajadorEntity.I_EstadoID,
-                            I_VinculoID = trabajadorEntity.I_VinculoID,
-                            I_BancoID = trabajadorEntity.I_BancoID,
-                            T_NroCuentaBancaria = trabajadorEntity.T_NroCuentaBancaria,
-                            I_DependenciaID = trabajadorEntity.I_DependenciaID,
-                            I_AfpID = trabajadorEntity.I_Afp,
-                            T_Cuspp = trabajadorEntity.T_Cuspp,
-                            I_CategoriaDocenteID = trabajadorEntity.I_CategoriaDocenteID,
-                            I_HorasDocenteID = trabajadorEntity.I_HorasDocenteID,
-                            I_GrupoOcupacionalID = trabajadorEntity.I_GrupoOcupacionalID,
-                            I_NivelRemunerativoID = trabajadorEntity.I_NivelRemunerativoID,
-                            I_UserID = userID
-                        };
+                            throw new Exception("Ha ocurrido un error al obtener los datos. Por favor recargue la página y vuelva a intentarlo.");
+                        }
 
-                        result = actualizarDocente.Execute();
+                        var personaDTO = _personaService.ObtenerPersona(trabajadorEntity.I_TipoDocumentoID, trabajadorEntity.C_NumDocumento);
+
+                        if (personaDTO != null && personaDTO.I_PersonaID != trabajadorEntity.I_PersonaID)
+                        {
+                            nroDocumentoUnico = false;
+                        }
+
+                        if (nroDocumentoUnico)
+                        {
+                            var actualizarDocente = new USP_U_ActualizarTrabajador()
+                            {
+                                I_TrabajadorID = trabajadorEntity.I_TrabajadorID.Value,
+                                C_TrabajadorCod = trabajadorEntity.C_TrabajadorCod,
+                                T_ApellidoPaterno = trabajadorEntity.T_ApellidoPaterno,
+                                T_ApellidoMaterno = trabajadorEntity.T_ApellidoMaterno,
+                                T_Nombre = trabajadorEntity.T_Nombre,
+                                I_TipoDocumentoID = trabajadorEntity.I_TipoDocumentoID,
+                                C_NumDocumento = trabajadorEntity.C_NumDocumento,
+                                D_FechaIngreso = trabajadorEntity.D_FechaIngreso,
+                                I_RegimenID = trabajadorEntity.I_RegimenID,
+                                I_EstadoID = trabajadorEntity.I_EstadoID,
+                                I_VinculoID = trabajadorEntity.I_VinculoID,
+                                I_BancoID = trabajadorEntity.I_BancoID,
+                                T_NroCuentaBancaria = trabajadorEntity.T_NroCuentaBancaria,
+                                I_DependenciaID = trabajadorEntity.I_DependenciaID,
+                                I_AfpID = trabajadorEntity.I_Afp,
+                                T_Cuspp = trabajadorEntity.T_Cuspp,
+                                I_CategoriaDocenteID = trabajadorEntity.I_CategoriaDocenteID,
+                                I_HorasDocenteID = trabajadorEntity.I_HorasDocenteID,
+                                I_GrupoOcupacionalID = trabajadorEntity.I_GrupoOcupacionalID,
+                                I_NivelRemunerativoID = trabajadorEntity.I_NivelRemunerativoID,
+                                I_UserID = userID
+                            };
+
+                            result = actualizarDocente.Execute();
+                        }
+                        else
+                        {
+                            result = new Result()
+                            {
+                                Message = "El Num.Documento se encuentra repetido."
+                            };
+                        }
 
                         break;
 

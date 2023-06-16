@@ -36,11 +36,11 @@ namespace Domain.Entities
 
         public string conceptoDesc { get; set; }
 
-        public bool esMontoFijo { get; set; }
+        public bool esValorFijo { get; set; }
 
-        public bool montoEstaAqui { get; set; }
+        public bool valorEsExterno { get; set; }
 
-        public decimal? monto { get; set; }
+        public decimal? valorConcepto { get; set; }
 
         public bool aplicarFiltro1 { get; set; }
 

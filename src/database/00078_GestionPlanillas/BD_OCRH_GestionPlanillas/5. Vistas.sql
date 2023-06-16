@@ -161,7 +161,7 @@ SELECT
 	cl.I_ClasePlanillaID, cl.T_ClasePlanillaDesc,
 	t.I_TipoConceptoID, t.T_TipoConceptoDesc, t.B_EsAdicion, t.B_IncluirEnTotalBruto, 
 	c.I_ConceptoID, c.C_ConceptoCod, c.T_ConceptoDesc, c.T_ConceptoAbrv, 
-	ppc.B_EsMontoFijo, ppc.B_MontoEstaAqui, ppc.M_Monto, 
+	ppc.B_EsValorFijo, ppc.B_ValorEsExterno, ppc.M_ValorConcepto, 
 	ppc.B_AplicarFiltro1, ppc.I_Filtro1, ppc.B_AplicarFiltro2, ppc.I_Filtro2,
 	ppc.B_Habilitado
 FROM dbo.TI_PlantillaPlanilla pp
@@ -173,8 +173,6 @@ INNER JOIN dbo.TC_TipoConcepto t ON t.I_TipoConceptoID = c.I_TipoConceptoID
 WHERE ppc.B_Eliminado = 0
 GO
 
-SELECT * FROM dbo.TC_Concepto
-SELECT * FROM dbo.TI_PlantillaPlanilla_Concepto
 
 
 --PLANILLA Administrativo
@@ -209,11 +207,6 @@ FROM            TR_Planilla AS pl INNER JOIN
                          TC_DedicacionDocente AS dd ON hd.I_DedicacionDocenteID = dd.I_DedicacionDocenteID
 WHERE pl.I_CategoriaPlanillaID = 2 AND per.I_Anio = 2022 AND per.I_Mes = 4
 GO
-
-
-
-
-
 
 
 

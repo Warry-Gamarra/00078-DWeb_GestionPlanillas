@@ -16,11 +16,11 @@ namespace Data.Procedures
 
         public int I_ConceptoID { get; set; }
 
-        public bool B_EsMontoFijo { get; set; }
+        public bool B_EsValorFijo { get; set; }
 
-        public bool B_MontoEstaAqui { get; set; }
+        public bool B_ValorEsExterno { get; set; }
 
-        public decimal? M_Monto { get; set; }
+        public decimal? M_ValorConcepto { get; set; }
 
         public bool? B_AplicarFiltro1 { get; set; }
 
@@ -47,9 +47,9 @@ namespace Data.Procedures
                     parameters = new DynamicParameters();
                     parameters.Add(name: "I_PlantillaPlanillaID", dbType: DbType.Int32, value: I_PlantillaPlanillaID);
                     parameters.Add(name: "I_ConceptoID", dbType: DbType.Int32, value: I_ConceptoID);
-                    parameters.Add(name: "B_EsMontoFijo", dbType: DbType.Boolean, value: B_EsMontoFijo);
-                    parameters.Add(name: "B_MontoEstaAqui", dbType: DbType.Boolean, value: B_MontoEstaAqui);
-                    parameters.Add(name: "M_Monto", dbType: DbType.Decimal, value: M_Monto);
+                    parameters.Add(name: "B_EsValorFijo", dbType: DbType.Boolean, value: B_EsValorFijo);
+                    parameters.Add(name: "B_ValorEsExterno", dbType: DbType.Boolean, value: B_ValorEsExterno);
+                    parameters.Add(name: "M_ValorConcepto", dbType: DbType.Decimal, value: M_ValorConcepto);
                     parameters.Add(name: "B_AplicarFiltro1", dbType: DbType.Boolean, value: B_AplicarFiltro1);
                     parameters.Add(name: "I_Filtro1", dbType: DbType.Int32, value: I_Filtro1);
                     parameters.Add(name: "B_AplicarFiltro2", dbType: DbType.Boolean, value: B_AplicarFiltro2);

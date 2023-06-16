@@ -13,5 +13,7 @@ namespace Domain.Entities
         public int categoriaPlanillaID { get; set; }
 
         public string plantillaPlanillaDesc { get; set; }
+
+        public bool estaHabilitado { get; set; }
     }
 }

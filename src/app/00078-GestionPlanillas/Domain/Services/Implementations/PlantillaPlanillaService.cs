@@ -8,6 +8,7 @@ using Domain.Helpers;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -18,35 +19,76 @@ namespace Domain.Services.Implementations
         public Response GrabarPlantillaPlanilla(Operacion operacion, PlantillaPlanillaEntity plantillaPlanillaEntity, int userID)
         {
             Result result;
+            bool existeOtraPlantillaHabilitada = false;
 
             try
             {
                 switch (operacion)
                 {
                     case Operacion.Registrar:
-
-                        var grabarPlantillaPlanilla = new USP_I_RegistrarPlantillaPlanilla()
+                        if (ListarPlantillasPlanilla().Where(x => x.categoriaPlanillaID == plantillaPlanillaEntity.categoriaPlanillaID)
+                            .FirstOrDefault() != null)
                         {
-                            I_CategoriaPlanillaID = plantillaPlanillaEntity.categoriaPlanillaID,
-                            T_PlantillaPlanillaDesc = plantillaPlanillaEntity.plantillaPlanillaDesc,
-                            I_UserID = userID
-                        };
+                            existeOtraPlantillaHabilitada = true;
+                        }
+                        
+                        if (!existeOtraPlantillaHabilitada)
+                        {
+                            var grabarPlantillaPlanilla = new USP_I_RegistrarPlantillaPlanilla()
+                            {
+                                I_CategoriaPlanillaID = plantillaPlanillaEntity.categoriaPlanillaID,
+                                T_PlantillaPlanillaDesc = plantillaPlanillaEntity.plantillaPlanillaDesc,
+                                I_UserID = userID
+                            };
 
-                        result = grabarPlantillaPlanilla.Execute();
+                            result = grabarPlantillaPlanilla.Execute();
+                        }
+                        else
+                        {
+                            result = new Result()
+                            {
+                                Message = "Sólo puede haber 1 plantilla habilitada de una misma categoría."
+                            };
+                        }
 
                         break;
 
                     case Operacion.Actualizar:
 
-                        var actualizarPlantillaPlanilla = new USP_U_ActualizarPlantillaPlanilla()
+                        if (!plantillaPlanillaEntity.plantillaPlanillaID.HasValue)
                         {
-                            I_PlantillaPlanillaID = plantillaPlanillaEntity.plantillaPlanillaID.Value,
-                            I_CategoriaPlanillaID = plantillaPlanillaEntity.categoriaPlanillaID,
-                            T_PlantillaPlanillaDesc = plantillaPlanillaEntity.plantillaPlanillaDesc,
-                            I_UserID = userID
-                        };
+                            throw new Exception("Ha ocurrido un error al obtener los datos. Por favor recargue la página y vuelva a intentarlo.");
+                        }
 
-                        result = actualizarPlantillaPlanilla.Execute();
+                        var plantillaPlanillaDTO = ListarPlantillasPlanilla()
+                            .Where(x => x.categoriaPlanillaID == plantillaPlanillaEntity.categoriaPlanillaID)
+                            .FirstOrDefault();
+
+                        if (plantillaPlanillaDTO != null && plantillaPlanillaEntity.estaHabilitado &&
+                            plantillaPlanillaDTO.plantillaPlanillaID != plantillaPlanillaEntity.plantillaPlanillaID.Value)
+                        {
+                            existeOtraPlantillaHabilitada = true;
+                        }
+
+                        if (!existeOtraPlantillaHabilitada)
+                        {
+                            var actualizarPlantillaPlanilla = new USP_U_ActualizarPlantillaPlanilla()
+                            {
+                                I_PlantillaPlanillaID = plantillaPlanillaEntity.plantillaPlanillaID.Value,
+                                I_CategoriaPlanillaID = plantillaPlanillaEntity.categoriaPlanillaID,
+                                T_PlantillaPlanillaDesc = plantillaPlanillaEntity.plantillaPlanillaDesc,
+                                I_UserID = userID
+                            };
+
+                            result = actualizarPlantillaPlanilla.Execute();
+                        }
+                        else
+                        {
+                            result = new Result()
+                            {
+                                Message = "Sólo puede haber 1 plantilla habilitada de una misma categoría."
+                            };
+                        }
 
                         break;
 

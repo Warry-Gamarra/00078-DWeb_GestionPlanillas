@@ -8,6 +8,7 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -18,39 +19,77 @@ namespace Domain.Services.Implementations
         public Response GrabarConcepto(Operacion operacion, ConceptoEntity conceptoEntity, int userID)
         {
             Result result;
+            bool esCodigoConceptoUnico = true;
 
             try
             {
                 switch (operacion)
                 {
                     case Operacion.Registrar:
-
-                        var grabarConcepto = new USP_I_RegistrarConcepto()
+                        
+                        if (ListarConceptos().Where(x => x.conceptoCod == conceptoEntity.conceptoCod).FirstOrDefault() != null)
                         {
-                            I_TipoConceptoID = conceptoEntity.tipoConceptoID,
-                            C_ConceptoCod = conceptoEntity.conceptoCod,
-                            T_ConceptoDesc = conceptoEntity.conceptoDesc,
-                            T_ConceptoAbrv = conceptoEntity.conceptoAbrv,
-                            I_UserID = userID
-                        };
+                            esCodigoConceptoUnico = false;
+                        }
 
-                        result = grabarConcepto.Execute();
+                        if (esCodigoConceptoUnico)
+                        {
+                            var grabarConcepto = new USP_I_RegistrarConcepto()
+                            {
+                                I_TipoConceptoID = conceptoEntity.tipoConceptoID,
+                                C_ConceptoCod = conceptoEntity.conceptoCod,
+                                T_ConceptoDesc = conceptoEntity.conceptoDesc,
+                                T_ConceptoAbrv = conceptoEntity.conceptoAbrv,
+                                I_UserID = userID
+                            };
+
+                            result = grabarConcepto.Execute();
+                        }
+                        else
+                        {
+                            result = new Result()
+                            {
+                                Message = String.Format("El código \"{0}\" se encuentra repetido en el sistema.", conceptoEntity.conceptoCod)
+                            };
+                        }
 
                         break;
 
                     case Operacion.Actualizar:
 
-                        var actualizarConcepto = new USP_U_ActualizarConcepto()
+                        if (!conceptoEntity.conceptoID.HasValue)
                         {
-                            I_ConceptoID = conceptoEntity.conceptoID.Value,
-                            I_TipoConceptoID = conceptoEntity.tipoConceptoID,
-                            C_ConceptoCod = conceptoEntity.conceptoCod,
-                            T_ConceptoDesc = conceptoEntity.conceptoDesc,
-                            T_ConceptoAbrv = conceptoEntity.conceptoAbrv,
-                            I_UserID = userID
-                        };
+                            throw new Exception("Ha ocurrido un error al obtener los datos. Por favor recargue la página y vuelva a intentarlo.");
+                        }
 
-                        result = actualizarConcepto.Execute();
+                        var conceptoDTO = ListarConceptos().Where(x => x.conceptoCod == conceptoEntity.conceptoCod).FirstOrDefault();
+
+                        if (conceptoDTO != null && conceptoDTO.conceptoID != conceptoEntity.conceptoID.Value)
+                        {
+                            esCodigoConceptoUnico = false;
+                        }
+
+                        if (esCodigoConceptoUnico)
+                        {
+                            var actualizarConcepto = new USP_U_ActualizarConcepto()
+                            {
+                                I_ConceptoID = conceptoEntity.conceptoID.Value,
+                                I_TipoConceptoID = conceptoEntity.tipoConceptoID,
+                                C_ConceptoCod = conceptoEntity.conceptoCod,
+                                T_ConceptoDesc = conceptoEntity.conceptoDesc,
+                                T_ConceptoAbrv = conceptoEntity.conceptoAbrv,
+                                I_UserID = userID
+                            };
+
+                            result = actualizarConcepto.Execute();
+                        }
+                        else
+                        {
+                            result = new Result()
+                            {
+                                Message = String.Format("El código \"{0}\" se encuentra repetido en el sistema.", conceptoEntity.conceptoCod)
+                            };
+                        }
 
                         break;
 

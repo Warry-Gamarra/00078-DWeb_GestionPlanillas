@@ -17,49 +17,119 @@ namespace Domain.Services.Implementations
         public Response GrabarPlantillaPlanillaConcepto(Operacion operacion, PlantillaPlanillaConceptoEntity plantillaPlanillaConcepto, int userID)
         {
             Result result;
+            bool grabar = true;
 
             try
             {
                 switch(operacion)
                 {
                     case Operacion.Registrar:
-
-                        var grabarPlantillaPlanillaConcepto = new USP_I_RegistrarPlantillaPlanillaConcepto()
+                        
+                        if (!plantillaPlanillaConcepto.valorEsExterno && (!plantillaPlanillaConcepto.valorConcepto.HasValue || plantillaPlanillaConcepto.valorConcepto.Value <= 0))
                         {
-                            I_PlantillaPlanillaID = plantillaPlanillaConcepto.plantillaPlanillaID,
-                            I_ConceptoID = plantillaPlanillaConcepto.conceptoID,
-                            B_EsMontoFijo = plantillaPlanillaConcepto.esMontoFijo,
-                            B_MontoEstaAqui = plantillaPlanillaConcepto.montoEstaAqui,
-                            M_Monto = plantillaPlanillaConcepto.monto,
-                            B_AplicarFiltro1 = plantillaPlanillaConcepto.aplicarFiltro1,
-                            I_Filtro1 = plantillaPlanillaConcepto.filtro1,
-                            B_AplicarFiltro2 = plantillaPlanillaConcepto.aplicarFiltro2,
-                            I_Filtro2 = plantillaPlanillaConcepto.filtro2,
-                            I_UserID = userID
-                        };
+                            grabar = false;
+                        }
 
-                        result = grabarPlantillaPlanillaConcepto.Execute();
+                        if (grabar)
+                        {
+                            if (ListarConceptosAsignados(plantillaPlanillaConcepto.plantillaPlanillaID).Where(x => x.conceptoID == plantillaPlanillaConcepto.conceptoID).FirstOrDefault() != null)
+                            {
+                                grabar = false;
+                            }
+
+                            if (grabar)
+                            {
+                                var grabarPlantillaPlanillaConcepto = new USP_I_RegistrarPlantillaPlanillaConcepto()
+                                {
+                                    I_PlantillaPlanillaID = plantillaPlanillaConcepto.plantillaPlanillaID,
+                                    I_ConceptoID = plantillaPlanillaConcepto.conceptoID,
+                                    B_EsValorFijo = plantillaPlanillaConcepto.esValorFijo,
+                                    B_ValorEsExterno = plantillaPlanillaConcepto.valorEsExterno,
+                                    M_ValorConcepto = plantillaPlanillaConcepto.valorConcepto,
+                                    B_AplicarFiltro1 = plantillaPlanillaConcepto.aplicarFiltro1,
+                                    I_Filtro1 = plantillaPlanillaConcepto.filtro1,
+                                    B_AplicarFiltro2 = plantillaPlanillaConcepto.aplicarFiltro2,
+                                    I_Filtro2 = plantillaPlanillaConcepto.filtro2,
+                                    I_UserID = userID
+                                };
+
+                                result = grabarPlantillaPlanillaConcepto.Execute();
+                            }
+                            else
+                            {
+                                result = new Result()
+                                {
+                                    Message = "El concepto se encuentra repetido."
+                                };
+                            }
+                        }
+                        else
+                        {
+                            result = new Result()
+                            {
+                                Message = "El valor del concepto es obligatorio."
+                            };
+                        }
 
                         break;
 
                     case Operacion.Actualizar:
 
-                        var actualizarPlantillaPlanillaConcepto = new USP_U_ActualizarPlantillaPlanillaConcepto()
+                        if (!plantillaPlanillaConcepto.plantillaPlanillaConceptoID.HasValue)
                         {
-                            I_PlantillaPlanillaConceptoID = plantillaPlanillaConcepto.plantillaPlanillaConceptoID.Value,
-                            I_PlantillaPlanillaID = plantillaPlanillaConcepto.plantillaPlanillaID,
-                            I_ConceptoID = plantillaPlanillaConcepto.conceptoID,
-                            B_EsMontoFijo = plantillaPlanillaConcepto.esMontoFijo,
-                            B_MontoEstaAqui = plantillaPlanillaConcepto.montoEstaAqui,
-                            M_Monto = plantillaPlanillaConcepto.monto,
-                            B_AplicarFiltro1 = plantillaPlanillaConcepto.aplicarFiltro1,
-                            I_Filtro1 = plantillaPlanillaConcepto.filtro1,
-                            B_AplicarFiltro2 = plantillaPlanillaConcepto.aplicarFiltro2,
-                            I_Filtro2 = plantillaPlanillaConcepto.filtro2,
-                            I_UserID = userID
-                        };
+                            throw new Exception("Ha ocurrido un error al obtener los datos. Por favor recargue la página y vuelva a intentarlo.");
+                        }
+                        
+                        if (!plantillaPlanillaConcepto.valorEsExterno && (!plantillaPlanillaConcepto.valorConcepto.HasValue || plantillaPlanillaConcepto.valorConcepto.Value <= 0))
+                        {
+                            grabar = false;
+                        }
 
-                        result = actualizarPlantillaPlanillaConcepto.Execute();
+                        if (grabar)
+                        {
+                            var listaConceptos = ListarConceptosAsignados(plantillaPlanillaConcepto.plantillaPlanillaID);
+
+                            var conceptoDTO = listaConceptos.Where(x => x.conceptoID == plantillaPlanillaConcepto.conceptoID).FirstOrDefault();
+
+                            if (conceptoDTO != null && conceptoDTO.conceptoID == plantillaPlanillaConcepto.conceptoID &&
+                                conceptoDTO.plantillaPlanillaConceptoID != plantillaPlanillaConcepto.plantillaPlanillaConceptoID.Value) {
+                                grabar = false;
+                            }
+
+                            if (grabar)
+                            {
+                                var actualizarPlantillaPlanillaConcepto = new USP_U_ActualizarPlantillaPlanillaConcepto()
+                                {
+                                    I_PlantillaPlanillaConceptoID = plantillaPlanillaConcepto.plantillaPlanillaConceptoID.Value,
+                                    I_PlantillaPlanillaID = plantillaPlanillaConcepto.plantillaPlanillaID,
+                                    I_ConceptoID = plantillaPlanillaConcepto.conceptoID,
+                                    B_EsValorFijo = plantillaPlanillaConcepto.esValorFijo,
+                                    B_ValorEsExterno = plantillaPlanillaConcepto.valorEsExterno,
+                                    M_ValorConcepto = plantillaPlanillaConcepto.valorConcepto,
+                                    B_AplicarFiltro1 = plantillaPlanillaConcepto.aplicarFiltro1,
+                                    I_Filtro1 = plantillaPlanillaConcepto.filtro1,
+                                    B_AplicarFiltro2 = plantillaPlanillaConcepto.aplicarFiltro2,
+                                    I_Filtro2 = plantillaPlanillaConcepto.filtro2,
+                                    I_UserID = userID
+                                };
+
+                                result = actualizarPlantillaPlanillaConcepto.Execute();
+                            }
+                            else
+                            {
+                                result = new Result()
+                                {
+                                    Message = "El concepto se encuentra repetido."
+                                };
+                            }
+                        }
+                        else
+                        {
+                            result = new Result()
+                            {
+                                Message = "El valor del concepto es obligatorio."
+                            };
+                        }
 
                         break;
 

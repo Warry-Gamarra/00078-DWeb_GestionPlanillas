@@ -53,60 +53,35 @@ namespace WebApp.ServiceFacade.Implementations
         public Response GrabarTrabajador(Operacion operacion, TrabajadorModel model, int userID)
         {
             Response response;
-            bool grabar = true;
 
             try
             {
-                if (operacion.Equals(Operacion.Registrar) && _personaService.ObtenerPersona(model.I_TipoDocumentoID, model.C_NumDocumento) != null)
+                var trabajadorEntity = new TrabajadorEntity()
                 {
-                    grabar = false;
-                }
+                    I_TrabajadorID = model.I_TrabajadorID,
+                    I_PersonaID = model.I_PersonaID,
+                    C_TrabajadorCod = model.C_TrabajadorCod,
+                    T_ApellidoPaterno = model.T_ApellidoPaterno,
+                    T_ApellidoMaterno = model.T_ApellidoMaterno,
+                    T_Nombre = model.T_Nombre,
+                    I_TipoDocumentoID = model.I_TipoDocumentoID,
+                    C_NumDocumento = model.C_NumDocumento,
+                    D_FechaIngreso = model.D_FechaIngreso,
+                    I_RegimenID = model.I_RegimenID.Value,
+                    I_EstadoID = model.I_EstadoID,
+                    I_VinculoID = model.I_VinculoID,
+                    I_BancoID = model.I_BancoID,
+                    T_NroCuentaBancaria = model.T_NroCuentaBancaria,
+                    I_DependenciaID = model.I_DependenciaID,
+                    I_Afp = model.I_AfpID,
+                    T_Cuspp = model.T_Cuspp,
+                    I_CategoriaDocenteID = model.I_CategoriaDocenteID,
+                    I_HorasDocenteID = model.I_HorasDocenteID,
+                    I_GrupoOcupacionalID = model.I_GrupoOcupacionalID,
+                    I_NivelRemunerativoID = model.I_NivelRemunerativoID
+                };
 
-                if (operacion.Equals(Operacion.Actualizar))
-                {
-                    var personaDTO = _personaService.ObtenerPersona(model.I_TipoDocumentoID, model.C_NumDocumento);
-
-                    if (personaDTO != null && personaDTO.I_PersonaID != model.I_PersonaID)
-                    {
-                        grabar = false;
-                    }
-                }
-
-                if (grabar)
-                {
-                    var trabajadorEntity = new TrabajadorEntity()
-                    {
-                        I_TrabajadorID = model.I_TrabajadorID,
-                        C_TrabajadorCod = model.C_TrabajadorCod,
-                        T_ApellidoPaterno = model.T_ApellidoPaterno,
-                        T_ApellidoMaterno = model.T_ApellidoMaterno,
-                        T_Nombre = model.T_Nombre,
-                        I_TipoDocumentoID = model.I_TipoDocumentoID,
-                        C_NumDocumento = model.C_NumDocumento,
-                        D_FechaIngreso = model.D_FechaIngreso,
-                        I_RegimenID = model.I_RegimenID.Value,
-                        I_EstadoID = model.I_EstadoID,
-                        I_VinculoID = model.I_VinculoID,
-                        I_BancoID = model.I_BancoID,
-                        T_NroCuentaBancaria = model.T_NroCuentaBancaria,
-                        I_DependenciaID = model.I_DependenciaID,
-                        I_Afp = model.I_AfpID,
-                        T_Cuspp = model.T_Cuspp,
-                        I_CategoriaDocenteID = model.I_CategoriaDocenteID,
-                        I_HorasDocenteID = model.I_HorasDocenteID,
-                        I_GrupoOcupacionalID = model.I_GrupoOcupacionalID,
-                        I_NivelRemunerativoID = model.I_NivelRemunerativoID
-                    };
-
-                    response = _trabajadorService.GrabarTrabajador(operacion, trabajadorEntity, userID);
-                }
-                else
-                {
-                    response = new Response()
-                    {
-                        Message = "El Num.Documento se encuentra repetido."
-                    };
-                }
+                response = _trabajadorService.GrabarTrabajador(operacion, trabajadorEntity, userID);
             }
             catch (Exception ex)
             {
@@ -114,7 +89,7 @@ namespace WebApp.ServiceFacade.Implementations
                 {
                     Message = ex.Message
                 };
-            }            
+            }
 
             return response;
         }
