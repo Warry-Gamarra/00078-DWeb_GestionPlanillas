@@ -76,13 +76,21 @@ namespace WebApp.Controllers
 
             if (plantilla.categoriaPlanillaID == 1)
             {
+                ViewBag.DescFiltro1 = "Grupo Ocupacional";
+
                 ViewBag.ListaFiltro1 = _grupoOcupacionalServiceFacade.ListarGruposOcupacionales();
+
+                ViewBag.DescFiltro2 = "Nivel Remunerativo";
 
                 ViewBag.ListaFiltro2 = _nivelRemunerativoServiceFacade.ListarNivelesRemunerativos();
             }
             else if (plantilla.categoriaPlanillaID == 2)
             {
+                ViewBag.DescFiltro1 = "Categoría";
+
                 ViewBag.ListaFiltro1 = _categoriaDocenteServiceFacade.ListarCategoriasDocente();
+
+                ViewBag.DescFiltro2 = "Dedicación";
 
                 ViewBag.ListaFiltro2 = _horasDocenteServiceFacade.ListarHorasDedicacionDocente();
             }
@@ -92,6 +100,11 @@ namespace WebApp.Controllers
 
                 ViewBag.ListaFiltro2 = new SelectList(new List<SelectListItem>());
             }
+
+            var listaConceptosIncluidos = _plantillaPlanillaConceptoServiceFacade.ListarConceptosAsignados(plantilla.plantillaPlanillaID.Value)
+                .Where(x => x.plantillaPlanillaConceptoID != id && x.estaHabilitado);
+
+            ViewBag.ListaConceptosIncluidos = new SelectList(listaConceptosIncluidos, "plantillaPlanillaConceptoID", "conceptoDesc");
 
             var model = new ConceptoAsignadoPlantillaModel()
             {
@@ -137,13 +150,21 @@ namespace WebApp.Controllers
 
             if (plantilla.categoriaPlanillaID == 1)
             {
+                ViewBag.DescFiltro1 = "Grupo Ocupacional";
+
                 ViewBag.ListaFiltro1 = _grupoOcupacionalServiceFacade.ListarGruposOcupacionales(selectedItem: model.filtro1);
+
+                ViewBag.DescFiltro2 = "Nivel Remunerativo";
 
                 ViewBag.ListaFiltro2 = _nivelRemunerativoServiceFacade.ListarNivelesRemunerativos(selectedItem: model.filtro2);
             }
             else if (plantilla.categoriaPlanillaID == 2)
             {
+                ViewBag.DescFiltro1 = "Categoría";
+
                 ViewBag.ListaFiltro1 = _categoriaDocenteServiceFacade.ListarCategoriasDocente(selectedItem: model.filtro1);
+
+                ViewBag.DescFiltro2 = "Dedicación";
 
                 ViewBag.ListaFiltro2 = _horasDocenteServiceFacade.ListarHorasDedicacionDocente(selectedItem: model.filtro2);
             }
@@ -153,6 +174,11 @@ namespace WebApp.Controllers
 
                 ViewBag.ListaFiltro2 = new SelectList(new List<SelectListItem>());
             }
+
+            var listaConceptosIncluidos = _plantillaPlanillaConceptoServiceFacade.ListarConceptosAsignados(plantilla.plantillaPlanillaID.Value)
+                .Where(x => x.plantillaPlanillaConceptoID != id && x.estaHabilitado);
+
+            ViewBag.ListaConceptosIncluidos = new SelectList(listaConceptosIncluidos, "plantillaPlanillaConceptoID", "conceptoDesc");
 
             return PartialView("_MantenimientoAsignacionConcepto", model);
         }

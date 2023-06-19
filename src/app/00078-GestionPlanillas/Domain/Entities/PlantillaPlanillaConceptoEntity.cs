@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -27,5 +28,7 @@ namespace Domain.Entities
         public bool aplicarFiltro2 { get; set; }
 
         public int? filtro2 { get; set; }
+
+        public DataTable conceptoIncluido { get; set; }
     }
 }

@@ -72,5 +72,8 @@ namespace WebApp.Models
         public int? filtro2 { get; set; }
 
         public bool estaHabilitado { get; set; }
+
+        [Display(Name = "Aplicar porcentaje a:")]
+        public int[] conceptoPorcentajeID { get; set; }
     }
 }

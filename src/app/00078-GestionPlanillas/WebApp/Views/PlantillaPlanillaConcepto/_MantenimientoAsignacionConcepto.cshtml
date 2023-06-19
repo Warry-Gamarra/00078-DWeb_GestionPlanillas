@@ -38,10 +38,10 @@
         </div>
         <div class="col-4">
             <div class="form-check form-check-inline">
-                <label class="form-check-label">@Html.RadioButtonFor(model => model.esValorFijo, true) Monto fijo (S/.)</label>
+                <label class="form-check-label" onclick="mostrarPorcetual(false);">@Html.RadioButtonFor(model => model.esValorFijo, true) Monto fijo (S/.)</label>
             </div>
             <div class="form-check form-check-inline">
-                <label class="form-check-label">@Html.RadioButtonFor(model => model.esValorFijo, false) Valor porcentual (%)</label>
+                <label class="form-check-label" onclick="mostrarPorcetual(true);">@Html.RadioButtonFor(model => model.esValorFijo, false) Valor porcentual (%)</label>
             </div>
         </div>
     </div>
@@ -63,7 +63,7 @@
     <div class="form-row">
         <div class="col-12">
             <div class="form-group row">
-                <label class="col-sm-2 control-label">Filtro 1 @Html.CheckBoxFor(model => model.aplicarFiltro1)</label>
+                <label class="col-sm-2 control-label">@ViewBag.DescFiltro1 @Html.CheckBoxFor(model => model.aplicarFiltro1)</label>
                 <div class="col-sm-10">
                     @Html.DropDownListFor(model => model.filtro1, ViewBag.ListaFiltro1 as SelectList, "[ SELECCIONAR ]", new { @class = "form-control text-uppercase", @disabled = "disabled" })
                     @Html.ValidationMessageFor(model => model.filtro1, null, new { @class = "text-danger" })
@@ -75,10 +75,21 @@
     <div class="form-row">
         <div class="col-12">
             <div class="form-group row">
-                <label class="col-sm-2 control-label">Filtro 2 @Html.CheckBoxFor(model => model.aplicarFiltro2)</label>
+                <label class="col-sm-2 control-label">@ViewBag.DescFiltro2 @Html.CheckBoxFor(model => model.aplicarFiltro2)</label>
                 <div class="col-sm-10">
                     @Html.DropDownListFor(model => model.filtro2, ViewBag.ListaFiltro2 as SelectList, "[ SELECCIONAR ]", new { @class = "form-control text-uppercase", @disabled = "disabled" })
                     @Html.ValidationMessageFor(model => model.filtro2, null, new { @class = "text-danger" })
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="form-row" style="display: none;" id="divConceptoPorcentaje">
+        <div class="col-12">
+            <div class="form-group row">
+                @Html.LabelFor(model => model.conceptoPorcentajeID, new { @class = "col-sm-2 control-label" })
+                <div class="col-sm-10">
+                    @Html.DropDownListFor(model => model.conceptoPorcentajeID, ViewBag.ListaConceptosIncluidos as SelectList, "[ SELECCIONAR ]", new { @class = "select-multiple form-control text-uppercase", multiple = "true" })
                 </div>
             </div>
         </div>
@@ -129,6 +140,13 @@
             e.stopPropagation();
         });
 
+        $('.select-multiple').select2({
+            dropdownParent: $('#modal-container-lg'),
+            placeholder: "[ SELECCIONAR ]"
+        }).on('closing', function (e) {
+            e.stopPropagation();
+        });
+
         $('#content-body').on('click', '#aplicarFiltro1', function (event) {
             let checked = $(this).is(':checked');
             cambiarEstadoCampoFiltro(checked, 'filtro1');
@@ -175,6 +193,14 @@
             debugger;
             $('#content-body #valorConcepto').val('');
             $('#content-body #valorConcepto').prop('disabled', 'disabled')
+        }
+    }
+
+    function mostrarPorcetual(mostrar) {
+        if (mostrar) {
+            $(divConceptoPorcentaje).css('display', 'flex');
+        } else {
+            $(divConceptoPorcentaje).css('display', 'none');
         }
     }
 </script>

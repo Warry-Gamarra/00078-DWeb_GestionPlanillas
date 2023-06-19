@@ -12,6 +12,8 @@ namespace Data.Procedures
 {
     public class USP_U_ActualizarPlantillaPlanillaConcepto
     {
+        public DataTable Tbl_ConceptoIncluido { get; set; }
+
         public int I_PlantillaPlanillaConceptoID { get; set; }
 
         public int I_PlantillaPlanillaID { get; set; }

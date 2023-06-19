@@ -3,10 +3,13 @@ using Domain.Enums;
 using Domain.Helpers;
 using Domain.Services;
 using Domain.Services.Implementations;
+using Microsoft.Ajax.Utilities;
 using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Web;
+using System.Web.DynamicData;
 using WebApp.Models;
 
 namespace WebApp.ServiceFacade.Implementations
@@ -39,6 +42,17 @@ namespace WebApp.ServiceFacade.Implementations
                     aplicarFiltro2 = model.aplicarFiltro2,
                     filtro2 = model.filtro2
                 };
+
+                plantillaPlanillaConceptoEntity.conceptoIncluido = new DataTable();
+                plantillaPlanillaConceptoEntity.conceptoIncluido.Columns.Add("I_ID");
+
+                if (model.conceptoPorcentajeID != null)
+                {
+                    foreach (var id in model.conceptoPorcentajeID)
+                    {
+                        plantillaPlanillaConceptoEntity.conceptoIncluido.Rows.Add(id);
+                    }
+                }
 
                 response = _plantillaPlanillaConceptoService.GrabarPlantillaPlanillaConcepto(operacion, plantillaPlanillaConceptoEntity, userID);
 

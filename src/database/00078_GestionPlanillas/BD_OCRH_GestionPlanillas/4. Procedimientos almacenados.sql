@@ -286,17 +286,17 @@ GO
 
 
 
-IF EXISTS (SELECT * FROM INFORMATION_SCHEMA.DOMAINS WHERE DOMAIN_NAME = 'type_dataTrabajador') BEGIN
+IF EXISTS (SELECT * FROM INFORMATION_SCHEMA.DOMAINS WHERE DOMAIN_NAME = 'type_dataIdentifiers') BEGIN
 	IF EXISTS (SELECT * FROM INFORMATION_SCHEMA.ROUTINES WHERE ROUTINE_TYPE = 'PROCEDURE' AND ROUTINE_NAME = 'USP_I_GenerarPlanilla_Docente_Administrativo') BEGIN
 		DROP PROCEDURE [dbo].[USP_I_GenerarPlanilla_Docente_Administrativo]
 	END
 
-	DROP TYPE [dbo].[type_dataTrabajador]
+	DROP TYPE [dbo].[type_dataIdentifiers]
 END
 GO
 
-CREATE TYPE [dbo].[type_dataTrabajador] AS TABLE(
-	I_TrabajadorID int
+CREATE TYPE [dbo].[type_dataIdentifiers] AS TABLE(
+	I_ID int
 )
 GO
 
@@ -306,7 +306,7 @@ GO
 
 
 CREATE PROCEDURE [dbo].[USP_I_GenerarPlanilla_Docente_Administrativo]
-@Tbl_Trabajador [dbo].[type_dataTrabajador] READONLY,
+@Tbl_Trabajador [dbo].[type_dataIdentifiers] READONLY,
 @I_Anio INT,
 @I_Mes INT,
 @I_CategoriaPlanillaID INT,
@@ -427,7 +427,7 @@ BEGIN
 			INNER JOIN dbo.TC_Trabajador_CategoriaPlanilla tca ON tca.I_TrabajadorID = trab.I_TrabajadorID 
 			INNER JOIN dbo.TC_GrupoOcupacional gr ON gr.I_GrupoOcupacionalID = adm.I_GrupoOcupacionalID
 			INNER JOIN dbo.TC_NivelRemunerativo nivrem ON nivrem.I_NivelRemunerativoID = adm.I_NivelRemunerativoID
-			INNER JOIN @Tbl_Trabajador tmp ON tmp.I_TrabajadorID = trab.I_TrabajadorID
+			INNER JOIN @Tbl_Trabajador tmp ON tmp.I_ID = trab.I_TrabajadorID
 			WHERE trab.B_Habilitado = 1 AND trab.B_Eliminado = 0 AND 
 				adm.B_Habilitado = 1 AND adm.B_Eliminado = 0 AND 
 				tca.B_Habilitado = 1 AND tca.B_Eliminado = 0 AND tca.I_CategoriaPlanillaID = @I_CategoriaPlanillaID AND
@@ -443,7 +443,7 @@ BEGIN
 			INNER JOIN dbo.TC_Trabajador_CategoriaPlanilla tca ON tca.I_TrabajadorID = trab.I_TrabajadorID 
 			INNER JOIN dbo.TC_CategoriaDocente cd ON cd.I_CategoriaDocenteID = doc.I_CategoriaDocenteID
 			INNER JOIN dbo.TC_HorasDocente hd ON hd.I_HorasDocenteID = doc.I_HorasDocenteID
-			INNER JOIN @Tbl_Trabajador tmp ON tmp.I_TrabajadorID = trab.I_TrabajadorID
+			INNER JOIN @Tbl_Trabajador tmp ON tmp.I_ID = trab.I_TrabajadorID
 			WHERE trab.B_Habilitado = 1 AND trab.B_Eliminado = 0 AND 
 				doc.B_Habilitado = 1 AND doc.B_Eliminado = 0 AND 
 				tca.B_Habilitado = 1 AND tca.B_Eliminado = 0 AND tca.I_CategoriaPlanillaID = @I_CategoriaPlanillaID AND
@@ -938,6 +938,7 @@ IF EXISTS (SELECT * FROM INFORMATION_SCHEMA.ROUTINES WHERE ROUTINE_TYPE = 'PROCE
 GO
 
 CREATE PROCEDURE USP_I_RegistrarPlantillaPlanillaConcepto
+@Tbl_ConceptoIncluido [dbo].[type_dataIdentifiers] READONLY,
 @I_PlantillaPlanillaID INT,
 @I_ConceptoID INT,
 @B_EsValorFijo BIT,
@@ -954,10 +955,18 @@ AS
 BEGIN
 	SET NOCOUNT ON;
 	
+	DECLARE @I_PlantillaPlanillaConceptoID INT
+	DECLARE @D_FecCre DATETIME = GETDATE()
+
 	BEGIN TRAN
 	BEGIN TRY
 		INSERT dbo.TI_PlantillaPlanilla_Concepto(I_PlantillaPlanillaID, I_ConceptoID, B_EsValorFijo, B_ValorEsExterno, M_ValorConcepto, B_AplicarFiltro1, I_Filtro1, B_AplicarFiltro2, I_Filtro2, B_Habilitado, B_Eliminado, I_UsuarioCre, D_FecCre)
-		VALUES(@I_PlantillaPlanillaID, @I_ConceptoID, @B_EsValorFijo, @B_ValorEsExterno, @M_ValorConcepto, @B_AplicarFiltro1, @I_Filtro1, @B_AplicarFiltro2, @I_Filtro2, 1, 0, @I_UserID, GETDATE())
+		VALUES(@I_PlantillaPlanillaID, @I_ConceptoID, @B_EsValorFijo, @B_ValorEsExterno, @M_ValorConcepto, @B_AplicarFiltro1, @I_Filtro1, @B_AplicarFiltro2, @I_Filtro2, 1, 0, @I_UserID, @D_FecCre)
+
+		SET @I_PlantillaPlanillaConceptoID = SCOPE_IDENTITY();
+
+		INSERT dbo.TI_PlantillaPlanilla_Concepto_Incluido(I_PlantillaPlanillaConceptoID, I_PlantillaPlanillaConceptoBaseID, B_Habilitado, B_Eliminado, I_UsuarioCre, D_FecCre)
+		SELECT @I_PlantillaPlanillaConceptoID, I_ID, 1, 0, @I_UserID, @D_FecCre FROM @Tbl_ConceptoIncluido
 
 		COMMIT TRAN
 		SET @B_Result = 1
