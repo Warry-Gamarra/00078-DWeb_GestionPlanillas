@@ -211,5 +211,14 @@ namespace WebApp.Controllers
 
             return Json(result, JsonRequestBehavior.AllowGet);
         }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public JsonResult Eliminar(int id)
+        {
+            var result = _plantillaPlanillaConceptoServiceFacade.Eliminar(id, WebSecurity.CurrentUserId);
+
+            return Json(result, JsonRequestBehavior.AllowGet);
+        }
     }
 }

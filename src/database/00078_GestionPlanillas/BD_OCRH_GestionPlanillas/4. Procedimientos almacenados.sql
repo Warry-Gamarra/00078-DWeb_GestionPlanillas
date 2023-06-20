@@ -1067,3 +1067,46 @@ BEGIN
 	END CATCH
 END
 GO
+
+
+
+IF EXISTS (SELECT * FROM INFORMATION_SCHEMA.ROUTINES WHERE ROUTINE_TYPE = 'PROCEDURE' AND ROUTINE_NAME = 'USP_U_EliminarPlantillaPlanillaConcepto')
+	DROP PROCEDURE [dbo].[USP_U_EliminarPlantillaPlanillaConcepto]
+GO
+
+CREATE PROCEDURE USP_U_EliminarPlantillaPlanillaConcepto
+@I_PlantillaPlanillaConceptoID INT,
+@I_UserID INT,
+@B_Result BIT OUTPUT,
+@T_Message VARCHAR(250) OUTPUT
+AS
+BEGIN
+	SET NOCOUNT ON;
+	
+	BEGIN TRAN
+	BEGIN TRY
+		UPDATE dbo.TI_PlantillaPlanilla_Concepto_Incluido SET
+			B_Habilitado = 0,
+			B_Eliminado = 1,
+			I_UsuarioMod = @I_UserID,
+			D_FecMod = GETDATE()
+		WHERE I_PlantillaPlanillaConceptoID = @I_PlantillaPlanillaConceptoID
+
+		UPDATE dbo.TI_PlantillaPlanilla_Concepto SET
+			B_Habilitado = 0,
+			B_Eliminado = 1,
+			I_UsuarioMod = @I_UserID,
+			D_FecMod = GETDATE()
+		WHERE I_PlantillaPlanillaConceptoID = @I_PlantillaPlanillaConceptoID
+		
+		COMMIT TRAN
+		SET @B_Result = 1
+		SET @T_Message = 'Actualización correcta.'
+	END TRY
+	BEGIN CATCH
+		ROLLBACK TRAN
+		SET @B_Result = 0
+		SET @T_Message = ERROR_MESSAGE()
+	END CATCH
+END
+GO

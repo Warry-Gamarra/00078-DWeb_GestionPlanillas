@@ -162,7 +162,32 @@ namespace Domain.Services.Implementations
 
             return Mapper.Result_To_Response(result);
         }
-    
+
+        public Response Eliminar(int plantillaPlanillaConceptoID, int userID)
+        {
+            Result result;
+
+            try
+            {
+                var cambiarEstado = new USP_U_EliminarPlantillaPlanillaConcepto()
+                {
+                    I_PlantillaPlanillaConceptoID = plantillaPlanillaConceptoID,
+                    I_UserID = userID
+                };
+
+                result = cambiarEstado.Execute();
+            }
+            catch (Exception ex)
+            {
+                result = new Result()
+                {
+                    Message = ex.Message
+                };
+            }
+
+            return Mapper.Result_To_Response(result);
+        }
+
         private Tuple<bool, string> ValidarCamposConcepto(Operacion operacion, PlantillaPlanillaConceptoEntity plantillaPlanillaConcepto)
         {
             bool correcto = true;

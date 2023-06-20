@@ -101,5 +101,12 @@ namespace WebApp.ServiceFacade.Implementations
 
             return result;
         }
+
+        public Response Eliminar(int plantillaPlanillaConceptoID, int userID)
+        {
+            var result = _plantillaPlanillaConceptoService.Eliminar(plantillaPlanillaConceptoID, userID);
+
+            return result;
+        }
     }
 }

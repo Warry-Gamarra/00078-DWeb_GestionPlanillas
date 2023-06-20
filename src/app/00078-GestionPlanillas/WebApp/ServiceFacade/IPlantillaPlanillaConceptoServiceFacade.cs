@@ -18,5 +18,7 @@ namespace WebApp.ServiceFacade
         ConceptoAsignadoPlantillaModel ObtenerPlantillaPlanillaConcepto(int plantillaPlanillaConceptoID);
 
         Response CambiarEstado(int plantillaPlanillaConceptoID, bool estaHabilitado, int userID);
+
+        Response Eliminar(int plantillaPlanillaConceptoID, int userID);
     }
 }

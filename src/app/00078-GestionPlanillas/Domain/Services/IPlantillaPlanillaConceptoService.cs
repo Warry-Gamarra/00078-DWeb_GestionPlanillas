@@ -18,5 +18,7 @@ namespace Domain.Services
         ConceptoAsignadoPlantillaDTO ObtenerPlantillaPlanillaConcepto(int conceptoID);
 
         Response CambiarEstado(int plantillaPlanillaConceptoID, bool estadHabilitado, int userID);
+
+        Response Eliminar(int plantillaPlanillaConceptoID, int userID);
     }
 }
