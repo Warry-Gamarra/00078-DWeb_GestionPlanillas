@@ -15,7 +15,7 @@ namespace Domain.Services
 
         List<ConceptoAsignadoPlantillaDTO> ListarConceptosAsignados(int plantillaPlanillaID);
 
-        ConceptoAsignadoPlantillaDTO ObtenerPlantillaPlanillaConcepto(int conceptoID);
+        ConceptoAsignadoPlantillaDTO ObtenerPlantillaPlanillaConcepto(int plantillaPlanillaConceptoID);
 
         Response CambiarEstado(int plantillaPlanillaConceptoID, bool estadHabilitado, int userID);
 

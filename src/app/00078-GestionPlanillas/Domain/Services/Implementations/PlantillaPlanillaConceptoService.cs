@@ -119,11 +119,11 @@ namespace Domain.Services.Implementations
             return lista;
         }
 
-        public ConceptoAsignadoPlantillaDTO ObtenerPlantillaPlanillaConcepto(int conceptoID)
+        public ConceptoAsignadoPlantillaDTO ObtenerPlantillaPlanillaConcepto(int plantillaPlanillaConceptoID)
         {
             ConceptoAsignadoPlantillaDTO plantillaPlanillaDTO;
 
-            var view = VW_ConceptosAsignados_Plantilla.FindByID(conceptoID);
+            var view = VW_ConceptosAsignados_Plantilla.FindByID(plantillaPlanillaConceptoID);
 
             if (view == null)
             {
@@ -169,13 +169,26 @@ namespace Domain.Services.Implementations
 
             try
             {
-                var cambiarEstado = new USP_U_EliminarPlantillaPlanillaConcepto()
-                {
-                    I_PlantillaPlanillaConceptoID = plantillaPlanillaConceptoID,
-                    I_UserID = userID
-                };
+                var plantillaPlanillaConceptoDTO = ObtenerPlantillaPlanillaConcepto(plantillaPlanillaConceptoID);
 
-                result = cambiarEstado.Execute();
+                if (plantillaPlanillaConceptoDTO != null)
+                {
+                    var cambiarEstado = new USP_U_EliminarPlantillaPlanillaConcepto()
+                    {
+                        I_PlantillaPlanillaConceptoID = plantillaPlanillaConceptoID,
+                        I_UserID = userID
+                    };
+
+                    result = cambiarEstado.Execute();
+                }
+                else
+                {
+                    result= new Result()
+                    { 
+                        Success = true,
+                        Message = "El concepto seleccionado ha sido eliminado con anterioridad."
+                    };
+                }
             }
             catch (Exception ex)
             {

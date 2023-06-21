@@ -108,6 +108,7 @@
                 columnDefs: [
                     {
                         targets: -2,
+                        orderable: false,
                         render: function (data, type, row) {
                             let btnClass = (row.estaHabilitado === true) ? 'success' : 'secondary';
                             let iClass = (row.estaHabilitado === true) ? 'check-circle-o' : 'minus-circle';
@@ -126,6 +127,7 @@
                     },
                     {
                         targets: -1,
+                        orderable: false,
                         render: function (data, type, row) {
                             return `<a class="modal-link" href="@Url.Action("Editar", "Conceptos")/${data}` +
                                 '"><i class="fa fa-pencil-square-o" aria-hidden="true"></i> <span class="d-none d-md-inline-block">Editar</span></a>';
@@ -173,6 +175,7 @@
                 columnDefs: [
                     {
                         targets: -3,
+                        orderable: false,
                         render: function (data, type, row) {
                             let btnClass = (row.estaHabilitado === true) ? 'success' : 'secondary';
                             let iClass = (row.estaHabilitado === true) ? 'check-circle-o' : 'minus-circle';
@@ -191,6 +194,7 @@
                     },
                     {
                         targets: -2,
+                        orderable: false,
                         render: function (data, type, row) {
                             return `<a class="modal-link-lg" href="@Url.Action("ConceptosAsignados", "PlantillaPlanillaConcepto")/${data}` +
                                 '"><i class="fa bi-ui-checks" aria-hidden="true"></i> <span class="d-none d-md-inline-block">Asignar</span></a>';
@@ -198,6 +202,7 @@
                     },
                     {
                         targets: -1,
+                        orderable: false,
                         render: function (data, type, row) {
                             return `<a class="modal-link" href="@Url.Action("Editar", "PlantillaPlanilla")/${data}` +
                                 '"><i class="fa fa-pencil-square-o" aria-hidden="true"></i> <span class="d-none d-md-inline-block">Editar</span></a>';

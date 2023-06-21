@@ -1,4 +1,4 @@
-﻿@model IEnumerable<WebApp.Models.ConceptoAsignadoPlantillaModel>
+﻿@model WebApp.Models.PlantillaPlanillaModel
 
 <div class="modal-header bg-dark-gray" style="border-radius: .2rem .2rem 0px 0px">
     <h5 class="modal-title text-center"><i class="fa fa-tag"></i>&nbsp;@ViewBag.Title</h5>
@@ -9,17 +9,17 @@
     <div class="container-fluid mb-4">
         <dl class="row">
             <dt class="col-sm-3">Clase Planilla</dt>
-            <dd class="col-sm-9">@ViewBag.ClasePlanillaDesc</dd>
+            <dd class="col-sm-9">@Model.clasePlanillaDesc</dd>
 
             <dt class="col-sm-3">Categoría Planilla</dt>
-            <dd class="col-sm-9">@ViewBag.CategoriaPlanillaDesc</dd>
+            <dd class="col-sm-9">@Model.categoriaPlanillaDesc</dd>
 
             <dt class="col-sm-3">Descripción</dt>
-            <dd class="col-sm-9">@ViewBag.PlantillaPlanillaDesc</dd>
+            <dd class="col-sm-9">@Model.plantillaPlanillaDesc</dd>
 
             <dt class="col-sm-3">Estado</dt>
             <dd class="col-sm-9">
-                @if (ViewBag.EstaHabilitado)
+                @if (Model.estaHabilitado)
                 {
                     <span class="text-success">Habilitado</span>
                 }
@@ -56,23 +56,6 @@
                         <th></th>
                     </tr>
                 </thead>
-                <tbody>
-                    @if (Model != null && Model.Count() > 0)
-                    {
-                        foreach (var item in Model)
-                        {
-                            <tr>
-                                <td>@item.tipoConceptoDesc</td>
-                                <td>@item.conceptoCod</td>
-                                <td>@item.conceptoDesc</td>
-                                <td>@item.valorConceptoFormateado</td>
-                                <td>@item.estaHabilitado.ToString().ToLower()</td>
-                                <td>@item.plantillaPlanillaConceptoID</td>
-                                <td>@item.plantillaPlanillaConceptoID</td>
-                            </tr>
-                        }
-                    }
-                </tbody>
                 <tfoot>
                     <tr>
                         <th>Tip.Concepto</th>
@@ -87,7 +70,7 @@
             </table>
         </div>
         <div class="modal-footer" id="div_msg">
-            <a href="@Url.Action("Asignar","PlantillaPlanillaConcepto", new { id = ViewBag.PlantillaPlanillaID })" class="btn btn-primary" id="btn-agregar">
+            <a href="@Url.Action("Asignar","PlantillaPlanillaConcepto", new { id = Model.plantillaPlanillaID.Value })" class="btn btn-primary" id="btn-agregar">
                 <i class="fa fa-plus-circle" aria-hidden="true"></i>&nbsp;Agregar concepto
             </a>
             <button type="button" class="btn btn-secondary" id="btnCancel" data-dismiss="modal"><i class="fa fa-times-circle-o"></i>&nbsp;Cerrar</button>
@@ -96,70 +79,7 @@
 </div>
 
 <script type="text/javascript">
-    $('#dataTableConceptosAsignados').DataTable({
-        columnDefs: [
-            {
-                targets: -3,
-                render: function (data, type, row) {
-                    let btnClass = (data === "true") ? 'success' : 'secondary';
-                    let iClass = (data === "true") ? 'check-circle-o' : 'minus-circle';
-                    let estado = (data === "true") ? 'Habilitado' : 'Deshabilitado';
-
-                    let rowID = row[5];
-                    let estaHabilitado = data;
-                    let url = '@Url.Action("CambiarEstado", "PlantillaPlanillaConcepto")';
-                    let token = $('input[name="__RequestVerificationToken"]').val();
-                    let container = 'dataTableConceptosAsignados';
-
-                    let onClickFunction = `ChangeState(${rowID}, ${estaHabilitado}, '${url}', '${token}', '${container}')`;
-
-                    let html = `<span id="td${rowID}">` +
-                        `<button type="submit" class="btn btn-xs btn-${btnClass}" onclick="${onClickFunction}">` +
-                        `<i class="fa fa-${iClass}" aria-hidden="true"></i> <span class="d-none d-md-inline-block">${estado}</span>` +
-                        '</button>' +
-                        '</span>';
-
-                    return html;
-                }
-            },
-            {
-                targets: -2,
-                render: function (data, type, row) {
-                    return `<a class="btn-editar" href="@Url.Action("Editar", "PlantillaPlanillaConcepto")/${data}` +
-                        '" title="Editar"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a>';
-                }
-            },
-            {
-                targets: -1,
-                render: function (data, type, row) {
-                    return `<a class="btn-eliminar" href="#" data-id="${data}"` +
-                        '" title="Eliminar"><i class="fa fa-trash" aria-hidden="true"></i></a>';
-                }
-            }
-        ],
-        "bStateSave": true,
-        bDestroy: true,
-        lengthMenu: [[5, 10], [5, 10, "Todos"]],
-        iDisplayLength: 5,
-        language: {
-            search: "Buscar: ",
-            lengthMenu: "Mostrar _MENU_ filas",
-            info: "Mostrando del _START_ al _END_ de _TOTAL_ elementos.",
-            infoEmpty: "No se encontraron registros.",
-            zeroRecords: "No hay data disponible.",
-            emptyTable: "No hay data disponible.",
-            paginate: {
-                first: "Primero",
-                previous: "Previo",
-                next: "Siguiente",
-                last: "Último"
-            },
-            aria: {
-                sortAscending: ": activar para ordenar la columna en orden ascendente",
-                sortDescending: ": activar para ordenar la columna en orden descendente"
-            }
-        }
-    });
+    generarDatatableConceptosAsignados();
 
     $('.modal-body').on('click', '#btn-agregar', function (event) {
         event.preventDefault();
@@ -180,12 +100,14 @@
         let token = $('input[name="__RequestVerificationToken"]').val();
 
         Swal.fire({
-            title: 'title',
-            text: 'mensaje',
-            icon: 'icon',
-            timer: 6000,
-            confirmButtonColor: '#0069d9',
-
+            title: '',
+            text: '¿Desea anular este registro?',
+            icon: MENSAJE.WARNING,
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Si, continuar.',
+            cancelButtonText: 'No, cancelar.'
         }).then((result) => {
             if (result.isConfirmed) {
                 $.ajax({
@@ -193,9 +115,19 @@
                     type: "POST",
                     data: { __RequestVerificationToken: token },
                     beforeSend: function () {
+                        $('#content-body').hide();
+                        $('#spin-loader').show();
                     },
                     success: function (data) {
-                        console.log(data);
+                        $('#content-body').show();
+                        $('#spin-loader').hide();
+
+                        if (data.Success) {
+                            generarDatatableConceptosAsignados();
+                            mostrarMensajeSistema(data.Message, MENSAJE.SUCCESS);
+                        } else {
+                            mostrarMensajeSistema(data.Message, MENSAJE.ERROR);
+                        }
                     },
                     error: function (jqXHR, textStatus, errorThrown) {
                         $('#content-body').html('<p class="alert alert-danger">' + jqXHR.responseText + '</p>');
@@ -206,6 +138,87 @@
             }
         });
     });
+
+    function generarDatatableConceptosAsignados() {
+        $('#dataTableConceptosAsignados').DataTable({
+            ajax: {
+                'url': '@Url.Action("ObtenerConceptosAsignados", "PlantillaPlanillaConcepto", new { id = Model.plantillaPlanillaID.Value })',
+                'type': 'get'
+            },
+            columns: [
+                { data: 'tipoConceptoDesc' },
+                { data: 'conceptoCod' },
+                { data: 'conceptoDesc' },
+                { data: 'valorConceptoFormateado' },
+                { data: 'estaHabilitado' },
+                { data: 'plantillaPlanillaConceptoID' },
+                { data: 'plantillaPlanillaConceptoID' }
+            ],
+            columnDefs: [
+                {
+                    targets: -3,
+                    orderable: false,
+                    render: function (data, type, row) {
+                        let btnClass = (row.estaHabilitado === true) ? 'success' : 'secondary';
+                        let iClass = (row.estaHabilitado === true) ? 'check-circle-o' : 'minus-circle';
+                        let estado = (row.estaHabilitado === true) ? 'Habilitado' : 'Deshabilitado';
+
+                        let url = '@Url.Action("CambiarEstado", "PlantillaPlanillaConcepto")';
+                        let token = $('input[name="__RequestVerificationToken"]').val();
+                        let container = 'dataTableConceptosAsignados';
+
+                        let onClickFunction = `ChangeState(${row.plantillaPlanillaConceptoID}, ${row.estaHabilitado}, '${url}', '${token}', '${container}')`;
+
+                        let html = `<span id="td${row.plantillaPlanillaConceptoID}">` +
+                            `<button type="submit" class="btn btn-xs btn-${btnClass}" onclick="${onClickFunction}">` +
+                            `<i class="fa fa-${iClass}" aria-hidden="true"></i> <span class="d-none d-md-inline-block">${estado}</span>` +
+                            '</button>' +
+                            '</span>';
+
+                        return html;
+                    }
+                },
+                {
+                    targets: -2,
+                    orderable: false,
+                    render: function (data, type, row) {
+                        return `<a class="btn-editar" href="@Url.Action("Editar", "PlantillaPlanillaConcepto")/${data}` +
+                            '" title="Editar"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a>';
+                    }
+                },
+                {
+                    targets: -1,
+                    orderable: false,
+                    render: function (data, type, row) {
+                        return `<a class="btn-eliminar" href="#" data-id="${data}"` +
+                            '" title="Eliminar"><i class="fa fa-trash" aria-hidden="true"></i></a>';
+                    }
+                }
+            ],
+            "bStateSave": true,
+            bDestroy: true,
+            lengthMenu: [[5, 10], [5, 10, "Todos"]],
+            iDisplayLength: 5,
+            language: {
+                search: "Buscar: ",
+                lengthMenu: "Mostrar _MENU_ filas",
+                info: "Mostrando del _START_ al _END_ de _TOTAL_ elementos.",
+                infoEmpty: "No se encontraron registros.",
+                zeroRecords: "No hay data disponible.",
+                emptyTable: "No hay data disponible.",
+                paginate: {
+                    first: "Primero",
+                    previous: "Previo",
+                    next: "Siguiente",
+                    last: "Último"
+                },
+                aria: {
+                    sortAscending: ": activar para ordenar la columna en orden ascendente",
+                    sortDescending: ": activar para ordenar la columna en orden descendente"
+                }
+            }
+        });
+    }
 
     function loadForm(url, message) {
         $('#load-message').html(message);

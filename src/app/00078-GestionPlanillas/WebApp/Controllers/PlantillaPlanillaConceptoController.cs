@@ -46,21 +46,19 @@ namespace WebApp.Controllers
 
             ViewBag.Action = "Actualizar";
 
-            var lista = _plantillaPlanillaConceptoServiceFacade.ListarConceptosAsignados(id);
-
             var plantilla = _plantillaPlanillaServiceFacade.ObtenerPlantillaPlanilla(id);
 
-            ViewBag.PlantillaPlanillaID = id;
+            return PartialView("_ConceptosAsignados", plantilla);
+        }
 
-            ViewBag.ClasePlanillaDesc = plantilla.clasePlanillaDesc;
+        [HttpGet]
+        public JsonResult ObtenerConceptosAsignados(int id)
+        {
+            var result = new AjaxResponse();
 
-            ViewBag.CategoriaPlanillaDesc = plantilla.categoriaPlanillaDesc;
+            result.data = _plantillaPlanillaConceptoServiceFacade.ListarConceptosAsignados(id);
 
-            ViewBag.PlantillaPlanillaDesc = plantilla.plantillaPlanillaDesc;
-
-            ViewBag.EstaHabilitado = plantilla.estaHabilitado;
-
-            return PartialView("_ConceptosAsignados", lista);
+            return Json(result, JsonRequestBehavior.AllowGet);
         }
 
         [HttpGet]
@@ -211,7 +209,7 @@ namespace WebApp.Controllers
 
             return Json(result, JsonRequestBehavior.AllowGet);
         }
-
+        
         [HttpPost]
         [ValidateAntiForgeryToken]
         public JsonResult Eliminar(int id)

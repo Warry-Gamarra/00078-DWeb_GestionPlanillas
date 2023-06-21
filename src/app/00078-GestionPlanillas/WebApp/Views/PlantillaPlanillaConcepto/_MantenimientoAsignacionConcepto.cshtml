@@ -17,8 +17,8 @@
     <div class="form-row">
         <div class="col-12">
             <div class="form-group row">
-                @Html.LabelFor(model => model.conceptoID, new { @class = "col-sm-2 control-label" })
-                <div class="col-sm-10">
+                @Html.LabelFor(model => model.conceptoID, new { @class = "col-sm-3 control-label" })
+                <div class="col-sm-9">
                     @Html.DropDownListFor(model => model.conceptoID, ViewBag.ListaConceptos as SelectList, "[ SELECCIONAR ]", new { @class = "form-control text-uppercase select-filter-modal" })
                     @Html.ValidationMessageFor(model => model.conceptoID, null, new { @class = "text-danger" })
                 </div>
@@ -27,16 +27,16 @@
     </div>
 
     <div class="form-row">
-        <div class="col-8">
+        <div class="col-9">
             <div class="form-group row">
-                @Html.LabelFor(model => model.valorConcepto, new { @class = "col-sm-3 control-label" })
-                <div class="col-sm-9">
+                @Html.LabelFor(model => model.valorConcepto, new { @class = "col-sm-4 control-label" })
+                <div class="col-sm-8">
                     @Html.TextBoxFor(model => model.valorConcepto, new { @class = "form-control" })
                     @Html.ValidationMessageFor(model => model.valorConcepto, null, new { @class = "text-danger" })
                 </div>
             </div>
         </div>
-        <div class="col-4">
+        <div class="col-3">
             <div class="form-check form-check-inline">
                 <label class="form-check-label" onclick="mostrarPorcetual(false);">@Html.RadioButtonFor(model => model.esValorFijo, true) Monto fijo (S/.)</label>
             </div>
@@ -49,8 +49,8 @@
     <div class="form-row">
         <div class="col-12">
             <div class="form-group row">
-                <label class="col-sm-2 control-label">&nbsp;</label>
-                <div class="col-sm-10">
+                <label class="col-sm-3 control-label">&nbsp;</label>
+                <div class="col-sm-9">
                     <div class="form-check">
                         @Html.CheckBoxFor(model => model.valorEsExterno, new { @class = "form-check-input" })
                         @Html.LabelFor(model => model.valorEsExterno, new { @class = "form-check-label" })
@@ -63,8 +63,8 @@
     <div class="form-row">
         <div class="col-12">
             <div class="form-group row">
-                <label class="col-sm-2 control-label">@ViewBag.DescFiltro1 @Html.CheckBoxFor(model => model.aplicarFiltro1)</label>
-                <div class="col-sm-10">
+                <label class="col-sm-3 control-label">@ViewBag.DescFiltro1 @Html.CheckBoxFor(model => model.aplicarFiltro1)</label>
+                <div class="col-sm-9">
                     @Html.DropDownListFor(model => model.filtro1, ViewBag.ListaFiltro1 as SelectList, "[ SELECCIONAR ]", new { @class = "form-control text-uppercase", @disabled = "disabled" })
                     @Html.ValidationMessageFor(model => model.filtro1, null, new { @class = "text-danger" })
                 </div>
@@ -75,8 +75,8 @@
     <div class="form-row">
         <div class="col-12">
             <div class="form-group row">
-                <label class="col-sm-2 control-label">@ViewBag.DescFiltro2 @Html.CheckBoxFor(model => model.aplicarFiltro2)</label>
-                <div class="col-sm-10">
+                <label class="col-sm-3 control-label">@ViewBag.DescFiltro2 @Html.CheckBoxFor(model => model.aplicarFiltro2)</label>
+                <div class="col-sm-9">
                     @Html.DropDownListFor(model => model.filtro2, ViewBag.ListaFiltro2 as SelectList, "[ SELECCIONAR ]", new { @class = "form-control text-uppercase", @disabled = "disabled" })
                     @Html.ValidationMessageFor(model => model.filtro2, null, new { @class = "text-danger" })
                 </div>
@@ -87,8 +87,8 @@
     <div class="form-row" style="display: none;" id="divConceptoPorcentaje">
         <div class="col-12">
             <div class="form-group row">
-                @Html.LabelFor(model => model.conceptoPorcentajeID, new { @class = "col-sm-2 control-label" })
-                <div class="col-sm-10">
+                @Html.LabelFor(model => model.conceptoPorcentajeID, new { @class = "col-sm-3 control-label" })
+                <div class="col-sm-9">
                     @Html.DropDownListFor(model => model.conceptoPorcentajeID, ViewBag.ListaConceptosIncluidos as SelectList, "[ SELECCIONAR ]", new { @class = "select-multiple form-control text-uppercase", multiple = "true" })
                 </div>
             </div>
