@@ -48,6 +48,7 @@
     <Compile Include="Entities\ConceptoDTO.cs" />
     <Compile Include="Entities\ConceptoEntity.cs" />
     <Compile Include="Entities\ConceptoAsignadoPlantillaDTO.cs" />
+    <Compile Include="Entities\ConceptoReferenciaDTO.cs" />
     <Compile Include="Entities\DependenciaDTO.cs" />
     <Compile Include="Entities\EstadoDTO.cs" />
     <Compile Include="Entities\GrupoOcupacionalDTO.cs" />

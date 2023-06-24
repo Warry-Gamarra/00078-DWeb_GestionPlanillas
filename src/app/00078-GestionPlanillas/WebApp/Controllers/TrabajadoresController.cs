@@ -82,13 +82,13 @@ namespace WebApp.Controllers
 
             ViewBag.ListaAfps = _afpServiceFacade.ListarAfps();
 
-            ViewBag.GruposOcupacionales = _grupoOcupacionalServiceFacade.ListarGruposOcupacionales();
+            ViewBag.GruposOcupacionales = _grupoOcupacionalServiceFacade.ObtenerComboGruposOcupacionales();
 
-            ViewBag.NivelesRemunerativos = _nivelRemunerativoServiceFacade.ListarNivelesRemunerativos();
+            ViewBag.NivelesRemunerativos = _nivelRemunerativoServiceFacade.ObtenerComboNivelesRemunerativos();
 
-            ViewBag.CategoriasDocente = _categoriaDocenteServiceFacade.ListarCategoriasDocente();
+            ViewBag.CategoriasDocente = _categoriaDocenteServiceFacade.ObtenerComboCategoriasDocente();
 
-            ViewBag.HorasDocente = _horasDocenteServiceFacade.ListarHorasDedicacionDocente();
+            ViewBag.HorasDocente = _horasDocenteServiceFacade.ObtenerComboHorasDedicacionDocente();
 
             var trabajador = new TrabajadorModel();
 
@@ -133,13 +133,13 @@ namespace WebApp.Controllers
 
             ViewBag.ListaAfps = _afpServiceFacade.ListarAfps();
 
-            ViewBag.GruposOcupacionales = _grupoOcupacionalServiceFacade.ListarGruposOcupacionales();
+            ViewBag.GruposOcupacionales = _grupoOcupacionalServiceFacade.ObtenerComboGruposOcupacionales();
 
-            ViewBag.NivelesRemunerativos = _nivelRemunerativoServiceFacade.ListarNivelesRemunerativos();
+            ViewBag.NivelesRemunerativos = _nivelRemunerativoServiceFacade.ObtenerComboNivelesRemunerativos();
 
-            ViewBag.CategoriasDocente = _categoriaDocenteServiceFacade.ListarCategoriasDocente();
+            ViewBag.CategoriasDocente = _categoriaDocenteServiceFacade.ObtenerComboCategoriasDocente();
 
-            ViewBag.HorasDocente = _horasDocenteServiceFacade.ListarHorasDedicacionDocente();
+            ViewBag.HorasDocente = _horasDocenteServiceFacade.ObtenerComboHorasDedicacionDocente();
 
             var trabajador = _trabajadorServiceFacade.ObtenerTrabajador(id);
 

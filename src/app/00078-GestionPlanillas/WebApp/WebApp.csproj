@@ -143,6 +143,7 @@
     <Compile Include="Models\AdministrativoModel.cs" />
     <Compile Include="Models\ConceptoModel.cs" />
     <Compile Include="Models\ConceptoAsignadoPlantillaModel.cs" />
+    <Compile Include="Models\ConceptoReferenciaModel.cs" />
     <Compile Include="Models\DocenteModel.cs" />
     <Compile Include="Models\Mapper.cs" />
     <Compile Include="Models\PlantillaPlanillaModel.cs" />

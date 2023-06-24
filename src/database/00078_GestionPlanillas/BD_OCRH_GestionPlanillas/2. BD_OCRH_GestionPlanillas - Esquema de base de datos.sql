@@ -232,20 +232,20 @@ CREATE TABLE TI_PlantillaPlanilla_Concepto
 	CONSTRAINT FK_Concepto_PlantillaPlanillaConcepto FOREIGN KEY (I_ConceptoID) REFERENCES TC_Concepto(I_ConceptoID)
 )
 
-CREATE TABLE TI_PlantillaPlanilla_Concepto_Incluido
+CREATE TABLE TI_PlantillaPlanilla_Concepto_Referencia
 (
-	I_PlantillaPlanillaConceptoIncluidoID INT IDENTITY(1, 1),
-	I_PlantillaPlanillaConceptoID INT NOT NULL,
+	I_ID INT IDENTITY(1, 1),
 	I_PlantillaPlanillaConceptoBaseID INT NOT NULL,
+	I_PlantillaPlanillaConceptoReferenciaID INT NOT NULL,
 	B_Habilitado BIT NOT NULL,
 	B_Eliminado BIT NOT NULL,
 	I_UsuarioCre INT,
 	D_FecCre DATETIME,
 	I_UsuarioMod INT,
 	D_FecMod DATETIME,
-	CONSTRAINT PK_PlantillaPlanillaConceptoIncluido PRIMARY KEY (I_PlantillaPlanillaConceptoIncluidoID),
-	CONSTRAINT FK_PlantillaPlanillaConcepto_PlantillaPlanillaConceptoIncluido1 FOREIGN KEY (I_PlantillaPlanillaConceptoID) REFERENCES TI_PlantillaPlanilla_Concepto(I_PlantillaPlanillaConceptoID),
-	CONSTRAINT FK_PlantillaPlanillaConcepto_PlantillaPlanillaConceptoIncluido2 FOREIGN KEY (I_PlantillaPlanillaConceptoBaseID) REFERENCES TI_PlantillaPlanilla_Concepto(I_PlantillaPlanillaConceptoID),
+	CONSTRAINT PK_PlantillaPlanillaConceptoIncluido PRIMARY KEY (I_ID),
+	CONSTRAINT FK_PlantillaPlanillaConcepto_PlantillaPlanillaConceptoBase FOREIGN KEY (I_PlantillaPlanillaConceptoBaseID) REFERENCES TI_PlantillaPlanilla_Concepto(I_PlantillaPlanillaConceptoID),
+	CONSTRAINT FK_PlantillaPlanillaConcepto_PlantillaPlanillaConceptoReferencia FOREIGN KEY (I_PlantillaPlanillaConceptoReferenciaID) REFERENCES TI_PlantillaPlanilla_Concepto(I_PlantillaPlanillaConceptoID),
 )
 
 CREATE TABLE TC_TipoDocumento

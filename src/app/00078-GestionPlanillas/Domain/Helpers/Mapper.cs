@@ -256,7 +256,7 @@ namespace Domain.Helpers
             var grupoOcupacionalDTO = new GrupoOcupacionalDTO()
             {
                 I_GrupoOcupacionalID = table.I_GrupoOcupacionalID,
-                T_GrupoOcupacionalCod = table.T_GrupoOcupacionalCod,
+                C_GrupoOcupacionalCod = table.C_GrupoOcupacionalCod,
                 T_GrupoOcupacionalDesc = table.T_GrupoOcupacionalDesc,
                 B_Habilitado = table.B_Habilitado
             };
@@ -269,7 +269,7 @@ namespace Domain.Helpers
             var nivelRemunerativoDTO = new NivelRemunerativoDTO()
             {
                 I_NivelRemunerativoID = table.I_NivelRemunerativoID,
-                T_NivelRemunerativoCod = table.T_NivelRemunerativoCod,
+                C_NivelRemunerativoCod = table.C_NivelRemunerativoCod,
                 T_NivelRemunerativoDesc = table.T_NivelRemunerativoDesc,
                 B_Habilitado = table.B_Habilitado
             };
@@ -431,6 +431,24 @@ namespace Domain.Helpers
             };
 
             return conceptoAsignadoPlantillaDTO;
+        }
+
+        public static ConceptoReferenciaDTO VW_ConceptosReferencia_Plantilla_To_ConceptoReferenciaDTO(
+            VW_ConceptosReferencia_Plantilla view)
+        {
+            var conceptoReferenciaDTO = new ConceptoReferenciaDTO()
+            {
+                id = view.I_ID,
+                plantillaPlanillaConceptoID = view.I_PlantillaPlanillaConceptoID,
+                estaHabilitado = view.B_Habilitado,
+                plantillaPlanillaConceptoReferenciaID = view.I_PlantillaPlanillaConceptoReferenciaID,
+                conceptoID = view.I_ConceptoID,
+                conceptoCod = view.C_ConceptoCod,
+                conceptoDesc = view.T_ConceptoDesc,
+                conceptoAbrv = view.T_ConceptoAbrv
+            };
+
+            return conceptoReferenciaDTO;
         }
     }
 }

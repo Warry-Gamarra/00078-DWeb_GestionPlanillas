@@ -10,7 +10,7 @@ namespace Domain.Entities
     {
         public int I_NivelRemunerativoID { get; set; }
 
-        public string T_NivelRemunerativoCod { get; set; }
+        public string C_NivelRemunerativoCod { get; set; }
 
         public string T_NivelRemunerativoDesc { get; set; }
 

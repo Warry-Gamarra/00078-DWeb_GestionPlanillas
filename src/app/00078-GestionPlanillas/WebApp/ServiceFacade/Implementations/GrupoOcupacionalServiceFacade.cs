@@ -1,4 +1,5 @@
-﻿using Domain.Services;
+﻿using Domain.Entities;
+using Domain.Services;
 using Domain.Services.Implementations;
 using System;
 using System.Collections.Generic;
@@ -17,7 +18,7 @@ namespace WebApp.ServiceFacade.Implementations
             _grupoOcupacionalService = new GrupoOcupacionalService();
         }
 
-        public SelectList ListarGruposOcupacionales(bool incluirDeshabilitados = false, int? selectedItem = null)
+        public SelectList ObtenerComboGruposOcupacionales(bool incluirDeshabilitados = false, int? selectedItem = null)
         {
             var lista = _grupoOcupacionalService.ListarGruposOcupacionales(incluirDeshabilitados);
 
@@ -29,6 +30,14 @@ namespace WebApp.ServiceFacade.Implementations
             {
                 return new SelectList(lista, "I_GrupoOcupacionalID", "T_GrupoOcupacionalDesc");
             }
+        }
+
+        public List<GrupoOcupacionalDTO> ListarGruposOcupacionales(bool incluirDeshabilitados = false)
+        {
+            var lista = _grupoOcupacionalService.ListarGruposOcupacionales(incluirDeshabilitados)
+                .ToList();
+
+            return lista;
         }
     }
 }

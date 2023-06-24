@@ -13,7 +13,7 @@ namespace Data.Tables
     {
         public int I_GrupoOcupacionalID { get; set; }
 
-        public string T_GrupoOcupacionalCod { get; set; }
+        public string C_GrupoOcupacionalCod { get; set; }
 
         public string T_GrupoOcupacionalDesc { get; set; }
 

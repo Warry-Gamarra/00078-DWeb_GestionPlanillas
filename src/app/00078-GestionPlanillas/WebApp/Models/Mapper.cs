@@ -238,5 +238,23 @@ namespace WebApp.Models
 
             return model;
         }
+
+        public static ConceptoReferenciaModel ConceptoReferenciaDTO_To_ConceptoReferenciaModel(
+            ConceptoReferenciaDTO dto)
+        {
+            var model = new ConceptoReferenciaModel()
+            {
+                id = dto.id,
+                plantillaPlanillaConceptoID = dto.plantillaPlanillaConceptoID,
+                estaHabilitado = dto.estaHabilitado,
+                plantillaPlanillaConceptoReferenciaID = dto.plantillaPlanillaConceptoID,
+                conceptoID = dto.conceptoID,
+                conceptoCod = dto.conceptoCod,
+                conceptoDesc = dto.conceptoDesc,
+                conceptoAbrv = dto.conceptoAbrv
+            };
+
+            return model;
+        }
     }
 }

@@ -1,4 +1,5 @@
-﻿using Domain.Services;
+﻿using Domain.Entities;
+using Domain.Services;
 using Domain.Services.Implementations;
 using System;
 using System.Collections.Generic;
@@ -17,7 +18,7 @@ namespace WebApp.ServiceFacade.Implementations
             _categoriaDocenteService = new CategoriaDocenteService();
         }
 
-        public SelectList ListarCategoriasDocente(bool incluirDeshabilitados = false, int? selectedItem = null)
+        public SelectList ObtenerComboCategoriasDocente(bool incluirDeshabilitados = false, int? selectedItem = null)
         {
             var lista = _categoriaDocenteService.ListarCategoriasDocente(incluirDeshabilitados);
 
@@ -29,6 +30,14 @@ namespace WebApp.ServiceFacade.Implementations
             {
                 return new SelectList(lista, "I_CategoriaDocenteID", "T_CategoriaDocenteDesc");
             }
+        }
+
+        public List<CategoriaDocenteDTO> ListarCategoriasDocente(bool incluirDeshabilitados = false)
+        {
+            var lista = _categoriaDocenteService.ListarCategoriasDocente(incluirDeshabilitados)
+                .ToList();
+
+            return lista;
         }
     }
 }

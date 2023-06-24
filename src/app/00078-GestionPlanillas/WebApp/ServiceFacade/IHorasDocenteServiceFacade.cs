@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Domain.Entities;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -9,6 +10,8 @@ namespace WebApp.ServiceFacade
 {
     public interface IHorasDocenteServiceFacade
     {
-        SelectList ListarHorasDedicacionDocente(int? selectedItem = null);
+        SelectList ObtenerComboHorasDedicacionDocente(int? selectedItem = null);
+
+        List<HorasDedicacionDocenteDTO> ListarHorasDedicacionDocente();
     }
 }

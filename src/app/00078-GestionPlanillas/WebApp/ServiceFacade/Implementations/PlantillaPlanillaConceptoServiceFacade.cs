@@ -108,5 +108,14 @@ namespace WebApp.ServiceFacade.Implementations
 
             return result;
         }
+
+        public List<ConceptoReferenciaModel> ListarConceptosReferencia(int plantillaPlanillaConceptoID)
+        {
+            var lista = _plantillaPlanillaConceptoService.ListarConceptosReferencia(plantillaPlanillaConceptoID)
+                .Select(x => Mapper.ConceptoReferenciaDTO_To_ConceptoReferenciaModel(x))
+                .ToList();
+
+            return lista;
+        }
     }
 }

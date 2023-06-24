@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Domain.Entities;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -8,6 +9,8 @@ namespace WebApp.ServiceFacade
 {
     public interface IGrupoOcupacionalServiceFacade
     {
-        SelectList ListarGruposOcupacionales(bool incluirDeshabilitados = false, int? selectedItem = null);
+        SelectList ObtenerComboGruposOcupacionales(bool incluirDeshabilitados = false, int? selectedItem = null);
+
+        List<GrupoOcupacionalDTO> ListarGruposOcupacionales(bool incluirDeshabilitados = false);
     }
 }

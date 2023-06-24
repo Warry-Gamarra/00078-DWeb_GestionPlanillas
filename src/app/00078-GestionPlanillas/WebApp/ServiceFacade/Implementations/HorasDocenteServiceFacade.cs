@@ -1,4 +1,5 @@
-﻿using Domain.Services;
+﻿using Domain.Entities;
+using Domain.Services;
 using Domain.Services.Implementations;
 using System;
 using System.Collections.Generic;
@@ -17,7 +18,7 @@ namespace WebApp.ServiceFacade.Implementations
             _horasDocenteService = new HorasDocenteService();
         }
 
-        public SelectList ListarHorasDedicacionDocente(int? selectedItem = null)
+        public SelectList ObtenerComboHorasDedicacionDocente(int? selectedItem = null)
         {
             var result = new List<SelectListItem>();
 
@@ -30,7 +31,7 @@ namespace WebApp.ServiceFacade.Implementations
                 var range = group.Select(x => new SelectListItem()
                 {
                     Value = x.I_HorasDocenteID.ToString(),
-                    Text = String.Format("{0} / {1}", x.C_DedicacionDocenteCod,x.I_Horas.ToString()),
+                    Text = x.T_DedicacionXHorasCorto,
                     Group = optionGroup,
                     Selected = selectedItem.HasValue ? x.I_HorasDocenteID == selectedItem.Value : false
                 });
@@ -41,6 +42,16 @@ namespace WebApp.ServiceFacade.Implementations
             }
 
             return new SelectList(result, "Value", "Text", "Group.Name", null, null);
+        }
+
+        public List<HorasDedicacionDocenteDTO> ListarHorasDedicacionDocente()
+        {
+            var result = new List<SelectListItem>();
+
+            var lista = _horasDocenteService.ListarHorasDedicacionDocente()
+                .ToList();
+
+            return lista;
         }
     }
 }

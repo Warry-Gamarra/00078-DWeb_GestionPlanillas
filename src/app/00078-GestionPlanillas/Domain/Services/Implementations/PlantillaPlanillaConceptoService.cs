@@ -173,13 +173,48 @@ namespace Domain.Services.Implementations
 
                 if (plantillaPlanillaConceptoDTO != null)
                 {
-                    var cambiarEstado = new USP_U_EliminarPlantillaPlanillaConcepto()
-                    {
-                        I_PlantillaPlanillaConceptoID = plantillaPlanillaConceptoID,
-                        I_UserID = userID
-                    };
+                    bool grabar = true;
 
-                    result = cambiarEstado.Execute();
+                    var listaConceptos = ListarConceptosAsignados(plantillaPlanillaConceptoDTO.plantillaPlanillaID)
+                        .Where(x => x.plantillaPlanillaConceptoID != plantillaPlanillaConceptoID);
+
+                    foreach (var concepto in listaConceptos)
+                    {
+                        var listaConceptosReferencia = ListarConceptosReferencia(concepto.plantillaPlanillaConceptoID);
+
+                        foreach (var referencia in listaConceptosReferencia)
+                        {
+                            if (referencia.plantillaPlanillaConceptoReferenciaID == plantillaPlanillaConceptoID)
+                            {
+                                grabar = false;
+
+                                break;
+                            }
+                        }
+
+                        if (!grabar)
+                        {
+                            break;
+                        }
+                    }
+
+                    if (grabar)
+                    {
+                        var cambiarEstado = new USP_U_EliminarPlantillaPlanillaConcepto()
+                        {
+                            I_PlantillaPlanillaConceptoID = plantillaPlanillaConceptoID,
+                            I_UserID = userID
+                        };
+
+                        result = cambiarEstado.Execute();
+                    }
+                    else
+                    {
+                        result = new Result()
+                        {
+                            Message = "El concepto se encuentra relacionado a otros."
+                        };
+                    }
                 }
                 else
                 {
@@ -199,6 +234,15 @@ namespace Domain.Services.Implementations
             }
 
             return Mapper.Result_To_Response(result);
+        }
+
+        public List<ConceptoReferenciaDTO> ListarConceptosReferencia(int plantillaPlanillaConceptoID)
+        {
+            var lista = VW_ConceptosReferencia_Plantilla.FindByConceptoBase(plantillaPlanillaConceptoID)
+                .Select(x => Mapper.VW_ConceptosReferencia_Plantilla_To_ConceptoReferenciaDTO(x))
+                .ToList();
+
+            return lista;
         }
 
         private Tuple<bool, string> ValidarCamposConcepto(Operacion operacion, PlantillaPlanillaConceptoEntity plantillaPlanillaConcepto)

@@ -20,5 +20,7 @@ namespace WebApp.ServiceFacade
         Response CambiarEstado(int plantillaPlanillaConceptoID, bool estaHabilitado, int userID);
 
         Response Eliminar(int plantillaPlanillaConceptoID, int userID);
+
+        List<ConceptoReferenciaModel> ListarConceptosReferencia(int plantillaPlanillaConceptoID);
     }
 }

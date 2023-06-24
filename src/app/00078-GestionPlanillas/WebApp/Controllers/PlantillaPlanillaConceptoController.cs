@@ -56,7 +56,50 @@ namespace WebApp.Controllers
         {
             var result = new AjaxResponse();
 
-            result.data = _plantillaPlanillaConceptoServiceFacade.ListarConceptosAsignados(id);
+            var lista = _plantillaPlanillaConceptoServiceFacade.ListarConceptosAsignados(id);
+
+            var listaGrupoOcupacional = _grupoOcupacionalServiceFacade.ListarGruposOcupacionales();
+
+            var listaNivelRemunerativo = _nivelRemunerativoServiceFacade.ListarNivelesRemunerativos();
+
+            var listaCategoriaDocente = _categoriaDocenteServiceFacade.ListarCategoriasDocente();
+
+            var listaHorasDocente = _horasDocenteServiceFacade.ListarHorasDedicacionDocente();
+
+            lista.ForEach(x => {
+                if (x.categoriaPlanillaID == 1)
+                {
+                    if (x.aplicarFiltro1)
+                    {
+                        x.descFiltro1 = listaGrupoOcupacional.Where(g => g.I_GrupoOcupacionalID == x.filtro1.Value)
+                            .First().C_GrupoOcupacionalCod;
+                    }
+
+                    if (x.aplicarFiltro2)
+                    {
+                        x.descFiltro2 = listaNivelRemunerativo.Where(n => n.I_NivelRemunerativoID == x.filtro2.Value)
+                            .First().C_NivelRemunerativoCod;
+                    }
+                }
+                
+
+                if (x.categoriaPlanillaID == 2)
+                {
+                    if (x.aplicarFiltro1)
+                    {
+                        x.descFiltro1 = listaCategoriaDocente.Where(c => c.I_CategoriaDocenteID == x.filtro1.Value)
+                            .First().C_CategoriaDocenteCod;
+                    }
+
+                    if (x.aplicarFiltro2)
+                    {
+                        x.descFiltro2 = listaHorasDocente.Where(h => h.I_HorasDocenteID == x.filtro2.Value)
+                            .First().T_DedicacionXHorasCorto;
+                    }
+                }
+            });
+
+            result.data = lista;
 
             return Json(result, JsonRequestBehavior.AllowGet);
         }
@@ -76,21 +119,21 @@ namespace WebApp.Controllers
             {
                 ViewBag.DescFiltro1 = "Grupo Ocupacional";
 
-                ViewBag.ListaFiltro1 = _grupoOcupacionalServiceFacade.ListarGruposOcupacionales();
+                ViewBag.ListaFiltro1 = _grupoOcupacionalServiceFacade.ObtenerComboGruposOcupacionales();
 
                 ViewBag.DescFiltro2 = "Nivel Remunerativo";
 
-                ViewBag.ListaFiltro2 = _nivelRemunerativoServiceFacade.ListarNivelesRemunerativos();
+                ViewBag.ListaFiltro2 = _nivelRemunerativoServiceFacade.ObtenerComboNivelesRemunerativos();
             }
             else if (plantilla.categoriaPlanillaID == 2)
             {
                 ViewBag.DescFiltro1 = "Categoría";
 
-                ViewBag.ListaFiltro1 = _categoriaDocenteServiceFacade.ListarCategoriasDocente();
+                ViewBag.ListaFiltro1 = _categoriaDocenteServiceFacade.ObtenerComboCategoriasDocente();
 
                 ViewBag.DescFiltro2 = "Dedicación";
 
-                ViewBag.ListaFiltro2 = _horasDocenteServiceFacade.ListarHorasDedicacionDocente();
+                ViewBag.ListaFiltro2 = _horasDocenteServiceFacade.ObtenerComboHorasDedicacionDocente();
             }
             else
             {
@@ -150,21 +193,21 @@ namespace WebApp.Controllers
             {
                 ViewBag.DescFiltro1 = "Grupo Ocupacional";
 
-                ViewBag.ListaFiltro1 = _grupoOcupacionalServiceFacade.ListarGruposOcupacionales(selectedItem: model.filtro1);
+                ViewBag.ListaFiltro1 = _grupoOcupacionalServiceFacade.ObtenerComboGruposOcupacionales(selectedItem: model.filtro1);
 
                 ViewBag.DescFiltro2 = "Nivel Remunerativo";
 
-                ViewBag.ListaFiltro2 = _nivelRemunerativoServiceFacade.ListarNivelesRemunerativos(selectedItem: model.filtro2);
+                ViewBag.ListaFiltro2 = _nivelRemunerativoServiceFacade.ObtenerComboNivelesRemunerativos(selectedItem: model.filtro2);
             }
             else if (plantilla.categoriaPlanillaID == 2)
             {
                 ViewBag.DescFiltro1 = "Categoría";
 
-                ViewBag.ListaFiltro1 = _categoriaDocenteServiceFacade.ListarCategoriasDocente(selectedItem: model.filtro1);
+                ViewBag.ListaFiltro1 = _categoriaDocenteServiceFacade.ObtenerComboCategoriasDocente(selectedItem: model.filtro1);
 
                 ViewBag.DescFiltro2 = "Dedicación";
 
-                ViewBag.ListaFiltro2 = _horasDocenteServiceFacade.ListarHorasDedicacionDocente(selectedItem: model.filtro2);
+                ViewBag.ListaFiltro2 = _horasDocenteServiceFacade.ObtenerComboHorasDedicacionDocente(selectedItem: model.filtro2);
             }
             else
             {

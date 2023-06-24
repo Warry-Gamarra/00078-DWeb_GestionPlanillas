@@ -67,9 +67,39 @@ namespace WebApp.Models
 
         public int? filtro1 { get; set; }
 
+        public string descFiltro1 { get; set; }
+
         public bool aplicarFiltro2 { get; set; }
 
         public int? filtro2 { get; set; }
+
+        public string descFiltro2 { get; set; }
+
+        public string descFiltro
+        {
+            get
+            {
+                if (aplicarFiltro1 && aplicarFiltro2)
+                {
+                    return descFiltro1 + " / " + descFiltro2;
+                }
+                else
+                {
+                    if (aplicarFiltro1)
+                    {
+                        return descFiltro1;
+                    }
+                    else if(aplicarFiltro2)
+                    {
+                        return descFiltro2;
+                    }
+                    else
+                    {
+                        return "";
+                    }
+                }
+            }
+        }
 
         public bool estaHabilitado { get; set; }
 

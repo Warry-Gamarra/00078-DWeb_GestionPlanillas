@@ -20,5 +20,7 @@ namespace Domain.Services
         Response CambiarEstado(int plantillaPlanillaConceptoID, bool estadHabilitado, int userID);
 
         Response Eliminar(int plantillaPlanillaConceptoID, int userID);
+
+        List<ConceptoReferenciaDTO> ListarConceptosReferencia(int plantillaPlanillaConceptoID);
     }
 }

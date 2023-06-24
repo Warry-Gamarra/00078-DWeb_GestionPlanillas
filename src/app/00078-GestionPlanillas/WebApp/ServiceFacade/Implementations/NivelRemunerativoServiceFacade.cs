@@ -1,4 +1,5 @@
-﻿using Domain.Services;
+﻿using Domain.Entities;
+using Domain.Services;
 using Domain.Services.Implementations;
 using System;
 using System.Collections.Generic;
@@ -16,7 +17,7 @@ namespace WebApp.ServiceFacade.Implementations
             _nivelRemunerativoService = new NivelRemunerativoService();
         }
 
-        public SelectList ListarNivelesRemunerativos(bool incluirDeshabilitados = false, int? selectedItem = null)
+        public SelectList ObtenerComboNivelesRemunerativos(bool incluirDeshabilitados = false, int? selectedItem = null)
         {
             var lista = _nivelRemunerativoService.ListarNivelesRemunerativos(incluirDeshabilitados);
 
@@ -29,6 +30,14 @@ namespace WebApp.ServiceFacade.Implementations
             {
                 return new SelectList(lista, "I_NivelRemunerativoID", "T_NivelRemunerativoDesc");
             }
+        }
+
+        public List<NivelRemunerativoDTO> ListarNivelesRemunerativos(bool incluirDeshabilitados = false)
+        {
+            var lista = _nivelRemunerativoService.ListarNivelesRemunerativos(incluirDeshabilitados)
+                .ToList();
+
+            return lista;
         }
     }
 }

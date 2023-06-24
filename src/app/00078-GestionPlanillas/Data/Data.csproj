@@ -79,6 +79,7 @@
     <Compile Include="Tables\TR_Periodo.cs" />
     <Compile Include="Views\VW_Conceptos.cs" />
     <Compile Include="Views\VW_ConceptosAsignados_Plantilla.cs" />
+    <Compile Include="Views\VW_ConceptosReferencia_Plantilla.cs" />
     <Compile Include="Views\VW_PlantillasPlanilla.cs" />
     <Compile Include="Views\VW_ResumenPlanillaTrabajador.cs" />
     <Compile Include="Views\VW_Administrativo.cs" />

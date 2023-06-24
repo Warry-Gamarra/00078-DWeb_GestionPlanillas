@@ -162,8 +162,13 @@ SELECT
 	t.I_TipoConceptoID, t.T_TipoConceptoDesc, t.B_EsAdicion, t.B_IncluirEnTotalBruto, 
 	c.I_ConceptoID, c.C_ConceptoCod, c.T_ConceptoDesc, c.T_ConceptoAbrv, 
 	ppc.B_EsValorFijo, ppc.B_ValorEsExterno, ppc.M_ValorConcepto, 
-	ppc.B_AplicarFiltro1, ppc.I_Filtro1, ppc.B_AplicarFiltro2, ppc.I_Filtro2,
-	ppc.B_Habilitado
+	ppc.B_AplicarFiltro1, 
+	ppc.I_Filtro1, 
+	ppc.B_AplicarFiltro2, 
+	ppc.I_Filtro2,
+	ppc.B_Habilitado,
+	'' AS T_Filtro1,
+	'' AS T_Filtro2
 FROM dbo.TI_PlantillaPlanilla pp
 INNER JOIN dbo.TC_CategoriaPlanilla cp on cp.I_CategoriaPlanillaID = pp.I_CategoriaPlanillaID
 INNER JOIN dbo.TC_ClasePlanilla cl ON cl.I_ClasePlanillaID = cp.I_ClasePlanillaID
@@ -173,6 +178,23 @@ INNER JOIN dbo.TC_TipoConcepto t ON t.I_TipoConceptoID = c.I_TipoConceptoID
 WHERE ppc.B_Eliminado = 0
 GO
 
+
+
+IF EXISTS (SELECT * FROM INFORMATION_SCHEMA.VIEWS WHERE TABLE_NAME = 'VW_ConceptosReferencia_Plantilla')
+	DROP VIEW [dbo].[VW_ConceptosReferencia_Plantilla]
+GO
+
+CREATE VIEW [dbo].[VW_ConceptosReferencia_Plantilla]
+AS
+SELECT
+	base.I_PlantillaPlanillaConceptoID, conc.B_Habilitado,
+	conc.I_PlantillaPlanillaConceptoReferenciaID, ref.I_ConceptoID, con.C_ConceptoCod, con.T_ConceptoDesc, con.T_ConceptoAbrv
+FROM dbo.TI_PlantillaPlanilla_Concepto base 
+INNER JOIN dbo.TI_PlantillaPlanilla_Concepto_Referencia conc ON conc.I_PlantillaPlanillaConceptoBaseID = base.I_PlantillaPlanillaConceptoID
+INNER JOIN dbo.TI_PlantillaPlanilla_Concepto ref ON ref.I_PlantillaPlanillaConceptoID = conc.I_PlantillaPlanillaConceptoReferenciaID
+INNER JOIN dbo.TC_Concepto con ON con.I_ConceptoID = ref.I_ConceptoID
+WHERE conc.B_Eliminado = 0
+GO
 
 
 --PLANILLA Administrativo

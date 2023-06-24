@@ -965,7 +965,7 @@ BEGIN
 
 		SET @I_PlantillaPlanillaConceptoID = SCOPE_IDENTITY();
 
-		INSERT dbo.TI_PlantillaPlanilla_Concepto_Incluido(I_PlantillaPlanillaConceptoID, I_PlantillaPlanillaConceptoBaseID, B_Habilitado, B_Eliminado, I_UsuarioCre, D_FecCre)
+		INSERT dbo.TI_PlantillaPlanilla_Concepto_Referencia(I_PlantillaPlanillaConceptoBaseID, I_PlantillaPlanillaConceptoReferenciaID, B_Habilitado, B_Eliminado, I_UsuarioCre, D_FecCre)
 		SELECT @I_PlantillaPlanillaConceptoID, I_ID, 1, 0, @I_UserID, @D_FecCre FROM @Tbl_ConceptoIncluido
 
 		COMMIT TRAN
@@ -1085,12 +1085,12 @@ BEGIN
 	
 	BEGIN TRAN
 	BEGIN TRY
-		UPDATE dbo.TI_PlantillaPlanilla_Concepto_Incluido SET
+		UPDATE dbo.TI_PlantillaPlanilla_Concepto_Referencia SET
 			B_Habilitado = 0,
 			B_Eliminado = 1,
 			I_UsuarioMod = @I_UserID,
 			D_FecMod = GETDATE()
-		WHERE I_PlantillaPlanillaConceptoID = @I_PlantillaPlanillaConceptoID
+		WHERE I_PlantillaPlanillaConceptoBaseID = @I_PlantillaPlanillaConceptoID
 
 		UPDATE dbo.TI_PlantillaPlanilla_Concepto SET
 			B_Habilitado = 0,
