@@ -317,151 +317,160 @@ AS
 BEGIN
 	SET NOCOUNT ON;
 
+	IF (@I_Anio IS NULL) BEGIN
+		SET @B_Result = 0
+		SET @T_Message = 'El año es obligatorio.'
+		RETURN 0;
+	END
+
+	IF (@I_Mes IS NULL) BEGIN
+		SET @B_Result = 0
+		SET @T_Message = 'El mes es obligatorio.'
+		RETURN 0;
+	END
+
+	IF (@I_categoriaPlanillaID IS NULL) BEGIN
+		SET @B_Result = 0
+		SET @T_Message = 'La categoría de planilla es obligatorio.'
+		RETURN 0;
+	END
+
+	IF (@I_UserID IS NULL) BEGIN
+		SET @B_Result = 0
+		SET @T_Message = 'No se ha especificado el usuario que está realizando la acción.'
+		RETURN 0;
+	END
+
+	IF NOT EXISTS (SELECT pr.I_PeriodoID FROM dbo.TR_Periodo pr WHERE pr.I_Anio = @I_Anio AND pr.I_Mes = @I_Mes) BEGIN
+		SET @B_Result = 0
+		SET @T_Message = 'No existe el periodo.'
+		RETURN 0;
+	END
+		
+	DECLARE --Cabecera plantilla
+			@I_PeriodoID INT,
+			@I_CorrelativoPlanilla INT,
+			@I_Indicador INT,
+			@I_CantRegistros INT,
+			@I_PlantillaID INT,
+			--Resumen cabecera planilla
+			@I_TotalRemuneracion DECIMAL(15,2) = 0,
+			@I_TotalDescuento DECIMAL(15,2) = 0,
+			@I_TotalReintegro DECIMAL(15,2) = 0,
+			@I_TotalDeduccion DECIMAL(15,2) = 0,
+			@I_TotalSueldo DECIMAL(15,2) = 0,
+			--Resumen por trabajador
+			@I_TrabajadorID INT,
+			@I_FiltroTrabajador1 INT,-->Grupo Ocupacional | Categoria
+			@I_FiltroTrabajador2 INT,-->Nivel Remunerativo | Dedicacion y horas
+			@I_TrabajadorPlanillaID INT,
+			@I_TotalRemuneracionTrabajador DECIMAL(15,2),
+			@I_TotalDescuentoTrabajador DECIMAL(15,2),
+			@I_TotalReintegroTrabajador DECIMAL(15,2),
+			@I_TotalDeduccionTrabajador DECIMAL(15,2),
+			@I_TotalSueldoTrabajador DECIMAL(15,2),
+			--Detalle conceptos por trabajador
+			@I_NroOrden INT,
+			@I_CantConceptos INT,
+			@I_ConceptoID INT,
+			@C_ConceptoCod VARCHAR(20),
+			@T_ConceptoDesc VARCHAR(250),
+			@B_EsValorFijo BIT,
+			@B_ValorEsExterno BIT,
+			@M_ValorConcepto DECIMAL(15,2),
+			@B_AplicarFiltro1 BIT,
+			@I_Filtro1 INT,-->Grupo Ocupacional | Categoria
+			@B_AplicarFiltro2 BIT,
+			@I_Filtro2 INT,-->Nivel Remunerativo | Dedicacion y horas
+			--Variables generales
+			@I_ADMINISTRATIVOID INT = 1,
+			@I_DOCENTEID INT = 2,
+			@D_FecRegistro DATETIME  = GETDATE(),
+			@I_Remunerativo INT = 1,
+			@I_Descuento INT = 2,
+			@I_Reintegro INT = 4,
+			@I_Deduccion INT = 10
+
+	CREATE TABLE #tmp_trabajador
+	(
+		I_NroOrden INT IDENTITY(1,1),
+		I_TrabajadorID INT NOT NULL,
+		I_FiltroTrabajador1 INT NOT NULL,
+		I_FiltroTrabajador2 INT NOT NULL
+	);
+
+	DECLARE @tmp_remuneracion TABLE(
+		I_NroOrden INT,
+		I_ConceptoID INT,
+		C_ConceptoCod VARCHAR(20),
+		T_ConceptoDesc VARCHAR(250),
+		B_EsValorFijo BIT,
+		B_ValorEsExterno BIT,
+		M_ValorConcepto DECIMAL(15,2),
+		B_AplicarFiltro1 BIT,
+		I_Filtro1 INT,
+		B_AplicarFiltro2 BIT,
+		I_Filtro2 INT);
+
+	DECLARE @tmp_descuento TABLE(I_NroOrden INT, I_ConceptoID INT, C_ConceptoCod VARCHAR(20), T_ConceptoDesc VARCHAR(250), M_ValorConcepto DECIMAL(15,2), B_ValorEsExterno BIT);
+
+	DECLARE @tmp_reintegro TABLE(I_NroOrden INT, I_ConceptoID INT, C_ConceptoCod VARCHAR(20), T_ConceptoDesc VARCHAR(250), M_ValorConcepto DECIMAL(15,2), B_ValorEsExterno BIT);
+
+	DECLARE @tmp_deduccion TABLE(I_NroOrden INT, I_ConceptoID INT, C_ConceptoCod VARCHAR(20), T_ConceptoDesc VARCHAR(250), M_ValorConcepto DECIMAL(15,2), B_ValorEsExterno BIT);
+
+	--1. Obtener valores para la cabecera de la planilla
+	SET @I_PeriodoID = (SELECT pr.I_PeriodoID FROM dbo.TR_Periodo pr WHERE pr.I_Anio = @I_Anio AND pr.I_Mes = @I_Mes);
+
+	SET @I_CorrelativoPlanilla = ISNULL((SELECT MAX(pl.I_Correlativo) FROM dbo.TR_Planilla pl 
+		WHERE pl.B_Anulado = 0 AND pl.I_PeriodoID = @I_PeriodoID AND pl.I_CategoriaPlanillaID = @I_CategoriaPlanillaID), 0) + 1;
+
+	--2. Obtener la lista de trabajadores
+	IF (@I_CategoriaPlanillaID = @I_ADMINISTRATIVOID) BEGIN
+		INSERT #tmp_trabajador(I_TrabajadorID, I_FiltroTrabajador1, I_FiltroTrabajador2)
+		SELECT adm.I_TrabajadorID, adm.I_GrupoOcupacionalID, adm.I_NivelRemunerativoID 
+		FROM dbo.TC_Administrativo adm
+		INNER JOIN dbo.TC_Trabajador trab ON trab.I_TrabajadorID = adm.I_TrabajadorID
+		INNER JOIN dbo.TC_Trabajador_CategoriaPlanilla tca ON tca.I_TrabajadorID = trab.I_TrabajadorID 
+		INNER JOIN dbo.TC_GrupoOcupacional gr ON gr.I_GrupoOcupacionalID = adm.I_GrupoOcupacionalID
+		INNER JOIN dbo.TC_NivelRemunerativo nivrem ON nivrem.I_NivelRemunerativoID = adm.I_NivelRemunerativoID
+		INNER JOIN @Tbl_Trabajador tmp ON tmp.I_ID = trab.I_TrabajadorID
+		WHERE trab.B_Habilitado = 1 AND trab.B_Eliminado = 0 AND 
+			adm.B_Habilitado = 1 AND adm.B_Eliminado = 0 AND 
+			tca.B_Habilitado = 1 AND tca.B_Eliminado = 0 AND tca.I_CategoriaPlanillaID = @I_CategoriaPlanillaID AND
+			NOT EXISTS(SELECT pl.I_PlanillaID FROM dbo.TR_Planilla pl 
+				INNER JOIN dbo.TR_TrabajadorPlanilla tpl ON tpl.I_PlanillaID = pl.I_PlanillaID 
+				WHERE tpl.B_Anulado = 0 AND pl.I_PeriodoID = @I_PeriodoID AND pl.I_CategoriaPlanillaID = @I_CategoriaPlanillaID AND tpl.I_TrabajadorID = trab.I_TrabajadorID);
+	END
+
+	IF (@I_CategoriaPlanillaID = @I_DOCENTEID) BEGIN
+		INSERT #tmp_trabajador(I_TrabajadorID, I_FiltroTrabajador1, I_FiltroTrabajador2)
+		SELECT doc.I_TrabajadorID, doc.I_CategoriaDocenteID, doc.I_HorasDocenteID FROM dbo.TC_Docente doc
+		INNER JOIN dbo.TC_Trabajador trab ON trab.I_TrabajadorID = doc.I_TrabajadorID
+		INNER JOIN dbo.TC_Trabajador_CategoriaPlanilla tca ON tca.I_TrabajadorID = trab.I_TrabajadorID 
+		INNER JOIN dbo.TC_CategoriaDocente cd ON cd.I_CategoriaDocenteID = doc.I_CategoriaDocenteID
+		INNER JOIN dbo.TC_HorasDocente hd ON hd.I_HorasDocenteID = doc.I_HorasDocenteID
+		INNER JOIN @Tbl_Trabajador tmp ON tmp.I_ID = trab.I_TrabajadorID
+		WHERE trab.B_Habilitado = 1 AND trab.B_Eliminado = 0 AND 
+			doc.B_Habilitado = 1 AND doc.B_Eliminado = 0 AND 
+			tca.B_Habilitado = 1 AND tca.B_Eliminado = 0 AND tca.I_CategoriaPlanillaID = @I_CategoriaPlanillaID AND
+			NOT EXISTS(SELECT pl.I_PlanillaID FROM dbo.TR_Planilla pl 
+				INNER JOIN dbo.TR_TrabajadorPlanilla tpl ON tpl.I_PlanillaID = pl.I_PlanillaID 
+				WHERE tpl.B_Anulado = 0 AND pl.I_PeriodoID = @I_PeriodoID AND pl.I_CategoriaPlanillaID = @I_CategoriaPlanillaID AND tpl.I_TrabajadorID = trab.I_TrabajadorID);
+	END
+
+	SET @I_Indicador = 1;
+
+	SET @I_CantRegistros = (SELECT COUNT(*) FROM #tmp_trabajador);
+
+	IF (@I_CantRegistros = 0) BEGIN
+		SET @B_Result = 0
+		SET @T_Message = 'No existen trabajadores para generar una planilla.'
+		RETURN 0;
+	END
+
 	BEGIN TRY
 	BEGIN TRAN
-
-		IF (@I_Anio IS NULL) BEGIN
-			RAISERROR('El año es obligatorio.', 11, 1);
-		END
-
-		IF (@I_Mes IS NULL) BEGIN
-			RAISERROR('El mes es obligatorio.', 11, 1);
-		END
-
-		IF (@I_categoriaPlanillaID IS NULL) BEGIN
-			RAISERROR('La categoría de planilla es obligatorio.', 11, 1);
-		END
-
-		IF (@I_UserID IS NULL) BEGIN
-			RAISERROR('No se ha especificado el usuario que está realizando la acción.', 11, 1);
-		END
-
-		IF NOT EXISTS (SELECT pr.I_PeriodoID FROM dbo.TR_Periodo pr WHERE pr.I_Anio = @I_Anio AND pr.I_Mes = @I_Mes) BEGIN
-			RAISERROR('No existe el periodo.', 11, 1);
-		END
-		
-		DECLARE --Cabecera plantilla
-				@I_PeriodoID INT,
-				@I_CorrelativoPlanilla INT,
-				@I_Indicador INT,
-				@I_CantRegistros INT,
-				@I_PlantillaID INT,
-				--Resumen cabecera planilla
-				@I_TotalRemuneracion DECIMAL(15,2) = 0,
-				@I_TotalDescuento DECIMAL(15,2) = 0,
-				@I_TotalReintegro DECIMAL(15,2) = 0,
-				@I_TotalDeduccion DECIMAL(15,2) = 0,
-				@I_TotalSueldo DECIMAL(15,2) = 0,
-				--Tipo de Conceptos
-				--@I_NroOrden_TipoConceptos INT,
-				--@I_Cant_TipoConceptos INT,
-				--@I_TipoConceptoID INT,
-				--@B_EsAdicion BIT,
-				--@B_IncluirEnTotalBruto BIT,
-				--Resumen por trabajador
-				@I_TrabajadorID INT,
-				@I_Filtro1 INT,
-				@I_Filtro2 INT,
-				@I_TrabajadorPlanillaID INT,
-				@I_TotalRemuneracionTrabajador DECIMAL(15,2),
-				@I_TotalDescuentoTrabajador DECIMAL(15,2),
-				@I_TotalReintegroTrabajador DECIMAL(15,2),
-				@I_TotalDeduccionTrabajador DECIMAL(15,2),
-				@I_TotalSueldoTrabajador DECIMAL(15,2),
-				--Detalle conceptos por trabajador
-				@I_NroOrden INT,
-				@I_CantConceptos INT,
-				@I_ConceptoID INT,
-				@C_ConceptoCod VARCHAR(20),
-				@T_ConceptoDesc VARCHAR(250),
-				@M_ValorConcepto DECIMAL(15,2),
-				@B_ValorEsExterno BIT,
-				--Variables generales
-				@I_ADMINISTRATIVOID INT = 1,
-				@I_DOCENTEID INT = 2,
-				@D_FecRegistro DATETIME  = GETDATE(),
-				@I_Remunerativo INT = 1,
-				@I_Descuento INT = 2,
-				@I_Reintegro INT = 4,
-				@I_Deduccion INT = 10
-
-		CREATE TABLE #tmp_trabajador
-		(
-			I_NroOrden INT IDENTITY(1,1),
-			I_TrabajadorID INT NOT NULL,
-			I_Filtro1 INT NOT NULL,
-			I_Filtro2 INT NOT NULL
-		);
-
-		--DECLARE @tmp_tipo_concepto TABLE(I_NroOrden INT, I_TipoConceptoID INT, B_EsAdicion BIT, B_IncluirEnTotalBruto BIT);
-
-		DECLARE @tmp_remuneracion TABLE(I_NroOrden INT, I_ConceptoID INT, C_ConceptoCod VARCHAR(20), T_ConceptoDesc VARCHAR(250), M_ValorConcepto DECIMAL(15,2), B_ValorEsExterno BIT);
-
-		DECLARE @tmp_descuento TABLE(I_NroOrden INT, I_ConceptoID INT, C_ConceptoCod VARCHAR(20), T_ConceptoDesc VARCHAR(250), M_ValorConcepto DECIMAL(15,2), B_ValorEsExterno BIT);
-
-		DECLARE @tmp_reintegro TABLE(I_NroOrden INT, I_ConceptoID INT, C_ConceptoCod VARCHAR(20), T_ConceptoDesc VARCHAR(250), M_ValorConcepto DECIMAL(15,2), B_ValorEsExterno BIT);
-
-		DECLARE @tmp_deduccion TABLE(I_NroOrden INT, I_ConceptoID INT, C_ConceptoCod VARCHAR(20), T_ConceptoDesc VARCHAR(250), M_ValorConcepto DECIMAL(15,2), B_ValorEsExterno BIT);
-
-		--1. Obtener valores para la cabecera de la planilla
-		SET @I_PeriodoID = (SELECT pr.I_PeriodoID FROM dbo.TR_Periodo pr WHERE pr.I_Anio = @I_Anio AND pr.I_Mes = @I_Mes);
-
-		SET @I_CorrelativoPlanilla = ISNULL((SELECT MAX(pl.I_Correlativo) FROM dbo.TR_Planilla pl 
-			WHERE pl.B_Anulado = 0 AND pl.I_PeriodoID = @I_PeriodoID AND pl.I_CategoriaPlanillaID = @I_CategoriaPlanillaID), 0) + 1;
-
-		--2. Obtener los tipos de conceptos a usar
-		--INSERT @tmp_tipo_concepto(I_NroOrden, I_TipoConceptoID, B_EsAdicion, B_IncluirEnTotalBruto)
-		--SELECT ROW_NUMBER() OVER(ORDER BY tipcon.I_TipoConceptoID ASC), tipcon.I_TipoConceptoID, tipcon.B_EsAdicion, tipcon.B_IncluirEnTotalBruto FROM dbo.TC_TipoConcepto tipcon
-		--WHERE tipcon.B_Habilitado = 1 AND tipcon.B_Eliminado = 0
-
-		--SET @I_NroOrden_TipoConceptos = 1
-
-		--SET @I_Cant_TipoConceptos = (SELECT COUNT(*) FROM @tmp_tipo_concepto)
-
-		--3. Obtener la lista de trabajadores
-		IF (@I_CategoriaPlanillaID = @I_ADMINISTRATIVOID) BEGIN
-			INSERT #tmp_trabajador(I_TrabajadorID, I_Filtro1, I_Filtro2)
-			SELECT adm.I_TrabajadorID, adm.I_GrupoOcupacionalID, adm.I_NivelRemunerativoID 
-			FROM dbo.TC_Administrativo adm
-			INNER JOIN dbo.TC_Trabajador trab ON trab.I_TrabajadorID = adm.I_TrabajadorID
-			INNER JOIN dbo.TC_Trabajador_CategoriaPlanilla tca ON tca.I_TrabajadorID = trab.I_TrabajadorID 
-			INNER JOIN dbo.TC_GrupoOcupacional gr ON gr.I_GrupoOcupacionalID = adm.I_GrupoOcupacionalID
-			INNER JOIN dbo.TC_NivelRemunerativo nivrem ON nivrem.I_NivelRemunerativoID = adm.I_NivelRemunerativoID
-			INNER JOIN @Tbl_Trabajador tmp ON tmp.I_ID = trab.I_TrabajadorID
-			WHERE trab.B_Habilitado = 1 AND trab.B_Eliminado = 0 AND 
-				adm.B_Habilitado = 1 AND adm.B_Eliminado = 0 AND 
-				tca.B_Habilitado = 1 AND tca.B_Eliminado = 0 AND tca.I_CategoriaPlanillaID = @I_CategoriaPlanillaID AND
-				NOT EXISTS(SELECT pl.I_PlanillaID FROM dbo.TR_Planilla pl 
-					INNER JOIN dbo.TR_TrabajadorPlanilla tpl ON tpl.I_PlanillaID = pl.I_PlanillaID 
-					WHERE tpl.B_Anulado = 0 AND pl.I_PeriodoID = @I_PeriodoID AND pl.I_CategoriaPlanillaID = @I_CategoriaPlanillaID AND tpl.I_TrabajadorID = trab.I_TrabajadorID);
-		END
-
-		IF (@I_CategoriaPlanillaID = @I_DOCENTEID) BEGIN
-			INSERT #tmp_trabajador(I_TrabajadorID, I_Filtro1, I_Filtro2)
-			SELECT doc.I_TrabajadorID, doc.I_CategoriaDocenteID, doc.I_HorasDocenteID FROM dbo.TC_Docente doc
-			INNER JOIN dbo.TC_Trabajador trab ON trab.I_TrabajadorID = doc.I_TrabajadorID
-			INNER JOIN dbo.TC_Trabajador_CategoriaPlanilla tca ON tca.I_TrabajadorID = trab.I_TrabajadorID 
-			INNER JOIN dbo.TC_CategoriaDocente cd ON cd.I_CategoriaDocenteID = doc.I_CategoriaDocenteID
-			INNER JOIN dbo.TC_HorasDocente hd ON hd.I_HorasDocenteID = doc.I_HorasDocenteID
-			INNER JOIN @Tbl_Trabajador tmp ON tmp.I_ID = trab.I_TrabajadorID
-			WHERE trab.B_Habilitado = 1 AND trab.B_Eliminado = 0 AND 
-				doc.B_Habilitado = 1 AND doc.B_Eliminado = 0 AND 
-				tca.B_Habilitado = 1 AND tca.B_Eliminado = 0 AND tca.I_CategoriaPlanillaID = @I_CategoriaPlanillaID AND
-				NOT EXISTS(SELECT pl.I_PlanillaID FROM dbo.TR_Planilla pl 
-					INNER JOIN dbo.TR_TrabajadorPlanilla tpl ON tpl.I_PlanillaID = pl.I_PlanillaID 
-					WHERE tpl.B_Anulado = 0 AND pl.I_PeriodoID = @I_PeriodoID AND pl.I_CategoriaPlanillaID = @I_CategoriaPlanillaID AND tpl.I_TrabajadorID = trab.I_TrabajadorID);
-		END
-
-		SET @I_Indicador = 1;
-
-		SET @I_CantRegistros = (SELECT COUNT(*) FROM #tmp_trabajador);
-
-		IF (@I_CantRegistros = 0) BEGIN
-			--RETURN 0;
-			RAISERROR('Todos los trabajadores seleccionados ya tienen una plantilla generada para el presente periodo.', 11, 1);
-		END 
-
-		--4. Crear la cabecera de la planilla
+		--3. Crear la cabecera de la planilla
 		INSERT dbo.TR_Planilla(I_PeriodoID, I_CategoriaPlanillaID, I_Correlativo, I_CantRegistros, 
 			I_TotalRemuneracion, I_TotalDescuento, I_TotalReintegro, I_TotalDeduccion, I_TotalSueldo, B_Anulado, I_UsuarioCre, D_FecCre)
 		VALUES(@I_PeriodoID, @I_CategoriaPlanillaID, @I_CorrelativoPlanilla, @I_CantRegistros, 0, 0, 0, 0, 0, 0, @I_UserID, @D_FecRegistro);
@@ -472,8 +481,8 @@ BEGIN
 		WHILE (@I_Indicador <= @I_CantRegistros) BEGIN
 		
 			SELECT	@I_TrabajadorID = tmp.I_TrabajadorID,
-					@I_Filtro1 = tmp.I_Filtro1,
-					@I_Filtro2 = tmp.I_Filtro2
+					@I_FiltroTrabajador1 = tmp.I_FiltroTrabajador1,
+					@I_FiltroTrabajador2 = tmp.I_FiltroTrabajador2
 			FROM #tmp_trabajador tmp
 			WHERE tmp.I_NroOrden = @I_Indicador;
 
@@ -489,8 +498,10 @@ BEGIN
 
 			DELETE @tmp_remuneracion;
 
-			INSERT @tmp_remuneracion(I_NroOrden, I_ConceptoID, C_ConceptoCod, T_ConceptoDesc, M_ValorConcepto, B_ValorEsExterno)
-			SELECT ROW_NUMBER() OVER(ORDER BY c.I_ConceptoID ASC), c.I_ConceptoID, c.C_ConceptoCod, c.T_ConceptoDesc, ppc.M_ValorConcepto, ppc.B_ValorEsExterno 
+			INSERT @tmp_remuneracion(I_NroOrden, I_ConceptoID, C_ConceptoCod, T_ConceptoDesc, B_EsValorFijo, B_ValorEsExterno, M_ValorConcepto, 
+				B_AplicarFiltro1, I_Filtro1, B_AplicarFiltro2, I_Filtro2)
+			SELECT ROW_NUMBER() OVER(ORDER BY c.I_ConceptoID ASC), c.I_ConceptoID, c.C_ConceptoCod, c.T_ConceptoDesc, ppc.B_EsValorFijo, ppc.B_ValorEsExterno, ppc.M_ValorConcepto, 
+				ppc.B_AplicarFiltro1, ppc.I_Filtro1, ppc.B_AplicarFiltro2, ppc.I_Filtro2
 			FROM dbo.TI_PlantillaPlanilla pp
 			INNER JOIN  dbo.TI_PlantillaPlanilla_Concepto ppc ON ppc.I_PlantillaPlanillaID = pp.I_PlantillaPlanillaID
 			INNER JOIN dbo.TC_Concepto c ON c.I_ConceptoID = ppc.I_ConceptoID
@@ -506,8 +517,13 @@ BEGIN
 				SELECT	@I_ConceptoID = I_ConceptoID,
 						@C_ConceptoCod = C_ConceptoCod,
 						@T_ConceptoDesc = T_ConceptoDesc,
+						@B_EsValorFijo = B_EsValorFijo,
+						@B_ValorEsExterno = B_ValorEsExterno,
 						@M_ValorConcepto = M_ValorConcepto,
-						@B_ValorEsExterno = B_ValorEsExterno
+						@B_AplicarFiltro1 = B_AplicarFiltro1,
+						@I_Filtro1 = I_Filtro1,
+						@B_AplicarFiltro2 = B_AplicarFiltro2,
+						@I_Filtro2 = I_Filtro2
 				FROM @tmp_remuneracion
 				WHERE I_NroOrden = @I_NroOrden
 
@@ -528,7 +544,7 @@ BEGIN
 				SET @I_NroOrden = @I_NroOrden + 1
 			END
 
-			--6. Obtener DESCUENTOS
+			--7. Obtener DESCUENTOS
 			SET @I_TotalDescuentoTrabajador = 0;
 
 			DELETE @tmp_descuento;
@@ -572,7 +588,7 @@ BEGIN
 				SET @I_NroOrden = @I_NroOrden + 1
 			END
 
-			--7. Obtener REINTEGRO
+			--8. Obtener REINTEGRO
 			SET @I_TotalReintegroTrabajador = 0;
 
 			DELETE @tmp_reintegro;
@@ -616,7 +632,7 @@ BEGIN
 				SET @I_NroOrden = @I_NroOrden + 1
 			END
 
-			--8. Obtener DEDUCCIONES
+			--9. Obtener DEDUCCIONES
 			SET @I_TotalDeduccionTrabajador = 0;
 
 			DELETE @tmp_deduccion;
@@ -660,7 +676,7 @@ BEGIN
 				SET @I_NroOrden = @I_NroOrden + 1
 			END
 
-			--9. Actualizar totales por trabajador
+			--10. Actualizar totales por trabajador
 			SET @I_TotalSueldoTrabajador = @I_TotalRemuneracionTrabajador - @I_TotalDescuentoTrabajador + @I_TotalReintegroTrabajador - @I_TotalDeduccionTrabajador;
 
 			UPDATE  dbo.TR_TrabajadorPlanilla SET 
@@ -671,7 +687,7 @@ BEGIN
 				I_TotalSueldo = @I_TotalSueldoTrabajador
 			WHERE I_TrabajadorPlanillaID = @I_TrabajadorPlanillaID
 
-			--10. Acumular para el resumen total de la planilla
+			--11. Acumular para el resumen total de la planilla
 			SET @I_TotalRemuneracion = @I_TotalRemuneracion + @I_TotalRemuneracionTrabajador;
 
 			SET @I_TotalDescuento = @I_TotalDescuento + @I_TotalDescuentoTrabajador;
@@ -685,7 +701,7 @@ BEGIN
 			SET @I_Indicador = @I_Indicador + 1;
 		END
 
-		--11. Actualizar totales de planilla
+		--12. Actualizar totales de planilla
 		UPDATE dbo.TR_Planilla SET 
 			I_TotalRemuneracion = @I_TotalRemuneracion, 
 			I_TotalDescuento = @I_TotalDescuento, 
@@ -702,11 +718,8 @@ BEGIN
 	BEGIN CATCH
 		ROLLBACK TRAN
 
-		DECLARE @ERROR_MESSAGE NVARCHAR(4000) = ERROR_MESSAGE(),
-				@ERROR_SEVERITY INT = ERROR_SEVERITY(),
-				@ERROR_STATE INT = ERROR_STATE()
-
-		RAISERROR (@ERROR_MESSAGE, @ERROR_SEVERITY, @ERROR_STATE);
+		SET @B_Result = 0
+		SET @T_Message = ERROR_MESSAGE()
 	END CATCH
 END
 GO
