@@ -289,6 +289,7 @@ GO
 IF EXISTS (SELECT * FROM INFORMATION_SCHEMA.DOMAINS WHERE DOMAIN_NAME = 'type_dataIdentifiers') BEGIN
 	IF EXISTS (SELECT * FROM INFORMATION_SCHEMA.ROUTINES WHERE ROUTINE_TYPE = 'PROCEDURE' AND ROUTINE_NAME = 'USP_I_GenerarPlanilla_Docente_Administrativo') BEGIN
 		DROP PROCEDURE [dbo].[USP_I_GenerarPlanilla_Docente_Administrativo]
+		DROP PROCEDURE [dbo].[USP_I_RegistrarPlantillaPlanillaConcepto]
 	END
 
 	DROP TYPE [dbo].[type_dataIdentifiers]
@@ -361,8 +362,8 @@ BEGIN
 			@I_TotalSueldo DECIMAL(15,2) = 0,
 			--Resumen por trabajador
 			@I_TrabajadorID INT,
-			@I_FiltroTrabajador1 INT,-->Grupo Ocupacional | Categoria
-			@I_FiltroTrabajador2 INT,-->Nivel Remunerativo | Dedicacion y horas
+			@I_Filtro1 INT,-->Grupo Ocupacional | Categoria
+			@I_Filtro2 INT,-->Nivel Remunerativo | Dedicacion y horas
 			@I_TrabajadorPlanillaID INT,
 			@I_TotalRemuneracionTrabajador DECIMAL(15,2),
 			@I_TotalDescuentoTrabajador DECIMAL(15,2),
@@ -381,10 +382,6 @@ BEGIN
 			@B_EsValorFijo BIT,
 			@B_ValorEsExterno BIT,
 			@M_ValorConcepto DECIMAL(15,2),
-			@B_AplicarFiltro1 BIT,
-			@I_Filtro1 INT,-->Grupo Ocupacional | Categoria
-			@B_AplicarFiltro2 BIT,
-			@I_Filtro2 INT,-->Nivel Remunerativo | Dedicacion y horas
 			--Variables generales
 			@I_ADMINISTRATIVOID INT = 1,
 			@I_DOCENTEID INT = 2,
@@ -398,8 +395,8 @@ BEGIN
 	(
 		I_NroOrden INT IDENTITY(1,1),
 		I_TrabajadorID INT NOT NULL,
-		I_FiltroTrabajador1 INT NOT NULL,
-		I_FiltroTrabajador2 INT NOT NULL
+		I_Filtro1 INT NOT NULL,
+		I_Filtro2 INT NOT NULL
 	);
 
 	DECLARE @tmp_remuneracion TABLE(
@@ -424,7 +421,7 @@ BEGIN
 
 	--2. Obtener la lista de trabajadores
 	IF (@I_CategoriaPlanillaID = @I_ADMINISTRATIVOID) BEGIN
-		INSERT #tmp_trabajador(I_TrabajadorID, I_FiltroTrabajador1, I_FiltroTrabajador2)
+		INSERT #tmp_trabajador(I_TrabajadorID, I_Filtro1, I_Filtro2)
 		SELECT adm.I_TrabajadorID, adm.I_GrupoOcupacionalID, adm.I_NivelRemunerativoID 
 		FROM dbo.TC_Administrativo adm
 		INNER JOIN dbo.TC_Trabajador trab ON trab.I_TrabajadorID = adm.I_TrabajadorID
@@ -441,7 +438,7 @@ BEGIN
 	END
 
 	IF (@I_CategoriaPlanillaID = @I_DOCENTEID) BEGIN
-		INSERT #tmp_trabajador(I_TrabajadorID, I_FiltroTrabajador1, I_FiltroTrabajador2)
+		INSERT #tmp_trabajador(I_TrabajadorID, I_Filtro1, I_Filtro2)
 		SELECT doc.I_TrabajadorID, doc.I_CategoriaDocenteID, doc.I_HorasDocenteID FROM dbo.TC_Docente doc
 		INNER JOIN dbo.TC_Trabajador trab ON trab.I_TrabajadorID = doc.I_TrabajadorID
 		INNER JOIN dbo.TC_Trabajador_CategoriaPlanilla tca ON tca.I_TrabajadorID = trab.I_TrabajadorID 
@@ -479,8 +476,8 @@ BEGIN
 		WHILE (@I_Indicador <= @I_CantRegistros) BEGIN
 		
 			SELECT	@I_TrabajadorID = tmp.I_TrabajadorID,
-					@I_FiltroTrabajador1 = tmp.I_FiltroTrabajador1,
-					@I_FiltroTrabajador2 = tmp.I_FiltroTrabajador2
+					@I_Filtro1 = tmp.I_Filtro1,
+					@I_Filtro2 = tmp.I_Filtro2
 			FROM #tmp_trabajador tmp
 			WHERE tmp.I_NroOrden = @I_Indicador;
 
@@ -532,10 +529,6 @@ BEGIN
 						@B_EsValorFijo = B_EsValorFijo,
 						@B_ValorEsExterno = B_ValorEsExterno,
 						@M_ValorConcepto = M_ValorConcepto,
-						@B_AplicarFiltro1 = B_AplicarFiltro1,
-						@I_Filtro1 = I_Filtro1,
-						@B_AplicarFiltro2 = B_AplicarFiltro2,
-						@I_Filtro2 = I_Filtro2,
 						@B_ConceptoObtenido = 1
 					FROM dbo.TI_PlantillaPlanilla_Concepto ppc
 					WHERE ppc.I_PlantillaPlanillaID = @I_PlantillaPlanillaID AND ppc.I_ConceptoID = @I_ConceptoID AND ppc.B_Habilitado = 1 AND ppc.B_Eliminado = 0
@@ -544,57 +537,45 @@ BEGIN
 				BEGIN
 					IF ((SELECT COUNT(ppc.I_PlantillaPlanillaConceptoID) FROM dbo.TI_PlantillaPlanilla_Concepto ppc
 						WHERE ppc.I_PlantillaPlanillaID = @I_PlantillaPlanillaID AND ppc.I_ConceptoID = @I_ConceptoID AND ppc.B_Habilitado = 1 AND ppc.B_Eliminado = 0 AND
-							ppc.B_AplicarFiltro1 = 1 AND ppc.I_Filtro1 = @I_FiltroTrabajador1 AND ppc.B_AplicarFiltro2 = 1 AND ppc.I_Filtro2 = @I_FiltroTrabajador2) = 1)
+							ppc.B_AplicarFiltro1 = 1 AND ppc.I_Filtro1 = @I_Filtro1 AND ppc.B_AplicarFiltro2 = 1 AND ppc.I_Filtro2 = @I_Filtro2) = 1)
 					BEGIN
 						SELECT
 							@B_EsValorFijo = B_EsValorFijo,
 							@B_ValorEsExterno = B_ValorEsExterno,
 							@M_ValorConcepto = M_ValorConcepto,
-							@B_AplicarFiltro1 = B_AplicarFiltro1,
-							@I_Filtro1 = I_Filtro1,
-							@B_AplicarFiltro2 = B_AplicarFiltro2,
-							@I_Filtro2 = I_Filtro2,
 							@B_ConceptoObtenido = 1
 						FROM dbo.TI_PlantillaPlanilla_Concepto ppc
 						WHERE ppc.I_PlantillaPlanillaID = @I_PlantillaPlanillaID AND ppc.I_ConceptoID = @I_ConceptoID AND ppc.B_Habilitado = 1 AND ppc.B_Eliminado = 0 AND
-							ppc.B_AplicarFiltro1 = 1 AND ppc.I_Filtro1 = @I_FiltroTrabajador1 AND ppc.B_AplicarFiltro2 = 1 AND ppc.I_Filtro2 = @I_FiltroTrabajador2
+							ppc.B_AplicarFiltro1 = 1 AND ppc.I_Filtro1 = @I_Filtro1 AND ppc.B_AplicarFiltro2 = 1 AND ppc.I_Filtro2 = @I_Filtro2
 					END
 					ELSE
 					BEGIN
 						IF ((SELECT COUNT(ppc.I_PlantillaPlanillaConceptoID) FROM dbo.TI_PlantillaPlanilla_Concepto ppc
 							WHERE ppc.I_PlantillaPlanillaID = @I_PlantillaPlanillaID AND ppc.I_ConceptoID = @I_ConceptoID AND ppc.B_Habilitado = 1 AND ppc.B_Eliminado = 0 AND
-								ppc.B_AplicarFiltro1 = 1 AND ppc.I_Filtro1 = @I_FiltroTrabajador1 AND ppc.B_AplicarFiltro2 = 0) = 1)
+								ppc.B_AplicarFiltro1 = 1 AND ppc.I_Filtro1 = @I_Filtro1 AND ppc.B_AplicarFiltro2 = 0) = 1)
 						BEGIN
 							SELECT 
 								@B_EsValorFijo = B_EsValorFijo,
 								@B_ValorEsExterno = B_ValorEsExterno,
 								@M_ValorConcepto = M_ValorConcepto,
-								@B_AplicarFiltro1 = B_AplicarFiltro1,
-								@I_Filtro1 = I_Filtro1,
-								@B_AplicarFiltro2 = B_AplicarFiltro2,
-								@I_Filtro2 = I_Filtro2,
 								@B_ConceptoObtenido = 1
 							FROM dbo.TI_PlantillaPlanilla_Concepto ppc
 							WHERE ppc.I_PlantillaPlanillaID = @I_PlantillaPlanillaID AND ppc.I_ConceptoID = @I_ConceptoID AND ppc.B_Habilitado = 1 AND ppc.B_Eliminado = 0 AND
-								ppc.B_AplicarFiltro1 = 1 AND ppc.I_Filtro1 = @I_FiltroTrabajador1 AND ppc.B_AplicarFiltro2 = 0
+								ppc.B_AplicarFiltro1 = 1 AND ppc.I_Filtro1 = @I_Filtro1 AND ppc.B_AplicarFiltro2 = 0
 						END
 						ELSE BEGIN
 							IF ((SELECT COUNT(ppc.I_PlantillaPlanillaConceptoID) FROM dbo.TI_PlantillaPlanilla_Concepto ppc
 								WHERE ppc.I_PlantillaPlanillaID = @I_PlantillaPlanillaID AND ppc.I_ConceptoID = @I_ConceptoID AND ppc.B_Habilitado = 1 AND ppc.B_Eliminado = 0 AND
-									ppc.B_AplicarFiltro1 = 0 AND ppc.B_AplicarFiltro2 = 1 AND ppc.I_Filtro2 = @I_FiltroTrabajador2) = 1)
+									ppc.B_AplicarFiltro1 = 0 AND ppc.B_AplicarFiltro2 = 1 AND ppc.I_Filtro2 = @I_Filtro2) = 1)
 							BEGIN
 								SELECT
 									@B_EsValorFijo = B_EsValorFijo,
 									@B_ValorEsExterno = B_ValorEsExterno,
 									@M_ValorConcepto = M_ValorConcepto,
-									@B_AplicarFiltro1 = B_AplicarFiltro1,
-									@I_Filtro1 = I_Filtro1,
-									@B_AplicarFiltro2 = B_AplicarFiltro2,
-									@I_Filtro2 = I_Filtro2,
 									@B_ConceptoObtenido = 1
 								FROM dbo.TI_PlantillaPlanilla_Concepto ppc
 								WHERE ppc.I_PlantillaPlanillaID = @I_PlantillaPlanillaID AND ppc.I_ConceptoID = @I_ConceptoID AND ppc.B_Habilitado = 1 AND ppc.B_Eliminado = 0 AND
-									ppc.B_AplicarFiltro1 = 0 AND ppc.B_AplicarFiltro2 = 1 AND ppc.I_Filtro2 = @I_FiltroTrabajador2
+									ppc.B_AplicarFiltro1 = 0 AND ppc.B_AplicarFiltro2 = 1 AND ppc.I_Filtro2 = @I_Filtro2
 							END
 							ELSE BEGIN
 								IF ((SELECT COUNT(ppc.I_PlantillaPlanillaConceptoID) FROM dbo.TI_PlantillaPlanilla_Concepto ppc
@@ -605,10 +586,6 @@ BEGIN
 										@B_EsValorFijo = B_EsValorFijo,
 										@B_ValorEsExterno = B_ValorEsExterno,
 										@M_ValorConcepto = M_ValorConcepto,
-										@B_AplicarFiltro1 = B_AplicarFiltro1,
-										@I_Filtro1 = I_Filtro1,
-										@B_AplicarFiltro2 = B_AplicarFiltro2,
-										@I_Filtro2 = I_Filtro2,
 										@B_ConceptoObtenido = 1
 									FROM dbo.TI_PlantillaPlanilla_Concepto ppc
 									WHERE ppc.I_PlantillaPlanillaID = @I_PlantillaPlanillaID AND ppc.I_ConceptoID = @I_ConceptoID AND ppc.B_Habilitado = 1 AND ppc.B_Eliminado = 0 AND
@@ -619,18 +596,24 @@ BEGIN
 					END
 				END
 
-				IF (@B_ValorEsExterno = 1) BEGIN
-					SET @M_ValorConcepto = ISNULL((SELECT cmt.M_ValorConcepto FROM dbo.TI_MontoTrabajador mt 
-						INNER JOIN dbo.TI_Concepto_MontoTrabajador cmt ON cmt.I_MontoTrabajadorID = mt.I_MontoTrabajadorID 
-						WHERE mt.B_Habilitado = 1 AND mt.B_Eliminado = 0 AND cmt.B_Habilitado = 1 AND cmt.B_Eliminado = 0 AND
-							mt.I_TrabajadorID = @I_TrabajadorID AND mt.I_PeriodoID = @I_PeriodoID AND cmt.I_ConceptoID = @I_ConceptoID), 0)
-				END
+				IF (@B_ConceptoObtenido = 1) BEGIN
+					IF (@B_ValorEsExterno = 1) BEGIN
+						SET @M_ValorConcepto = ISNULL((SELECT cmt.M_ValorConcepto FROM dbo.TI_MontoTrabajador mt 
+							INNER JOIN dbo.TI_Concepto_MontoTrabajador cmt ON cmt.I_MontoTrabajadorID = mt.I_MontoTrabajadorID 
+							WHERE mt.B_Habilitado = 1 AND mt.B_Eliminado = 0 AND cmt.B_Habilitado = 1 AND cmt.B_Eliminado = 0 AND
+								mt.I_TrabajadorID = @I_TrabajadorID AND mt.I_PeriodoID = @I_PeriodoID AND cmt.I_ConceptoID = @I_ConceptoID), 0)
+					END
 
-				IF (@M_ValorConcepto IS NOT NULL AND @M_ValorConcepto > 0) BEGIN
-					INSERT dbo.TR_Concepto_TrabajadorPlanilla(I_TrabajadorPlanillaID, I_ConceptoID, C_ConceptoCod, T_ConceptoDesc, T_ConceptoAbrv, M_Monto, B_Anulado, I_UsuarioCre, D_FecCre)
-					VALUES(@I_TrabajadorPlanillaID, @I_ConceptoID, @C_ConceptoCod, @T_ConceptoDesc, @T_ConceptoAbrv, @M_ValorConcepto, 0, @I_UserID, @D_FecRegistro)
+					IF (@M_ValorConcepto IS NOT NULL AND @M_ValorConcepto > 0) BEGIN
+						IF (@B_EsValorFijo = 0) BEGIN
+							SET @M_ValorConcepto = (1.00 + @M_ValorConcepto/100) * (2000)
+						END
 					
-					SET @I_TotalRemuneracionTrabajador = @I_TotalRemuneracionTrabajador + @M_ValorConcepto
+						INSERT dbo.TR_Concepto_TrabajadorPlanilla(I_TrabajadorPlanillaID, I_ConceptoID, C_ConceptoCod, T_ConceptoDesc, T_ConceptoAbrv, M_Monto, B_Anulado, I_UsuarioCre, D_FecCre)
+						VALUES(@I_TrabajadorPlanillaID, @I_ConceptoID, @C_ConceptoCod, @T_ConceptoDesc, @T_ConceptoAbrv, @M_ValorConcepto, 0, @I_UserID, @D_FecRegistro)
+					
+						SET @I_TotalRemuneracionTrabajador = @I_TotalRemuneracionTrabajador + @M_ValorConcepto
+					END
 				END
 
 				SET @I_NroOrden = @I_NroOrden + 1
@@ -1214,33 +1197,4 @@ BEGIN
 		SET @T_Message = ERROR_MESSAGE()
 	END CATCH
 END
-GO
-
-
-
-SELECT * FROM dbo.TR_Planilla
-SELECT * FROM dbo.TR_TrabajadorPlanilla
-SELECT * FROM dbo.TR_Concepto_TrabajadorPlanilla
-
-/*
-DELETE dbo.TR_Concepto_TrabajadorPlanilla
-DELETE dbo.TR_TrabajadorPlanilla
-DELETE dbo.TR_Planilla
-*/
-
-
-DECLARE @tmp_trabajadores AS type_dataIdentifiers,
-		@I_Anio INT = 2023,
-		@I_Mes INT = 1,
-		@I_CategoriaPlanillaID INT = 2,
-		@I_UserID INT = 1,
-		@B_Result BIT,
-		@T_Message VARCHAR(250)
-
-INSERT @tmp_trabajadores(I_ID) VALUES(1)
-
-EXEC USP_I_GenerarPlanilla_Docente_Administrativo @Tbl_Trabajador = @tmp_trabajadores, @I_Anio = @I_Anio, @I_Mes = @I_Mes, @I_CategoriaPlanillaID = @I_CategoriaPlanillaID, @I_UserID = @I_UserID,
-@B_Result = @B_Result OUTPUT, @T_Message = @T_Message OUTPUT
-
-SELECT @B_Result, @T_Message
 GO
