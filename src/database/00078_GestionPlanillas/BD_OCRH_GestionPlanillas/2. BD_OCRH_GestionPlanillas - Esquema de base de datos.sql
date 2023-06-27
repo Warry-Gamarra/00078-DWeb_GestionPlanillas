@@ -501,6 +501,7 @@ CREATE TABLE TR_Concepto_TrabajadorPlanilla
 	I_ConceptoID INT NOT NULL,
 	C_ConceptoCod VARCHAR(20) NOT NULL,
 	T_ConceptoDesc VARCHAR(250) NOT NULL,
+	T_ConceptoAbrv VARCHAR(250),
 	M_Monto DECIMAL(15,2) NOT NULL,
 	B_Anulado BIT NOT NULL,
 	I_UsuarioCre INT,

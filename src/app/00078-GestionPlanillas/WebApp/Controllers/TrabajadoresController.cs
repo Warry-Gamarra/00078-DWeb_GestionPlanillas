@@ -119,6 +119,8 @@ namespace WebApp.Controllers
 
             ViewBag.Action = "Actualizar";
 
+            var trabajador = _trabajadorServiceFacade.ObtenerTrabajador(id);
+
             ViewBag.ListaEstados = _estadoServiceFacade.ListarEstados();
 
             ViewBag.ListaVinculos = _vinculoServiceFacade.ListarVinculos();
@@ -133,15 +135,13 @@ namespace WebApp.Controllers
 
             ViewBag.ListaAfps = _afpServiceFacade.ListarAfps();
 
-            ViewBag.GruposOcupacionales = _grupoOcupacionalServiceFacade.ObtenerComboGruposOcupacionales();
+            ViewBag.GruposOcupacionales = _grupoOcupacionalServiceFacade.ObtenerComboGruposOcupacionales(selectedItem: trabajador.I_GrupoOcupacionalID);
 
-            ViewBag.NivelesRemunerativos = _nivelRemunerativoServiceFacade.ObtenerComboNivelesRemunerativos();
+            ViewBag.NivelesRemunerativos = _nivelRemunerativoServiceFacade.ObtenerComboNivelesRemunerativos(selectedItem: trabajador.I_NivelRemunerativoID);
 
-            ViewBag.CategoriasDocente = _categoriaDocenteServiceFacade.ObtenerComboCategoriasDocente();
+            ViewBag.CategoriasDocente = _categoriaDocenteServiceFacade.ObtenerComboCategoriasDocente(selectedItem: trabajador.I_CategoriaDocenteID);
 
-            ViewBag.HorasDocente = _horasDocenteServiceFacade.ObtenerComboHorasDedicacionDocente();
-
-            var trabajador = _trabajadorServiceFacade.ObtenerTrabajador(id);
+            ViewBag.HorasDocente = _horasDocenteServiceFacade.ObtenerComboHorasDedicacionDocente(selectedItem: trabajador.I_HorasDocenteID);
 
             return PartialView("_MantenimientoTrabajador", trabajador);
         }
