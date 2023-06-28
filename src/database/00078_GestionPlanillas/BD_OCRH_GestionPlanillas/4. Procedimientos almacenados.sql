@@ -661,10 +661,13 @@ BEGIN
 					END
 
 					IF (@M_ValorConcepto IS NOT NULL AND @M_ValorConcepto > 0) BEGIN
-						IF (@B_EsValorFijo = 0) BEGIN
-							SET @M_SumConceptos = (SELECT SUM(r.M_ValorConcepto) FROM dbo.TI_PlantillaPlanilla_Concepto_Referencia b
-								INNER JOIN dbo.TI_PlantillaPlanilla_Concepto r ON r.I_PlantillaPlanillaConceptoID = b.I_PlantillaPlanillaConceptoReferenciaID
-								WHERE b.B_Habilitado = 1 AND b.B_Eliminado = 0 AND b.I_PlantillaPlanillaConceptoBaseID = @I_PlantillaPlanillaConceptoID);
+						IF (@B_EsValorFijo = 0 AND @I_TrabajadorPlanillaID > 0) BEGIN
+							SET @M_SumConceptos = (SELECT SUM(p.M_Monto) FROM dbo.TI_PlantillaPlanilla_Concepto_Referencia base
+								INNER JOIN dbo.TI_PlantillaPlanilla_Concepto ref ON ref.I_PlantillaPlanillaConceptoID = base.I_PlantillaPlanillaConceptoReferenciaID
+								INNER JOIN dbo.TR_Concepto_TrabajadorPlanilla p ON p.I_TrabajadorPlanillaID = @I_TrabajadorPlanillaID AND p.I_ConceptoID = ref.I_ConceptoID
+								WHERE	base.B_Habilitado = 1 AND base.B_Eliminado = 0 AND 
+										ref.B_Habilitado = 1 AND ref.B_Eliminado = 0 AND 
+										p.B_Anulado = 0 AND base.I_PlantillaPlanillaConceptoBaseID = @I_PlantillaPlanillaConceptoID);
 
 							SET @M_ValorConcepto = (@M_ValorConcepto/100) * @M_SumConceptos;
 						END
@@ -745,10 +748,13 @@ BEGIN
 					END
 
 					IF (@M_ValorConcepto IS NOT NULL AND @M_ValorConcepto > 0) BEGIN
-						IF (@B_EsValorFijo = 0) BEGIN
-							SET @M_SumConceptos = (SELECT SUM(r.M_ValorConcepto) FROM dbo.TI_PlantillaPlanilla_Concepto_Referencia b
-								INNER JOIN dbo.TI_PlantillaPlanilla_Concepto r ON r.I_PlantillaPlanillaConceptoID = b.I_PlantillaPlanillaConceptoReferenciaID
-								WHERE b.B_Habilitado = 1 AND b.B_Eliminado = 0 AND b.I_PlantillaPlanillaConceptoBaseID = @I_PlantillaPlanillaConceptoID);
+						IF (@B_EsValorFijo = 0 AND @I_TrabajadorPlanillaID > 0) BEGIN
+							SET @M_SumConceptos = (SELECT SUM(p.M_Monto) FROM dbo.TI_PlantillaPlanilla_Concepto_Referencia base
+								INNER JOIN dbo.TI_PlantillaPlanilla_Concepto ref ON ref.I_PlantillaPlanillaConceptoID = base.I_PlantillaPlanillaConceptoReferenciaID
+								INNER JOIN dbo.TR_Concepto_TrabajadorPlanilla p ON p.I_TrabajadorPlanillaID = @I_TrabajadorPlanillaID AND p.I_ConceptoID = ref.I_ConceptoID
+								WHERE	base.B_Habilitado = 1 AND base.B_Eliminado = 0 AND 
+										ref.B_Habilitado = 1 AND ref.B_Eliminado = 0 AND 
+										p.B_Anulado = 0 AND base.I_PlantillaPlanillaConceptoBaseID = @I_PlantillaPlanillaConceptoID);
 
 							SET @M_ValorConcepto = (@M_ValorConcepto/100) * @M_SumConceptos;
 						END
@@ -829,10 +835,13 @@ BEGIN
 					END
 
 					IF (@M_ValorConcepto IS NOT NULL AND @M_ValorConcepto > 0) BEGIN
-						IF (@B_EsValorFijo = 0) BEGIN
-							SET @M_SumConceptos = (SELECT SUM(r.M_ValorConcepto) FROM dbo.TI_PlantillaPlanilla_Concepto_Referencia b
-								INNER JOIN dbo.TI_PlantillaPlanilla_Concepto r ON r.I_PlantillaPlanillaConceptoID = b.I_PlantillaPlanillaConceptoReferenciaID
-								WHERE b.B_Habilitado = 1 AND b.B_Eliminado = 0 AND b.I_PlantillaPlanillaConceptoBaseID = @I_PlantillaPlanillaConceptoID);
+						IF (@B_EsValorFijo = 0 AND @I_TrabajadorPlanillaID > 0) BEGIN
+							SET @M_SumConceptos = (SELECT SUM(p.M_Monto) FROM dbo.TI_PlantillaPlanilla_Concepto_Referencia base
+								INNER JOIN dbo.TI_PlantillaPlanilla_Concepto ref ON ref.I_PlantillaPlanillaConceptoID = base.I_PlantillaPlanillaConceptoReferenciaID
+								INNER JOIN dbo.TR_Concepto_TrabajadorPlanilla p ON p.I_TrabajadorPlanillaID = @I_TrabajadorPlanillaID AND p.I_ConceptoID = ref.I_ConceptoID
+								WHERE	base.B_Habilitado = 1 AND base.B_Eliminado = 0 AND 
+										ref.B_Habilitado = 1 AND ref.B_Eliminado = 0 AND 
+										p.B_Anulado = 0 AND base.I_PlantillaPlanillaConceptoBaseID = @I_PlantillaPlanillaConceptoID);
 
 							SET @M_ValorConcepto = (@M_ValorConcepto/100) * @M_SumConceptos;
 						END
@@ -913,10 +922,13 @@ BEGIN
 					END
 
 					IF (@M_ValorConcepto IS NOT NULL AND @M_ValorConcepto > 0) BEGIN
-						IF (@B_EsValorFijo = 0) BEGIN
-							SET @M_SumConceptos = (SELECT SUM(r.M_ValorConcepto) FROM dbo.TI_PlantillaPlanilla_Concepto_Referencia b
-								INNER JOIN dbo.TI_PlantillaPlanilla_Concepto r ON r.I_PlantillaPlanillaConceptoID = b.I_PlantillaPlanillaConceptoReferenciaID
-								WHERE b.B_Habilitado = 1 AND b.B_Eliminado = 0 AND b.I_PlantillaPlanillaConceptoBaseID = @I_PlantillaPlanillaConceptoID);
+						IF (@B_EsValorFijo = 0 AND @I_TrabajadorPlanillaID > 0) BEGIN
+							SET @M_SumConceptos = (SELECT SUM(p.M_Monto) FROM dbo.TI_PlantillaPlanilla_Concepto_Referencia base
+								INNER JOIN dbo.TI_PlantillaPlanilla_Concepto ref ON ref.I_PlantillaPlanillaConceptoID = base.I_PlantillaPlanillaConceptoReferenciaID
+								INNER JOIN dbo.TR_Concepto_TrabajadorPlanilla p ON p.I_TrabajadorPlanillaID = @I_TrabajadorPlanillaID AND p.I_ConceptoID = ref.I_ConceptoID
+								WHERE	base.B_Habilitado = 1 AND base.B_Eliminado = 0 AND 
+										ref.B_Habilitado = 1 AND ref.B_Eliminado = 0 AND 
+										p.B_Anulado = 0 AND base.I_PlantillaPlanillaConceptoBaseID = @I_PlantillaPlanillaConceptoID);
 
 							SET @M_ValorConcepto = (@M_ValorConcepto/100) * @M_SumConceptos;
 						END
