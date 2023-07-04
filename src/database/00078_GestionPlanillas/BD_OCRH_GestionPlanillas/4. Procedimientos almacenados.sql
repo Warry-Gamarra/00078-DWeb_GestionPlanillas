@@ -303,8 +303,10 @@ CREATE PROCEDURE [dbo].[USP_S_ObtenerParametros_PlantillaPlanilla]
 AS
 BEGIN
 	SET NOCOUNT ON;
+
 	IF ((SELECT COUNT(ppc.I_PlantillaPlanillaConceptoID) FROM dbo.TI_PlantillaPlanilla_Concepto ppc
-		WHERE ppc.I_PlantillaPlanillaID = @I_PlantillaPlanillaID AND ppc.I_ConceptoID = @I_ConceptoID AND ppc.B_Habilitado = 1 AND ppc.B_Eliminado = 0) = 1)
+		WHERE ppc.I_PlantillaPlanillaID = @I_PlantillaPlanillaID AND ppc.I_ConceptoID = @I_ConceptoID AND ppc.B_Habilitado = 1 AND ppc.B_Eliminado = 0 AND
+			ppc.B_AplicarFiltro1 = 1 AND ppc.I_Filtro1 = @I_Filtro1 AND ppc.B_AplicarFiltro2 = 1 AND ppc.I_Filtro2 = @I_Filtro2) = 1)
 	BEGIN
 		SELECT
 			@I_PlantillaPlanillaConceptoID = ppc.I_PlantillaPlanillaConceptoID,
@@ -313,13 +315,14 @@ BEGIN
 			@M_ValorConcepto = M_ValorConcepto,
 			@B_ConceptoObtenido = 1
 		FROM dbo.TI_PlantillaPlanilla_Concepto ppc
-		WHERE ppc.I_PlantillaPlanillaID = @I_PlantillaPlanillaID AND ppc.I_ConceptoID = @I_ConceptoID AND ppc.B_Habilitado = 1 AND ppc.B_Eliminado = 0
+		WHERE ppc.I_PlantillaPlanillaID = @I_PlantillaPlanillaID AND ppc.I_ConceptoID = @I_ConceptoID AND ppc.B_Habilitado = 1 AND ppc.B_Eliminado = 0 AND
+			ppc.B_AplicarFiltro1 = 1 AND ppc.I_Filtro1 = @I_Filtro1 AND ppc.B_AplicarFiltro2 = 1 AND ppc.I_Filtro2 = @I_Filtro2
 	END
 	ELSE
 	BEGIN
 		IF ((SELECT COUNT(ppc.I_PlantillaPlanillaConceptoID) FROM dbo.TI_PlantillaPlanilla_Concepto ppc
 			WHERE ppc.I_PlantillaPlanillaID = @I_PlantillaPlanillaID AND ppc.I_ConceptoID = @I_ConceptoID AND ppc.B_Habilitado = 1 AND ppc.B_Eliminado = 0 AND
-				ppc.B_AplicarFiltro1 = 1 AND ppc.I_Filtro1 = @I_Filtro1 AND ppc.B_AplicarFiltro2 = 1 AND ppc.I_Filtro2 = @I_Filtro2) = 1)
+				ppc.B_AplicarFiltro1 = 1 AND ppc.I_Filtro1 = @I_Filtro1 AND ppc.B_AplicarFiltro2 = 0) = 1)
 		BEGIN
 			SELECT
 				@I_PlantillaPlanillaConceptoID = ppc.I_PlantillaPlanillaConceptoID,
@@ -329,13 +332,12 @@ BEGIN
 				@B_ConceptoObtenido = 1
 			FROM dbo.TI_PlantillaPlanilla_Concepto ppc
 			WHERE ppc.I_PlantillaPlanillaID = @I_PlantillaPlanillaID AND ppc.I_ConceptoID = @I_ConceptoID AND ppc.B_Habilitado = 1 AND ppc.B_Eliminado = 0 AND
-				ppc.B_AplicarFiltro1 = 1 AND ppc.I_Filtro1 = @I_Filtro1 AND ppc.B_AplicarFiltro2 = 1 AND ppc.I_Filtro2 = @I_Filtro2
+				ppc.B_AplicarFiltro1 = 1 AND ppc.I_Filtro1 = @I_Filtro1 AND ppc.B_AplicarFiltro2 = 0
 		END
-		ELSE
-		BEGIN
+		ELSE BEGIN
 			IF ((SELECT COUNT(ppc.I_PlantillaPlanillaConceptoID) FROM dbo.TI_PlantillaPlanilla_Concepto ppc
 				WHERE ppc.I_PlantillaPlanillaID = @I_PlantillaPlanillaID AND ppc.I_ConceptoID = @I_ConceptoID AND ppc.B_Habilitado = 1 AND ppc.B_Eliminado = 0 AND
-					ppc.B_AplicarFiltro1 = 1 AND ppc.I_Filtro1 = @I_Filtro1 AND ppc.B_AplicarFiltro2 = 0) = 1)
+					ppc.B_AplicarFiltro1 = 0 AND ppc.B_AplicarFiltro2 = 1 AND ppc.I_Filtro2 = @I_Filtro2) = 1)
 			BEGIN
 				SELECT
 					@I_PlantillaPlanillaConceptoID = ppc.I_PlantillaPlanillaConceptoID,
@@ -345,12 +347,12 @@ BEGIN
 					@B_ConceptoObtenido = 1
 				FROM dbo.TI_PlantillaPlanilla_Concepto ppc
 				WHERE ppc.I_PlantillaPlanillaID = @I_PlantillaPlanillaID AND ppc.I_ConceptoID = @I_ConceptoID AND ppc.B_Habilitado = 1 AND ppc.B_Eliminado = 0 AND
-					ppc.B_AplicarFiltro1 = 1 AND ppc.I_Filtro1 = @I_Filtro1 AND ppc.B_AplicarFiltro2 = 0
+					ppc.B_AplicarFiltro1 = 0 AND ppc.B_AplicarFiltro2 = 1 AND ppc.I_Filtro2 = @I_Filtro2
 			END
 			ELSE BEGIN
 				IF ((SELECT COUNT(ppc.I_PlantillaPlanillaConceptoID) FROM dbo.TI_PlantillaPlanilla_Concepto ppc
 					WHERE ppc.I_PlantillaPlanillaID = @I_PlantillaPlanillaID AND ppc.I_ConceptoID = @I_ConceptoID AND ppc.B_Habilitado = 1 AND ppc.B_Eliminado = 0 AND
-						ppc.B_AplicarFiltro1 = 0 AND ppc.B_AplicarFiltro2 = 1 AND ppc.I_Filtro2 = @I_Filtro2) = 1)
+						ppc.B_AplicarFiltro1 = 0 AND ppc.B_AplicarFiltro2 = 0) = 1)
 				BEGIN
 					SELECT
 						@I_PlantillaPlanillaConceptoID = ppc.I_PlantillaPlanillaConceptoID,
@@ -360,23 +362,7 @@ BEGIN
 						@B_ConceptoObtenido = 1
 					FROM dbo.TI_PlantillaPlanilla_Concepto ppc
 					WHERE ppc.I_PlantillaPlanillaID = @I_PlantillaPlanillaID AND ppc.I_ConceptoID = @I_ConceptoID AND ppc.B_Habilitado = 1 AND ppc.B_Eliminado = 0 AND
-						ppc.B_AplicarFiltro1 = 0 AND ppc.B_AplicarFiltro2 = 1 AND ppc.I_Filtro2 = @I_Filtro2
-				END
-				ELSE BEGIN
-					IF ((SELECT COUNT(ppc.I_PlantillaPlanillaConceptoID) FROM dbo.TI_PlantillaPlanilla_Concepto ppc
-						WHERE ppc.I_PlantillaPlanillaID = @I_PlantillaPlanillaID AND ppc.I_ConceptoID = @I_ConceptoID AND ppc.B_Habilitado = 1 AND ppc.B_Eliminado = 0 AND
-							ppc.B_AplicarFiltro1 = 0 AND ppc.B_AplicarFiltro2 = 0) = 1)
-					BEGIN
-						SELECT
-							@I_PlantillaPlanillaConceptoID = ppc.I_PlantillaPlanillaConceptoID,
-							@B_EsValorFijo = B_EsValorFijo,
-							@B_ValorEsExterno = B_ValorEsExterno,
-							@M_ValorConcepto = M_ValorConcepto,
-							@B_ConceptoObtenido = 1
-						FROM dbo.TI_PlantillaPlanilla_Concepto ppc
-						WHERE ppc.I_PlantillaPlanillaID = @I_PlantillaPlanillaID AND ppc.I_ConceptoID = @I_ConceptoID AND ppc.B_Habilitado = 1 AND ppc.B_Eliminado = 0 AND
-							ppc.B_AplicarFiltro1 = 0 AND ppc.B_AplicarFiltro2 = 0
-					END
+						ppc.B_AplicarFiltro1 = 0 AND ppc.B_AplicarFiltro2 = 0
 				END
 			END
 		END
@@ -738,7 +724,7 @@ BEGIN
 					@B_ValorEsExterno = @B_ValorEsExterno OUTPUT,
 					@M_ValorConcepto = @M_ValorConcepto OUTPUT,
 					@B_ConceptoObtenido = @B_ConceptoObtenido OUTPUT;
-				
+
 				IF (@B_ConceptoObtenido = 1) BEGIN
 					IF (@B_ValorEsExterno = 1) BEGIN
 						SET @M_ValorConcepto = ISNULL((SELECT cmt.M_ValorConcepto FROM dbo.TI_MontoTrabajador mt 
@@ -955,45 +941,64 @@ BEGIN
 				--9. Actualizar totales por trabajador
 				SET @I_TotalSueldoTrabajador = @I_TotalRemuneracionTrabajador - @I_TotalDescuentoTrabajador + @I_TotalReintegroTrabajador - @I_TotalDeduccionTrabajador;
 
-				UPDATE  dbo.TR_TrabajadorPlanilla SET 
-					I_TotalRemuneracion = @I_TotalRemuneracionTrabajador,
-					I_TotalDescuento = @I_TotalDescuentoTrabajador,
-					I_TotalReintegro = @I_TotalReintegroTrabajador,
-					I_TotalDeduccion = @I_TotalDeduccionTrabajador,
-					I_TotalSueldo = @I_TotalSueldoTrabajador
-				WHERE I_TrabajadorPlanillaID = @I_TrabajadorPlanillaID
+				IF (@I_TotalSueldoTrabajador > 0 ) BEGIN
 
-				--10. Acumular para el resumen total de la planilla
-				SET @I_TotalRemuneracion = @I_TotalRemuneracion + @I_TotalRemuneracionTrabajador;
+					UPDATE  dbo.TR_TrabajadorPlanilla SET 
+						I_TotalRemuneracion = @I_TotalRemuneracionTrabajador,
+						I_TotalDescuento = @I_TotalDescuentoTrabajador,
+						I_TotalReintegro = @I_TotalReintegroTrabajador,
+						I_TotalDeduccion = @I_TotalDeduccionTrabajador,
+						I_TotalSueldo = @I_TotalSueldoTrabajador
+					WHERE I_TrabajadorPlanillaID = @I_TrabajadorPlanillaID;
 
-				SET @I_TotalDescuento = @I_TotalDescuento + @I_TotalDescuentoTrabajador;
+					--10. Acumular para el resumen total de la planilla
+					SET @I_TotalRemuneracion = @I_TotalRemuneracion + @I_TotalRemuneracionTrabajador;
 
-				SET @I_TotalReintegro = @I_TotalReintegro + @I_TotalReintegroTrabajador;
+					SET @I_TotalDescuento = @I_TotalDescuento + @I_TotalDescuentoTrabajador;
 
-				SET @I_TotalDeduccion = @I_TotalDeduccion + @I_TotalDeduccionTrabajador;
+					SET @I_TotalReintegro = @I_TotalReintegro + @I_TotalReintegroTrabajador;
 
-				SET @I_TotalSueldo = @I_TotalSueldo + @I_TotalSueldoTrabajador;
+					SET @I_TotalDeduccion = @I_TotalDeduccion + @I_TotalDeduccionTrabajador;
 
-				SET @I_CantPlanillasGeneradas = @I_CantPlanillasGeneradas + 1;
+					SET @I_TotalSueldo = @I_TotalSueldo + @I_TotalSueldoTrabajador;
+
+					SET @I_CantPlanillasGeneradas = @I_CantPlanillasGeneradas + 1;
+
+				END ELSE BEGIN
+					UPDATE  dbo.TR_TrabajadorPlanilla SET 
+						B_Anulado = 1,
+						I_UsuarioMod = @I_UserID,
+						D_FecMod = @D_FecRegistro
+					WHERE I_TrabajadorPlanillaID = @I_TrabajadorPlanillaID;
+				END
 			END
 
 			SET @I_Indicador = @I_Indicador + 1;
 		END
 
-		--11. Actualizar totales de planilla
-		UPDATE dbo.TR_Planilla SET 
-			I_TotalRemuneracion = @I_TotalRemuneracion, 
-			I_TotalDescuento = @I_TotalDescuento, 
-			I_TotalReintegro = @I_TotalReintegro, 
-			I_TotalDeduccion = @I_TotalDeduccion,
-			I_TotalSueldo = @I_TotalSueldo,
-			I_CantRegistros = @I_CantPlanillasGeneradas
-		WHERE I_PlanillaID = @I_PlantillaID;
+		IF (@I_TotalSueldo > 0) BEGIN
 
-		COMMIT TRAN
+			--11. Actualizar totales de planilla
+			UPDATE dbo.TR_Planilla SET 
+				I_TotalRemuneracion = @I_TotalRemuneracion, 
+				I_TotalDescuento = @I_TotalDescuento, 
+				I_TotalReintegro = @I_TotalReintegro, 
+				I_TotalDeduccion = @I_TotalDeduccion,
+				I_TotalSueldo = @I_TotalSueldo,
+				I_CantRegistros = @I_CantPlanillasGeneradas
+			WHERE I_PlanillaID = @I_PlantillaID;
 
-		SET @B_Result = 1;
-		SET @T_Message = 'Planilla generada correctamente.';
+			COMMIT TRAN
+			
+			SET @B_Result = 1;
+			SET @T_Message = 'Planilla generada correctamente.';
+
+		END ELSE BEGIN
+			ROLLBACK TRAN
+
+			SET @B_Result = 0;
+			SET @T_Message = 'La generación de planilla resultó en un monto negativo, por lo que se canceló el proceso.';
+		END
 	END TRY
 	BEGIN CATCH
 		ROLLBACK TRAN

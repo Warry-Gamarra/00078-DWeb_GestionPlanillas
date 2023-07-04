@@ -250,32 +250,44 @@ namespace Domain.Services.Implementations
             bool correcto = true;
             string mensaje = null;
 
+            if (!plantillaPlanillaConcepto.valorEsExterno &&
+                        (!plantillaPlanillaConcepto.valorConcepto.HasValue || plantillaPlanillaConcepto.valorConcepto.Value <= 0))
+            {
+                correcto = false;
+                mensaje = "El valor del concepto es obligatorio.";
+
+                return new Tuple<bool, string>(correcto, mensaje);
+            }
+
+            if (!plantillaPlanillaConcepto.valorEsExterno && !plantillaPlanillaConcepto.esValorFijo && 
+                (plantillaPlanillaConcepto.valorConcepto.Value <= 0 || plantillaPlanillaConcepto.valorConcepto.Value > 100))
+            {
+                correcto = false;
+                mensaje = "El valor del porcentaje debe estar entre 0 y 100.";
+
+                return new Tuple<bool, string>(correcto, mensaje);
+            }
+
+            if (plantillaPlanillaConcepto.aplicarFiltro1 && !plantillaPlanillaConcepto.filtro1.HasValue)
+            {
+                correcto = false;
+                mensaje = "Debe seleccionar una opción para el filtro 1.";
+
+                return new Tuple<bool, string>(correcto, mensaje);
+            }
+
+            if (plantillaPlanillaConcepto.aplicarFiltro2 && !plantillaPlanillaConcepto.filtro2.HasValue)
+            {
+                correcto = false;
+                mensaje = "Debe seleccionar una opción para el filtro 2.";
+
+                return new Tuple<bool, string>(correcto, mensaje);
+            }
+
             switch (operacion)
             {
                 case Operacion.Registrar:
                     
-                    if (!plantillaPlanillaConcepto.valorEsExterno && 
-                        (!plantillaPlanillaConcepto.valorConcepto.HasValue || plantillaPlanillaConcepto.valorConcepto.Value <= 0))
-                    {
-                        correcto = false;
-                        mensaje = "El valor del concepto es obligatorio.";
-                        break;
-                    }
-
-                    if (plantillaPlanillaConcepto.aplicarFiltro1 && !plantillaPlanillaConcepto.filtro1.HasValue)
-                    {
-                        correcto = false;
-                        mensaje = "Debe seleccionar una opción para el filtro 1.";
-                        break;
-                    }
-
-                    if (plantillaPlanillaConcepto.aplicarFiltro2 && !plantillaPlanillaConcepto.filtro2.HasValue)
-                    {
-                        correcto = false;
-                        mensaje = "Debe seleccionar una opción para el filtro 2.";
-                        break;
-                    }
-
                     if (ListarConceptosAsignados(plantillaPlanillaConcepto.plantillaPlanillaID)
                         .Where(x => 
                             x.conceptoID == plantillaPlanillaConcepto.conceptoID && 
@@ -295,28 +307,6 @@ namespace Domain.Services.Implementations
                     {
                         correcto = false;
                         mensaje = "Ha ocurrido un error al obtener los datos. Por favor recargue la página y vuelva a intentarlo.";
-                        break;
-                    }
-
-                    if (!plantillaPlanillaConcepto.valorEsExterno && 
-                        (!plantillaPlanillaConcepto.valorConcepto.HasValue || plantillaPlanillaConcepto.valorConcepto.Value <= 0))
-                    {
-                        correcto = false;
-                        mensaje = "El valor del concepto es obligatorio.";
-                        break;
-                    }
-
-                    if (plantillaPlanillaConcepto.aplicarFiltro1 && !plantillaPlanillaConcepto.filtro1.HasValue)
-                    {
-                        correcto = false;
-                        mensaje = "Debe seleccionar una opción para el filtro 1.";
-                        break;
-                    }
-
-                    if (plantillaPlanillaConcepto.aplicarFiltro2 && !plantillaPlanillaConcepto.filtro2.HasValue)
-                    {
-                        correcto = false;
-                        mensaje = "Debe seleccionar una opción para el filtro 2.";
                         break;
                     }
 
