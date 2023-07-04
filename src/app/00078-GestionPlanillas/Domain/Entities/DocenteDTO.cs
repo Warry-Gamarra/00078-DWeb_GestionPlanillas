@@ -55,5 +55,7 @@ namespace Domain.Entities
         public string C_DedicacionDocenteCod { get; set; }
 
         public string T_DedicacionDocenteDesc { get; set; }
+
+        public bool estaHabilitado { get;set; }
     }
 }

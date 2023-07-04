@@ -16,11 +16,15 @@ namespace WebApp.ServiceFacade.Implementations
     {
         private IPersonaService _personaService;
         private ITrabajadorService _trabajadorService;
+        private IAdministrativoService _administrativoService;
+        private IDocenteService _docenteService;
 
         public TrabajadorServiceFacade()
         {
             _personaService = new PersonaService();
             _trabajadorService = new TrabajadorService();
+            _administrativoService = new AdministrativoService();
+            _docenteService = new DocenteService();
         }
 
         public List<TrabajadorModel> ListarTrabajadores()
@@ -45,6 +49,32 @@ namespace WebApp.ServiceFacade.Implementations
             else
             {
                 trabajadorModel = Mapper.TrabajadorDTO_To_TrabajadorModel(trabajadorDTO);
+
+                if (trabajadorModel.Vinculo.Equals(Vinculo.AdministrativoPermanente) || trabajadorModel.Vinculo.Equals(Vinculo.AdministrativoContratado))
+                {
+                    var administrativo = _administrativoService.ListarAdministrativoPorTrabajadorID(I_TrabajadorID).First();
+
+                    trabajadorModel.I_NivelRemunerativoID = administrativo.I_NivelRemunerativoID;
+
+                    trabajadorModel.T_NivelRemunerativoDesc = administrativo.T_NivelRemunerativoDesc;
+
+                    trabajadorModel.I_GrupoOcupacionalID = administrativo.I_GrupoOcupacionalID;
+
+                    trabajadorModel.T_GrupoOcupacionalDesc = administrativo.T_GrupoOcupacionalDesc;
+                }
+
+                if (trabajadorModel.Vinculo.Equals(Vinculo.DocentePermanente))
+                {
+                    var docente = _docenteService.ListarDocentePorTrabajadorID(I_TrabajadorID).First();
+
+                    trabajadorModel.I_CategoriaDocenteID = docente.I_CategoriaDocenteID;
+
+                    trabajadorModel.T_CategoriaDocenteDesc = docente.T_CategoriaDocenteDesc;
+
+                    trabajadorModel.I_HorasDocenteID = docente.I_HorasDocenteID;
+
+                    trabajadorModel.I_Horas = String.Format("{0} / {1}", docente.C_DedicacionDocenteCod, docente.I_Horas);
+                }
             }
 
             return trabajadorModel;

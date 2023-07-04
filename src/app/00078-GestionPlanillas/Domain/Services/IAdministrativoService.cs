@@ -13,6 +13,6 @@ namespace Domain.Services
 
         AdministrativoDTO ObtenerAdministrativoPorID(int administrativoID);
 
-        List<AdministrativoDTO> ListarAdministrativoPorTrabajadorID(int trabajadorID);
+        List<AdministrativoDTO> ListarAdministrativoPorTrabajadorID(int trabajadorID, bool incluirDeshabilitados = false);
     }
 }

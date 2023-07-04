@@ -30,9 +30,10 @@ namespace Domain.Services.Implementations
             return null;
         }
 
-        public List<DocenteDTO> ListarDocentePorTrabajadorID(int trabajadorID)
+        public List<DocenteDTO> ListarDocentePorTrabajadorID(int trabajadorID, bool incluirDeshabilitados = false)
         {
-            var lista = VW_Docentes.FindByTrabajadorID(trabajadorID).Select(x => Mapper.VW_Docentes_To_DocenteDTO(x)).ToList();
+            var lista = VW_Docentes.FindByTrabajadorID(trabajadorID)
+                .Select(x => Mapper.VW_Docentes_To_DocenteDTO(x)).ToList();
 
             return lista;
         }

@@ -13,6 +13,6 @@ namespace Domain.Services
 
         DocenteDTO ObtenerDocentePorID(int docenteID);
 
-        List<DocenteDTO> ListarDocentePorTrabajadorID(int trabajadorID);
+        List<DocenteDTO> ListarDocentePorTrabajadorID(int trabajadorID, bool incluirDeshabilitados = false);
     }
 }

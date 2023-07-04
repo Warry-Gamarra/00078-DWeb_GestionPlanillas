@@ -124,7 +124,8 @@ namespace Domain.Helpers
                 I_Horas = view.I_Horas,
                 I_DedicacionDocenteID = view.I_DedicacionDocenteID,
                 C_DedicacionDocenteCod = view.C_DedicacionDocenteCod,
-                T_DedicacionDocenteDesc = view.T_DedicacionDocenteDesc
+                T_DedicacionDocenteDesc = view.T_DedicacionDocenteDesc,
+                estaHabilitado = view.B_Habilitado
             };
 
             return docenteDTO;
@@ -155,7 +156,8 @@ namespace Domain.Helpers
                 T_GrupoOcupacionalDesc = view.T_GrupoOcupacionalDesc,
                 I_NivelRemunerativoID = view.I_NivelRemunerativoID,
                 C_NivelRemunerativoCod = view.C_NivelRemunerativoCod,
-                T_NivelRemunerativoDesc = view.T_NivelRemunerativoDesc
+                T_NivelRemunerativoDesc = view.T_NivelRemunerativoDesc,
+                estaHabilitado = view.B_Habilitado
             };
 
             return administrativoDTO;

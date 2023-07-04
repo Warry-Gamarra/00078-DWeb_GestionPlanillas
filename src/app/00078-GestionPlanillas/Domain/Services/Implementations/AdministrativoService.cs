@@ -30,9 +30,10 @@ namespace Domain.Services.Implementations
             return null;
         }
 
-        public List<AdministrativoDTO> ListarAdministrativoPorTrabajadorID(int trabajadorID)
+        public List<AdministrativoDTO> ListarAdministrativoPorTrabajadorID(int trabajadorID, bool incluirDeshabilitados = false)
         {
-            var lista = VW_Administrativo.FindByTrabajadorID(trabajadorID).Select(x => Mapper.VW_Administrativo_To_AdministrativoDTO(x)).ToList();
+            var lista = VW_Administrativo.FindByTrabajadorID(trabajadorID)
+                .Select(x => Mapper.VW_Administrativo_To_AdministrativoDTO(x)).ToList();
 
             return lista;
         }

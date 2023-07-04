@@ -51,5 +51,7 @@ namespace Domain.Entities
         public string C_NivelRemunerativoCod { get; set; }
 
         public string T_NivelRemunerativoDesc { get; set; }
+
+        public bool estaHabilitado { get; set; }
     }
 }

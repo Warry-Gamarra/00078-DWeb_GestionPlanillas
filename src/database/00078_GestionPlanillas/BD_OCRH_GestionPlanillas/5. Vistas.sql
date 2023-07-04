@@ -79,7 +79,8 @@ SELECT
 	trab.I_TrabajadorID, trab.C_TrabajadorCod, trab.T_Nombre, trab.T_ApellidoPaterno, trab.T_ApellidoMaterno, trab.I_TipoDocumentoID, trab.T_TipoDocumentoDesc, trab.C_NumDocumento, 
 	trab.D_FechaIngreso, trab.I_RegimenID, trab.T_RegimenDesc, trab.I_EstadoID, trab.T_EstadoDesc, trab.I_VinculoID, trab.T_VinculoDesc,
 	doc.I_DocenteID, catdoc.I_CategoriaDocenteID, catdoc.C_CategoriaDocenteCod, catdoc.T_CategoriaDocenteDesc,
-	hdoc.I_HorasDocenteID, hdoc.I_Horas, dedoc.I_DedicacionDocenteID, dedoc.C_DedicacionDocenteCod, dedoc.T_DedicacionDocenteDesc
+	hdoc.I_HorasDocenteID, hdoc.I_Horas, dedoc.I_DedicacionDocenteID, dedoc.C_DedicacionDocenteCod, dedoc.T_DedicacionDocenteDesc,
+	doc.B_Habilitado
 FROM dbo.VW_Trabajadores AS trab INNER JOIN
 	dbo.TC_Docente AS doc ON doc.I_TrabajadorID = trab.I_TrabajadorID INNER JOIN
 	dbo.TC_CategoriaDocente AS catdoc ON catdoc.I_CategoriaDocenteID = doc.I_CategoriaDocenteID INNER JOIN
@@ -100,7 +101,8 @@ SELECT
 	trab.I_TrabajadorID, trab.C_TrabajadorCod, trab.T_Nombre, trab.T_ApellidoPaterno, trab.T_ApellidoMaterno, trab.I_TipoDocumentoID, trab.T_TipoDocumentoDesc, trab.C_NumDocumento, 
 	trab.D_FechaIngreso, trab.I_RegimenID, trab.T_RegimenDesc, trab.I_EstadoID, trab.T_EstadoDesc, trab.I_VinculoID, trab.T_VinculoDesc,
 	adm.I_AdministrativoID, grup.I_GrupoOcupacionalID, grup.C_GrupoOcupacionalCod, grup.T_GrupoOcupacionalDesc, 
-	nivrem.I_NivelRemunerativoID, nivrem.C_NivelRemunerativoCod, nivrem.T_NivelRemunerativoDesc
+	nivrem.I_NivelRemunerativoID, nivrem.C_NivelRemunerativoCod, nivrem.T_NivelRemunerativoDesc,
+	adm.B_Habilitado
 FROM dbo.VW_Trabajadores AS trab INNER JOIN
 	dbo.TC_Administrativo AS adm ON adm.I_TrabajadorID = trab.I_TrabajadorID INNER JOIN
 	dbo.TC_GrupoOcupacional AS grup ON grup.I_GrupoOcupacionalID = adm.I_GrupoOcupacionalID INNER JOIN

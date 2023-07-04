@@ -55,6 +55,8 @@ namespace Data.Views
 
         public string T_NivelRemunerativoDesc { get; set; }
 
+        public bool B_Habilitado { get; set; }
+
         public static IEnumerable<VW_Administrativo> FindAll()
         {
             IEnumerable<VW_Administrativo> result;

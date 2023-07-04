@@ -59,6 +59,8 @@ namespace Data.Views
 
         public string T_DedicacionDocenteDesc { get; set; }
 
+        public bool B_Habilitado { get; set; }
+
         public static IEnumerable<VW_Docentes> FindAll()
         {
             IEnumerable<VW_Docentes> result;
