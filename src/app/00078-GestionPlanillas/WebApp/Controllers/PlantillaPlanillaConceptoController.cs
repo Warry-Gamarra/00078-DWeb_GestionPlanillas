@@ -115,7 +115,7 @@ namespace WebApp.Controllers
 
             ViewBag.ListaConceptos = _conceptoServiceFacade.ListarConceptos(false);
 
-            if (plantilla.categoriaPlanillaID == 1)
+            if (plantilla.categoriaPlanillaID == (int)CategoriaPlanilla.HaberesAdministrativo)
             {
                 ViewBag.DescFiltro1 = "Grupo Ocupacional";
 
@@ -125,7 +125,7 @@ namespace WebApp.Controllers
 
                 ViewBag.ListaFiltro2 = _nivelRemunerativoServiceFacade.ObtenerComboNivelesRemunerativos();
             }
-            else if (plantilla.categoriaPlanillaID == 2)
+            else if (plantilla.categoriaPlanillaID == (int)CategoriaPlanilla.HaberesDocente)
             {
                 ViewBag.DescFiltro1 = "Categoría";
 
@@ -137,7 +137,11 @@ namespace WebApp.Controllers
             }
             else
             {
+                ViewBag.DescFiltro1 = "Filtro 1";
+
                 ViewBag.ListaFiltro1 = new SelectList(new List<SelectListItem>());
+
+                ViewBag.DescFiltro2 = "Filtro 2";
 
                 ViewBag.ListaFiltro2 = new SelectList(new List<SelectListItem>());
             }
@@ -189,7 +193,7 @@ namespace WebApp.Controllers
 
             ViewBag.ListaConceptos = _conceptoServiceFacade.ListarConceptos(true);
 
-            if (plantilla.categoriaPlanillaID == 1)
+            if (plantilla.categoriaPlanillaID == (int)CategoriaPlanilla.HaberesAdministrativo)
             {
                 ViewBag.DescFiltro1 = "Grupo Ocupacional";
 
@@ -199,7 +203,7 @@ namespace WebApp.Controllers
 
                 ViewBag.ListaFiltro2 = _nivelRemunerativoServiceFacade.ObtenerComboNivelesRemunerativos(selectedItem: model.filtro2);
             }
-            else if (plantilla.categoriaPlanillaID == 2)
+            else if (plantilla.categoriaPlanillaID == (int)CategoriaPlanilla.HaberesDocente)
             {
                 ViewBag.DescFiltro1 = "Categoría";
 
@@ -211,7 +215,11 @@ namespace WebApp.Controllers
             }
             else
             {
+                ViewBag.DescFiltro1 = "Filtro 1";
+
                 ViewBag.ListaFiltro1 = new SelectList(new List<SelectListItem>());
+
+                ViewBag.DescFiltro2 = "Filtro 2";
 
                 ViewBag.ListaFiltro2 = new SelectList(new List<SelectListItem>());
             }

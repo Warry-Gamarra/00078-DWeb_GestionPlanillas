@@ -34,7 +34,7 @@ namespace WebApp.ServiceFacade.Implementations
                     tipoConceptoID = model.tipoConceptoID,
                     conceptoCod = model.conceptoCod.Trim(),
                     conceptoDesc = model.conceptoDesc.Trim(),
-                    conceptoAbrv = model.conceptoAbrv.Trim()
+                    conceptoAbrv = model.conceptoAbrv != null ? model.conceptoAbrv.Trim() : null
                 };
 
                 response = _conceptoService.GrabarConcepto(operacion, conceptoEntity, userID);

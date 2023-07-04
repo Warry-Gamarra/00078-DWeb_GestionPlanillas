@@ -284,12 +284,13 @@ namespace Domain.Services.Implementations
                 return new Tuple<bool, string>(correcto, mensaje);
             }
 
+            var listaConceptos = ListarConceptosAsignados(plantillaPlanillaConcepto.plantillaPlanillaID);
+
             switch (operacion)
             {
                 case Operacion.Registrar:
-                    
-                    if (ListarConceptosAsignados(plantillaPlanillaConcepto.plantillaPlanillaID)
-                        .Where(x => 
+
+                    if (listaConceptos.Where(x => 
                             x.conceptoID == plantillaPlanillaConcepto.conceptoID && 
                             x.filtro1 == plantillaPlanillaConcepto.filtro1 && 
                             x.filtro2 == plantillaPlanillaConcepto.filtro2)
@@ -297,6 +298,19 @@ namespace Domain.Services.Implementations
                     {
                         correcto = false;
                         mensaje = "El concepto se encuentra repetido.";
+                        break;
+                    }
+
+                    var conceptosTipoValorDiferente = listaConceptos
+                        .Where(x => 
+                        x.conceptoID == plantillaPlanillaConcepto.conceptoID && 
+                        x.esValorFijo != plantillaPlanillaConcepto.esValorFijo);
+
+                    if (conceptosTipoValorDiferente != null && conceptosTipoValorDiferente.Count() > 0)
+                    {
+                        correcto = false;
+                        mensaje = "Actualmente el concepto \"" + conceptosTipoValorDiferente.First().conceptoDesc + "\" solo admite valores " +
+                            (plantillaPlanillaConcepto.esValorFijo ? "porcentuales." : "fijos.");
                     }
                     
                     break;
@@ -310,8 +324,6 @@ namespace Domain.Services.Implementations
                         break;
                     }
 
-                    var listaConceptos = ListarConceptosAsignados(plantillaPlanillaConcepto.plantillaPlanillaID);
-
                     var conceptoDTO = listaConceptos
                         .Where(x =>
                             x.plantillaPlanillaConceptoID != plantillaPlanillaConcepto.plantillaPlanillaConceptoID.Value &&
@@ -324,6 +336,20 @@ namespace Domain.Services.Implementations
                     {
                         correcto = false;
                         mensaje = "El concepto se encuentra repetido.";
+                        break;
+                    }
+
+                    var conceptosTipoValorDiferente2 = listaConceptos
+                        .Where(x => 
+                        x.plantillaPlanillaConceptoID != plantillaPlanillaConcepto.plantillaPlanillaConceptoID && 
+                        x.conceptoID == plantillaPlanillaConcepto.conceptoID &&
+                        x.esValorFijo != plantillaPlanillaConcepto.esValorFijo);
+
+                    if (conceptosTipoValorDiferente2 != null && conceptosTipoValorDiferente2.Count() > 0)
+                    {
+                        correcto = false;
+                        mensaje = "Actualmente el concepto \"" + conceptosTipoValorDiferente2.First().conceptoDesc + "\" solo admite valores " +
+                            (plantillaPlanillaConcepto.esValorFijo ? "porcentuales." : "fijos.");
                     }
 
                     break;
