@@ -651,7 +651,7 @@ BEGIN
 							SET @M_SumConceptos = (SELECT SUM(p.M_Monto) FROM dbo.TI_PlantillaPlanilla_Concepto_Referencia base
 								INNER JOIN dbo.TI_PlantillaPlanilla_Concepto ref ON ref.I_PlantillaPlanillaConceptoID = base.I_PlantillaPlanillaConceptoReferenciaID
 								INNER JOIN dbo.TR_Concepto_TrabajadorPlanilla p ON p.I_TrabajadorPlanillaID = @I_TrabajadorPlanillaID AND p.I_ConceptoID = ref.I_ConceptoID
-								WHERE	base.B_Habilitado = 1 AND base.B_Eliminado = 0 AND 
+								WHERE	base.B_Eliminado = 0 AND 
 										ref.B_Habilitado = 1 AND ref.B_Eliminado = 0 AND 
 										p.B_Anulado = 0 AND base.I_PlantillaPlanillaConceptoBaseID = @I_PlantillaPlanillaConceptoID);
 
@@ -738,7 +738,7 @@ BEGIN
 							SET @M_SumConceptos = (SELECT SUM(p.M_Monto) FROM dbo.TI_PlantillaPlanilla_Concepto_Referencia base
 								INNER JOIN dbo.TI_PlantillaPlanilla_Concepto ref ON ref.I_PlantillaPlanillaConceptoID = base.I_PlantillaPlanillaConceptoReferenciaID
 								INNER JOIN dbo.TR_Concepto_TrabajadorPlanilla p ON p.I_TrabajadorPlanillaID = @I_TrabajadorPlanillaID AND p.I_ConceptoID = ref.I_ConceptoID
-								WHERE	base.B_Habilitado = 1 AND base.B_Eliminado = 0 AND 
+								WHERE	base.B_Eliminado = 0 AND 
 										ref.B_Habilitado = 1 AND ref.B_Eliminado = 0 AND 
 										p.B_Anulado = 0 AND base.I_PlantillaPlanillaConceptoBaseID = @I_PlantillaPlanillaConceptoID);
 
@@ -825,7 +825,7 @@ BEGIN
 							SET @M_SumConceptos = (SELECT SUM(p.M_Monto) FROM dbo.TI_PlantillaPlanilla_Concepto_Referencia base
 								INNER JOIN dbo.TI_PlantillaPlanilla_Concepto ref ON ref.I_PlantillaPlanillaConceptoID = base.I_PlantillaPlanillaConceptoReferenciaID
 								INNER JOIN dbo.TR_Concepto_TrabajadorPlanilla p ON p.I_TrabajadorPlanillaID = @I_TrabajadorPlanillaID AND p.I_ConceptoID = ref.I_ConceptoID
-								WHERE	base.B_Habilitado = 1 AND base.B_Eliminado = 0 AND 
+								WHERE	base.B_Eliminado = 0 AND 
 										ref.B_Habilitado = 1 AND ref.B_Eliminado = 0 AND 
 										p.B_Anulado = 0 AND base.I_PlantillaPlanillaConceptoBaseID = @I_PlantillaPlanillaConceptoID);
 
@@ -912,7 +912,7 @@ BEGIN
 							SET @M_SumConceptos = (SELECT SUM(p.M_Monto) FROM dbo.TI_PlantillaPlanilla_Concepto_Referencia base
 								INNER JOIN dbo.TI_PlantillaPlanilla_Concepto ref ON ref.I_PlantillaPlanillaConceptoID = base.I_PlantillaPlanillaConceptoReferenciaID
 								INNER JOIN dbo.TR_Concepto_TrabajadorPlanilla p ON p.I_TrabajadorPlanillaID = @I_TrabajadorPlanillaID AND p.I_ConceptoID = ref.I_ConceptoID
-								WHERE	base.B_Habilitado = 1 AND base.B_Eliminado = 0 AND 
+								WHERE	base.B_Eliminado = 0 AND 
 										ref.B_Habilitado = 1 AND ref.B_Eliminado = 0 AND 
 										p.B_Anulado = 0 AND base.I_PlantillaPlanillaConceptoBaseID = @I_PlantillaPlanillaConceptoID);
 
@@ -1236,7 +1236,7 @@ IF EXISTS (SELECT * FROM INFORMATION_SCHEMA.ROUTINES WHERE ROUTINE_TYPE = 'PROCE
 GO
 
 CREATE PROCEDURE USP_I_RegistrarPlantillaPlanillaConcepto
-@Tbl_ConceptoIncluido [dbo].[type_dataIdentifiers] READONLY,
+@Tbl_ConceptoReferencia [dbo].[type_dataIdentifiers] READONLY,
 @I_PlantillaPlanillaID INT,
 @I_ConceptoID INT,
 @B_EsValorFijo BIT,
@@ -1263,8 +1263,8 @@ BEGIN
 
 		SET @I_PlantillaPlanillaConceptoID = SCOPE_IDENTITY();
 
-		INSERT dbo.TI_PlantillaPlanilla_Concepto_Referencia(I_PlantillaPlanillaConceptoBaseID, I_PlantillaPlanillaConceptoReferenciaID, B_Habilitado, B_Eliminado, I_UsuarioCre, D_FecCre)
-		SELECT @I_PlantillaPlanillaConceptoID, I_ID, 1, 0, @I_UserID, @D_FecCre FROM @Tbl_ConceptoIncluido
+		INSERT dbo.TI_PlantillaPlanilla_Concepto_Referencia(I_PlantillaPlanillaConceptoBaseID, I_PlantillaPlanillaConceptoReferenciaID, B_Eliminado, I_UsuarioCre, D_FecCre)
+		SELECT @I_PlantillaPlanillaConceptoID, I_ID, 0, @I_UserID, @D_FecCre FROM @Tbl_ConceptoReferencia
 
 		COMMIT TRAN
 		SET @B_Result = 1
@@ -1285,6 +1285,7 @@ IF EXISTS (SELECT * FROM INFORMATION_SCHEMA.ROUTINES WHERE ROUTINE_TYPE = 'PROCE
 GO
 
 CREATE PROCEDURE USP_U_ActualizarPlantillaPlanillaConcepto
+@Tbl_ConceptoReferencia [dbo].[type_dataIdentifiers] READONLY,
 @I_PlantillaPlanillaConceptoID INT,
 @I_PlantillaPlanillaID INT,
 @I_ConceptoID INT,
@@ -1302,6 +1303,8 @@ AS
 BEGIN
 	SET NOCOUNT ON;
 	
+	DECLARE @D_FechaActual DATETIME = GETDATE();
+
 	BEGIN TRAN
 	BEGIN TRY
 		UPDATE dbo.TI_PlantillaPlanilla_Concepto SET
@@ -1315,8 +1318,25 @@ BEGIN
 			B_AplicarFiltro2 = @B_AplicarFiltro2,
 			I_Filtro2 = @I_Filtro2,
 			I_UsuarioMod = @I_UserID,
-			D_FecMod = GETDATE()
+			D_FecMod = @D_FechaActual
 		WHERE I_PlantillaPlanillaConceptoID = @I_PlantillaPlanillaConceptoID
+
+		UPDATE c SET
+			B_Eliminado = 1, 
+			I_UsuarioMod = @I_UserID, 
+			D_FecMod = @D_FechaActual
+		FROM dbo.TI_PlantillaPlanilla_Concepto_Referencia c
+		LEFT JOIN @Tbl_ConceptoReferencia r ON r.I_ID = c.I_PlantillaPlanillaConceptoReferenciaID
+		WHERE 
+			c.I_PlantillaPlanillaConceptoBaseID = @I_PlantillaPlanillaConceptoID AND 
+			c.B_Eliminado = 0 AND 
+			r.I_ID IS NULL
+
+		INSERT dbo.TI_PlantillaPlanilla_Concepto_Referencia(I_PlantillaPlanillaConceptoBaseID, I_PlantillaPlanillaConceptoReferenciaID, B_Eliminado, I_UsuarioCre, D_FecCre)
+		SELECT @I_PlantillaPlanillaConceptoID, I_ID, 0, @I_UserID, @D_FechaActual 
+		FROM @Tbl_ConceptoReferencia r
+		WHERE NOT EXISTS(SELECT c.I_ID FROM dbo.TI_PlantillaPlanilla_Concepto_Referencia c 
+			WHERE c.B_Eliminado = 0 AND c.I_PlantillaPlanillaConceptoBaseID = @I_PlantillaPlanillaConceptoID AND c.I_PlantillaPlanillaConceptoReferenciaID = r.I_ID)
 
 		COMMIT TRAN
 		SET @B_Result = 1
@@ -1384,7 +1404,6 @@ BEGIN
 	BEGIN TRAN
 	BEGIN TRY
 		UPDATE dbo.TI_PlantillaPlanilla_Concepto_Referencia SET
-			B_Habilitado = 0,
 			B_Eliminado = 1,
 			I_UsuarioMod = @I_UserID,
 			D_FecMod = GETDATE()

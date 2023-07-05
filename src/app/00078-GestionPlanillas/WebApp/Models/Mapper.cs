@@ -247,7 +247,6 @@ namespace WebApp.Models
             {
                 id = dto.id,
                 plantillaPlanillaConceptoID = dto.plantillaPlanillaConceptoID,
-                estaHabilitado = dto.estaHabilitado,
                 plantillaPlanillaConceptoReferenciaID = dto.plantillaPlanillaConceptoReferenciaID,
                 conceptoID = dto.conceptoID,
                 conceptoCod = dto.conceptoCod,

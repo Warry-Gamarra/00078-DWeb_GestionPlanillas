@@ -11,8 +11,6 @@ namespace WebApp.Models
 
         public int plantillaPlanillaConceptoID { get; set; }
 
-        public bool estaHabilitado { get; set; }
-
         public int plantillaPlanillaConceptoReferenciaID { get; set; }
 
         public int conceptoID { get; set; }

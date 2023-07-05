@@ -106,6 +106,6 @@ namespace WebApp.Models
         public bool estaHabilitado { get; set; }
 
         [Display(Name = "Aplicar porcentaje a:")]
-        public int[] conceptoReferenciaID { get; set; }
+        public int[] conceptosReferenciaID { get; set; }
     }
 }

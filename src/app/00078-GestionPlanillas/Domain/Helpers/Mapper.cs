@@ -443,7 +443,6 @@ namespace Domain.Helpers
             {
                 id = view.I_ID,
                 plantillaPlanillaConceptoID = view.I_PlantillaPlanillaConceptoID,
-                estaHabilitado = view.B_Habilitado,
                 plantillaPlanillaConceptoReferenciaID = view.I_PlantillaPlanillaConceptoReferenciaID,
                 conceptoID = view.I_ConceptoID,
                 conceptoCod = view.C_ConceptoCod,

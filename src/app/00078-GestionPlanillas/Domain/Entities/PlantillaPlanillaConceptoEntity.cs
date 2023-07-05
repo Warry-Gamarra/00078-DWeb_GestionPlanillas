@@ -29,6 +29,6 @@ namespace Domain.Entities
 
         public int? filtro2 { get; set; }
 
-        public DataTable conceptoIncluido { get; set; }
+        public DataTable conceptosReferencia { get; set; }
     }
 }

@@ -189,8 +189,7 @@ GO
 CREATE VIEW [dbo].[VW_ConceptosReferencia_Plantilla]
 AS
 SELECT
-	base.I_PlantillaPlanillaConceptoID, conc.B_Habilitado,
-	conc.I_PlantillaPlanillaConceptoReferenciaID, ref.I_ConceptoID, con.C_ConceptoCod, con.T_ConceptoDesc, con.T_ConceptoAbrv
+	base.I_PlantillaPlanillaConceptoID, conc.I_PlantillaPlanillaConceptoReferenciaID, ref.I_ConceptoID, con.C_ConceptoCod, con.T_ConceptoDesc, con.T_ConceptoAbrv
 FROM dbo.TI_PlantillaPlanilla_Concepto base 
 INNER JOIN dbo.TI_PlantillaPlanilla_Concepto_Referencia conc ON conc.I_PlantillaPlanillaConceptoBaseID = base.I_PlantillaPlanillaConceptoID
 INNER JOIN dbo.TI_PlantillaPlanilla_Concepto ref ON ref.I_PlantillaPlanillaConceptoID = conc.I_PlantillaPlanillaConceptoReferenciaID

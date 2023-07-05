@@ -237,7 +237,6 @@ CREATE TABLE TI_PlantillaPlanilla_Concepto_Referencia
 	I_ID INT IDENTITY(1, 1),
 	I_PlantillaPlanillaConceptoBaseID INT NOT NULL,
 	I_PlantillaPlanillaConceptoReferenciaID INT NOT NULL,
-	B_Habilitado BIT NOT NULL,
 	B_Eliminado BIT NOT NULL,
 	I_UsuarioCre INT,
 	D_FecCre DATETIME,

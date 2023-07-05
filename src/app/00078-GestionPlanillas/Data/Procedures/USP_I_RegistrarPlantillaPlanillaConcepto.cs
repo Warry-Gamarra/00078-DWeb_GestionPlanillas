@@ -12,7 +12,7 @@ namespace Data.Procedures
 {
     public class USP_I_RegistrarPlantillaPlanillaConcepto
     {
-        public DataTable Tbl_ConceptoIncluido { get; set; }
+        public DataTable Tbl_ConceptoReferencia { get; set; }
 
         public int I_PlantillaPlanillaID { get; set; }
 
@@ -47,7 +47,7 @@ namespace Data.Procedures
                 using (var _dbConnection = new SqlConnection(Database.ConnectionString))
                 {
                     parameters = new DynamicParameters();
-                    parameters.Add(name: "Tbl_ConceptoIncluido", value: Tbl_ConceptoIncluido.AsTableValuedParameter("dbo.type_dataIdentifiers"));
+                    parameters.Add(name: "Tbl_ConceptoReferencia", value: Tbl_ConceptoReferencia.AsTableValuedParameter("dbo.type_dataIdentifiers"));
                     parameters.Add(name: "I_PlantillaPlanillaID", dbType: DbType.Int32, value: I_PlantillaPlanillaID);
                     parameters.Add(name: "I_ConceptoID", dbType: DbType.Int32, value: I_ConceptoID);
                     parameters.Add(name: "B_EsValorFijo", dbType: DbType.Boolean, value: B_EsValorFijo);

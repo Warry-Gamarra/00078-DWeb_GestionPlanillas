@@ -39,7 +39,7 @@ namespace Domain.Services.Implementations
                                 I_Filtro1 = plantillaPlanillaConcepto.filtro1,
                                 B_AplicarFiltro2 = plantillaPlanillaConcepto.aplicarFiltro2,
                                 I_Filtro2 = plantillaPlanillaConcepto.filtro2,
-                                Tbl_ConceptoIncluido = plantillaPlanillaConcepto.conceptoIncluido,
+                                Tbl_ConceptoReferencia = plantillaPlanillaConcepto.conceptosReferencia,
                                 I_UserID = userID
                             };
 
@@ -73,7 +73,7 @@ namespace Domain.Services.Implementations
                                 I_Filtro1 = plantillaPlanillaConcepto.filtro1,
                                 B_AplicarFiltro2 = plantillaPlanillaConcepto.aplicarFiltro2,
                                 I_Filtro2 = plantillaPlanillaConcepto.filtro2,
-                                Tbl_ConceptoIncluido = plantillaPlanillaConcepto.conceptoIncluido,
+                                Tbl_ConceptoReferencia = plantillaPlanillaConcepto.conceptosReferencia,
                                 I_UserID = userID
                             };
 

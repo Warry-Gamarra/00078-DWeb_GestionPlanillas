@@ -44,14 +44,14 @@ namespace WebApp.ServiceFacade.Implementations
                     filtro2 = model.filtro2
                 };
 
-                plantillaPlanillaConceptoEntity.conceptoIncluido = new DataTable();
-                plantillaPlanillaConceptoEntity.conceptoIncluido.Columns.Add("I_ID");
+                plantillaPlanillaConceptoEntity.conceptosReferencia = new DataTable();
+                plantillaPlanillaConceptoEntity.conceptosReferencia.Columns.Add("I_ID");
 
-                if (model.conceptoReferenciaID != null)
+                if (model.conceptosReferenciaID != null)
                 {
-                    foreach (var id in model.conceptoReferenciaID)
+                    foreach (var id in model.conceptosReferenciaID)
                     {
-                        plantillaPlanillaConceptoEntity.conceptoIncluido.Rows.Add(id);
+                        plantillaPlanillaConceptoEntity.conceptosReferencia.Rows.Add(id);
                     }
                 }
 
@@ -93,15 +93,17 @@ namespace WebApp.ServiceFacade.Implementations
                         (x.conceptoAbrv != null && x.conceptoAbrv.Length > 0 ? " (" + x.conceptoAbrv + ")" : ""))
                 };
 
-                //if (selectedItems!= null && selectedItems.Length > 0)
-                //{
-                //    item.Selected = selectedItems.Any(i => i == x.plantillaPlanillaConceptoID);
-                //}
-                
                 result.Add(item);
             });
 
-            return new SelectList(result, "Value", "Text", selectedItems);
+            if (selectedItems != null && selectedItems.Length > 0)
+            {
+                return new SelectList(result, "Value", "Text", selectedItems);
+            }
+            else
+            {
+                return new SelectList(result, "Value", "Text");
+            }
         }
 
         public ConceptoAsignadoPlantillaModel ObtenerPlantillaPlanillaConcepto(int plantillaPlanillaConceptoID)
@@ -117,6 +119,9 @@ namespace WebApp.ServiceFacade.Implementations
             else
             {
                 plantillaPlanillaConceptoModel = Mapper.ConceptoAsignadoPlantillaDTO_To_ConceptoAsignadoPlantillaModel(plantillaPlanillaConceptoDTO);
+
+                plantillaPlanillaConceptoModel.conceptosReferenciaID = _plantillaPlanillaConceptoService.ListarConceptosReferencia(plantillaPlanillaConceptoID)
+                    .Select(x => x.plantillaPlanillaConceptoReferenciaID).ToArray();
             }
 
             return plantillaPlanillaConceptoModel;

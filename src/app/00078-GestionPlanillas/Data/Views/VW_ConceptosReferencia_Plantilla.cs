@@ -15,8 +15,6 @@ namespace Data.Views
 
         public int I_PlantillaPlanillaConceptoID { get; set; }
 
-        public bool B_Habilitado { get; set; }
-
         public int I_PlantillaPlanillaConceptoReferenciaID { get; set; }
 
         public int I_ConceptoID { get; set; }

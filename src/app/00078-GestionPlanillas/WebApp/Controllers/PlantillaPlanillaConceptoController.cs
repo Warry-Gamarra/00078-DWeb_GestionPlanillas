@@ -146,7 +146,7 @@ namespace WebApp.Controllers
                 ViewBag.ListaFiltro2 = new SelectList(new List<SelectListItem>());
             }
 
-            ViewBag.ListaConceptosIncluidos = _plantillaPlanillaConceptoServiceFacade.ObtenerComboConceptosAsignados(plantilla.plantillaPlanillaID.Value);
+            ViewBag.LISTAABC = _plantillaPlanillaConceptoServiceFacade.ObtenerComboConceptosAsignados(plantilla.plantillaPlanillaID.Value);
 
             var model = new ConceptoAsignadoPlantillaModel()
             {
@@ -188,7 +188,9 @@ namespace WebApp.Controllers
 
             var plantilla = _plantillaPlanillaServiceFacade.ObtenerPlantillaPlanilla(model.plantillaPlanillaID);
 
-            ViewBag.ListaConceptos = _conceptoServiceFacade.ObtenerComboConceptos(true);
+            ViewBag.ListaConceptos = _conceptoServiceFacade.ObtenerComboConceptos(true, model.conceptoID);
+
+            ViewBag.LISTAABC = _plantillaPlanillaConceptoServiceFacade.ObtenerComboConceptosAsignados(plantilla.plantillaPlanillaID.Value, model.conceptosReferenciaID);
 
             if (plantilla.categoriaPlanillaID == (int)CategoriaPlanilla.HaberesAdministrativo)
             {
@@ -220,12 +222,6 @@ namespace WebApp.Controllers
 
                 ViewBag.ListaFiltro2 = new SelectList(new List<SelectListItem>());
             }
-
-            var conceptosAsignados = _plantillaPlanillaConceptoServiceFacade.ListarConceptosReferencia(id);
-
-            model.conceptoReferenciaID = conceptosAsignados.Select(x => x.plantillaPlanillaConceptoReferenciaID).ToArray();
-
-            ViewBag.ListaConceptosIncluidos = _plantillaPlanillaConceptoServiceFacade.ObtenerComboConceptosAsignados(plantilla.plantillaPlanillaID.Value, model.conceptoReferenciaID);
 
             return PartialView("_MantenimientoAsignacionConcepto", model);
         }

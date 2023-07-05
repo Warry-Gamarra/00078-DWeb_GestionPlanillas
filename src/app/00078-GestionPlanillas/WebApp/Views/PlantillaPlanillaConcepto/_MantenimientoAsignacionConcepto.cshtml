@@ -87,9 +87,9 @@
     <div class="form-row" style="display: none;" id="divConceptoPorcentaje">
         <div class="col-12">
             <div class="form-group row">
-                @Html.LabelFor(model => model.conceptoReferenciaID, new { @class = "col-sm-3 control-label" })
+                @Html.LabelFor(model => model.conceptosReferenciaID, new { @class = "col-sm-3 control-label" })
                 <div class="col-sm-9">
-                    @Html.DropDownListFor(model => model.conceptoReferenciaID, ViewBag.ListaConceptosIncluidos as SelectList, "[ SELECCIONAR ]", new { @class = "select-multiple form-control text-uppercase", multiple = "true" })
+                    @Html.ListBoxFor(model => model.conceptosReferenciaID, ViewBag.LISTAABC as SelectList, new { @class = "select-multiple form-control text-uppercase", multiple = "true" })
                 </div>
             </div>
         </div>
@@ -109,26 +109,6 @@
 
 <script type="text/javascript">
     $(function () {
-        @if(Model.aplicarFiltro1)
-        {
-            <text>cambiarEstadoCampoFiltro(true, 'filtro1');</text>
-        }
-
-        @if(Model.aplicarFiltro2)
-        {
-            <text>cambiarEstadoCampoFiltro(true, 'filtro2');</text>
-        }
-
-        @if(Model.valorEsExterno)
-        {
-            <text>cambiarEstadoCampoMonto(false);</text>
-        }
-
-        @if (!Model.esValorFijo)
-        {
-            <text>mostrarPorcetual(true);</text>
-        }
-
         $('#content-body').on('click', '#btn-return', function (event) {
             event.preventDefault();
 
@@ -166,6 +146,26 @@
             let checked = $(this).is(':checked');
             cambiarEstadoCampoMonto(!checked);
         });
+
+        @if(Model.aplicarFiltro1)
+        {
+            <text>cambiarEstadoCampoFiltro(true, 'filtro1');</text>
+        }
+
+        @if(Model.aplicarFiltro2)
+        {
+            <text>cambiarEstadoCampoFiltro(true, 'filtro2');</text>
+        }
+
+        @if(Model.valorEsExterno)
+        {
+            <text>cambiarEstadoCampoMonto(false);</text>
+        }
+
+        @if (!Model.esValorFijo)
+        {
+            <text>mostrarPorcetual(true);</text>
+        }
     });
 
     function loadForm(url, message) {
