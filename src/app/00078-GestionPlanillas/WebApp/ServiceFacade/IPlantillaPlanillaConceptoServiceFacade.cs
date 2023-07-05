@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Web.Mvc;
 using WebApp.Models;
 
 namespace WebApp.ServiceFacade
@@ -14,6 +15,8 @@ namespace WebApp.ServiceFacade
         Response GrabarPlantillaPlanillaConcepto(Operacion operacion, ConceptoAsignadoPlantillaModel model, int userID);
 
         List<ConceptoAsignadoPlantillaModel> ListarConceptosAsignados(int plantillaPlanillaID);
+
+        SelectList ObtenerComboConceptosAsignados(int plantillaPlanillaID, int[] selectedItems = null);
 
         ConceptoAsignadoPlantillaModel ObtenerPlantillaPlanillaConcepto(int plantillaPlanillaConceptoID);
 

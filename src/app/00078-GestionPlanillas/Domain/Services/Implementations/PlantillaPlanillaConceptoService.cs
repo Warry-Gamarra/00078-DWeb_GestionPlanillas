@@ -341,7 +341,7 @@ namespace Domain.Services.Implementations
 
                     var conceptosTipoValorDiferente2 = listaConceptos
                         .Where(x => 
-                        x.plantillaPlanillaConceptoID != plantillaPlanillaConcepto.plantillaPlanillaConceptoID && 
+                        x.plantillaPlanillaConceptoID != plantillaPlanillaConcepto.plantillaPlanillaConceptoID.Value && 
                         x.conceptoID == plantillaPlanillaConcepto.conceptoID &&
                         x.esValorFijo != plantillaPlanillaConcepto.esValorFijo);
 

@@ -10,6 +10,7 @@ using System.Data;
 using System.Linq;
 using System.Web;
 using System.Web.DynamicData;
+using System.Web.Mvc;
 using WebApp.Models;
 
 namespace WebApp.ServiceFacade.Implementations
@@ -46,9 +47,9 @@ namespace WebApp.ServiceFacade.Implementations
                 plantillaPlanillaConceptoEntity.conceptoIncluido = new DataTable();
                 plantillaPlanillaConceptoEntity.conceptoIncluido.Columns.Add("I_ID");
 
-                if (model.conceptoPorcentajeID != null)
+                if (model.conceptoReferenciaID != null)
                 {
-                    foreach (var id in model.conceptoPorcentajeID)
+                    foreach (var id in model.conceptoReferenciaID)
                     {
                         plantillaPlanillaConceptoEntity.conceptoIncluido.Rows.Add(id);
                     }
@@ -75,6 +76,32 @@ namespace WebApp.ServiceFacade.Implementations
                 .ToList();
 
             return lista;
+        }
+
+        public SelectList ObtenerComboConceptosAsignados(int plantillaPlanillaID, int[] selectedItems = null)
+        {
+            var lista = _plantillaPlanillaConceptoService.ListarConceptosAsignados(plantillaPlanillaID)
+                .Where(x => x.estaHabilitado && x.esValorFijo);
+
+            var result = new List<SelectListItem>();
+
+            lista.ForEach(x => {
+                var item = new SelectListItem()
+                {
+                    Value = x.plantillaPlanillaConceptoID.ToString(),
+                    Text = String.Format("{0} - {1}{2}", x.conceptoCod, x.conceptoDesc,
+                        (x.conceptoAbrv != null && x.conceptoAbrv.Length > 0 ? " (" + x.conceptoAbrv + ")" : ""))
+                };
+
+                //if (selectedItems!= null && selectedItems.Length > 0)
+                //{
+                //    item.Selected = selectedItems.Any(i => i == x.plantillaPlanillaConceptoID);
+                //}
+                
+                result.Add(item);
+            });
+
+            return new SelectList(result, "Value", "Text", selectedItems);
         }
 
         public ConceptoAsignadoPlantillaModel ObtenerPlantillaPlanillaConcepto(int plantillaPlanillaConceptoID)

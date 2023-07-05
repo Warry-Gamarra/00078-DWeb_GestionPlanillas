@@ -17,11 +17,18 @@ namespace WebApp.ServiceFacade.Implementations
             _afpService = new AfpService();
         }
 
-        public SelectList ListarAfps(bool incluirDeshabilitados = false)
+        public SelectList ObtenerComboAfps(bool incluirDeshabilitados = false, int? selectedItem = null)
         {
             var lista = _afpService.ListarAfps(incluirDeshabilitados);
 
-            return new SelectList(lista, "I_AfpID", "T_AfpDesc");
+            if (selectedItem.HasValue)
+            {
+                return new SelectList(lista, "I_AfpID", "T_AfpDesc", selectedItem.Value);
+            }
+            else
+            {
+                return new SelectList(lista, "I_AfpID", "T_AfpDesc");
+            }
         }
     }
 }

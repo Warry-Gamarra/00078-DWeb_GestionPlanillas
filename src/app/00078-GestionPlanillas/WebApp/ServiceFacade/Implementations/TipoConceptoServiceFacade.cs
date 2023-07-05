@@ -17,11 +17,18 @@ namespace WebApp.ServiceFacade.Implementations
             _tipoConceptoService = new TipoConceptoService();
         }
 
-        public SelectList ListarTiposConceptos(bool incluirDeshabilitados = false)
+        public SelectList ObtenerComboTiposConceptos(bool incluirDeshabilitados = false, int? selectedItem = null)
         {
             var lista = _tipoConceptoService.ListarTiposConceptos(incluirDeshabilitados);
 
-            return new SelectList(lista, "tipoConceptoID", "tipoConceptoDesc");
+            if (selectedItem.HasValue)
+            {
+                return new SelectList(lista, "tipoConceptoID", "tipoConceptoDesc", selectedItem.Value);
+            }
+            else
+            {
+                return new SelectList(lista, "tipoConceptoID", "tipoConceptoDesc");
+            }
         }
     }
 }

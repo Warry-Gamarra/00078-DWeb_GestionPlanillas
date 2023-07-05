@@ -17,11 +17,18 @@ namespace WebApp.ServiceFacade.Implementations
             _vinculoService = new VinculoService();
         }
 
-        public SelectList ListarVinculos(bool incluirDeshabilitados = false)
+        public SelectList ObtenerComboVinculos(bool incluirDeshabilitados = false, int? selectedItem = null)
         {
             var lista = _vinculoService.ListarVinculos(incluirDeshabilitados);
 
-            return new SelectList(lista, "I_VinculoID", "T_VinculoDesc");
+            if (selectedItem.HasValue)
+            {
+                return new SelectList(lista, "I_VinculoID", "T_VinculoDesc", selectedItem.Value);
+            }
+            else
+            {
+                return new SelectList(lista, "I_VinculoID", "T_VinculoDesc");
+            }
         }
     }
 }

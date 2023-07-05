@@ -17,11 +17,18 @@ namespace WebApp.ServiceFacade.Implementations
             _estadoService = new EstadoService();
         }
 
-        public SelectList ListarEstados(bool incluirDeshabilitados = false)
+        public SelectList ObtenerComboEstados(bool incluirDeshabilitados = false, int? selectedItem = null)
         {
             var lista = _estadoService.ListarEstados(incluirDeshabilitados);
 
-            return new SelectList(lista, "I_EstadoID", "T_EstadoDesc");
+            if (selectedItem.HasValue)
+            {
+                return new SelectList(lista, "I_EstadoID", "T_EstadoDesc", selectedItem.Value);
+            }
+            else
+            {
+                return new SelectList(lista, "I_EstadoID", "T_EstadoDesc");
+            }
         }
     }
 }

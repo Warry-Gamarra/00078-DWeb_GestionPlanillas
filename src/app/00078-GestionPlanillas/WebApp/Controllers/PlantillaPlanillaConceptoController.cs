@@ -113,7 +113,7 @@ namespace WebApp.Controllers
 
             var plantilla = _plantillaPlanillaServiceFacade.ObtenerPlantillaPlanilla(id);
 
-            ViewBag.ListaConceptos = _conceptoServiceFacade.ListarConceptos(false);
+            ViewBag.ListaConceptos = _conceptoServiceFacade.ObtenerComboConceptos(false);
 
             if (plantilla.categoriaPlanillaID == (int)CategoriaPlanilla.HaberesAdministrativo)
             {
@@ -146,10 +146,7 @@ namespace WebApp.Controllers
                 ViewBag.ListaFiltro2 = new SelectList(new List<SelectListItem>());
             }
 
-            var listaConceptosIncluidos = _plantillaPlanillaConceptoServiceFacade.ListarConceptosAsignados(plantilla.plantillaPlanillaID.Value)
-                .Where(x => x.plantillaPlanillaConceptoID != id && x.estaHabilitado);
-
-            ViewBag.ListaConceptosIncluidos = new SelectList(listaConceptosIncluidos, "plantillaPlanillaConceptoID", "conceptoDesc");
+            ViewBag.ListaConceptosIncluidos = _plantillaPlanillaConceptoServiceFacade.ObtenerComboConceptosAsignados(plantilla.plantillaPlanillaID.Value);
 
             var model = new ConceptoAsignadoPlantillaModel()
             {
@@ -191,7 +188,7 @@ namespace WebApp.Controllers
 
             var plantilla = _plantillaPlanillaServiceFacade.ObtenerPlantillaPlanilla(model.plantillaPlanillaID);
 
-            ViewBag.ListaConceptos = _conceptoServiceFacade.ListarConceptos(true);
+            ViewBag.ListaConceptos = _conceptoServiceFacade.ObtenerComboConceptos(true);
 
             if (plantilla.categoriaPlanillaID == (int)CategoriaPlanilla.HaberesAdministrativo)
             {
@@ -224,10 +221,11 @@ namespace WebApp.Controllers
                 ViewBag.ListaFiltro2 = new SelectList(new List<SelectListItem>());
             }
 
-            var listaConceptosIncluidos = _plantillaPlanillaConceptoServiceFacade.ListarConceptosAsignados(plantilla.plantillaPlanillaID.Value)
-                .Where(x => x.plantillaPlanillaConceptoID != id && x.estaHabilitado);
+            var conceptosAsignados = _plantillaPlanillaConceptoServiceFacade.ListarConceptosReferencia(id);
 
-            ViewBag.ListaConceptosIncluidos = new SelectList(listaConceptosIncluidos, "plantillaPlanillaConceptoID", "conceptoDesc");
+            model.conceptoReferenciaID = conceptosAsignados.Select(x => x.plantillaPlanillaConceptoReferenciaID).ToArray();
+
+            ViewBag.ListaConceptosIncluidos = _plantillaPlanillaConceptoServiceFacade.ObtenerComboConceptosAsignados(plantilla.plantillaPlanillaID.Value, model.conceptoReferenciaID);
 
             return PartialView("_MantenimientoAsignacionConcepto", model);
         }

@@ -49,7 +49,7 @@ namespace WebApp.Controllers
 
             ViewBag.Action = "Registrar";
 
-            ViewBag.ListaCategoriasPlanillas = _categoriaPlanillaServiceFacade.ListarCategoriasPlanillas();
+            ViewBag.ListaCategoriasPlanillas = _categoriaPlanillaServiceFacade.ObtenerComboCategoriasPlanillas();
 
             var plantilla = new PlantillaPlanillaModel();
 
@@ -81,9 +81,9 @@ namespace WebApp.Controllers
 
             ViewBag.Action = "Actualizar";
 
-            ViewBag.ListaCategoriasPlanillas = _categoriaPlanillaServiceFacade.ListarCategoriasPlanillas();
-
             var plantilla = _plantillaPlanillaServiceFacade.ObtenerPlantillaPlanilla(id);
+
+            ViewBag.ListaCategoriasPlanillas = _categoriaPlanillaServiceFacade.ObtenerComboCategoriasPlanillas(selectedItem: plantilla.plantillaPlanillaID);
 
             return PartialView("_MantenimientoPlantillaPlanilla", plantilla);
         }

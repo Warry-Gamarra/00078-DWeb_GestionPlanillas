@@ -422,6 +422,7 @@ namespace Domain.Helpers
                 conceptoID = view.I_ConceptoID,
                 conceptoCod = view.C_ConceptoCod,
                 conceptoDesc = view.T_ConceptoDesc,
+                conceptoAbrv = view.T_ConceptoAbrv,
                 esValorFijo = view.B_EsValorFijo,
                 valorEsExterno = view.B_ValorEsExterno,
                 valorConcepto = view.M_ValorConcepto,

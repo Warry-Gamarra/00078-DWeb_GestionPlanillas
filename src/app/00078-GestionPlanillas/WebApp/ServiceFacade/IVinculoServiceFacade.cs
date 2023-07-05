@@ -9,6 +9,6 @@ namespace WebApp.ServiceFacade
 {
     public interface IVinculoServiceFacade
     {
-        SelectList ListarVinculos(bool incluirDeshabilitados = false);
+        SelectList ObtenerComboVinculos(bool incluirDeshabilitados = false, int? selectedItem = null);
     }
 }

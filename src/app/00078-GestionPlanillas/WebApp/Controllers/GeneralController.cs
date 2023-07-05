@@ -25,7 +25,7 @@ namespace WebApp.Controllers
 
             try
             {
-                var lista = _periodoServiceFacade.ListarMeses(I_Anio);
+                var lista = _periodoServiceFacade.ObtenerComboMeses(I_Anio);
 
                 response = new Response()
                 {

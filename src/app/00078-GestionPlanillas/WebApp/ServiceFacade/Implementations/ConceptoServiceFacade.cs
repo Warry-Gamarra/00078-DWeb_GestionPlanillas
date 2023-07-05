@@ -59,7 +59,7 @@ namespace WebApp.ServiceFacade.Implementations
             return lista;
         }
 
-        public SelectList ListarConceptos(bool incluirDeshabilitados)
+        public SelectList ObtenerComboConceptos(bool incluirDeshabilitados)
         {
             var lista = _conceptoService.ListarConceptos(incluirDeshabilitados);
 
@@ -69,7 +69,7 @@ namespace WebApp.ServiceFacade.Implementations
                 var item = new SelectListItem()
                 {
                     Value = x.conceptoID.ToString(),
-                    Text = String.Format("{0} - {1}{2}", x.conceptoCod, x.conceptoDesc.ToString(), 
+                    Text = String.Format("{0} - {1}{2}", x.conceptoCod, x.conceptoDesc, 
                         (x.conceptoAbrv != null && x.conceptoAbrv.Length > 0 ? " (" + x.conceptoAbrv + ")" : "" ))
                 };
 

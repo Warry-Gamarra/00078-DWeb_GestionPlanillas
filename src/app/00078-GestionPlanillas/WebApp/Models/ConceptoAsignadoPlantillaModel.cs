@@ -39,6 +39,8 @@ namespace WebApp.Models
 
         public string conceptoDesc { get; set; }
 
+        public string conceptoAbrv { get; set; }
+
         public bool esValorFijo { get; set; }
 
         [DisplayName("¿El Monto se obtendrá de un archivo externo?")]
@@ -104,6 +106,6 @@ namespace WebApp.Models
         public bool estaHabilitado { get; set; }
 
         [Display(Name = "Aplicar porcentaje a:")]
-        public int[] conceptoPorcentajeID { get; set; }
+        public int[] conceptoReferenciaID { get; set; }
     }
 }

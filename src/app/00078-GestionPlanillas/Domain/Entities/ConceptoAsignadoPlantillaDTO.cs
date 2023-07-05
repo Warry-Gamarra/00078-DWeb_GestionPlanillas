@@ -36,6 +36,8 @@ namespace Domain.Entities
 
         public string conceptoDesc { get; set; }
 
+        public string conceptoAbrv { get; set; }
+
         public bool esValorFijo { get; set; }
 
         public bool valorEsExterno { get; set; }

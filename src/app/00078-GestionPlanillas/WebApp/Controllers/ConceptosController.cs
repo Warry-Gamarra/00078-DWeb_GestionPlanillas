@@ -40,7 +40,7 @@ namespace WebApp.Controllers
 
             ViewBag.Action = "Registrar";
 
-            ViewBag.ListaTiposConceptos = _tipoConceptoServiceFacade.ListarTiposConceptos();
+            ViewBag.ListaTiposConceptos = _tipoConceptoServiceFacade.ObtenerComboTiposConceptos();
 
             var concepto = new ConceptoModel();
 
@@ -72,9 +72,9 @@ namespace WebApp.Controllers
 
             ViewBag.Action = "Actualizar";
 
-            ViewBag.ListaTiposConceptos = _tipoConceptoServiceFacade.ListarTiposConceptos();
-
             var concepto = _conceptoServiceFacade.ObtenerConcepto(id);
+
+            ViewBag.ListaTiposConceptos = _tipoConceptoServiceFacade.ObtenerComboTiposConceptos(selectedItem: concepto.conceptoID);
 
             return PartialView("_MantenimientoConcepto", concepto);
         }

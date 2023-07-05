@@ -9,6 +9,6 @@ namespace WebApp.ServiceFacade
 {
     public interface ITipoConceptoServiceFacade
     {
-        SelectList ListarTiposConceptos(bool incluirDeshabilitados = false);
+        SelectList ObtenerComboTiposConceptos(bool incluirDeshabilitados = false, int? selectedItem = null);
     }
 }

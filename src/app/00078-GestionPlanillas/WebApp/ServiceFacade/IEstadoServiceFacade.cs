@@ -9,6 +9,6 @@ namespace WebApp.ServiceFacade
 {
     public interface IEstadoServiceFacade
     {
-        SelectList ListarEstados(bool incluirDeshabilitados = false);
+        SelectList ObtenerComboEstados(bool incluirDeshabilitados = false, int? selectedItem = null);
     }
 }

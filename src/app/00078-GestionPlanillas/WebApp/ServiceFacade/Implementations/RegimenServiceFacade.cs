@@ -17,11 +17,18 @@ namespace WebApp.ServiceFacade.Implementations
             _regimenService = new RegimenService();
         }
 
-        public SelectList ListarRegimenes(bool incluirDeshabilitados = false)
+        public SelectList ObtenerComboRegimenes(bool incluirDeshabilitados = false, int? selectedItem = null)
         {
             var lista  = _regimenService.ListarRegimenes(incluirDeshabilitados);
 
-            return new SelectList(lista, "I_RegimenID", "T_RegimenDesc");
+            if (selectedItem.HasValue)
+            {
+                return new SelectList(lista, "I_RegimenID", "T_RegimenDesc", selectedItem.Value);
+            }
+            else
+            {
+                return new SelectList(lista, "I_RegimenID", "T_RegimenDesc");
+            }
         }
     }
 }

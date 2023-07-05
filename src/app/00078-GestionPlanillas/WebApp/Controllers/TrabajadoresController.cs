@@ -68,19 +68,19 @@ namespace WebApp.Controllers
 
             ViewBag.Action = "Registrar";
 
-            ViewBag.ListaEstados = _estadoServiceFacade.ListarEstados();
+            ViewBag.ListaEstados = _estadoServiceFacade.ObtenerComboEstados();
 
-            ViewBag.ListaVinculos = _vinculoServiceFacade.ListarVinculos();
+            ViewBag.ListaVinculos = _vinculoServiceFacade.ObtenerComboVinculos();
 
-            ViewBag.ListaRegimenes = _regimenServiceFacade.ListarRegimenes();
+            ViewBag.ListaRegimenes = _regimenServiceFacade.ObtenerComboRegimenes();
 
-            ViewBag.ListaTipoDocumentos = _tipoDocumentoServiceFacade.ListarTipoDocumentos();
+            ViewBag.ListaTipoDocumentos = _tipoDocumentoServiceFacade.ObtenerComboTipoDocumentos();
 
-            ViewBag.ListaBancos = _bancoServiceFacade.ListarBancos();
+            ViewBag.ListaBancos = _bancoServiceFacade.ObtenerComboBancos();
 
-            ViewBag.ListaDependencias = _dependenciaServiceFacade.ListarDependencias();
+            ViewBag.ListaDependencias = _dependenciaServiceFacade.ObtenerComboDependencias();
 
-            ViewBag.ListaAfps = _afpServiceFacade.ListarAfps();
+            ViewBag.ListaAfps = _afpServiceFacade.ObtenerComboAfps();
 
             ViewBag.GruposOcupacionales = _grupoOcupacionalServiceFacade.ObtenerComboGruposOcupacionales();
 
@@ -121,19 +121,19 @@ namespace WebApp.Controllers
 
             var trabajador = _trabajadorServiceFacade.ObtenerTrabajador(id);
 
-            ViewBag.ListaEstados = _estadoServiceFacade.ListarEstados();
+            ViewBag.ListaEstados = _estadoServiceFacade.ObtenerComboEstados(selectedItem: trabajador.I_EstadoID);
 
-            ViewBag.ListaVinculos = _vinculoServiceFacade.ListarVinculos();
+            ViewBag.ListaVinculos = _vinculoServiceFacade.ObtenerComboVinculos(selectedItem: trabajador.I_VinculoID);
 
-            ViewBag.ListaRegimenes = _regimenServiceFacade.ListarRegimenes();
+            ViewBag.ListaRegimenes = _regimenServiceFacade.ObtenerComboRegimenes(selectedItem: trabajador.I_RegimenID);
 
-            ViewBag.ListaTipoDocumentos = _tipoDocumentoServiceFacade.ListarTipoDocumentos();
+            ViewBag.ListaTipoDocumentos = _tipoDocumentoServiceFacade.ObtenerComboTipoDocumentos(selectedItem: trabajador.I_TipoDocumentoID);
 
-            ViewBag.ListaBancos = _bancoServiceFacade.ListarBancos();
+            ViewBag.ListaBancos = _bancoServiceFacade.ObtenerComboBancos(selectedItem: trabajador.I_BancoID);
 
-            ViewBag.ListaDependencias = _dependenciaServiceFacade.ListarDependencias();
+            ViewBag.ListaDependencias = _dependenciaServiceFacade.ObtenerComboDependencias(selectedItem: trabajador.I_DependenciaID);
 
-            ViewBag.ListaAfps = _afpServiceFacade.ListarAfps();
+            ViewBag.ListaAfps = _afpServiceFacade.ObtenerComboAfps(selectedItem: trabajador.I_AfpID);
 
             ViewBag.GruposOcupacionales = _grupoOcupacionalServiceFacade.ObtenerComboGruposOcupacionales(selectedItem: trabajador.I_GrupoOcupacionalID);
 

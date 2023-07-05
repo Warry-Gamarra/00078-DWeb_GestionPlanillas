@@ -17,11 +17,18 @@ namespace WebApp.ServiceFacade.Implementations
             _categoriaPlanillaService = new CategoriaPlanillaService();
         }
 
-        public SelectList ListarCategoriasPlanillas(bool incluirDeshabilitados = false)
+        public SelectList ObtenerComboCategoriasPlanillas(bool incluirDeshabilitados = false, int? selectedItem = null)
         {
             var lista = _categoriaPlanillaService.ListarCategoriasPlanillas(incluirDeshabilitados);
 
-            return new SelectList(lista, "I_CategoriaPlanillaID", "T_CategoriaPlanillaDesc");
+            if (selectedItem.HasValue)
+            {
+                return new SelectList(lista, "I_CategoriaPlanillaID", "T_CategoriaPlanillaDesc", selectedItem.Value);
+            }
+            else
+            {
+                return new SelectList(lista, "I_CategoriaPlanillaID", "T_CategoriaPlanillaDesc");
+            }
         }
     }
 }

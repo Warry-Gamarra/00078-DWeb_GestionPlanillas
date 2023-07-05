@@ -15,7 +15,7 @@ namespace WebApp.ServiceFacade
 
         List<ConceptoModel> ListarConceptos();
 
-        SelectList ListarConceptos(bool incluirDeshabilitados);
+        SelectList ObtenerComboConceptos(bool incluirDeshabilitados);
 
         ConceptoModel ObtenerConcepto(int conceptoID);
 

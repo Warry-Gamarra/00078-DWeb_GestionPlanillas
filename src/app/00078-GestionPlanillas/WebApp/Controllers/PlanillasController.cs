@@ -30,7 +30,7 @@ namespace WebApp.Controllers
 
         public ActionResult Index(int? anio, int? mes, int? idCategoria)
         {
-            var listaAños = _periodoServiceFacade.ListarAños();
+            var listaAños = _periodoServiceFacade.ObtenerComboAños();
 
             if (!anio.HasValue)
                 anio = (listaAños.Count() > 0) ? int.Parse(listaAños.First().Value) : DateTime.Now.Year;
@@ -39,9 +39,9 @@ namespace WebApp.Controllers
 
             ViewBag.ListaAños = listaAños;
 
-            ViewBag.ListaMeses = _periodoServiceFacade.ListarMeses(anio.Value);
+            ViewBag.ListaMeses = _periodoServiceFacade.ObtenerComboMeses(anio.Value);
 
-            ViewBag.ListaCategoriasPlanillas = _categoriaPlanillaServiceFacade.ListarCategoriasPlanillas();
+            ViewBag.ListaCategoriasPlanillas = _categoriaPlanillaServiceFacade.ObtenerComboCategoriasPlanillas();
 
             List<ResumenPlanillaTrabajadorModel> model;
 
@@ -72,7 +72,7 @@ namespace WebApp.Controllers
 
             List<TrabajadorCategoriaPlanillaModel> model;
 
-            var listaAños = _periodoServiceFacade.ListarAños();
+            var listaAños = _periodoServiceFacade.ObtenerComboAños(selectedItem: anio);
 
             if (!anio.HasValue)
                 anio = (listaAños.Count() > 0) ? int.Parse(listaAños.First().Value) : DateTime.Now.Year;
@@ -81,9 +81,9 @@ namespace WebApp.Controllers
 
             ViewBag.ListaAños = listaAños;
 
-            ViewBag.ListaMeses = _periodoServiceFacade.ListarMeses(anio.Value);
+            ViewBag.ListaMeses = _periodoServiceFacade.ObtenerComboMeses(I_Anio: anio.Value, selectedItem: mes);
 
-            ViewBag.ListaCategoriasPlanillas = _categoriaPlanillaServiceFacade.ListarCategoriasPlanillas();
+            ViewBag.ListaCategoriasPlanillas = _categoriaPlanillaServiceFacade.ObtenerComboCategoriasPlanillas(selectedItem: idCategoria);
 
             if (anio.HasValue && mes.HasValue)
             {

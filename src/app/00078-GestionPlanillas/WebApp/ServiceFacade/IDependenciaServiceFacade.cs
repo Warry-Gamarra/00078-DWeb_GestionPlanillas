@@ -9,6 +9,6 @@ namespace WebApp.ServiceFacade
 {
     public interface IDependenciaServiceFacade
     {
-        SelectList ListarDependencias(bool incluirDeshabilitados = false);
+        SelectList ObtenerComboDependencias(bool incluirDeshabilitados = false, int? selectedItem = null);
     }
 }

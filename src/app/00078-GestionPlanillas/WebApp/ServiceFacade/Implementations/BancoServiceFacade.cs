@@ -17,11 +17,18 @@ namespace WebApp.ServiceFacade.Implementations
             _bancoService = new BancoService();
         }
 
-        public SelectList ListarBancos(bool incluirDeshabilitados = false)
+        public SelectList ObtenerComboBancos(bool incluirDeshabilitados = false, int? selectedItem = null)
         {
             var lista = _bancoService.ListarBancos(incluirDeshabilitados);
 
-            return new SelectList(lista, "I_BancoID", "T_BancoDesc");
+            if (selectedItem.HasValue)
+            {
+                return new SelectList(lista, "I_BancoID", "T_BancoDesc", selectedItem.Value);
+            }
+            else
+            {
+                return new SelectList(lista, "I_BancoID", "T_BancoDesc");
+            }
         }
     }
 }

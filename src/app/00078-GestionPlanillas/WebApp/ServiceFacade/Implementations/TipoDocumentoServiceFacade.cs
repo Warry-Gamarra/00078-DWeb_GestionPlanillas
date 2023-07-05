@@ -17,11 +17,18 @@ namespace WebApp.ServiceFacade.Implementations
             _tipoDocumentoService = new TipoDocumentoService();
         }
 
-        public SelectList ListarTipoDocumentos(bool incluirDeshabilitados = false)
+        public SelectList ObtenerComboTipoDocumentos(bool incluirDeshabilitados = false, int? selectedItem = null)
         {
             var lista = _tipoDocumentoService.ListaTipoDocumentos(incluirDeshabilitados);
 
-            return new SelectList(lista, "I_TipoDocumentoID", "T_TipoDocumentoDesc");
+            if (selectedItem.HasValue)
+            {
+                return new SelectList(lista, "I_TipoDocumentoID", "T_TipoDocumentoDesc", selectedItem.Value);
+            }
+            else
+            {
+                return new SelectList(lista, "I_TipoDocumentoID", "T_TipoDocumentoDesc");
+            }
         }
     }
 }

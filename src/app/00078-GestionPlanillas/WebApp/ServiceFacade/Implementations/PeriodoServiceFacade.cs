@@ -17,7 +17,7 @@ namespace WebApp.ServiceFacade.Implementations
             _periodoService = new PeriodoService();
         }
 
-        public SelectList ListarAños()
+        public SelectList ObtenerComboAños(int? selectedItem = null)
         {
             var lista = _periodoService.ListarAños();
 
@@ -33,14 +33,28 @@ namespace WebApp.ServiceFacade.Implementations
                 result.Add(item);
             });
 
-            return new SelectList(result, "Value", "Text");
+            if (selectedItem.HasValue)
+            {
+                return new SelectList(result, "Value", "Text", selectedItem.Value);
+            }
+            else
+            {
+                return new SelectList(result, "Value", "Text");
+            }
         }
 
-        public SelectList ListarMeses(int I_Anio)
+        public SelectList ObtenerComboMeses(int I_Anio, int? selectedItem = null)
         {
             var lista = _periodoService.ListarMeses(I_Anio);
 
-            return new SelectList(lista, "I_Mes", "T_MesDesc");
+            if (selectedItem.HasValue)
+            {
+                return new SelectList(lista, "I_Mes", "T_MesDesc", selectedItem.Value);
+            }
+            else
+            {
+                return new SelectList(lista, "I_Mes", "T_MesDesc");
+            }
         }
     }
 }

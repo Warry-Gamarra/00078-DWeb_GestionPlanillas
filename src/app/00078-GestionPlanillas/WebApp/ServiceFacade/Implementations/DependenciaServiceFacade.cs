@@ -17,11 +17,18 @@ namespace WebApp.ServiceFacade.Implementations
             _dependenciaService = new DependenciaService();
         }
 
-        public SelectList ListarDependencias(bool incluirDeshabilitados = false)
+        public SelectList ObtenerComboDependencias(bool incluirDeshabilitados = false, int? selectedItem = null)
         {
             var lista = _dependenciaService.ListarDependencias(incluirDeshabilitados);
 
-            return new SelectList(lista, "I_DependenciaID", "T_DependenciaCodDesc");
+            if (selectedItem.HasValue)
+            {
+                return new SelectList(lista, "I_DependenciaID", "T_DependenciaCodDesc", selectedItem.Value);
+            }
+            else
+            {
+                return new SelectList(lista, "I_DependenciaID", "T_DependenciaCodDesc");
+            }
         }
     }
 }

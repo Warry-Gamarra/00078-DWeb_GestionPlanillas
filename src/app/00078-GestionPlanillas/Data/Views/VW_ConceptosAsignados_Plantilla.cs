@@ -39,6 +39,8 @@ namespace Data.Views
 
         public string T_ConceptoDesc { get; set; }
 
+        public string T_ConceptoAbrv { get; set; }
+
         public bool B_EsValorFijo { get; set; }
 
         public bool B_ValorEsExterno { get; set; }
