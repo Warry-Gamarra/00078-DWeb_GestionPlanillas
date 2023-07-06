@@ -55,7 +55,7 @@ namespace WebApp.Controllers
 
         public ActionResult Index()
         {
-            ViewBag.Title = "Consulta Trabajadores";
+            ViewBag.Title = "Gestión de Trabajadores";
 
             var lista = _trabajadorServiceFacade.ListarTrabajadores();
 

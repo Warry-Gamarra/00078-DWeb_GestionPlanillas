@@ -311,16 +311,22 @@ GO
 
 
 --DATA EJEMPLO
-INSERT TR_Periodo(I_Anio, I_Mes, T_MesDesc)VALUES(2023, 1, 'Enero')
-INSERT TR_Periodo(I_Anio, I_Mes, T_MesDesc)VALUES(2023, 2, 'Febrero')
-INSERT TR_Periodo(I_Anio, I_Mes, T_MesDesc)VALUES(2023, 3, 'Marzo')
-INSERT TR_Periodo(I_Anio, I_Mes, T_MesDesc)VALUES(2023, 4, 'Abril')
-INSERT TR_Periodo(I_Anio, I_Mes, T_MesDesc)VALUES(2023, 5, 'Mayo')
-INSERT TR_Periodo(I_Anio, I_Mes, T_MesDesc)VALUES(2023, 6, 'Junio')
-INSERT TR_Periodo(I_Anio, I_Mes, T_MesDesc)VALUES(2023, 7, 'Julio')
-INSERT TR_Periodo(I_Anio, I_Mes, T_MesDesc)VALUES(2023, 8, 'Agosto')
-INSERT TR_Periodo(I_Anio, I_Mes, T_MesDesc)VALUES(2023, 9, 'Setiembre')
-INSERT TR_Periodo(I_Anio, I_Mes, T_MesDesc)VALUES(2023, 10, 'Octubre')
-INSERT TR_Periodo(I_Anio, I_Mes, T_MesDesc)VALUES(2023, 11, 'Noviembre')
-INSERT TR_Periodo(I_Anio, I_Mes, T_MesDesc)VALUES(2023, 12, 'Diciembre')
+INSERT dbo.TR_Periodo(I_Anio, I_Mes, T_MesDesc)VALUES(2023, 1, 'Enero')
+INSERT dbo.TR_Periodo(I_Anio, I_Mes, T_MesDesc)VALUES(2023, 2, 'Febrero')
+INSERT dbo.TR_Periodo(I_Anio, I_Mes, T_MesDesc)VALUES(2023, 3, 'Marzo')
+INSERT dbo.TR_Periodo(I_Anio, I_Mes, T_MesDesc)VALUES(2023, 4, 'Abril')
+INSERT dbo.TR_Periodo(I_Anio, I_Mes, T_MesDesc)VALUES(2023, 5, 'Mayo')
+INSERT dbo.TR_Periodo(I_Anio, I_Mes, T_MesDesc)VALUES(2023, 6, 'Junio')
+INSERT dbo.TR_Periodo(I_Anio, I_Mes, T_MesDesc)VALUES(2023, 7, 'Julio')
+INSERT dbo.TR_Periodo(I_Anio, I_Mes, T_MesDesc)VALUES(2023, 8, 'Agosto')
+INSERT dbo.TR_Periodo(I_Anio, I_Mes, T_MesDesc)VALUES(2023, 9, 'Setiembre')
+INSERT dbo.TR_Periodo(I_Anio, I_Mes, T_MesDesc)VALUES(2023, 10, 'Octubre')
+INSERT dbo.TR_Periodo(I_Anio, I_Mes, T_MesDesc)VALUES(2023, 11, 'Noviembre')
+INSERT dbo.TR_Periodo(I_Anio, I_Mes, T_MesDesc)VALUES(2023, 12, 'Diciembre')
+GO
+
+
+INSERT dbo.TC_Proveedor(T_ProveedorDesc, B_Habilitado, B_Eliminado) VALUES('BANCO DE LA NACIÓN', 1, 0)
+INSERT dbo.TC_Proveedor(T_ProveedorDesc, B_Habilitado, B_Eliminado) VALUES('BANCO DE CRÉDITO', 1, 0)
+INSERT dbo.TC_Proveedor(T_ProveedorDesc, B_Habilitado, B_Eliminado) VALUES('BANCO SCOTIABANK', 1, 0)
 GO

@@ -1,5 +1,4 @@
 ﻿@model IEnumerable<WebApp.Models.ConceptoModel>
-@using GridMvc.Html
 
 <div class="container-fluid">
     <div class="col-12 mb-4">
@@ -154,8 +153,11 @@
                     aria: {
                         sortAscending: ": activar para ordenar la columna en orden ascendente",
                         sortDescending: ": activar para ordenar la columna en orden descendente"
-                    }
-                }
+                    },
+                    loadingRecords: "Cargando...",
+                    processing: "Procesando..."
+                },
+                searching: true
             });
         }
 
@@ -229,8 +231,11 @@
                     aria: {
                         sortAscending: ": activar para ordenar la columna en orden ascendente",
                         sortDescending: ": activar para ordenar la columna en orden descendente"
-                    }
-                }
+                    },
+                    loadingRecords: "Cargando...",
+                    processing: "Procesando..."
+                },
+                searching: true
             });
         }
     </script>

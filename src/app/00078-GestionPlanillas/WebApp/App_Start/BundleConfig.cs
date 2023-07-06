@@ -61,6 +61,14 @@ namespace WebApp
                 "~/Assets/datatables/js/jquery.dataTables.min.js",
                 "~/Assets/sweetalert/sweetalert2@11.js"));
 
+            bundles.Add(new StyleBundle("~/content/fileinput").Include(
+                "~/Assets/fileInput/css/fileinput.min.css"));
+
+            bundles.Add(new ScriptBundle("~/bundles/fileinput").Include(
+                "~/Assets/fileInput/js/fileinput.min.js",
+                "~/Assets/fileInput/js/locales/es.js",
+                "~/Assets/jquery/jquery.form.js"));
+
         }
     }
 }

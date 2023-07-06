@@ -375,7 +375,12 @@ GO
 IF EXISTS (SELECT * FROM INFORMATION_SCHEMA.DOMAINS WHERE DOMAIN_NAME = 'type_dataIdentifiers') BEGIN
 	IF EXISTS (SELECT * FROM INFORMATION_SCHEMA.ROUTINES WHERE ROUTINE_TYPE = 'PROCEDURE' AND ROUTINE_NAME = 'USP_I_GenerarPlanilla_Docente_Administrativo') BEGIN
 		DROP PROCEDURE [dbo].[USP_I_GenerarPlanilla_Docente_Administrativo]
+	END
+	IF EXISTS (SELECT * FROM INFORMATION_SCHEMA.ROUTINES WHERE ROUTINE_TYPE = 'PROCEDURE' AND ROUTINE_NAME = 'USP_I_RegistrarPlantillaPlanillaConcepto') BEGIN
 		DROP PROCEDURE [dbo].[USP_I_RegistrarPlantillaPlanillaConcepto]
+	END
+	IF EXISTS (SELECT * FROM INFORMATION_SCHEMA.ROUTINES WHERE ROUTINE_TYPE = 'PROCEDURE' AND ROUTINE_NAME = 'USP_U_ActualizarPlantillaPlanillaConcepto') BEGIN
+		DROP PROCEDURE [dbo].[USP_U_ActualizarPlantillaPlanillaConcepto]
 	END
 
 	DROP TYPE [dbo].[type_dataIdentifiers]
@@ -640,10 +645,10 @@ BEGIN
 
 				IF (@B_ConceptoObtenido = 1) BEGIN
 					IF (@B_ValorEsExterno = 1) BEGIN
-						SET @M_ValorConcepto = ISNULL((SELECT cmt.M_ValorConcepto FROM dbo.TI_MontoTrabajador mt 
-							INNER JOIN dbo.TI_Concepto_MontoTrabajador cmt ON cmt.I_MontoTrabajadorID = mt.I_MontoTrabajadorID 
-							WHERE mt.B_Habilitado = 1 AND mt.B_Eliminado = 0 AND cmt.B_Habilitado = 1 AND cmt.B_Eliminado = 0 AND
-								mt.I_TrabajadorID = @I_TrabajadorID AND mt.I_PeriodoID = @I_PeriodoID AND cmt.I_ConceptoID = @I_ConceptoID), 0);
+						SET @M_ValorConcepto = ISNULL((SELECT conc.M_ValorConcepto FROM dbo.TI_ConceptoExternoPeriodo per
+							INNER JOIN dbo.TI_ConceptoExternoValor conc ON conc.I_ConceptoExternoPeriodoID = per.I_ConceptoExternoPeriodoID 
+							WHERE per.B_Habilitado = 1 AND per.B_Eliminado = 0 AND conc.B_Habilitado = 1 AND conc.B_Eliminado = 0 AND
+								per.I_TrabajadorID = @I_TrabajadorID AND per.I_PeriodoID = @I_PeriodoID AND conc.I_ConceptoID = @I_ConceptoID), 0);
 					END
 
 					IF (@M_ValorConcepto IS NOT NULL AND @M_ValorConcepto > 0) BEGIN
@@ -727,10 +732,10 @@ BEGIN
 
 				IF (@B_ConceptoObtenido = 1) BEGIN
 					IF (@B_ValorEsExterno = 1) BEGIN
-						SET @M_ValorConcepto = ISNULL((SELECT cmt.M_ValorConcepto FROM dbo.TI_MontoTrabajador mt 
-							INNER JOIN dbo.TI_Concepto_MontoTrabajador cmt ON cmt.I_MontoTrabajadorID = mt.I_MontoTrabajadorID 
-							WHERE mt.B_Habilitado = 1 AND mt.B_Eliminado = 0 AND cmt.B_Habilitado = 1 AND cmt.B_Eliminado = 0 AND
-								mt.I_TrabajadorID = @I_TrabajadorID AND mt.I_PeriodoID = @I_PeriodoID AND cmt.I_ConceptoID = @I_ConceptoID), 0);
+						SET @M_ValorConcepto = ISNULL((SELECT conc.M_ValorConcepto FROM dbo.TI_ConceptoExternoPeriodo per
+							INNER JOIN dbo.TI_ConceptoExternoValor conc ON conc.I_ConceptoExternoPeriodoID = per.I_ConceptoExternoPeriodoID 
+							WHERE per.B_Habilitado = 1 AND per.B_Eliminado = 0 AND conc.B_Habilitado = 1 AND conc.B_Eliminado = 0 AND
+								per.I_TrabajadorID = @I_TrabajadorID AND per.I_PeriodoID = @I_PeriodoID AND conc.I_ConceptoID = @I_ConceptoID), 0);
 					END
 
 					IF (@M_ValorConcepto IS NOT NULL AND @M_ValorConcepto > 0) BEGIN
@@ -814,10 +819,10 @@ BEGIN
 
 				IF (@B_ConceptoObtenido = 1) BEGIN
 					IF (@B_ValorEsExterno = 1) BEGIN
-						SET @M_ValorConcepto = ISNULL((SELECT cmt.M_ValorConcepto FROM dbo.TI_MontoTrabajador mt 
-							INNER JOIN dbo.TI_Concepto_MontoTrabajador cmt ON cmt.I_MontoTrabajadorID = mt.I_MontoTrabajadorID 
-							WHERE mt.B_Habilitado = 1 AND mt.B_Eliminado = 0 AND cmt.B_Habilitado = 1 AND cmt.B_Eliminado = 0 AND
-								mt.I_TrabajadorID = @I_TrabajadorID AND mt.I_PeriodoID = @I_PeriodoID AND cmt.I_ConceptoID = @I_ConceptoID), 0);
+						SET @M_ValorConcepto = ISNULL((SELECT conc.M_ValorConcepto FROM dbo.TI_ConceptoExternoPeriodo per
+							INNER JOIN dbo.TI_ConceptoExternoValor conc ON conc.I_ConceptoExternoPeriodoID = per.I_ConceptoExternoPeriodoID 
+							WHERE per.B_Habilitado = 1 AND per.B_Eliminado = 0 AND conc.B_Habilitado = 1 AND conc.B_Eliminado = 0 AND
+								per.I_TrabajadorID = @I_TrabajadorID AND per.I_PeriodoID = @I_PeriodoID AND conc.I_ConceptoID = @I_ConceptoID), 0);
 					END
 
 					IF (@M_ValorConcepto IS NOT NULL AND @M_ValorConcepto > 0) BEGIN
@@ -901,10 +906,10 @@ BEGIN
 
 				IF (@B_ConceptoObtenido = 1) BEGIN
 					IF (@B_ValorEsExterno = 1) BEGIN
-						SET @M_ValorConcepto = ISNULL((SELECT cmt.M_ValorConcepto FROM dbo.TI_MontoTrabajador mt 
-							INNER JOIN dbo.TI_Concepto_MontoTrabajador cmt ON cmt.I_MontoTrabajadorID = mt.I_MontoTrabajadorID 
-							WHERE mt.B_Habilitado = 1 AND mt.B_Eliminado = 0 AND cmt.B_Habilitado = 1 AND cmt.B_Eliminado = 0 AND
-								mt.I_TrabajadorID = @I_TrabajadorID AND mt.I_PeriodoID = @I_PeriodoID AND cmt.I_ConceptoID = @I_ConceptoID), 0);
+						SET @M_ValorConcepto = ISNULL((SELECT conc.M_ValorConcepto FROM dbo.TI_ConceptoExternoPeriodo per
+							INNER JOIN dbo.TI_ConceptoExternoValor conc ON conc.I_ConceptoExternoPeriodoID = per.I_ConceptoExternoPeriodoID 
+							WHERE per.B_Habilitado = 1 AND per.B_Eliminado = 0 AND conc.B_Habilitado = 1 AND conc.B_Eliminado = 0 AND
+								per.I_TrabajadorID = @I_TrabajadorID AND per.I_PeriodoID = @I_PeriodoID AND conc.I_ConceptoID = @I_ConceptoID), 0);
 					END
 
 					IF (@M_ValorConcepto IS NOT NULL AND @M_ValorConcepto > 0) BEGIN

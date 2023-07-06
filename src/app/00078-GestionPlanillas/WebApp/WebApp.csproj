@@ -131,6 +131,7 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\ConceptosController.cs" />
+    <Compile Include="Controllers\ConceptosExternosController.cs" />
     <Compile Include="Controllers\GeneralController.cs" />
     <Compile Include="Controllers\PlanillasController.cs" />
     <Compile Include="Controllers\PlantillaPlanillaConceptoController.cs" />
@@ -455,6 +456,7 @@
     <Content Include="Views\PlantillaPlanillaConcepto\_MantenimientoAsignacionConcepto.cshtml" />
     <Content Include="Views\PlantillaPlanillaConcepto\_MsgRegistrarPlantillaPlanillaConcepto.cshtml" />
     <Content Include="Views\PlantillaPlanillaConcepto\_ConceptosAsignados.cshtml" />
+    <Content Include="Views\ConceptosExternos\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
