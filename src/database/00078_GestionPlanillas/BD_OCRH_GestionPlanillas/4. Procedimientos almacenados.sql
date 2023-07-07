@@ -645,8 +645,8 @@ BEGIN
 
 				IF (@B_ConceptoObtenido = 1) BEGIN
 					IF (@B_ValorEsExterno = 1) BEGIN
-						SET @M_ValorConcepto = ISNULL((SELECT conc.M_ValorConcepto FROM dbo.TI_ConceptoExternoPeriodo per
-							INNER JOIN dbo.TI_ConceptoExternoValor conc ON conc.I_ConceptoExternoPeriodoID = per.I_ConceptoExternoPeriodoID 
+						SET @M_ValorConcepto = ISNULL((SELECT conc.M_ValorConcepto FROM dbo.TI_ValorExternoPeriodo per
+							INNER JOIN dbo.TI_ValorExternoConcepto conc ON conc.I_ValorExternoPeriodoID = per.I_ValorExternoPeriodoID 
 							WHERE per.B_Habilitado = 1 AND per.B_Eliminado = 0 AND conc.B_Habilitado = 1 AND conc.B_Eliminado = 0 AND
 								per.I_TrabajadorID = @I_TrabajadorID AND per.I_PeriodoID = @I_PeriodoID AND conc.I_ConceptoID = @I_ConceptoID), 0);
 					END
@@ -732,8 +732,8 @@ BEGIN
 
 				IF (@B_ConceptoObtenido = 1) BEGIN
 					IF (@B_ValorEsExterno = 1) BEGIN
-						SET @M_ValorConcepto = ISNULL((SELECT conc.M_ValorConcepto FROM dbo.TI_ConceptoExternoPeriodo per
-							INNER JOIN dbo.TI_ConceptoExternoValor conc ON conc.I_ConceptoExternoPeriodoID = per.I_ConceptoExternoPeriodoID 
+						SET @M_ValorConcepto = ISNULL((SELECT conc.M_ValorConcepto FROM dbo.TI_ValorExternoPeriodo per
+							INNER JOIN dbo.TI_ValorExternoConcepto conc ON conc.I_ValorExternoPeriodoID = per.I_ValorExternoPeriodoID 
 							WHERE per.B_Habilitado = 1 AND per.B_Eliminado = 0 AND conc.B_Habilitado = 1 AND conc.B_Eliminado = 0 AND
 								per.I_TrabajadorID = @I_TrabajadorID AND per.I_PeriodoID = @I_PeriodoID AND conc.I_ConceptoID = @I_ConceptoID), 0);
 					END
@@ -819,8 +819,8 @@ BEGIN
 
 				IF (@B_ConceptoObtenido = 1) BEGIN
 					IF (@B_ValorEsExterno = 1) BEGIN
-						SET @M_ValorConcepto = ISNULL((SELECT conc.M_ValorConcepto FROM dbo.TI_ConceptoExternoPeriodo per
-							INNER JOIN dbo.TI_ConceptoExternoValor conc ON conc.I_ConceptoExternoPeriodoID = per.I_ConceptoExternoPeriodoID 
+						SET @M_ValorConcepto = ISNULL((SELECT conc.M_ValorConcepto FROM dbo.TI_ValorExternoPeriodo per
+							INNER JOIN dbo.TI_ValorExternoConcepto conc ON conc.I_ValorExternoPeriodoID = per.I_ValorExternoPeriodoID 
 							WHERE per.B_Habilitado = 1 AND per.B_Eliminado = 0 AND conc.B_Habilitado = 1 AND conc.B_Eliminado = 0 AND
 								per.I_TrabajadorID = @I_TrabajadorID AND per.I_PeriodoID = @I_PeriodoID AND conc.I_ConceptoID = @I_ConceptoID), 0);
 					END
@@ -906,8 +906,8 @@ BEGIN
 
 				IF (@B_ConceptoObtenido = 1) BEGIN
 					IF (@B_ValorEsExterno = 1) BEGIN
-						SET @M_ValorConcepto = ISNULL((SELECT conc.M_ValorConcepto FROM dbo.TI_ConceptoExternoPeriodo per
-							INNER JOIN dbo.TI_ConceptoExternoValor conc ON conc.I_ConceptoExternoPeriodoID = per.I_ConceptoExternoPeriodoID 
+						SET @M_ValorConcepto = ISNULL((SELECT conc.M_ValorConcepto FROM dbo.TI_ValorExternoPeriodo per
+							INNER JOIN dbo.TI_ValorExternoConcepto conc ON conc.I_ValorExternoPeriodoID = per.I_ValorExternoPeriodoID 
 							WHERE per.B_Habilitado = 1 AND per.B_Eliminado = 0 AND conc.B_Habilitado = 1 AND conc.B_Eliminado = 0 AND
 								per.I_TrabajadorID = @I_TrabajadorID AND per.I_PeriodoID = @I_PeriodoID AND conc.I_ConceptoID = @I_ConceptoID), 0);
 					END

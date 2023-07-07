@@ -2,6 +2,7 @@
 using Data.Tables;
 using Data.Views;
 using Domain.Entities;
+using ExcelDataReader;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -451,6 +452,59 @@ namespace Domain.Helpers
             };
 
             return conceptoReferenciaDTO;
+        }
+
+        public static ValorExternoConceptoDTO ExcelDataReader_To_ConceptoExternoValorDTO(IExcelDataReader reader)
+        {
+        string stringValue; int intValue; decimal decimalValue;
+
+            var dtoConceptoExternoValorDTO = new ValorExternoConceptoDTO()
+            {
+                numDocumento = reader.GetValue(3).ToString(),
+                conceptoCod = reader.GetValue(4).ToString()
+            };
+
+            if (reader.GetValue(0) != null)
+            {
+                stringValue = reader.GetValue(0).ToString();
+
+                if (int.TryParse(stringValue, out intValue))
+                    dtoConceptoExternoValorDTO.anio = intValue;
+            }
+
+            if (reader.GetValue(1) != null)
+            {
+                stringValue = reader.GetValue(1).ToString();
+
+                if (int.TryParse(stringValue, out intValue))
+                    dtoConceptoExternoValorDTO.mes = intValue;
+            }
+
+            if (reader.GetValue(2) != null)
+            {
+                stringValue = reader.GetValue(2).ToString();
+
+                if (int.TryParse(stringValue, out intValue))
+                    dtoConceptoExternoValorDTO.tipoDocumentoID = intValue;
+            }
+
+            if (reader.GetValue(5) != null)
+            {
+                stringValue = reader.GetValue(5).ToString();
+
+                if (decimal.TryParse(stringValue, out decimalValue))
+                    dtoConceptoExternoValorDTO.valorConcepto = decimalValue;
+            }
+
+            if (reader.GetValue(6) != null)
+            {
+                stringValue = reader.GetValue(6).ToString();
+
+                if (int.TryParse(stringValue, out intValue))
+                    dtoConceptoExternoValorDTO.proveedorID = intValue;
+            }
+
+            return dtoConceptoExternoValorDTO;
         }
     }
 }

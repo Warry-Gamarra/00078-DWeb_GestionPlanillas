@@ -31,8 +31,12 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="ExcelDataReader, Version=3.6.0.0, Culture=neutral, PublicKeyToken=93517dbe6a4012fa, processorArchitecture=MSIL">
+      <HintPath>..\packages\ExcelDataReader.3.6.0\lib\net45\ExcelDataReader.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.IO.Compression" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -48,6 +52,7 @@
     <Compile Include="Entities\ConceptoDTO.cs" />
     <Compile Include="Entities\ConceptoEntity.cs" />
     <Compile Include="Entities\ConceptoAsignadoPlantillaDTO.cs" />
+    <Compile Include="Entities\ValorExternoConceptoDTO.cs" />
     <Compile Include="Entities\ConceptoReferenciaDTO.cs" />
     <Compile Include="Entities\DependenciaDTO.cs" />
     <Compile Include="Entities\EstadoDTO.cs" />
@@ -86,6 +91,7 @@
     <Compile Include="Services\IDocenteService.cs" />
     <Compile Include="Services\IEstadoService.cs" />
     <Compile Include="Services\IHorasDocenteService.cs" />
+    <Compile Include="Services\ILecturaArchivoService.cs" />
     <Compile Include="Services\Implementations\AdministrativoService.cs" />
     <Compile Include="Services\Implementations\AfpService.cs" />
     <Compile Include="Services\Implementations\BancoService.cs" />
@@ -97,6 +103,7 @@
     <Compile Include="Services\Implementations\EstadoService.cs" />
     <Compile Include="Services\Implementations\GrupoOcupacionalService.cs" />
     <Compile Include="Services\Implementations\HorasDocenteService.cs" />
+    <Compile Include="Services\Implementations\LecturaArchivoExcelService.cs" />
     <Compile Include="Services\Implementations\NivelRemunerativoService.cs" />
     <Compile Include="Services\Implementations\PeriodoService.cs" />
     <Compile Include="Services\Implementations\PersonaService.cs" />
@@ -126,6 +133,9 @@
       <Project>{169ff18f-f96f-4293-b79b-1637e0c8effc}</Project>
       <Name>Data</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

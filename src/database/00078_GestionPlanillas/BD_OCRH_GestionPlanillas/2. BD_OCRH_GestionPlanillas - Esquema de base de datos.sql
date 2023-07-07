@@ -617,9 +617,9 @@ CREATE TABLE TC_Administrativo
 	CONSTRAINT FK_NivelRemunerativo_Administrativo FOREIGN KEY (I_NivelRemunerativoID) REFERENCES TC_NivelRemunerativo(I_NivelRemunerativoID)
 )
 
-CREATE TABLE TI_ConceptoExternoPeriodo
+CREATE TABLE TI_ValorExternoPeriodo
 (
-	I_ConceptoExternoPeriodoID INT IDENTITY(1,1),
+	I_ValorExternoPeriodoID INT IDENTITY(1,1),
 	I_TrabajadorID INT NOT NULL,
 	I_PeriodoID INT NOT NULL,
 	B_Habilitado BIT NOT NULL,
@@ -628,9 +628,9 @@ CREATE TABLE TI_ConceptoExternoPeriodo
 	D_FecCre DATETIME,
 	I_UsuarioMod INT,
 	D_FecMod DATETIME,
-	CONSTRAINT PK_ConceptoExternoPeriodo PRIMARY KEY (I_ConceptoExternoPeriodoID),
-	CONSTRAINT FK_Trabajador_ConceptoExternoPeriodo FOREIGN KEY (I_TrabajadorID) REFERENCES TC_Trabajador(I_TrabajadorID),
-	CONSTRAINT FK_Periodo_ConceptoExternoPeriodo FOREIGN KEY (I_PeriodoID) REFERENCES TR_Periodo(I_PeriodoID)
+	CONSTRAINT PK_ValorExternoPeriodo PRIMARY KEY (I_ValorExternoPeriodoID),
+	CONSTRAINT FK_Trabajador_ValorExternoPeriodo FOREIGN KEY (I_TrabajadorID) REFERENCES TC_Trabajador(I_TrabajadorID),
+	CONSTRAINT FK_Periodo_ValorExternoPeriodo FOREIGN KEY (I_PeriodoID) REFERENCES TR_Periodo(I_PeriodoID)
 )
 
 CREATE TABLE TC_Proveedor
@@ -646,10 +646,10 @@ CREATE TABLE TC_Proveedor
 	CONSTRAINT PK_Proveedor PRIMARY KEY (I_ProveedorID)
 )
 
-CREATE TABLE TI_ConceptoExternoValor
+CREATE TABLE TI_ValorExternoConcepto
 (
 	I_ConceptoExternoValorID INT IDENTITY(1,1),
-	I_ConceptoExternoPeriodoID INT,
+	I_ValorExternoPeriodoID INT,
 	I_ConceptoID INT NOT NULL,
 	M_ValorConcepto DECIMAL(15,2) NOT NULL,
 	I_ProveedorID INT NOT NULL,
@@ -659,10 +659,10 @@ CREATE TABLE TI_ConceptoExternoValor
 	D_FecCre DATETIME,
 	I_UsuarioMod INT,
 	D_FecMod DATETIME,
-	CONSTRAINT PK_ConceptoExternoValor PRIMARY KEY (I_ConceptoExternoValorID),
-	CONSTRAINT FK_ConceptoExternoPeriodo_ConceptoExternoValor FOREIGN KEY (I_ConceptoExternoPeriodoID) REFERENCES TI_ConceptoExternoPeriodo(I_ConceptoExternoPeriodoID),
-	CONSTRAINT FK_Concepto_ConceptoExternoValor FOREIGN KEY (I_ConceptoID) REFERENCES TC_Concepto(I_ConceptoID),
-	CONSTRAINT FK_Proveedor_ConceptoExternoValor FOREIGN KEY (I_ProveedorID) REFERENCES TC_Proveedor(I_ProveedorID)
+	CONSTRAINT PK_ValorExternoConcepto PRIMARY KEY (I_ConceptoExternoValorID),
+	CONSTRAINT FK_ValorExternoPeriodo_ValorExternoConcepto FOREIGN KEY (I_ValorExternoPeriodoID) REFERENCES TI_ValorExternoPeriodo(I_ValorExternoPeriodoID),
+	CONSTRAINT FK_Concepto_ValorExternoConcepto FOREIGN KEY (I_ConceptoID) REFERENCES TC_Concepto(I_ConceptoID),
+	CONSTRAINT FK_Proveedor_ValorExternoConcepto FOREIGN KEY (I_ProveedorID) REFERENCES TC_Proveedor(I_ProveedorID)
 )
 
 CREATE TABLE TI_AsistenciaTrabajador

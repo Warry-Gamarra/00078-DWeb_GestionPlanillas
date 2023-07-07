@@ -4,11 +4,20 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using WebApp.ServiceFacade;
+using WebApp.ServiceFacade.Implementations;
 
 namespace WebApp.Controllers
 {
     public class ConceptosExternosController : Controller
     {
+        ILecturaArchivo _lecturaArchivo;
+
+        public ConceptosExternosController()
+        {
+            _lecturaArchivo = new LecturaArchivo();
+        }
+
         [HttpGet]
         public ActionResult Index()
         {
@@ -19,11 +28,11 @@ namespace WebApp.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public JsonResult ObtenerInformacionArchivo()
+        public JsonResult ObtenerInformacionArchivo(HttpPostedFileBase inputFile)
         {
             var result = new AjaxResponse();
 
-            result.data = null;
+            result.data = _lecturaArchivo.ObtenerListaValoresDeConceptos(inputFile);
 
             return Json(result, JsonRequestBehavior.AllowGet);
         }
