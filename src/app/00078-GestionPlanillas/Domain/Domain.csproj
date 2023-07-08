@@ -35,6 +35,7 @@
       <HintPath>..\packages\ExcelDataReader.3.6.0\lib\net45\ExcelDataReader.dll</HintPath>
     </Reference>
     <Reference Include="System" />
+    <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
     <Reference Include="System.IO.Compression" />
     <Reference Include="System.Xml.Linq" />
@@ -80,6 +81,7 @@
     <Compile Include="Helpers\AjaxResponse.cs" />
     <Compile Include="Helpers\Mapper.cs" />
     <Compile Include="Helpers\Response.cs" />
+    <Compile Include="Helpers\WebConfigParams.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Services\ICategoriaDocenteService.cs" />
     <Compile Include="Services\ICategoriaPlanillaService.cs" />

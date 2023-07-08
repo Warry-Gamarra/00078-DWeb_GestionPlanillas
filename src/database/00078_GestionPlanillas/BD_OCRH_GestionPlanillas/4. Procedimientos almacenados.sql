@@ -1432,3 +1432,96 @@ BEGIN
 	END CATCH
 END
 GO
+
+
+
+IF EXISTS (SELECT * FROM INFORMATION_SCHEMA.DOMAINS WHERE DOMAIN_NAME = 'type_dataValorExterno') BEGIN
+	IF EXISTS (SELECT * FROM INFORMATION_SCHEMA.ROUTINES WHERE ROUTINE_TYPE = 'PROCEDURE' AND ROUTINE_NAME = 'USP_IU_GrabarValorExterno') BEGIN
+		DROP PROCEDURE [dbo].[USP_IU_GrabarValorExterno]
+	END
+
+	DROP TYPE [dbo].[type_dataValorExterno]
+END
+GO
+
+CREATE TYPE [dbo].[type_dataValorExterno] AS TABLE(
+	I_ID INT IDENTITY(1,1) NOT NULL,
+	I_TrabajadorID INT NOT NULL,
+	I_PeriodoID INT NOT NULL,
+	I_ConceptoID INT NOT NULL,
+	M_ValorConcepto DECIMAL(15,2) NOT NULL,
+	I_ProveedorID INT NOT NULL
+)
+GO
+
+IF EXISTS (SELECT * FROM INFORMATION_SCHEMA.ROUTINES WHERE ROUTINE_TYPE = 'PROCEDURE' AND ROUTINE_NAME = 'USP_IU_GrabarValorExterno')
+	DROP PROCEDURE [dbo].[USP_IU_GrabarValorExterno]
+GO
+
+CREATE PROCEDURE [dbo].[USP_IU_GrabarValorExterno]
+@Tbl_ValorExterno [dbo].[type_dataValorExterno] READONLY,
+@I_UserID INT,
+@B_Result BIT OUTPUT,
+@T_Message VARCHAR(250) OUTPUT
+AS
+BEGIN
+	SET NOCOUNT ON;
+
+	DECLARE @I_Indicador INT,
+			@I_CantRegistros INT,
+			@I_TrabajadorID INT,
+			@I_PeriodoID INT,
+			@I_ConceptoID INT,
+			@M_ValorConcepto DECIMAL(15,2),
+			@I_ProveedorID INT,
+			@D_FecActual DATETIME,
+			@I_ValorExternoPeriodoID INT
+
+	SET @I_Indicador = 1;
+
+	SET @I_CantRegistros = (SELECT COUNT(*) FROM @Tbl_ValorExterno);
+
+	SET @D_FecActual = GETDATE();
+
+	BEGIN TRAN
+	BEGIN TRY
+		WHILE (@I_Indicador <= @I_CantRegistros) BEGIN
+
+			SELECT @I_TrabajadorID = I_TrabajadorID,
+					@I_PeriodoID = I_PeriodoID,
+					@I_ConceptoID = I_ConceptoID,
+					@M_ValorConcepto = M_ValorConcepto,
+					@I_ProveedorID = I_ProveedorID
+			FROM @Tbl_ValorExterno
+			WHERE I_ID = @I_Indicador
+
+			IF NOT EXISTS(SELECT I_ValorExternoPeriodoID FROM dbo.TI_ValorExternoPeriodo WHERE I_TrabajadorID = @I_TrabajadorID AND I_PeriodoID = @I_PeriodoID AND B_Eliminado = 0)
+			BEGIN
+				INSERT dbo.TI_ValorExternoPeriodo(I_TrabajadorID, I_PeriodoID, B_Habilitado, B_Eliminado, I_UsuarioCre, D_FecCre)
+				VALUES(@I_TrabajadorID, @I_PeriodoID, 1, 0, @I_UserID, @D_FecActual);
+
+				SET @I_ValorExternoPeriodoID = SCOPE_IDENTITY();
+			END
+			ELSE
+			BEGIN
+				SET @I_ValorExternoPeriodoID = (SELECT I_ValorExternoPeriodoID FROM dbo.TI_ValorExternoPeriodo 
+					WHERE I_TrabajadorID = @I_TrabajadorID AND I_PeriodoID = @I_PeriodoID AND B_Eliminado = 0);
+			END
+
+			INSERT dbo.TI_ValorExternoConcepto(I_ValorExternoPeriodoID, I_ConceptoID, M_ValorConcepto, I_ProveedorID, B_Habilitado, B_Eliminado, I_UsuarioCre, D_FecCre)
+			VALUES(@I_ValorExternoPeriodoID, @I_ConceptoID, @M_ValorConcepto, @I_ProveedorID, 1, 0, @I_UserID, @D_FecActual);
+
+			SET @I_Indicador = @I_Indicador + 1
+		END
+
+		COMMIT TRAN
+		SET @B_Result = 1
+		SET @T_Message = 'Grabación correcta.'
+	END TRY
+	BEGIN CATCH
+		ROLLBACK TRAN
+		SET @B_Result = 0
+		SET @T_Message = ERROR_MESSAGE()
+	END CATCH
+END
+GO

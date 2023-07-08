@@ -9,11 +9,11 @@ using WebApp.ServiceFacade.Implementations;
 
 namespace WebApp.Controllers
 {
-    public class ConceptosExternosController : Controller
+    public class ValoresExternosController : Controller
     {
         ILecturaArchivo _lecturaArchivo;
 
-        public ConceptosExternosController()
+        public ValoresExternosController()
         {
             _lecturaArchivo = new LecturaArchivo();
         }
@@ -32,14 +32,28 @@ namespace WebApp.Controllers
         {
             var result = new AjaxResponse();
 
-            result.data = _lecturaArchivo.ObtenerListaValoresDeConceptos(inputFile);
+            try
+            {
+                if (inputFile == null)
+                {
+                    throw new NullReferenceException("Debe seleccionar un archivo.");
+                }
 
+                result.data = _lecturaArchivo.ObtenerListaValoresDeConceptos(inputFile);
+
+                result.success = true;
+            }
+            catch (Exception ex)
+            {
+                result.message = ex.Message;
+            }
+            
             return Json(result, JsonRequestBehavior.AllowGet);
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public JsonResult CargarArchivo()
+        public JsonResult GuardarInformacion(string fileName)
         {
             var result = new AjaxResponse();
 

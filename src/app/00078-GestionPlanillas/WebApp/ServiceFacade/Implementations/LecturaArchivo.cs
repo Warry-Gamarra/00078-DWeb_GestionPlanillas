@@ -1,4 +1,5 @@
 ﻿using Domain.Entities;
+using Domain.Helpers;
 using Domain.Services;
 using Domain.Services.Implementations;
 using System;
@@ -12,48 +13,48 @@ namespace WebApp.ServiceFacade.Implementations
 {
     public class LecturaArchivo : ILecturaArchivo
     {
-        public List<ValorExternoConceptoDTO> ObtenerListaValoresDeConceptos(HttpPostedFileBase file)
+        public Tuple<string, List<ValorExternoConceptoDTO>> ObtenerListaValoresDeConceptos(HttpPostedFileBase file)
         {
             string serverPath;
-            string filePath;
+            string newFileName;
             ILecturaArchivoService lecturaArchivoService;
             List<ValorExternoConceptoDTO> lista;
 
             try
             {
-                serverPath = ConfigurationManager.AppSettings["DirectorioArchivosExternos"];
+                serverPath = WebConfigParams.DirectorioArchivosExternos;
 
-                filePath = GuardarArchivo(serverPath, file);
+                newFileName = GuardarArchivo(serverPath, file);
 
-                lecturaArchivoService = Get(Path.GetExtension(filePath));
+                lecturaArchivoService = GetService(Path.GetExtension(Path.Combine(serverPath, newFileName)));
 
-                lista = lecturaArchivoService.ObtenerListaValoresDeConceptos(filePath);
+                lista = lecturaArchivoService.ObtenerListaValoresDeConceptos(Path.Combine(serverPath, newFileName));
             }
             catch (Exception ex)
             {
                 throw ex;
             }
 
-            return lista;
+            return new Tuple<string, List<ValorExternoConceptoDTO>>(newFileName, lista);
         }
 
         private string GuardarArchivo(string serverPath, HttpPostedFileBase file)
         {
-            if (!Directory.Exists(serverPath))
+            if (serverPath == null || !Directory.Exists(serverPath))
             {
                 throw new DirectoryNotFoundException("No existe el directorio para almacenar el archivo.");
             }
 
-            string fileName = Guid.NewGuid() + "_" + Path.GetFileName(file.FileName);
+            string newFileName = Guid.NewGuid() + "_" + Path.GetFileName(file.FileName);
 
-            string filePath = Path.Combine(serverPath, fileName);
+            string filePath = Path.Combine(serverPath, newFileName);
 
             file.SaveAs(filePath);
 
-            return filePath;
+            return newFileName;
         }
 
-        private ILecturaArchivoService Get(string extension)
+        private ILecturaArchivoService GetService(string extension)
         {
             ILecturaArchivoService _lecturaArchivoService;
 

@@ -10,6 +10,6 @@ namespace WebApp.ServiceFacade
 {
     public interface ILecturaArchivo
     {
-        List<ValorExternoConceptoDTO> ObtenerListaValoresDeConceptos(HttpPostedFileBase file);
+        Tuple<string, List<ValorExternoConceptoDTO>> ObtenerListaValoresDeConceptos(HttpPostedFileBase file);
     }
 }
