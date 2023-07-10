@@ -53,6 +53,8 @@
     <Compile Include="Entities\ConceptoDTO.cs" />
     <Compile Include="Entities\ConceptoEntity.cs" />
     <Compile Include="Entities\ConceptoAsignadoPlantillaDTO.cs" />
+    <Compile Include="Entities\ProveedorDTO.cs" />
+    <Compile Include="Entities\ValorConceptoEntity.cs" />
     <Compile Include="Entities\ValorExternoConceptoDTO.cs" />
     <Compile Include="Entities\ConceptoReferenciaDTO.cs" />
     <Compile Include="Entities\DependenciaDTO.cs" />
@@ -112,9 +114,11 @@
     <Compile Include="Services\Implementations\PlanillaService.cs" />
     <Compile Include="Services\Implementations\PlantillaPlanillaConceptoService.cs" />
     <Compile Include="Services\Implementations\PlantillaPlanillaService.cs" />
+    <Compile Include="Services\Implementations\ProveedorService.cs" />
     <Compile Include="Services\Implementations\RegimenService.cs" />
     <Compile Include="Services\Implementations\TipoConceptoService.cs" />
     <Compile Include="Services\Implementations\TipoDocumentoService.cs" />
+    <Compile Include="Services\Implementations\ValorExternoConceptoService.cs" />
     <Compile Include="Services\Implementations\VinculoService.cs" />
     <Compile Include="Services\IBancoService.cs" />
     <Compile Include="Services\INivelRemunerativoService.cs" />
@@ -122,12 +126,14 @@
     <Compile Include="Services\IPersonaService.cs" />
     <Compile Include="Services\IPlantillaPlanillaConceptoService.cs" />
     <Compile Include="Services\IPlantillaPlanillaService.cs" />
+    <Compile Include="Services\IProveedorService.cs" />
     <Compile Include="Services\IRegimenService.cs" />
     <Compile Include="Services\ITipoConceptoService.cs" />
     <Compile Include="Services\ITipoDocumentoService.cs" />
     <Compile Include="Services\ITrabajadorService.cs" />
     <Compile Include="Services\Implementations\TrabajadorService.cs" />
     <Compile Include="Services\IPlanillaService.cs" />
+    <Compile Include="Services\IValorExternoConceptoService.cs" />
     <Compile Include="Services\IVinculoService.cs" />
   </ItemGroup>
   <ItemGroup>

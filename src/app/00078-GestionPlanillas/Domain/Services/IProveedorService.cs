@@ -1,5 +1,4 @@
 ﻿using Domain.Entities;
-using Domain.Helpers;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,8 +7,8 @@ using System.Threading.Tasks;
 
 namespace Domain.Services
 {
-    public interface ILecturaArchivoService
+    public interface IProveedorService
     {
-        List<ValorExternoConceptoDTO> ObtenerListaValoresDeConceptos(string filePath);
+        List<ProveedorDTO> ListarProveedores(bool incluirDeshabilitados = false);
     }
 }

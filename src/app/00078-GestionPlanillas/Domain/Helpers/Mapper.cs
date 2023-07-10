@@ -506,5 +506,18 @@ namespace Domain.Helpers
 
             return dtoConceptoExternoValorDTO;
         }
+
+        public static ProveedorDTO TC_Proveedor_To_ProveedorDTO(
+            TC_Proveedor table)
+        {
+            var proveedorDTO = new ProveedorDTO()
+            {
+                proveedorID = table.I_ProveedorID,
+                proveedorDesc = table.T_ProveedorDesc,
+                estaHabilitado = table.B_Habilitado
+            };
+
+            return proveedorDTO;
+        }
     }
 }

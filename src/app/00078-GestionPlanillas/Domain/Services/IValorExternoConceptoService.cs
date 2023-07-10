@@ -8,8 +8,8 @@ using System.Threading.Tasks;
 
 namespace Domain.Services
 {
-    public interface ILecturaArchivoService
+    public interface IValorExternoConceptoService
     {
-        List<ValorExternoConceptoDTO> ObtenerListaValoresDeConceptos(string filePath);
+        Response GrabarValoresExternos(List<ValorConceptoEntity> valores, int userID);
     }
 }

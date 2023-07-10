@@ -47,6 +47,7 @@
   <ItemGroup>
     <Compile Include="Connection\Database.cs" />
     <Compile Include="Connection\Result.cs" />
+    <Compile Include="Procedures\USP_IU_GrabarValorExterno.cs" />
     <Compile Include="Procedures\USP_I_RegistrarPlantillaPlanillaConcepto.cs" />
     <Compile Include="Procedures\USP_I_RegistrarPlantillaPlanilla.cs" />
     <Compile Include="Procedures\USP_U_ActualizarPlantillaPlanillaConcepto.cs" />
@@ -72,6 +73,7 @@
     <Compile Include="Tables\TC_HorasDocente.cs" />
     <Compile Include="Tables\TC_NivelRemunerativo.cs" />
     <Compile Include="Tables\TC_Persona.cs" />
+    <Compile Include="Tables\TC_Proveedor.cs" />
     <Compile Include="Tables\TC_Regimen.cs" />
     <Compile Include="Tables\TC_TipoConcepto.cs" />
     <Compile Include="Tables\TC_TipoDocumento.cs" />

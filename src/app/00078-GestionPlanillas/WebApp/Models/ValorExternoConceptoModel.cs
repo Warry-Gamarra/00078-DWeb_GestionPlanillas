@@ -28,5 +28,7 @@ namespace WebApp.Models
         public decimal? valorConcepto { get; set; }
 
         public int? proveedorID { get; set; }
+
+        public string proveedorDesc { get; set; }
     }
 }

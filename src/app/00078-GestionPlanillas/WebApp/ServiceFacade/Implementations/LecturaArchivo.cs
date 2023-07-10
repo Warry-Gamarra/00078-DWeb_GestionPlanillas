@@ -18,6 +18,7 @@ namespace WebApp.ServiceFacade.Implementations
         private ITipoDocumentoService _tipoDocumentoService;
         private IPersonaService _personaService;
         private IConceptoService _conceptoService;
+        private IProveedorService _proveedorService;
 
         public LecturaArchivo()
         {
@@ -25,6 +26,7 @@ namespace WebApp.ServiceFacade.Implementations
             _tipoDocumentoService = new TipoDocumentoService();
             _personaService = new PersonaService();
             _conceptoService = new ConceptoService();
+            _proveedorService = new ProveedorService();
         }
 
         public Tuple<string, List<ValorExternoConceptoModel>> ObtenerListaValoresDeConceptos(HttpPostedFileBase file)
@@ -49,6 +51,8 @@ namespace WebApp.ServiceFacade.Implementations
 
                 var listaConceptos = _conceptoService.ListarConceptos();
 
+                var listaProveedores = _proveedorService.ListarProveedores();
+
                 result = lista.Select(x => new ValorExternoConceptoModel() {
                     anio = x.anio,
                     mes = x.mes,
@@ -60,7 +64,8 @@ namespace WebApp.ServiceFacade.Implementations
                     conceptoCod = x.conceptoCod,
                     conceptoDesc = listaConceptos.Where(y => y.conceptoCod == y.conceptoCod).FirstOrDefault().conceptoDesc,
                     valorConcepto = x.valorConcepto,
-                    proveedorID = x.proveedorID
+                    proveedorID = x.proveedorID,
+                    proveedorDesc = listaProveedores.Where(y => y.proveedorID == x.proveedorID).FirstOrDefault().proveedorDesc
                 }).ToList();
             }
             catch (Exception ex)
