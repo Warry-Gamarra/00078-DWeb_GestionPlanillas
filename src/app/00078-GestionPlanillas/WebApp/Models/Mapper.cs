@@ -256,5 +256,34 @@ namespace WebApp.Models
 
             return model;
         }
+
+        public static MesModel MesDTO_To_MesModel(MesDTO dto)
+        {
+            var model = new MesModel()
+            {
+                mesID = dto.I_Mes,
+                mesDesc = dto.T_MesDesc
+            };
+
+            return model;
+        }
+
+        public static PersonaModel PersonaDTO_To_PersonaModel(PersonaDTO dto)
+        {
+            var model = new PersonaModel()
+            {
+                personaID = dto.personaID,
+                tipoDocumentoID = dto.tipoDocumentoID,
+                numDocumento = dto.numDocumento,
+                nombre = dto.nombre,
+                apellidoPaterno = dto.apellidoPaterno,
+                apellidoMaterno = dto.apellidoMaterno,
+                fecNac = dto.fecNac,
+                cui = dto.cui,
+                estaHabilitado = dto.estaHabilitado
+            };
+
+            return model;
+        }
     }
 }

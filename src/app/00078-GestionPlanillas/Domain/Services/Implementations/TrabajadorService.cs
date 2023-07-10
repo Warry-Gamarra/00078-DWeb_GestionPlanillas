@@ -1,5 +1,6 @@
 ﻿using Data.Connection;
 using Data.Procedures;
+using Data.Tables;
 using Data.Views;
 using Domain.Entities;
 using Domain.Enums;
@@ -15,13 +16,6 @@ namespace Domain.Services.Implementations
 {
     public class TrabajadorService : ITrabajadorService
     {
-        IPersonaService _personaService;
-
-        public TrabajadorService()
-        {
-            _personaService = new PersonaService();
-        }
-
         public List<TrabajadorDTO> ListarTrabajadores()
         {
             var lista = VW_Trabajadores.FindAll()
@@ -60,7 +54,7 @@ namespace Domain.Services.Implementations
                 {
                     case Operacion.Registrar:
 
-                        if (_personaService.ObtenerPersona(trabajadorEntity.I_TipoDocumentoID, trabajadorEntity.C_NumDocumento) != null)
+                        if (TC_Persona.FindByNumDocumento(trabajadorEntity.I_TipoDocumentoID, trabajadorEntity.C_NumDocumento) != null)
                         {
                             nroDocumentoUnico = false;
                         }
@@ -110,7 +104,7 @@ namespace Domain.Services.Implementations
                             throw new Exception("Ha ocurrido un error al obtener los datos. Por favor recargue la página y vuelva a intentarlo.");
                         }
 
-                        var personaDTO = _personaService.ObtenerPersona(trabajadorEntity.I_TipoDocumentoID, trabajadorEntity.C_NumDocumento);
+                        var personaDTO = TC_Persona.FindByNumDocumento(trabajadorEntity.I_TipoDocumentoID, trabajadorEntity.C_NumDocumento);
 
                         if (personaDTO != null && personaDTO.I_PersonaID != trabajadorEntity.I_PersonaID)
                         {

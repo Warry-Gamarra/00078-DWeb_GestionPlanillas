@@ -66,7 +66,9 @@
                             <th>mes</th>
                             <th>tipoDocumentoID</th>
                             <th>numDocumento</th>
+                            <th>nombres completos</th>
                             <th>conceptoCod</th>
+                            <th>conceptoDesc</th>
                             <th>valorConcepto</th>
                             <th>proveedorID</th>
                         </tr>
@@ -77,7 +79,9 @@
                             <th>mes</th>
                             <th>tipoDocumentoID</th>
                             <th>numDocumento</th>
+                            <th>nombres completos</th>
                             <th>conceptoCod</th>
+                            <th>conceptoDesc</th>
                             <th>valorConcepto</th>
                             <th>proveedorID</th>
                         </tr>
@@ -93,7 +97,7 @@
         $(document).ready(function () {
             generarDatatableValoresExternos([]);
 
-            $("#input_file").fileinput({
+            $("#inputFile").fileinput({
                 showCaption: true,
                 dropZoneEnabled: false,
                 language: 'es',
@@ -168,9 +172,25 @@
                     { data: 'mes' },
                     { data: 'tipoDocumentoID' },
                     { data: 'numDocumento' },
+                    { data: 'datosPersona' },
                     { data: 'conceptoCod' },
+                    { data: 'conceptoDesc' },
                     { data: 'valorConcepto' },
                     { data: 'proveedorID' }
+                ],
+                columnDefs: [
+                    {
+                        targets: 1,
+                        render: function (data, type, row) {
+                            return row.mesDesc + ' (' + row.mes + ')';
+                        }
+                    },
+                    {
+                        targets: 2,
+                        render: function (data, type, row) {
+                            return row.tipoDocumentoDesc + ' (' + row.tipoDocumentoID + ')';
+                        }
+                    }
                 ],
                 bDestroy: true,
                 lengthMenu: [[10, 25, 50, -1], [10, 25, 50, "Todas"]],

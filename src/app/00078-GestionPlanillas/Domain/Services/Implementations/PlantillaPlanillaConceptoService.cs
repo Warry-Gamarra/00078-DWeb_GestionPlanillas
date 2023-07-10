@@ -259,15 +259,6 @@ namespace Domain.Services.Implementations
                 return new Tuple<bool, string>(correcto, mensaje);
             }
 
-            if (!plantillaPlanillaConcepto.valorEsExterno && !plantillaPlanillaConcepto.esValorFijo && 
-                (plantillaPlanillaConcepto.valorConcepto.Value <= 0 || plantillaPlanillaConcepto.valorConcepto.Value > 100))
-            {
-                correcto = false;
-                mensaje = "El valor del porcentaje debe estar entre 0 y 100.";
-
-                return new Tuple<bool, string>(correcto, mensaje);
-            }
-
             if (plantillaPlanillaConcepto.aplicarFiltro1 && !plantillaPlanillaConcepto.filtro1.HasValue)
             {
                 correcto = false;
@@ -311,8 +302,17 @@ namespace Domain.Services.Implementations
                         correcto = false;
                         mensaje = "Actualmente el concepto \"" + conceptosTipoValorDiferente.First().conceptoDesc + "\" solo admite valores " +
                             (plantillaPlanillaConcepto.esValorFijo ? "porcentuales." : "fijos.");
+
+                        break;
                     }
-                    
+
+                    if (!plantillaPlanillaConcepto.valorEsExterno && !plantillaPlanillaConcepto.esValorFijo &&
+                        (plantillaPlanillaConcepto.valorConcepto.Value <= 0 || plantillaPlanillaConcepto.valorConcepto.Value > 100))
+                    {
+                        correcto = false;
+                        mensaje = "El valor del porcentaje debe estar entre 0 y 100.";
+                    }
+
                     break;
 
                 case Operacion.Actualizar:
@@ -350,6 +350,15 @@ namespace Domain.Services.Implementations
                         correcto = false;
                         mensaje = "Actualmente el concepto \"" + conceptosTipoValorDiferente2.First().conceptoDesc + "\" solo admite valores " +
                             (plantillaPlanillaConcepto.esValorFijo ? "porcentuales." : "fijos.");
+
+                        break;
+                    }
+
+                    if (!plantillaPlanillaConcepto.valorEsExterno && !plantillaPlanillaConcepto.esValorFijo &&
+                        (plantillaPlanillaConcepto.valorConcepto.Value <= 0 || plantillaPlanillaConcepto.valorConcepto.Value > 100))
+                    {
+                        correcto = false;
+                        mensaje = "El valor del porcentaje debe estar entre 0 y 100.";
                     }
 
                     break;

@@ -12,6 +12,7 @@ namespace WebApp.ServiceFacade.Implementations
     public class NivelRemunerativoServiceFacade : INivelRemunerativoServiceFacade
     {
         private INivelRemunerativoService _nivelRemunerativoService;
+        
         public NivelRemunerativoServiceFacade()
         {
             _nivelRemunerativoService = new NivelRemunerativoService();

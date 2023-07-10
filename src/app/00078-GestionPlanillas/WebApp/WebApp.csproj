@@ -147,11 +147,14 @@
     <Compile Include="Models\ConceptoReferenciaModel.cs" />
     <Compile Include="Models\DocenteModel.cs" />
     <Compile Include="Models\Mapper.cs" />
+    <Compile Include="Models\MesModel.cs" />
+    <Compile Include="Models\PersonaModel.cs" />
     <Compile Include="Models\PlantillaPlanillaModel.cs" />
     <Compile Include="Models\ResumenPlanillaTrabajadorModel.cs" />
     <Compile Include="Models\TrabajadorCategoriaPlanillaModel.cs" />
     <Compile Include="Models\TrabajadorModel.cs" />
     <Compile Include="Models\UsersModel.cs" />
+    <Compile Include="Models\ValorExternoConceptoModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ServiceFacade\IAdministrativoServiceFacade.cs" />
     <Compile Include="ServiceFacade\IAfpServiceFacade.cs" />
@@ -179,6 +182,7 @@
     <Compile Include="ServiceFacade\Implementations\LecturaArchivo.cs" />
     <Compile Include="ServiceFacade\Implementations\NivelRemunerativoServiceFacade.cs" />
     <Compile Include="ServiceFacade\Implementations\PeriodoServiceFacade.cs" />
+    <Compile Include="ServiceFacade\Implementations\PersonaServiceFacade.cs" />
     <Compile Include="ServiceFacade\Implementations\PlanillaServiceFacade.cs" />
     <Compile Include="ServiceFacade\Implementations\PlantillaPlanillaConceptoServiceFacade.cs" />
     <Compile Include="ServiceFacade\Implementations\PlantillaPlanillaServiceFacade.cs" />
@@ -189,6 +193,7 @@
     <Compile Include="ServiceFacade\Implementations\VinculoServiceFacade.cs" />
     <Compile Include="ServiceFacade\INivelRemunerativoServiceFacade.cs" />
     <Compile Include="ServiceFacade\IPeriodoServiceFacade.cs" />
+    <Compile Include="ServiceFacade\IPersonaServiceFacade.cs" />
     <Compile Include="ServiceFacade\IPlanillaServiceFacade.cs" />
     <Compile Include="ServiceFacade\IPlantillaPlanillaConceptoServiceFacade.cs" />
     <Compile Include="ServiceFacade\IPlantillaPlanillaServiceFacade.cs" />

@@ -11,11 +11,11 @@ namespace Domain.Services.Implementations
 {
     public class PersonaService : IPersonaService
     {
-        public PersonaDTO ObtenerPersona(int I_TipoDocumentoID, string C_NumDocumento)
+        public PersonaDTO ObtenerPersona(int tipoDocumentoID, string numDocumento)
         {
             PersonaDTO personaDTO;
 
-            var table = TC_Persona.FindByNumDocumento(I_TipoDocumentoID, C_NumDocumento);
+            var table = TC_Persona.FindByNumDocumento(tipoDocumentoID, numDocumento);
 
             if (table == null)
             {

@@ -297,15 +297,15 @@ namespace Domain.Helpers
         {
             var personaDTO = new PersonaDTO()
             {
-                I_PersonaID = table.I_PersonaID,
-                I_TipoDocumentoID = table.I_TipoDocumentoID,
-                C_NumDocumento = table.C_NumDocumento,
-                T_Nombre = table.T_Nombre,
-                T_ApellidoPaterno = table.T_ApellidoPaterno,
-                T_ApellidoMaterno = table.T_ApellidoMaterno,
-                D_FecNac = table.D_FecNac,
-                C_Cui = table.C_Cui,
-                B_Habilitado = table.B_Habilitado
+                personaID = table.I_PersonaID,
+                tipoDocumentoID = table.I_TipoDocumentoID,
+                numDocumento = table.C_NumDocumento,
+                nombre = table.T_Nombre,
+                apellidoPaterno = table.T_ApellidoPaterno,
+                apellidoMaterno = table.T_ApellidoMaterno,
+                fecNac = table.D_FecNac,
+                cui = table.C_Cui,
+                estaHabilitado = table.B_Habilitado
             };
 
             return personaDTO;

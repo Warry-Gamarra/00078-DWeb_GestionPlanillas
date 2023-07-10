@@ -9,6 +9,6 @@ namespace Domain.Services
 {
     public interface IPersonaService
     {
-        PersonaDTO ObtenerPersona(int I_TipoDocumentoID, string C_NumDocumento);
+        PersonaDTO ObtenerPersona(int tipoDocumentoID, string numDocumento);
     }
 }
