@@ -1445,7 +1445,7 @@ END
 GO
 
 CREATE TYPE [dbo].[type_dataValorExterno] AS TABLE(
-	I_ID INT IDENTITY(1,1) NOT NULL,
+	I_ID INT NOT NULL,
 	I_TrabajadorID INT NOT NULL,
 	I_PeriodoID INT NOT NULL,
 	I_ConceptoID INT NOT NULL,

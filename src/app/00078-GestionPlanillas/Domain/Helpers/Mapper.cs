@@ -519,5 +519,18 @@ namespace Domain.Helpers
 
             return proveedorDTO;
         }
+
+        public static PeriodoDTO TR_Periodo_To_PeriodoDTO(TR_Periodo table)
+        {
+            var periodoDTO = new PeriodoDTO()
+            {
+                periodoID = table.I_PeriodoID,
+                anio = table.I_Anio,
+                mes = table.I_Mes,
+                mesDesc = table.T_MesDesc
+            };
+
+            return periodoDTO;
+        }
     }
 }

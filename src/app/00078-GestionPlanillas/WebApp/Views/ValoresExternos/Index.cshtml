@@ -154,6 +154,12 @@
                     beforeSend: function () {
                     },
                     success: function (result) {
+                        if (result.success) {
+                            generarDatatableValoresExternos([]);
+                            toastr.success(result.message);
+                        } else {
+                            toastr.error(result.message);
+                        }
                     },
                     error: function (jqXHR, textStatus, errorThrown) {
                         toastr.error(errorThrown);

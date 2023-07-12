@@ -24,7 +24,7 @@ namespace Data.Procedures
 
             try
             {
-                string s_command = "USP_I_GenerarPlanilla_Docente_Administrativo";
+                string s_command = "USP_IU_GrabarValorExterno";
 
                 using (var _dbConnection = new SqlConnection(Database.ConnectionString))
                 {

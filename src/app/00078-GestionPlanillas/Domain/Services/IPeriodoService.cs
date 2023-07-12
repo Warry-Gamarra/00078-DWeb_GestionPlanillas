@@ -12,5 +12,7 @@ namespace Domain.Services
         List<int> ListarAños();
 
         List<MesDTO> ListarMeses(int I_Anio);
+
+        PeriodoDTO ObtenerPeriodo(int anio, int mes);
     }
 }

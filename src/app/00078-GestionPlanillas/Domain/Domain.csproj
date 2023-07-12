@@ -53,6 +53,7 @@
     <Compile Include="Entities\ConceptoDTO.cs" />
     <Compile Include="Entities\ConceptoEntity.cs" />
     <Compile Include="Entities\ConceptoAsignadoPlantillaDTO.cs" />
+    <Compile Include="Entities\PeriodoDTO.cs" />
     <Compile Include="Entities\ProveedorDTO.cs" />
     <Compile Include="Entities\ValorConceptoEntity.cs" />
     <Compile Include="Entities\ValorExternoConceptoDTO.cs" />

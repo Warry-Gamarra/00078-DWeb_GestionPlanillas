@@ -10,6 +10,8 @@ namespace WebApp.ServiceFacade
 {
     public interface IValorExternoConceptoServiceFacade
     {
+        Tuple<string, List<ValorExternoConceptoModel>> ObtenerListaValoresDeConceptos(HttpPostedFileBase file);
+
         Response GrabarValoresExternos(string fileName, int userID);
     }
 }

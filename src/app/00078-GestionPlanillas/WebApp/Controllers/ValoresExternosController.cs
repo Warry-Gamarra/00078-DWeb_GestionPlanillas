@@ -12,12 +12,10 @@ namespace WebApp.Controllers
 {
     public class ValoresExternosController : Controller
     {
-        ILecturaArchivo _lecturaArchivo;
         IValorExternoConceptoServiceFacade _valorExternoConceptoServiceFacade;
 
         public ValoresExternosController()
         {
-            _lecturaArchivo = new LecturaArchivo();
             _valorExternoConceptoServiceFacade = new ValorExternoConceptoServiceFacade();
         }
 
@@ -42,7 +40,7 @@ namespace WebApp.Controllers
                     throw new NullReferenceException("Debe seleccionar un archivo.");
                 }
 
-                result.data = _lecturaArchivo.ObtenerListaValoresDeConceptos(inputFile);
+                result.data = _valorExternoConceptoServiceFacade.ObtenerListaValoresDeConceptos(inputFile);
 
                 result.success = true;
             }

@@ -10,23 +10,29 @@ using System.Threading.Tasks;
 
 namespace Domain.Services.Implementations
 {
-    public class ValorExternoConceptoService
+    public class ValorExternoConceptoService : IValorExternoConceptoService
     {
         public Response GrabarValoresExternos(List<ValorConceptoEntity> valores, int userID)
         {
             DataTable dataTable = new DataTable();
+            dataTable.Columns.Add("I_ID");
             dataTable.Columns.Add("I_TrabajadorID");
             dataTable.Columns.Add("I_PeriodoID");
             dataTable.Columns.Add("I_ConceptoID");
             dataTable.Columns.Add("M_ValorConcepto");
             dataTable.Columns.Add("I_ProveedorID");
 
+            int id = 1;
+
             valores.ForEach(x => {
-                dataTable.Rows.Add(x.trabajadorID);
-                dataTable.Rows.Add(x.periodoID);
-                dataTable.Rows.Add(x.conceptoID);
-                dataTable.Rows.Add(x.valorConcepto);
-                dataTable.Rows.Add(x.proveedorID);
+                dataTable.Rows.Add(
+                    id,
+                    x.trabajadorID,
+                    x.periodoID,
+                    x.conceptoID,
+                    x.valorConcepto,
+                    x.proveedorID);
+                id++;
             });
 
             var grabarValorExterno = new USP_IU_GrabarValorExterno()

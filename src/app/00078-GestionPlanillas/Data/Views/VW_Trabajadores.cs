@@ -108,5 +108,27 @@ namespace Data.Views
 
             return result;
         }
+
+        public static VW_Trabajadores FindByDocIdentidad(int I_TipoDocumentoID, string C_NumDocumento)
+        {
+            VW_Trabajadores result;
+
+            try
+            {
+                string s_command = "SELECT * FROM dbo.VW_Trabajadores WHERE I_TipoDocumentoID = @I_TipoDocumentoID AND C_NumDocumento = @C_NumDocumento;";
+
+                using (var _dbConnection = new SqlConnection(Database.ConnectionString))
+                {
+                    result = _dbConnection.QuerySingle<VW_Trabajadores>(s_command, 
+                        new { I_TipoDocumentoID = I_TipoDocumentoID, C_NumDocumento = C_NumDocumento }, commandType: System.Data.CommandType.Text);
+                }
+            }
+            catch (Exception)
+            {
+                result = null;
+            }
+
+            return result;
+        }
     }
 }

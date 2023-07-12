@@ -60,5 +60,27 @@ namespace Data.Tables
 
             return result;
         }
+
+        public static TR_Periodo GetByYearAndMonth(int I_Anio, int I_Mes)
+        {
+            TR_Periodo result;
+
+            try
+            {
+                string s_command = "SELECT * FROM dbo.TR_Periodo WHERE I_Anio = @I_Anio AND I_Mes = @I_Mes;";
+
+                using (var _dbConnection = new SqlConnection(Database.ConnectionString))
+                {
+                    result = _dbConnection.QuerySingle<TR_Periodo>(s_command, 
+                        new { I_Anio = I_Anio, I_Mes = I_Mes }, commandType: System.Data.CommandType.Text);
+                }
+            }
+            catch (Exception)
+            {
+                result = null;
+            }
+
+            return result;
+        }
     }
 }
