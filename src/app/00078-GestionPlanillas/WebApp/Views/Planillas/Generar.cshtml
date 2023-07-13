@@ -61,14 +61,14 @@
                    @Html.Grid(Model).Columns(columns =>
                    {
                        columns.Add().Titled("-").Encoded(false).Sanitized(false)
-                        .RenderValueAs(model => "<input type=\"checkbox\" name=\"chkTrabajador\" value=\"" + model.I_TrabajadorID + "\"" + (model.B_Checked ? "checked" : "") + " onclick=\"deshabilitarTrabajador(this);\" /> ");
-                       columns.Add(c => c.T_CategoriaPlanillaDesc).Titled("Planilla").Css("text-left");
-                       columns.Add(c => c.T_VinculoDesc).Titled("Vínculo").Css("text-left").Filterable(true);
-                       columns.Add(c => c.C_TrabajadorCod).Titled("Cod.Per.").Css("text-left").Filterable(true);
-                       columns.Add(c => c.T_TipoDocumentoDesc).Titled("Tip.Doc.").Css("text-left").Filterable(true);
-                       columns.Add(c => c.C_NumDocumento).Titled("Num.Doc.").Css("text-center").Filterable(true);
-                       columns.Add(c => c.T_ApellidosNombre).Titled("Apellidos y Nombres").Css("text-left").Filterable(true);
-                       columns.Add(c => c.T_EstadoDesc).Titled("Estado").Css("text-left").Filterable(true);    
+                        .RenderValueAs(model => "<input type=\"checkbox\" name=\"chkTrabajador\" value=\"" + model.trabajadorID + "\"" + (model.seleccionado ? "checked" : "") + " onclick=\"deshabilitarTrabajador(this);\" /> ");
+                       columns.Add(c => c.categoriaPlanillaDesc).Titled("Planilla").Css("text-left");
+                       columns.Add(c => c.vinculoDesc).Titled("Vínculo").Css("text-left").Filterable(true);
+                       columns.Add(c => c.trabajadorCod).Titled("Cod.Per.").Css("text-left").Filterable(true);
+                       columns.Add(c => c.tipoDocumentoDesc).Titled("Tip.Doc.").Css("text-left").Filterable(true);
+                       columns.Add(c => c.numDocumento).Titled("Num.Doc.").Css("text-center").Filterable(true);
+                       columns.Add(c => c.apellidosNombre).Titled("Apellidos y Nombres").Css("text-left").Filterable(true);
+                       columns.Add(c => c.estadoDesc).Titled("Estado").Css("text-left").Filterable(true);    
                    }).WithPaging(15).Sortable(true).WithGridItemsCount("Registros encontrados").EmptyText("No se encontraron registros")
                 </div>
             </div>
@@ -111,9 +111,9 @@
 
     $(document).on("click", "#btnGenerar", function () {
         let parametros = {
-            I_Anio: $('#frmBusquedaTrabajador #anio').val(),
-            I_Mes: $('#frmBusquedaTrabajador #mes').val(),
-            I_CategoriaPlanillaID: $('#frmBusquedaTrabajador #idCategoria').val(),
+            anio: $('#frmBusquedaTrabajador #anio').val(),
+            mes: $('#frmBusquedaTrabajador #mes').val(),
+            categoriaPlanillaID: $('#frmBusquedaTrabajador #idCategoria').val(),
             __RequestVerificationToken: $('#frmBusquedaTrabajador input[name="__RequestVerificationToken"]').val()
         };
 

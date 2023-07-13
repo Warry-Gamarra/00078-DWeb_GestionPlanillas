@@ -17,41 +17,41 @@
     }))
     {
         @Html.AntiForgeryToken()
-        @Html.HiddenFor(model => model.I_TrabajadorID)
-        @Html.HiddenFor(model => model.I_PersonaID)
+        @Html.HiddenFor(model => model.trabajadorID)
+        @Html.HiddenFor(model => model.personaID)
         <div class="form-row">
             <div class="col-2">
                 <div class="form-group">
-                    @Html.LabelFor(model => model.I_TipoDocumentoID, new { @class = "control-label" })
-                    @Html.DropDownListFor(model => model.I_TipoDocumentoID, ViewBag.ListaTipoDocumentos as SelectList, null, new { @class = "form-control text-uppercase" })
+                    @Html.LabelFor(model => model.tipoDocumentoID, new { @class = "control-label" })
+                    @Html.DropDownListFor(model => model.tipoDocumentoID, ViewBag.ListaTipoDocumentos as SelectList, null, new { @class = "form-control text-uppercase" })
                 </div>
             </div>
             <div class="col-3">
                 <div class="form-group">
-                    <label class="control-label" for="C_NumDocumento">&nbsp;</label>
-                    @Html.TextBoxFor(model => model.C_NumDocumento, new { @class = "form-control", @placeholder = "Num.Documento" })
-                    @Html.ValidationMessageFor(model => model.C_NumDocumento, null, new { @class = "text-danger" })
+                    <label class="control-label" for="numDocumento">&nbsp;</label>
+                    @Html.TextBoxFor(model => model.numDocumento, new { @class = "form-control", @placeholder = "Num.Documento" })
+                    @Html.ValidationMessageFor(model => model.numDocumento, null, new { @class = "text-danger" })
                 </div>
             </div>
             <div class="col-2">
                 <div class="form-group">
-                    @Html.LabelFor(model => model.T_ApellidoPaterno, new { @class = "control-label" })
-                    @Html.TextBoxFor(model => model.T_ApellidoPaterno, new { @class = "form-control" })
-                    @Html.ValidationMessageFor(model => model.T_ApellidoPaterno, null, new { @class = "text-danger" })
+                    @Html.LabelFor(model => model.apellidoPaterno, new { @class = "control-label" })
+                    @Html.TextBoxFor(model => model.apellidoPaterno, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(model => model.apellidoPaterno, null, new { @class = "text-danger" })
                 </div>
             </div>
             <div class="col-2">
                 <div class="form-group">
-                    @Html.LabelFor(model => model.T_ApellidoMaterno, new { @class = "control-label" })
-                    @Html.TextBoxFor(model => model.T_ApellidoMaterno, new { @class = "form-control" })
-                    @Html.ValidationMessageFor(model => model.T_ApellidoMaterno, null, new { @class = "text-danger" })
+                    @Html.LabelFor(model => model.apellidoMaterno, new { @class = "control-label" })
+                    @Html.TextBoxFor(model => model.apellidoMaterno, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(model => model.apellidoMaterno, null, new { @class = "text-danger" })
                 </div>
             </div>
             <div class="col-3">
                 <div class="form-group">
-                    @Html.LabelFor(model => model.T_Nombre, new { @class = "control-label" })
-                    @Html.TextBoxFor(model => model.T_Nombre, new { @class = "form-control" })
-                    @Html.ValidationMessageFor(model => model.T_Nombre, null, new { @class = "text-danger" })
+                    @Html.LabelFor(model => model.nombre, new { @class = "control-label" })
+                    @Html.TextBoxFor(model => model.nombre, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(model => model.nombre, null, new { @class = "text-danger" })
                 </div>
             </div>
         </div>
@@ -59,45 +59,45 @@
         <div class="form-row">
             <div class="col-2">
                 <div class="form-group">
-                    @Html.LabelFor(model => model.C_TrabajadorCod, new { @class = "control-label" })
-                    @Html.TextBoxFor(model => model.C_TrabajadorCod, new { @class = "form-control" })
-                    @Html.ValidationMessageFor(model => model.C_TrabajadorCod, null, new { @class = "text-danger" })
+                    @Html.LabelFor(model => model.trabajadorCod, new { @class = "control-label" })
+                    @Html.TextBoxFor(model => model.trabajadorCod, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(model => model.trabajadorCod, null, new { @class = "text-danger" })
                 </div>
             </div>
             <div class="col-4">
                 <div class="form-group">
-                    @Html.LabelFor(model => model.I_VinculoID, new { @class = "control-label" })
-                    @Html.DropDownListFor(model => model.I_VinculoID, ViewBag.ListaVinculos as SelectList, null, new { @class = "form-control text-uppercase" })
+                    @Html.LabelFor(model => model.vinculoID, new { @class = "control-label" })
+                    @Html.DropDownListFor(model => model.vinculoID, ViewBag.ListaVinculos as SelectList, null, new { @class = "form-control text-uppercase" })
                 </div>
             </div>
             <div class="col-2 administrativo">
                 <div class="form-group">
-                    @Html.LabelFor(model => model.I_GrupoOcupacionalID, new { @class = "control-label" })
-                    @Html.DropDownListFor(model => model.I_GrupoOcupacionalID, ViewBag.GruposOcupacionales as SelectList, new { @class = "form-control text-uppercase" })
+                    @Html.LabelFor(model => model.grupoOcupacionalID, new { @class = "control-label" })
+                    @Html.DropDownListFor(model => model.grupoOcupacionalID, ViewBag.GruposOcupacionales as SelectList, new { @class = "form-control text-uppercase" })
                 </div>
             </div>
             <div class="col-2 administrativo">
                 <div class="form-group">
-                    @Html.LabelFor(model => model.I_NivelRemunerativoID, new { @class = "control-label" })
-                    @Html.DropDownListFor(model => model.I_NivelRemunerativoID, ViewBag.NivelesRemunerativos as SelectList, new { @class = "form-control text-uppercase" })
+                    @Html.LabelFor(model => model.nivelRemunerativoID, new { @class = "control-label" })
+                    @Html.DropDownListFor(model => model.nivelRemunerativoID, ViewBag.NivelesRemunerativos as SelectList, new { @class = "form-control text-uppercase" })
                 </div>
             </div>
             <div class="col-2 docente">
                 <div class="form-group">
-                    @Html.LabelFor(model => model.I_CategoriaDocenteID, new { @class = "control-label" })
-                    @Html.DropDownListFor(model => model.I_CategoriaDocenteID, ViewBag.CategoriasDocente as SelectList, new { @class = "form-control text-uppercase" })
+                    @Html.LabelFor(model => model.categoriaDocenteID, new { @class = "control-label" })
+                    @Html.DropDownListFor(model => model.categoriaDocenteID, ViewBag.CategoriasDocente as SelectList, new { @class = "form-control text-uppercase" })
                 </div>
             </div>
             <div class="col-2 docente">
                 <div class="form-group">
-                    @Html.LabelFor(model => model.I_HorasDocenteID, new { @class = "control-label" })
-                    @Html.DropDownListFor(model => model.I_HorasDocenteID, ViewBag.HorasDocente as SelectList, new { @class = "form-control text-uppercase" })
+                    @Html.LabelFor(model => model.horasDocenteID, new { @class = "control-label" })
+                    @Html.DropDownListFor(model => model.horasDocenteID, ViewBag.HorasDocente as SelectList, new { @class = "form-control text-uppercase" })
                 </div>
             </div>
             <div class="col-2">
                 <div class="form-group">
-                    @Html.LabelFor(model => model.I_EstadoID, new { @class = "control-label" })
-                    @Html.DropDownListFor(model => model.I_EstadoID, ViewBag.ListaEstados as SelectList, null, new { @class = "form-control text-uppercase" })
+                    @Html.LabelFor(model => model.estadoID, new { @class = "control-label" })
+                    @Html.DropDownListFor(model => model.estadoID, ViewBag.ListaEstados as SelectList, null, new { @class = "form-control text-uppercase" })
                 </div>
             </div>
         </div>
@@ -105,9 +105,9 @@
         <div class="form-row">
             <div class="col-3">
                 <div class="form-group">
-                    @Html.LabelFor(model => model.D_FechaIngreso, new { @class = "control-label" })
+                    @Html.LabelFor(model => model.fechaIngreso, new { @class = "control-label" })
                     <div class="input-group date">
-                        @Html.TextBoxFor(model => model.D_FechaIngreso, "{0:dd/MM/yyyy}", new { @class = "form-control", @readonly = "readonly" })
+                        @Html.TextBoxFor(model => model.fechaIngreso, "{0:dd/MM/yyyy}", new { @class = "form-control", @readonly = "readonly" })
                         <div class="input-group-append">
                             <span class="input-group-text"><i class="fa fa-calendar-o"></i></span>
                         </div>
@@ -116,16 +116,16 @@
             </div>
             <div class="col-3">
                 <div class="form-group">
-                    @Html.LabelFor(model => model.I_BancoID, new { @class = "control-label" })
-                    @Html.DropDownListFor(model => model.I_BancoID, ViewBag.ListaBancos as SelectList, "[ SELECCIONAR ]", new { @class = "form-control text-uppercase" })
-                    @Html.ValidationMessageFor(model => model.I_BancoID, null, new { @class = "text-danger" })
+                    @Html.LabelFor(model => model.bancoID, new { @class = "control-label" })
+                    @Html.DropDownListFor(model => model.bancoID, ViewBag.ListaBancos as SelectList, "[ SELECCIONAR ]", new { @class = "form-control text-uppercase" })
+                    @Html.ValidationMessageFor(model => model.bancoID, null, new { @class = "text-danger" })
                 </div>
             </div>
             <div class="col-3">
                 <div class="form-group">
-                    <label class="control-label" for="T_NroCuentaBancaria">&nbsp;</label>
-                    @Html.TextBoxFor(model => model.T_NroCuentaBancaria, new { @class = "form-control", @placeholder = "Num.Cuenta" })
-                    @Html.ValidationMessageFor(model => model.T_NroCuentaBancaria, null, new { @class = "text-danger" })
+                    <label class="control-label" for="nroCuentaBancaria">&nbsp;</label>
+                    @Html.TextBoxFor(model => model.nroCuentaBancaria, new { @class = "form-control", @placeholder = "Num.Cuenta" })
+                    @Html.ValidationMessageFor(model => model.nroCuentaBancaria, null, new { @class = "text-danger" })
                 </div>
             </div>
             <div class="col-3">
@@ -139,10 +139,10 @@
         <div class="form-row">
             <div class="col-12">
                 <div class="mb-3 row">
-                    @Html.LabelFor(model => model.I_DependenciaID, new { @class = "col-sm-2 control-label" })
+                    @Html.LabelFor(model => model.dependenciaID, new { @class = "col-sm-2 control-label" })
                     <div class="col-sm-10">
-                        @Html.DropDownListFor(model => model.I_DependenciaID, ViewBag.ListaDependencias as SelectList, "[ SELECCIONAR ]", new { @class = "form-control text-uppercase select-filter-modal" })
-                        @Html.ValidationMessageFor(model => model.I_DependenciaID, null, new { @class = "text-danger" })
+                        @Html.DropDownListFor(model => model.dependenciaID, ViewBag.ListaDependencias as SelectList, "[ SELECCIONAR ]", new { @class = "form-control text-uppercase select-filter-modal" })
+                        @Html.ValidationMessageFor(model => model.dependenciaID, null, new { @class = "text-danger" })
                     </div>
                 </div>
             </div>
@@ -151,20 +151,20 @@
         <div class="form-row">
             <div class="col-3">
                 <div class="form-group">
-                    @Html.LabelFor(model => model.I_RegimenID, new { @class = "control-label" })
-                    @Html.DropDownListFor(model => model.I_RegimenID, ViewBag.ListaRegimenes as SelectList, null, new { @class = "form-control text-uppercase" })
+                    @Html.LabelFor(model => model.regimenID, new { @class = "control-label" })
+                    @Html.DropDownListFor(model => model.regimenID, ViewBag.ListaRegimenes as SelectList, null, new { @class = "form-control text-uppercase" })
                 </div>
             </div>
             <div class="col-3">
                 <div class="form-group">
-                    @Html.LabelFor(model => model.I_AfpID, new { @class = "control-label" })
-                    @Html.DropDownListFor(model => model.I_AfpID, ViewBag.ListaAfps as SelectList, "[ SELECCIONAR ]", new { @class = "form-control text-uppercase" })
+                    @Html.LabelFor(model => model.afpID, new { @class = "control-label" })
+                    @Html.DropDownListFor(model => model.afpID, ViewBag.ListaAfps as SelectList, "[ SELECCIONAR ]", new { @class = "form-control text-uppercase" })
                 </div>
             </div>
             <div class="col-3">
                 <div class="form-group">
-                    @Html.LabelFor(model => model.T_Cuspp, new { @class = "control-label" })
-                    @Html.TextBoxFor(model => model.T_Cuspp, new { @class = "form-control" })
+                    @Html.LabelFor(model => model.cuspp, new { @class = "control-label" })
+                    @Html.TextBoxFor(model => model.cuspp, new { @class = "form-control" })
                 </div>
             </div>
             <div class="col-3">
@@ -215,17 +215,17 @@
             e.stopPropagation();
         });
 
-        mostrarFiltroSegunVinculo(parseInt($('.modal-body #I_VinculoID').val()));
+        mostrarFiltroSegunVinculo(parseInt($('.modal-body #vinculoID').val()));
 
-        habilitarAfp(parseInt($('.modal-body #I_RegimenID').val()));
+        habilitarAfp(parseInt($('.modal-body #regimenID').val()));
 
-        $(".modal-body").on("change", "#I_VinculoID", function () {
+        $(".modal-body").on("change", "#vinculoID", function () {
             let vinculoID = parseInt(this.value);
 
             mostrarFiltroSegunVinculo(vinculoID);
         });
 
-        $(".modal-body").on("change", "#I_RegimenID", function () {
+        $(".modal-body").on("change", "#regimenID", function () {
             let regimenID = parseInt(this.value);
 
             habilitarAfp(regimenID);
@@ -253,11 +253,11 @@
 
     function habilitarAfp(regimenID) {
         if (regimenID === REGIMEN.AFP) {
-            $('.modal-body #I_AfpID').prop("disabled", "");
-            $('.modal-body #T_Cuspp').prop("disabled", "");
+            $('.modal-body #afpID').prop("disabled", "");
+            $('.modal-body #cuspp').prop("disabled", "");
         } else {
-            $('.modal-body #I_AfpID').prop("disabled", "disabled");
-            $('.modal-body #T_Cuspp').prop("disabled", "disabled");
+            $('.modal-body #afpID').prop("disabled", "disabled");
+            $('.modal-body #cuspp').prop("disabled", "disabled");
         }
     }
 </script>

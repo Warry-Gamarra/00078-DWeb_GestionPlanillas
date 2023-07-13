@@ -23,7 +23,7 @@ namespace Domain.Services.Implementations
             return lista;
         }
 
-        public Response GenerarPlanilla(List<int> trabajadores, int I_Anio, int I_Mes, int I_CategoriaPlanillaID, int userID)
+        public Response GenerarPlanilla(List<int> trabajadores, int anio, int mes, int categoriaPlanillaID, int userID)
         {
             DataTable dataTable = new DataTable();
             dataTable.Columns.Add("I_TrabajadorID");
@@ -35,9 +35,9 @@ namespace Domain.Services.Implementations
             var generarPlanilla = new USP_I_GenerarPlanilla_Docente_Administrativo()
             {
                 Tbl_Trabajador = dataTable,
-                I_Anio = I_Anio,
-                I_Mes = I_Mes,
-                I_CategoriaPlanillaID = I_CategoriaPlanillaID,
+                I_Anio = anio,
+                I_Mes = mes,
+                I_CategoriaPlanillaID = categoriaPlanillaID,
                 I_UserID = userID
             };
 

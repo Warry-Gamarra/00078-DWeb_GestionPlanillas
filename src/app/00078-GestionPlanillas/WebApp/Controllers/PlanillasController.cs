@@ -121,9 +121,9 @@ namespace WebApp.Controllers
                 var lista = (List<TrabajadorCategoriaPlanillaModel>)Session["lista"];
 
                 lista.ForEach(x => {
-                    if (x.I_TrabajadorID == id)
+                    if (x.trabajadorID == id)
                     {
-                        x.B_Checked = isChecked;
+                        x.seleccionado = isChecked;
                     }
                 });
 
@@ -149,7 +149,7 @@ namespace WebApp.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Generar(int I_Anio, int I_Mes, int I_CategoriaPlanillaID)
+        public ActionResult Generar(int anio, int mes, int categoriaPlanillaID)
         {
             Response response ;
 
@@ -165,7 +165,7 @@ namespace WebApp.Controllers
                 var lista = (List<TrabajadorCategoriaPlanillaModel>)Session["lista"];
 
                 response = _planillaServiceFacade.GenerarPlanilla(
-                    lista.Where(x => x.B_Checked).Select(x => x.I_TrabajadorID).ToList(), I_Anio, I_Mes, I_CategoriaPlanillaID, WebSecurity.CurrentUserId);
+                    lista.Where(x => x.seleccionado).Select(x => x.trabajadorID).ToList(), anio, mes, categoriaPlanillaID, WebSecurity.CurrentUserId);
             }
             catch (Exception ex)
             {

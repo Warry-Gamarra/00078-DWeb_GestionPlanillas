@@ -13,6 +13,6 @@ namespace Domain.Services
     {
         List<ResumenPlanillaTrabajadorDTO> ListarResumenPlanillaTrabajadores();
 
-        Response GenerarPlanilla(List<int> trabajadores, int I_Anio, int I_Mes, int I_CategoriaPlanillaID, int userID);
+        Response GenerarPlanilla(List<int> trabajadores, int anio, int mes, int categoriaPlanillaID, int userID);
     }
 }

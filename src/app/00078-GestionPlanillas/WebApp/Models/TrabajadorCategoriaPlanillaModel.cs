@@ -7,46 +7,46 @@ namespace WebApp.Models
 {
     public class TrabajadorCategoriaPlanillaModel
     {
-        public int I_TrabajadorID { get; set; }
+        public int trabajadorID { get; set; }
 
-        public string C_TrabajadorCod { get; set; }
+        public string trabajadorCod { get; set; }
 
-        public int I_PersonaID { get; set; }
+        public int personaID { get; set; }
 
-        public string T_Nombre { get; set; }
+        public string nombre { get; set; }
 
-        public string T_ApellidoPaterno { get; set; }
+        public string apellidoPaterno { get; set; }
 
-        public string T_ApellidoMaterno { get; set; }
+        public string apellidoMaterno { get; set; }
 
-        public string T_ApellidosNombre
+        public string apellidosNombre
         {
             get
             {
-                return String.Format("{0} {1}, {2}", T_ApellidoPaterno, T_ApellidoMaterno, T_Nombre);
+                return String.Format("{0} {1}, {2}", apellidoPaterno, apellidoMaterno, nombre);
             }
         }
 
-        public int I_TipoDocumentoID { get; set; }
+        public int tipoDocumentoID { get; set; }
 
-        public string T_TipoDocumentoDesc { get; set; }
+        public string tipoDocumentoDesc { get; set; }
 
-        public string C_NumDocumento { get; set; }
+        public string numDocumento { get; set; }
 
-        public int I_EstadoID { get; set; }
+        public int estadoID { get; set; }
 
-        public string T_EstadoDesc { get; set; }
+        public string estadoDesc { get; set; }
 
-        public int I_VinculoID { get; set; }
+        public int vinculoID { get; set; }
 
-        public string T_VinculoDesc { get; set; }
+        public string vinculoDesc { get; set; }
 
-        public int I_TrabajadorCategoriaPlanillaID { get; set; }
+        public int trabajadorCategoriaPlanillaID { get; set; }
 
-        public int I_CategoriaPlanillaID { get; set; }
+        public int categoriaPlanillaID { get; set; }
 
-        public string T_CategoriaPlanillaDesc { get; set; }
+        public string categoriaPlanillaDesc { get; set; }
 
-        public bool B_Checked { get; set; }
+        public bool seleccionado { get; set; }
     }
 }

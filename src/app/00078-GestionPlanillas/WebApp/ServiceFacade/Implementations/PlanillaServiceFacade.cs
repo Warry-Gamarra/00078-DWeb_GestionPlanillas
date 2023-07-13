@@ -31,13 +31,13 @@ namespace WebApp.ServiceFacade.Implementations
             return lista;
         }
 
-        public Response GenerarPlanilla(List<int> trabajadores, int I_Anio, int I_Mes, int I_CategoriaPlanillaID, int userID)
+        public Response GenerarPlanilla(List<int> trabajadores, int anio, int mes, int categoriaPlanillaID, int userID)
         {
             Response response;
 
             try
             {
-                response = _planillaService.GenerarPlanilla(trabajadores, I_Anio, I_Mes, I_CategoriaPlanillaID, userID);
+                response = _planillaService.GenerarPlanilla(trabajadores, anio, mes, categoriaPlanillaID, userID);
             }
             catch (Exception ex)
             {

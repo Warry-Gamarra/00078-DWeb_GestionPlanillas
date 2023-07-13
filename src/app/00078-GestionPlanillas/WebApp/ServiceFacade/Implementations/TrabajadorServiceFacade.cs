@@ -54,26 +54,26 @@ namespace WebApp.ServiceFacade.Implementations
                 {
                     var administrativo = _administrativoService.ListarAdministrativoPorTrabajadorID(I_TrabajadorID).First();
 
-                    trabajadorModel.I_NivelRemunerativoID = administrativo.I_NivelRemunerativoID;
+                    trabajadorModel.nivelRemunerativoID = administrativo.nivelRemunerativoID;
 
-                    trabajadorModel.T_NivelRemunerativoDesc = administrativo.T_NivelRemunerativoDesc;
+                    trabajadorModel.nivelRemunerativoDesc = administrativo.nivelRemunerativoDesc;
 
-                    trabajadorModel.I_GrupoOcupacionalID = administrativo.I_GrupoOcupacionalID;
+                    trabajadorModel.grupoOcupacionalID = administrativo.grupoOcupacionalID;
 
-                    trabajadorModel.T_GrupoOcupacionalDesc = administrativo.T_GrupoOcupacionalDesc;
+                    trabajadorModel.grupoOcupacionalDesc = administrativo.grupoOcupacionalDesc;
                 }
 
                 if (trabajadorModel.Vinculo.Equals(Vinculo.DocentePermanente))
                 {
                     var docente = _docenteService.ListarDocentePorTrabajadorID(I_TrabajadorID).First();
 
-                    trabajadorModel.I_CategoriaDocenteID = docente.I_CategoriaDocenteID;
+                    trabajadorModel.categoriaDocenteID = docente.categoriaDocenteID;
 
-                    trabajadorModel.T_CategoriaDocenteDesc = docente.T_CategoriaDocenteDesc;
+                    trabajadorModel.categoriaDocenteDesc = docente.categoriaDocenteDesc;
 
-                    trabajadorModel.I_HorasDocenteID = docente.I_HorasDocenteID;
+                    trabajadorModel.horasDocenteID = docente.horasDocenteID;
 
-                    trabajadorModel.I_Horas = String.Format("{0} / {1}", docente.C_DedicacionDocenteCod, docente.I_Horas);
+                    trabajadorModel.horas = String.Format("{0} / {1}", docente.dedicacionDocenteCod, docente.horas);
                 }
             }
 
@@ -88,27 +88,27 @@ namespace WebApp.ServiceFacade.Implementations
             {
                 var trabajadorEntity = new TrabajadorEntity()
                 {
-                    I_TrabajadorID = model.I_TrabajadorID,
-                    I_PersonaID = model.I_PersonaID,
-                    C_TrabajadorCod = model.C_TrabajadorCod,
-                    T_ApellidoPaterno = model.T_ApellidoPaterno,
-                    T_ApellidoMaterno = model.T_ApellidoMaterno,
-                    T_Nombre = model.T_Nombre,
-                    I_TipoDocumentoID = model.I_TipoDocumentoID,
-                    C_NumDocumento = model.C_NumDocumento,
-                    D_FechaIngreso = model.D_FechaIngreso,
-                    I_RegimenID = model.I_RegimenID.Value,
-                    I_EstadoID = model.I_EstadoID,
-                    I_VinculoID = model.I_VinculoID,
-                    I_BancoID = model.I_BancoID,
-                    T_NroCuentaBancaria = model.T_NroCuentaBancaria,
-                    I_DependenciaID = model.I_DependenciaID,
-                    I_Afp = model.I_AfpID,
-                    T_Cuspp = model.T_Cuspp,
-                    I_CategoriaDocenteID = model.I_CategoriaDocenteID,
-                    I_HorasDocenteID = model.I_HorasDocenteID,
-                    I_GrupoOcupacionalID = model.I_GrupoOcupacionalID,
-                    I_NivelRemunerativoID = model.I_NivelRemunerativoID
+                    I_TrabajadorID = model.trabajadorID,
+                    I_PersonaID = model.personaID,
+                    C_TrabajadorCod = model.trabajadorCod,
+                    T_ApellidoPaterno = model.apellidoPaterno,
+                    T_ApellidoMaterno = model.apellidoMaterno,
+                    T_Nombre = model.nombre,
+                    I_TipoDocumentoID = model.tipoDocumentoID,
+                    C_NumDocumento = model.numDocumento,
+                    D_FechaIngreso = model.fechaIngreso,
+                    I_RegimenID = model.regimenID.Value,
+                    I_EstadoID = model.estadoID,
+                    I_VinculoID = model.vinculoID,
+                    I_BancoID = model.bancoID,
+                    T_NroCuentaBancaria = model.nroCuentaBancaria,
+                    I_DependenciaID = model.dependenciaID,
+                    I_Afp = model.afpID,
+                    T_Cuspp = model.cuspp,
+                    I_CategoriaDocenteID = model.categoriaDocenteID,
+                    I_HorasDocenteID = model.horasDocenteID,
+                    I_GrupoOcupacionalID = model.grupoOcupacionalID,
+                    I_NivelRemunerativoID = model.nivelRemunerativoID
                 };
 
                 response = _trabajadorService.GrabarTrabajador(operacion, trabajadorEntity, userID);

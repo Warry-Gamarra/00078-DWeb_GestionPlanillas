@@ -8,62 +8,62 @@ namespace WebApp.Models
 {
     public class AdministrativoModel
     {
-        public int I_TrabajadorID { get; set; }
+        public int trabajadorID { get; set; }
 
-        public string C_TrabajadorCod { get; set; }
+        public string trabajadorCod { get; set; }
 
-        public string T_Nombre { get; set; }
+        public string nombre { get; set; }
 
-        public string T_ApellidoPaterno { get; set; }
+        public string apellidoPaterno { get; set; }
 
-        public string T_ApellidoMaterno { get; set; }
+        public string apellidoMaterno { get; set; }
 
-        public string T_ApellidosNombre
+        public string apellidosNombre
         {
-            get { return String.Format("{0} {1}, {2}", T_ApellidoPaterno, T_ApellidoMaterno, T_Nombre); }
+            get { return String.Format("{0} {1}, {2}", apellidoPaterno, apellidoMaterno, nombre); }
         }
 
-        public int I_TipoDocumentoID { get; set; }
+        public int tipoDocumentoID { get; set; }
 
-        public string T_TipoDocumentoDesc { get; set; }
+        public string tipoDocumentoDesc { get; set; }
 
-        public string C_NumDocumento { get; set; }
+        public string numDocumento { get; set; }
 
-        public DateTime? D_FechaIngreso { get; set; }
+        public DateTime? fechaIngreso { get; set; }
 
-        public string T_FechaIngreso
+        public string fechaIngresoFormat
         {
             get
             {
-                return D_FechaIngreso.HasValue ? D_FechaIngreso.Value.ToString("dd/MM/yyyy") : "";
+                return fechaIngreso.HasValue ? fechaIngreso.Value.ToString("dd/MM/yyyy") : "";
             }
 
         }
 
-        public int? I_RegimenID { get; set; }
+        public int? regimenID { get; set; }
 
-        public string T_RegimenDesc { get; set; }
+        public string regimenDesc { get; set; }
 
-        public int? I_EstadoID { get; set; }
+        public int? estadoID { get; set; }
 
-        public string T_EstadoDesc { get; set; }
+        public string estadoDesc { get; set; }
 
-        public int? I_VinculoID { get; set; }
+        public int? vinculoID { get; set; }
 
-        public string T_VinculoDesc { get; set; }
+        public string vinculoDesc { get; set; }
 
-        public int I_AdministrativoID { get; set; }
+        public int administrativoID { get; set; }
 
-        public int I_GrupoOcupacionalID { get; set; }
+        public int grupoOcupacionalID { get; set; }
 
-        public string C_GrupoOcupacionalCod { get; set; }
+        public string grupoOcupacionalCod { get; set; }
 
-        public string T_GrupoOcupacionalDesc { get; set; }
+        public string grupoOcupacionalDesc { get; set; }
 
-        public int I_NivelRemunerativoID { get; set; }
+        public int nivelRemunerativoID { get; set; }
 
-        public string C_NivelRemunerativoCod { get; set; }
+        public string nivelRemunerativoCod { get; set; }
 
-        public string T_NivelRemunerativoDesc { get; set; }
+        public string nivelRemunerativoDesc { get; set; }
     }
 }

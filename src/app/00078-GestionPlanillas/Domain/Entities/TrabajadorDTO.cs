@@ -8,60 +8,60 @@ namespace Domain.Entities
 {
     public class TrabajadorDTO
     {
-        public int I_TrabajadorID { get; set; }
+        public int trabajadorID { get; set; }
 
-        public string C_TrabajadorCod { get; set; }
+        public string trabajadorCod { get; set; }
 
-        public int I_PersonaID { get; set; }
+        public int personaID { get; set; }
 
-        public string T_Nombre { get; set; }
+        public string nombre { get; set; }
 
-        public string T_ApellidoPaterno { get; set; }
+        public string apellidoPaterno { get; set; }
 
-        public string T_ApellidoMaterno { get; set; }
+        public string apellidoMaterno { get; set; }
 
-        public int I_TipoDocumentoID { get; set; }
+        public int tipoDocumentoID { get; set; }
 
-        public string T_TipoDocumentoDesc { get; set; }
+        public string tipoDocumentoDesc { get; set; }
 
-        public string C_NumDocumento { get; set; }
+        public string numDocumento { get; set; }
 
-        public DateTime? D_FechaIngreso { get; set; }
+        public DateTime? fechaIngreso { get; set; }
 
-        public int? I_RegimenID { get; set; }
+        public int? regimenID { get; set; }
 
-        public string T_RegimenDesc { get; set; }
+        public string regimenDesc { get; set; }
 
-        public int? I_AfpID { get; set; }
+        public int? afpID { get; set; }
 
-        public string T_AfpDesc { get; set; }
+        public string afpDesc { get; set; }
 
-        public string T_Cuspp { get; set; }
+        public string cuspp { get; set; }
 
-        public int I_EstadoID { get; set; }
+        public int estadoID { get; set; }
 
-        public string T_EstadoDesc { get; set; }
+        public string estadoDesc { get; set; }
 
-        public int I_VinculoID { get; set; }
+        public int vinculoID { get; set; }
 
-        public string T_VinculoDesc { get; set; }
+        public string vinculoDesc { get; set; }
 
-        public int? I_TrabajadorDependenciaID { get; set; }
+        public int? trabajadorDependenciaID { get; set; }
 
-        public int? I_DependenciaID { get; set; }
+        public int? dependenciaID { get; set; }
 
-        public string C_DependenciaCod { get; set; }
+        public string dependenciaCod { get; set; }
 
-        public string T_DependenciaDesc { get; set; }
+        public string dependenciaDesc { get; set; }
 
-        public int? I_CuentaBancariaID { get; set; }
+        public int? cuentaBancariaID { get; set; }
 
-        public string T_NroCuentaBancaria { get; set; }
+        public string nroCuentaBancaria { get; set; }
 
-        public int? I_BancoID { get; set; }
+        public int? bancoID { get; set; }
 
-        public string T_BancoDesc { get; set; }
+        public string bancoDesc { get; set; }
 
-        public string T_BancoAbrv { get; set; }
+        public string bancoAbrv { get; set; }
     }
 }

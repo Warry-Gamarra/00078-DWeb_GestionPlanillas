@@ -121,27 +121,27 @@ namespace WebApp.Controllers
 
             var trabajador = _trabajadorServiceFacade.ObtenerTrabajador(id);
 
-            ViewBag.ListaEstados = _estadoServiceFacade.ObtenerComboEstados(selectedItem: trabajador.I_EstadoID);
+            ViewBag.ListaEstados = _estadoServiceFacade.ObtenerComboEstados(selectedItem: trabajador.estadoID);
 
-            ViewBag.ListaVinculos = _vinculoServiceFacade.ObtenerComboVinculos(selectedItem: trabajador.I_VinculoID);
+            ViewBag.ListaVinculos = _vinculoServiceFacade.ObtenerComboVinculos(selectedItem: trabajador.vinculoID);
 
-            ViewBag.ListaRegimenes = _regimenServiceFacade.ObtenerComboRegimenes(selectedItem: trabajador.I_RegimenID);
+            ViewBag.ListaRegimenes = _regimenServiceFacade.ObtenerComboRegimenes(selectedItem: trabajador.regimenID);
 
-            ViewBag.ListaTipoDocumentos = _tipoDocumentoServiceFacade.ObtenerComboTipoDocumentos(selectedItem: trabajador.I_TipoDocumentoID);
+            ViewBag.ListaTipoDocumentos = _tipoDocumentoServiceFacade.ObtenerComboTipoDocumentos(selectedItem: trabajador.tipoDocumentoID);
 
-            ViewBag.ListaBancos = _bancoServiceFacade.ObtenerComboBancos(selectedItem: trabajador.I_BancoID);
+            ViewBag.ListaBancos = _bancoServiceFacade.ObtenerComboBancos(selectedItem: trabajador.bancoID);
 
-            ViewBag.ListaDependencias = _dependenciaServiceFacade.ObtenerComboDependencias(selectedItem: trabajador.I_DependenciaID);
+            ViewBag.ListaDependencias = _dependenciaServiceFacade.ObtenerComboDependencias(selectedItem: trabajador.dependenciaID);
 
-            ViewBag.ListaAfps = _afpServiceFacade.ObtenerComboAfps(selectedItem: trabajador.I_AfpID);
+            ViewBag.ListaAfps = _afpServiceFacade.ObtenerComboAfps(selectedItem: trabajador.afpID);
 
-            ViewBag.GruposOcupacionales = _grupoOcupacionalServiceFacade.ObtenerComboGruposOcupacionales(selectedItem: trabajador.I_GrupoOcupacionalID);
+            ViewBag.GruposOcupacionales = _grupoOcupacionalServiceFacade.ObtenerComboGruposOcupacionales(selectedItem: trabajador.grupoOcupacionalID);
 
-            ViewBag.NivelesRemunerativos = _nivelRemunerativoServiceFacade.ObtenerComboNivelesRemunerativos(selectedItem: trabajador.I_NivelRemunerativoID);
+            ViewBag.NivelesRemunerativos = _nivelRemunerativoServiceFacade.ObtenerComboNivelesRemunerativos(selectedItem: trabajador.nivelRemunerativoID);
 
-            ViewBag.CategoriasDocente = _categoriaDocenteServiceFacade.ObtenerComboCategoriasDocente(selectedItem: trabajador.I_CategoriaDocenteID);
+            ViewBag.CategoriasDocente = _categoriaDocenteServiceFacade.ObtenerComboCategoriasDocente(selectedItem: trabajador.categoriaDocenteID);
 
-            ViewBag.HorasDocente = _horasDocenteServiceFacade.ObtenerComboHorasDedicacionDocente(selectedItem: trabajador.I_HorasDocenteID);
+            ViewBag.HorasDocente = _horasDocenteServiceFacade.ObtenerComboHorasDedicacionDocente(selectedItem: trabajador.horasDocenteID);
 
             return PartialView("_MantenimientoTrabajador", trabajador);
         }

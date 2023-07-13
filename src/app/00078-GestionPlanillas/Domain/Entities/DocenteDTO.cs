@@ -8,53 +8,53 @@ namespace Domain.Entities
 {
     public class DocenteDTO
     {
-        public int I_TrabajadorID { get; set; }
+        public int trabajadorID { get; set; }
 
-        public string C_TrabajadorCod { get; set; }
+        public string trabajadorCod { get; set; }
 
-        public string T_Nombre { get; set; }
+        public string nombre { get; set; }
 
-        public string T_ApellidoPaterno { get; set; }
+        public string apellidoPaterno { get; set; }
 
-        public string T_ApellidoMaterno { get; set; }
+        public string apellidoMaterno { get; set; }
 
-        public int I_TipoDocumentoID { get; set; }
+        public int tipoDocumentoID { get; set; }
 
-        public string T_TipoDocumentoDesc { get; set; }
+        public string tipoDocumentoDesc { get; set; }
 
-        public string C_NumDocumento { get; set; }
+        public string numDocumento { get; set; }
 
-        public DateTime? D_FechaIngreso { get; set; }
+        public DateTime? fechaIngreso { get; set; }
 
-        public int? I_RegimenID { get; set; }
+        public int? regimenID { get; set; }
 
-        public string T_RegimenDesc { get; set; }
+        public string regimenDesc { get; set; }
 
-        public int? I_EstadoID { get; set; }
+        public int? estadoID { get; set; }
 
-        public string T_EstadoDesc { get; set; }
+        public string estadoDesc { get; set; }
 
-        public int? I_VinculoID { get; set; }
+        public int? vinculoID { get; set; }
 
-        public string T_VinculoDesc { get; set; }
+        public string vinculoDesc { get; set; }
 
-        public int I_DocenteID { get; set; }
+        public int docenteID { get; set; }
 
-        public int I_CategoriaDocenteID { get; set; }
+        public int categoriaDocenteID { get; set; }
 
-        public string C_CategoriaDocenteCod { get; set; }
+        public string categoriaDocenteCod { get; set; }
 
-        public string T_CategoriaDocenteDesc { get; set; }
+        public string categoriaDocenteDesc { get; set; }
 
-        public int I_HorasDocenteID { get; set; }
+        public int horasDocenteID { get; set; }
 
-        public int I_Horas { get; set; }
+        public int horas { get; set; }
 
-        public int I_DedicacionDocenteID { get; set; }
+        public int dedicacionDocenteID { get; set; }
 
-        public string C_DedicacionDocenteCod { get; set; }
+        public string dedicacionDocenteCod { get; set; }
 
-        public string T_DedicacionDocenteDesc { get; set; }
+        public string dedicacionDocenteDesc { get; set; }
 
         public bool estaHabilitado { get;set; }
     }

@@ -13,122 +13,122 @@ namespace WebApp.Models
 {
     public class TrabajadorModel
     {
-        public int? I_TrabajadorID { get; set; }
+        public int? trabajadorID { get; set; }
 
         [DisplayName("Código")]
         [Required(ErrorMessage = "El {0} es obligatorio.")]
-        public string C_TrabajadorCod { get; set; }
+        public string trabajadorCod { get; set; }
 
-        public int I_PersonaID { get; set; }
+        public int personaID { get; set; }
 
         [DisplayName("Nombres")]
         [Required(ErrorMessage = "El Nombre es obligatorio.")]
-        public string T_Nombre { get; set; }
+        public string nombre { get; set; }
 
         [DisplayName("Ape.Paterno")]
         [Required(ErrorMessage = "El {0} es obligatorio.")]
-        public string T_ApellidoPaterno { get; set; }
+        public string apellidoPaterno { get; set; }
 
         [DisplayName("Ape.Materno")]
-        public string T_ApellidoMaterno { get; set; }
+        public string apellidoMaterno { get; set; }
 
-        public string T_ApellidosNombre
+        public string apellidosNombre
         { 
-            get { return String.Format("{0} {1}, {2}", T_ApellidoPaterno, T_ApellidoMaterno, T_Nombre) ; }
+            get { return String.Format("{0} {1}, {2}", apellidoPaterno, apellidoMaterno, nombre) ; }
         }
 
         [DisplayName("Doc.Identidad")]
-        public int I_TipoDocumentoID { get; set; }
+        public int tipoDocumentoID { get; set; }
 
-        public string T_TipoDocumentoDesc { get; set; }
+        public string tipoDocumentoDesc { get; set; }
 
         [Required(ErrorMessage = "El Num.Documento es obligatorio.")]
-        public string C_NumDocumento { get; set; }
+        public string numDocumento { get; set; }
 
         [DisplayName("Fec.Ingreso")]
-        public DateTime? D_FechaIngreso { get; set; }
+        public DateTime? fechaIngreso { get; set; }
 
-        public string T_FechaIngreso
+        public string fechaIngresoFormat
         {
             get
             {
-                return D_FechaIngreso.HasValue ? D_FechaIngreso.Value.ToString("dd/MM/yyyy") : "";
+                return fechaIngreso.HasValue ? fechaIngreso.Value.ToString("dd/MM/yyyy") : "";
             }
 
         }
 
         [DisplayName("Régimen")]
-        public int? I_RegimenID { get; set; }
+        public int? regimenID { get; set; }
 
-        public string T_RegimenDesc { get; set; }
+        public string regimenDesc { get; set; }
 
         [DisplayName("AFP")]
-        public int? I_AfpID { get; set; }
+        public int? afpID { get; set; }
 
-        public string T_AfpDesc { get; set; }
+        public string afpDesc { get; set; }
 
         [DisplayName("CUSPP")]
-        public string T_Cuspp { get; set; }
+        public string cuspp { get; set; }
 
         [DisplayName("Estado")]
-        public int I_EstadoID { get; set; }
+        public int estadoID { get; set; }
 
-        public string T_EstadoDesc { get; set; }
+        public string estadoDesc { get; set; }
 
         [DisplayName("Vínculo")]
-        public int I_VinculoID { get; set; }
+        public int vinculoID { get; set; }
 
         public Vinculo Vinculo
         {
             get 
             {
-                return (Vinculo)I_VinculoID;
+                return (Vinculo)vinculoID;
             }
         }
 
-        public string T_VinculoDesc { get; set; }
+        public string vinculoDesc { get; set; }
 
-        public int? I_TrabajadorDependenciaID { get; set; }
+        public int? trabajadorDependenciaID { get; set; }
 
         [DisplayName("Dependencia")]
         [Required(ErrorMessage = "La {0} es obligatoria.")]
-        public int? I_DependenciaID { get; set; }
+        public int? dependenciaID { get; set; }
 
-        public string C_DependenciaCod { get; set; }
+        public string dependenciaCod { get; set; }
 
-        public string T_DependenciaDesc { get; set; }
+        public string dependenciaDesc { get; set; }
 
-        public int? I_CuentaBancariaID { get; set; }
+        public int? cuentaBancariaID { get; set; }
 
         [Required(ErrorMessage = "El Num.Cuenta es obligatorio.")]
-        public string T_NroCuentaBancaria { get; set; }
+        public string nroCuentaBancaria { get; set; }
 
         [DisplayName("Cta.Banco")]
         [Required(ErrorMessage = "Seleccionar la {0}.")]
-        public int? I_BancoID { get; set; }
+        public int? bancoID { get; set; }
 
-        public string T_BancoDesc { get; set; }
+        public string bancoDesc { get; set; }
 
-        public string T_BancoAbrv { get; set; }
+        public string bancoAbrv { get; set; }
 
         [DisplayName("Cat.Docente")]
-        public int? I_CategoriaDocenteID { get; set; }
+        public int? categoriaDocenteID { get; set; }
 
-        public string T_CategoriaDocenteDesc { get; set; }
+        public string categoriaDocenteDesc { get; set; }
 
         [DisplayName("Ded.Docente/Horas")]
-        public int? I_HorasDocenteID { get; set; }
+        public int? horasDocenteID { get; set; }
 
-        public string I_Horas { get; set; }
+        public string horas { get; set; }
 
         [DisplayName("Grup.Ocupacional")]
-        public int? I_GrupoOcupacionalID { get; set; }
+        public int? grupoOcupacionalID { get; set; }
 
-        public string T_GrupoOcupacionalDesc { get; set; }
+        public string grupoOcupacionalDesc { get; set; }
 
         [DisplayName("Niv.Remunerativo")]
-        public int? I_NivelRemunerativoID { get; set; }
+        public int? nivelRemunerativoID { get; set; }
 
-        public string T_NivelRemunerativoDesc { get; set; }
+        public string nivelRemunerativoDesc { get; set; }
     }
 }
