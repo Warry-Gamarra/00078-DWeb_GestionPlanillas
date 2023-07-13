@@ -48,12 +48,12 @@ namespace WebApp.Controllers
             if (anio.HasValue && mes.HasValue)
             {
                 model = _planillaServiceFacade.ListarResumenPlanillaTrabajador()
-                    .Where(x => x.I_Anio == anio.Value && x.I_Mes == mes.Value)
+                    .Where(x => x.anio == anio.Value && x.mes == mes.Value)
                     .ToList();
 
                 if (idCategoria.HasValue)
                 {
-                    model = model.Where(x => x.I_CategoriaPlanillaID == idCategoria.Value).ToList();
+                    model = model.Where(x => x.categoriaPlanillaID == idCategoria.Value).ToList();
                 }
             }
             else

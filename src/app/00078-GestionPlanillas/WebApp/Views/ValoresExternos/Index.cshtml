@@ -62,6 +62,7 @@
                 <table class="table table-hover" id="dataTableValoresExternos" width="100%">
                     <thead class="thead-dark">
                         <tr>
+                            <th></th>
                             <th>anio</th>
                             <th>mes</th>
                             <th>tipoDocumentoID</th>
@@ -75,6 +76,7 @@
                     </thead>
                     <tfoot>
                         <tr>
+                            <th></th>
                             <th>anio</th>
                             <th>mes</th>
                             <th>tipoDocumentoID</th>
@@ -168,12 +170,19 @@
                     }
                 });
             })
+
+            $('#dataTableValoresExternos').DataTable().on('order.dt search.dt', function () {
+                $('#dataTableValoresExternos').DataTable().column(0, { search: 'applied', order: 'applied' }).nodes().each(function (cell, i) {
+                    cell.innerHTML = i + 1;
+                });
+            });
         });
 
         function generarDatatableValoresExternos(jsonObject) {
             $('#dataTableValoresExternos').DataTable({
                 data: jsonObject,
                 columns: [
+                    { data: 'numDocumento' },
                     { data: 'anio' },
                     { data: 'mes' },
                     { data: 'tipoDocumentoID' },
@@ -186,19 +195,19 @@
                 ],
                 columnDefs: [
                     {
-                        targets: 1,
+                        targets: 2,
                         render: function (data, type, row) {
                             return row.mesDesc + ' (' + row.mes + ')';
                         }
                     },
                     {
-                        targets: 2,
+                        targets: 3,
                         render: function (data, type, row) {
                             return row.tipoDocumentoDesc + ' (' + row.tipoDocumentoID + ')';
                         }
                     },
                     {
-                        targets: 8,
+                        targets: 9,
                         render: function (data, type, row) {
                             return row.proveedorDesc + ' (' + row.proveedorID + ')';
                         }

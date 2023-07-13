@@ -446,9 +446,10 @@ BEGIN
 			@I_PlantillaID INT,
 			--Resumen cabecera planilla
 			@I_TotalRemuneracion DECIMAL(15,2) = 0,
-			@I_TotalDescuento DECIMAL(15,2) = 0,
 			@I_TotalReintegro DECIMAL(15,2) = 0,
 			@I_TotalDeduccion DECIMAL(15,2) = 0,
+			@I_TotalBruto DECIMAL(15,2) = 0,
+			@I_TotalDescuento DECIMAL(15,2) = 0,
 			@I_TotalSueldo DECIMAL(15,2) = 0,
 			@I_CantPlanillasGeneradas INT = 0,
 			--Resumen por trabajador
@@ -457,9 +458,10 @@ BEGIN
 			@I_Filtro2 INT,-->Nivel Remunerativo | Dedicacion y horas
 			@I_TrabajadorPlanillaID INT,
 			@I_TotalRemuneracionTrabajador DECIMAL(15,2),
-			@I_TotalDescuentoTrabajador DECIMAL(15,2),
 			@I_TotalReintegroTrabajador DECIMAL(15,2),
 			@I_TotalDeduccionTrabajador DECIMAL(15,2),
+			@I_TotalBrutoTrabajador DECIMAL(15,2),
+			@I_TotalDescuentoTrabajador DECIMAL(15,2),
 			@I_TotalSueldoTrabajador DECIMAL(15,2),
 			--Detalle conceptos por trabajador
 			@I_NroOrden INT,
@@ -578,8 +580,8 @@ BEGIN
 	BEGIN TRAN
 		--3. Crear la cabecera de la planilla
 		INSERT dbo.TR_Planilla(I_PeriodoID, I_CategoriaPlanillaID, I_Correlativo, I_CantRegistros, 
-			I_TotalRemuneracion, I_TotalDescuento, I_TotalReintegro, I_TotalDeduccion, I_TotalSueldo, B_Anulado, I_UsuarioCre, D_FecCre)
-		VALUES(@I_PeriodoID, @I_CategoriaPlanillaID, @I_CorrelativoPlanilla, 0, 0, 0, 0, 0, 0, 0, @I_UserID, @D_FecRegistro);
+			I_TotalRemuneracion, I_TotalReintegro, I_TotalDeduccion, I_TotalBruto, I_TotalDescuento, I_TotalSueldo, B_Anulado, I_UsuarioCre, D_FecCre)
+		VALUES(@I_PeriodoID, @I_CategoriaPlanillaID, @I_CorrelativoPlanilla, 0, 0, 0, 0, 0, 0, 0, 0, @I_UserID, @D_FecRegistro);
 
 		SET @I_PlantillaID = SCOPE_IDENTITY();
 
@@ -664,9 +666,9 @@ BEGIN
 						END
 
 						IF (@I_TrabajadorPlanillaID = 0) BEGIN
-							INSERT dbo.TR_TrabajadorPlanilla(I_PlanillaID, I_TrabajadorID, I_TotalRemuneracion, I_TotalDescuento, I_TotalReintegro, I_TotalDeduccion, 
+							INSERT dbo.TR_TrabajadorPlanilla(I_PlanillaID, I_TrabajadorID, I_TotalRemuneracion, I_TotalReintegro, I_TotalDeduccion, I_TotalBruto, I_TotalDescuento,
 								I_TotalSueldo, B_Anulado, I_UsuarioCre, D_FecCre)
-							VALUES(@I_PlantillaID, @I_TrabajadorID, 0, 0, 0, 0, 0, 0, @I_UserID, @D_FecRegistro);
+							VALUES(@I_PlantillaID, @I_TrabajadorID, 0, 0, 0, 0, 0, 0, 0, @I_UserID, @D_FecRegistro);
 
 							SET @I_TrabajadorPlanillaID = SCOPE_IDENTITY();
 						END
@@ -751,9 +753,9 @@ BEGIN
 						END
 
 						IF (@I_TrabajadorPlanillaID = 0) BEGIN
-							INSERT dbo.TR_TrabajadorPlanilla(I_PlanillaID, I_TrabajadorID, I_TotalRemuneracion, I_TotalDescuento, I_TotalReintegro, I_TotalDeduccion, 
+							INSERT dbo.TR_TrabajadorPlanilla(I_PlanillaID, I_TrabajadorID, I_TotalRemuneracion, I_TotalReintegro, I_TotalDeduccion, I_TotalBruto, I_TotalDescuento,
 								I_TotalSueldo, B_Anulado, I_UsuarioCre, D_FecCre)
-							VALUES(@I_PlantillaID, @I_TrabajadorID, 0, 0, 0, 0, 0, 0, @I_UserID, @D_FecRegistro);
+							VALUES(@I_PlantillaID, @I_TrabajadorID, 0, 0, 0, 0, 0, 0, 0, @I_UserID, @D_FecRegistro);
 
 							SET @I_TrabajadorPlanillaID = SCOPE_IDENTITY();
 						END
@@ -838,9 +840,9 @@ BEGIN
 						END
 
 						IF (@I_TrabajadorPlanillaID = 0) BEGIN
-							INSERT dbo.TR_TrabajadorPlanilla(I_PlanillaID, I_TrabajadorID, I_TotalRemuneracion, I_TotalDescuento, I_TotalReintegro, I_TotalDeduccion, 
+							INSERT dbo.TR_TrabajadorPlanilla(I_PlanillaID, I_TrabajadorID, I_TotalRemuneracion, I_TotalReintegro, I_TotalDeduccion, I_TotalBruto, I_TotalDescuento,
 								I_TotalSueldo, B_Anulado, I_UsuarioCre, D_FecCre)
-							VALUES(@I_PlantillaID, @I_TrabajadorID, 0, 0, 0, 0, 0, 0, @I_UserID, @D_FecRegistro);
+							VALUES(@I_PlantillaID, @I_TrabajadorID, 0, 0, 0, 0, 0, 0, 0, @I_UserID, @D_FecRegistro);
 
 							SET @I_TrabajadorPlanillaID = SCOPE_IDENTITY();
 						END
@@ -925,9 +927,9 @@ BEGIN
 						END
 
 						IF (@I_TrabajadorPlanillaID = 0) BEGIN
-							INSERT dbo.TR_TrabajadorPlanilla(I_PlanillaID, I_TrabajadorID, I_TotalRemuneracion, I_TotalDescuento, I_TotalReintegro, I_TotalDeduccion, 
+							INSERT dbo.TR_TrabajadorPlanilla(I_PlanillaID, I_TrabajadorID, I_TotalRemuneracion, I_TotalReintegro, I_TotalDeduccion, I_TotalBruto, I_TotalDescuento,
 								I_TotalSueldo, B_Anulado, I_UsuarioCre, D_FecCre)
-							VALUES(@I_PlantillaID, @I_TrabajadorID, 0, 0, 0, 0, 0, 0, @I_UserID, @D_FecRegistro);
+							VALUES(@I_PlantillaID, @I_TrabajadorID, 0, 0, 0, 0, 0, 0, 0, @I_UserID, @D_FecRegistro);
 
 							SET @I_TrabajadorPlanillaID = SCOPE_IDENTITY();
 						END
@@ -944,26 +946,31 @@ BEGIN
 
 			IF (@I_TrabajadorPlanillaID > 0) BEGIN
 				--9. Actualizar totales por trabajador
-				SET @I_TotalSueldoTrabajador = @I_TotalRemuneracionTrabajador - @I_TotalDescuentoTrabajador + @I_TotalReintegroTrabajador - @I_TotalDeduccionTrabajador;
+				SET @I_TotalBrutoTrabajador = @I_TotalRemuneracionTrabajador + @I_TotalReintegroTrabajador - @I_TotalDeduccionTrabajador;
+
+				SET @I_TotalSueldoTrabajador = @I_TotalBrutoTrabajador - @I_TotalDescuentoTrabajador;
 
 				IF (@I_TotalSueldoTrabajador > 0 ) BEGIN
 
 					UPDATE  dbo.TR_TrabajadorPlanilla SET 
 						I_TotalRemuneracion = @I_TotalRemuneracionTrabajador,
-						I_TotalDescuento = @I_TotalDescuentoTrabajador,
 						I_TotalReintegro = @I_TotalReintegroTrabajador,
 						I_TotalDeduccion = @I_TotalDeduccionTrabajador,
+						I_TotalDescuento = @I_TotalDescuentoTrabajador,
+						I_TotalBruto = @I_TotalBrutoTrabajador,
 						I_TotalSueldo = @I_TotalSueldoTrabajador
 					WHERE I_TrabajadorPlanillaID = @I_TrabajadorPlanillaID;
 
 					--10. Acumular para el resumen total de la planilla
 					SET @I_TotalRemuneracion = @I_TotalRemuneracion + @I_TotalRemuneracionTrabajador;
 
-					SET @I_TotalDescuento = @I_TotalDescuento + @I_TotalDescuentoTrabajador;
-
 					SET @I_TotalReintegro = @I_TotalReintegro + @I_TotalReintegroTrabajador;
 
 					SET @I_TotalDeduccion = @I_TotalDeduccion + @I_TotalDeduccionTrabajador;
+
+					SET @I_TotalBruto = @I_TotalBruto + @I_TotalBrutoTrabajador;
+
+					SET @I_TotalDescuento = @I_TotalDescuento + @I_TotalDescuentoTrabajador;
 
 					SET @I_TotalSueldo = @I_TotalSueldo + @I_TotalSueldoTrabajador;
 
@@ -981,14 +988,15 @@ BEGIN
 			SET @I_Indicador = @I_Indicador + 1;
 		END
 
-		IF (@I_TotalSueldo > 0) BEGIN
+		IF (@I_CantPlanillasGeneradas > 0) BEGIN
 
 			--11. Actualizar totales de planilla
 			UPDATE dbo.TR_Planilla SET 
 				I_TotalRemuneracion = @I_TotalRemuneracion, 
-				I_TotalDescuento = @I_TotalDescuento, 
 				I_TotalReintegro = @I_TotalReintegro, 
 				I_TotalDeduccion = @I_TotalDeduccion,
+				I_TotalBruto = @I_TotalBruto,
+				I_TotalDescuento = @I_TotalDescuento,
 				I_TotalSueldo = @I_TotalSueldo,
 				I_CantRegistros = @I_CantPlanillasGeneradas
 			WHERE I_PlanillaID = @I_PlantillaID;
@@ -1002,7 +1010,7 @@ BEGIN
 			ROLLBACK TRAN
 
 			SET @B_Result = 0;
-			SET @T_Message = 'La generación de planilla resultó en un monto negativo, por lo que se canceló el proceso.';
+			SET @T_Message = 'La generación de planilla no generó ningún registro, por lo que se canceló el proceso.';
 		END
 	END TRY
 	BEGIN CATCH

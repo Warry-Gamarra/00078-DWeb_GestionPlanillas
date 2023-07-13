@@ -45,11 +45,13 @@ namespace Data.Views
 
         public decimal I_TotalRemuneracion { get; set; }
 
-        public decimal I_TotalDescuento { get; set; }
-
         public decimal I_TotalReintegro { get; set; }
 
         public decimal I_TotalDeduccion { get; set; }
+
+        public decimal I_TotalBruto { get; set; }
+
+        public decimal I_TotalDescuento { get; set; }
 
         public decimal I_TotalSueldo { get; set; }
 

@@ -52,18 +52,19 @@
         <div class="table-responsive mt-4" style="min-height:300px">
             @Html.Grid(Model).Columns(columns =>
             {
-                columns.Add(c => c.T_CategoriaPlanillaDesc).Titled("Planilla").Css("text-left").Filterable(true);
-                columns.Add(c => c.I_Anio).Titled("Año").Css("text-left").Filterable(true);
-                columns.Add(c => c.T_MesDesc).Titled("Mes").Css("text-left").Filterable(true);
-                columns.Add(c => c.T_TipoDocumentoDesc).Titled("Tip.Doc.").Css("text-left").Filterable(true);
-                columns.Add(c => c.C_NumDocumento).Titled("Num.Doc.").Css("text-center").Filterable(true);
-                columns.Add(c => c.T_ApellidosNombre).Titled("Apellidos y Nombres").Css("text-left").Filterable(true);
-                columns.Add(c => c.T_RegimenDesc).Titled("Régimen").Css("text-center").Filterable(true);
-                columns.Add(c => c.T_TotalRemuneracion).Titled("Rem.").Css("text-center");
-                columns.Add(c => c.T_TotalDescuento).Titled("Desc.").Css("text-center");
-                columns.Add(c => c.T_TotalReintegro).Titled("Reint.").Css("text-center");
-                columns.Add(c => c.T_TotalDeduccion).Titled("Deducc.").Css("text-center");
-                columns.Add(c => c.T_TotalSueldo).Titled("Total.").Css("text-center");
+                columns.Add(c => c.categoriaPlanillaDesc).Titled("Planilla").Css("text-left").Filterable(true);
+                columns.Add(c => c.anio).Titled("Año").Css("text-left").Filterable(true);
+                columns.Add(c => c.mesDesc).Titled("Mes").Css("text-left").Filterable(true);
+                columns.Add(c => c.tipoDocumentoDesc).Titled("Tip.Doc.").Css("text-left").Filterable(true);
+                columns.Add(c => c.numDocumento).Titled("Num.Doc.").Css("text-center").Filterable(true);
+                columns.Add(c => c.apellidosNombre).Titled("Apellidos y Nombres").Css("text-left").Filterable(true);
+                columns.Add(c => c.regimenDesc).Titled("Régimen").Css("text-center").Filterable(true);
+                columns.Add(c => c.totalRemuneracion).Titled("Remu.").Css("text-center");
+                columns.Add(c => c.totalReintegro).Titled("Reint.").Css("text-center");
+                columns.Add(c => c.totalDeduccion).Titled("Deducc.").Css("text-center");
+                columns.Add(c => c.totalBruto).Titled("Bruto").Css("text-center");
+                columns.Add(c => c.totalDescuento).Titled("Desc.").Css("text-center");
+                columns.Add(c => c.totalSueldo).Titled("Total.").Css("text-center");
             }).WithPaging(12).Sortable(true).WithGridItemsCount("Registros encontrados").EmptyText("No se encontraron registros")
         </div>
 

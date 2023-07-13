@@ -8,119 +8,129 @@ namespace WebApp.Models
 {
     public class ResumenPlanillaTrabajadorModel
     {
-        public int I_TrabajadorID { get; set; }
+        public int trabajadorID { get; set; }
 
-        public string C_TrabajadorCod { get; set; }
+        public string trabajadorCod { get; set; }
 
-        public string T_Nombre { get; set; }
+        public string nombre { get; set; }
 
-        public string T_ApellidoPaterno { get; set; }
+        public string apellidoPaterno { get; set; }
 
-        public string T_ApellidoMaterno { get; set; }
+        public string apellidoMaterno { get; set; }
 
-        public string T_ApellidosNombre
+        public string apellidosNombre
         {
-            get { return String.Format("{0} {1}, {2}", T_ApellidoPaterno, T_ApellidoMaterno, T_Nombre); }
+            get { return String.Format("{0} {1}, {2}", apellidoPaterno, apellidoMaterno, nombre); }
         }
 
-        public int I_TipoDocumentoID { get; set; }
+        public int tipoDocumentoID { get; set; }
 
-        public string T_TipoDocumentoDesc { get; set; }
+        public string tipoDocumentoDesc { get; set; }
 
-        public string C_NumDocumento { get; set; }
+        public string numDocumento { get; set; }
 
-        public DateTime? D_FechaIngreso { get; set; }
+        public DateTime? fechaIngreso { get; set; }
 
-        public string T_FechaIngreso
+        public string fechaIngresoFormat
         {
             get
             {
-                return D_FechaIngreso.HasValue ? D_FechaIngreso.Value.ToString("dd/MM/yyyy") : "";
+                return fechaIngreso.HasValue ? fechaIngreso.Value.ToString("dd/MM/yyyy") : "";
             }
 
         }
 
-        public int? I_RegimenID { get; set; }
+        public int? regimenID { get; set; }
 
-        public string T_RegimenDesc { get; set; }
+        public string regimenDesc { get; set; }
 
-        public int? I_EstadoID { get; set; }
+        public int? estadoID { get; set; }
 
-        public string T_EstadoDesc { get; set; }
+        public string estadoDesc { get; set; }
 
-        public int? I_VinculoID { get; set; }
+        public int? vinculoID { get; set; }
 
-        public string T_VinculoDesc { get; set; }
+        public string vinculoDesc { get; set; }
 
-        public int I_TrabajadorPlanillaID { get; set; }
+        public int trabajadorPlanillaID { get; set; }
 
-        public decimal I_TotalRemuneracion { get; set; }
+        public decimal totalRemuneracion { get; set; }
 
-        public string T_TotalRemuneracion
+        public string totalRemuneracionFormat
         {
             get
             {
-                return I_TotalRemuneracion.ToString("#,0.00");
+                return totalRemuneracion.ToString("#,0.00");
             }
 
         }
 
-        public decimal I_TotalDescuento { get; set; }
+        public decimal totalReintegro { get; set; }
 
-        public string T_TotalDescuento
+        public string totalReintegroFormat
         {
             get
             {
-                return I_TotalDescuento.ToString("#,0.00");
+                return totalReintegro.ToString("#,0.00");
             }
 
         }
 
-        public decimal I_TotalReintegro { get; set; }
+        public decimal totalDeduccion { get; set; }
 
-        public string T_TotalReintegro
+        public string totalDeduccionFormat
         {
             get
             {
-                return I_TotalReintegro.ToString("#,0.00");
+                return totalDeduccion.ToString("#,0.00");
             }
 
         }
 
-        public decimal I_TotalDeduccion { get; set; }
+        public decimal totalBruto { get; set; }
 
-        public string T_TotalDeduccion
+        public string totalBrutoFormat
         {
             get
             {
-                return I_TotalDeduccion.ToString("#,0.00");
+                return totalBruto.ToString("#,0.00");
+            }
+        }
+
+        public decimal totalDescuento { get; set; }
+
+        public string totalDescuentoFormat
+        {
+            get
+            {
+                return totalDescuento.ToString("#,0.00");
             }
 
         }
 
-        public decimal I_TotalSueldo { get; set; }
+        public decimal totalSueldo { get; set; }
 
-        public string T_TotalSueldo
+        public string totalSueldoFormat
         {
             get
             {
-                return I_TotalSueldo.ToString("#,0.00");
+                return totalSueldo.ToString("#,0.00");
             }
 
         }
 
-        public int I_PlanillaID { get; set; }
+        public int planillaID { get; set; }
 
-        public int I_PeriodoID { get; set; }
+        public int periodoID { get; set; }
 
-        public int I_Anio { get; set; }
+        public int anio { get; set; }
 
-        public int I_Mes { get; set; }
+        public int mes { get; set; }
 
-        public string T_MesDesc { get; set; }
+        public string mesDesc { get; set; }
 
-        public int I_CategoriaPlanillaID { get; set; }
+        public int categoriaPlanillaID { get; set; }
 
-        public string T_CategoriaPlanillaDesc { get; set; }
+        public string categoriaPlanillaDesc { get; set; }
     }
 }

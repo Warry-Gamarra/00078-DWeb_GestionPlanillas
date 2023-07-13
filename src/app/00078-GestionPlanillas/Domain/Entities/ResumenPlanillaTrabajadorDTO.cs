@@ -8,60 +8,62 @@ namespace Domain.Entities
 {
     public class ResumenPlanillaTrabajadorDTO
     {
-        public int I_TrabajadorID { get; set; }
+        public int trabajadorID { get; set; }
 
-        public string C_TrabajadorCod { get; set; }
+        public string trabajadorCod { get; set; }
 
-        public string T_Nombre { get; set; }
+        public string nombre { get; set; }
 
-        public string T_ApellidoPaterno { get; set; }
+        public string apellidoPaterno { get; set; }
 
-        public string T_ApellidoMaterno { get; set; }
+        public string apellidoMaterno { get; set; }
 
-        public int I_TipoDocumentoID { get; set; }
+        public int tipoDocumentoID { get; set; }
 
-        public string T_TipoDocumentoDesc { get; set; }
+        public string tipoDocumentoDesc { get; set; }
 
-        public string C_NumDocumento { get; set; }
+        public string numDocumento { get; set; }
 
-        public DateTime? D_FechaIngreso { get; set; }
+        public DateTime? fechaIngreso { get; set; }
 
-        public int? I_RegimenID { get; set; }
+        public int? regimenID { get; set; }
 
-        public string T_RegimenDesc { get; set; }
+        public string regimenDesc { get; set; }
 
-        public int? I_EstadoID { get; set; }
+        public int? estadoID { get; set; }
 
-        public string T_EstadoDesc { get; set; }
+        public string estadoDesc { get; set; }
 
-        public int? I_VinculoID { get; set; }
+        public int? vinculoID { get; set; }
 
-        public string T_VinculoDesc { get; set; }
+        public string vinculoDesc { get; set; }
 
-        public int I_TrabajadorPlanillaID { get; set; }
+        public int trabajadorPlanillaID { get; set; }
 
-        public decimal I_TotalRemuneracion { get; set; }
+        public decimal totalRemuneracion { get; set; }
 
-        public decimal I_TotalDescuento { get; set; }
+        public decimal totalReintegro { get; set; }
 
-        public decimal I_TotalReintegro { get; set; }
+        public decimal totalDeduccion { get; set; }
 
-        public decimal I_TotalDeduccion { get; set; }
+        public decimal totalBruto { get;set; }
 
-        public decimal I_TotalSueldo { get; set; }
+        public decimal totalDescuento { get; set; }
 
-        public int I_PlanillaID { get; set; }
+        public decimal totalSueldo { get; set; }
 
-        public int I_PeriodoID { get; set; }
+        public int planillaID { get; set; }
 
-        public int I_Anio { get; set; }
+        public int periodoID { get; set; }
 
-        public int I_Mes { get; set; }
+        public int anio { get; set; }
 
-        public string T_MesDesc { get; set; }
+        public int mes { get; set; }
 
-        public int I_CategoriaPlanillaID { get; set; }
+        public string mesDesc { get; set; }
 
-        public string T_CategoriaPlanillaDesc { get; set; }
+        public int categoriaPlanillaID { get; set; }
+
+        public string categoriaPlanillaDesc { get; set; }
     }
 }
