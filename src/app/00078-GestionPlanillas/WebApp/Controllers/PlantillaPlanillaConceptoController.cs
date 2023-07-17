@@ -71,14 +71,14 @@ namespace WebApp.Controllers
                 {
                     if (x.aplicarFiltro1)
                     {
-                        x.descFiltro1 = listaGrupoOcupacional.Where(g => g.I_GrupoOcupacionalID == x.filtro1.Value)
-                            .First().C_GrupoOcupacionalCod;
+                        x.descFiltro1 = listaGrupoOcupacional.Where(g => g.grupoOcupacionalID == x.filtro1.Value)
+                            .First().grupoOcupacionalCod;
                     }
 
                     if (x.aplicarFiltro2)
                     {
-                        x.descFiltro2 = listaNivelRemunerativo.Where(n => n.I_NivelRemunerativoID == x.filtro2.Value)
-                            .First().C_NivelRemunerativoCod;
+                        x.descFiltro2 = listaNivelRemunerativo.Where(n => n.nivelRemunerativoID == x.filtro2.Value)
+                            .First().nivelRemunerativoCod;
                     }
                 }
                 
@@ -87,14 +87,14 @@ namespace WebApp.Controllers
                 {
                     if (x.aplicarFiltro1)
                     {
-                        x.descFiltro1 = listaCategoriaDocente.Where(c => c.I_CategoriaDocenteID == x.filtro1.Value)
-                            .First().C_CategoriaDocenteCod;
+                        x.descFiltro1 = listaCategoriaDocente.Where(c => c.categoriaDocenteID == x.filtro1.Value)
+                            .First().categoriaDocenteCod;
                     }
 
                     if (x.aplicarFiltro2)
                     {
-                        x.descFiltro2 = listaHorasDocente.Where(h => h.I_HorasDocenteID == x.filtro2.Value)
-                            .First().T_DedicacionXHorasCorto;
+                        x.descFiltro2 = listaHorasDocente.Where(h => h.horasDocenteID == x.filtro2.Value)
+                            .First().dedicacionXHorasCorto;
                     }
                 }
             });

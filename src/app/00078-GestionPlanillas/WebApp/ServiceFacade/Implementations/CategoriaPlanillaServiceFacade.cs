@@ -23,11 +23,11 @@ namespace WebApp.ServiceFacade.Implementations
 
             if (selectedItem.HasValue)
             {
-                return new SelectList(lista, "I_CategoriaPlanillaID", "T_CategoriaPlanillaDesc", selectedItem.Value);
+                return new SelectList(lista, "categoriaPlanillaID", "categoriaPlanillaDesc", selectedItem.Value);
             }
             else
             {
-                return new SelectList(lista, "I_CategoriaPlanillaID", "T_CategoriaPlanillaDesc");
+                return new SelectList(lista, "categoriaPlanillaID", "categoriaPlanillaDesc");
             }
         }
     }

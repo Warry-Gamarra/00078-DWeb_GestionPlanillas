@@ -169,10 +169,10 @@ namespace Domain.Helpers
         {
             var estadoDTO = new EstadoDTO()
             { 
-                I_EstadoID = table.I_EstadoID,
-                T_EstadoDesc = table.T_EstadoDesc,
-                C_EstadoCod = table.C_EstadoCod,
-                B_Habilitado = table.B_Habilitado
+                estadoID = table.I_EstadoID,
+                estadoDesc = table.T_EstadoDesc,
+                estadoCod = table.C_EstadoCod,
+                estaHabilitado = table.B_Habilitado
             };
 
             return estadoDTO;
@@ -182,10 +182,10 @@ namespace Domain.Helpers
         {
             var regimenDTO = new RegimenDTO()
             {
-                I_RegimenID = table.I_RegimenID,
-                T_RegimenDesc = table.T_RegimenDesc,
-                C_RegimenCod = table.C_RegimenCod,
-                B_Habilitado = table.B_Habilitado
+                regimenID = table.I_RegimenID,
+                regimenDesc = table.T_RegimenDesc,
+                regimenCod = table.C_RegimenCod,
+                estaHabilitado = table.B_Habilitado
             };
 
             return regimenDTO;
@@ -195,10 +195,10 @@ namespace Domain.Helpers
         {
             var vinculoDTO = new VinculoDTO()
             {
-                I_VinculoID = table.I_VinculoID,
-                T_VinculoDesc = table.T_VinculoDesc,
-                C_VinculoCod = table.C_VinculoCod,
-                B_Habilitado = table.B_Habilitado
+                vinculoID = table.I_VinculoID,
+                vinculoDesc = table.T_VinculoDesc,
+                vinculoCod = table.C_VinculoCod,
+                estaHabilitado = table.B_Habilitado
             };
 
             return vinculoDTO;
@@ -208,9 +208,9 @@ namespace Domain.Helpers
         {
             var tipoDocumentoDTO = new TipoDocumentoDTO()
             {
-                I_TipoDocumentoID = table.I_TipoDocumentoID,
-                T_TipoDocumentoDesc = table.T_TipoDocumentoDesc,
-                B_Habilitado = table.B_Habilitado
+                tipoDocumentoID = table.I_TipoDocumentoID,
+                tipoDocumentoDesc = table.T_TipoDocumentoDesc,
+                estaHabilitado = table.B_Habilitado
             };
 
             return tipoDocumentoDTO;
@@ -220,10 +220,10 @@ namespace Domain.Helpers
         {
             var bancoDTO = new BancoDTO()
             {
-                I_BancoID = table.I_BancoID,
-                T_BancoDesc = table.T_BancoDesc,
-                T_BancoAbrv = table.T_BancoAbrv,
-                B_Habilitado = table.B_Habilitado
+                bancoID = table.I_BancoID,
+                bancoDesc = table.T_BancoDesc,
+                bancoAbrv = table.T_BancoAbrv,
+                estaHabilitado = table.B_Habilitado
             };
 
             return bancoDTO;
@@ -233,10 +233,10 @@ namespace Domain.Helpers
         {
             var dependenciaDTO = new DependenciaDTO()
             {
-                I_DependenciaID = table.I_DependenciaID,
-                T_DependenciaDesc = table.T_DependenciaDesc,
-                C_DependenciaCod = table.C_DependenciaCod,
-                B_Habilitado = table.B_Habilitado
+                dependenciaID = table.I_DependenciaID,
+                dependenciaDesc = table.T_DependenciaDesc,
+                dependenciaCod = table.C_DependenciaCod,
+                estaHabilitado = table.B_Habilitado
             };
 
             return dependenciaDTO;
@@ -246,10 +246,10 @@ namespace Domain.Helpers
         {
             var afpDTO = new AfpDTO()
             {
-                I_AfpID = table.I_AfpID,
-                T_AfpDesc = table.T_AfpDesc,
-                C_AfpCod = table.C_AfpCod,
-                B_Habilitado = table.B_Habilitado
+                afpID = table.I_AfpID,
+                afpDesc = table.T_AfpDesc,
+                afpCod = table.C_AfpCod,
+                estaHabilitado = table.B_Habilitado
             };
 
             return afpDTO;
@@ -259,10 +259,10 @@ namespace Domain.Helpers
         {
             var grupoOcupacionalDTO = new GrupoOcupacionalDTO()
             {
-                I_GrupoOcupacionalID = table.I_GrupoOcupacionalID,
-                C_GrupoOcupacionalCod = table.C_GrupoOcupacionalCod,
-                T_GrupoOcupacionalDesc = table.T_GrupoOcupacionalDesc,
-                B_Habilitado = table.B_Habilitado
+                grupoOcupacionalID = table.I_GrupoOcupacionalID,
+                grupoOcupacionalCod = table.C_GrupoOcupacionalCod,
+                grupoOcupacionalDesc = table.T_GrupoOcupacionalDesc,
+                estaHabilitado = table.B_Habilitado
             };
 
             return grupoOcupacionalDTO;
@@ -272,10 +272,10 @@ namespace Domain.Helpers
         {
             var nivelRemunerativoDTO = new NivelRemunerativoDTO()
             {
-                I_NivelRemunerativoID = table.I_NivelRemunerativoID,
-                C_NivelRemunerativoCod = table.C_NivelRemunerativoCod,
-                T_NivelRemunerativoDesc = table.T_NivelRemunerativoDesc,
-                B_Habilitado = table.B_Habilitado
+                nivelRemunerativoID = table.I_NivelRemunerativoID,
+                nivelRemunerativoCod = table.C_NivelRemunerativoCod,
+                nivelRemunerativoDesc = table.T_NivelRemunerativoDesc,
+                estaHabilitado = table.B_Habilitado
             };
 
             return nivelRemunerativoDTO;
@@ -285,10 +285,10 @@ namespace Domain.Helpers
         {
             var categoriaDocenteDTO = new CategoriaDocenteDTO()
             {
-                I_CategoriaDocenteID = table.I_CategoriaDocenteID,
-                T_CategoriaDocenteDesc = table.T_CategoriaDocenteDesc,
-                C_CategoriaDocenteCod = table.C_CategoriaDocenteCod,
-                B_Habilitado = table.B_Habilitado
+                categoriaDocenteID = table.I_CategoriaDocenteID,
+                categoriaDocenteDesc = table.T_CategoriaDocenteDesc,
+                categoriaDocenteCod = table.C_CategoriaDocenteCod,
+                estaHabilitado = table.B_Habilitado
             };
 
             return categoriaDocenteDTO;
@@ -316,9 +316,9 @@ namespace Domain.Helpers
         {
             var categoriaPlanillaDTO = new CategoriaPlanillaDTO()
             {
-                I_CategoriaPlanillaID = table.I_CategoriaPlanillaID,
-                T_CategoriaPlanillaDesc = table.T_CategoriaPlanillaDesc,
-                B_Habilitado = table.B_Habilitado
+                categoriaPlanillaID = table.I_CategoriaPlanillaID,
+                categoriaPlanillaDesc = table.T_CategoriaPlanillaDesc,
+                estaHabilitado = table.B_Habilitado
             };
 
             return categoriaPlanillaDTO;
@@ -328,8 +328,8 @@ namespace Domain.Helpers
         {
             var mesDTO = new MesDTO()
             {
-                I_Mes = table.I_Mes,
-                T_MesDesc = table.T_MesDesc
+                mes = table.I_Mes,
+                mesDesc = table.T_MesDesc
             };
 
             return mesDTO;

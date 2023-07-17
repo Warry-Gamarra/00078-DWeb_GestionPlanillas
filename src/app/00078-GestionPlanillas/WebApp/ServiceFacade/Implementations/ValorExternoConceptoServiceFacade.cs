@@ -62,10 +62,10 @@ namespace WebApp.ServiceFacade.Implementations
                 {
                     anio = x.anio,
                     mes = x.mes,
-                    mesDesc = _periodoService.ListarMeses(x.anio.HasValue ? x.anio.Value : 0).Where(y => y.I_Mes == x.mes).FirstOrDefault().T_MesDesc,
+                    mesDesc = _periodoService.ListarMeses(x.anio.HasValue ? x.anio.Value : 0).Where(y => y.mes == x.mes).FirstOrDefault().mesDesc,
                     numDocumento = x.numDocumento,
                     tipoDocumentoID = x.tipoDocumentoID,
-                    tipoDocumentoDesc = listaTipDocumentos.Where(y => y.I_TipoDocumentoID == x.tipoDocumentoID).FirstOrDefault().T_TipoDocumentoDesc,
+                    tipoDocumentoDesc = listaTipDocumentos.Where(y => y.tipoDocumentoID == x.tipoDocumentoID).FirstOrDefault().tipoDocumentoDesc,
                     datosPersona = _personaService.ObtenerPersona((x.tipoDocumentoID.HasValue ? x.tipoDocumentoID.Value : 0), x.numDocumento).nombre,
                     conceptoCod = x.conceptoCod,
                     conceptoDesc = listaConceptos.Where(y => y.conceptoCod == x.conceptoCod).FirstOrDefault().conceptoDesc,

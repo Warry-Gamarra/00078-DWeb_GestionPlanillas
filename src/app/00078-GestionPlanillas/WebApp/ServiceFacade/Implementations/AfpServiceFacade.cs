@@ -23,11 +23,11 @@ namespace WebApp.ServiceFacade.Implementations
 
             if (selectedItem.HasValue)
             {
-                return new SelectList(lista, "I_AfpID", "T_AfpDesc", selectedItem.Value);
+                return new SelectList(lista, "afpID", "afpDesc", selectedItem.Value);
             }
             else
             {
-                return new SelectList(lista, "I_AfpID", "T_AfpDesc");
+                return new SelectList(lista, "afpID", "afpDesc");
             }
         }
     }

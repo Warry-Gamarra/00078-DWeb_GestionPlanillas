@@ -8,10 +8,10 @@ namespace Domain.Entities
 {
     public class CategoriaPlanillaDTO
     {
-        public int I_CategoriaPlanillaID { get; set; }
+        public int categoriaPlanillaID { get; set; }
 
-        public string T_CategoriaPlanillaDesc { get; set; }
+        public string categoriaPlanillaDesc { get; set; }
 
-        public bool B_Habilitado { get; set; }
+        public bool estaHabilitado { get; set; }
     }
 }

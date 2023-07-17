@@ -8,12 +8,12 @@ namespace Domain.Entities
 {
     public class RegimenDTO
     {
-        public int I_RegimenID { get; set; }
+        public int regimenID { get; set; }
 
-        public string T_RegimenDesc { get; set; }
+        public string regimenDesc { get; set; }
 
-        public string C_RegimenCod { get; set; }
+        public string regimenCod { get; set; }
 
-        public bool B_Habilitado { get; set; }
+        public bool estaHabilitado { get; set; }
     }
 }

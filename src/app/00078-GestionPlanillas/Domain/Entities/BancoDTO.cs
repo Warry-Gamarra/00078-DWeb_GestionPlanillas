@@ -8,12 +8,12 @@ namespace Domain.Entities
 {
     public class BancoDTO
     {
-        public int I_BancoID { get; set; }
+        public int bancoID { get; set; }
 
-        public string T_BancoDesc { get; set; }
+        public string bancoDesc { get; set; }
 
-        public string T_BancoAbrv { get; set; }
+        public string bancoAbrv { get; set; }
 
-        public bool B_Habilitado { get; set; }
+        public bool estaHabilitado { get; set; }
     }
 }

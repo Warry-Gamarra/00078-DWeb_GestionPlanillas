@@ -22,7 +22,7 @@ namespace Domain.Services.Implementations
 
             var result = lista
                 .Select(x => Mapper.TC_Dependencia_To_DependenciaDTO(x))
-                .OrderBy(x => x.T_DependenciaDesc)
+                .OrderBy(x => x.dependenciaDesc)
                 .ToList();
 
             return result;

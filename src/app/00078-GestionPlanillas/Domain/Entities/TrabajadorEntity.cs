@@ -8,46 +8,46 @@ namespace Domain.Entities
 {
     public class TrabajadorEntity
     {
-        public int? I_TrabajadorID { get; set; }
+        public int? trabajadorID { get; set; }
 
-        public int? I_PersonaID { get; set; }
+        public int? personaID { get; set; }
 
-        public string C_TrabajadorCod { get; set; }
+        public string trabajadorCod { get; set; }
 
-        public string T_ApellidoPaterno { get; set; }
+        public string apellidoPaterno { get; set; }
 
-        public string T_ApellidoMaterno { get; set; }
+        public string apellidoMaterno { get; set; }
 
-        public string T_Nombre { get; set; }
+        public string nombre { get; set; }
 
-        public int I_TipoDocumentoID { get; set; }
+        public int tipoDocumentoID { get; set; }
 
-        public string C_NumDocumento { get; set; }
+        public string numDocumento { get; set; }
 
-        public DateTime? D_FechaIngreso { get; set; }
+        public DateTime? fechaIngreso { get; set; }
 
-        public int I_RegimenID { get; set; }
+        public int regimenID { get; set; }
 
-        public int I_EstadoID { get; set; }
+        public int estadoID { get; set; }
 
-        public int I_VinculoID { get; set; }
+        public int vinculoID { get; set; }
 
-        public int? I_BancoID { get; set; }
+        public int? bancoID { get; set; }
 
-        public string T_NroCuentaBancaria { get; set; }
+        public string nroCuentaBancaria { get; set; }
 
-        public int? I_DependenciaID { get; set; }
+        public int? dependenciaID { get; set; }
 
-        public int? I_Afp { get; set; }
+        public int? afp { get; set; }
 
-        public string T_Cuspp { get; set; }
+        public string cuspp { get; set; }
 
-        public int? I_CategoriaDocenteID { get; set; }
+        public int? categoriaDocenteID { get; set; }
 
-        public int? I_HorasDocenteID { get; set; }
+        public int? horasDocenteID { get; set; }
 
-        public int? I_GrupoOcupacionalID { get; set; }
+        public int? grupoOcupacionalID { get; set; }
 
-        public int? I_NivelRemunerativoID { get; set; }
+        public int? nivelRemunerativoID { get; set; }
     }
 }

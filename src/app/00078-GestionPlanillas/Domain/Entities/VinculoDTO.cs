@@ -8,12 +8,12 @@ namespace Domain.Entities
 {
     public class VinculoDTO
     {
-        public int I_VinculoID { get; set; }
+        public int vinculoID { get; set; }
 
-        public string T_VinculoDesc { get; set; }
+        public string vinculoDesc { get; set; }
 
-        public string C_VinculoCod { get; set; }
+        public string vinculoCod { get; set; }
 
-        public bool B_Habilitado { get; set; }
+        public bool estaHabilitado { get; set; }
     }
 }

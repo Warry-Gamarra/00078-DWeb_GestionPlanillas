@@ -1,7 +1,4 @@
-﻿@model IEnumerable<WebApp.Models.TrabajadorModel>
-@using GridMvc.Html
-
-<div class="container-fluid">
+﻿<div class="container-fluid">
     <div class="col-12 mb-4">
         <section class="content-header">
             <nav aria-label="breadcrumb">
@@ -15,28 +12,112 @@
         </section>
     </div>
 
-    <div class="col-12">
-        <a href="@Url.Action("Nuevo", "Trabajadores")" class="btn btn-primary pull-right modal-link-lg">
-            <i class="fa bi-ui-checks-grid"></i> Nuevo trabajador
-        </a>
-
-        <p class="h3"><small>@ViewBag.Title</small></p>
-        <br /><br />
-        <div class="table-responsive" style="min-height:300px">
-            @Html.Grid(Model).Columns(columns =>
-            {
-                columns.Add(c => c.trabajadorCod).Titled("Cod.Per.").Css("text-left").Filterable(true);
-                columns.Add(c => c.tipoDocumentoDesc).Titled("Tip.Doc.").Css("text-left").Filterable(true);
-                columns.Add(c => c.numDocumento).Titled("Num.Doc.").Css("text-center").Filterable(true);
-                columns.Add(c => c.apellidosNombre).Titled("Apellidos y Nombres").Css("text-left").Filterable(true);
-                columns.Add(c => c.dependenciaDesc).Titled("Dependencia").Css("text-left").Filterable(true);
-                columns.Add(c => c.fechaIngreso).Titled("Fech.Ingreso").Css("text-center").Filterable(true);
-                columns.Add(c => c.regimenDesc).Titled("Régimen").Css("text-center").Filterable(true);
-                columns.Add(c => c.vinculoDesc).Titled("Vínculo").Css("text-left").Filterable(true);
-                columns.Add(c => c.estadoDesc).Titled("Estado").Css("text-center").Filterable(true);
-                columns.Add().SetWidth(150).Encoded(false).Sanitized(false).RenderValueAs(model => @<a href="@Url.Action("Editar", "Trabajadores", new { id = model.trabajadorID })" class="modal-link-lg"><i class="fa fa-pencil-square-o" aria-hidden="true"></i> <span class="d-none d-md-inline-block">Editar</span></a>);
-            }).WithPaging(12).Sortable(true).WithGridItemsCount("Registros encontrados").EmptyText("No se encontraron registros")
+    <div class="card mb-4">
+        <div class="card-header">
+            <span class="h4">Trabajadores</span>
+            <a href="@Url.Action("Nuevo", "Trabajadores")" class="btn btn-primary pull-right modal-link-lg">
+                <i class=" bi-ui-checks-grid" aria-hidden="true"></i> Nuevo trabajador
+            </a>
         </div>
-
+        <div class="card-body">
+            <div class="table-responsive">
+                <table class="table table-hover" id="dataTableTrabajadores" width="100%">
+                    <thead class="thead-dark">
+                        <tr>
+                            <th>Cod.Per.</th>
+                            <th>Tip.Doc.</th>
+                            <th>Num.Doc.</th>
+                            <th>Apellidos y Nombres</th>
+                            <th>Dependencia</th>
+                            <th>Fech.Ingreso</th>
+                            <th>Régimen</th>
+                            <th>Vínculo</th>
+                            <th>Estado</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tfoot>
+                        <tr>
+                            <th>Cod.Per.</th>
+                            <th>Tip.Doc.</th>
+                            <th>Num.Doc.</th>
+                            <th>Apellidos y Nombres</th>
+                            <th>Dependencia</th>
+                            <th>Fech.Ingreso</th>
+                            <th>Régimen</th>
+                            <th>Vínculo</th>
+                            <th>Estado</th>
+                            <th></th>
+                        </tr>
+                    </tfoot>
+                </table>
+            </div>
+        </div>
     </div>
 </div>
+
+@section scripts {
+    <script type="text/javascript">
+        $(document).ready(function () {
+            generarDataTableTrabajadores();
+        });
+
+        function generarDataTableTrabajadores() {
+            $('#dataTableTrabajadores').DataTable({
+                //processing: true,
+                //serverSide: true,
+                ajax: {
+                    'url': '@Url.Action("ObtenerListaTrabajadores", "Trabajadores")',
+                    'type': 'get'
+                },
+                columns: [
+                    { data: 'trabajadorCod' },
+                    { data: 'tipoDocumentoDesc' },
+                    { data: 'numDocumento' },
+                    { data: 'apellidosNombre' },
+                    { data: 'dependenciaDesc' },
+                    { data: 'fechaIngresoFormat' },
+                    { data: 'regimenDesc' },
+                    { data: 'vinculoDesc' },
+                    { data: 'estadoDesc' },
+                    { data: 'trabajadorID' }
+                ],
+                columnDefs: [
+                    {
+                        targets: -1,
+                        orderable: false,
+                        render: function (data, type, row) {
+                            return `<a class="modal-link-lg" href="@Url.Action("Editar", "Trabajadores")/${data}` +
+                                '"><i class="fa fa-pencil-square-o" aria-hidden="true"></i> <span class="d-none d-md-inline-block">Editar</span></a>';
+                        }
+                    }
+                ],
+                "bStateSave": true,
+                bDestroy: true,
+                lengthMenu: [[5, 10, 25, 50, -1], [5, 10, 25, 50, "Todas"]],
+                iDisplayLength: 5,
+                language: {
+                    search: "Buscar: ",
+                    lengthMenu: "Mostrar _MENU_ filas",
+                    info: "Mostrando del _START_ al _END_ de _TOTAL_ elementos.",
+                    infoEmpty: "No se encontraron registros.",
+                    zeroRecords: "No hay data disponible.",
+                    emptyTable: "No hay data disponible.",
+                    paginate: {
+                        first: "Primero",
+                        previous: "Previo",
+                        next: "Siguiente",
+                        last: "Último"
+                    },
+                    aria: {
+                        sortAscending: ": activar para ordenar la columna en orden ascendente",
+                        sortDescending: ": activar para ordenar la columna en orden descendente"
+                    },
+                    loadingRecords: "Cargando...",
+                    processing: "Procesando..."
+                },
+                searching: true
+            });
+        }
+    </script>
+}

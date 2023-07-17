@@ -8,12 +8,12 @@ namespace Domain.Entities
 {
     public class NivelRemunerativoDTO
     {
-        public int I_NivelRemunerativoID { get; set; }
+        public int nivelRemunerativoID { get; set; }
 
-        public string C_NivelRemunerativoCod { get; set; }
+        public string nivelRemunerativoCod { get; set; }
 
-        public string T_NivelRemunerativoDesc { get; set; }
+        public string nivelRemunerativoDesc { get; set; }
 
-        public bool B_Habilitado { get; set; }
+        public bool estaHabilitado { get; set; }
     }
 }

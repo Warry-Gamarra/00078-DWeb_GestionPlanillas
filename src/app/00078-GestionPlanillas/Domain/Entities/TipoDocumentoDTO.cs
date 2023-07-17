@@ -8,10 +8,10 @@ namespace Domain.Entities
 {
     public class TipoDocumentoDTO
     {
-        public int I_TipoDocumentoID { get; set; }
+        public int tipoDocumentoID { get; set; }
 
-        public string T_TipoDocumentoDesc { get; set; }
+        public string tipoDocumentoDesc { get; set; }
 
-        public bool B_Habilitado { get; set; }
+        public bool estaHabilitado { get; set; }
     }
 }

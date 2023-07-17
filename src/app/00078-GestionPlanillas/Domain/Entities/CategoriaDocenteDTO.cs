@@ -8,12 +8,12 @@ namespace Domain.Entities
 {
     public class CategoriaDocenteDTO
     {
-        public int I_CategoriaDocenteID { get; set; }
+        public int categoriaDocenteID { get; set; }
 
-        public string T_CategoriaDocenteDesc { get; set; }
+        public string categoriaDocenteDesc { get; set; }
 
-        public string C_CategoriaDocenteCod { get; set; }
+        public string categoriaDocenteCod { get; set; }
 
-        public bool B_Habilitado { get; set; }
+        public bool estaHabilitado { get; set; }
     }
 }

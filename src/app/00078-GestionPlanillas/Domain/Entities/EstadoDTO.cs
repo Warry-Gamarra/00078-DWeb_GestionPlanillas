@@ -8,12 +8,12 @@ namespace Domain.Entities
 {
     public class EstadoDTO
     {
-        public int I_EstadoID { get; set; }
+        public int estadoID { get; set; }
 
-        public string T_EstadoDesc { get; set; }
+        public string estadoDesc { get; set; }
 
-        public string C_EstadoCod { get; set; }
+        public string estadoCod { get; set; }
 
-        public bool B_Habilitado { get; set; }
+        public bool estaHabilitado { get; set; }
     }
 }

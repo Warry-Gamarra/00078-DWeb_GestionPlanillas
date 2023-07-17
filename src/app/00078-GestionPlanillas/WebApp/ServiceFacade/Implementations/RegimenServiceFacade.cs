@@ -23,11 +23,11 @@ namespace WebApp.ServiceFacade.Implementations
 
             if (selectedItem.HasValue)
             {
-                return new SelectList(lista, "I_RegimenID", "T_RegimenDesc", selectedItem.Value);
+                return new SelectList(lista, "regimenID", "regimenDesc", selectedItem.Value);
             }
             else
             {
-                return new SelectList(lista, "I_RegimenID", "T_RegimenDesc");
+                return new SelectList(lista, "regimenID", "regimenDesc");
             }
         }
     }

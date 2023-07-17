@@ -262,8 +262,8 @@ namespace WebApp.Models
         {
             var model = new MesModel()
             {
-                mesID = dto.I_Mes,
-                mesDesc = dto.T_MesDesc
+                mesID = dto.mes,
+                mesDesc = dto.mesDesc
             };
 
             return model;

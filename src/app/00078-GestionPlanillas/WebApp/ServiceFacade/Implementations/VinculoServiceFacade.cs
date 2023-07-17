@@ -23,11 +23,11 @@ namespace WebApp.ServiceFacade.Implementations
 
             if (selectedItem.HasValue)
             {
-                return new SelectList(lista, "I_VinculoID", "T_VinculoDesc", selectedItem.Value);
+                return new SelectList(lista, "vinculoID", "vinculoDesc", selectedItem.Value);
             }
             else
             {
-                return new SelectList(lista, "I_VinculoID", "T_VinculoDesc");
+                return new SelectList(lista, "vinculoID", "vinculoDesc");
             }
         }
     }

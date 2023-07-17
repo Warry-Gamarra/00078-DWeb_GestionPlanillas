@@ -25,11 +25,11 @@ namespace WebApp.ServiceFacade.Implementations
 
             if (selectedItem.HasValue)
             {
-                return new SelectList(lista, "I_NivelRemunerativoID", "T_NivelRemunerativoDesc", selectedItem.Value);
+                return new SelectList(lista, "nivelRemunerativoID", "nivelRemunerativoDesc", selectedItem.Value);
             }
             else
             {
-                return new SelectList(lista, "I_NivelRemunerativoID", "T_NivelRemunerativoDesc");
+                return new SelectList(lista, "nivelRemunerativoID", "nivelRemunerativoDesc");
             }
         }
 

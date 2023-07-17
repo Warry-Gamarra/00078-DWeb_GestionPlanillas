@@ -8,33 +8,33 @@ namespace Domain.Entities
 {
     public class HorasDedicacionDocenteDTO
     {
-        public int I_HorasDocenteID { get; set; }
+        public int horasDocenteID { get; set; }
 
-        public int I_Horas { get; set; }
+        public int horas { get; set; }
 
-        public int I_DedicacionDocenteID { get; set; }
+        public int dedicacionDocenteID { get; set; }
 
-        public string T_DedicacionDocenteDesc { get; set; }
+        public string dedicacionDocenteDesc { get; set; }
 
-        public string C_DedicacionDocenteCod { get; set; }
+        public string dedicacionDocenteCod { get; set; }
 
-        public bool B_HoraHabilitado { get; set; }
+        public bool estaHoraHabilitada { get; set; }
 
-        public bool B_DedicacionHabilitado { get; set; }
+        public bool estaDedicacionHabilitada { get; set; }
 
-        public string T_DedicacionXHorasCorto
+        public string dedicacionXHorasCorto
         { 
             get
             {
-                return String.Format("{0} / {1}", C_DedicacionDocenteCod, I_Horas.ToString());
+                return String.Format("{0} / {1}", dedicacionDocenteCod, horas.ToString());
             }
         }
 
-        public string T_DedicacionXHorasLargo
+        public string dedicacionXHorasLargo
         {
             get
             {
-                return String.Format("{0} / {1}", T_DedicacionDocenteDesc, I_Horas.ToString());
+                return String.Format("{0} / {1}", dedicacionDocenteDesc, horas.ToString());
             }
         }
     }

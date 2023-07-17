@@ -8,8 +8,8 @@ namespace Domain.Entities
 {
     public class MesDTO
     {
-        public int I_Mes { get; set; }
+        public int mes { get; set; }
 
-        public string T_MesDesc { get; set; }
+        public string mesDesc { get; set; }
     }
 }

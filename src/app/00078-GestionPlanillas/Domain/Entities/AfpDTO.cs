@@ -8,12 +8,12 @@ namespace Domain.Entities
 {
     public class AfpDTO
     {
-        public int I_AfpID { get; set; }
+        public int afpID { get; set; }
 
-        public string T_AfpDesc { get; set; }
+        public string afpDesc { get; set; }
 
-        public string C_AfpCod { get; set; }
+        public string afpCod { get; set; }
 
-        public bool B_Habilitado { get; set; }
+        public bool estaHabilitado { get; set; }
     }
 }

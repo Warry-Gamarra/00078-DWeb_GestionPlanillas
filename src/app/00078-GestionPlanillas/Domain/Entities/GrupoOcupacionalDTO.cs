@@ -8,12 +8,12 @@ namespace Domain.Entities
 {
     public class GrupoOcupacionalDTO
     {
-        public int I_GrupoOcupacionalID { get; set; }
+        public int grupoOcupacionalID { get; set; }
 
-        public string C_GrupoOcupacionalCod { get; set; }
+        public string grupoOcupacionalCod { get; set; }
 
-        public string T_GrupoOcupacionalDesc { get; set; }
+        public string grupoOcupacionalDesc { get; set; }
 
-        public bool B_Habilitado { get; set; }
+        public bool estaHabilitado { get; set; }
     }
 }

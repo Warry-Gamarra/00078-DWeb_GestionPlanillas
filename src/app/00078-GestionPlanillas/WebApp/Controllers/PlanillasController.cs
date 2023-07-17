@@ -28,42 +28,53 @@ namespace WebApp.Controllers
             _trabajadorServiceFacade = new TrabajadorServiceFacade();
         }
 
-        public ActionResult Index(int? anio, int? mes, int? idCategoria)
+        [HttpGet]
+        public ActionResult Index()
         {
             var listaAños = _periodoServiceFacade.ObtenerComboAños();
 
-            if (!anio.HasValue)
-                anio = (listaAños.Count() > 0) ? int.Parse(listaAños.First().Value) : DateTime.Now.Year;
+            var anio = (listaAños.Count() > 0) ? int.Parse(listaAños.First().Value) : DateTime.Now.Year;
 
             ViewBag.Title = "Resumen Planilla de Trabajadores";
 
             ViewBag.ListaAños = listaAños;
 
-            ViewBag.ListaMeses = _periodoServiceFacade.ObtenerComboMeses(anio.Value);
+            ViewBag.ListaMeses = _periodoServiceFacade.ObtenerComboMeses(anio);
 
             ViewBag.ListaCategoriasPlanillas = _categoriaPlanillaServiceFacade.ObtenerComboCategoriasPlanillas();
 
-            List<ResumenPlanillaTrabajadorModel> model;
+            return View();
+        }
+
+        [HttpGet]
+        public JsonResult ObtenerListaTrabajadoreConPlanilla(int? anio, int? mes, int? idCategoria)
+        {
+            var result = new AjaxResponse();
+
+            List<ResumenPlanillaTrabajadorModel> lista;
 
             if (anio.HasValue && mes.HasValue)
             {
-                model = _planillaServiceFacade.ListarResumenPlanillaTrabajador()
+                lista = _planillaServiceFacade.ListarResumenPlanillaTrabajador()
                     .Where(x => x.anio == anio.Value && x.mes == mes.Value)
                     .ToList();
 
                 if (idCategoria.HasValue)
                 {
-                    model = model.Where(x => x.categoriaPlanillaID == idCategoria.Value).ToList();
+                    lista = lista.Where(x => x.categoriaPlanillaID == idCategoria.Value).ToList();
                 }
             }
             else
             {
-                model = new List<ResumenPlanillaTrabajadorModel>();
+                lista = new List<ResumenPlanillaTrabajadorModel>();
             }
 
-            return View(model);
+            result.data = lista;
+
+            return Json(result, JsonRequestBehavior.AllowGet);
         }
 
+        [HttpGet]
         public ActionResult Generar(int? anio, int? mes, int? idCategoria, bool? busqueda)
         {
             string gridPage = Request.QueryString["grid-page"];
@@ -112,6 +123,7 @@ namespace WebApp.Controllers
             return View(model);
         }
 
+        [HttpGet]
         public JsonResult DeshabilitarTrabajador(int id, bool isChecked)
         {
             Response response;

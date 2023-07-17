@@ -21,19 +21,19 @@ namespace Domain.Services.Implementations
 
                 var item = new HorasDedicacionDocenteDTO()
                 {
-                    I_HorasDocenteID = hora.I_HorasDocenteID,
-                    I_Horas = hora.I_Horas,
-                    B_HoraHabilitado = hora.B_Habilitado,
-                    I_DedicacionDocenteID = dedicacion.I_DedicacionDocenteID,
-                    T_DedicacionDocenteDesc = dedicacion.T_DedicacionDocenteDesc,
-                    C_DedicacionDocenteCod = dedicacion.C_DedicacionDocenteCod,
-                    B_DedicacionHabilitado = dedicacion.B_Habilitado
+                    horasDocenteID = hora.I_HorasDocenteID,
+                    horas = hora.I_Horas,
+                    estaHoraHabilitada = hora.B_Habilitado,
+                    dedicacionDocenteID = dedicacion.I_DedicacionDocenteID,
+                    dedicacionDocenteDesc = dedicacion.T_DedicacionDocenteDesc,
+                    dedicacionDocenteCod = dedicacion.C_DedicacionDocenteCod,
+                    estaDedicacionHabilitada = dedicacion.B_Habilitado
                 };
 
                 result.Add(item);
             }
 
-            return result.OrderBy(x => x.I_Horas).ToList();
+            return result.OrderBy(x => x.horas).ToList();
         }
     }
 }

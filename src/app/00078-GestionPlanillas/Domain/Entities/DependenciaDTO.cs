@@ -8,20 +8,20 @@ namespace Domain.Entities
 {
     public class DependenciaDTO
     {
-        public int I_DependenciaID { get; set; }
+        public int dependenciaID { get; set; }
 
-        public string T_DependenciaDesc { get; set; }
+        public string dependenciaDesc { get; set; }
 
-        public string C_DependenciaCod { get; set; }
+        public string dependenciaCod { get; set; }
 
-        public string T_DependenciaCodDesc
+        public string dependenciaCodDesc
         {
             get
             {
-                return String.Format("{0} {1}", C_DependenciaCod, T_DependenciaDesc);
+                return String.Format("{0} {1}", dependenciaCod, dependenciaDesc);
             }
         }
 
-        public bool B_Habilitado { get; set; }
+        public bool estaHabilitado { get; set; }
     }
 }

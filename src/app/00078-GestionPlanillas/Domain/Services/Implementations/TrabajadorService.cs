@@ -54,7 +54,7 @@ namespace Domain.Services.Implementations
                 {
                     case Operacion.Registrar:
 
-                        if (TC_Persona.FindByNumDocumento(trabajadorEntity.I_TipoDocumentoID, trabajadorEntity.C_NumDocumento) != null)
+                        if (TC_Persona.FindByNumDocumento(trabajadorEntity.tipoDocumentoID, trabajadorEntity.numDocumento) != null)
                         {
                             nroDocumentoUnico = false;
                         }
@@ -63,25 +63,25 @@ namespace Domain.Services.Implementations
                         {
                             var grabarDocente = new USP_I_RegistrarTrabajador()
                             {
-                                C_TrabajadorCod = trabajadorEntity.C_TrabajadorCod,
-                                T_ApellidoPaterno = trabajadorEntity.T_ApellidoPaterno,
-                                T_ApellidoMaterno = trabajadorEntity.T_ApellidoMaterno,
-                                T_Nombre = trabajadorEntity.T_Nombre,
-                                I_TipoDocumentoID = trabajadorEntity.I_TipoDocumentoID,
-                                C_NumDocumento = trabajadorEntity.C_NumDocumento,
-                                D_FechaIngreso = trabajadorEntity.D_FechaIngreso,
-                                I_RegimenID = trabajadorEntity.I_RegimenID,
-                                I_EstadoID = trabajadorEntity.I_EstadoID,
-                                I_VinculoID = trabajadorEntity.I_VinculoID,
-                                I_BancoID = trabajadorEntity.I_BancoID,
-                                T_NroCuentaBancaria = trabajadorEntity.T_NroCuentaBancaria,
-                                I_DependenciaID = trabajadorEntity.I_DependenciaID,
-                                I_AfpID = trabajadorEntity.I_Afp,
-                                T_Cuspp = trabajadorEntity.T_Cuspp,
-                                I_CategoriaDocenteID = trabajadorEntity.I_CategoriaDocenteID,
-                                I_HorasDocenteID = trabajadorEntity.I_HorasDocenteID,
-                                I_GrupoOcupacionalID = trabajadorEntity.I_GrupoOcupacionalID,
-                                I_NivelRemunerativoID = trabajadorEntity.I_NivelRemunerativoID,
+                                C_TrabajadorCod = trabajadorEntity.trabajadorCod,
+                                T_ApellidoPaterno = trabajadorEntity.apellidoPaterno,
+                                T_ApellidoMaterno = trabajadorEntity.apellidoMaterno,
+                                T_Nombre = trabajadorEntity.nombre,
+                                I_TipoDocumentoID = trabajadorEntity.tipoDocumentoID,
+                                C_NumDocumento = trabajadorEntity.numDocumento,
+                                D_FechaIngreso = trabajadorEntity.fechaIngreso,
+                                I_RegimenID = trabajadorEntity.regimenID,
+                                I_EstadoID = trabajadorEntity.estadoID,
+                                I_VinculoID = trabajadorEntity.vinculoID,
+                                I_BancoID = trabajadorEntity.bancoID,
+                                T_NroCuentaBancaria = trabajadorEntity.nroCuentaBancaria,
+                                I_DependenciaID = trabajadorEntity.dependenciaID,
+                                I_AfpID = trabajadorEntity.afp,
+                                T_Cuspp = trabajadorEntity.cuspp,
+                                I_CategoriaDocenteID = trabajadorEntity.categoriaDocenteID,
+                                I_HorasDocenteID = trabajadorEntity.horasDocenteID,
+                                I_GrupoOcupacionalID = trabajadorEntity.grupoOcupacionalID,
+                                I_NivelRemunerativoID = trabajadorEntity.nivelRemunerativoID,
                                 I_UserID = userID
                             };
 
@@ -99,14 +99,14 @@ namespace Domain.Services.Implementations
 
                     case Operacion.Actualizar:
 
-                        if (!trabajadorEntity.I_TrabajadorID.HasValue)
+                        if (!trabajadorEntity.trabajadorID.HasValue)
                         {
                             throw new Exception("Ha ocurrido un error al obtener los datos. Por favor recargue la página y vuelva a intentarlo.");
                         }
 
-                        var personaDTO = TC_Persona.FindByNumDocumento(trabajadorEntity.I_TipoDocumentoID, trabajadorEntity.C_NumDocumento);
+                        var personaDTO = TC_Persona.FindByNumDocumento(trabajadorEntity.tipoDocumentoID, trabajadorEntity.numDocumento);
 
-                        if (personaDTO != null && personaDTO.I_PersonaID != trabajadorEntity.I_PersonaID)
+                        if (personaDTO != null && personaDTO.I_PersonaID != trabajadorEntity.personaID)
                         {
                             nroDocumentoUnico = false;
                         }
@@ -115,26 +115,26 @@ namespace Domain.Services.Implementations
                         {
                             var actualizarDocente = new USP_U_ActualizarTrabajador()
                             {
-                                I_TrabajadorID = trabajadorEntity.I_TrabajadorID.Value,
-                                C_TrabajadorCod = trabajadorEntity.C_TrabajadorCod,
-                                T_ApellidoPaterno = trabajadorEntity.T_ApellidoPaterno,
-                                T_ApellidoMaterno = trabajadorEntity.T_ApellidoMaterno,
-                                T_Nombre = trabajadorEntity.T_Nombre,
-                                I_TipoDocumentoID = trabajadorEntity.I_TipoDocumentoID,
-                                C_NumDocumento = trabajadorEntity.C_NumDocumento,
-                                D_FechaIngreso = trabajadorEntity.D_FechaIngreso,
-                                I_RegimenID = trabajadorEntity.I_RegimenID,
-                                I_EstadoID = trabajadorEntity.I_EstadoID,
-                                I_VinculoID = trabajadorEntity.I_VinculoID,
-                                I_BancoID = trabajadorEntity.I_BancoID,
-                                T_NroCuentaBancaria = trabajadorEntity.T_NroCuentaBancaria,
-                                I_DependenciaID = trabajadorEntity.I_DependenciaID,
-                                I_AfpID = trabajadorEntity.I_Afp,
-                                T_Cuspp = trabajadorEntity.T_Cuspp,
-                                I_CategoriaDocenteID = trabajadorEntity.I_CategoriaDocenteID,
-                                I_HorasDocenteID = trabajadorEntity.I_HorasDocenteID,
-                                I_GrupoOcupacionalID = trabajadorEntity.I_GrupoOcupacionalID,
-                                I_NivelRemunerativoID = trabajadorEntity.I_NivelRemunerativoID,
+                                I_TrabajadorID = trabajadorEntity.trabajadorID.Value,
+                                C_TrabajadorCod = trabajadorEntity.trabajadorCod,
+                                T_ApellidoPaterno = trabajadorEntity.apellidoPaterno,
+                                T_ApellidoMaterno = trabajadorEntity.apellidoMaterno,
+                                T_Nombre = trabajadorEntity.nombre,
+                                I_TipoDocumentoID = trabajadorEntity.tipoDocumentoID,
+                                C_NumDocumento = trabajadorEntity.numDocumento,
+                                D_FechaIngreso = trabajadorEntity.fechaIngreso,
+                                I_RegimenID = trabajadorEntity.regimenID,
+                                I_EstadoID = trabajadorEntity.estadoID,
+                                I_VinculoID = trabajadorEntity.vinculoID,
+                                I_BancoID = trabajadorEntity.bancoID,
+                                T_NroCuentaBancaria = trabajadorEntity.nroCuentaBancaria,
+                                I_DependenciaID = trabajadorEntity.dependenciaID,
+                                I_AfpID = trabajadorEntity.afp,
+                                T_Cuspp = trabajadorEntity.cuspp,
+                                I_CategoriaDocenteID = trabajadorEntity.categoriaDocenteID,
+                                I_HorasDocenteID = trabajadorEntity.horasDocenteID,
+                                I_GrupoOcupacionalID = trabajadorEntity.grupoOcupacionalID,
+                                I_NivelRemunerativoID = trabajadorEntity.nivelRemunerativoID,
                                 I_UserID = userID
                             };
 

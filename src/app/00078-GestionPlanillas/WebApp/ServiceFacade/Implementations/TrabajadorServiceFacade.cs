@@ -88,27 +88,27 @@ namespace WebApp.ServiceFacade.Implementations
             {
                 var trabajadorEntity = new TrabajadorEntity()
                 {
-                    I_TrabajadorID = model.trabajadorID,
-                    I_PersonaID = model.personaID,
-                    C_TrabajadorCod = model.trabajadorCod,
-                    T_ApellidoPaterno = model.apellidoPaterno,
-                    T_ApellidoMaterno = model.apellidoMaterno,
-                    T_Nombre = model.nombre,
-                    I_TipoDocumentoID = model.tipoDocumentoID,
-                    C_NumDocumento = model.numDocumento,
-                    D_FechaIngreso = model.fechaIngreso,
-                    I_RegimenID = model.regimenID.Value,
-                    I_EstadoID = model.estadoID,
-                    I_VinculoID = model.vinculoID,
-                    I_BancoID = model.bancoID,
-                    T_NroCuentaBancaria = model.nroCuentaBancaria,
-                    I_DependenciaID = model.dependenciaID,
-                    I_Afp = model.afpID,
-                    T_Cuspp = model.cuspp,
-                    I_CategoriaDocenteID = model.categoriaDocenteID,
-                    I_HorasDocenteID = model.horasDocenteID,
-                    I_GrupoOcupacionalID = model.grupoOcupacionalID,
-                    I_NivelRemunerativoID = model.nivelRemunerativoID
+                    trabajadorID = model.trabajadorID,
+                    personaID = model.personaID,
+                    trabajadorCod = model.trabajadorCod,
+                    apellidoPaterno = model.apellidoPaterno,
+                    apellidoMaterno = model.apellidoMaterno,
+                    nombre = model.nombre,
+                    tipoDocumentoID = model.tipoDocumentoID,
+                    numDocumento = model.numDocumento,
+                    fechaIngreso = model.fechaIngreso,
+                    regimenID = model.regimenID.Value,
+                    estadoID = model.estadoID,
+                    vinculoID = model.vinculoID,
+                    bancoID = model.bancoID,
+                    nroCuentaBancaria = model.nroCuentaBancaria,
+                    dependenciaID = model.dependenciaID,
+                    afp = model.afpID,
+                    cuspp = model.cuspp,
+                    categoriaDocenteID = model.categoriaDocenteID,
+                    horasDocenteID = model.horasDocenteID,
+                    grupoOcupacionalID = model.grupoOcupacionalID,
+                    nivelRemunerativoID = model.nivelRemunerativoID
                 };
 
                 response = _trabajadorService.GrabarTrabajador(operacion, trabajadorEntity, userID);

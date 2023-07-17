@@ -24,16 +24,16 @@ namespace WebApp.ServiceFacade.Implementations
 
             var lista = _horasDocenteService.ListarHorasDedicacionDocente();
 
-            foreach (var group in lista.GroupBy(x => x.T_DedicacionDocenteDesc))
+            foreach (var group in lista.GroupBy(x => x.dedicacionDocenteDesc))
             {
                 var optionGroup = new SelectListGroup() { Name = group.Key };
 
                 var range = group.Select(x => new SelectListItem()
                 {
-                    Value = x.I_HorasDocenteID.ToString(),
-                    Text = x.T_DedicacionXHorasCorto,
+                    Value = x.horasDocenteID.ToString(),
+                    Text = x.dedicacionXHorasCorto,
                     Group = optionGroup,
-                    Selected = selectedItem.HasValue ? x.I_HorasDocenteID == selectedItem.Value : false
+                    Selected = selectedItem.HasValue ? x.horasDocenteID == selectedItem.Value : false
                 });
 
                 result.AddRange(

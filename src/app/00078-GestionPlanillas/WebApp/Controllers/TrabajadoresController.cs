@@ -53,6 +53,7 @@ namespace WebApp.Controllers
             _horasDocenteServiceFacade = new HorasDocenteServiceFacade();
         }
 
+        [HttpGet]
         public ActionResult Index()
         {
             ViewBag.Title = "Gestión de Trabajadores";
@@ -62,6 +63,17 @@ namespace WebApp.Controllers
             return View(lista);
         }
 
+        [HttpGet]
+        public JsonResult ObtenerListaTrabajadores()
+        {
+            var result = new AjaxResponse();
+
+            result.data = _trabajadorServiceFacade.ListarTrabajadores();
+
+            return Json(result, JsonRequestBehavior.AllowGet);
+        }
+
+        [HttpGet]
         public ActionResult Nuevo()
         {
             ViewBag.Title = "Nuevo Trabajador";
@@ -113,6 +125,7 @@ namespace WebApp.Controllers
             return PartialView("_MsgRegistrarTrabajador", response);
         }
 
+        [HttpGet]
         public ActionResult Editar(int id)
         {
             ViewBag.Title = "Detalle del Trabajador";

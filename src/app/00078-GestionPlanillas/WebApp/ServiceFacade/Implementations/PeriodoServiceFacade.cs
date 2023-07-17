@@ -50,11 +50,11 @@ namespace WebApp.ServiceFacade.Implementations
 
             if (selectedItem.HasValue)
             {
-                return new SelectList(lista, "I_Mes", "T_MesDesc", selectedItem.Value);
+                return new SelectList(lista, "mes", "mesDesc", selectedItem.Value);
             }
             else
             {
-                return new SelectList(lista, "I_Mes", "T_MesDesc");
+                return new SelectList(lista, "mes", "mesDesc");
             }
         }
     }
