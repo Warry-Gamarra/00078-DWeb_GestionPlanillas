@@ -44,9 +44,9 @@ namespace WebApp.ServiceFacade.Implementations
             }
         }
 
-        public SelectList ObtenerComboMeses(int I_Anio, int? selectedItem = null)
+        public SelectList ObtenerComboMeses(int anio, int? selectedItem = null)
         {
-            var lista = _periodoService.ListarMeses(I_Anio);
+            var lista = _periodoService.ListarMeses(anio);
 
             if (selectedItem.HasValue)
             {

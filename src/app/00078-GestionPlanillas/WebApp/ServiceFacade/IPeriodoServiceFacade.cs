@@ -12,6 +12,6 @@ namespace WebApp.ServiceFacade
     {
         SelectList ObtenerComboAños(int? selectedItem = null);
 
-        SelectList ObtenerComboMeses(int I_Anio, int? selectedItem = null);
+        SelectList ObtenerComboMeses(int anio, int? selectedItem = null);
     }
 }

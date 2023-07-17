@@ -3,6 +3,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.UI;
@@ -33,13 +34,13 @@ namespace WebApp.Controllers
         {
             var listaAños = _periodoServiceFacade.ObtenerComboAños();
 
-            var anio = (listaAños.Count() > 0) ? int.Parse(listaAños.First().Value) : DateTime.Now.Year;
+            var año = (listaAños.Count() > 0) ? int.Parse(listaAños.First().Value) : DateTime.Now.Year;
 
             ViewBag.Title = "Resumen Planilla de Trabajadores";
 
             ViewBag.ListaAños = listaAños;
 
-            ViewBag.ListaMeses = _periodoServiceFacade.ObtenerComboMeses(anio);
+            ViewBag.ListaMeses = _periodoServiceFacade.ObtenerComboMeses(año);
 
             ViewBag.ListaCategoriasPlanillas = _categoriaPlanillaServiceFacade.ObtenerComboCategoriasPlanillas();
 
@@ -75,62 +76,59 @@ namespace WebApp.Controllers
         }
 
         [HttpGet]
-        public ActionResult Generar(int? anio, int? mes, int? idCategoria, bool? busqueda)
+        public ActionResult Generar()
         {
-            string gridPage = Request.QueryString["grid-page"];
+            var listaAños = _periodoServiceFacade.ObtenerComboAños();
 
-            string gridFilter = Request.QueryString["grid-filter"];
-
-            List<TrabajadorCategoriaPlanillaModel> model;
-
-            var listaAños = _periodoServiceFacade.ObtenerComboAños(selectedItem: anio);
-
-            if (!anio.HasValue)
-                anio = (listaAños.Count() > 0) ? int.Parse(listaAños.First().Value) : DateTime.Now.Year;
+            var año = (listaAños.Count() > 0) ? int.Parse(listaAños.First().Value) : DateTime.Now.Year;
 
             ViewBag.Title = "Generar Planillas";
 
             ViewBag.ListaAños = listaAños;
 
-            ViewBag.ListaMeses = _periodoServiceFacade.ObtenerComboMeses(I_Anio: anio.Value, selectedItem: mes);
+            ViewBag.ListaMeses = _periodoServiceFacade.ObtenerComboMeses(año);
 
-            ViewBag.ListaCategoriasPlanillas = _categoriaPlanillaServiceFacade.ObtenerComboCategoriasPlanillas(selectedItem: idCategoria);
+            ViewBag.ListaCategoriasPlanillas = _categoriaPlanillaServiceFacade.ObtenerComboCategoriasPlanillas();
 
-            if (anio.HasValue && mes.HasValue)
-            {
-                if (gridPage == null && gridFilter == null)
-                //if (busqueda.HasValue)
-                {
-                    model = _trabajadorServiceFacade.ListarTrabajadoresCategoriaPlanilla(idCategoria);
-
-                    if (Session["lista"] != null)
-                    {
-                        Session.Remove("lista");
-                    }
-
-                    Session["lista"] = model;
-                }
-                else
-                {
-                    model = (List<TrabajadorCategoriaPlanillaModel>)Session["lista"];
-                }
-            }
-            else
-            {
-                model = new List<TrabajadorCategoriaPlanillaModel>();
-            }
-
-            return View(model);
+            return View();
         }
 
         [HttpGet]
+        public JsonResult ObtenerListaTrabajadoresAptos(int? anio, int? mes, int? idCategoria)
+        {
+            var result = new AjaxResponse();
+
+            List<TrabajadorCategoriaPlanillaModel> listaTrabajadoresAptos;
+
+            if (idCategoria.HasValue)
+            {
+                listaTrabajadoresAptos = _trabajadorServiceFacade.ListarTrabajadoresCategoriaPlanilla(idCategoria.Value);
+            }
+            else
+            {
+                listaTrabajadoresAptos = new List<TrabajadorCategoriaPlanillaModel>();
+            }
+
+            if (Session["listaTrabajadoresAptos"] != null)
+            {
+                Session.Remove("listaTrabajadoresAptos");
+            }
+
+            Session["listaTrabajadoresAptos"] = listaTrabajadoresAptos;
+
+            result.data = listaTrabajadoresAptos;
+
+            return Json(result, JsonRequestBehavior.AllowGet);
+        }
+
+        [HttpPost]
         public JsonResult DeshabilitarTrabajador(int id, bool isChecked)
         {
             Response response;
 
             try
             {
-                var lista = (List<TrabajadorCategoriaPlanillaModel>)Session["lista"];
+                var lista = (List<TrabajadorCategoriaPlanillaModel>)Session["listaTrabajadoresAptos"];
 
                 lista.ForEach(x => {
                     if (x.trabajadorID == id)
@@ -139,9 +137,9 @@ namespace WebApp.Controllers
                     }
                 });
 
-                Session.Remove("lista");
+                Session.Remove("listaTrabajadoresAptos");
 
-                Session["lista"] = lista;
+                Session["listaTrabajadoresAptos"] = lista;
 
                 response = new Response()
                 {
@@ -169,12 +167,12 @@ namespace WebApp.Controllers
             {
                 response = new Response();
 
-                if (Session["lista"] == null)
+                if (Session["listaTrabajadoresAptos"] == null)
                 {
                     response.Message = "Ha ocurrido un error obteniendo los trabajadores para la planilla. Por favor realice la búsqueda nuevamente.";
                 }
 
-                var lista = (List<TrabajadorCategoriaPlanillaModel>)Session["lista"];
+                var lista = (List<TrabajadorCategoriaPlanillaModel>)Session["listaTrabajadoresAptos"];
 
                 response = _planillaServiceFacade.GenerarPlanilla(
                     lista.Where(x => x.seleccionado).Select(x => x.trabajadorID).ToList(), anio, mes, categoriaPlanillaID, WebSecurity.CurrentUserId);

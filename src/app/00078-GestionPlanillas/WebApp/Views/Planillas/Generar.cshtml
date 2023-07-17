@@ -1,7 +1,4 @@
-﻿@model IEnumerable<WebApp.Models.TrabajadorCategoriaPlanillaModel>
-@using GridMvc.Html
-
-<div class="container-fluid">
+﻿<div class="container-fluid">
     <div class="col-12 mb-4">
         <section class="content-header">
             <nav aria-label="breadcrumb">
@@ -42,7 +39,7 @@
                                 <div class="form-group col-lg-2 col-4">
                                     <label>&nbsp;</label>
                                     @Html.Hidden("busqueda", true)
-                                    <button type="submit" class="btn btn-block btn-outline-primary"><i class="fa fa-fw fa-search"></i> Verificar</button>
+                                    <button type="button" class="btn btn-block btn-outline-primary"><i class="fa fa-fw fa-search"></i> Verificar</button>
                                 </div>
                             </div>
                         }
@@ -51,89 +48,180 @@
 
                 <div class="table-responsive mt-4">
                     <p class="h5">Relación de estudiantes registrados en el sistema</p>
-                    @if (Model != null && Model.Count() > 0)
-                    {
-                        <div class="form-group col-lg-2 col-4 pl-0">
-                            <button type="button" id="btnGenerar" class="btn btn-block btn-outline-primary"><i class="fa fa-fw fa-cogs"></i> Generar Planilla</button>
-                        </div>
-                    }
+                    @*@if (Model != null && Model.Count() > 0)
+                        {*@
+                    <div class="form-group col-lg-2 col-4 pl-0">
+                        <button type="button" id="btnGenerar" class="btn btn-block btn-outline-primary"><i class="fa fa-fw fa-cogs"></i> Generar Planilla</button>
+                    </div>
+                    @*}*@
 
-                   @Html.Grid(Model).Columns(columns =>
-                   {
-                       columns.Add().Titled("-").Encoded(false).Sanitized(false)
-                        .RenderValueAs(model => "<input type=\"checkbox\" name=\"chkTrabajador\" value=\"" + model.trabajadorID + "\"" + (model.seleccionado ? "checked" : "") + " onclick=\"deshabilitarTrabajador(this);\" /> ");
-                       columns.Add(c => c.categoriaPlanillaDesc).Titled("Planilla").Css("text-left");
-                       columns.Add(c => c.vinculoDesc).Titled("Vínculo").Css("text-left").Filterable(true);
-                       columns.Add(c => c.trabajadorCod).Titled("Cod.Per.").Css("text-left").Filterable(true);
-                       columns.Add(c => c.tipoDocumentoDesc).Titled("Tip.Doc.").Css("text-left").Filterable(true);
-                       columns.Add(c => c.numDocumento).Titled("Num.Doc.").Css("text-center").Filterable(true);
-                       columns.Add(c => c.apellidosNombre).Titled("Apellidos y Nombres").Css("text-left").Filterable(true);
-                       columns.Add(c => c.estadoDesc).Titled("Estado").Css("text-left").Filterable(true);    
-                   }).WithPaging(15).Sortable(true).WithGridItemsCount("Registros encontrados").EmptyText("No se encontraron registros")
+                    <table class="table table-hover" id="dataTableTrabajadoresAptos" width="100%">
+                        <thead class="thead-dark">
+                            <tr>
+                                <th></th>
+                                <th>Planilla</th>
+                                <th>Vínculo</th>
+                                <th>Cod.Per.</th>
+                                <th>Tip.Doc.</th>
+                                <th>Num.Doc.</th>
+                                <th>Apellidos y Nombres</th>
+                                <th>Estado</th>
+                            </tr>
+                        </thead>
+                        <tfoot>
+                            <tr>
+                                <th></th>
+                                <th>Planilla</th>
+                                <th>Vínculo</th>
+                                <th>Cod.Per.</th>
+                                <th>Tip.Doc.</th>
+                                <th>Num.Doc.</th>
+                                <th>Apellidos y Nombres</th>
+                                <th>Estado</th>
+                            </tr>
+                        </tfoot>
+                    </table>
                 </div>
             </div>
         </div>
     </div>
 </div>
 
-<script>
-    $("#frmBusquedaTrabajador").on("change", "#anio", function () {
-        let cmbDestino = $('#frmBusquedaTrabajador #mes');
+@section scripts {
+    <script type="text/javascript">
+        $(document).ready(function () {
+            generarDatatableTrabajadoresAptos(null, null, null);
 
-        let url = '@Url.Action("ObtenerMesesPorAnio", "General")';
+            $("#frmBusquedaTrabajador").on("change", "#anio", function () {
+                let cmbDestino = $('#frmBusquedaTrabajador #mes');
 
-        CargarMeses(this, cmbDestino, url);
-    });
+                let url = '@Url.Action("ObtenerMesesPorAnio", "General")';
 
-    function deshabilitarTrabajador(element) {
-        let parametros = {
-            id: element.value,
-            isChecked: $(element).is(':checked')
-        };
+                CargarMeses(this, cmbDestino, url);
+            });
 
-        $.ajax({
-            type: 'GET',
-            url: '@Url.Action("DeshabilitarTrabajador", "Planillas")',
-            data: parametros,
-            dataType: 'json',
-            beforeSend: function () {
-            },
-            success: function (response) {
-                if (!response.Success) {
-                    mostrarMensajeSistema(response.Message, MENSAJE.ERROR);
-                }
-            },
-            error: function (xhr, ajaxOptions, thrownError) {
-                mostrarMensajeSistema(thrownError, MENSAJE.ERROR);
-            }
+            $("#frmBusquedaTrabajador").on("click", "button", function () {
+                let anio = $("#frmBusquedaTrabajador #anio").val();
+                let mes = $("#frmBusquedaTrabajador #mes").val();
+                let idCategoria = $("#frmBusquedaTrabajador #idCategoria").val();
+
+                generarDatatableTrabajadoresAptos(anio, mes, idCategoria);
+            });
+
+            $(document).on("click", "#btnGenerar", function () {
+                let parametros = {
+                    anio: $('#frmBusquedaTrabajador #anio').val(),
+                    mes: $('#frmBusquedaTrabajador #mes').val(),
+                    categoriaPlanillaID: $('#frmBusquedaTrabajador #idCategoria').val(),
+                    __RequestVerificationToken: $('#frmBusquedaTrabajador input[name="__RequestVerificationToken"]').val()
+                };
+
+                $.ajax({
+                    type: 'POST',
+                    url: '@Url.Action("Generar", "Planillas")',
+                    data: parametros,
+                    dataType: 'json',
+                    beforeSend: function () {
+                    },
+                    success: function (response) {
+                        if (response.Success) {
+                            mostrarMensajeSistema(response.Message, MENSAJE.SUCCESS);
+                        } else {
+                            mostrarMensajeSistema(response.Message, MENSAJE.ERROR);
+                        }
+                    },
+                    error: function (xhr, ajaxOptions, thrownError) {
+                        mostrarMensajeSistema(thrownError, MENSAJE.ERROR);
+                    }
+                });
+            });
         });
-    }
 
-    $(document).on("click", "#btnGenerar", function () {
-        let parametros = {
-            anio: $('#frmBusquedaTrabajador #anio').val(),
-            mes: $('#frmBusquedaTrabajador #mes').val(),
-            categoriaPlanillaID: $('#frmBusquedaTrabajador #idCategoria').val(),
-            __RequestVerificationToken: $('#frmBusquedaTrabajador input[name="__RequestVerificationToken"]').val()
-        };
+        function generarDatatableTrabajadoresAptos(anio, mes, idCategoria) {
+            let parametros = {
+                anio: anio,
+                mes: mes,
+                idCategoria: idCategoria
+            };
 
-        $.ajax({
-            type: 'POST',
-            url: '@Url.Action("Generar", "Planillas")',
-            data: parametros,
-            dataType: 'json',
-            beforeSend: function () {
-            },
-            success: function (response) {
-                if (response.Success) {
-                    mostrarMensajeSistema(response.Message, MENSAJE.SUCCESS);
-                } else {
-                    mostrarMensajeSistema(response.Message, MENSAJE.ERROR);
+            $('#dataTableTrabajadoresAptos').DataTable({
+                ajax: {
+                    'url': '@Url.Action("ObtenerListaTrabajadoresAptos", "Planillas")',
+                    'data': parametros,
+                    'type': 'get'
+                },
+                columns: [
+                    { data: 'trabajadorID' },
+                    { data: 'categoriaPlanillaDesc' },
+                    { data: 'vinculoDesc' },
+                    { data: 'trabajadorCod' },
+                    { data: 'tipoDocumentoDesc' },
+                    { data: 'numDocumento' },
+                    { data: 'apellidosNombre' },
+                    { data: 'estadoDesc' }
+                ],
+                columnDefs: [
+                    {
+                        targets: 0,
+                        orderable: false,
+                        render: function (data, type, row) {
+                            let html = `<input type="checkbox" name="chkTrabajador" value="${data}" checked="checked" onclick="deshabilitarTrabajador(this);" />`;
+
+                            return html;
+                        }
+                    }
+                ],
+                "bStateSave": false,
+                bDestroy: true,
+                lengthMenu: [[5, 10, 25, 50, -1], [5, 10, 25, 50, "Todas"]],
+                iDisplayLength: 5,
+                language: {
+                    search: "Buscar: ",
+                    lengthMenu: "Mostrar _MENU_ filas",
+                    info: "Mostrando del _START_ al _END_ de _TOTAL_ elementos.",
+                    infoEmpty: "No se encontraron registros.",
+                    zeroRecords: "No hay data disponible.",
+                    emptyTable: "No hay data disponible.",
+                    paginate: {
+                        first: "Primero",
+                        previous: "Previo",
+                        next: "Siguiente",
+                        last: "Último"
+                    },
+                    aria: {
+                        sortAscending: ": activar para ordenar la columna en orden ascendente",
+                        sortDescending: ": activar para ordenar la columna en orden descendente"
+                    },
+                    loadingRecords: "Cargando...",
+                    processing: "Procesando..."
+                },
+                searching: true
+            });
+        }
+
+        function deshabilitarTrabajador(element) {
+            let parametros = {
+                id: element.value,
+                isChecked: $(element).is(':checked'),
+                __RequestVerificationToken: $('#frmBusquedaTrabajador input[name="__RequestVerificationToken"]').val()
+            };
+
+            $.ajax({
+                type: 'POST',
+                url: '@Url.Action("DeshabilitarTrabajador", "Planillas")',
+                data: parametros,
+                dataType: 'json',
+                beforeSend: function () {
+                },
+                success: function (response) {
+                    if (!response.Success) {
+                        mostrarMensajeSistema(response.Message, MENSAJE.ERROR);
+                    }
+                },
+                error: function (xhr, ajaxOptions, thrownError) {
+                    mostrarMensajeSistema(thrownError, MENSAJE.ERROR);
                 }
-            },
-            error: function (xhr, ajaxOptions, thrownError) {
-                mostrarMensajeSistema(thrownError, MENSAJE.ERROR);
-            }
-        });
-    });
-</script>
+            });
+        }
+    </script>
+}
