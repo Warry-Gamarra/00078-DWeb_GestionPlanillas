@@ -18,6 +18,7 @@ namespace WebApp.ServiceFacade.Implementations
         private ITrabajadorService _trabajadorService;
         private IAdministrativoService _administrativoService;
         private IDocenteService _docenteService;
+        private IPlanillaService _planillaService;
 
         public TrabajadorServiceFacade()
         {
@@ -25,6 +26,7 @@ namespace WebApp.ServiceFacade.Implementations
             _trabajadorService = new TrabajadorService();
             _administrativoService = new AdministrativoService();
             _docenteService = new DocenteService();
+            _planillaService = new PlanillaService();
         }
 
         public List<TrabajadorModel> ListarTrabajadores()
@@ -36,11 +38,11 @@ namespace WebApp.ServiceFacade.Implementations
             return lista;
         }
 
-        public TrabajadorModel ObtenerTrabajador(int I_TrabajadorID)
+        public TrabajadorModel ObtenerTrabajador(int trabajadorID)
         {
             TrabajadorModel trabajadorModel;
 
-            var trabajadorDTO = _trabajadorService.ObtenerTrabajador(I_TrabajadorID);
+            var trabajadorDTO = _trabajadorService.ObtenerTrabajador(trabajadorID);
 
             if (trabajadorDTO == null)
             {
@@ -52,7 +54,7 @@ namespace WebApp.ServiceFacade.Implementations
 
                 if (trabajadorModel.Vinculo.Equals(Vinculo.AdministrativoPermanente) || trabajadorModel.Vinculo.Equals(Vinculo.AdministrativoContratado))
                 {
-                    var administrativo = _administrativoService.ListarAdministrativoPorTrabajadorID(I_TrabajadorID).First();
+                    var administrativo = _administrativoService.ListarAdministrativoPorTrabajadorID(trabajadorID).First();
 
                     trabajadorModel.nivelRemunerativoID = administrativo.nivelRemunerativoID;
 
@@ -65,7 +67,7 @@ namespace WebApp.ServiceFacade.Implementations
 
                 if (trabajadorModel.Vinculo.Equals(Vinculo.DocentePermanente))
                 {
-                    var docente = _docenteService.ListarDocentePorTrabajadorID(I_TrabajadorID).First();
+                    var docente = _docenteService.ListarDocentePorTrabajadorID(trabajadorID).First();
 
                     trabajadorModel.categoriaDocenteID = docente.categoriaDocenteID;
 
@@ -124,11 +126,18 @@ namespace WebApp.ServiceFacade.Implementations
             return response;
         }
 
-        public List<TrabajadorCategoriaPlanillaModel> ListarTrabajadoresCategoriaPlanilla(int? I_CategoriaPlanillaID = null)
+        public List<TrabajadorCategoriaPlanillaModel> ListarTrabajadoresAptos(int anio, int mes, int categoriaPlanillaID)
         {
-            var lista = _trabajadorService.ListarTrabajadoresCategoriaPlanilla(I_CategoriaPlanillaID)
+            var listaTrabajadoresConPlanilla = _planillaService.ListarResumenPlanillaTrabajadores(anio, mes, categoriaPlanillaID);
+
+            var lista = _trabajadorService.ListarTrabajadoresCategoriaPlanilla(categoriaPlanillaID)
                 .Select(x => Mapper.TrabajadorCategoriaPlanillaDTO_To_TrabajadorCategoriaPlanillaModel(x))
                 .ToList();
+
+            lista.ForEach(x => {
+                x.tienePlanilla = listaTrabajadoresConPlanilla.Exists(y => y.trabajadorID == x.trabajadorID);
+                x.seleccionado = x.estado.Equals(Estado.Activo);
+            });
 
             return lista;
         }

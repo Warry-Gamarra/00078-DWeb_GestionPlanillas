@@ -20,11 +20,11 @@ namespace WebApp.ServiceFacade.Implementations
             _planillaService = new PlanillaService();
         }
 
-        public List<ResumenPlanillaTrabajadorModel> ListarResumenPlanillaTrabajador()
+        public List<ResumenPlanillaTrabajadorModel> ListarResumenPlanillaTrabajador(int? anio, int? mes, int? idCategoria)
         {
             var lista = new List<ResumenPlanillaTrabajadorModel>();
 
-            lista = _planillaService.ListarResumenPlanillaTrabajadores()
+            lista = _planillaService.ListarResumenPlanillaTrabajadores(anio, mes, idCategoria)
                 .Select(x => Mapper.ResumenPlanillaTrabajadorDTO_To_ResumenPlanillaTrabajadorModel(x))
                 .ToList();
 

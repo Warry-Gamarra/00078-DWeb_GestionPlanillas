@@ -15,9 +15,7 @@ namespace Data.Views
 
         public int I_PlantillaPlanillaConceptoID { get; set; }
 
-        public int I_PlantillaPlanillaConceptoReferenciaID { get; set; }
-
-        public int I_ConceptoID { get; set; }
+        public int I_ConceptoReferenciaID { get; set; }
 
         public string C_ConceptoCod { get; set; }
 

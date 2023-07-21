@@ -89,7 +89,7 @@
             <div class="form-group row">
                 @Html.LabelFor(model => model.conceptosReferenciaID, new { @class = "col-sm-3 control-label" })
                 <div class="col-sm-9">
-                    @Html.ListBoxFor(model => model.conceptosReferenciaID, ViewBag.LISTAABC as SelectList, new { @class = "select-multiple form-control text-uppercase", multiple = "true" })
+                    @Html.ListBoxFor(model => model.conceptosReferenciaID, ViewBag.ListaConceptosReferencia as SelectList, new { @class = "select-multiple form-control text-uppercase", multiple = "true" })
                 </div>
             </div>
         </div>

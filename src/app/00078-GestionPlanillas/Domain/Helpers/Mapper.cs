@@ -445,8 +445,7 @@ namespace Domain.Helpers
             {
                 id = view.I_ID,
                 plantillaPlanillaConceptoID = view.I_PlantillaPlanillaConceptoID,
-                plantillaPlanillaConceptoReferenciaID = view.I_PlantillaPlanillaConceptoReferenciaID,
-                conceptoID = view.I_ConceptoID,
+                conceptoReferenciaID = view.I_ConceptoReferenciaID,
                 conceptoCod = view.C_ConceptoCod,
                 conceptoDesc = view.T_ConceptoDesc,
                 conceptoAbrv = view.T_ConceptoAbrv

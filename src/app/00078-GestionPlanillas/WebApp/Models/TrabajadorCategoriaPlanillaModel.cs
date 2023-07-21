@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Domain.Enums;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -35,6 +36,14 @@ namespace WebApp.Models
 
         public int estadoID { get; set; }
 
+        public Estado estado
+        {
+            get
+            {
+                return (Estado)estadoID;
+            }
+        }
+
         public string estadoDesc { get; set; }
 
         public int vinculoID { get; set; }
@@ -48,5 +57,7 @@ namespace WebApp.Models
         public string categoriaPlanillaDesc { get; set; }
 
         public bool seleccionado { get; set; }
+
+        public bool tienePlanilla { get; set; }
     }
 }

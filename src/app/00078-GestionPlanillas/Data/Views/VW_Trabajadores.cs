@@ -109,9 +109,9 @@ namespace Data.Views
             return result;
         }
 
-        public static VW_Trabajadores FindByDocIdentidad(int I_TipoDocumentoID, string C_NumDocumento)
+        public static IEnumerable<VW_Trabajadores> FindByDocIdentidad(int I_TipoDocumentoID, string C_NumDocumento)
         {
-            VW_Trabajadores result;
+            IEnumerable<VW_Trabajadores> result;
 
             try
             {
@@ -119,7 +119,7 @@ namespace Data.Views
 
                 using (var _dbConnection = new SqlConnection(Database.ConnectionString))
                 {
-                    result = _dbConnection.QuerySingle<VW_Trabajadores>(s_command, 
+                    result = _dbConnection.Query<VW_Trabajadores>(s_command, 
                         new { I_TipoDocumentoID = I_TipoDocumentoID, C_NumDocumento = C_NumDocumento }, commandType: System.Data.CommandType.Text);
                 }
             }

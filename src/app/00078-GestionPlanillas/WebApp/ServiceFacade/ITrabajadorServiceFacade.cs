@@ -13,10 +13,10 @@ namespace WebApp.ServiceFacade
     {
         List<TrabajadorModel> ListarTrabajadores();
 
-        TrabajadorModel ObtenerTrabajador(int I_TrabajadorID);
+        TrabajadorModel ObtenerTrabajador(int trabajadorID);
 
         Response GrabarTrabajador(Operacion operacion, TrabajadorModel model, int userID);
 
-        List<TrabajadorCategoriaPlanillaModel> ListarTrabajadoresCategoriaPlanilla(int? I_CategoriaPlanillaID = null);
+        List<TrabajadorCategoriaPlanillaModel> ListarTrabajadoresAptos(int anio, int mes, int categoriaPlanillaID);
     }
 }

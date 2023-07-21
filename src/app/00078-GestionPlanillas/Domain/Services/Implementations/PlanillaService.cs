@@ -15,9 +15,9 @@ namespace Domain.Services.Implementations
 {
     public class PlanillaService : IPlanillaService
     {
-        public List<ResumenPlanillaTrabajadorDTO> ListarResumenPlanillaTrabajadores()
+        public List<ResumenPlanillaTrabajadorDTO> ListarResumenPlanillaTrabajadores(int? anio, int? mes, int? idCategoria)
         {
-            var lista = VW_ResumenPlanillaTrabajador.FindAll()
+            var lista = VW_ResumenPlanillaTrabajador.FindAll(anio, mes, idCategoria)
                 .Select(x => Mapper.VW_ResumenPlanillaTrabajador_To_ResumenPlanillaTrabajadorDTO(x)).ToList();
 
             return lista;

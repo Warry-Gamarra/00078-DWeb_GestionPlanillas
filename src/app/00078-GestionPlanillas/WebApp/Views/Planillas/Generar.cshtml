@@ -165,8 +165,15 @@
                         targets: 0,
                         orderable: false,
                         render: function (data, type, row) {
-                            let html = `<input type="checkbox" name="chkTrabajador" value="${data}" checked="checked" onclick="deshabilitarTrabajador(this);" />`;
-
+                            console.log(row.tienePlanilla);
+                            let html = '';
+                            if (!row.tienePlanilla) {
+                                if (row.seleccionado) {
+                                    html = `<input type="checkbox" name="chkTrabajador" value="${data}" checked="checked" onclick="deshabilitarTrabajador(this);" />`;
+                                } else {
+                                    html = `<input type="checkbox" name="chkTrabajador" value="${data}" onclick="deshabilitarTrabajador(this);" />`;
+                                }
+                            }
                             return html;
                         }
                     }
@@ -174,7 +181,7 @@
                 "bStateSave": false,
                 bDestroy: true,
                 lengthMenu: [[5, 10, 25, 50, -1], [5, 10, 25, 50, "Todas"]],
-                iDisplayLength: 5,
+                iDisplayLength: 10,
                 language: {
                     search: "Buscar: ",
                     lengthMenu: "Mostrar _MENU_ filas",

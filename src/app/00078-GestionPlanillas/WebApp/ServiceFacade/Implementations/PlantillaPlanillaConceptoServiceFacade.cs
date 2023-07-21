@@ -81,16 +81,17 @@ namespace WebApp.ServiceFacade.Implementations
         public SelectList ObtenerComboConceptosAsignados(int plantillaPlanillaID, int[] selectedItems = null)
         {
             var lista = _plantillaPlanillaConceptoService.ListarConceptosAsignados(plantillaPlanillaID)
-                .Where(x => x.estaHabilitado && x.esValorFijo);
+                .Where(x => x.estaHabilitado && x.esValorFijo)
+                .GroupBy(x => new { x.conceptoID, x.conceptoCod, x.conceptoDesc, x.conceptoAbrv });
 
             var result = new List<SelectListItem>();
 
             lista.ForEach(x => {
                 var item = new SelectListItem()
                 {
-                    Value = x.plantillaPlanillaConceptoID.ToString(),
-                    Text = String.Format("{0} - {1}{2}", x.conceptoCod, x.conceptoDesc,
-                        (x.conceptoAbrv != null && x.conceptoAbrv.Length > 0 ? " (" + x.conceptoAbrv + ")" : ""))
+                    Value = x.Key.conceptoID.ToString(),
+                    Text = String.Format("{0} - {1}{2}", x.Key.conceptoCod, x.Key.conceptoDesc,
+                        (x.Key.conceptoAbrv != null && x.Key.conceptoAbrv.Length > 0 ? " (" + x.Key.conceptoAbrv + ")" : ""))
                 };
 
                 result.Add(item);
@@ -121,7 +122,7 @@ namespace WebApp.ServiceFacade.Implementations
                 plantillaPlanillaConceptoModel = Mapper.ConceptoAsignadoPlantillaDTO_To_ConceptoAsignadoPlantillaModel(plantillaPlanillaConceptoDTO);
 
                 plantillaPlanillaConceptoModel.conceptosReferenciaID = _plantillaPlanillaConceptoService.ListarConceptosReferencia(plantillaPlanillaConceptoID)
-                    .Select(x => x.plantillaPlanillaConceptoReferenciaID).ToArray();
+                    .Select(x => x.conceptoReferenciaID).ToArray();
             }
 
             return plantillaPlanillaConceptoModel;

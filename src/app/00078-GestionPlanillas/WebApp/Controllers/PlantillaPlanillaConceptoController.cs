@@ -146,7 +146,7 @@ namespace WebApp.Controllers
                 ViewBag.ListaFiltro2 = new SelectList(new List<SelectListItem>());
             }
 
-            ViewBag.LISTAABC = _plantillaPlanillaConceptoServiceFacade.ObtenerComboConceptosAsignados(plantilla.plantillaPlanillaID.Value);
+            ViewBag.ListaConceptosReferencia = _plantillaPlanillaConceptoServiceFacade.ObtenerComboConceptosAsignados(plantilla.plantillaPlanillaID.Value);
 
             var model = new ConceptoAsignadoPlantillaModel()
             {
@@ -190,8 +190,6 @@ namespace WebApp.Controllers
 
             ViewBag.ListaConceptos = _conceptoServiceFacade.ObtenerComboConceptos(true, model.conceptoID);
 
-            ViewBag.LISTAABC = _plantillaPlanillaConceptoServiceFacade.ObtenerComboConceptosAsignados(plantilla.plantillaPlanillaID.Value, model.conceptosReferenciaID);
-
             if (plantilla.categoriaPlanillaID == (int)CategoriaPlanilla.HaberesAdministrativo)
             {
                 ViewBag.DescFiltro1 = "Grupo Ocupacional";
@@ -222,6 +220,8 @@ namespace WebApp.Controllers
 
                 ViewBag.ListaFiltro2 = new SelectList(new List<SelectListItem>());
             }
+
+            ViewBag.ListaConceptosReferencia = _plantillaPlanillaConceptoServiceFacade.ObtenerComboConceptosAsignados(plantilla.plantillaPlanillaID.Value, model.conceptosReferenciaID);
 
             return PartialView("_MantenimientoAsignacionConcepto", model);
         }

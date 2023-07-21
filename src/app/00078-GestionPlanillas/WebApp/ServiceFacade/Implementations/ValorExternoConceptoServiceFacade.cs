@@ -103,7 +103,7 @@ namespace WebApp.ServiceFacade.Implementations
                 var registros = lista
                     .Where(x => x.tipoDocumentoID.HasValue && x.anio.HasValue && x.mes.HasValue && x.valorConcepto.HasValue && x.proveedorID.HasValue)
                     .Select(x => new ValorConceptoEntity() {
-                        trabajadorID = _trabajadorService.ObtenerTrabajadorPorDocIdentidad(x.tipoDocumentoID.Value, x.numDocumento).trabajadorID,
+                        trabajadorID = _trabajadorService.ObtenerTrabajadorPorDocIdentidad(x.tipoDocumentoID.Value, x.numDocumento).First().trabajadorID,
                         periodoID = _periodoService.ObtenerPeriodo(x.anio.Value, x.mes.Value).periodoID,
                         conceptoID = listaConceptos.Where(y => y.conceptoCod == x.conceptoCod).FirstOrDefault().conceptoID,
                         valorConcepto = x.valorConcepto.Value,

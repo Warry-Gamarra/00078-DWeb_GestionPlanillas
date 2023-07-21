@@ -12,9 +12,7 @@ namespace Domain.Entities
 
         public int plantillaPlanillaConceptoID { get; set; }
 
-        public int plantillaPlanillaConceptoReferenciaID { get; set; }
-
-        public int conceptoID { get; set; }
+        public int conceptoReferenciaID { get; set; }
 
         public string conceptoCod { get; set; }
 

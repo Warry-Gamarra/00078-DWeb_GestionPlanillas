@@ -79,6 +79,7 @@
     <Compile Include="Entities\TrabajadorCategoriaPlanillaDTO.cs" />
     <Compile Include="Entities\VinculoDTO.cs" />
     <Compile Include="Enums\CategoriaPlanilla.cs" />
+    <Compile Include="Enums\Estado.cs" />
     <Compile Include="Enums\Operacion.cs" />
     <Compile Include="Enums\Vinculo.cs" />
     <Compile Include="Helpers\AjaxResponse.cs" />

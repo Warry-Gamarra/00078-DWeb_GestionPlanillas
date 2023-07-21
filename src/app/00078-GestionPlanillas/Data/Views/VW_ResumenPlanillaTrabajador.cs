@@ -2,6 +2,7 @@
 using Data.Connection;
 using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Data.SqlClient;
 using System.Linq;
 using System.Text;
@@ -69,17 +70,42 @@ namespace Data.Views
 
         public string T_CategoriaPlanillaDesc { get; set; }
 
-        public static IEnumerable<VW_ResumenPlanillaTrabajador> FindAll()
+        public static IEnumerable<VW_ResumenPlanillaTrabajador> FindAll(int? I_Anio, int? I_Mes, int? I_CategoriaPlanillaID)
         {
             IEnumerable<VW_ResumenPlanillaTrabajador> result;
+            DynamicParameters parameters;
+            string command, filters = "";
 
             try
             {
-                string s_command = "SELECT * FROM dbo.VW_ResumenPlanillaTrabajador;";
+                command = "SELECT * FROM dbo.VW_ResumenPlanillaTrabajador";
+
+                parameters = new DynamicParameters();
+
+                if (I_Anio.HasValue)
+                {
+                    filters = " WHERE I_Anio = @I_Anio";
+
+                    parameters.Add(name: "I_Anio", dbType: DbType.Int32, value: I_Anio);
+                }
+
+                if (I_Mes.HasValue)
+                {
+                    filters = filters + (filters.Length == 0 ? " WHERE " : " AND ") + "I_Mes = @I_Mes";
+
+                    parameters.Add(name: "I_Mes", dbType: DbType.Int32, value: I_Mes);
+                }
+
+                if (I_CategoriaPlanillaID.HasValue)
+                {
+                    filters = filters + (filters.Length == 0 ? " WHERE " : " AND ") + "I_CategoriaPlanillaID = @I_CategoriaPlanillaID";
+
+                    parameters.Add(name: "I_CategoriaPlanillaID", dbType: DbType.Int32, value: I_CategoriaPlanillaID);
+                }
 
                 using (var _dbConnection = new SqlConnection(Database.ConnectionString))
                 {
-                    result = _dbConnection.Query<VW_ResumenPlanillaTrabajador>(s_command, commandType: System.Data.CommandType.Text);
+                    result = _dbConnection.Query<VW_ResumenPlanillaTrabajador>(command + filters, parameters, commandType: System.Data.CommandType.Text);
                 }
             }
             catch (Exception ex)

@@ -1,4 +1,5 @@
-﻿using Domain.Helpers;
+﻿using Domain.Enums;
+using Domain.Helpers;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -56,14 +57,7 @@ namespace WebApp.Controllers
 
             if (anio.HasValue && mes.HasValue)
             {
-                lista = _planillaServiceFacade.ListarResumenPlanillaTrabajador()
-                    .Where(x => x.anio == anio.Value && x.mes == mes.Value)
-                    .ToList();
-
-                if (idCategoria.HasValue)
-                {
-                    lista = lista.Where(x => x.categoriaPlanillaID == idCategoria.Value).ToList();
-                }
+                lista = _planillaServiceFacade.ListarResumenPlanillaTrabajador(anio, mes, idCategoria).ToList();
             }
             else
             {
@@ -90,6 +84,11 @@ namespace WebApp.Controllers
 
             ViewBag.ListaCategoriasPlanillas = _categoriaPlanillaServiceFacade.ObtenerComboCategoriasPlanillas();
 
+            if (Session["listaTrabajadoresAptos"] != null)
+            {
+                Session.Remove("listaTrabajadoresAptos");
+            }
+
             return View();
         }
 
@@ -100,9 +99,10 @@ namespace WebApp.Controllers
 
             List<TrabajadorCategoriaPlanillaModel> listaTrabajadoresAptos;
 
-            if (idCategoria.HasValue)
+            if (anio.HasValue && mes.HasValue && idCategoria.HasValue)
             {
-                listaTrabajadoresAptos = _trabajadorServiceFacade.ListarTrabajadoresCategoriaPlanilla(idCategoria.Value);
+                listaTrabajadoresAptos = _trabajadorServiceFacade.ListarTrabajadoresAptos(
+                    anio.Value, mes.Value, idCategoria.Value).ToList();
             }
             else
             {

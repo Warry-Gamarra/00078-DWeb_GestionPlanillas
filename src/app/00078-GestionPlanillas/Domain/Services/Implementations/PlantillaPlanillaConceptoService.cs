@@ -173,48 +173,13 @@ namespace Domain.Services.Implementations
 
                 if (plantillaPlanillaConceptoDTO != null)
                 {
-                    bool grabar = true;
-
-                    var listaConceptos = ListarConceptosAsignados(plantillaPlanillaConceptoDTO.plantillaPlanillaID)
-                        .Where(x => x.plantillaPlanillaConceptoID != plantillaPlanillaConceptoID);
-
-                    foreach (var concepto in listaConceptos)
+                    var cambiarEstado = new USP_U_EliminarPlantillaPlanillaConcepto()
                     {
-                        var listaConceptosReferencia = ListarConceptosReferencia(concepto.plantillaPlanillaConceptoID);
+                        I_PlantillaPlanillaConceptoID = plantillaPlanillaConceptoID,
+                        I_UserID = userID
+                    };
 
-                        foreach (var referencia in listaConceptosReferencia)
-                        {
-                            if (referencia.plantillaPlanillaConceptoReferenciaID == plantillaPlanillaConceptoID)
-                            {
-                                grabar = false;
-
-                                break;
-                            }
-                        }
-
-                        if (!grabar)
-                        {
-                            break;
-                        }
-                    }
-
-                    if (grabar)
-                    {
-                        var cambiarEstado = new USP_U_EliminarPlantillaPlanillaConcepto()
-                        {
-                            I_PlantillaPlanillaConceptoID = plantillaPlanillaConceptoID,
-                            I_UserID = userID
-                        };
-
-                        result = cambiarEstado.Execute();
-                    }
-                    else
-                    {
-                        result = new Result()
-                        {
-                            Message = "El concepto se encuentra relacionado a otros."
-                        };
-                    }
+                    result = cambiarEstado.Execute();
                 }
                 else
                 {

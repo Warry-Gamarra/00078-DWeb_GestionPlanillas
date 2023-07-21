@@ -35,11 +35,11 @@ BEGIN
 
 	--CONSTANTE
 	DECLARE @I_ADMINISTRATIVOID INT = 1,
-			@I_DOCENTEID INT = 2
+			@I_DOCENTEID INT = 2;
 
 	DECLARE @I_PersonaID INT,
 			@I_TrabajadorID INT,
-			@D_FecCre DATETIME
+			@D_FecCre DATETIME;
 
 	BEGIN TRAN
 	BEGIN TRY
@@ -126,7 +126,10 @@ AS
 BEGIN
 	SET NOCOUNT ON;
 
-	DECLARE @D_FecMod DATETIME
+	DECLARE @I_ADMINISTRATIVOID INT = 1,
+			@I_DOCENTEID INT = 2;
+
+	DECLARE @D_FecMod DATETIME;
 
 	BEGIN TRAN
 	BEGIN TRY
@@ -252,21 +255,71 @@ BEGIN
 		END
 
 		IF (@I_VinculoID IN (1,2)) BEGIN
-			UPDATE dbo.TC_Administrativo SET 
-				I_GrupoOcupacionalID = @I_GrupoOcupacionalID,
-				I_NivelRemunerativoID = @I_NivelRemunerativoID,
-				I_UsuarioMod = @I_UserID,
-				D_FecMod = @D_FecMod
-			WHERE I_TrabajadorID = @I_TrabajadorID
+			IF EXISTS(SELECT doc.I_DocenteID FROM dbo.TC_Docente doc 
+				WHERE doc.I_TrabajadorID = @I_TrabajadorID AND doc.B_Habilitado = 1 AND doc.B_Eliminado = 0) 
+			BEGIN
+				UPDATE dbo.TC_Docente SET 
+					B_Habilitado = 0,
+					B_Eliminado = 1,
+					I_UsuarioMod = @I_UserID,
+					D_FecMod = @D_FecMod
+				WHERE I_TrabajadorID = @I_TrabajadorID AND B_Habilitado = 1 AND B_Eliminado = 0
+				
+				UPDATE dbo.TC_Trabajador_CategoriaPlanilla SET
+					B_Habilitado = 0,
+					B_Eliminado = 1,
+					I_UsuarioMod = @I_UserID,
+					D_FecMod = @D_FecMod
+				WHERE I_TrabajadorID = @I_TrabajadorID AND I_CategoriaPlanillaID = @I_DOCENTEID AND B_Habilitado = 1 AND B_Eliminado = 0
+
+				INSERT dbo.TC_Administrativo(I_TrabajadorID, I_GrupoOcupacionalID, I_NivelRemunerativoID, B_Habilitado, B_Eliminado, I_UsuarioCre, D_FecCre)
+				VALUES(@I_TrabajadorID, @I_GrupoOcupacionalID, @I_NivelRemunerativoID, 1, 0, @I_UserID, @D_FecMod)
+
+				INSERT dbo.TC_Trabajador_CategoriaPlanilla(I_TrabajadorID, I_CategoriaPlanillaID, B_Habilitado, B_Eliminado, I_UsuarioCre, D_FecCre)
+				VALUES(@I_TrabajadorID, @I_ADMINISTRATIVOID, 1, 0, @I_UserID, @D_FecMod)
+			END
+			ELSE BEGIN
+				UPDATE dbo.TC_Administrativo SET 
+					I_GrupoOcupacionalID = @I_GrupoOcupacionalID,
+					I_NivelRemunerativoID = @I_NivelRemunerativoID,
+					I_UsuarioMod = @I_UserID,
+					D_FecMod = @D_FecMod
+				WHERE I_TrabajadorID = @I_TrabajadorID AND B_Habilitado = 1 AND B_Eliminado = 0
+			END
 		END
 
 		IF (@I_VinculoID = 4) BEGIN
-			UPDATE dbo.TC_Docente SET 
-				I_CategoriaDocenteID = @I_CategoriaDocenteID,
-				I_HorasDocenteID = @I_HorasDocenteID,
-				I_UsuarioMod = @I_UserID,
-				D_FecMod = @D_FecMod
-			WHERE I_TrabajadorID = @I_TrabajadorID
+			IF EXISTS(SELECT adm.I_AdministrativoID FROM dbo.TC_Administrativo adm 
+				WHERE adm.I_TrabajadorID = @I_trabajadorID AND adm.B_Habilitado = 1 AND adm.B_Eliminado = 0)
+			BEGIN
+				UPDATE dbo.TC_Administrativo SET 
+					B_Habilitado = 0,
+					B_Eliminado = 1,
+					I_UsuarioMod = @I_UserID,
+					D_FecMod = @D_FecMod
+				WHERE I_TrabajadorID = @I_TrabajadorID AND B_Habilitado = 1 AND B_Eliminado = 0
+
+				UPDATE dbo.TC_Trabajador_CategoriaPlanilla SET
+					B_Habilitado = 0,
+					B_Eliminado = 1,
+					I_UsuarioMod = @I_UserID,
+					D_FecMod = @D_FecMod
+				WHERE I_TrabajadorID = @I_TrabajadorID AND I_CategoriaPlanillaID = @I_ADMINISTRATIVOID AND B_Habilitado = 1 AND B_Eliminado = 0
+				
+				INSERT dbo.TC_Docente(I_TrabajadorID, I_CategoriaDocenteID, I_HorasDocenteID, B_Habilitado, B_Eliminado, I_UsuarioCre, D_FecCre)
+				VALUES(@I_TrabajadorID, @I_CategoriaDocenteID, @I_HorasDocenteID, 1, 0, @I_UserID, @D_FecMod)
+
+				INSERT dbo.TC_Trabajador_CategoriaPlanilla(I_TrabajadorID, I_CategoriaPlanillaID, B_Habilitado, B_Eliminado, I_UsuarioCre, D_FecCre)
+				VALUES(@I_TrabajadorID, @I_DOCENTEID, 1, 0, @I_UserID, @D_FecMod)
+			END
+			ELSE BEGIN
+				UPDATE dbo.TC_Docente SET 
+					I_CategoriaDocenteID = @I_CategoriaDocenteID,
+					I_HorasDocenteID = @I_HorasDocenteID,
+					I_UsuarioMod = @I_UserID,
+					D_FecMod = @D_FecMod
+				WHERE I_TrabajadorID = @I_TrabajadorID AND B_Habilitado = 1 AND B_Eliminado = 0
+			END
 		END
 		
 		COMMIT TRAN
@@ -655,12 +708,10 @@ BEGIN
 
 					IF (@M_ValorConcepto IS NOT NULL AND @M_ValorConcepto > 0) BEGIN
 						IF (@B_EsValorFijo = 0 AND @I_TrabajadorPlanillaID > 0) BEGIN
-							SET @M_SumConceptos = (SELECT SUM(p.M_Monto) FROM dbo.TI_PlantillaPlanilla_Concepto_Referencia base
-								INNER JOIN dbo.TI_PlantillaPlanilla_Concepto ref ON ref.I_PlantillaPlanillaConceptoID = base.I_PlantillaPlanillaConceptoReferenciaID
-								INNER JOIN dbo.TR_Concepto_TrabajadorPlanilla p ON p.I_TrabajadorPlanillaID = @I_TrabajadorPlanillaID AND p.I_ConceptoID = ref.I_ConceptoID
-								WHERE	base.B_Eliminado = 0 AND 
-										ref.B_Habilitado = 1 AND ref.B_Eliminado = 0 AND 
-										p.B_Anulado = 0 AND base.I_PlantillaPlanillaConceptoBaseID = @I_PlantillaPlanillaConceptoID);
+							SET @M_SumConceptos = (SELECT SUM(p.M_Monto) FROM dbo.TI_PlantillaPlanilla_Concepto_Referencia r
+								INNER JOIN dbo.TR_Concepto_TrabajadorPlanilla p ON p.I_ConceptoID = r.I_ConceptoReferenciaID
+								WHERE	r.B_Eliminado = 0 AND r.I_PlantillaPlanillaConceptoID = @I_PlantillaPlanillaConceptoID AND
+										p.B_Anulado = 0 AND p.I_TrabajadorPlanillaID = @I_TrabajadorPlanillaID);
 
 							SET @M_ValorConcepto = (@M_ValorConcepto/100) * @M_SumConceptos;
 						END
@@ -742,12 +793,10 @@ BEGIN
 
 					IF (@M_ValorConcepto IS NOT NULL AND @M_ValorConcepto > 0) BEGIN
 						IF (@B_EsValorFijo = 0 AND @I_TrabajadorPlanillaID > 0) BEGIN
-							SET @M_SumConceptos = (SELECT SUM(p.M_Monto) FROM dbo.TI_PlantillaPlanilla_Concepto_Referencia base
-								INNER JOIN dbo.TI_PlantillaPlanilla_Concepto ref ON ref.I_PlantillaPlanillaConceptoID = base.I_PlantillaPlanillaConceptoReferenciaID
-								INNER JOIN dbo.TR_Concepto_TrabajadorPlanilla p ON p.I_TrabajadorPlanillaID = @I_TrabajadorPlanillaID AND p.I_ConceptoID = ref.I_ConceptoID
-								WHERE	base.B_Eliminado = 0 AND 
-										ref.B_Habilitado = 1 AND ref.B_Eliminado = 0 AND 
-										p.B_Anulado = 0 AND base.I_PlantillaPlanillaConceptoBaseID = @I_PlantillaPlanillaConceptoID);
+							SET @M_SumConceptos = (SELECT SUM(p.M_Monto) FROM dbo.TI_PlantillaPlanilla_Concepto_Referencia r
+								INNER JOIN dbo.TR_Concepto_TrabajadorPlanilla p ON p.I_ConceptoID = r.I_ConceptoReferenciaID
+								WHERE	r.B_Eliminado = 0 AND r.I_PlantillaPlanillaConceptoID = @I_PlantillaPlanillaConceptoID AND
+										p.B_Anulado = 0 AND p.I_TrabajadorPlanillaID = @I_TrabajadorPlanillaID);
 
 							SET @M_ValorConcepto = (@M_ValorConcepto/100) * @M_SumConceptos;
 						END
@@ -829,12 +878,10 @@ BEGIN
 
 					IF (@M_ValorConcepto IS NOT NULL AND @M_ValorConcepto > 0) BEGIN
 						IF (@B_EsValorFijo = 0 AND @I_TrabajadorPlanillaID > 0) BEGIN
-							SET @M_SumConceptos = (SELECT SUM(p.M_Monto) FROM dbo.TI_PlantillaPlanilla_Concepto_Referencia base
-								INNER JOIN dbo.TI_PlantillaPlanilla_Concepto ref ON ref.I_PlantillaPlanillaConceptoID = base.I_PlantillaPlanillaConceptoReferenciaID
-								INNER JOIN dbo.TR_Concepto_TrabajadorPlanilla p ON p.I_TrabajadorPlanillaID = @I_TrabajadorPlanillaID AND p.I_ConceptoID = ref.I_ConceptoID
-								WHERE	base.B_Eliminado = 0 AND 
-										ref.B_Habilitado = 1 AND ref.B_Eliminado = 0 AND 
-										p.B_Anulado = 0 AND base.I_PlantillaPlanillaConceptoBaseID = @I_PlantillaPlanillaConceptoID);
+							SET @M_SumConceptos = (SELECT SUM(p.M_Monto) FROM dbo.TI_PlantillaPlanilla_Concepto_Referencia r
+								INNER JOIN dbo.TR_Concepto_TrabajadorPlanilla p ON p.I_ConceptoID = r.I_ConceptoReferenciaID
+								WHERE	r.B_Eliminado = 0 AND r.I_PlantillaPlanillaConceptoID = @I_PlantillaPlanillaConceptoID AND
+										p.B_Anulado = 0 AND p.I_TrabajadorPlanillaID = @I_TrabajadorPlanillaID);
 
 							SET @M_ValorConcepto = (@M_ValorConcepto/100) * @M_SumConceptos;
 						END
@@ -916,12 +963,10 @@ BEGIN
 
 					IF (@M_ValorConcepto IS NOT NULL AND @M_ValorConcepto > 0) BEGIN
 						IF (@B_EsValorFijo = 0 AND @I_TrabajadorPlanillaID > 0) BEGIN
-							SET @M_SumConceptos = (SELECT SUM(p.M_Monto) FROM dbo.TI_PlantillaPlanilla_Concepto_Referencia base
-								INNER JOIN dbo.TI_PlantillaPlanilla_Concepto ref ON ref.I_PlantillaPlanillaConceptoID = base.I_PlantillaPlanillaConceptoReferenciaID
-								INNER JOIN dbo.TR_Concepto_TrabajadorPlanilla p ON p.I_TrabajadorPlanillaID = @I_TrabajadorPlanillaID AND p.I_ConceptoID = ref.I_ConceptoID
-								WHERE	base.B_Eliminado = 0 AND 
-										ref.B_Habilitado = 1 AND ref.B_Eliminado = 0 AND 
-										p.B_Anulado = 0 AND base.I_PlantillaPlanillaConceptoBaseID = @I_PlantillaPlanillaConceptoID);
+							SET @M_SumConceptos = (SELECT SUM(p.M_Monto) FROM dbo.TI_PlantillaPlanilla_Concepto_Referencia r
+								INNER JOIN dbo.TR_Concepto_TrabajadorPlanilla p ON p.I_ConceptoID = r.I_ConceptoReferenciaID
+								WHERE	r.B_Eliminado = 0 AND r.I_PlantillaPlanillaConceptoID = @I_PlantillaPlanillaConceptoID AND
+										p.B_Anulado = 0 AND p.I_TrabajadorPlanillaID = @I_TrabajadorPlanillaID);
 
 							SET @M_ValorConcepto = (@M_ValorConcepto/100) * @M_SumConceptos;
 						END
@@ -1275,8 +1320,8 @@ BEGIN
 		VALUES(@I_PlantillaPlanillaID, @I_ConceptoID, @B_EsValorFijo, @B_ValorEsExterno, @M_ValorConcepto, @B_AplicarFiltro1, @I_Filtro1, @B_AplicarFiltro2, @I_Filtro2, 1, 0, @I_UserID, @D_FecCre)
 
 		SET @I_PlantillaPlanillaConceptoID = SCOPE_IDENTITY();
-
-		INSERT dbo.TI_PlantillaPlanilla_Concepto_Referencia(I_PlantillaPlanillaConceptoBaseID, I_PlantillaPlanillaConceptoReferenciaID, B_Eliminado, I_UsuarioCre, D_FecCre)
+		
+		INSERT dbo.TI_PlantillaPlanilla_Concepto_Referencia(I_PlantillaPlanillaConceptoID, I_ConceptoReferenciaID, B_Eliminado, I_UsuarioCre, D_FecCre)
 		SELECT @I_PlantillaPlanillaConceptoID, I_ID, 0, @I_UserID, @D_FecCre FROM @Tbl_ConceptoReferencia
 
 		COMMIT TRAN
@@ -1339,17 +1384,17 @@ BEGIN
 			I_UsuarioMod = @I_UserID, 
 			D_FecMod = @D_FechaActual
 		FROM dbo.TI_PlantillaPlanilla_Concepto_Referencia c
-		LEFT JOIN @Tbl_ConceptoReferencia r ON r.I_ID = c.I_PlantillaPlanillaConceptoReferenciaID
+		LEFT JOIN @Tbl_ConceptoReferencia r ON r.I_ID = c.I_ConceptoReferenciaID
 		WHERE 
-			c.I_PlantillaPlanillaConceptoBaseID = @I_PlantillaPlanillaConceptoID AND 
+			c.I_PlantillaPlanillaConceptoID = @I_PlantillaPlanillaConceptoID AND 
 			c.B_Eliminado = 0 AND 
 			r.I_ID IS NULL
 
-		INSERT dbo.TI_PlantillaPlanilla_Concepto_Referencia(I_PlantillaPlanillaConceptoBaseID, I_PlantillaPlanillaConceptoReferenciaID, B_Eliminado, I_UsuarioCre, D_FecCre)
+		INSERT dbo.TI_PlantillaPlanilla_Concepto_Referencia(I_PlantillaPlanillaConceptoID, I_ConceptoReferenciaID, B_Eliminado, I_UsuarioCre, D_FecCre)
 		SELECT @I_PlantillaPlanillaConceptoID, I_ID, 0, @I_UserID, @D_FechaActual 
 		FROM @Tbl_ConceptoReferencia r
 		WHERE NOT EXISTS(SELECT c.I_ID FROM dbo.TI_PlantillaPlanilla_Concepto_Referencia c 
-			WHERE c.B_Eliminado = 0 AND c.I_PlantillaPlanillaConceptoBaseID = @I_PlantillaPlanillaConceptoID AND c.I_PlantillaPlanillaConceptoReferenciaID = r.I_ID)
+			WHERE c.B_Eliminado = 0 AND c.I_PlantillaPlanillaConceptoID = @I_PlantillaPlanillaConceptoID AND c.I_ConceptoReferenciaID = r.I_ID)
 
 		COMMIT TRAN
 		SET @B_Result = 1
@@ -1420,7 +1465,7 @@ BEGIN
 			B_Eliminado = 1,
 			I_UsuarioMod = @I_UserID,
 			D_FecMod = GETDATE()
-		WHERE I_PlantillaPlanillaConceptoBaseID = @I_PlantillaPlanillaConceptoID
+		WHERE I_PlantillaPlanillaConceptoID = @I_PlantillaPlanillaConceptoID
 
 		UPDATE dbo.TI_PlantillaPlanilla_Concepto SET
 			B_Habilitado = 0,
