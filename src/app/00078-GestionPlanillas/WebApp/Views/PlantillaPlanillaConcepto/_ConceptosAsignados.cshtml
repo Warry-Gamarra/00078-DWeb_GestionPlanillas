@@ -123,8 +123,8 @@
                         $('#spin-loader').hide();
 
                         if (data.Success) {
-                            generarDatatableConceptosAsignados();
                             mostrarMensajeSistema(data.Message, MENSAJE.SUCCESS);
+                            generarDatatableConceptosAsignados();
                         } else {
                             mostrarMensajeSistema(data.Message, MENSAJE.ERROR);
                         }
@@ -195,7 +195,7 @@
                     }
                 }
             ],
-            "bStateSave": true,
+            bStateSave: true,
             bDestroy: true,
             lengthMenu: [[5, 10], [5, 10, "Todos"]],
             iDisplayLength: 5,

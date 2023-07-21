@@ -86,6 +86,14 @@
         $(document).ready(function () {
             generarDatatableConceptos();
             generarDatatablePlantillasPlanilla();
+
+            $(".modal").on('hide.bs.modal', function () {
+                generarDatatableConceptos();
+            });
+
+            $(".modal").on('hide.bs.modal', function () {
+                generarDatatablePlantillasPlanilla();
+            });
         });
 
         function generarDatatableConceptos() {
@@ -131,7 +139,7 @@
                         }
                     }
                 ],
-                "bStateSave": true,
+                bStateSave: true,
                 bDestroy: true,
                 lengthMenu: [[5, 10, 25, 50, -1], [5, 10, 25, 50, "Todas"]],
                 iDisplayLength: 5,
@@ -209,7 +217,7 @@
                         }
                     }
                 ],
-                "bStateSave": true,
+                bStateSave: true,
                 bDestroy: true,
                 lengthMenu: [[10, 25, 50, -1], [10, 25, 50, "Todas"]],
                 iDisplayLength: 10,

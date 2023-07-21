@@ -48,17 +48,14 @@
 
                 <div class="table-responsive mt-4">
                     <p class="h5">Relación de estudiantes registrados en el sistema</p>
-                    @*@if (Model != null && Model.Count() > 0)
-                        {*@
-                    <div class="form-group col-lg-2 col-4 pl-0">
+                    
+                    <div id="divBtnGenerar" class="form-group col-lg-2 col-4 pl-0" style="display: none;">
                         <button type="button" id="btnGenerar" class="btn btn-block btn-outline-primary"><i class="fa fa-fw fa-cogs"></i> Generar Planilla</button>
                     </div>
-                    @*}*@
 
                     <table class="table table-hover" id="dataTableTrabajadoresAptos" width="100%">
                         <thead class="thead-dark">
                             <tr>
-                                <th></th>
                                 <th>Planilla</th>
                                 <th>Vínculo</th>
                                 <th>Cod.Per.</th>
@@ -66,11 +63,11 @@
                                 <th>Num.Doc.</th>
                                 <th>Apellidos y Nombres</th>
                                 <th>Estado</th>
+                                <th></th>
                             </tr>
                         </thead>
                         <tfoot>
                             <tr>
-                                <th></th>
                                 <th>Planilla</th>
                                 <th>Vínculo</th>
                                 <th>Cod.Per.</th>
@@ -78,6 +75,7 @@
                                 <th>Num.Doc.</th>
                                 <th>Apellidos y Nombres</th>
                                 <th>Estado</th>
+                                <th></th>
                             </tr>
                         </tfoot>
                     </table>
@@ -109,10 +107,14 @@
             });
 
             $(document).on("click", "#btnGenerar", function () {
+                let anio = $('#frmBusquedaTrabajador #anio').val();
+                let mes = $('#frmBusquedaTrabajador #mes').val();
+                let idCategoria = $('#frmBusquedaTrabajador #idCategoria').val();
+
                 let parametros = {
-                    anio: $('#frmBusquedaTrabajador #anio').val(),
-                    mes: $('#frmBusquedaTrabajador #mes').val(),
-                    categoriaPlanillaID: $('#frmBusquedaTrabajador #idCategoria').val(),
+                    anio: anio,
+                    mes: mes,
+                    categoriaPlanillaID: idCategoria,
                     __RequestVerificationToken: $('#frmBusquedaTrabajador input[name="__RequestVerificationToken"]').val()
                 };
 
@@ -126,6 +128,8 @@
                     success: function (response) {
                         if (response.Success) {
                             mostrarMensajeSistema(response.Message, MENSAJE.SUCCESS);
+
+                            generarDatatableTrabajadoresAptos(anio, mes, idCategoria);
                         } else {
                             mostrarMensajeSistema(response.Message, MENSAJE.ERROR);
                         }
@@ -151,18 +155,19 @@
                     'type': 'get'
                 },
                 columns: [
-                    { data: 'trabajadorID' },
                     { data: 'categoriaPlanillaDesc' },
                     { data: 'vinculoDesc' },
                     { data: 'trabajadorCod' },
                     { data: 'tipoDocumentoDesc' },
                     { data: 'numDocumento' },
                     { data: 'apellidosNombre' },
-                    { data: 'estadoDesc' }
+                    { data: 'estadoDesc' },
+                    { data: 'trabajadorID' }
                 ],
                 columnDefs: [
                     {
-                        targets: 0,
+                        targets: -1,
+                        className: "text-center",
                         orderable: false,
                         render: function (data, type, row) {
                             console.log(row.tienePlanilla);
@@ -173,12 +178,14 @@
                                 } else {
                                     html = `<input type="checkbox" name="chkTrabajador" value="${data}" onclick="deshabilitarTrabajador(this);" />`;
                                 }
+                            } else {
+                                html = '<span class="text-success">Planilla generada</span>';
                             }
                             return html;
                         }
                     }
                 ],
-                "bStateSave": false,
+                bStateSave: false,
                 bDestroy: true,
                 lengthMenu: [[5, 10, 25, 50, -1], [5, 10, 25, 50, "Todas"]],
                 iDisplayLength: 10,
@@ -202,7 +209,17 @@
                     loadingRecords: "Cargando...",
                     processing: "Procesando..."
                 },
-                searching: true
+                searching: true,
+                initComplete: function (settings, json) {
+                    var api = this.api();
+                    var numRows = api.rows().count();
+                    
+                    if (numRows > 0) {
+                        $('#divBtnGenerar').css('display', 'block');
+                    } else {
+                        $('#divBtnGenerar').css('display', 'none');
+                    }
+                }
             });
         }
 

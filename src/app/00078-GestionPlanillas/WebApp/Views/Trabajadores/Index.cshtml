@@ -60,6 +60,10 @@
     <script type="text/javascript">
         $(document).ready(function () {
             generarDataTableTrabajadores();
+
+            $(".modal").on('hide.bs.modal', function () {
+                generarDataTableTrabajadores();
+            });
         });
 
         function generarDataTableTrabajadores() {
@@ -90,7 +94,7 @@
                         }
                     }
                 ],
-                "bStateSave": true,
+                bStateSave: true,
                 bDestroy: true,
                 lengthMenu: [[5, 10, 25, 50, -1], [5, 10, 25, 50, "Todas"]],
                 iDisplayLength: 10,
