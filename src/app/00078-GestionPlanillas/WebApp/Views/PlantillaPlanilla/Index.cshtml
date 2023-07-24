@@ -24,8 +24,8 @@
                 <table class="table table-hover" id="dataTableConceptos" width="100%">
                     <thead class="thead-dark">
                         <tr>
-                            <th>Cod.Concepto</th>
                             <th>Tip.Concepto</th>
+                            <th>Cod.Concepto</th>
                             <th>Descripción</th>
                             <th>Abrv</th>
                             <th>Estado</th>
@@ -34,8 +34,8 @@
                     </thead>
                     <tfoot>
                         <tr>
-                            <th>Cod.Concepto</th>
                             <th>Tip.Concepto</th>
+                            <th>Cod.Concepto</th>
                             <th>Descripción</th>
                             <th>Abrv</th>
                             <th>Estado</th>
@@ -103,8 +103,8 @@
                     'type': 'get'
                 },
                 columns: [
-                    { data: 'conceptoCod' },
                     { data: 'tipoConceptoDesc' },
+                    { data: 'conceptoCod' },
                     { data: 'conceptoDesc' },
                     { data: 'conceptoAbrv' },
                     { data: 'conceptoID' },
@@ -163,7 +163,33 @@
                     loadingRecords: "Cargando...",
                     processing: "Procesando..."
                 },
-                searching: true
+                searching: true,
+                initComplete: function () {
+                    this.api().columns([0]).every(function () {
+                        let column = this;
+
+                        let select = document.createElement('select');
+                        select.add(new Option('Tip.Concepto', ''));
+                        column.footer().replaceChildren(select);
+                        
+                        select.addEventListener('change', function () {
+                            var val = $.fn.dataTable.util.escapeRegex(select.value);
+                            column.search(val ? '^' + val + '$' : '', true, false).draw();
+                        });
+
+                        column.data().unique().sort().each(function (d, j) {
+                            if (column.search() === '^' + d + '$') {
+                                select.add(new Option(d, d, true, true));
+                            } else {
+                                select.add(new Option(d, d));
+                            }
+                        });
+
+                        $(select).click(function (e) {
+                            e.stopPropagation();
+                        });
+                    });
+                }
             });
         }
 

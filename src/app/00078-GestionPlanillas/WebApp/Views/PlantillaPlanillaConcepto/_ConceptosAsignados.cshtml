@@ -228,7 +228,7 @@
                     let column = this;
 
                     let select = document.createElement('select');
-                    select.add(new Option(''));
+                    select.add(new Option('Tip.Concepto', ''));
                     column.footer().replaceChildren(select);
 
                     select.addEventListener('change', function () {
@@ -242,6 +242,10 @@
                         } else {
                             select.add(new Option(d, d));
                         } 
+                    });
+
+                    $(select).click(function (e) {
+                        e.stopPropagation();
                     });
                 });
             }
