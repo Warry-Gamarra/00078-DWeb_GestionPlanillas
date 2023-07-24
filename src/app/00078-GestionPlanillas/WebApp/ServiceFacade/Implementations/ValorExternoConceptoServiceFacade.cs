@@ -1,4 +1,5 @@
 ﻿using Domain.Entities;
+using Domain.Enums;
 using Domain.Helpers;
 using Domain.Services;
 using Domain.Services.Implementations;
@@ -43,6 +44,7 @@ namespace WebApp.ServiceFacade.Implementations
             ILecturaArchivoService lecturaArchivoService;
             List<ValorExternoConceptoDTO> lista;
             List<ValorExternoConceptoModel> result;
+            ValorExternoConceptoModel model;
 
             try
             {
@@ -58,21 +60,44 @@ namespace WebApp.ServiceFacade.Implementations
 
                 var listaProveedores = _proveedorService.ListarProveedores();
 
-                result = lista.Select(x => new ValorExternoConceptoModel()
+                result = new List<ValorExternoConceptoModel>();
+
+                foreach (var item in lista)
                 {
-                    anio = x.anio,
-                    mes = x.mes,
-                    mesDesc = _periodoService.ListarMeses(x.anio.HasValue ? x.anio.Value : 0).Where(y => y.mes == x.mes).FirstOrDefault().mesDesc,
-                    numDocumento = x.numDocumento,
-                    tipoDocumentoID = x.tipoDocumentoID,
-                    tipoDocumentoDesc = listaTipDocumentos.Where(y => y.tipoDocumentoID == x.tipoDocumentoID).FirstOrDefault().tipoDocumentoDesc,
-                    datosPersona = _personaService.ObtenerPersona((x.tipoDocumentoID.HasValue ? x.tipoDocumentoID.Value : 0), x.numDocumento).nombre,
-                    conceptoCod = x.conceptoCod,
-                    conceptoDesc = listaConceptos.Where(y => y.conceptoCod == x.conceptoCod).FirstOrDefault().conceptoDesc,
-                    valorConcepto = x.valorConcepto,
-                    proveedorID = x.proveedorID,
-                    proveedorDesc = listaProveedores.Where(y => y.proveedorID == x.proveedorID).FirstOrDefault().proveedorDesc
-                }).ToList();
+                    model = new ValorExternoConceptoModel();
+
+                    model.anio = item.anio;
+
+                    model.mes = item.mes;
+
+                    model.mesDesc = _periodoService.ListarMeses(item.anio.HasValue ? item.anio.Value : 0).Where(y => y.mes == item.mes).FirstOrDefault().mesDesc;
+
+                    model.numDocumento = item.numDocumento;
+
+                    model.tipoDocumentoID = item.tipoDocumentoID;
+
+                    model.tipoDocumentoDesc = listaTipDocumentos.Where(y => y.tipoDocumentoID == item.tipoDocumentoID).FirstOrDefault().tipoDocumentoDesc;
+
+                    model.datosPersona = _personaService.ObtenerPersona((item.tipoDocumentoID.HasValue ? item.tipoDocumentoID.Value : 0), item.numDocumento).nombre;
+
+                    model.categoriaPlanillaID = item.categoriaPlanillaID;
+
+                    model.conceptoCod = item.conceptoCod;
+
+                    model.conceptoDesc = listaConceptos.Where(y => y.conceptoCod == item.conceptoCod).FirstOrDefault().conceptoDesc;
+
+                    model.valorConcepto = item.valorConcepto;
+
+                    model.proveedorID = item.proveedorID;
+
+                    model.proveedorDesc = listaProveedores.Where(y => y.proveedorID == item.proveedorID).FirstOrDefault().proveedorDesc;
+
+                    result.Add(model);
+                }
+            }
+            catch(IndexOutOfRangeException ex)
+            {
+                throw new IndexOutOfRangeException("El archivo no tiene la estructura correcta.", ex);
             }
             catch (Exception ex)
             {

@@ -30,7 +30,7 @@
                     </div>
                     <div class="form-group mr-2">
                         @Html.AntiForgeryToken()
-                        <button type="submit" id="btn-submit" class="btn btn-primary"><i class="fa fa-search" aria-hidden="true"></i> Leer archivo</button>
+                        <button type="submit" id="btnLeerArchivo" class="btn btn-primary"><i class="fa fa-search" aria-hidden="true"></i> Leer archivo</button>
                         <div id="wating-section" class="d-none">
                             <strong>Cargando información...</strong>
                             <div class="spinner-border ml-auto text-primary" role="status" aria-hidden="true"></div>
@@ -50,7 +50,7 @@
                 @Html.AntiForgeryToken()
                 <span class="h4">Vista previa</span>
                 <input type="hidden" id="fileName" name="fileName" />
-                <button class="btn btn-primary pull-right">
+                <button class="btn btn-primary pull-right" id="btnGrabarArchivo">
                     <i class="fa fa-save" aria-hidden="true"></i> Guardar información
                 </button>
             }
@@ -61,29 +61,31 @@
                     <thead class="thead-dark">
                         <tr>
                             <th></th>
-                            <th>anio</th>
-                            <th>mes</th>
-                            <th>tipoDocumentoID</th>
-                            <th>numDocumento</th>
-                            <th>nombres completos</th>
-                            <th>conceptoCod</th>
-                            <th>conceptoDesc</th>
-                            <th>valorConcepto</th>
-                            <th>proveedorID</th>
+                            <th>Año</th>
+                            <th>Mes</th>
+                            <th>Tip.Doc.</th>
+                            <th>Num.Doc.</th>
+                            <th>Apellidos y Nombres</th>
+                            <th>Categoria Planilla</th>
+                            <th>Cod.Concepto</th>
+                            <th>Descripción</th>
+                            <th>Valor</th>
+                            <th>Origen</th>
                         </tr>
                     </thead>
                     <tfoot>
                         <tr>
                             <th></th>
-                            <th>anio</th>
-                            <th>mes</th>
-                            <th>tipoDocumentoID</th>
-                            <th>numDocumento</th>
-                            <th>nombres completos</th>
-                            <th>conceptoCod</th>
-                            <th>conceptoDesc</th>
-                            <th>valorConcepto</th>
-                            <th>proveedorID</th>
+                            <th>Año</th>
+                            <th>Mes</th>
+                            <th>Tip.Doc.</th>
+                            <th>Num.Doc.</th>
+                            <th>Apellidos y Nombres</th>
+                            <th>Categoria Planilla</th>
+                            <th>Cod.Concepto</th>
+                            <th>Descripción</th>
+                            <th>Valor</th>
+                            <th>Origen</th>
                         </tr>
                     </tfoot>
                 </table>
@@ -95,7 +97,7 @@
 @section scripts {
     <script type="text/javascript">
         $(document).ready(function () {
-            generarDatatableValoresExternos([]);
+            limpiarData();
 
             $("#inputFile").fileinput({
                 showCaption: true,
@@ -105,6 +107,14 @@
                 showPreview: false,
                 showUpload: false,
                 elErrorContainer: '#error-matricula'
+            });
+
+            $('#inputFile').on('change', function (event) {
+                limpiarData();
+            });
+
+            $('#inputFile').on('filecleared', function (event) {
+                limpiarData();
             });
 
             $('#form-upload').on('submit', function (event) {
@@ -118,9 +128,8 @@
                     processData: false,
                     dataType: "json",
                     beforeSend: function () {
-                        generarDatatableValoresExternos([]);
-                        $("#fileName").val("");
-                        $("#btn-submit").addClass("d-none");
+                        limpiarData();
+                        $("#btnLeerArchivo").addClass("d-none");
                         $("#wating-section").removeClass("d-none");
                     },
                     success: function (result) {
@@ -138,7 +147,7 @@
                         toastr.error(errorThrown);
                     },
                     complete: function () {
-                        $("#btn-submit").removeClass("d-none");
+                        $("#btnLeerArchivo").removeClass("d-none");
                         $("#wating-section").addClass("d-none");
                     }
                 });
@@ -158,19 +167,17 @@
                     },
                     success: function (result) {
                         if (result.success) {
-                            generarDatatableValoresExternos([]);
                             toastr.success(result.message);
+                            limpiarData();
                         } else {
                             toastr.error(result.message);
                         }
                     },
                     error: function (jqXHR, textStatus, errorThrown) {
                         toastr.error(errorThrown);
-                    },
-                    complete: function () {
                     }
                 });
-            })
+            });
 
             $('#dataTableValoresExternos').DataTable().on('order.dt search.dt', function () {
                 $('#dataTableValoresExternos').DataTable().column(0, { search: 'applied', order: 'applied' }).nodes().each(function (cell, i) {
@@ -189,6 +196,7 @@
                     { data: 'tipoDocumentoID' },
                     { data: 'numDocumento' },
                     { data: 'datosPersona' },
+                    { data: 'categoriaPlanillaID' },
                     { data: 'conceptoCod' },
                     { data: 'conceptoDesc' },
                     { data: 'valorConcepto' },
@@ -208,7 +216,7 @@
                         }
                     },
                     {
-                        targets: 9,
+                        targets: 10,
                         render: function (data, type, row) {
                             return row.proveedorDesc + ' (' + row.proveedorID + ')';
                         }
@@ -238,8 +246,23 @@
                     loadingRecords: "Cargando...",
                     processing: "Procesando..."
                 },
-                searching: true
+                searching: true,
+                initComplete: function (settings, json) {
+                    var api = this.api();
+                    var numRows = api.rows().count();
+
+                    if (numRows > 0) {
+                        $("#btnGrabarArchivo").removeClass("d-none");
+                    } else {
+                        $("#btnGrabarArchivo").addClass("d-none");
+                    }
+                }
             });
+        }
+
+        function limpiarData() {
+            $("#fileName").val("");
+            generarDatatableValoresExternos([]);
         }
     </script>
 }

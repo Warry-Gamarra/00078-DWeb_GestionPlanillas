@@ -21,6 +21,10 @@ namespace WebApp.Models
 
         public string datosPersona { get; set; }
 
+        public int? categoriaPlanillaID { get; set; }
+
+        public string categoriaPlanillaDesc { get; set; }
+
         public string conceptoCod { get; set; }
 
         public string conceptoDesc { get; set; }

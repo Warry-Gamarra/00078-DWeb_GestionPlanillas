@@ -461,7 +461,7 @@ namespace Domain.Helpers
             var dtoConceptoExternoValorDTO = new ValorExternoConceptoDTO()
             {
                 numDocumento = reader.GetValue(3).ToString(),
-                conceptoCod = reader.GetValue(4).ToString()
+                conceptoCod = reader.GetValue(5).ToString()
             };
 
             if (reader.GetValue(0) != null)
@@ -488,9 +488,17 @@ namespace Domain.Helpers
                     dtoConceptoExternoValorDTO.tipoDocumentoID = intValue;
             }
 
+            if (reader.GetValue(4) != null)
+            {
+                stringValue = reader.GetValue(4).ToString();
+
+                if (int.TryParse(stringValue, out intValue))
+                    dtoConceptoExternoValorDTO.categoriaPlanillaID = intValue;
+            }
+
             if (reader.GetValue(5) != null)
             {
-                stringValue = reader.GetValue(5).ToString();
+                stringValue = reader.GetValue(6).ToString();
 
                 if (decimal.TryParse(stringValue, out decimalValue))
                     dtoConceptoExternoValorDTO.valorConcepto = decimalValue;
@@ -498,7 +506,7 @@ namespace Domain.Helpers
 
             if (reader.GetValue(6) != null)
             {
-                stringValue = reader.GetValue(6).ToString();
+                stringValue = reader.GetValue(7).ToString();
 
                 if (int.TryParse(stringValue, out intValue))
                     dtoConceptoExternoValorDTO.proveedorID = intValue;

@@ -16,7 +16,7 @@ namespace Domain.Services.Implementations
     {
         public List<ValorExternoConceptoDTO> ObtenerListaValoresDeConceptos(string filePath)
         {
-            string[] expectedColNames = { "año", "mes", "tip_documento", "num_documento", "cod_concepto", "valor_concepto", "proveedor" };
+            string[] expectedColNames = { "año", "mes", "tip_documento", "num_documento", "categoria", "cod_concepto", "valor_concepto", "proveedor" };
 
             var lista = new List<ValorExternoConceptoDTO>();
 
@@ -41,11 +41,12 @@ namespace Domain.Services.Implementations
                                     reader.GetValue(4)?.ToString(),
                                     reader.GetValue(5)?.ToString(),
                                     reader.GetValue(6)?.ToString(),
+                                    reader.GetValue(7)?.ToString()
                                 };
 
                                 if (!expectedColNames.SequenceEqual(colNames))
                                 {
-                                    throw new Exception("Las columnas no son las esperadas");
+                                    throw new Exception("Las columnas no tienen el nombre correcto.");
                                 }
 
                                 i++;

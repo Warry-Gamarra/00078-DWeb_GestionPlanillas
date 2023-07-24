@@ -16,6 +16,8 @@ namespace Domain.Entities
 
         public string numDocumento { get; set; }
 
+        public int? categoriaPlanillaID { get; set; }
+
         public string conceptoCod { get; set; }
 
         public decimal? valorConcepto { get; set; }
