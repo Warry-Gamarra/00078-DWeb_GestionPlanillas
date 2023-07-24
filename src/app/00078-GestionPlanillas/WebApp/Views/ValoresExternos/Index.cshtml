@@ -125,8 +125,11 @@
                     },
                     success: function (result) {
                         if (result.success) {
-                            $("#fileName").val(result.data.Item1);
-                            generarDatatableValoresExternos(result.data.Item2);
+                            let fileName = result.data.Item1;
+                            let jsonData = result.data.Item2;
+
+                            $("#fileName").val(fileName);
+                            generarDatatableValoresExternos(jsonData);
                         } else {
                             toastr.error(result.message);
                         }
