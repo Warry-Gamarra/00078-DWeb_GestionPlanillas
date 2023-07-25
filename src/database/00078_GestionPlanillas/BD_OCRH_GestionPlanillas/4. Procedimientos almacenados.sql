@@ -1578,3 +1578,39 @@ BEGIN
 	END CATCH
 END
 GO
+
+
+
+IF EXISTS (SELECT * FROM INFORMATION_SCHEMA.ROUTINES WHERE ROUTINE_TYPE = 'PROCEDURE' AND ROUTINE_NAME = 'USP_U_ActualizarValorExterno')
+	DROP PROCEDURE [dbo].[USP_U_ActualizarValorExterno]
+GO
+
+CREATE PROCEDURE [dbo].[USP_U_ActualizarValorExterno]
+@I_ConceptoExternoValorID INT,
+@M_ValorConcepto DECIMAL(15,2),
+@I_UserID INT,
+@B_Result BIT OUTPUT,
+@T_Message VARCHAR(250) OUTPUT
+AS
+BEGIN
+	SET NOCOUNT ON;
+
+	BEGIN TRAN
+	BEGIN TRY
+		UPDATE dbo.TI_ValorExternoConcepto SET
+			M_ValorConcepto = @M_ValorConcepto,
+			I_UsuarioMod = @I_UserID,
+			D_FecMod = GETDATE()
+		WHERE I_ConceptoExternoValorID = @I_ConceptoExternoValorID;
+
+		COMMIT TRAN
+		SET @B_Result = 1
+		SET @T_Message = 'Actualziación correcta.'
+	END TRY
+	BEGIN CATCH
+		ROLLBACK TRAN
+		SET @B_Result = 0
+		SET @T_Message = ERROR_MESSAGE()
+	END CATCH
+END
+GO

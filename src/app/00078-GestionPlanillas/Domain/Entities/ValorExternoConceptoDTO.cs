@@ -8,20 +8,40 @@ namespace Domain.Entities
 {
     public class ValorExternoConceptoDTO
     {
-        public int? anio { get; set; }
+        public int conceptoExternoValorID { get; set; }
 
-        public int? mes { get; set; }
+        public int anio { get; set; }
 
-        public int? tipoDocumentoID { get; set; }
+        public int mes { get; set; }
+
+        public string mesDesc { get; set; }
+
+        public string tipoDocumentoDesc { get; set; }
 
         public string numDocumento { get; set; }
 
-        public int? categoriaPlanillaID { get; set; }
+        public string apellidoPaterno { get; set; }
+
+        public string apellidoMaterno { get; set; }
+
+        public string nombre { get; set; }
+
+        public int categoriaPlanillaID { get; set; }
+
+        public string categoriaPlanillaDesc { get; set; }
+
+        public int conceptoID { get; set; }
 
         public string conceptoCod { get; set; }
 
-        public decimal? valorConcepto { get; set; }
+        public string conceptoDesc { get; set; }
 
-        public int? proveedorID { get; set; }
+        public string tipoConceptoDesc { get; set; }
+
+        public decimal valorConcepto { get; set; }
+
+        public int proveedorID { get; set; }
+
+        public string proveedorDesc { get; set; }
     }
 }

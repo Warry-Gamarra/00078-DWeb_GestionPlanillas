@@ -22,6 +22,7 @@ namespace WebApp.ServiceFacade.Implementations
         private IConceptoService _conceptoService;
         private IProveedorService _proveedorService;
         private IValorExternoConceptoService _valorExternoConceptoService;
+        private ICategoriaPlanillaService _categoriaPlanillaService;
 
         private readonly string serverPath;
 
@@ -34,6 +35,7 @@ namespace WebApp.ServiceFacade.Implementations
             _conceptoService = new ConceptoService();
             _proveedorService = new ProveedorService();
             _valorExternoConceptoService = new ValorExternoConceptoService();
+            _categoriaPlanillaService = new CategoriaPlanillaService();
 
             serverPath = WebConfigParams.DirectorioArchivosExternos;
         }
@@ -42,7 +44,7 @@ namespace WebApp.ServiceFacade.Implementations
         {
             string newFileName;
             ILecturaArchivoService lecturaArchivoService;
-            List<ValorExternoConceptoDTO> lista;
+            List<ValorExternoLecturaDTO> lista;
             List<ValorExternoConceptoModel> result;
             ValorExternoConceptoModel model;
 
@@ -59,6 +61,8 @@ namespace WebApp.ServiceFacade.Implementations
                 var listaConceptos = _conceptoService.ListarConceptos();
 
                 var listaProveedores = _proveedorService.ListarProveedores();
+
+                var listaCategoria = _categoriaPlanillaService.ListarCategoriasPlanillas();
 
                 result = new List<ValorExternoConceptoModel>();
 
@@ -78,9 +82,13 @@ namespace WebApp.ServiceFacade.Implementations
 
                     model.tipoDocumentoDesc = listaTipDocumentos.Where(y => y.tipoDocumentoID == item.tipoDocumentoID).FirstOrDefault().tipoDocumentoDesc;
 
-                    model.datosPersona = _personaService.ObtenerPersona((item.tipoDocumentoID.HasValue ? item.tipoDocumentoID.Value : 0), item.numDocumento).nombre;
+                    var persona = _personaService.ObtenerPersona((item.tipoDocumentoID.HasValue ? item.tipoDocumentoID.Value : 0), item.numDocumento);
+
+                    model.datosPersona = String.Format("{0} {1} {2}", persona.apellidoPaterno, persona.apellidoMaterno, persona.nombre);
 
                     model.categoriaPlanillaID = item.categoriaPlanillaID;
+
+                    model.categoriaPlanillaDesc = listaCategoria.Where(x => x.categoriaPlanillaID == item.categoriaPlanillaID).FirstOrDefault().categoriaPlanillaDesc;
 
                     model.conceptoCod = item.conceptoCod;
 
@@ -111,7 +119,7 @@ namespace WebApp.ServiceFacade.Implementations
         {
             Response response;
             ILecturaArchivoService lecturaArchivoService;
-            List<ValorExternoConceptoDTO> lista;
+            List<ValorExternoLecturaDTO> lista;
 
             try
             {
@@ -137,6 +145,52 @@ namespace WebApp.ServiceFacade.Implementations
                     .ToList();
 
                 response = _valorExternoConceptoService.GrabarValoresExternos(registros, userID);
+            }
+            catch (Exception ex)
+            {
+                response = new Response()
+                {
+                    Message = ex.Message
+                };
+            }
+
+            return response;
+        }
+
+        public List<ValorExternoConceptoModel> ListarValoresExternos(int anio, int mes, int categoriaPlanillaID)
+        {
+            var lista = _valorExternoConceptoService.ListarValoresExternosConceptos(anio, mes, categoriaPlanillaID)
+                .Select(x => Mapper.ValorExternoConceptoDTO_To_ValorExternoConceptoModel(x))
+                .ToList();
+
+            return lista;
+        }
+
+        public ValorExternoConceptoModel ObtenerValorExterno(int conceptoExternoValorID)
+        {
+            ValorExternoConceptoModel valorExternoConceptoModel;
+
+            var valorExternoConceptoDTO = _valorExternoConceptoService.ObtenerValorExternoConcepto(conceptoExternoValorID);
+
+            if (valorExternoConceptoDTO == null)
+            {
+                valorExternoConceptoModel = null;
+            }
+            else
+            {
+                valorExternoConceptoModel = Mapper.ValorExternoConceptoDTO_To_ValorExternoConceptoModel(valorExternoConceptoDTO);
+            }
+
+            return valorExternoConceptoModel;
+        }
+
+        public Response ActualizarValorExternoConcepto(int conceptoExternoValorID, decimal valorConcepto, int userID)
+        {
+            Response response;
+
+            try
+            {
+                response = _valorExternoConceptoService.ActualizarValorExternoConcepto(conceptoExternoValorID, valorConcepto, userID);
             }
             catch (Exception ex)
             {

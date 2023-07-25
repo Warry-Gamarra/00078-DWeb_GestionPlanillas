@@ -454,11 +454,11 @@ namespace Domain.Helpers
             return conceptoReferenciaDTO;
         }
 
-        public static ValorExternoConceptoDTO ExcelDataReader_To_ConceptoExternoValorDTO(IExcelDataReader reader)
+        public static ValorExternoLecturaDTO ExcelDataReader_To_ValorExternoLecturaDTO(IExcelDataReader reader)
         {
         string stringValue; int intValue; decimal decimalValue;
 
-            var dtoConceptoExternoValorDTO = new ValorExternoConceptoDTO()
+            var dtoConceptoExternoValorDTO = new ValorExternoLecturaDTO()
             {
                 numDocumento = reader.GetValue(3).ToString(),
                 conceptoCod = reader.GetValue(5).ToString()
@@ -539,6 +539,33 @@ namespace Domain.Helpers
             };
 
             return periodoDTO;
+        }
+
+        public static ValorExternoConceptoDTO VW_ValoresExternos_To_ValorExternoConceptoDTO(VW_ValoresExternos view)
+        {
+            var valorExternoConceptoDTO = new ValorExternoConceptoDTO()
+            {
+                conceptoExternoValorID = view.I_ConceptoExternoValorID,
+                anio = view.I_Anio,
+                mes = view.I_Mes,
+                mesDesc = view.T_MesDesc,
+                tipoDocumentoDesc = view.T_TipoDocumentoDesc,
+                numDocumento = view.C_NumDocumento,
+                apellidoPaterno = view.T_ApellidoPaterno,
+                apellidoMaterno = view.T_ApellidoMaterno,
+                nombre = view.T_Nombre,
+                categoriaPlanillaID = view.I_CategoriaPlanillaID,
+                categoriaPlanillaDesc = view.T_CategoriaPlanillaDesc,
+                conceptoID = view.I_ConceptoID,
+                conceptoCod = view.C_ConceptoCod,
+                conceptoDesc = view.T_ConceptoDesc,
+                tipoConceptoDesc = view.T_TipoConceptoDesc,
+                valorConcepto = view.M_ValorConcepto,
+                proveedorID = view.I_ProveedorID,
+                proveedorDesc = view.T_ProveedorDesc
+            };
+
+            return valorExternoConceptoDTO;
         }
     }
 }

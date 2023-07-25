@@ -57,6 +57,7 @@
     <Compile Include="Procedures\USP_I_GenerarPlanilla_Docente_Administrativo.cs" />
     <Compile Include="Procedures\USP_I_RegistrarConcepto.cs" />
     <Compile Include="Procedures\USP_I_RegistrarTrabajador.cs" />
+    <Compile Include="Procedures\USP_U_ActualizarValorExterno.cs" />
     <Compile Include="Procedures\USP_U_CambiarEstadoPlantillaPlanillaConcepto.cs" />
     <Compile Include="Procedures\USP_U_CambiarEstadoPlantillaPlanilla.cs" />
     <Compile Include="Procedures\USP_U_CambiarEstadoConcepto.cs" />
@@ -88,6 +89,7 @@
     <Compile Include="Views\VW_Docentes.cs" />
     <Compile Include="Views\VW_TrabajadoresCategoriaPlanilla.cs" />
     <Compile Include="Views\VW_Trabajadores.cs" />
+    <Compile Include="Views\VW_ValoresExternos.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

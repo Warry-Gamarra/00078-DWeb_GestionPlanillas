@@ -196,6 +196,39 @@ WHERE ref.B_Eliminado = 0
 GO
 
 
+
+IF EXISTS (SELECT * FROM INFORMATION_SCHEMA.VIEWS WHERE TABLE_NAME = 'VW_ValoresExternos')
+	DROP VIEW [dbo].[VW_ValoresExternos]
+GO
+
+CREATE VIEW [dbo].[VW_ValoresExternos]
+AS
+	SELECT excon.I_ConceptoExternoValorID, per.I_Anio, per.I_Mes, per.T_MesDesc, trab.T_TipoDocumentoDesc, trab.C_NumDocumento, trab.T_ApellidoPaterno, trab.T_ApellidoMaterno, trab.T_Nombre,
+		catrab.I_CategoriaPlanillaID, cat.T_CategoriaPlanillaDesc, con.I_ConceptoID, con.C_ConceptoCod, con.T_ConceptoDesc, con.T_TipoConceptoDesc, excon.M_ValorConcepto, pro.I_ProveedorID, pro.T_ProveedorDesc
+	FROM dbo.TI_ValorExternoPeriodo exper
+	INNER JOIN dbo.TI_ValorExternoConcepto excon ON exper.I_ValorExternoPeriodoID = excon.I_ValorExternoPeriodoID
+	INNER JOIN dbo.VW_Trabajadores trab ON trab.I_TrabajadorID = exper.I_TrabajadorID
+	INNER JOIN dbo.TC_Trabajador_CategoriaPlanilla catrab ON catrab.I_TrabajadorID = trab.I_TrabajadorID
+	INNER JOIN dbo.TC_CategoriaPlanilla cat ON cat.I_CategoriaPlanillaID = catrab.I_CategoriaPlanillaID
+	INNER JOIN dbo.TR_Periodo per ON per.I_PeriodoID = exper.I_PeriodoID
+	INNER JOIN dbo.VW_Conceptos con ON con.I_ConceptoID = excon.I_ConceptoID
+	INNER JOIN dbo.TC_Proveedor pro ON pro.I_ProveedorID = excon.I_ProveedorID
+	WHERE catrab.B_Eliminado = 0
+GO
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 --PLANILLA Administrativo
 SELECT        cap.T_CategoriaPlanillaDesc, per.I_Anio, per.T_MesDesc, pl.I_Correlativo, p.T_Nombre, p.T_ApellidoPaterno, p.T_ApellidoMaterno, nvr.C_NivelRemunerativoCod, 
                          grup.C_GrupoOcupacionalCod, ctpl.C_ConceptoCod, ctpl.T_ConceptoDesc, ctpl.M_Monto

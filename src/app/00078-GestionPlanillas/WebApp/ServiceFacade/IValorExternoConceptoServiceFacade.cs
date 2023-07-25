@@ -13,5 +13,11 @@ namespace WebApp.ServiceFacade
         Tuple<string, List<ValorExternoConceptoModel>> ObtenerListaValoresDeConceptos(HttpPostedFileBase file);
 
         Response GrabarValoresExternos(string fileName, int userID);
+
+        List<ValorExternoConceptoModel> ListarValoresExternos(int anio, int mes, int categoriaPlanillaID);
+
+        ValorExternoConceptoModel ObtenerValorExterno(int conceptoExternoValorID);
+
+        Response ActualizarValorExternoConcepto(int conceptoExternoValorID, decimal valorConcepto, int userID);
     }
 }

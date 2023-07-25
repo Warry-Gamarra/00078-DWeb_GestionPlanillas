@@ -11,5 +11,11 @@ namespace Domain.Services
     public interface IValorExternoConceptoService
     {
         Response GrabarValoresExternos(List<ValorConceptoEntity> valores, int userID);
+
+        List<ValorExternoConceptoDTO> ListarValoresExternosConceptos(int anio, int mes, int categoriaPlanillaID);
+
+        ValorExternoConceptoDTO ObtenerValorExternoConcepto(int conceptoExternoValorID);
+
+        Response ActualizarValorExternoConcepto(int conceptoExternoValorID, decimal valorConcepto, int userID);
     }
 }

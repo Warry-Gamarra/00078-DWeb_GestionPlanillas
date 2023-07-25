@@ -57,6 +57,7 @@
     <Compile Include="Entities\ProveedorDTO.cs" />
     <Compile Include="Entities\ValorConceptoEntity.cs" />
     <Compile Include="Entities\ValorExternoConceptoDTO.cs" />
+    <Compile Include="Entities\ValorExternoLecturaDTO.cs" />
     <Compile Include="Entities\ConceptoReferenciaDTO.cs" />
     <Compile Include="Entities\DependenciaDTO.cs" />
     <Compile Include="Entities\EstadoDTO.cs" />

@@ -14,11 +14,11 @@ namespace Domain.Services.Implementations
 {
     public class LecturaArchivoExcelService : ILecturaArchivoService
     {
-        public List<ValorExternoConceptoDTO> ObtenerListaValoresDeConceptos(string filePath)
+        public List<ValorExternoLecturaDTO> ObtenerListaValoresDeConceptos(string filePath)
         {
             string[] expectedColNames = { "año", "mes", "tip_documento", "num_documento", "categoria", "cod_concepto", "valor_concepto", "proveedor" };
 
-            var lista = new List<ValorExternoConceptoDTO>();
+            var lista = new List<ValorExternoLecturaDTO>();
 
             using (var stream = File.Open(filePath, FileMode.Open, FileAccess.Read))
             {
@@ -53,7 +53,7 @@ namespace Domain.Services.Implementations
                             }
                             else
                             {
-                                lista.Add(Mapper.ExcelDataReader_To_ConceptoExternoValorDTO(reader));
+                                lista.Add(Mapper.ExcelDataReader_To_ValorExternoLecturaDTO(reader));
                             }
                         }
 

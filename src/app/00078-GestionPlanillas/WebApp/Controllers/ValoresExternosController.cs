@@ -1,9 +1,11 @@
-﻿using Domain.Helpers;
+﻿using Domain.Enums;
+using Domain.Helpers;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using WebApp.Models;
 using WebApp.ServiceFacade;
 using WebApp.ServiceFacade.Implementations;
 using WebMatrix.WebData;
@@ -13,10 +15,14 @@ namespace WebApp.Controllers
     public class ValoresExternosController : Controller
     {
         IValorExternoConceptoServiceFacade _valorExternoConceptoServiceFacade;
+        private IPeriodoServiceFacade _periodoServiceFacade;
+        private ICategoriaPlanillaServiceFacade _categoriaPlanillaServiceFacade;
 
         public ValoresExternosController()
         {
             _valorExternoConceptoServiceFacade = new ValorExternoConceptoServiceFacade();
+            _periodoServiceFacade = new PeriodoServiceFacade();
+            _categoriaPlanillaServiceFacade = new CategoriaPlanillaServiceFacade();
         }
 
         [HttpGet]
@@ -65,6 +71,77 @@ namespace WebApp.Controllers
             };
 
             return Json(response, JsonRequestBehavior.AllowGet);
+        }
+
+        [HttpGet]
+        public ActionResult Mantenimiento()
+        {
+            var listaAños = _periodoServiceFacade.ObtenerComboAños();
+
+            var año = (listaAños.Count() > 0) ? int.Parse(listaAños.First().Value) : DateTime.Now.Year;
+
+            ViewBag.Title = "Mantenimiento de Información Externa";
+
+            ViewBag.ListaAños = listaAños;
+
+            ViewBag.ListaMeses = _periodoServiceFacade.ObtenerComboMeses(año);
+
+            ViewBag.ListaCategoriasPlanillas = _categoriaPlanillaServiceFacade.ObtenerComboCategoriasPlanillas();
+
+            return View();
+        }
+
+        [HttpGet]
+        public JsonResult ObtenerListaInformaciónExterna(int? anio, int? mes, int? idCategoria)
+        {
+            var result = new AjaxResponse();
+
+            List<ValorExternoConceptoModel> lista;
+
+            if (anio.HasValue && mes.HasValue && idCategoria.HasValue)
+            {
+                lista = _valorExternoConceptoServiceFacade.ListarValoresExternos(anio.Value, mes.Value, idCategoria.Value)
+                    .ToList();
+            }
+            else
+            {
+                lista = new List<ValorExternoConceptoModel>();
+            }
+
+            result.data = lista;
+
+            return Json(result, JsonRequestBehavior.AllowGet);
+        }
+
+        [HttpGet]
+        public ActionResult Editar(int id)
+        {
+            ViewBag.Title = "Detalle del Concepto";
+
+            ViewBag.Action = "Actualizar";
+
+            var valorExterno = _valorExternoConceptoServiceFacade.ObtenerValorExterno(id);
+
+            return PartialView("_MantenimientoValorExterno", valorExterno);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Actualizar(ValorExternoConceptoModel model)
+        {
+            Response response = new Response();
+
+            if (ModelState.IsValid)
+            {
+                response = _valorExternoConceptoServiceFacade.ActualizarValorExternoConcepto(
+                    model.conceptoExternoValorID.Value, model.valorConcepto.Value, WebSecurity.CurrentUserId);
+            }
+            else
+            {
+                response.Message = "Ocurrió un error.";
+            }
+
+            return PartialView("_MsgActualizarValorExternoConcepto", response);
         }
     }
 }

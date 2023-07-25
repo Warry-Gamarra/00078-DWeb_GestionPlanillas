@@ -464,6 +464,9 @@
     <Content Include="Views\PlantillaPlanillaConcepto\_MsgRegistrarPlantillaPlanillaConcepto.cshtml" />
     <Content Include="Views\PlantillaPlanillaConcepto\_ConceptosAsignados.cshtml" />
     <Content Include="Views\ValoresExternos\Index.cshtml" />
+    <Content Include="Views\ValoresExternos\Mantenimiento.cshtml" />
+    <Content Include="Views\ValoresExternos\_MantenimientoValorExterno.cshtml" />
+    <Content Include="Views\ValoresExternos\_MsgActualizarValorExternoConcepto.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

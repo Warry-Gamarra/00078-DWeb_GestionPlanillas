@@ -7,6 +7,8 @@ namespace WebApp.Models
 {
     public class ValorExternoConceptoModel
     {
+        public int? conceptoExternoValorID { get; set; }
+
         public int? anio { get; set; }
 
         public int? mes { get; set; }
@@ -25,9 +27,13 @@ namespace WebApp.Models
 
         public string categoriaPlanillaDesc { get; set; }
 
+        public int conceptoID { get; set; }
+
         public string conceptoCod { get; set; }
 
         public string conceptoDesc { get; set; }
+
+        public string tipoConceptoDesc { get; set; }
 
         public decimal? valorConcepto { get; set; }
 

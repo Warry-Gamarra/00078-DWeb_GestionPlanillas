@@ -10,6 +10,6 @@ namespace Domain.Services
 {
     public interface ILecturaArchivoService
     {
-        List<ValorExternoConceptoDTO> ObtenerListaValoresDeConceptos(string filePath);
+        List<ValorExternoLecturaDTO> ObtenerListaValoresDeConceptos(string filePath);
     }
 }

@@ -285,5 +285,29 @@ namespace WebApp.Models
 
             return model;
         }
+
+        public static ValorExternoConceptoModel ValorExternoConceptoDTO_To_ValorExternoConceptoModel(ValorExternoConceptoDTO dto)
+        {
+            var model = new ValorExternoConceptoModel()
+            {
+                conceptoExternoValorID = dto.conceptoExternoValorID,
+                anio = dto.anio,
+                mesDesc = dto.mesDesc,
+                tipoDocumentoDesc = dto.tipoDocumentoDesc,
+                numDocumento = dto.numDocumento,
+                datosPersona = String.Format("{0} {1} {2}", dto.apellidoPaterno, dto.apellidoMaterno, dto.nombre),
+                categoriaPlanillaID = dto.categoriaPlanillaID,
+                categoriaPlanillaDesc = dto.categoriaPlanillaDesc,
+                conceptoID = dto.conceptoID,
+                conceptoCod = dto.conceptoCod,
+                conceptoDesc = dto.conceptoDesc,
+                tipoConceptoDesc = dto.tipoConceptoDesc,
+                valorConcepto = dto.valorConcepto,
+                proveedorID = dto.proveedorID,
+                proveedorDesc = dto.proveedorDesc
+            };
+
+            return model;
+        }
     }
 }

@@ -42,7 +42,7 @@
             <div class="col-12">
                 <div class="form-group">
                     @Html.LabelFor(model => model.conceptoDesc, new { @class = "control-label" })
-                    @Html.TextBoxFor(model => model.conceptoDesc, new { @class = "form-control" })
+                    @Html.TextAreaFor(model => model.conceptoDesc, new { @class = "form-control" })
                     @Html.ValidationMessageFor(model => model.conceptoDesc, null, new { @class = "text-danger" })
                 </div>
             </div>
