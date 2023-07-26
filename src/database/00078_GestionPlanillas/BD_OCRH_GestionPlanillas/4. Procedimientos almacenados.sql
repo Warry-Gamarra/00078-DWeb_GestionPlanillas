@@ -1073,7 +1073,7 @@ IF EXISTS (SELECT * FROM INFORMATION_SCHEMA.ROUTINES WHERE ROUTINE_TYPE = 'PROCE
 	DROP PROCEDURE [dbo].[USP_I_RegistrarConcepto]
 GO
 
-CREATE PROCEDURE USP_I_RegistrarConcepto
+CREATE PROCEDURE dbo.USP_I_RegistrarConcepto
 @I_TipoConceptoID INT,
 @C_ConceptoCod VARCHAR(20),
 @T_ConceptoDesc VARCHAR(250),
@@ -1108,7 +1108,7 @@ IF EXISTS (SELECT * FROM INFORMATION_SCHEMA.ROUTINES WHERE ROUTINE_TYPE = 'PROCE
 	DROP PROCEDURE [dbo].[USP_U_ActualizarConcepto]
 GO
 
-CREATE PROCEDURE USP_U_ActualizarConcepto
+CREATE PROCEDURE dbo.USP_U_ActualizarConcepto
 @I_ConceptoID INT,
 @I_TipoConceptoID INT,
 @C_ConceptoCod VARCHAR(20),
@@ -1150,7 +1150,7 @@ IF EXISTS (SELECT * FROM INFORMATION_SCHEMA.ROUTINES WHERE ROUTINE_TYPE = 'PROCE
 	DROP PROCEDURE [dbo].[USP_U_CambiarEstadoConcepto]
 GO
 
-CREATE PROCEDURE USP_U_CambiarEstadoConcepto
+CREATE PROCEDURE dbo.USP_U_CambiarEstadoConcepto
 @I_ConceptoID INT,
 @B_Habilitado BIT,
 @I_UserID INT,
@@ -1186,7 +1186,7 @@ IF EXISTS (SELECT * FROM INFORMATION_SCHEMA.ROUTINES WHERE ROUTINE_TYPE = 'PROCE
 	DROP PROCEDURE [dbo].[USP_I_RegistrarPlantillaPlanilla]
 GO
 
-CREATE PROCEDURE USP_I_RegistrarPlantillaPlanilla
+CREATE PROCEDURE dbo.USP_I_RegistrarPlantillaPlanilla
 @I_CategoriaPlanillaID INT,
 @T_PlantillaPlanillaDesc VARCHAR(250),
 @I_UserID INT,
@@ -1219,7 +1219,7 @@ IF EXISTS (SELECT * FROM INFORMATION_SCHEMA.ROUTINES WHERE ROUTINE_TYPE = 'PROCE
 	DROP PROCEDURE [dbo].[USP_U_ActualizarPlantillaPlanilla]
 GO
 
-CREATE PROCEDURE USP_U_ActualizarPlantillaPlanilla
+CREATE PROCEDURE dbo.USP_U_ActualizarPlantillaPlanilla
 @I_PlantillaPlanillaID INT,
 @I_CategoriaPlanillaID INT,
 @T_PlantillaPlanillaDesc VARCHAR(250),
@@ -1257,7 +1257,7 @@ IF EXISTS (SELECT * FROM INFORMATION_SCHEMA.ROUTINES WHERE ROUTINE_TYPE = 'PROCE
 	DROP PROCEDURE [dbo].[USP_U_CambiarEstadoPlantillaPlanilla]
 GO
 
-CREATE PROCEDURE USP_U_CambiarEstadoPlantillaPlanilla
+CREATE PROCEDURE dbo.USP_U_CambiarEstadoPlantillaPlanilla
 @I_PlantillaPlanillaID INT,
 @B_Habilitado BIT,
 @I_UserID INT,
@@ -1293,7 +1293,7 @@ IF EXISTS (SELECT * FROM INFORMATION_SCHEMA.ROUTINES WHERE ROUTINE_TYPE = 'PROCE
 	DROP PROCEDURE [dbo].[USP_I_RegistrarPlantillaPlanillaConcepto]
 GO
 
-CREATE PROCEDURE USP_I_RegistrarPlantillaPlanillaConcepto
+CREATE PROCEDURE dbo.USP_I_RegistrarPlantillaPlanillaConcepto
 @Tbl_ConceptoReferencia [dbo].[type_dataIdentifiers] READONLY,
 @I_PlantillaPlanillaID INT,
 @I_ConceptoID INT,
@@ -1342,7 +1342,7 @@ IF EXISTS (SELECT * FROM INFORMATION_SCHEMA.ROUTINES WHERE ROUTINE_TYPE = 'PROCE
 	DROP PROCEDURE [dbo].[USP_U_ActualizarPlantillaPlanillaConcepto]
 GO
 
-CREATE PROCEDURE USP_U_ActualizarPlantillaPlanillaConcepto
+CREATE PROCEDURE dbo.USP_U_ActualizarPlantillaPlanillaConcepto
 @Tbl_ConceptoReferencia [dbo].[type_dataIdentifiers] READONLY,
 @I_PlantillaPlanillaConceptoID INT,
 @I_PlantillaPlanillaID INT,
@@ -1414,7 +1414,7 @@ IF EXISTS (SELECT * FROM INFORMATION_SCHEMA.ROUTINES WHERE ROUTINE_TYPE = 'PROCE
 	DROP PROCEDURE [dbo].[USP_U_CambiarEstadoPlantillaPlanillaConcepto]
 GO
 
-CREATE PROCEDURE USP_U_CambiarEstadoPlantillaPlanillaConcepto
+CREATE PROCEDURE dbo.USP_U_CambiarEstadoPlantillaPlanillaConcepto
 @I_PlantillaPlanillaConceptoID INT,
 @B_Habilitado BIT,
 @I_UserID INT,
@@ -1450,7 +1450,7 @@ IF EXISTS (SELECT * FROM INFORMATION_SCHEMA.ROUTINES WHERE ROUTINE_TYPE = 'PROCE
 	DROP PROCEDURE [dbo].[USP_U_EliminarPlantillaPlanillaConcepto]
 GO
 
-CREATE PROCEDURE USP_U_EliminarPlantillaPlanillaConcepto
+CREATE PROCEDURE dbo.USP_U_EliminarPlantillaPlanillaConcepto
 @I_PlantillaPlanillaConceptoID INT,
 @I_UserID INT,
 @B_Result BIT OUTPUT,
@@ -1476,7 +1476,7 @@ BEGIN
 		
 		COMMIT TRAN
 		SET @B_Result = 1
-		SET @T_Message = 'Actualización correcta.'
+		SET @T_Message = 'Eliminación correcta.'
 	END TRY
 	BEGIN CATCH
 		ROLLBACK TRAN
@@ -1606,6 +1606,40 @@ BEGIN
 		COMMIT TRAN
 		SET @B_Result = 1
 		SET @T_Message = 'Actualziación correcta.'
+	END TRY
+	BEGIN CATCH
+		ROLLBACK TRAN
+		SET @B_Result = 0
+		SET @T_Message = ERROR_MESSAGE()
+	END CATCH
+END
+GO
+
+
+IF EXISTS (SELECT * FROM INFORMATION_SCHEMA.ROUTINES WHERE ROUTINE_TYPE = 'PROCEDURE' AND ROUTINE_NAME = 'USP_U_EliminarValorExternoConcepto')
+	DROP PROCEDURE [dbo].[USP_U_EliminarValorExternoConcepto]
+GO
+
+CREATE PROCEDURE dbo.USP_U_EliminarValorExternoConcepto
+@I_ConceptoExternoValorID INT,
+@I_UserID INT,
+@B_Result BIT OUTPUT,
+@T_Message VARCHAR(250) OUTPUT
+AS
+BEGIN
+	SET NOCOUNT ON;
+	
+	BEGIN TRAN
+	BEGIN TRY
+		UPDATE dbo.TI_ValorExternoConcepto SET
+			B_Eliminado = 1,
+			I_UsuarioMod = @I_UserID,
+			D_FecMod = GETDATE()
+		WHERE I_ConceptoExternoValorID = @I_ConceptoExternoValorID
+		
+		COMMIT TRAN
+		SET @B_Result = 1
+		SET @T_Message = 'Eliminación correcta.'
 	END TRY
 	BEGIN CATCH
 		ROLLBACK TRAN

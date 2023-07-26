@@ -203,6 +203,13 @@ namespace WebApp.ServiceFacade.Implementations
             return response;
         }
 
+        public Response Eliminar(int conceptoExternoValorID, int userID)
+        {
+            var result = _valorExternoConceptoService.Eliminar(conceptoExternoValorID, userID);
+
+            return result;
+        }
+
         private string GuardarArchivo(string serverPath, HttpPostedFileBase file)
         {
             if (serverPath == null || !Directory.Exists(serverPath))

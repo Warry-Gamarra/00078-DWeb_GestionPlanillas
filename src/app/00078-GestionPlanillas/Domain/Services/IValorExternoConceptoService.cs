@@ -17,5 +17,7 @@ namespace Domain.Services
         ValorExternoConceptoDTO ObtenerValorExternoConcepto(int conceptoExternoValorID);
 
         Response ActualizarValorExternoConcepto(int conceptoExternoValorID, decimal valorConcepto, int userID);
+
+        Response Eliminar(int conceptoExternoValorID, int userID);
     }
 }

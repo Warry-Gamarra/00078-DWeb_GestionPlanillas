@@ -101,5 +101,43 @@ namespace Domain.Services.Implementations
 
             return Mapper.Result_To_Response(result);
         }
+
+        public Response Eliminar(int conceptoExternoValorID, int userID)
+        {
+            Result result;
+
+            try
+            {
+                var plantillaPlanillaConceptoDTO = ObtenerValorExternoConcepto(conceptoExternoValorID);
+
+                if (plantillaPlanillaConceptoDTO != null)
+                {
+                    var uspEliminar = new USP_U_EliminarValorExternoConcepto()
+                    {
+                        I_ConceptoExternoValorID = conceptoExternoValorID,
+                        I_UserID = userID
+                    };
+
+                    result = uspEliminar.Execute();
+                }
+                else
+                {
+                    result = new Result()
+                    {
+                        Success = true,
+                        Message = "El registro seleccionado ha sido eliminado con anterioridad."
+                    };
+                }
+            }
+            catch (Exception ex)
+            {
+                result = new Result()
+                {
+                    Message = ex.Message
+                };
+            }
+
+            return Mapper.Result_To_Response(result);
+        }
     }
 }

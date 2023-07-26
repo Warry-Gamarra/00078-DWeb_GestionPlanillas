@@ -19,5 +19,7 @@ namespace WebApp.ServiceFacade
         ValorExternoConceptoModel ObtenerValorExterno(int conceptoExternoValorID);
 
         Response ActualizarValorExternoConcepto(int conceptoExternoValorID, decimal valorConcepto, int userID);
+
+        Response Eliminar(int conceptoExternoValorID, int userID);
     }
 }

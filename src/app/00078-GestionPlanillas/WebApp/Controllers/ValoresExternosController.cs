@@ -143,5 +143,14 @@ namespace WebApp.Controllers
 
             return PartialView("_MsgActualizarValorExternoConcepto", response);
         }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public JsonResult Eliminar(int id)
+        {
+            var result = _valorExternoConceptoServiceFacade.Eliminar(id, WebSecurity.CurrentUserId);
+
+            return Json(result, JsonRequestBehavior.AllowGet);
+        }
     }
 }

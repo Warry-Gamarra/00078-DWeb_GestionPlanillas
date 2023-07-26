@@ -213,7 +213,7 @@ AS
 	INNER JOIN dbo.TR_Periodo per ON per.I_PeriodoID = exper.I_PeriodoID
 	INNER JOIN dbo.VW_Conceptos con ON con.I_ConceptoID = excon.I_ConceptoID
 	INNER JOIN dbo.TC_Proveedor pro ON pro.I_ProveedorID = excon.I_ProveedorID
-	WHERE catrab.B_Eliminado = 0
+	WHERE excon.B_Eliminado = 0 AND exper.B_Eliminado = 0 AND catrab.B_Eliminado = 0
 GO
 
 
