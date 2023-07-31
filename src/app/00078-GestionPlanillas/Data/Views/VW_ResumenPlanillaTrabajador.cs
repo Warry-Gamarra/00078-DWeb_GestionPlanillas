@@ -115,5 +115,33 @@ namespace Data.Views
 
             return result;
         }
+
+        public static VW_ResumenPlanillaTrabajador GetByPeriodoTrabajador(int I_TrabajadorID, int I_PeriodoID, int I_CategoriaPlanillaID)
+        {
+            VW_ResumenPlanillaTrabajador result;
+            DynamicParameters parameters;
+            string command;
+
+            try
+            {
+                command = "SELECT * FROM dbo.VW_ResumenPlanillaTrabajador p\r\nWHERE p.I_TrabajadorID = 1 AND p.I_PeriodoID = 1 AND p.I_CategoriaPlanillaID = 1;";
+
+                parameters = new DynamicParameters();
+                parameters.Add(name: "I_TrabajadorID", dbType: DbType.Int32, value: I_TrabajadorID);
+                parameters.Add(name: "I_PeriodoID", dbType: DbType.Int32, value: I_PeriodoID);
+                parameters.Add(name: "I_CategoriaPlanillaID", dbType: DbType.Int32, value: I_CategoriaPlanillaID);
+                
+                using (var _dbConnection = new SqlConnection(Database.ConnectionString))
+                {
+                    result = _dbConnection.QuerySingleOrDefault<VW_ResumenPlanillaTrabajador>(command, parameters, commandType: System.Data.CommandType.Text);
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+
+            return result;
+        }
     }
 }

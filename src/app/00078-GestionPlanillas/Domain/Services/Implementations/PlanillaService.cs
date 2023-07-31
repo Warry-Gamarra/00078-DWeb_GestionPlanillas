@@ -45,5 +45,22 @@ namespace Domain.Services.Implementations
 
             return Mapper.Result_To_Response(result);
         }
+
+        public bool ExistePlanillaTrabajador(int idTrabajador, int idPeriodo, int idCategoria)
+        {
+            try
+            {
+                var view = VW_ResumenPlanillaTrabajador.GetByPeriodoTrabajador(idTrabajador, idPeriodo, idCategoria);
+
+                bool existePlanilla = (view != null ? true : false);
+
+                return existePlanilla;
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
+        }
     }
 }

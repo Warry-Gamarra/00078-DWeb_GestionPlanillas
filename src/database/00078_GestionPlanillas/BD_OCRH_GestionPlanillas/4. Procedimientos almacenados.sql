@@ -702,7 +702,7 @@ BEGIN
 					IF (@B_ValorEsExterno = 1) BEGIN
 						SET @M_ValorConcepto = ISNULL((SELECT conc.M_ValorConcepto FROM dbo.TI_ValorExternoPeriodo per
 							INNER JOIN dbo.TI_ValorExternoConcepto conc ON conc.I_ValorExternoPeriodoID = per.I_ValorExternoPeriodoID 
-							WHERE per.B_Habilitado = 1 AND per.B_Eliminado = 0 AND conc.B_Habilitado = 1 AND conc.B_Eliminado = 0 AND
+							WHERE per.B_Eliminado = 0 AND conc.B_Eliminado = 0 AND
 								per.I_TrabajadorID = @I_TrabajadorID AND per.I_PeriodoID = @I_PeriodoID AND conc.I_ConceptoID = @I_ConceptoID), 0);
 					END
 
@@ -787,7 +787,7 @@ BEGIN
 					IF (@B_ValorEsExterno = 1) BEGIN
 						SET @M_ValorConcepto = ISNULL((SELECT conc.M_ValorConcepto FROM dbo.TI_ValorExternoPeriodo per
 							INNER JOIN dbo.TI_ValorExternoConcepto conc ON conc.I_ValorExternoPeriodoID = per.I_ValorExternoPeriodoID 
-							WHERE per.B_Habilitado = 1 AND per.B_Eliminado = 0 AND conc.B_Habilitado = 1 AND conc.B_Eliminado = 0 AND
+							WHERE per.B_Eliminado = 0 AND conc.B_Eliminado = 0 AND
 								per.I_TrabajadorID = @I_TrabajadorID AND per.I_PeriodoID = @I_PeriodoID AND conc.I_ConceptoID = @I_ConceptoID), 0);
 					END
 
@@ -872,7 +872,7 @@ BEGIN
 					IF (@B_ValorEsExterno = 1) BEGIN
 						SET @M_ValorConcepto = ISNULL((SELECT conc.M_ValorConcepto FROM dbo.TI_ValorExternoPeriodo per
 							INNER JOIN dbo.TI_ValorExternoConcepto conc ON conc.I_ValorExternoPeriodoID = per.I_ValorExternoPeriodoID 
-							WHERE per.B_Habilitado = 1 AND per.B_Eliminado = 0 AND conc.B_Habilitado = 1 AND conc.B_Eliminado = 0 AND
+							WHERE per.B_Eliminado = 0 AND conc.B_Eliminado = 0 AND
 								per.I_TrabajadorID = @I_TrabajadorID AND per.I_PeriodoID = @I_PeriodoID AND conc.I_ConceptoID = @I_ConceptoID), 0);
 					END
 
@@ -957,7 +957,7 @@ BEGIN
 					IF (@B_ValorEsExterno = 1) BEGIN
 						SET @M_ValorConcepto = ISNULL((SELECT conc.M_ValorConcepto FROM dbo.TI_ValorExternoPeriodo per
 							INNER JOIN dbo.TI_ValorExternoConcepto conc ON conc.I_ValorExternoPeriodoID = per.I_ValorExternoPeriodoID 
-							WHERE per.B_Habilitado = 1 AND per.B_Eliminado = 0 AND conc.B_Habilitado = 1 AND conc.B_Eliminado = 0 AND
+							WHERE per.B_Eliminado = 0 AND conc.B_Eliminado = 0 AND
 								per.I_TrabajadorID = @I_TrabajadorID AND per.I_PeriodoID = @I_PeriodoID AND conc.I_ConceptoID = @I_ConceptoID), 0);
 					END
 
@@ -1550,8 +1550,8 @@ BEGIN
 
 			IF NOT EXISTS(SELECT I_ValorExternoPeriodoID FROM dbo.TI_ValorExternoPeriodo WHERE I_TrabajadorID = @I_TrabajadorID AND I_PeriodoID = @I_PeriodoID AND B_Eliminado = 0)
 			BEGIN
-				INSERT dbo.TI_ValorExternoPeriodo(I_TrabajadorID, I_PeriodoID, B_Habilitado, B_Eliminado, I_UsuarioCre, D_FecCre)
-				VALUES(@I_TrabajadorID, @I_PeriodoID, 1, 0, @I_UserID, @D_FecActual);
+				INSERT dbo.TI_ValorExternoPeriodo(I_TrabajadorID, I_PeriodoID, B_Eliminado, I_UsuarioCre, D_FecCre)
+				VALUES(@I_TrabajadorID, @I_PeriodoID, 0, @I_UserID, @D_FecActual);
 
 				SET @I_ValorExternoPeriodoID = SCOPE_IDENTITY();
 			END
@@ -1561,8 +1561,8 @@ BEGIN
 					WHERE I_TrabajadorID = @I_TrabajadorID AND I_PeriodoID = @I_PeriodoID AND B_Eliminado = 0);
 			END
 
-			INSERT dbo.TI_ValorExternoConcepto(I_ValorExternoPeriodoID, I_ConceptoID, M_ValorConcepto, I_ProveedorID, B_Habilitado, B_Eliminado, I_UsuarioCre, D_FecCre)
-			VALUES(@I_ValorExternoPeriodoID, @I_ConceptoID, @M_ValorConcepto, @I_ProveedorID, 1, 0, @I_UserID, @D_FecActual);
+			INSERT dbo.TI_ValorExternoConcepto(I_ValorExternoPeriodoID, I_ConceptoID, M_ValorConcepto, I_ProveedorID, B_Eliminado, I_UsuarioCre, D_FecCre)
+			VALUES(@I_ValorExternoPeriodoID, @I_ConceptoID, @M_ValorConcepto, @I_ProveedorID, 0, @I_UserID, @D_FecActual);
 
 			SET @I_Indicador = @I_Indicador + 1
 		END

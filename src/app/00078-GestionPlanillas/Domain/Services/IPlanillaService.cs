@@ -14,5 +14,7 @@ namespace Domain.Services
         List<ResumenPlanillaTrabajadorDTO> ListarResumenPlanillaTrabajadores(int? anio, int? mes, int? idCategoria);
 
         Response GenerarPlanilla(List<int> trabajadores, int anio, int mes, int categoriaPlanillaID, int userID);
+
+        bool ExistePlanillaTrabajador(int idTrabajador, int idPeriodo, int idCategoria);
     }
 }
