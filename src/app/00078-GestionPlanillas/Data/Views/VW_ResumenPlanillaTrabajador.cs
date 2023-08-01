@@ -124,7 +124,8 @@ namespace Data.Views
 
             try
             {
-                command = "SELECT * FROM dbo.VW_ResumenPlanillaTrabajador p\r\nWHERE p.I_TrabajadorID = 1 AND p.I_PeriodoID = 1 AND p.I_CategoriaPlanillaID = 1;";
+                command = "SELECT * FROM dbo.VW_ResumenPlanillaTrabajador p " +
+                    "WHERE p.I_TrabajadorID = @I_TrabajadorID AND p.I_PeriodoID = @I_PeriodoID AND p.I_CategoriaPlanillaID = @I_CategoriaPlanillaID;";
 
                 parameters = new DynamicParameters();
                 parameters.Add(name: "I_TrabajadorID", dbType: DbType.Int32, value: I_TrabajadorID);

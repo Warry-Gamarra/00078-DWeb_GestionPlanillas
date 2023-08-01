@@ -8,6 +8,7 @@ using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -15,6 +16,13 @@ namespace Domain.Services.Implementations
 {
     public class ValorExternoConceptoService : IValorExternoConceptoService
     {
+        private IPlanillaService _planillaService;
+
+        public ValorExternoConceptoService()
+        {
+            _planillaService = new PlanillaService();
+        }
+
         public Response GrabarValoresExternos(List<ValorConceptoEntity> valores, int userID)
         {
             DataTable dataTable = new DataTable();
@@ -82,14 +90,40 @@ namespace Domain.Services.Implementations
 
             try
             {
-                var actualizarConcepto = new USP_U_ActualizarValorExterno()
-                {
-                    I_ConceptoExternoValorID = conceptoExternoValorID,
-                    M_ValorConcepto = valorConcepto,
-                    I_UserID = userID
-                };
+                var dto = ObtenerValorExternoConcepto(conceptoExternoValorID);
 
-                result = actualizarConcepto.Execute();
+                if (dto != null)
+                {
+                    bool tienePlanilla = _planillaService.ExistePlanillaTrabajador(dto.trabajadorID, dto.periodoID, dto.categoriaPlanillaID);
+
+                    if (!tienePlanilla)
+                    {
+                        var actualizarConcepto = new USP_U_ActualizarValorExterno()
+                        {
+                            I_ConceptoExternoValorID = conceptoExternoValorID,
+                            M_ValorConcepto = valorConcepto,
+                            I_UserID = userID
+                        };
+
+                        result = actualizarConcepto.Execute();
+                    }
+                    else
+                    {
+                        var trabajador = String.Format("{0} {1}, {2}", dto.apellidoPaterno, dto.apellidoMaterno, dto.nombre);
+
+                        result = new Result()
+                        {
+                            Message = String.Format("Existe una planilla generada para {0} del {1} para {2}.", dto.mesDesc, dto.anio, trabajador)
+                        };
+                    }
+                }
+                else
+                {
+                    result = new Result()
+                    {
+                        Message = "No se puede acceder a la información del registro seleccionado."
+                    };
+                }
             }
             catch (Exception ex)
             {
@@ -108,17 +142,31 @@ namespace Domain.Services.Implementations
 
             try
             {
-                var plantillaPlanillaConceptoDTO = ObtenerValorExternoConcepto(conceptoExternoValorID);
+                var dto = ObtenerValorExternoConcepto(conceptoExternoValorID);
 
-                if (plantillaPlanillaConceptoDTO != null)
+                if (dto != null)
                 {
-                    var uspEliminar = new USP_U_EliminarValorExternoConcepto()
-                    {
-                        I_ConceptoExternoValorID = conceptoExternoValorID,
-                        I_UserID = userID
-                    };
+                    bool tienePlanilla = _planillaService.ExistePlanillaTrabajador(dto.trabajadorID, dto.periodoID, dto.categoriaPlanillaID);
 
-                    result = uspEliminar.Execute();
+                    if (!tienePlanilla)
+                    {
+                        var uspEliminar = new USP_U_EliminarValorExternoConcepto()
+                        {
+                            I_ConceptoExternoValorID = conceptoExternoValorID,
+                            I_UserID = userID
+                        };
+
+                        result = uspEliminar.Execute();
+                    }
+                    else
+                    {
+                        var trabajador = String.Format("{0} {1}, {2}", dto.apellidoPaterno, dto.apellidoMaterno, dto.nombre);
+
+                        result = new Result()
+                        {
+                            Message = String.Format("Existe una planilla generada para {0} del {1} para {2}.", dto.mesDesc, dto.anio, trabajador)
+                        };
+                    }
                 }
                 else
                 {

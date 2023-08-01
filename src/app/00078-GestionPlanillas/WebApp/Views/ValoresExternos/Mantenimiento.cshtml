@@ -192,16 +192,24 @@
                         targets: -2,
                         orderable: false,
                         render: function (data, type, row) {
-                            return `<a class="modal-link" href="@Url.Action("Editar", "ValoresExternos")/${data}` +
+                            if (!row.tienePlanilla) {
+                                return `<a class="modal-link" href="@Url.Action("Editar", "ValoresExternos")/${data}` +
                                 '" title="Editar"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a>';
+                            } else {
+                                return "";
+                            }
                         }
                     },
                     {
                         targets: -1,
                         orderable: false,
                         render: function (data, type, row) {
-                            return `<a class="btn-eliminar" href="#" data-id="${data}"` +
-                                '" title="Eliminar"><i class="fa fa-trash" aria-hidden="true"></i></a>';
+                            if (!row.tienePlanilla) {
+                                return `<a class="btn-eliminar" href="#" data-id="${data}"` +
+                                    '" title="Eliminar"><i class="fa fa-trash" aria-hidden="true"></i></a>';
+                            } else {
+                                return "";
+                            }
                         }
                     }
                 ],

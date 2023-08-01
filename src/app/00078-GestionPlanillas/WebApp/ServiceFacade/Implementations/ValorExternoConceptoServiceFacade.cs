@@ -23,6 +23,7 @@ namespace WebApp.ServiceFacade.Implementations
         private IProveedorService _proveedorService;
         private IValorExternoConceptoService _valorExternoConceptoService;
         private ICategoriaPlanillaService _categoriaPlanillaService;
+        private IPlanillaService _planillaService;
 
         private readonly string serverPath;
 
@@ -36,6 +37,7 @@ namespace WebApp.ServiceFacade.Implementations
             _proveedorService = new ProveedorService();
             _valorExternoConceptoService = new ValorExternoConceptoService();
             _categoriaPlanillaService = new CategoriaPlanillaService();
+            _planillaService = new PlanillaService();
 
             serverPath = WebConfigParams.DirectorioArchivosExternos;
         }
@@ -159,29 +161,45 @@ namespace WebApp.ServiceFacade.Implementations
 
         public List<ValorExternoConceptoModel> ListarValoresExternos(int anio, int mes, int categoriaPlanillaID)
         {
+            var listaTrabajadoresConPlanilla = _planillaService.ListarResumenPlanillaTrabajadores(anio, mes, categoriaPlanillaID);
+
             var lista = _valorExternoConceptoService.ListarValoresExternosConceptos(anio, mes, categoriaPlanillaID)
                 .Select(x => Mapper.ValorExternoConceptoDTO_To_ValorExternoConceptoModel(x))
                 .ToList();
+
+            lista.ForEach(x => {
+                x.tienePlanilla = listaTrabajadoresConPlanilla.Exists(y => y.trabajadorID == x.trabajadorID);
+            });
 
             return lista;
         }
 
         public ValorExternoConceptoModel ObtenerValorExterno(int conceptoExternoValorID)
         {
-            ValorExternoConceptoModel valorExternoConceptoModel;
+            ValorExternoConceptoModel model;
 
-            var valorExternoConceptoDTO = _valorExternoConceptoService.ObtenerValorExternoConcepto(conceptoExternoValorID);
-
-            if (valorExternoConceptoDTO == null)
+            try
             {
-                valorExternoConceptoModel = null;
+                var dto = _valorExternoConceptoService.ObtenerValorExternoConcepto(conceptoExternoValorID);
+
+                if (dto == null)
+                {
+                    model = null;
+                }
+                else
+                {
+                    model = Mapper.ValorExternoConceptoDTO_To_ValorExternoConceptoModel(dto);
+
+                    model.tienePlanilla = _planillaService.ExistePlanillaTrabajador(
+                        model.trabajadorID, model.periodoID, model.categoriaPlanillaID.Value);
+                }
             }
-            else
+            catch (Exception)
             {
-                valorExternoConceptoModel = Mapper.ValorExternoConceptoDTO_To_ValorExternoConceptoModel(valorExternoConceptoDTO);
+                model = null;
             }
 
-            return valorExternoConceptoModel;
+            return model;
         }
 
         public Response ActualizarValorExternoConcepto(int conceptoExternoValorID, decimal valorConcepto, int userID)
@@ -205,9 +223,21 @@ namespace WebApp.ServiceFacade.Implementations
 
         public Response Eliminar(int conceptoExternoValorID, int userID)
         {
-            var result = _valorExternoConceptoService.Eliminar(conceptoExternoValorID, userID);
+            Response response;
 
-            return result;
+            try
+            {
+                response = _valorExternoConceptoService.Eliminar(conceptoExternoValorID, userID);
+            }
+            catch (Exception ex)
+            {
+                response = new Response()
+                {
+                    Message = ex.Message
+                };
+            }
+
+            return response;
         }
 
         private string GuardarArchivo(string serverPath, HttpPostedFileBase file)

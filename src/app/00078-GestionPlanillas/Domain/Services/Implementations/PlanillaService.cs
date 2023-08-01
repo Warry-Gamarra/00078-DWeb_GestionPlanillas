@@ -58,7 +58,6 @@ namespace Domain.Services.Implementations
             }
             catch (Exception ex)
             {
-
                 throw ex;
             }
         }

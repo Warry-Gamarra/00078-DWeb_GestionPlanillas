@@ -9,11 +9,15 @@ namespace WebApp.Models
     {
         public int? conceptoExternoValorID { get; set; }
 
+        public int periodoID { get; set; }
+
         public int? anio { get; set; }
 
         public int? mes { get; set; }
 
         public string mesDesc { get; set; }
+
+        public int trabajadorID { get; set; }
 
         public int? tipoDocumentoID { get; set; }
 
@@ -40,5 +44,7 @@ namespace WebApp.Models
         public int? proveedorID { get; set; }
 
         public string proveedorDesc { get; set; }
+
+        public bool tienePlanilla { get; set; }
     }
 }

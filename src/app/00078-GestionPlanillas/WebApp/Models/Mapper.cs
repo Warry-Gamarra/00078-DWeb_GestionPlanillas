@@ -291,8 +291,10 @@ namespace WebApp.Models
             var model = new ValorExternoConceptoModel()
             {
                 conceptoExternoValorID = dto.conceptoExternoValorID,
+                periodoID = dto.periodoID,
                 anio = dto.anio,
                 mesDesc = dto.mesDesc,
+                trabajadorID = dto.trabajadorID,
                 tipoDocumentoDesc = dto.tipoDocumentoDesc,
                 numDocumento = dto.numDocumento,
                 datosPersona = String.Format("{0} {1} {2}", dto.apellidoPaterno, dto.apellidoMaterno, dto.nombre),

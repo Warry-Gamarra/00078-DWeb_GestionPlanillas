@@ -546,9 +546,11 @@ namespace Domain.Helpers
             var valorExternoConceptoDTO = new ValorExternoConceptoDTO()
             {
                 conceptoExternoValorID = view.I_ConceptoExternoValorID,
+                periodoID = view.I_PeriodoID,
                 anio = view.I_Anio,
                 mes = view.I_Mes,
                 mesDesc = view.T_MesDesc,
+                trabajadorID = view.I_TrabajadorID,
                 tipoDocumentoDesc = view.T_TipoDocumentoDesc,
                 numDocumento = view.C_NumDocumento,
                 apellidoPaterno = view.T_ApellidoPaterno,

@@ -14,7 +14,6 @@ namespace WebApp.ServiceFacade.Implementations
 {
     public class TrabajadorServiceFacade : ITrabajadorServiceFacade
     {
-        private IPersonaService _personaService;
         private ITrabajadorService _trabajadorService;
         private IAdministrativoService _administrativoService;
         private IDocenteService _docenteService;
@@ -22,7 +21,6 @@ namespace WebApp.ServiceFacade.Implementations
 
         public TrabajadorServiceFacade()
         {
-            _personaService = new PersonaService();
             _trabajadorService = new TrabajadorService();
             _administrativoService = new AdministrativoService();
             _docenteService = new DocenteService();

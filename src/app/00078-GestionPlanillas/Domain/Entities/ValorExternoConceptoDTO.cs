@@ -10,11 +10,15 @@ namespace Domain.Entities
     {
         public int conceptoExternoValorID { get; set; }
 
+        public int periodoID { get; set; }
+
         public int anio { get; set; }
 
         public int mes { get; set; }
 
         public string mesDesc { get; set; }
+
+        public int trabajadorID { get; set; }
 
         public string tipoDocumentoDesc { get; set; }
 

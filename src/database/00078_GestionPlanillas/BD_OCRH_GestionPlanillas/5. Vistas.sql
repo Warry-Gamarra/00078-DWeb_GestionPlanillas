@@ -203,7 +203,7 @@ GO
 
 CREATE VIEW [dbo].[VW_ValoresExternos]
 AS
-	SELECT excon.I_ConceptoExternoValorID, per.I_Anio, per.I_Mes, per.T_MesDesc, trab.T_TipoDocumentoDesc, trab.C_NumDocumento, trab.T_ApellidoPaterno, trab.T_ApellidoMaterno, trab.T_Nombre,
+	SELECT excon.I_ConceptoExternoValorID, per.I_PeriodoID, per.I_Anio, per.I_Mes, per.T_MesDesc, trab.I_TrabajadorID, trab.T_TipoDocumentoDesc, trab.C_NumDocumento, trab.T_ApellidoPaterno, trab.T_ApellidoMaterno, trab.T_Nombre,
 		catrab.I_CategoriaPlanillaID, cat.T_CategoriaPlanillaDesc, con.I_ConceptoID, con.C_ConceptoCod, con.T_ConceptoDesc, con.T_TipoConceptoDesc, excon.M_ValorConcepto, pro.I_ProveedorID, pro.T_ProveedorDesc
 	FROM dbo.TI_ValorExternoPeriodo exper
 	INNER JOIN dbo.TI_ValorExternoConcepto excon ON exper.I_ValorExternoPeriodoID = excon.I_ValorExternoPeriodoID

@@ -96,7 +96,14 @@
             <div class="col-12">
                 <div class="form-group">
                     <label class="control-label" for="valorConcepto">Valor</label>
-                    @Html.TextBoxFor(model => model.valorConcepto, new { @class = "form-control" })
+                    @if (Model.tienePlanilla)
+                    {
+                        @Html.TextBoxFor(model => model.valorConcepto, new { @class = "form-control", @disabled = "disabled" })
+                    }
+                    else
+                    {
+                        @Html.TextBoxFor(model => model.valorConcepto, new { @class = "form-control" })
+                    }
                 </div>
             </div>
         </div>
@@ -109,10 +116,12 @@
                 </div>
             </div>
         </div>
-
-        <div class="row d-flex justify-content-center">
-            <button type="submit" class="btn btn-primary center" id="btnsubmit"><i class="fa fa-save"></i> Guardar</button>
-        </div>
+        if (!Model.tienePlanilla)
+        {
+            <div class="row d-flex justify-content-center">
+                <button type="submit" class="btn btn-primary center" id="btnsubmit"><i class="fa fa-save"></i> Guardar</button>
+            </div>
+        }
     }
 </div>
 
