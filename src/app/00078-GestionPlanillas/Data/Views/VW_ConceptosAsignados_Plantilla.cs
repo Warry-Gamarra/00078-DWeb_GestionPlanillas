@@ -107,7 +107,8 @@ namespace Data.Views
 
             try
             {
-                string s_command = "SELECT * FROM dbo.VW_ConceptosAsignados_Plantilla WHERE I_CategoriaPlanillaID = @I_CategoriaPlanillaID AND I_ConceptoID = @I_ConceptoID;";
+                string s_command = @"SELECT * FROM dbo.VW_ConceptosAsignados_Plantilla 
+                    WHERE B_Habilitado = 1 AND I_CategoriaPlanillaID = @I_CategoriaPlanillaID AND I_ConceptoID = @I_ConceptoID;";
 
                 using (var _dbConnection = new SqlConnection(Database.ConnectionString))
                 {

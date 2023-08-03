@@ -337,7 +337,7 @@ namespace Domain.Services.Implementations
             return new Tuple<bool, string>(correcto, mensaje);
         }
 
-        public List<ConceptoAsignadoPlantillaDTO> ListarConceptosAsignados(int categoriaPlanillaID, int conceptoID)
+        public List<ConceptoAsignadoPlantillaDTO> ListarGrupoDeConceptosAsignados(int categoriaPlanillaID, int conceptoID)
         {
             var lista = VW_ConceptosAsignados_Plantilla.FindByCategoriaYConceptoID(categoriaPlanillaID, conceptoID)
                 .Select(x => Mapper.VW_ConceptosAsignados_Plantilla_To_ConceptoAsignadoPlantillaDTO(x))

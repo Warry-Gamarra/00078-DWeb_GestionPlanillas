@@ -181,11 +181,20 @@ namespace Domain.Services.Implementations
 
         public TrabajadorCategoriaPlanillaDTO ObtenerTrabajadorPorDocumentoYCategoria(int tipoDocumentoID, string numDocumento, int categoriaPlanillaID)
         {
+            TrabajadorCategoriaPlanillaDTO trabajadorCategoriaPlanillaDTO;
+
             var view = VW_TrabajadoresCategoriaPlanilla.FindByDocumentoYCategoria(tipoDocumentoID, numDocumento, categoriaPlanillaID);
             
-            var dto = Mapper.VW_TrabajadoresCategoriaPlanilla_To_TrabajadorCategoriaPlanillaDTO(view);
+            if (view == null)
+            {
+                trabajadorCategoriaPlanillaDTO = null;
+            }
+            else
+            {
+                trabajadorCategoriaPlanillaDTO = Mapper.VW_TrabajadoresCategoriaPlanilla_To_TrabajadorCategoriaPlanillaDTO(view);
+            }
 
-            return dto;
+            return trabajadorCategoriaPlanillaDTO;
         }
     }
 }

@@ -22,5 +22,7 @@ namespace Domain.Services
         Response Eliminar(int plantillaPlanillaConceptoID, int userID);
 
         List<ConceptoReferenciaDTO> ListarConceptosReferencia(int plantillaPlanillaConceptoID);
+
+        List<ConceptoAsignadoPlantillaDTO> ListarGrupoDeConceptosAsignados(int categoriaPlanillaID, int conceptoID);
     }
 }

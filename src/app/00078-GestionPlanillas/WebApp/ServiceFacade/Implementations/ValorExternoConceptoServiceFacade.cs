@@ -21,6 +21,7 @@ namespace WebApp.ServiceFacade.Implementations
         private IProveedorService _proveedorService;
         private IValorExternoConceptoService _valorExternoConceptoService;
         private IPlanillaService _planillaService;
+        private IPlantillaPlanillaConceptoService _plantillaPlanillaConceptoService;
 
         private readonly string serverPath;
 
@@ -32,6 +33,7 @@ namespace WebApp.ServiceFacade.Implementations
             _proveedorService = new ProveedorService();
             _valorExternoConceptoService = new ValorExternoConceptoService();
             _planillaService = new PlanillaService();
+            _plantillaPlanillaConceptoService = new PlantillaPlanillaConceptoService();
 
             serverPath = WebConfigParams.DirectorioArchivosExternos;
         }
@@ -51,12 +53,7 @@ namespace WebApp.ServiceFacade.Implementations
 
                 lectura = lecturaArchivoService.ObtenerListaValoresDeConceptos(Path.Combine(serverPath, newFileName));
 
-                lecturaProcesada = new List<ValorExternoLecturaProcesadoDTO>();
-
-                foreach (var item in lectura)
-                {
-                    lecturaProcesada.Add(LecturaProcesada(item));
-                }
+                lecturaProcesada = ObtenerLecturaProcesada(lectura);
             }
             catch(IndexOutOfRangeException ex)
             {
@@ -84,12 +81,7 @@ namespace WebApp.ServiceFacade.Implementations
 
                 lectura = lecturaArchivoService.ObtenerListaValoresDeConceptos(Path.Combine(serverPath, fileName));
 
-                lecturaProcesada = new List<ValorExternoLecturaProcesadoDTO>();
-
-                foreach (var item in lectura)
-                {
-                    lecturaProcesada.Add(LecturaProcesada(item));
-                }
+                lecturaProcesada = ObtenerLecturaProcesada(lectura);
 
                 registrosAptos = lecturaProcesada
                    .Where(x => x.periodoCorrecto && x.trabajadorExiste && !x.tienePlanilla)
@@ -234,91 +226,120 @@ namespace WebApp.ServiceFacade.Implementations
             return _lecturaArchivoService;
         }
 
-        private ValorExternoLecturaProcesadoDTO LecturaProcesada(ValorExternoLecturaDTO lectura)
+        private List<ValorExternoLecturaProcesadoDTO> ObtenerLecturaProcesada(List<ValorExternoLecturaDTO> lectura)
         {
-            PeriodoDTO periodoDTO = null;
-            TrabajadorCategoriaPlanillaDTO trabajadorDTO = null;
-            ConceptoDTO conceptoDTO = null;
-            ProveedorDTO proveedorDTO = null;
+            var lecturaProcesada = new List<ValorExternoLecturaProcesadoDTO>();
 
-            var model = new ValorExternoLecturaProcesadoDTO()
+            foreach (var item in lectura)
             {
-                anio = lectura.anio,
-                mes = lectura.mes,
-                tipoDocumentoID = lectura.tipoDocumentoID,
-                numDocumento = lectura.numDocumento,
-                categoriaPlanillaID = lectura.categoriaPlanillaID,
-                conceptoCod = lectura.conceptoCod,
-                valorConcepto = lectura.valorConcepto,
-                proveedorID = lectura.proveedorID
-            };
+                PeriodoDTO periodoDTO = null;
+                TrabajadorCategoriaPlanillaDTO trabajadorDTO = null;
+                ConceptoDTO conceptoDTO = null;
+                ProveedorDTO proveedorDTO = null;
 
-            if (model.anio.HasValue && model.mes.HasValue)
-            {
-                periodoDTO = _periodoService.ObtenerPeriodo(model.anio.Value, model.mes.Value);
-
-                if (periodoDTO != null)
+                var dto = new ValorExternoLecturaProcesadoDTO()
                 {
-                    model.periodoID = periodoDTO.periodoID;
+                    anio = item.anio,
+                    mes = item.mes,
+                    tipoDocumentoID = item.tipoDocumentoID,
+                    numDocumento = item.numDocumento,
+                    categoriaPlanillaID = item.categoriaPlanillaID,
+                    conceptoCod = item.conceptoCod,
+                    valorConcepto = item.valorConcepto,
+                    proveedorID = item.proveedorID
+                };
 
-                    model.mesDesc = periodoDTO.mesDesc;
-
-                    model.periodoCorrecto = true;
-                }
-            }
-
-            if (model.tipoDocumentoID.HasValue && model.numDocumento != null && model.numDocumento.Length > 0 && model.categoriaPlanillaID.HasValue)
-            {
-                trabajadorDTO = _trabajadorService.ObtenerTrabajadorPorDocumentoYCategoria(model.tipoDocumentoID.Value, model.numDocumento, model.categoriaPlanillaID.Value);
-
-                if (trabajadorDTO != null)
+                if (dto.anio.HasValue && dto.mes.HasValue)
                 {
-                    model.trabajadorID = trabajadorDTO.trabajadorID;
+                    periodoDTO = _periodoService.ObtenerPeriodo(dto.anio.Value, dto.mes.Value);
 
-                    model.tipoDocumentoDesc = trabajadorDTO.tipoDocumentoDesc;
+                    if (periodoDTO != null)
+                    {
+                        dto.periodoID = periodoDTO.periodoID;
 
-                    model.datosPersona = String.Format("{0} {1} {2}", trabajadorDTO.apellidoPaterno, trabajadorDTO.apellidoMaterno, trabajadorDTO.nombre);
+                        dto.mesDesc = periodoDTO.mesDesc;
 
-                    model.categoriaPlanillaDesc = trabajadorDTO.categoriaPlanillaDesc;
-
-                    model.trabajadorExiste = true;
+                        dto.periodoCorrecto = true;
+                    }
                 }
-            }
 
-            if (model.periodoCorrecto && model.trabajadorExiste)
-            {
-                model.tienePlanilla = _planillaService.ExistePlanillaTrabajador(trabajadorDTO.trabajadorID, periodoDTO.periodoID, trabajadorDTO.categoriaPlanillaID);
-            }
-
-            if (model.conceptoCod != null && model.conceptoCod.Length > 0)
-            {
-                conceptoDTO = _conceptoService.ObtenerConcepto(model.conceptoCod);
-
-                if (conceptoDTO != null)
+                if (dto.tipoDocumentoID.HasValue && dto.numDocumento != null && dto.numDocumento.Length > 0 && dto.categoriaPlanillaID.HasValue)
                 {
-                    model.conceptoID = conceptoDTO.conceptoID;
+                    trabajadorDTO = _trabajadorService.ObtenerTrabajadorPorDocumentoYCategoria(dto.tipoDocumentoID.Value, dto.numDocumento, dto.categoriaPlanillaID.Value);
 
-                    model.conceptoDesc = conceptoDTO.conceptoDesc;
+                    if (trabajadorDTO != null)
+                    {
+                        dto.trabajadorID = trabajadorDTO.trabajadorID;
 
-                    model.tipoConceptoDesc = conceptoDTO.tipoConceptoDesc;
+                        dto.tipoDocumentoDesc = trabajadorDTO.tipoDocumentoDesc;
 
-                    model.conceptoExiste = true;
+                        dto.datosPersona = String.Format("{0} {1} {2}", trabajadorDTO.apellidoPaterno, trabajadorDTO.apellidoMaterno, trabajadorDTO.nombre);
+
+                        dto.categoriaPlanillaDesc = trabajadorDTO.categoriaPlanillaDesc;
+
+                        dto.trabajadorExiste = true;
+                    }
                 }
-            }
 
-            if (model.proveedorID.HasValue)
-            {
-                proveedorDTO = _proveedorService.ObtenerProveedor(model.proveedorID.Value);
-
-                if (proveedorDTO != null)
+                if (dto.periodoCorrecto && dto.trabajadorExiste)
                 {
-                    model.proveedorDesc = proveedorDTO.proveedorDesc;
-
-                    model.proveedorExiste = true;
+                    dto.tienePlanilla = _planillaService.ExistePlanillaTrabajador(trabajadorDTO.trabajadorID, periodoDTO.periodoID, trabajadorDTO.categoriaPlanillaID);
                 }
+
+                if (dto.conceptoCod != null && dto.conceptoCod.Length > 0)
+                {
+                    conceptoDTO = _conceptoService.ObtenerConcepto(dto.conceptoCod);
+
+                    if (conceptoDTO != null)
+                    {
+                        dto.conceptoID = conceptoDTO.conceptoID;
+
+                        dto.conceptoDesc = conceptoDTO.conceptoDesc;
+
+                        dto.tipoConceptoDesc = conceptoDTO.tipoConceptoDesc;
+
+                        dto.conceptoExiste = true;
+
+                        if (dto.trabajadorExiste)
+                        {
+                            var lista = _plantillaPlanillaConceptoService.ListarGrupoDeConceptosAsignados(dto.categoriaPlanillaID.Value, dto.conceptoID.Value);
+
+                            if (lista != null && lista.Count > 0)
+                            {
+                                dto.esValorFijo = lista.First().esValorFijo;
+
+                                if (dto.valorConcepto.HasValue && dto.valorConcepto.Value > 0)
+                                {
+                                    if (dto.esValorFijo.Value)
+                                    {
+                                        dto.valorConceptoCorrecto = true;
+                                    }
+                                    else if (dto.valorConcepto.Value <= 100)
+                                    {
+                                        dto.valorConceptoCorrecto = true;
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+
+                if (dto.proveedorID.HasValue)
+                {
+                    proveedorDTO = _proveedorService.ObtenerProveedor(dto.proveedorID.Value);
+
+                    if (proveedorDTO != null)
+                    {
+                        dto.proveedorDesc = proveedorDTO.proveedorDesc;
+
+                        dto.proveedorExiste = true;
+                    }
+                }
+
+                lecturaProcesada.Add(dto);
             }
 
-            return model;
+            return lecturaProcesada;
         }
     }
 }

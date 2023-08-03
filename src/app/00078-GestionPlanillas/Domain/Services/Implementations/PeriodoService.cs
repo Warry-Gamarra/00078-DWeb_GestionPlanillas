@@ -37,11 +37,20 @@ namespace Domain.Services.Implementations
 
         public PeriodoDTO ObtenerPeriodo(int anio, int mes)
         {
-            var periodo = TR_Periodo.GetByYearAndMonth(anio, mes);
+            PeriodoDTO periodoDTO;
 
-            var result = Mapper.TR_Periodo_To_PeriodoDTO(periodo);
+            var table = TR_Periodo.GetByYearAndMonth(anio, mes);
 
-            return result;
+            if (table == null)
+            {
+                periodoDTO = null;
+            }
+            else
+            {
+                periodoDTO = Mapper.TR_Periodo_To_PeriodoDTO(table);
+            }
+
+            return periodoDTO;
         }
     }
 }

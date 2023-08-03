@@ -48,11 +48,14 @@ namespace Domain.Entities
 
         public decimal? valorConcepto { get; set; }
 
+        public bool? esValorFijo { get; set; }
+
+        public bool valorConceptoCorrecto { get; set; }
+
         public int? proveedorID { get; set; }
 
         public bool proveedorExiste { get; set; }
 
         public string proveedorDesc { get; set; }
-        //VALIDAR EL CONCEPTO EXISTA, Y SI ES % O FIJO
     }
 }

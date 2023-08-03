@@ -71,6 +71,7 @@
                             <th>Descripción</th>
                             <th>Valor</th>
                             <th>Origen</th>
+                            <th>Obs</th>
                         </tr>
                     </thead>
                     <tfoot>
@@ -86,6 +87,7 @@
                             <th>Descripción</th>
                             <th>Valor</th>
                             <th>Origen</th>
+                            <th>Obs</th>
                         </tr>
                     </tfoot>
                 </table>
@@ -200,7 +202,8 @@
                     { data: 'conceptoCod' },
                     { data: 'conceptoDesc' },
                     { data: 'valorConcepto' },
-                    { data: 'proveedorID' }
+                    { data: 'proveedorID' },
+                    { data: 'numDocumento' }
                 ],
                 columnDefs: [
                     {
@@ -222,9 +225,53 @@
                         }
                     },
                     {
+                        targets: 9,
+                        render: function (data, type, row) {
+                            let simbolo = "?";
+
+                            if (row.esValorFijo != null) {
+                                simbolo = row.esValorFijo ? "S/." : "%";
+                            }
+                            
+                            return data + ` ( ${simbolo} )`;
+                        }
+                    },
+                    {
                         targets: 10,
                         render: function (data, type, row) {
                             return row.proveedorDesc + ' (' + row.proveedorID + ')';
+                        }
+                    },
+                    {
+                        targets: 11,
+                        render: function (data, type, row) {
+                            let obs = '';
+
+                            if (!row.periodoCorrecto) {
+                                obs += "<li>No se reconoce el año y mes.</li>";
+                            }
+
+                            if (!row.trabajadorExiste) {
+                                obs += "<li>El trabajador no existe en la categoria descrita.</li>";
+                            }
+
+                            if (row.trabajadorExiste && row.tienePlanilla) {
+                                obs += "<li>El trabajador ya tiene una planilla generada.</li>";
+                            }
+
+                            if (!row.conceptoExiste) {
+                                obs += "<li>El concepto no existe.</li>";
+                            }
+
+                            if (row.trabajadorExiste && row.conceptoExiste && !row.valorConceptoCorrecto) {
+                                obs += "<li>El valor del concepto es incorrecto.</li>";
+                            }
+
+                            if (!row.proveedorExiste) {
+                                obs += "<li>El proveedor no existe en el sistema.</li>";
+                            }
+
+                            return obs;
                         }
                     }
                 ],
