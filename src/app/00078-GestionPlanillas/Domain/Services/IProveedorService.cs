@@ -10,5 +10,7 @@ namespace Domain.Services
     public interface IProveedorService
     {
         List<ProveedorDTO> ListarProveedores(bool incluirDeshabilitados = false);
+
+        ProveedorDTO ObtenerProveedor(int proveedorID);
     }
 }

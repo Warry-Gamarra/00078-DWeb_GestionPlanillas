@@ -1,5 +1,6 @@
 ﻿using Dapper;
 using Data.Connection;
+using Data.Views;
 using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
@@ -33,6 +34,27 @@ namespace Data.Tables
             catch (Exception)
             {
                 result = new List<TC_Proveedor>();
+            }
+
+            return result;
+        }
+
+        public static TC_Proveedor FindByID(int I_ProveedorID)
+        {
+            TC_Proveedor result;
+
+            try
+            {
+                string s_command = "SELECT * FROM dbo.TC_Proveedor WHERE I_ProveedorID = @I_ProveedorID;";
+
+                using (var _dbConnection = new SqlConnection(Database.ConnectionString))
+                {
+                    result = _dbConnection.QuerySingle<TC_Proveedor>(s_command, new { I_ProveedorID = I_ProveedorID }, commandType: System.Data.CommandType.Text);
+                }
+            }
+            catch (Exception)
+            {
+                result = null;
             }
 
             return result;

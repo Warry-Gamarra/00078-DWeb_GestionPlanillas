@@ -16,7 +16,6 @@ namespace WebApp.ServiceFacade.Implementations
     public class ValorExternoConceptoServiceFacade : IValorExternoConceptoServiceFacade
     {
         private IPeriodoService _periodoService;
-        private ITipoDocumentoService _tipoDocumentoService;
         private ITrabajadorService _trabajadorService;
         private IConceptoService _conceptoService;
         private IProveedorService _proveedorService;
@@ -28,7 +27,6 @@ namespace WebApp.ServiceFacade.Implementations
         public ValorExternoConceptoServiceFacade()
         {
             _periodoService = new PeriodoService();
-            _tipoDocumentoService = new TipoDocumentoService();
             _trabajadorService = new TrabajadorService();
             _conceptoService = new ConceptoService();
             _proveedorService = new ProveedorService();
@@ -43,7 +41,7 @@ namespace WebApp.ServiceFacade.Implementations
             string newFileName;
             ILecturaArchivoService lecturaArchivoService;
             List<ValorExternoLecturaDTO> lectura;
-            List<ValorExternoLecturaProcesadoDTO> result;
+            List<ValorExternoLecturaProcesadoDTO> lecturaProcesada;
 
             try
             {
@@ -53,11 +51,11 @@ namespace WebApp.ServiceFacade.Implementations
 
                 lectura = lecturaArchivoService.ObtenerListaValoresDeConceptos(Path.Combine(serverPath, newFileName));
 
-                result = new List<ValorExternoLecturaProcesadoDTO>();
+                lecturaProcesada = new List<ValorExternoLecturaProcesadoDTO>();
 
                 foreach (var item in lectura)
                 {
-                    result.Add(LecturaProcesada(item));
+                    lecturaProcesada.Add(LecturaProcesada(item));
                 }
             }
             catch(IndexOutOfRangeException ex)
@@ -69,7 +67,7 @@ namespace WebApp.ServiceFacade.Implementations
                 throw ex;
             }
 
-            return new Tuple<string, List<ValorExternoLecturaProcesadoDTO>>(newFileName, result);
+            return new Tuple<string, List<ValorExternoLecturaProcesadoDTO>>(newFileName, lecturaProcesada);
         }
 
         public Response GrabarValoresExternos(string fileName, int userID)
@@ -94,7 +92,7 @@ namespace WebApp.ServiceFacade.Implementations
                 }
 
                 registrosAptos = lecturaProcesada
-                   .Where(x => x.periodoCorrecto && x.personaExiste && !x.tienePlanilla)
+                   .Where(x => x.periodoCorrecto && x.trabajadorExiste && !x.tienePlanilla)
                    .Select(x => new ValorConceptoEntity()
                    {
                        periodoID = x.periodoID.Value,
@@ -238,9 +236,10 @@ namespace WebApp.ServiceFacade.Implementations
 
         private ValorExternoLecturaProcesadoDTO LecturaProcesada(ValorExternoLecturaDTO lectura)
         {
-            var listaConceptos = _conceptoService.ListarConceptos();
-
-            var listaProveedores = _proveedorService.ListarProveedores();
+            PeriodoDTO periodoDTO = null;
+            TrabajadorCategoriaPlanillaDTO trabajadorDTO = null;
+            ConceptoDTO conceptoDTO = null;
+            ProveedorDTO proveedorDTO = null;
 
             var model = new ValorExternoLecturaProcesadoDTO()
             {
@@ -256,7 +255,7 @@ namespace WebApp.ServiceFacade.Implementations
 
             if (model.anio.HasValue && model.mes.HasValue)
             {
-                var periodoDTO = _periodoService.ObtenerPeriodo(model.anio.Value, model.mes.Value);
+                periodoDTO = _periodoService.ObtenerPeriodo(model.anio.Value, model.mes.Value);
 
                 if (periodoDTO != null)
                 {
@@ -270,27 +269,54 @@ namespace WebApp.ServiceFacade.Implementations
 
             if (model.tipoDocumentoID.HasValue && model.numDocumento != null && model.numDocumento.Length > 0 && model.categoriaPlanillaID.HasValue)
             {
-                var personaDTO = _trabajadorService.ObtenerTrabajadorPorDocumentoYCategoria(model.tipoDocumentoID.Value, model.numDocumento, model.categoriaPlanillaID.Value);
+                trabajadorDTO = _trabajadorService.ObtenerTrabajadorPorDocumentoYCategoria(model.tipoDocumentoID.Value, model.numDocumento, model.categoriaPlanillaID.Value);
 
-                if (personaDTO != null)
+                if (trabajadorDTO != null)
                 {
-                    model.trabajadorID = personaDTO.trabajadorID;
+                    model.trabajadorID = trabajadorDTO.trabajadorID;
 
-                    model.tipoDocumentoDesc = personaDTO.tipoDocumentoDesc;
+                    model.tipoDocumentoDesc = trabajadorDTO.tipoDocumentoDesc;
 
-                    model.datosPersona = String.Format("{0} {1} {2}", personaDTO.apellidoPaterno, personaDTO.apellidoMaterno, personaDTO.nombre);
+                    model.datosPersona = String.Format("{0} {1} {2}", trabajadorDTO.apellidoPaterno, trabajadorDTO.apellidoMaterno, trabajadorDTO.nombre);
 
-                    model.categoriaPlanillaDesc = personaDTO.categoriaPlanillaDesc;
+                    model.categoriaPlanillaDesc = trabajadorDTO.categoriaPlanillaDesc;
 
-                    model.personaExiste = true;
+                    model.trabajadorExiste = true;
                 }
             }
 
-            model.conceptoID = listaConceptos.Where(y => y.conceptoCod == model.conceptoCod).FirstOrDefault().conceptoID;
+            if (model.periodoCorrecto && model.trabajadorExiste)
+            {
+                model.tienePlanilla = _planillaService.ExistePlanillaTrabajador(trabajadorDTO.trabajadorID, periodoDTO.periodoID, trabajadorDTO.categoriaPlanillaID);
+            }
 
-            model.conceptoDesc = listaConceptos.Where(y => y.conceptoCod == model.conceptoCod).FirstOrDefault().conceptoDesc;
+            if (model.conceptoCod != null && model.conceptoCod.Length > 0)
+            {
+                conceptoDTO = _conceptoService.ObtenerConcepto(model.conceptoCod);
 
-            model.proveedorDesc = listaProveedores.Where(y => y.proveedorID == model.proveedorID).FirstOrDefault().proveedorDesc;
+                if (conceptoDTO != null)
+                {
+                    model.conceptoID = conceptoDTO.conceptoID;
+
+                    model.conceptoDesc = conceptoDTO.conceptoDesc;
+
+                    model.tipoConceptoDesc = conceptoDTO.tipoConceptoDesc;
+
+                    model.conceptoExiste = true;
+                }
+            }
+
+            if (model.proveedorID.HasValue)
+            {
+                proveedorDTO = _proveedorService.ObtenerProveedor(model.proveedorID.Value);
+
+                if (proveedorDTO != null)
+                {
+                    model.proveedorDesc = proveedorDTO.proveedorDesc;
+
+                    model.proveedorExiste = true;
+                }
+            }
 
             return model;
         }

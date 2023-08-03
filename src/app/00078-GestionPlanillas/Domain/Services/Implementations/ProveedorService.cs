@@ -1,4 +1,5 @@
 ﻿using Data.Tables;
+using Data.Views;
 using Domain.Entities;
 using Domain.Helpers;
 using System;
@@ -25,6 +26,24 @@ namespace Domain.Services.Implementations
                 .ToList();
 
             return result;
+        }
+
+        public ProveedorDTO ObtenerProveedor(int proveedorID)
+        {
+            ProveedorDTO proveedorDTO;
+
+            var table = TC_Proveedor.FindByID(proveedorID);
+
+            if (table == null)
+            {
+                proveedorDTO = null;
+            }
+            else
+            {
+                proveedorDTO = Mapper.TC_Proveedor_To_ProveedorDTO(table);
+            }
+
+            return proveedorDTO;
         }
     }
 }

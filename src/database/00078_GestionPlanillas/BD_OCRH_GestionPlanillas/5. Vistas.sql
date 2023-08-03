@@ -168,9 +168,7 @@ SELECT
 	ppc.I_Filtro1, 
 	ppc.B_AplicarFiltro2, 
 	ppc.I_Filtro2,
-	ppc.B_Habilitado,
-	'' AS T_Filtro1,
-	'' AS T_Filtro2
+	ppc.B_Habilitado
 FROM dbo.TI_PlantillaPlanilla pp
 INNER JOIN dbo.TC_CategoriaPlanilla cp on cp.I_CategoriaPlanillaID = pp.I_CategoriaPlanillaID
 INNER JOIN dbo.TC_ClasePlanilla cl ON cl.I_ClasePlanillaID = cp.I_ClasePlanillaID

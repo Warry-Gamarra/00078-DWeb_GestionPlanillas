@@ -100,5 +100,27 @@ namespace Data.Views
 
             return result;
         }
+
+        public static IEnumerable<VW_ConceptosAsignados_Plantilla> FindByCategoriaYConceptoID(int I_CategoriaPlanillaID, int I_ConceptoID)
+        {
+            IEnumerable<VW_ConceptosAsignados_Plantilla> result;
+
+            try
+            {
+                string s_command = "SELECT * FROM dbo.VW_ConceptosAsignados_Plantilla WHERE I_CategoriaPlanillaID = @I_CategoriaPlanillaID AND I_ConceptoID = @I_ConceptoID;";
+
+                using (var _dbConnection = new SqlConnection(Database.ConnectionString))
+                {
+                    result = _dbConnection.Query<VW_ConceptosAsignados_Plantilla>(s_command, new { I_CategoriaPlanillaID = I_CategoriaPlanillaID, I_ConceptoID = I_ConceptoID },
+                        commandType: System.Data.CommandType.Text);
+                }
+            }
+            catch (Exception)
+            {
+                result = new List<VW_ConceptosAsignados_Plantilla>();
+            }
+
+            return result;
+        }
     }
 }

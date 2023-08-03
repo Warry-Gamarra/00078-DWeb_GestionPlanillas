@@ -24,7 +24,7 @@ namespace Domain.Entities
 
         public int? categoriaPlanillaID { get; set; }
 
-        public bool personaExiste { get; set; }
+        public bool trabajadorExiste { get; set; }
 
         public int? trabajadorID { get; set; }
 
@@ -34,7 +34,11 @@ namespace Domain.Entities
 
         public string categoriaPlanillaDesc { get; set; }
 
+        public bool tienePlanilla { get; set; }
+
         public string conceptoCod { get; set; }
+
+        public bool conceptoExiste { get; set; }
 
         public int? conceptoID { get; set; }
 
@@ -46,10 +50,9 @@ namespace Domain.Entities
 
         public int? proveedorID { get; set; }
 
+        public bool proveedorExiste { get; set; }
+
         public string proveedorDesc { get; set; }
-
-        public bool tienePlanilla { get; set; }
-
-        //VALIDAR EL CONCEPTO EXISTA, Y SI ES % O FIJO, VALIDAR QUE EL PROVEEDOR EXISTA Y LA EXISTENCIA DE LA PLANILLA
+        //VALIDAR EL CONCEPTO EXISTA, Y SI ES % O FIJO
     }
 }

@@ -66,5 +66,26 @@ namespace Data.Views
 
             return result;
         }
+
+        public static VW_Conceptos FindByCod(string C_ConceptoCod)
+        {
+            VW_Conceptos result;
+
+            try
+            {
+                string s_command = "SELECT * FROM dbo.VW_Conceptos WHERE C_ConceptoCod = @C_ConceptoCod;";
+
+                using (var _dbConnection = new SqlConnection(Database.ConnectionString))
+                {
+                    result = _dbConnection.QuerySingle<VW_Conceptos>(s_command, new { C_ConceptoCod = C_ConceptoCod }, commandType: System.Data.CommandType.Text);
+                }
+            }
+            catch (Exception)
+            {
+                result = null;
+            }
+
+            return result;
+        }
     }
 }

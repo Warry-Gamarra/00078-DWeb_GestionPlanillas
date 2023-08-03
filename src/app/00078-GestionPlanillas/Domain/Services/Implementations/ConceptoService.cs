@@ -151,6 +151,24 @@ namespace Domain.Services.Implementations
             return conceptoDTO;
         }
 
+        public ConceptoDTO ObtenerConcepto(string conceptoCod)
+        {
+            ConceptoDTO conceptoDTO;
+
+            var view = VW_Conceptos.FindByCod(conceptoCod);
+
+            if (view == null)
+            {
+                conceptoDTO = null;
+            }
+            else
+            {
+                conceptoDTO = Mapper.VW_Conceptos_To_ConceptoDTO(view);
+            }
+
+            return conceptoDTO;
+        }
+
         public Response CambiarEstado(int conceptoID, bool estaHabilitado, int userID)
         {
             Result result;
