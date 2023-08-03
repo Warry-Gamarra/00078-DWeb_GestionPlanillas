@@ -27,8 +27,9 @@ namespace Domain.Services.Implementations
         {
             DataTable dataTable = new DataTable();
             dataTable.Columns.Add("I_ID");
-            dataTable.Columns.Add("I_TrabajadorID");
             dataTable.Columns.Add("I_PeriodoID");
+            dataTable.Columns.Add("I_TrabajadorID");
+            dataTable.Columns.Add("I_CategoriaPlanillaID");
             dataTable.Columns.Add("I_ConceptoID");
             dataTable.Columns.Add("M_ValorConcepto");
             dataTable.Columns.Add("I_ProveedorID");
@@ -38,8 +39,9 @@ namespace Domain.Services.Implementations
             valores.ForEach(x => {
                 dataTable.Rows.Add(
                     id,
-                    x.trabajadorID,
                     x.periodoID,
+                    x.trabajadorID,
+                    x.categoriaPlanillaID,
                     x.conceptoID,
                     x.valorConcepto,
                     x.proveedorID);

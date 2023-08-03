@@ -1499,8 +1499,9 @@ GO
 
 CREATE TYPE [dbo].[type_dataValorExterno] AS TABLE(
 	I_ID INT NOT NULL,
-	I_TrabajadorID INT NOT NULL,
 	I_PeriodoID INT NOT NULL,
+	I_TrabajadorID INT NOT NULL,
+	I_CategoriaPlanillaID INT NOT NULL,
 	I_ConceptoID INT NOT NULL,
 	M_ValorConcepto DECIMAL(15,2) NOT NULL,
 	I_ProveedorID INT NOT NULL
@@ -1524,6 +1525,7 @@ BEGIN
 			@I_CantRegistros INT,
 			@I_TrabajadorID INT,
 			@I_PeriodoID INT,
+			@I_CategoriaPlanillaID INT,
 			@I_ConceptoID INT,
 			@M_ValorConcepto DECIMAL(15,2),
 			@I_ProveedorID INT,
@@ -1542,12 +1544,13 @@ BEGIN
 
 			SELECT @I_TrabajadorID = I_TrabajadorID,
 					@I_PeriodoID = I_PeriodoID,
+					@I_CategoriaPlanillaID = I_CategoriaPlanillaID,
 					@I_ConceptoID = I_ConceptoID,
 					@M_ValorConcepto = M_ValorConcepto,
 					@I_ProveedorID = I_ProveedorID
 			FROM @Tbl_ValorExterno
 			WHERE I_ID = @I_Indicador
-
+			
 			IF NOT EXISTS(SELECT I_ValorExternoPeriodoID FROM dbo.TI_ValorExternoPeriodo WHERE I_TrabajadorID = @I_TrabajadorID AND I_PeriodoID = @I_PeriodoID AND B_Eliminado = 0)
 			BEGIN
 				INSERT dbo.TI_ValorExternoPeriodo(I_TrabajadorID, I_PeriodoID, B_Eliminado, I_UsuarioCre, D_FecCre)

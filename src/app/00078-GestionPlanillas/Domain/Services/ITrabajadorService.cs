@@ -1,4 +1,5 @@
-﻿using Domain.Entities;
+﻿using Data.Views;
+using Domain.Entities;
 using Domain.Enums;
 using Domain.Helpers;
 using System;
@@ -19,6 +20,6 @@ namespace Domain.Services
 
         List<TrabajadorCategoriaPlanillaDTO> ListarTrabajadoresCategoriaPlanilla(int? I_CategoriaPlanillaID = null);
 
-        List<TrabajadorDTO> ObtenerTrabajadorPorDocIdentidad(int tipoDocumentoID, string numDocumento);
+        TrabajadorCategoriaPlanillaDTO ObtenerTrabajadorPorDocumentoYCategoria(int tipoDocumentoID, string numDocumento, int categoriaPlanillaID);
     }
 }

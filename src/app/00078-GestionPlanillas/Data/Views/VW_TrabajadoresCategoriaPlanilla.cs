@@ -69,5 +69,27 @@ namespace Data.Views
 
             return result;
         }
+
+        public static VW_TrabajadoresCategoriaPlanilla FindByDocumentoYCategoria(int I_TipoDocumentoID, string C_NumDocumento, int I_CategoriaPlanillaID)
+        {
+            VW_TrabajadoresCategoriaPlanilla result;
+
+            try
+            {
+                string s_command = "SELECT * FROM dbo.VW_TrabajadoresCategoriaPlanilla WHERE I_TipoDocumentoID = @I_TipoDocumentoID AND C_NumDocumento = @C_NumDocumento;";
+
+                using (var _dbConnection = new SqlConnection(Database.ConnectionString))
+                {
+                    result = _dbConnection.QuerySingleOrDefault<VW_TrabajadoresCategoriaPlanilla>(s_command,
+                        new { I_TipoDocumentoID = I_TipoDocumentoID, C_NumDocumento = C_NumDocumento, I_CategoriaPlanillaID = I_CategoriaPlanillaID }, commandType: System.Data.CommandType.Text);
+                }
+            }
+            catch (Exception)
+            {
+                result = null;
+            }
+
+            return result;
+        }
     }
 }

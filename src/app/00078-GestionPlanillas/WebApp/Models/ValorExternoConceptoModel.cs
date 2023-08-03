@@ -7,19 +7,19 @@ namespace WebApp.Models
 {
     public class ValorExternoConceptoModel
     {
-        public int? conceptoExternoValorID { get; set; }
+        public int conceptoExternoValorID { get; set; }
 
         public int periodoID { get; set; }
 
-        public int? anio { get; set; }
+        public int anio { get; set; }
 
-        public int? mes { get; set; }
+        public int mes { get; set; }
 
         public string mesDesc { get; set; }
 
         public int trabajadorID { get; set; }
 
-        public int? tipoDocumentoID { get; set; }
+        public int tipoDocumentoID { get; set; }
 
         public string tipoDocumentoDesc { get; set; }
 
@@ -27,7 +27,7 @@ namespace WebApp.Models
 
         public string datosPersona { get; set; }
 
-        public int? categoriaPlanillaID { get; set; }
+        public int categoriaPlanillaID { get; set; }
 
         public string categoriaPlanillaDesc { get; set; }
 
@@ -39,9 +39,9 @@ namespace WebApp.Models
 
         public string tipoConceptoDesc { get; set; }
 
-        public decimal? valorConcepto { get; set; }
+        public decimal valorConcepto { get; set; }
 
-        public int? proveedorID { get; set; }
+        public int proveedorID { get; set; }
 
         public string proveedorDesc { get; set; }
 

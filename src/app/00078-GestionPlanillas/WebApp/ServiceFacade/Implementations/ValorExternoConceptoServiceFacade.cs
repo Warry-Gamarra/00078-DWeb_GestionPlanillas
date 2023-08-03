@@ -17,12 +17,10 @@ namespace WebApp.ServiceFacade.Implementations
     {
         private IPeriodoService _periodoService;
         private ITipoDocumentoService _tipoDocumentoService;
-        private IPersonaService _personaService;
         private ITrabajadorService _trabajadorService;
         private IConceptoService _conceptoService;
         private IProveedorService _proveedorService;
         private IValorExternoConceptoService _valorExternoConceptoService;
-        private ICategoriaPlanillaService _categoriaPlanillaService;
         private IPlanillaService _planillaService;
 
         private readonly string serverPath;
@@ -31,24 +29,21 @@ namespace WebApp.ServiceFacade.Implementations
         {
             _periodoService = new PeriodoService();
             _tipoDocumentoService = new TipoDocumentoService();
-            _personaService = new PersonaService();
             _trabajadorService = new TrabajadorService();
             _conceptoService = new ConceptoService();
             _proveedorService = new ProveedorService();
             _valorExternoConceptoService = new ValorExternoConceptoService();
-            _categoriaPlanillaService = new CategoriaPlanillaService();
             _planillaService = new PlanillaService();
 
             serverPath = WebConfigParams.DirectorioArchivosExternos;
         }
 
-        public Tuple<string, List<ValorExternoConceptoModel>> ObtenerListaValoresDeConceptos(HttpPostedFileBase file)
+        public Tuple<string, List<ValorExternoLecturaProcesadoDTO>> ObtenerListaValoresDeConceptos(HttpPostedFileBase file)
         {
             string newFileName;
             ILecturaArchivoService lecturaArchivoService;
-            List<ValorExternoLecturaDTO> lista;
-            List<ValorExternoConceptoModel> result;
-            ValorExternoConceptoModel model;
+            List<ValorExternoLecturaDTO> lectura;
+            List<ValorExternoLecturaProcesadoDTO> result;
 
             try
             {
@@ -56,53 +51,13 @@ namespace WebApp.ServiceFacade.Implementations
 
                 lecturaArchivoService = GetService(Path.GetExtension(newFileName));
 
-                lista = lecturaArchivoService.ObtenerListaValoresDeConceptos(Path.Combine(serverPath, newFileName));
+                lectura = lecturaArchivoService.ObtenerListaValoresDeConceptos(Path.Combine(serverPath, newFileName));
 
-                var listaTipDocumentos = _tipoDocumentoService.ListaTipoDocumentos();
+                result = new List<ValorExternoLecturaProcesadoDTO>();
 
-                var listaConceptos = _conceptoService.ListarConceptos();
-
-                var listaProveedores = _proveedorService.ListarProveedores();
-
-                var listaCategoria = _categoriaPlanillaService.ListarCategoriasPlanillas();
-
-                result = new List<ValorExternoConceptoModel>();
-
-                foreach (var item in lista)
+                foreach (var item in lectura)
                 {
-                    model = new ValorExternoConceptoModel();
-
-                    model.anio = item.anio;
-
-                    model.mes = item.mes;
-
-                    model.mesDesc = _periodoService.ListarMeses(item.anio.HasValue ? item.anio.Value : 0).Where(y => y.mes == item.mes).FirstOrDefault().mesDesc;
-
-                    model.numDocumento = item.numDocumento;
-
-                    model.tipoDocumentoID = item.tipoDocumentoID;
-
-                    model.tipoDocumentoDesc = listaTipDocumentos.Where(y => y.tipoDocumentoID == item.tipoDocumentoID).FirstOrDefault().tipoDocumentoDesc;
-
-                    var persona = _personaService.ObtenerPersona((item.tipoDocumentoID.HasValue ? item.tipoDocumentoID.Value : 0), item.numDocumento);
-
-                    model.datosPersona = String.Format("{0} {1} {2}", persona.apellidoPaterno, persona.apellidoMaterno, persona.nombre);
-
-                    model.categoriaPlanillaID = item.categoriaPlanillaID;
-
-                    model.categoriaPlanillaDesc = listaCategoria.Where(x => x.categoriaPlanillaID == item.categoriaPlanillaID).FirstOrDefault().categoriaPlanillaDesc;
-
-                    model.conceptoCod = item.conceptoCod;
-
-                    model.conceptoDesc = listaConceptos.Where(y => y.conceptoCod == item.conceptoCod).FirstOrDefault().conceptoDesc;
-
-                    model.valorConcepto = item.valorConcepto;
-
-                    model.proveedorID = item.proveedorID;
-
-                    model.proveedorDesc = listaProveedores.Where(y => y.proveedorID == item.proveedorID).FirstOrDefault().proveedorDesc;
-
-                    result.Add(model);
+                    result.Add(LecturaProcesada(item));
                 }
             }
             catch(IndexOutOfRangeException ex)
@@ -114,39 +69,43 @@ namespace WebApp.ServiceFacade.Implementations
                 throw ex;
             }
 
-            return new Tuple<string, List<ValorExternoConceptoModel>>(newFileName, result);
+            return new Tuple<string, List<ValorExternoLecturaProcesadoDTO>>(newFileName, result);
         }
 
         public Response GrabarValoresExternos(string fileName, int userID)
         {
             Response response;
             ILecturaArchivoService lecturaArchivoService;
-            List<ValorExternoLecturaDTO> lista;
-
+            List<ValorExternoLecturaDTO> lectura;
+            List<ValorExternoLecturaProcesadoDTO> lecturaProcesada;
+            List<ValorConceptoEntity> registrosAptos;
+            
             try
             {
-                var listaTipDocumentos = _tipoDocumentoService.ListaTipoDocumentos();
-
-                var listaConceptos = _conceptoService.ListarConceptos();
-
-                var listaProveedores = _proveedorService.ListarProveedores();
-
                 lecturaArchivoService = GetService(Path.GetExtension(fileName));
 
-                lista = lecturaArchivoService.ObtenerListaValoresDeConceptos(Path.Combine(serverPath, fileName));
+                lectura = lecturaArchivoService.ObtenerListaValoresDeConceptos(Path.Combine(serverPath, fileName));
 
-                var registros = lista
-                    .Where(x => x.tipoDocumentoID.HasValue && x.anio.HasValue && x.mes.HasValue && x.valorConcepto.HasValue && x.proveedorID.HasValue)
-                    .Select(x => new ValorConceptoEntity() {
-                        trabajadorID = _trabajadorService.ObtenerTrabajadorPorDocIdentidad(x.tipoDocumentoID.Value, x.numDocumento).First().trabajadorID,
-                        periodoID = _periodoService.ObtenerPeriodo(x.anio.Value, x.mes.Value).periodoID,
-                        conceptoID = listaConceptos.Where(y => y.conceptoCod == x.conceptoCod).FirstOrDefault().conceptoID,
-                        valorConcepto = x.valorConcepto.Value,
-                        proveedorID = x.proveedorID.Value
-                    })
-                    .ToList();
+                lecturaProcesada = new List<ValorExternoLecturaProcesadoDTO>();
 
-                response = _valorExternoConceptoService.GrabarValoresExternos(registros, userID);
+                foreach (var item in lectura)
+                {
+                    lecturaProcesada.Add(LecturaProcesada(item));
+                }
+
+                registrosAptos = lecturaProcesada
+                   .Where(x => x.periodoCorrecto && x.personaExiste && !x.tienePlanilla)
+                   .Select(x => new ValorConceptoEntity()
+                   {
+                       periodoID = x.periodoID.Value,
+                       trabajadorID = x.trabajadorID.Value,
+                       categoriaPlanillaID = x.categoriaPlanillaID.Value,
+                       conceptoID = x.conceptoID.Value,
+                       valorConcepto = x.valorConcepto.Value,
+                       proveedorID = x.proveedorID.Value
+                   }).ToList();
+
+                response = _valorExternoConceptoService.GrabarValoresExternos(registrosAptos, userID);
             }
             catch (Exception ex)
             {
@@ -191,7 +150,7 @@ namespace WebApp.ServiceFacade.Implementations
                     model = Mapper.ValorExternoConceptoDTO_To_ValorExternoConceptoModel(dto);
 
                     model.tienePlanilla = _planillaService.ExistePlanillaTrabajador(
-                        model.trabajadorID, model.periodoID, model.categoriaPlanillaID.Value);
+                        model.trabajadorID, model.periodoID, model.categoriaPlanillaID);
                 }
             }
             catch (Exception)
@@ -275,6 +234,65 @@ namespace WebApp.ServiceFacade.Implementations
             }
 
             return _lecturaArchivoService;
+        }
+
+        private ValorExternoLecturaProcesadoDTO LecturaProcesada(ValorExternoLecturaDTO lectura)
+        {
+            var listaConceptos = _conceptoService.ListarConceptos();
+
+            var listaProveedores = _proveedorService.ListarProveedores();
+
+            var model = new ValorExternoLecturaProcesadoDTO()
+            {
+                anio = lectura.anio,
+                mes = lectura.mes,
+                tipoDocumentoID = lectura.tipoDocumentoID,
+                numDocumento = lectura.numDocumento,
+                categoriaPlanillaID = lectura.categoriaPlanillaID,
+                conceptoCod = lectura.conceptoCod,
+                valorConcepto = lectura.valorConcepto,
+                proveedorID = lectura.proveedorID
+            };
+
+            if (model.anio.HasValue && model.mes.HasValue)
+            {
+                var periodoDTO = _periodoService.ObtenerPeriodo(model.anio.Value, model.mes.Value);
+
+                if (periodoDTO != null)
+                {
+                    model.periodoID = periodoDTO.periodoID;
+
+                    model.mesDesc = periodoDTO.mesDesc;
+
+                    model.periodoCorrecto = true;
+                }
+            }
+
+            if (model.tipoDocumentoID.HasValue && model.numDocumento != null && model.numDocumento.Length > 0 && model.categoriaPlanillaID.HasValue)
+            {
+                var personaDTO = _trabajadorService.ObtenerTrabajadorPorDocumentoYCategoria(model.tipoDocumentoID.Value, model.numDocumento, model.categoriaPlanillaID.Value);
+
+                if (personaDTO != null)
+                {
+                    model.trabajadorID = personaDTO.trabajadorID;
+
+                    model.tipoDocumentoDesc = personaDTO.tipoDocumentoDesc;
+
+                    model.datosPersona = String.Format("{0} {1} {2}", personaDTO.apellidoPaterno, personaDTO.apellidoMaterno, personaDTO.nombre);
+
+                    model.categoriaPlanillaDesc = personaDTO.categoriaPlanillaDesc;
+
+                    model.personaExiste = true;
+                }
+            }
+
+            model.conceptoID = listaConceptos.Where(y => y.conceptoCod == model.conceptoCod).FirstOrDefault().conceptoID;
+
+            model.conceptoDesc = listaConceptos.Where(y => y.conceptoCod == model.conceptoCod).FirstOrDefault().conceptoDesc;
+
+            model.proveedorDesc = listaProveedores.Where(y => y.proveedorID == model.proveedorID).FirstOrDefault().proveedorDesc;
+
+            return model;
         }
     }
 }

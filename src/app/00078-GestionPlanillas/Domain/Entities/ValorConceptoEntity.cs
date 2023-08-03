@@ -8,9 +8,11 @@ namespace Domain.Entities
 {
     public class ValorConceptoEntity
     {
+        public int periodoID { get; set; }
+
         public int trabajadorID { get; set; }
 
-        public int periodoID { get; set; }
+        public int categoriaPlanillaID { get; set; }
 
         public int conceptoID { get; set; }
 

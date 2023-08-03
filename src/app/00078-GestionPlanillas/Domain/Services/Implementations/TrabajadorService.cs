@@ -179,13 +179,13 @@ namespace Domain.Services.Implementations
             return lista;
         }
 
-        public List<TrabajadorDTO> ObtenerTrabajadorPorDocIdentidad(int tipoDocumentoID, string numDocumento)
+        public TrabajadorCategoriaPlanillaDTO ObtenerTrabajadorPorDocumentoYCategoria(int tipoDocumentoID, string numDocumento, int categoriaPlanillaID)
         {
-            var lista = VW_Trabajadores.FindByDocIdentidad(tipoDocumentoID, numDocumento)
-                .Select(x => Mapper.VW_Trabajadores_To_TrabajadorDTO(x))
-                .ToList();
+            var view = VW_TrabajadoresCategoriaPlanilla.FindByDocumentoYCategoria(tipoDocumentoID, numDocumento, categoriaPlanillaID);
+            
+            var dto = Mapper.VW_TrabajadoresCategoriaPlanilla_To_TrabajadorCategoriaPlanillaDTO(view);
 
-            return lista;
+            return dto;
         }
     }
 }

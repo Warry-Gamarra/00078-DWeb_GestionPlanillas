@@ -78,6 +78,7 @@
     <Compile Include="Entities\TrabajadorDTO.cs" />
     <Compile Include="Entities\TrabajadorEntity.cs" />
     <Compile Include="Entities\TrabajadorCategoriaPlanillaDTO.cs" />
+    <Compile Include="Entities\ValorExternoLecturaProcesadoDTO.cs" />
     <Compile Include="Entities\VinculoDTO.cs" />
     <Compile Include="Enums\CategoriaPlanilla.cs" />
     <Compile Include="Enums\Estado.cs" />

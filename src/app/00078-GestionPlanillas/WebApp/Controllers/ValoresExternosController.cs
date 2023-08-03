@@ -134,7 +134,7 @@ namespace WebApp.Controllers
             if (ModelState.IsValid)
             {
                 response = _valorExternoConceptoServiceFacade.ActualizarValorExternoConcepto(
-                    model.conceptoExternoValorID.Value, model.valorConcepto.Value, WebSecurity.CurrentUserId);
+                    model.conceptoExternoValorID, model.valorConcepto, WebSecurity.CurrentUserId);
             }
             else
             {
