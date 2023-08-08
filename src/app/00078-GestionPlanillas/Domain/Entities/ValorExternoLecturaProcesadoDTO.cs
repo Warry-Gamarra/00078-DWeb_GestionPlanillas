@@ -10,9 +10,13 @@ namespace Domain.Entities
     {
         public int? anio { get; set; }
 
+        public bool esAnioCorrecto { get; set; }
+
         public int? mes { get; set; }
 
-        public bool periodoCorrecto { get; set; }
+        public bool esMesCorrecto { get; set; }
+
+        public bool esPeriodoCorrecto { get; set; }
 
         public int? periodoID { get; set; }
 
@@ -20,9 +24,15 @@ namespace Domain.Entities
 
         public int? tipoDocumentoID { get; set; }
 
+        public bool esTipoDocumentoCorrecto { get; set; }
+
         public string numDocumento { get; set; }
 
+        public bool esNumDocumentoCorrecto { get; set; }
+
         public int? categoriaPlanillaID { get; set; }
+
+        public bool esCategoriaPlanillaCorrecto { get; set; }
 
         public bool trabajadorExiste { get; set; }
 
@@ -54,8 +64,23 @@ namespace Domain.Entities
 
         public int? proveedorID { get; set; }
 
-        public bool proveedorExiste { get; set; }
+        public bool esProveedorCorrecto { get; set; }
 
         public string proveedorDesc { get; set; }
+
+        public bool esRegistroCorrecto
+        {
+            get
+            {
+                return esPeriodoCorrecto && trabajadorExiste && !tienePlanilla && valorConceptoCorrecto && esProveedorCorrecto;
+            }
+        }
+
+        public List<string> observaciones { get; set; }
+
+        public ValorExternoLecturaProcesadoDTO()
+        {
+            observaciones = new List<string>();
+        }
     }
 }

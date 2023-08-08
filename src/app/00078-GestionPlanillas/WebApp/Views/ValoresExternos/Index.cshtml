@@ -20,7 +20,7 @@
             <span class="h4">Archivo externo</span>
         </div>
         <div class="card-body">
-            @using (Html.BeginForm("ObtenerInformacionArchivo", "ValoresExternos", FormMethod.Post, 
+            @using (Html.BeginForm("ObtenerInformacionArchivo", "ValoresExternos", FormMethod.Post,
                 new { id = "form-upload", enctype = "multipart/form-data", @class = "form-inline" }))
             {
                 <form id="form-upload" name="form-upload" class="form-inline" enctype="multipart/form-data">
@@ -42,15 +42,15 @@
         </div>
     </div>
 
-    <div class="card">
+    <div class="card mb-4">
         <div class="card-header">
             @using (Html.BeginForm("GuardarInformacion", "ValoresExternos", FormMethod.Post,
-                new {id = "form-register" }))
+                new { id = "form-register" }))
             {
                 @Html.AntiForgeryToken()
                 <span class="h4">Vista previa</span>
                 <input type="hidden" id="fileName" name="fileName" />
-                <button class="btn btn-primary pull-right" id="btnGrabarArchivo">
+                <button class="btn btn-primary pull-right d-none" id="btnGrabarArchivo">
                     <i class="fa fa-save" aria-hidden="true"></i> Guardar información
                 </button>
             }
@@ -92,6 +92,15 @@
                     </tfoot>
                 </table>
             </div>
+        </div>
+    </div>
+
+    <div class="card d-none" id="summary">
+        <div class="card-header">
+            <dl>
+                <dt class="h4">Monto total: <span class="badge badge-primary" id="totalArchivo"></span></dt>
+                <dt class="h4">Monto de registros correctos: <span class="badge badge-primary" id="totalCorrecto"></span></dt>
+            </dl>
         </div>
     </div>
 </div>
@@ -247,29 +256,9 @@
                         render: function (data, type, row) {
                             let obs = '';
 
-                            if (!row.periodoCorrecto) {
-                                obs += "<li>No se reconoce el año y mes.</li>";
-                            }
-
-                            if (!row.trabajadorExiste) {
-                                obs += "<li>El trabajador no existe en la categoria descrita.</li>";
-                            }
-
-                            if (row.trabajadorExiste && row.tienePlanilla) {
-                                obs += "<li>El trabajador ya tiene una planilla generada.</li>";
-                            }
-
-                            if (!row.conceptoExiste) {
-                                obs += "<li>El concepto no existe.</li>";
-                            }
-
-                            if (row.trabajadorExiste && row.conceptoExiste && !row.valorConceptoCorrecto) {
-                                obs += "<li>El valor del concepto es incorrecto.</li>";
-                            }
-
-                            if (!row.proveedorExiste) {
-                                obs += "<li>El proveedor no existe en el sistema.</li>";
-                            }
+                            row.observaciones.forEach(function (item) {
+                                obs += `<li>${item}</li>`;
+                            });
 
                             return obs;
                         }
@@ -300,13 +289,32 @@
                     processing: "Procesando..."
                 },
                 searching: true,
-                initComplete: function (settings, json) {
+                "initComplete": function (settings, json) {
                     var api = this.api();
+
                     var numRows = api.rows().count();
 
                     if (numRows > 0) {
+                        let sumTotalCorrecto = 0;
+                        let sumTotalArchivo = 0;
+
+                        jsonObject.forEach(function (item) {
+                            if (item.esRegistroCorrecto) {
+                                sumTotalCorrecto += item.valorConcepto;
+                            }
+
+                            if (item.valorConceptoCorrecto) {
+                                sumTotalArchivo += item.valorConcepto;
+                            }
+                        });
+
+                        $('#totalCorrecto').html('S/. ' + sumTotalCorrecto);
+                        $('#totalArchivo').html('S/. ' + sumTotalArchivo);
+
+                        $("#summary").removeClass("d-none");
                         $("#btnGrabarArchivo").removeClass("d-none");
                     } else {
+                        $("#summary").addClass("d-none");
                         $("#btnGrabarArchivo").addClass("d-none");
                     }
                 }

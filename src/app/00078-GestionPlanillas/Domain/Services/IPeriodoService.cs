@@ -14,5 +14,7 @@ namespace Domain.Services
         List<MesDTO> ListarMeses(int I_Anio);
 
         PeriodoDTO ObtenerPeriodo(int anio, int mes);
+
+        string ObtenerMesDesc(int mes);
     }
 }

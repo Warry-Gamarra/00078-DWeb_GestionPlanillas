@@ -22,6 +22,9 @@ namespace WebApp.ServiceFacade.Implementations
         private IValorExternoConceptoService _valorExternoConceptoService;
         private IPlanillaService _planillaService;
         private IPlantillaPlanillaConceptoService _plantillaPlanillaConceptoService;
+        private ITipoDocumentoService _tipoDocumentoService;
+        private ICategoriaPlanillaService _categoriaPlanillaService;
+        private IPersonaService _personaService;
 
         private readonly string serverPath;
 
@@ -34,6 +37,9 @@ namespace WebApp.ServiceFacade.Implementations
             _valorExternoConceptoService = new ValorExternoConceptoService();
             _planillaService = new PlanillaService();
             _plantillaPlanillaConceptoService = new PlantillaPlanillaConceptoService();
+            _tipoDocumentoService = new TipoDocumentoService();
+            _categoriaPlanillaService = new CategoriaPlanillaService();
+            _personaService = new PersonaService();
 
             serverPath = WebConfigParams.DirectorioArchivosExternos;
         }
@@ -84,7 +90,7 @@ namespace WebApp.ServiceFacade.Implementations
                 lecturaProcesada = ObtenerLecturaProcesada(lectura);
 
                 registrosAptos = lecturaProcesada
-                   .Where(x => x.periodoCorrecto && x.trabajadorExiste && !x.tienePlanilla)
+                   .Where(x => x.esRegistroCorrecto)
                    .Select(x => new ValorConceptoEntity()
                    {
                        periodoID = x.periodoID.Value,
@@ -228,15 +234,21 @@ namespace WebApp.ServiceFacade.Implementations
 
         private List<ValorExternoLecturaProcesadoDTO> ObtenerLecturaProcesada(List<ValorExternoLecturaDTO> lectura)
         {
+            var listaTipoDocumento = _tipoDocumentoService.ListaTipoDocumentos();
+            
+            var listaCategoriaPlanilla = _categoriaPlanillaService.ListarCategoriasPlanillas();
+
+            var listaProveedores = _proveedorService.ListarProveedores();
+
             var lecturaProcesada = new List<ValorExternoLecturaProcesadoDTO>();
 
             foreach (var item in lectura)
             {
                 PeriodoDTO periodoDTO = null;
+                PersonaDTO personaDTO = null;
                 TrabajadorCategoriaPlanillaDTO trabajadorDTO = null;
                 ConceptoDTO conceptoDTO = null;
-                ProveedorDTO proveedorDTO = null;
-
+                
                 var dto = new ValorExternoLecturaProcesadoDTO()
                 {
                     anio = item.anio,
@@ -249,7 +261,29 @@ namespace WebApp.ServiceFacade.Implementations
                     proveedorID = item.proveedorID
                 };
 
-                if (dto.anio.HasValue && dto.mes.HasValue)
+                if (dto.anio.HasValue && dto.anio.Value >= 1963 && dto.anio.Value <= 2099)
+                {
+                    dto.esAnioCorrecto = true;
+                }
+                else
+                {
+                    dto.observaciones.Add("Año incorrecto.");
+                }
+
+                if (dto.mes.HasValue && dto.mes.Value >= 1 && dto.mes.Value <= 12)
+                {
+                    dto.esMesCorrecto = true;
+
+                    dto.mesDesc = _periodoService.ObtenerMesDesc(dto.mes.Value);
+                }
+                else
+                {
+                    dto.observaciones.Add("Mes incorrecto.");
+
+                    dto.mesDesc = "";
+                }
+
+                if (dto.esAnioCorrecto && dto.esMesCorrecto)
                 {
                     periodoDTO = _periodoService.ObtenerPeriodo(dto.anio.Value, dto.mes.Value);
 
@@ -259,31 +293,84 @@ namespace WebApp.ServiceFacade.Implementations
 
                         dto.mesDesc = periodoDTO.mesDesc;
 
-                        dto.periodoCorrecto = true;
+                        dto.esPeriodoCorrecto = true;
                     }
-                }
-
-                if (dto.tipoDocumentoID.HasValue && dto.numDocumento != null && dto.numDocumento.Length > 0 && dto.categoriaPlanillaID.HasValue)
-                {
-                    trabajadorDTO = _trabajadorService.ObtenerTrabajadorPorDocumentoYCategoria(dto.tipoDocumentoID.Value, dto.numDocumento, dto.categoriaPlanillaID.Value);
-
-                    if (trabajadorDTO != null)
+                    else
                     {
-                        dto.trabajadorID = trabajadorDTO.trabajadorID;
-
-                        dto.tipoDocumentoDesc = trabajadorDTO.tipoDocumentoDesc;
-
-                        dto.datosPersona = String.Format("{0} {1} {2}", trabajadorDTO.apellidoPaterno, trabajadorDTO.apellidoMaterno, trabajadorDTO.nombre);
-
-                        dto.categoriaPlanillaDesc = trabajadorDTO.categoriaPlanillaDesc;
-
-                        dto.trabajadorExiste = true;
+                        dto.observaciones.Add("El periodo no se encuentra registrado en el sistema.");
                     }
                 }
 
-                if (dto.periodoCorrecto && dto.trabajadorExiste)
+                if (dto.tipoDocumentoID.HasValue && listaTipoDocumento.Exists(x => x.tipoDocumentoID == dto.tipoDocumentoID.Value))
+                {
+                    dto.tipoDocumentoDesc = listaTipoDocumento.First(x => x.tipoDocumentoID == dto.tipoDocumentoID.Value).tipoDocumentoDesc;
+
+                    dto.esTipoDocumentoCorrecto = true;
+                }
+                else
+                {
+                    dto.observaciones.Add("Tipo de documento de identidad incorrecto.");
+
+                    dto.tipoDocumentoDesc = "";
+                }
+
+                if (dto.numDocumento != null && dto.numDocumento.Length > 0)
+                {
+                    dto.esNumDocumentoCorrecto = true;
+                }
+                else
+                {
+                    dto.observaciones.Add("Número de documento de identidad incorrecto");
+                }
+                
+                if (dto.categoriaPlanillaID.HasValue && listaCategoriaPlanilla.Exists(x => x.categoriaPlanillaID == dto.categoriaPlanillaID.Value))
+                {
+                    dto.categoriaPlanillaDesc = listaCategoriaPlanilla.First(x => x.categoriaPlanillaID == dto.categoriaPlanillaID.Value).categoriaPlanillaDesc;
+
+                    dto.esCategoriaPlanillaCorrecto = true;
+                }
+                else
+                {
+                    dto.observaciones.Add("Categoría de planilla incorrecto.");
+
+                    dto.categoriaPlanillaDesc = "";
+                }
+
+                if (dto.esTipoDocumentoCorrecto && dto.esNumDocumentoCorrecto && dto.esCategoriaPlanillaCorrecto)
+                {
+                    personaDTO = _personaService.ObtenerPersona(dto.tipoDocumentoID.Value, dto.numDocumento);
+
+                    if (personaDTO != null)
+                    {
+                        dto.datosPersona = String.Format("{0} {1} {2}", personaDTO.apellidoPaterno, personaDTO.apellidoMaterno, personaDTO.nombre);
+
+                        trabajadorDTO = _trabajadorService.ObtenerTrabajadorPorDocumentoYCategoria(dto.tipoDocumentoID.Value, dto.numDocumento, dto.categoriaPlanillaID.Value);
+
+                        if (trabajadorDTO != null)
+                        {
+                            dto.trabajadorID = trabajadorDTO.trabajadorID;
+
+                            dto.trabajadorExiste = true;
+                        }
+                        else
+                        {
+                            dto.observaciones.Add("El trabajador no existe en la categoria de planilla indicada.");
+                        }
+                    }
+                    else
+                    {
+                        dto.observaciones.Add("El trabajador no existe.");
+                    }
+                }
+
+                if (dto.esPeriodoCorrecto && dto.trabajadorExiste)
                 {
                     dto.tienePlanilla = _planillaService.ExistePlanillaTrabajador(trabajadorDTO.trabajadorID, periodoDTO.periodoID, trabajadorDTO.categoriaPlanillaID);
+
+                    if (dto.tienePlanilla)
+                    {
+                        dto.observaciones.Add("El trabajador ya tiene una planilla generada para este periodo.");
+                    }
                 }
 
                 if (dto.conceptoCod != null && dto.conceptoCod.Length > 0)
@@ -300,40 +387,68 @@ namespace WebApp.ServiceFacade.Implementations
 
                         dto.conceptoExiste = true;
 
-                        if (dto.trabajadorExiste)
+                        if (dto.esCategoriaPlanillaCorrecto)
                         {
                             var lista = _plantillaPlanillaConceptoService.ListarGrupoDeConceptosAsignados(dto.categoriaPlanillaID.Value, dto.conceptoID.Value);
 
                             if (lista != null && lista.Count > 0)
                             {
                                 dto.esValorFijo = lista.First().esValorFijo;
-
-                                if (dto.valorConcepto.HasValue && dto.valorConcepto.Value > 0)
-                                {
-                                    if (dto.esValorFijo.Value)
-                                    {
-                                        dto.valorConceptoCorrecto = true;
-                                    }
-                                    else if (dto.valorConcepto.Value <= 100)
-                                    {
-                                        dto.valorConceptoCorrecto = true;
-                                    }
-                                }
+                            }
+                            else
+                            {
+                                dto.observaciones.Add("El concepto no se encuentra asignado a ninguna planilla.");
                             }
                         }
+
+                        if (dto.valorConcepto.HasValue && dto.valorConcepto.Value > 0)
+                        {
+                            if (dto.esValorFijo.HasValue)
+                            {
+                                if (dto.esValorFijo.Value)
+                                {
+                                    dto.valorConceptoCorrecto = true;
+                                }
+                                else if (dto.valorConcepto.Value <= 100)
+                                {
+                                    dto.valorConceptoCorrecto = true;
+                                }
+                                else
+                                {
+                                    dto.observaciones.Add("Valor del concepto incorrecto.");
+                                }
+                            }
+                            else
+                            {
+                                dto.observaciones.Add("No se reconoce si el concepto es un valor fijo o porcentual.");
+                            }
+                        }
+                        else
+                        {
+                            dto.observaciones.Add("Valor del concepto incorrecto.");
+                        }
+                    }
+                    else
+                    {
+                        dto.observaciones.Add("Código de concepto no existe.");
                     }
                 }
-
-                if (dto.proveedorID.HasValue)
+                else
                 {
-                    proveedorDTO = _proveedorService.ObtenerProveedor(dto.proveedorID.Value);
+                    dto.observaciones.Add("Código de concepto incorrecto.");
+                }
 
-                    if (proveedorDTO != null)
-                    {
-                        dto.proveedorDesc = proveedorDTO.proveedorDesc;
+                if (dto.proveedorID.HasValue && listaProveedores.Exists(x => x.proveedorID == dto.proveedorID.Value))
+                {
+                    dto.proveedorDesc = listaProveedores.First(x => x.proveedorID == dto.proveedorID.Value).proveedorDesc;
 
-                        dto.proveedorExiste = true;
-                    }
+                    dto.esProveedorCorrecto = true;
+                }
+                else
+                {
+                    dto.observaciones.Add("Proveedor de información incorrecto.");
+
+                    dto.proveedorDesc = "";
                 }
 
                 lecturaProcesada.Add(dto);

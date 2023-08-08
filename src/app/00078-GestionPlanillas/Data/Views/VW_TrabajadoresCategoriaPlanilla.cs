@@ -76,12 +76,14 @@ namespace Data.Views
 
             try
             {
-                string s_command = "SELECT * FROM dbo.VW_TrabajadoresCategoriaPlanilla WHERE I_TipoDocumentoID = @I_TipoDocumentoID AND C_NumDocumento = @C_NumDocumento;";
+                string s_command = @"SELECT * FROM dbo.VW_TrabajadoresCategoriaPlanilla 
+                    WHERE I_TipoDocumentoID = @I_TipoDocumentoID AND C_NumDocumento = @C_NumDocumento AND I_CategoriaPlanillaID = @I_CategoriaPlanillaID;";
 
                 using (var _dbConnection = new SqlConnection(Database.ConnectionString))
                 {
                     result = _dbConnection.QuerySingleOrDefault<VW_TrabajadoresCategoriaPlanilla>(s_command,
-                        new { I_TipoDocumentoID = I_TipoDocumentoID, C_NumDocumento = C_NumDocumento, I_CategoriaPlanillaID = I_CategoriaPlanillaID }, commandType: System.Data.CommandType.Text);
+                        new { I_TipoDocumentoID = I_TipoDocumentoID, C_NumDocumento = C_NumDocumento, I_CategoriaPlanillaID = I_CategoriaPlanillaID }, 
+                        commandType: System.Data.CommandType.Text);
                 }
             }
             catch (Exception)
