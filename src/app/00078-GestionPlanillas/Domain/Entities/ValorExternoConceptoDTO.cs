@@ -30,6 +30,8 @@ namespace Domain.Entities
 
         public string nombre { get; set; }
 
+        public int trabajadorCategoriaPlanillaID { get; set; }
+
         public int categoriaPlanillaID { get; set; }
 
         public string categoriaPlanillaDesc { get; set; }

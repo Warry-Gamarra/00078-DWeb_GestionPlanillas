@@ -34,6 +34,8 @@ namespace Data.Views
 
         public string T_Nombre { get; set; }
 
+        public int I_TrabajadorCategoriaPlanillaID { get; set; }
+
         public int I_CategoriaPlanillaID { get; set; }
 
         public string T_CategoriaPlanillaDesc { get; set; }
@@ -96,6 +98,29 @@ namespace Data.Views
             catch (Exception)
             {
                 result = null;
+            }
+
+            return result;
+        }
+
+        public static VW_ValoresExternos FindByTrabajadorCategoriaPlanillaYConcepto(int I_TrabajadorCategoriaPlanillaID, int I_ConceptoID)
+        {
+            VW_ValoresExternos result;
+
+            try
+            {
+                string s_command = @"SELECT * FROM dbo.VW_ValoresExternos 
+                    WHERE I_TrabajadorCategoriaPlanillaID = @I_TrabajadorCategoriaPlanillaID AND I_ConceptoID = @I_ConceptoID;";
+
+                using (var _dbConnection = new SqlConnection(Database.ConnectionString))
+                {
+                    result = _dbConnection.QuerySingleOrDefault<VW_ValoresExternos>(s_command, 
+                        new { I_TrabajadorCategoriaPlanillaID = I_TrabajadorCategoriaPlanillaID, I_ConceptoID = I_ConceptoID }, commandType: System.Data.CommandType.Text);
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
             }
 
             return result;

@@ -28,8 +28,7 @@ namespace Domain.Services.Implementations
             DataTable dataTable = new DataTable();
             dataTable.Columns.Add("I_ID");
             dataTable.Columns.Add("I_PeriodoID");
-            dataTable.Columns.Add("I_TrabajadorID");
-            dataTable.Columns.Add("I_CategoriaPlanillaID");
+            dataTable.Columns.Add("I_TrabajadorCategoriaPlanillaID");
             dataTable.Columns.Add("I_ConceptoID");
             dataTable.Columns.Add("M_ValorConcepto");
             dataTable.Columns.Add("I_ProveedorID");
@@ -40,8 +39,7 @@ namespace Domain.Services.Implementations
                 dataTable.Rows.Add(
                     id,
                     x.periodoID,
-                    x.trabajadorID,
-                    x.categoriaPlanillaID,
+                    x.trabajadorCategoriaPlanillaID,
                     x.conceptoID,
                     x.valorConcepto,
                     x.proveedorID);
@@ -188,6 +186,32 @@ namespace Domain.Services.Implementations
             }
 
             return Mapper.Result_To_Response(result);
+        }
+
+        public ValorExternoConceptoDTO ObtenerPorTrabajadorCategoriaPlanillaYConcepto(int trabajadorCategoriaPlanillaID, int conceptoID)
+        {
+            ValorExternoConceptoDTO valorExternoConceptoDTO;
+
+            try
+            {
+                var view = VW_ValoresExternos.FindByTrabajadorCategoriaPlanillaYConcepto(trabajadorCategoriaPlanillaID, conceptoID);
+
+                if (view == null)
+                {
+                    valorExternoConceptoDTO = null;
+                }
+                else
+                {
+                    valorExternoConceptoDTO = Mapper.VW_ValoresExternos_To_ValorExternoConceptoDTO(view);
+                }
+
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+
+            return valorExternoConceptoDTO;
         }
     }
 }

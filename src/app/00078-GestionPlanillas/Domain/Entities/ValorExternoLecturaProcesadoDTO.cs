@@ -36,11 +36,11 @@ namespace Domain.Entities
 
         public bool trabajadorExiste { get; set; }
 
-        public int? trabajadorID { get; set; }
-
         public string datosPersona { get; set; }
 
         public string tipoDocumentoDesc { get; set; }
+
+        public int? trabajadorCategoriaPlanillaID { get; set; }
 
         public string categoriaPlanillaDesc { get; set; }
 
@@ -49,6 +49,8 @@ namespace Domain.Entities
         public string conceptoCod { get; set; }
 
         public bool conceptoExiste { get; set; }
+
+        public bool esDuplicado { get; set; }
 
         public int? conceptoID { get; set; }
 
@@ -72,7 +74,7 @@ namespace Domain.Entities
         {
             get
             {
-                return esPeriodoCorrecto && trabajadorExiste && !tienePlanilla && valorConceptoCorrecto && esProveedorCorrecto;
+                return esPeriodoCorrecto && trabajadorExiste && !tienePlanilla && !esDuplicado && valorConceptoCorrecto && esProveedorCorrecto;
             }
         }
 

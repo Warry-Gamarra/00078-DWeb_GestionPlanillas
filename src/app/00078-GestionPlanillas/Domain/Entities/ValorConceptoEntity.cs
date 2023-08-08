@@ -10,9 +10,7 @@ namespace Domain.Entities
     {
         public int periodoID { get; set; }
 
-        public int trabajadorID { get; set; }
-
-        public int categoriaPlanillaID { get; set; }
+        public int trabajadorCategoriaPlanillaID { get; set; }
 
         public int conceptoID { get; set; }
 

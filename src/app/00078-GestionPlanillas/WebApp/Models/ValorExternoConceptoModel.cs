@@ -19,13 +19,13 @@ namespace WebApp.Models
 
         public int trabajadorID { get; set; }
 
-        public int tipoDocumentoID { get; set; }
-
         public string tipoDocumentoDesc { get; set; }
 
         public string numDocumento { get; set; }
 
         public string datosPersona { get; set; }
+
+        public int trabajadorCategoriaPlanillaID { get; set; }
 
         public int categoriaPlanillaID { get; set; }
 

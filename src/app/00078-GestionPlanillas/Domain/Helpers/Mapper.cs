@@ -556,6 +556,7 @@ namespace Domain.Helpers
                 apellidoPaterno = view.T_ApellidoPaterno,
                 apellidoMaterno = view.T_ApellidoMaterno,
                 nombre = view.T_Nombre,
+                trabajadorCategoriaPlanillaID = view.I_TrabajadorCategoriaPlanillaID,
                 categoriaPlanillaID = view.I_CategoriaPlanillaID,
                 categoriaPlanillaDesc = view.T_CategoriaPlanillaDesc,
                 conceptoID = view.I_ConceptoID,

@@ -622,7 +622,7 @@ CREATE TABLE TC_Administrativo
 CREATE TABLE TI_ValorExternoPeriodo
 (
 	I_ValorExternoPeriodoID INT IDENTITY(1,1),
-	I_TrabajadorID INT NOT NULL,
+	I_TrabajadorCategoriaPlanillaID INT NOT NULL,
 	I_PeriodoID INT NOT NULL,
 	B_Eliminado BIT NOT NULL,
 	I_UsuarioCre INT,
@@ -630,7 +630,7 @@ CREATE TABLE TI_ValorExternoPeriodo
 	I_UsuarioMod INT,
 	D_FecMod DATETIME,
 	CONSTRAINT PK_ValorExternoPeriodo PRIMARY KEY (I_ValorExternoPeriodoID),
-	CONSTRAINT FK_Trabajador_ValorExternoPeriodo FOREIGN KEY (I_TrabajadorID) REFERENCES TC_Trabajador(I_TrabajadorID),
+	CONSTRAINT FK_TrabajadorCategoriaPlanilla_ValorExternoPeriodo FOREIGN KEY (I_TrabajadorCategoriaPlanillaID) REFERENCES TC_Trabajador_CategoriaPlanilla(I_TrabajadorCategoriaPlanillaID),
 	CONSTRAINT FK_Periodo_ValorExternoPeriodo FOREIGN KEY (I_PeriodoID) REFERENCES TR_Periodo(I_PeriodoID)
 )
 

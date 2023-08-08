@@ -507,6 +507,7 @@ BEGIN
 			@I_CantPlanillasGeneradas INT = 0,
 			--Resumen por trabajador
 			@I_TrabajadorID INT,
+			@I_TrabajadorCategoriaPlanillaID INT,
 			@I_Filtro1 INT,-->Grupo Ocupacional | Categoria
 			@I_Filtro2 INT,-->Nivel Remunerativo | Dedicacion y horas
 			@I_TrabajadorPlanillaID INT,
@@ -543,6 +544,7 @@ BEGIN
 	(
 		I_NroOrden INT IDENTITY(1,1),
 		I_TrabajadorID INT NOT NULL,
+		I_TrabajadorCategoriaPlanillaID INT NOT NULL,
 		I_Filtro1 INT NOT NULL,
 		I_Filtro2 INT NOT NULL
 	);
@@ -587,8 +589,8 @@ BEGIN
 
 	--2. Obtener la lista de trabajadores
 	IF (@I_CategoriaPlanillaID = @I_ADMINISTRATIVOID) BEGIN
-		INSERT #tmp_trabajador(I_TrabajadorID, I_Filtro1, I_Filtro2)
-		SELECT adm.I_TrabajadorID, adm.I_GrupoOcupacionalID, adm.I_NivelRemunerativoID 
+		INSERT #tmp_trabajador(I_TrabajadorID, I_TrabajadorCategoriaPlanillaID, I_Filtro1, I_Filtro2)
+		SELECT adm.I_TrabajadorID, tca.I_TrabajadorCategoriaPlanillaID, adm.I_GrupoOcupacionalID, adm.I_NivelRemunerativoID 
 		FROM dbo.TC_Administrativo adm
 		INNER JOIN dbo.TC_Trabajador trab ON trab.I_TrabajadorID = adm.I_TrabajadorID
 		INNER JOIN dbo.TC_Trabajador_CategoriaPlanilla tca ON tca.I_TrabajadorID = trab.I_TrabajadorID 
@@ -604,8 +606,8 @@ BEGIN
 	END
 
 	IF (@I_CategoriaPlanillaID = @I_DOCENTEID) BEGIN
-		INSERT #tmp_trabajador(I_TrabajadorID, I_Filtro1, I_Filtro2)
-		SELECT doc.I_TrabajadorID, doc.I_CategoriaDocenteID, doc.I_HorasDocenteID FROM dbo.TC_Docente doc
+		INSERT #tmp_trabajador(I_TrabajadorID, I_TrabajadorCategoriaPlanillaID, I_Filtro1, I_Filtro2)
+		SELECT doc.I_TrabajadorID, tca.I_TrabajadorCategoriaPlanillaID, doc.I_CategoriaDocenteID, doc.I_HorasDocenteID FROM dbo.TC_Docente doc
 		INNER JOIN dbo.TC_Trabajador trab ON trab.I_TrabajadorID = doc.I_TrabajadorID
 		INNER JOIN dbo.TC_Trabajador_CategoriaPlanilla tca ON tca.I_TrabajadorID = trab.I_TrabajadorID 
 		INNER JOIN dbo.TC_CategoriaDocente cd ON cd.I_CategoriaDocenteID = doc.I_CategoriaDocenteID
@@ -642,6 +644,7 @@ BEGIN
 		WHILE (@I_Indicador <= @I_CantRegistros) BEGIN
 		
 			SELECT	@I_TrabajadorID = tmp.I_TrabajadorID,
+					@I_TrabajadorCategoriaPlanillaID = tmp.I_TrabajadorCategoriaPlanillaID,
 					@I_Filtro1 = tmp.I_Filtro1,
 					@I_Filtro2 = tmp.I_Filtro2,
 					@I_TrabajadorPlanillaID = 0
@@ -703,7 +706,7 @@ BEGIN
 						SET @M_ValorConcepto = ISNULL((SELECT conc.M_ValorConcepto FROM dbo.TI_ValorExternoPeriodo per
 							INNER JOIN dbo.TI_ValorExternoConcepto conc ON conc.I_ValorExternoPeriodoID = per.I_ValorExternoPeriodoID 
 							WHERE per.B_Eliminado = 0 AND conc.B_Eliminado = 0 AND
-								per.I_TrabajadorID = @I_TrabajadorID AND per.I_PeriodoID = @I_PeriodoID AND conc.I_ConceptoID = @I_ConceptoID), 0);
+								per.I_TrabajadorCategoriaPlanillaID = @I_TrabajadorCategoriaPlanillaID AND per.I_PeriodoID = @I_PeriodoID AND conc.I_ConceptoID = @I_ConceptoID), 0);
 					END
 
 					IF (@M_ValorConcepto IS NOT NULL AND @M_ValorConcepto > 0) BEGIN
@@ -788,7 +791,7 @@ BEGIN
 						SET @M_ValorConcepto = ISNULL((SELECT conc.M_ValorConcepto FROM dbo.TI_ValorExternoPeriodo per
 							INNER JOIN dbo.TI_ValorExternoConcepto conc ON conc.I_ValorExternoPeriodoID = per.I_ValorExternoPeriodoID 
 							WHERE per.B_Eliminado = 0 AND conc.B_Eliminado = 0 AND
-								per.I_TrabajadorID = @I_TrabajadorID AND per.I_PeriodoID = @I_PeriodoID AND conc.I_ConceptoID = @I_ConceptoID), 0);
+								per.I_TrabajadorCategoriaPlanillaID = @I_TrabajadorCategoriaPlanillaID AND per.I_PeriodoID = @I_PeriodoID AND conc.I_ConceptoID = @I_ConceptoID), 0);
 					END
 
 					IF (@M_ValorConcepto IS NOT NULL AND @M_ValorConcepto > 0) BEGIN
@@ -873,7 +876,7 @@ BEGIN
 						SET @M_ValorConcepto = ISNULL((SELECT conc.M_ValorConcepto FROM dbo.TI_ValorExternoPeriodo per
 							INNER JOIN dbo.TI_ValorExternoConcepto conc ON conc.I_ValorExternoPeriodoID = per.I_ValorExternoPeriodoID 
 							WHERE per.B_Eliminado = 0 AND conc.B_Eliminado = 0 AND
-								per.I_TrabajadorID = @I_TrabajadorID AND per.I_PeriodoID = @I_PeriodoID AND conc.I_ConceptoID = @I_ConceptoID), 0);
+								per.I_TrabajadorCategoriaPlanillaID = @I_TrabajadorCategoriaPlanillaID AND per.I_PeriodoID = @I_PeriodoID AND conc.I_ConceptoID = @I_ConceptoID), 0);
 					END
 
 					IF (@M_ValorConcepto IS NOT NULL AND @M_ValorConcepto > 0) BEGIN
@@ -958,7 +961,7 @@ BEGIN
 						SET @M_ValorConcepto = ISNULL((SELECT conc.M_ValorConcepto FROM dbo.TI_ValorExternoPeriodo per
 							INNER JOIN dbo.TI_ValorExternoConcepto conc ON conc.I_ValorExternoPeriodoID = per.I_ValorExternoPeriodoID 
 							WHERE per.B_Eliminado = 0 AND conc.B_Eliminado = 0 AND
-								per.I_TrabajadorID = @I_TrabajadorID AND per.I_PeriodoID = @I_PeriodoID AND conc.I_ConceptoID = @I_ConceptoID), 0);
+								per.I_TrabajadorCategoriaPlanillaID = @I_TrabajadorCategoriaPlanillaID AND per.I_PeriodoID = @I_PeriodoID AND conc.I_ConceptoID = @I_ConceptoID), 0);
 					END
 
 					IF (@M_ValorConcepto IS NOT NULL AND @M_ValorConcepto > 0) BEGIN
@@ -1500,8 +1503,7 @@ GO
 CREATE TYPE [dbo].[type_dataValorExterno] AS TABLE(
 	I_ID INT NOT NULL,
 	I_PeriodoID INT NOT NULL,
-	I_TrabajadorID INT NOT NULL,
-	I_CategoriaPlanillaID INT NOT NULL,
+	I_TrabajadorCategoriaPlanillaID INT NOT NULL,
 	I_ConceptoID INT NOT NULL,
 	M_ValorConcepto DECIMAL(15,2) NOT NULL,
 	I_ProveedorID INT NOT NULL
@@ -1523,9 +1525,8 @@ BEGIN
 
 	DECLARE @I_Indicador INT,
 			@I_CantRegistros INT,
-			@I_TrabajadorID INT,
 			@I_PeriodoID INT,
-			@I_CategoriaPlanillaID INT,
+			@I_TrabajadorCategoriaPlanillaID INT,
 			@I_ConceptoID INT,
 			@M_ValorConcepto DECIMAL(15,2),
 			@I_ProveedorID INT,
@@ -1542,26 +1543,27 @@ BEGIN
 	BEGIN TRY
 		WHILE (@I_Indicador <= @I_CantRegistros) BEGIN
 
-			SELECT @I_TrabajadorID = I_TrabajadorID,
-					@I_PeriodoID = I_PeriodoID,
-					@I_CategoriaPlanillaID = I_CategoriaPlanillaID,
+			SELECT	@I_PeriodoID = I_PeriodoID,
+					@I_TrabajadorCategoriaPlanillaID = I_TrabajadorCategoriaPlanillaID,
 					@I_ConceptoID = I_ConceptoID,
 					@M_ValorConcepto = M_ValorConcepto,
 					@I_ProveedorID = I_ProveedorID
 			FROM @Tbl_ValorExterno
 			WHERE I_ID = @I_Indicador
 			
-			IF NOT EXISTS(SELECT I_ValorExternoPeriodoID FROM dbo.TI_ValorExternoPeriodo WHERE I_TrabajadorID = @I_TrabajadorID AND I_PeriodoID = @I_PeriodoID AND B_Eliminado = 0)
+			--SELECT * FROM dbo.TC_Trabajador_CategoriaPlanilla
+
+			IF NOT EXISTS(SELECT I_ValorExternoPeriodoID FROM dbo.TI_ValorExternoPeriodo WHERE I_TrabajadorCategoriaPlanillaID = @I_TrabajadorCategoriaPlanillaID AND I_PeriodoID = @I_PeriodoID AND B_Eliminado = 0)
 			BEGIN
-				INSERT dbo.TI_ValorExternoPeriodo(I_TrabajadorID, I_PeriodoID, B_Eliminado, I_UsuarioCre, D_FecCre)
-				VALUES(@I_TrabajadorID, @I_PeriodoID, 0, @I_UserID, @D_FecActual);
+				INSERT dbo.TI_ValorExternoPeriodo(I_TrabajadorCategoriaPlanillaID, I_PeriodoID, B_Eliminado, I_UsuarioCre, D_FecCre)
+				VALUES(@I_TrabajadorCategoriaPlanillaID, @I_PeriodoID, 0, @I_UserID, @D_FecActual);
 
 				SET @I_ValorExternoPeriodoID = SCOPE_IDENTITY();
 			END
 			ELSE
 			BEGIN
 				SET @I_ValorExternoPeriodoID = (SELECT I_ValorExternoPeriodoID FROM dbo.TI_ValorExternoPeriodo 
-					WHERE I_TrabajadorID = @I_TrabajadorID AND I_PeriodoID = @I_PeriodoID AND B_Eliminado = 0);
+					WHERE I_TrabajadorCategoriaPlanillaID = @I_TrabajadorCategoriaPlanillaID AND I_PeriodoID = @I_PeriodoID AND B_Eliminado = 0);
 			END
 
 			INSERT dbo.TI_ValorExternoConcepto(I_ValorExternoPeriodoID, I_ConceptoID, M_ValorConcepto, I_ProveedorID, B_Eliminado, I_UsuarioCre, D_FecCre)
