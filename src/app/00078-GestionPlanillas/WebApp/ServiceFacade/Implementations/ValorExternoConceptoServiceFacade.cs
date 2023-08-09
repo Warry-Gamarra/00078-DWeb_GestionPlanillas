@@ -89,18 +89,38 @@ namespace WebApp.ServiceFacade.Implementations
 
                 lecturaProcesada = ObtenerLecturaProcesada(lectura);
 
-                registrosAptos = lecturaProcesada
-                   .Where(x => x.esRegistroCorrecto)
-                   .Select(x => new ValorConceptoEntity()
-                   {
-                       periodoID = x.periodoID.Value,
-                       trabajadorCategoriaPlanillaID = x.trabajadorCategoriaPlanillaID.Value,
-                       conceptoID = x.conceptoID.Value,
-                       valorConcepto = x.valorConcepto.Value,
-                       proveedorID = x.proveedorID.Value
-                   }).ToList();
+                if (lecturaProcesada != null && lecturaProcesada.Count() > 0)
+                {
+                    registrosAptos = lecturaProcesada
+                       .Where(x => x.esRegistroCorrecto)
+                       .Select(x => new ValorConceptoEntity()
+                       {
+                           periodoID = x.periodoID.Value,
+                           trabajadorCategoriaPlanillaID = x.trabajadorCategoriaPlanillaID.Value,
+                           conceptoID = x.conceptoID.Value,
+                           valorConcepto = x.valorConcepto.Value,
+                           proveedorID = x.proveedorID.Value
+                       }).ToList();
 
-                response = _valorExternoConceptoService.GrabarValoresExternos(registrosAptos, userID);
+                    if (registrosAptos.Count() > 0)
+                    {
+                        response = _valorExternoConceptoService.GrabarValoresExternos(registrosAptos, userID);
+                    }
+                    else
+                    {
+                        response = new Response()
+                        {
+                            Message = "No hay registros aptos para ser grabados."
+                        };
+                    }
+                }
+                else
+                {
+                    response = new Response()
+                    {
+                        Message = "No hay registros en el archivo."
+                    };
+                }
             }
             catch (Exception ex)
             {
@@ -260,6 +280,15 @@ namespace WebApp.ServiceFacade.Implementations
                     proveedorID = item.proveedorID
                 };
 
+                dto.esDuplicadoEnArchivo = (lectura.Count(x => x.anio == item.anio && x.anio == item.anio &&
+                    x.tipoDocumentoID == item.tipoDocumentoID && x.numDocumento == item.numDocumento && x.categoriaPlanillaID == item.categoriaPlanillaID &&
+                    x.conceptoCod == item.conceptoCod) > 1);
+
+                if (dto.esDuplicadoEnArchivo)
+                {
+                    dto.observaciones.Add("El concepto se encuentra duplicado dentro del archivo para este trabajador.");
+                }
+
                 if (dto.anio.HasValue && dto.anio.Value >= 1963 && dto.anio.Value <= 2099)
                 {
                     dto.esAnioCorrecto = true;
@@ -388,7 +417,7 @@ namespace WebApp.ServiceFacade.Implementations
 
                         if (dto.trabajadorExiste && _valorExternoConceptoService.ObtenerPorTrabajadorCategoriaPlanillaYConcepto(dto.trabajadorCategoriaPlanillaID.Value, dto.conceptoID.Value) != null)
                         {
-                            dto.esDuplicado = true;
+                            dto.esDuplicadoEnBD = true;
 
                             dto.observaciones.Add("El registro se encuentra duplicado.");
                         }
