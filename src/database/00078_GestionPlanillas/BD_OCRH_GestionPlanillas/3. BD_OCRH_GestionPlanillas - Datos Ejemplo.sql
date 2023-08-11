@@ -103,15 +103,15 @@ GO
 SET IDENTITY_INSERT TC_CategoriaPlanilla ON
 GO
 
-INSERT dbo.TC_CategoriaPlanilla(I_CategoriaPlanillaID, I_ClasePlanillaID, T_CategoriaPlanillaDesc, B_Habilitado, B_Eliminado) VALUES(1, 1, 'Haberes Administrativo', 1, 0)
-INSERT dbo.TC_CategoriaPlanilla(I_CategoriaPlanillaID, I_ClasePlanillaID, T_CategoriaPlanillaDesc, B_Habilitado, B_Eliminado) VALUES(2, 1, 'Haberes Docente', 1, 0)
-INSERT dbo.TC_CategoriaPlanilla(I_CategoriaPlanillaID, I_ClasePlanillaID, T_CategoriaPlanillaDesc, B_Habilitado, B_Eliminado) VALUES(3, 1, 'Haberes Médico', 1, 0)
-INSERT dbo.TC_CategoriaPlanilla(I_CategoriaPlanillaID, I_ClasePlanillaID, T_CategoriaPlanillaDesc, B_Habilitado, B_Eliminado) VALUES(4, 7, 'Pensiones', 1, 0)
-INSERT dbo.TC_CategoriaPlanilla(I_CategoriaPlanillaID, I_ClasePlanillaID, T_CategoriaPlanillaDesc, B_Habilitado, B_Eliminado) VALUES(5, 2, 'CAFAE', 1, 0)
-INSERT dbo.TC_CategoriaPlanilla(I_CategoriaPlanillaID, I_ClasePlanillaID, T_CategoriaPlanillaDesc, B_Habilitado, B_Eliminado) VALUES(6, 14, 'Docente Investigador', 1, 0)
-INSERT dbo.TC_CategoriaPlanilla(I_CategoriaPlanillaID, I_ClasePlanillaID, T_CategoriaPlanillaDesc, B_Habilitado, B_Eliminado) VALUES(7, 6, 'Practicante', 1, 0)
-INSERT dbo.TC_CategoriaPlanilla(I_CategoriaPlanillaID, I_ClasePlanillaID, T_CategoriaPlanillaDesc, B_Habilitado, B_Eliminado) VALUES(8, 14, 'Productividad', 1, 0)
-INSERT dbo.TC_CategoriaPlanilla(I_CategoriaPlanillaID, I_ClasePlanillaID, T_CategoriaPlanillaDesc, B_Habilitado, B_Eliminado) VALUES(9, 14, 'Generadora de Recursos', 1, 0)
+INSERT dbo.TC_CategoriaPlanilla(I_CategoriaPlanillaID, I_ClasePlanillaID, T_CategoriaPlanillaDesc, B_PlanillaCabecera, B_Habilitado, B_Eliminado) VALUES(1, 1, 'Haberes Administrativo', 1, 1, 0)
+INSERT dbo.TC_CategoriaPlanilla(I_CategoriaPlanillaID, I_ClasePlanillaID, T_CategoriaPlanillaDesc, B_PlanillaCabecera, B_Habilitado, B_Eliminado) VALUES(2, 1, 'Haberes Docente', 1, 1, 0)
+INSERT dbo.TC_CategoriaPlanilla(I_CategoriaPlanillaID, I_ClasePlanillaID, T_CategoriaPlanillaDesc, B_PlanillaCabecera, B_Habilitado, B_Eliminado) VALUES(3, 1, 'Haberes Médico', 1, 1, 0)
+INSERT dbo.TC_CategoriaPlanilla(I_CategoriaPlanillaID, I_ClasePlanillaID, T_CategoriaPlanillaDesc, B_PlanillaCabecera, B_Habilitado, B_Eliminado) VALUES(4, 7, 'Pensiones', 1, 1, 0)
+INSERT dbo.TC_CategoriaPlanilla(I_CategoriaPlanillaID, I_ClasePlanillaID, T_CategoriaPlanillaDesc, B_PlanillaCabecera, B_Habilitado, B_Eliminado) VALUES(5, 2, 'CAFAE', 0, 1, 0)
+INSERT dbo.TC_CategoriaPlanilla(I_CategoriaPlanillaID, I_ClasePlanillaID, T_CategoriaPlanillaDesc, B_PlanillaCabecera, B_Habilitado, B_Eliminado) VALUES(6, 14, 'Docente Investigador', 0, 1, 0)
+INSERT dbo.TC_CategoriaPlanilla(I_CategoriaPlanillaID, I_ClasePlanillaID, T_CategoriaPlanillaDesc, B_PlanillaCabecera, B_Habilitado, B_Eliminado) VALUES(7, 6, 'Practicante', 1, 1, 0)
+INSERT dbo.TC_CategoriaPlanilla(I_CategoriaPlanillaID, I_ClasePlanillaID, T_CategoriaPlanillaDesc, B_PlanillaCabecera, B_Habilitado, B_Eliminado) VALUES(8, 14, 'Productividad', 0, 1, 0)
+INSERT dbo.TC_CategoriaPlanilla(I_CategoriaPlanillaID, I_ClasePlanillaID, T_CategoriaPlanillaDesc, B_PlanillaCabecera, B_Habilitado, B_Eliminado) VALUES(9, 14, 'Generadora de Recursos', 0, 1, 0)
 GO
 
 SET IDENTITY_INSERT TC_CategoriaPlanilla OFF
@@ -302,7 +302,7 @@ INSERT dbo.TC_Proveedor(T_ProveedorDesc, B_Habilitado, B_Eliminado) VALUES('BANC
 GO
 
 
-
+/*
 DECLARE @B_Result BIT, @T_Message VARCHAR(250);EXEC USP_I_RegistrarTrabajador @C_TrabajadorCod = '00001',@T_ApellidoPaterno = 'Kareem Wiggins',@T_ApellidoMaterno = 'Rylee Forbes',@T_Nombre = 'Venus Booker',@I_TipoDocumentoID = 1,@C_NumDocumento = '00000001',@I_RegimenID = 1,@I_EstadoID = 1,@I_VinculoID = 4,@I_CategoriaDocenteID = 2,@I_HorasDocenteID = 3,@I_BancoID = 1,@T_NroCuentaBancaria = '123-123', @I_DependenciaID = 52,@I_UserID = 1,@B_Result = @B_Result OUTPUT,@T_Message = @T_Message OUTPUT 
 GO
 DECLARE @B_Result BIT, @T_Message VARCHAR(250);EXEC USP_I_RegistrarTrabajador @C_TrabajadorCod = '00002',@T_ApellidoPaterno = 'Steel Spears',@T_ApellidoMaterno = 'Mark Silva',@T_Nombre = 'Bernard Stevenson',@I_TipoDocumentoID = 1,@C_NumDocumento = '00000002',@I_RegimenID = 1,@I_EstadoID = 1,@I_VinculoID = 4,@I_CategoriaDocenteID = 2,@I_HorasDocenteID = 9,@I_BancoID = 1,@T_NroCuentaBancaria = '123-123', @I_DependenciaID = 52,@I_UserID = 1,@B_Result = @B_Result OUTPUT,@T_Message = @T_Message OUTPUT 
@@ -4303,3 +4303,4 @@ DECLARE @B_Result BIT, @T_Message VARCHAR(250);EXEC USP_I_RegistrarTrabajador @C
 GO
 DECLARE @B_Result BIT, @T_Message VARCHAR(250);EXEC USP_I_RegistrarTrabajador @C_TrabajadorCod = '02000',@T_ApellidoPaterno = 'Cairo Barker',@T_ApellidoMaterno = 'Tanisha Witt',@T_Nombre = 'Rogan Salas',@I_TipoDocumentoID = 1,@C_NumDocumento = '00002000',@I_RegimenID = 1,@I_EstadoID = 1,@I_VinculoID = 4,@I_CategoriaDocenteID = 2,@I_HorasDocenteID = 5,@I_BancoID = 1,@T_NroCuentaBancaria = '123-123', @I_DependenciaID = 52,@I_UserID = 1,@B_Result = @B_Result OUTPUT,@T_Message = @T_Message OUTPUT 
 GO
+*/

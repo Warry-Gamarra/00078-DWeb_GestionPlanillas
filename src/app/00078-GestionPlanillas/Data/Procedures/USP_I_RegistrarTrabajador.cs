@@ -14,6 +14,8 @@ namespace Data.Procedures
     {
         public string C_TrabajadorCod { get; set; }
 
+        public int? I_PersonaID { get; set; }
+
         public string T_ApellidoPaterno { get; set; }
 
         public string T_ApellidoMaterno { get; set; }
@@ -50,6 +52,8 @@ namespace Data.Procedures
 
         public int? I_NivelRemunerativoID { get; set; }
 
+        public int I_CategoriaPlanillaID { get; set; }
+
         public int I_UserID { get; set; }
 
         public Result Execute()
@@ -66,6 +70,7 @@ namespace Data.Procedures
                 {
                     parameters = new DynamicParameters();
                     parameters.Add(name: "C_TrabajadorCod", dbType: DbType.String, value: C_TrabajadorCod);
+                    parameters.Add(name: "I_PersonaID", dbType: DbType.Int32, value: I_PersonaID);
                     parameters.Add(name: "T_ApellidoPaterno", dbType: DbType.String, value: T_ApellidoPaterno);
                     parameters.Add(name: "T_ApellidoMaterno", dbType: DbType.String, value: T_ApellidoMaterno);
                     parameters.Add(name: "T_Nombre", dbType: DbType.String, value: T_Nombre);
@@ -85,6 +90,7 @@ namespace Data.Procedures
                     parameters.Add(name: "I_HorasDocenteID", dbType: DbType.Int32, value: I_HorasDocenteID);
                     parameters.Add(name: "I_GrupoOcupacionalID", dbType: DbType.Int32, value: I_GrupoOcupacionalID);
                     parameters.Add(name: "I_NivelRemunerativoID", dbType: DbType.Int32, value: I_NivelRemunerativoID);
+                    parameters.Add(name: "I_CategoriaPlanillaID", dbType: DbType.Int32, value: I_CategoriaPlanillaID);
                     parameters.Add(name: "B_Result", dbType: DbType.Boolean, direction: ParameterDirection.Output);
                     parameters.Add(name: "T_Message", dbType: DbType.String, size: 4000, direction: ParameterDirection.Output);
 

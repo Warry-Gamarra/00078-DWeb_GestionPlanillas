@@ -56,6 +56,8 @@ namespace WebApp.Models
 
         public string categoriaPlanillaDesc { get; set; }
 
+        public bool esPlanillaCabecera { get; set; }
+
         public bool seleccionado { get; set; }
 
         public bool tienePlanilla { get; set; }

@@ -169,6 +169,7 @@ namespace WebApp.Models
                 vinculoDesc = dto.vinculoDesc,
                 trabajadorCategoriaPlanillaID = dto.trabajadorCategoriaPlanillaID,
                 categoriaPlanillaID = dto.categoriaPlanillaID,
+                esPlanillaCabecera = dto.esPlanillaCabecera,
                 categoriaPlanillaDesc = dto.categoriaPlanillaDesc,
                 seleccionado = true
             };

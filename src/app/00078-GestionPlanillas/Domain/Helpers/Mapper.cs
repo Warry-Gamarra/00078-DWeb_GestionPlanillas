@@ -355,7 +355,8 @@ namespace Domain.Helpers
                 vinculoDesc = view.T_VinculoDesc,
                 trabajadorCategoriaPlanillaID = view.I_TrabajadorCategoriaPlanillaID,
                 categoriaPlanillaID = view.I_CategoriaPlanillaID,
-                categoriaPlanillaDesc = view.T_CategoriaPlanillaDesc
+                categoriaPlanillaDesc = view.T_CategoriaPlanillaDesc,
+                esPlanillaCabecera = view.B_PlanillaCabecera
             };
 
             return trabajadorCategoriaPlanillaDTO;

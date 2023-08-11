@@ -58,9 +58,7 @@ namespace WebApp.Controllers
         {
             ViewBag.Title = "Gestión de Trabajadores";
 
-            var lista = _trabajadorServiceFacade.ListarTrabajadores();
-
-            return View(lista);
+            return View();
         }
 
         [HttpGet]

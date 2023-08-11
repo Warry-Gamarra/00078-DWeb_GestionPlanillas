@@ -39,5 +39,7 @@ namespace Domain.Entities
         public int categoriaPlanillaID { get; set; }
 
         public string categoriaPlanillaDesc { get; set; }
+
+        public bool esPlanillaCabecera { get; set; }
     }
 }

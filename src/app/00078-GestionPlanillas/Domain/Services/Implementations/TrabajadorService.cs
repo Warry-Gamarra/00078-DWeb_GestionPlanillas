@@ -46,24 +46,34 @@ namespace Domain.Services.Implementations
         public Response GrabarTrabajador(Operacion operacion, TrabajadorEntity trabajadorEntity, int userID)
         {
             Result result;
-            bool nroDocumentoUnico = true;
-
+            bool registroDuplicado = false;
+            int categoriaPlanillaID;
+            TC_Persona persona;
+            VW_TrabajadoresCategoriaPlanilla trabajadoresCategoriaPlanilla;
             try
             {
                 switch (operacion)
                 {
                     case Operacion.Registrar:
 
-                        if (TC_Persona.FindByNumDocumento(trabajadorEntity.tipoDocumentoID, trabajadorEntity.numDocumento) != null)
+                        categoriaPlanillaID = (int)ObtenerCategoriaPlanillaSegunVinculo(trabajadorEntity.vinculoID);
+
+                        persona = TC_Persona.FindByNumDocumento(trabajadorEntity.tipoDocumentoID, trabajadorEntity.numDocumento);
+
+                        trabajadoresCategoriaPlanilla = VW_TrabajadoresCategoriaPlanilla.FindByDocumentoYCategoria(
+                            trabajadorEntity.tipoDocumentoID, trabajadorEntity.numDocumento, categoriaPlanillaID);
+
+                        if (trabajadoresCategoriaPlanilla != null)
                         {
-                            nroDocumentoUnico = false;
+                            registroDuplicado = true;
                         }
 
-                        if (nroDocumentoUnico)
+                        if (!registroDuplicado)
                         {
                             var grabarDocente = new USP_I_RegistrarTrabajador()
                             {
                                 C_TrabajadorCod = trabajadorEntity.trabajadorCod,
+                                I_PersonaID = (persona != null) ? persona.I_PersonaID : 0,
                                 T_ApellidoPaterno = trabajadorEntity.apellidoPaterno,
                                 T_ApellidoMaterno = trabajadorEntity.apellidoMaterno,
                                 T_Nombre = trabajadorEntity.nombre,
@@ -82,6 +92,7 @@ namespace Domain.Services.Implementations
                                 I_HorasDocenteID = trabajadorEntity.horasDocenteID,
                                 I_GrupoOcupacionalID = trabajadorEntity.grupoOcupacionalID,
                                 I_NivelRemunerativoID = trabajadorEntity.nivelRemunerativoID,
+                                I_CategoriaPlanillaID = categoriaPlanillaID,
                                 I_UserID = userID
                             };
 
@@ -104,14 +115,17 @@ namespace Domain.Services.Implementations
                             throw new Exception("Ha ocurrido un error al obtener los datos. Por favor recargue la página y vuelva a intentarlo.");
                         }
 
-                        var personaDTO = TC_Persona.FindByNumDocumento(trabajadorEntity.tipoDocumentoID, trabajadorEntity.numDocumento);
+                        categoriaPlanillaID = (int)ObtenerCategoriaPlanillaSegunVinculo(trabajadorEntity.vinculoID);
 
-                        if (personaDTO != null && personaDTO.I_PersonaID != trabajadorEntity.personaID)
+                        trabajadoresCategoriaPlanilla = VW_TrabajadoresCategoriaPlanilla.FindByDocumentoYCategoria(
+                            trabajadorEntity.tipoDocumentoID, trabajadorEntity.numDocumento, categoriaPlanillaID);
+
+                        if (trabajadoresCategoriaPlanilla != null && trabajadoresCategoriaPlanilla.I_TrabajadorID != trabajadorEntity.trabajadorID.Value)
                         {
-                            nroDocumentoUnico = false;
+                            registroDuplicado = true;
                         }
 
-                        if (nroDocumentoUnico)
+                        if (!registroDuplicado)
                         {
                             var actualizarDocente = new USP_U_ActualizarTrabajador()
                             {
@@ -195,6 +209,31 @@ namespace Domain.Services.Implementations
             }
 
             return trabajadorCategoriaPlanillaDTO;
+        }
+
+        private CategoriaPlanilla ObtenerCategoriaPlanillaSegunVinculo(int vinculoID)
+        {
+            CategoriaPlanilla categoriaPlanilla;
+
+            switch (vinculoID)
+            {
+                case 1:
+                    categoriaPlanilla = CategoriaPlanilla.HaberesAdministrativo;
+                    break;
+
+                case 2:
+                    categoriaPlanilla = CategoriaPlanilla.HaberesAdministrativo;
+                    break;
+
+                case 4:
+                    categoriaPlanilla = CategoriaPlanilla.HaberesDocente;
+                    break;
+
+                default:
+                    throw new NotImplementedException("Acción no implementada.");
+            }
+
+            return categoriaPlanilla;
         }
     }
 }

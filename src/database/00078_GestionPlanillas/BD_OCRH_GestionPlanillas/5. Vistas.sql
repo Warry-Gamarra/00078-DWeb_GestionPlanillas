@@ -15,8 +15,11 @@ SELECT
 	est.I_EstadoID, est.T_EstadoDesc, vin.I_VinculoID, vin.T_VinculoDesc,
 	trabdep.I_TrabajadorDependenciaID, dep.I_DependenciaID, dep.C_DependenciaCod, dep.T_DependenciaDesc,
 	cta.I_CuentaBancariaID, cta.T_NroCuentaBancaria, bco.I_BancoID, bco.T_BancoDesc, bco.T_BancoAbrv
-FROM dbo.TC_Trabajador AS trab INNER JOIN
-	dbo.TC_Persona AS per ON per.I_PersonaID = trab.I_PersonaID INNER JOIN
+FROM 
+	dbo.TC_Persona AS per INNER JOIN
+	dbo.TC_Trabajador AS trab ON trab.I_PersonaID = per.I_PersonaID INNER JOIN
+	dbo.TC_Trabajador_CategoriaPlanilla AS trabcat ON trabcat.I_TrabajadorID = trab.I_TrabajadorID INNER JOIN
+	dbo.TC_CategoriaPlanilla AS catpla ON catpla.I_CategoriaPlanillaID = trabcat.I_CategoriaPlanillaID INNER JOIN
 	dbo.TC_TipoDocumento AS tipdoc ON tipdoc.I_TipoDocumentoID = per.I_TipoDocumentoID LEFT JOIN
 	dbo.TC_Regimen AS reg ON reg.I_RegimenID = trab.I_RegimenID LEFT JOIN 
 	dbo.TC_Afp AS afp ON afp.I_AfpID = trab.I_AfpID INNER JOIN
@@ -26,7 +29,7 @@ FROM dbo.TC_Trabajador AS trab INNER JOIN
 	dbo.TC_Dependencia AS dep ON dep.I_DependenciaID = trabdep.I_DependenciaID LEFT JOIN
 	dbo.TC_CuentaBancaria AS cta ON cta.I_TrabajadorID = trab.I_TrabajadorID AND cta.B_Habilitado = 1 LEFT JOIN
 	dbo.TC_Banco AS bco ON bco.I_BancoID = cta.I_BancoID
-WHERE trab.B_Eliminado = 0 AND per.B_Eliminado = 0
+WHERE per.B_Eliminado = 0 AND trab.B_Eliminado = 0 AND trabcat.B_Eliminado = 0 AND catpla.B_PlanillaCabecera = 1
 GO
 
 
@@ -41,15 +44,17 @@ SELECT
 	trab.I_TrabajadorID, trab.C_TrabajadorCod, per.I_PersonaID, per.T_Nombre, per.T_ApellidoPaterno, per.T_ApellidoMaterno, 
 	tipdoc.I_TipoDocumentoID, tipdoc.T_TipoDocumentoDesc, per.C_NumDocumento,
 	est.I_EstadoID, est.T_EstadoDesc, vin.I_VinculoID, vin.T_VinculoDesc,
-	trabcat.I_TrabajadorCategoriaPlanillaID, catpla.I_CategoriaPlanillaID, catpla.T_CategoriaPlanillaDesc
-FROM dbo.TC_Trabajador AS trab INNER JOIN
-	dbo.TC_Persona AS per ON per.I_PersonaID = trab.I_PersonaID INNER JOIN
+	trabcat.I_TrabajadorCategoriaPlanillaID, catpla.I_CategoriaPlanillaID, catpla.T_CategoriaPlanillaDesc,
+	catpla.B_PlanillaCabecera
+FROM 
+	dbo.TC_Persona AS per INNER JOIN
+	dbo.TC_Trabajador AS trab ON trab.I_PersonaID = per.I_PersonaID INNER JOIN
 	dbo.TC_TipoDocumento AS tipdoc ON tipdoc.I_TipoDocumentoID = per.I_TipoDocumentoID INNER JOIN
 	dbo.TC_Estado AS est ON est.I_EstadoID = trab.I_EstadoID INNER JOIN 
 	dbo.TC_Vinculo AS vin ON vin.I_VinculoID = trab.I_VinculoID INNER JOIN
 	dbo.TC_Trabajador_CategoriaPlanilla AS trabcat ON trabcat.I_TrabajadorID = trab.I_TrabajadorID INNER JOIN
 	dbo.TC_CategoriaPlanilla AS catpla ON catpla.I_CategoriaPlanillaID = trabcat.I_CategoriaPlanillaID
-WHERE trab.B_Eliminado = 0 AND per.B_Eliminado = 0 AND trabcat.B_Habilitado = 1 AND trabcat.B_Eliminado = 0 
+WHERE per.B_Eliminado = 0 AND trab.B_Eliminado = 0 AND trabcat.B_Eliminado = 0 
 GO
 
 

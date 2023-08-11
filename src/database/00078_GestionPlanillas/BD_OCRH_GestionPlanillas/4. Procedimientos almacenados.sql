@@ -8,6 +8,7 @@ GO
 
 CREATE PROCEDURE [dbo].[USP_I_RegistrarTrabajador]
 @C_TrabajadorCod VARCHAR(20),
+@I_PersonaID INT = NULL,
 @T_ApellidoPaterno VARCHAR(250),
 @T_ApellidoMaterno VARCHAR(250),
 @T_Nombre VARCHAR(250),
@@ -26,6 +27,7 @@ CREATE PROCEDURE [dbo].[USP_I_RegistrarTrabajador]
 @I_HorasDocenteID INT = NULL,
 @I_GrupoOcupacionalID INT = NULL,
 @I_NivelRemunerativoID INT = NULL,
+@I_CategoriaPlanillaID INT,
 @I_UserID INT,
 @B_Result BIT OUTPUT,
 @T_Message VARCHAR(250) OUTPUT
@@ -33,48 +35,42 @@ AS
 BEGIN
 	SET NOCOUNT ON;
 
-	--CONSTANTE
-	DECLARE @I_ADMINISTRATIVOID INT = 1,
-			@I_DOCENTEID INT = 2;
-
-	DECLARE @I_PersonaID INT,
-			@I_TrabajadorID INT,
+	DECLARE @I_TrabajadorID INT,
 			@D_FecCre DATETIME;
 
 	BEGIN TRAN
 	BEGIN TRY
 		SET @D_FecCre = GETDATE()
 
-		INSERT dbo.TC_Persona(T_ApellidoPaterno, T_ApellidoMaterno, T_Nombre, I_TipoDocumentoID, C_NumDocumento, B_Habilitado, B_Eliminado, I_UsuarioCre, D_FecCre)
-		VALUES(@T_ApellidoPaterno, @T_ApellidoMaterno, @T_Nombre, @I_TipoDocumentoID, @C_NumDocumento, 1, 0, @I_UserID, @D_FecCre)
+		IF (@I_PersonaID IS NULL OR @I_PersonaID = 0) BEGIN
+			INSERT dbo.TC_Persona(T_ApellidoPaterno, T_ApellidoMaterno, T_Nombre, I_TipoDocumentoID, C_NumDocumento, B_Eliminado, I_UsuarioCre, D_FecCre)
+			VALUES(@T_ApellidoPaterno, @T_ApellidoMaterno, @T_Nombre, @I_TipoDocumentoID, @C_NumDocumento, 0, @I_UserID, @D_FecCre);
 
-		SET @I_PersonaID = SCOPE_IDENTITY()
+			SET @I_PersonaID = SCOPE_IDENTITY();
+		END
 
-		INSERT dbo.TC_Trabajador(I_PersonaID, C_TrabajadorCod, D_FechaIngreso, I_EstadoID, I_VinculoID, I_RegimenID, I_AfpID, T_Cuspp, B_Habilitado, B_Eliminado, I_UsuarioCre, D_FecCre)
-		VALUES(@I_PersonaID, @C_TrabajadorCod, @D_FechaIngreso, @I_EstadoID, @I_VinculoID, @I_RegimenID, @I_AfpID, @T_Cuspp, 1, 0, @I_UserID, @D_FecCre)
+		INSERT dbo.TC_Trabajador(I_PersonaID, C_TrabajadorCod, D_FechaIngreso, I_EstadoID, I_VinculoID, I_RegimenID, I_AfpID, T_Cuspp, B_Eliminado, I_UsuarioCre, D_FecCre)
+		VALUES(@I_PersonaID, @C_TrabajadorCod, @D_FechaIngreso, @I_EstadoID, @I_VinculoID, @I_RegimenID, @I_AfpID, @T_Cuspp, 0, @I_UserID, @D_FecCre);
 
-		SET @I_TrabajadorID = SCOPE_IDENTITY()
+		SET @I_TrabajadorID = SCOPE_IDENTITY();
 
 		INSERT dbo.TC_Trabajador_Dependencia(I_TrabajadorID, I_DependenciaID, B_Habilitado, B_Eliminado, I_UsuarioCre, D_FecCre)
-		VALUES(@I_TrabajadorID, @I_DependenciaID, 1, 0, @I_UserID, @D_FecCre)
+		VALUES(@I_TrabajadorID, @I_DependenciaID, 1, 0, @I_UserID, @D_FecCre);
 
 		INSERT dbo.TC_CuentaBancaria(I_TrabajadorID, I_BancoID, T_NroCuentaBancaria, B_Habilitado, B_Eliminado, I_UsuarioCre, D_FecCre)
-		VALUES(@I_TrabajadorID, @I_BancoID, @T_NroCuentaBancaria, 1, 0, @I_UserID, @D_FecCre)
+		VALUES(@I_TrabajadorID, @I_BancoID, @T_NroCuentaBancaria, 1, 0, @I_UserID, @D_FecCre);
+
+		INSERT dbo.TC_Trabajador_CategoriaPlanilla(I_TrabajadorID, I_CategoriaPlanillaID, B_Habilitado, B_Eliminado, I_UsuarioCre, D_FecCre)
+		VALUES(@I_TrabajadorID, @I_CategoriaPlanillaID, 1, 0, @I_UserID, @D_FecCre);
 
 		IF (@I_VinculoID IN (1,2)) BEGIN
 			INSERT dbo.TC_Administrativo(I_TrabajadorID, I_GrupoOcupacionalID, I_NivelRemunerativoID, B_Habilitado, B_Eliminado, I_UsuarioCre, D_FecCre)
 			VALUES(@I_TrabajadorID, @I_GrupoOcupacionalID, @I_NivelRemunerativoID, 1, 0, @I_UserID, @D_FecCre)
-
-			INSERT dbo.TC_Trabajador_CategoriaPlanilla(I_TrabajadorID, I_CategoriaPlanillaID, B_Habilitado, B_Eliminado, I_UsuarioCre, D_FecCre)
-			VALUES(@I_TrabajadorID, @I_ADMINISTRATIVOID, 1, 0, @I_UserID, @D_FecCre)
 		END
 
 		IF (@I_VinculoID = 4) BEGIN
 			INSERT dbo.TC_Docente(I_TrabajadorID, I_CategoriaDocenteID, I_HorasDocenteID, B_Habilitado, B_Eliminado, I_UsuarioCre, D_FecCre)
 			VALUES(@I_TrabajadorID, @I_CategoriaDocenteID, @I_HorasDocenteID, 1, 0, @I_UserID, @D_FecCre)
-
-			INSERT dbo.TC_Trabajador_CategoriaPlanilla(I_TrabajadorID, I_CategoriaPlanillaID, B_Habilitado, B_Eliminado, I_UsuarioCre, D_FecCre)
-			VALUES(@I_TrabajadorID, @I_DOCENTEID, 1, 0, @I_UserID, @D_FecCre)
 		END
 
 		COMMIT TRAN
@@ -597,7 +593,7 @@ BEGIN
 		INNER JOIN dbo.TC_GrupoOcupacional gr ON gr.I_GrupoOcupacionalID = adm.I_GrupoOcupacionalID
 		INNER JOIN dbo.TC_NivelRemunerativo nivrem ON nivrem.I_NivelRemunerativoID = adm.I_NivelRemunerativoID
 		INNER JOIN @Tbl_Trabajador tmp ON tmp.I_ID = trab.I_TrabajadorID
-		WHERE trab.B_Habilitado = 1 AND trab.B_Eliminado = 0 AND 
+		WHERE trab.B_Eliminado = 0 AND 
 			adm.B_Habilitado = 1 AND adm.B_Eliminado = 0 AND 
 			tca.B_Habilitado = 1 AND tca.B_Eliminado = 0 AND tca.I_CategoriaPlanillaID = @I_CategoriaPlanillaID AND
 			NOT EXISTS(SELECT pl.I_PlanillaID FROM dbo.TR_Planilla pl 
@@ -613,7 +609,7 @@ BEGIN
 		INNER JOIN dbo.TC_CategoriaDocente cd ON cd.I_CategoriaDocenteID = doc.I_CategoriaDocenteID
 		INNER JOIN dbo.TC_HorasDocente hd ON hd.I_HorasDocenteID = doc.I_HorasDocenteID
 		INNER JOIN @Tbl_Trabajador tmp ON tmp.I_ID = trab.I_TrabajadorID
-		WHERE trab.B_Habilitado = 1 AND trab.B_Eliminado = 0 AND 
+		WHERE trab.B_Eliminado = 0 AND 
 			doc.B_Habilitado = 1 AND doc.B_Eliminado = 0 AND 
 			tca.B_Habilitado = 1 AND tca.B_Eliminado = 0 AND tca.I_CategoriaPlanillaID = @I_CategoriaPlanillaID AND
 			NOT EXISTS(SELECT pl.I_PlanillaID FROM dbo.TR_Planilla pl 

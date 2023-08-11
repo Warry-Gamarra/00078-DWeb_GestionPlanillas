@@ -43,6 +43,8 @@ namespace Data.Views
 
         public string T_CategoriaPlanillaDesc { get; set; }
 
+        public bool B_PlanillaCabecera { get;set; }
+
         public static IEnumerable<VW_TrabajadoresCategoriaPlanilla> FindByFilters(int? I_CategoriaPlanillaID = null)
         {
             IEnumerable<VW_TrabajadoresCategoriaPlanilla> result;
