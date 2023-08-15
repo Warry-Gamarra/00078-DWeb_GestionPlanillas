@@ -25,5 +25,14 @@ namespace WebApp.ServiceFacade.Implementations
 
             return result;
         }
+
+        public List<PersonaModel> ListarPersonasPorDocIdentidad(int tipoDocumentoID, string numDocumento)
+        {
+            var lista = _personaService.ListarPersonasPorDocIdentidad(tipoDocumentoID, numDocumento);
+
+            var result = lista.Select(x => Mapper.PersonaDTO_To_PersonaModel(x)).ToList();
+
+            return result;
+        }
     }
 }

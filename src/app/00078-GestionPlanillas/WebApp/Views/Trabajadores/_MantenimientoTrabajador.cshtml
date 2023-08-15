@@ -230,6 +230,43 @@
 
             habilitarAfp(regimenID);
         });
+
+        $('#numDocumento').autocomplete({
+            source: function (request, response) {
+                var inputText = request.term.trim();
+
+                if (inputText.length >= 6) {
+                    $.ajax({
+                        url: '@Url.Action("ObtenerPersonasPorDocIdentidad", "General")/',
+                        data: {
+                            numDocumento: request.term,
+                            tipoDocumentoID: $('#tipoDocumentoID').val()
+                        },
+                        dataType: 'json',
+                        success: function (data) {
+                            if (data.Success) {
+                                var formattedData = data.Result.map(function (persona) {
+                                    return {
+                                        label: `${persona.apellidoPaterno} ${persona.apellidoMaterno}, ${persona.nombre} - ${persona.numDocumento}`,
+                                        value: persona.numDocumento,
+                                        persona: persona
+                                    };
+                                });
+                                response(formattedData.slice(0, 15));
+                            }
+                        }
+                    });
+                }
+            },
+            select: function (event, ui) {
+                var persona = ui.item.persona;
+                $('#numDocumento').val(persona.numDocumento);
+                $('#apellidoPaterno').val(persona.apellidoPaterno);
+                $('#apellidoMaterno').val(persona.apellidoMaterno);
+                $('#nombre').val(persona.nombre);
+                return false;
+            }
+        });
     });
 
     function mostrarFiltroSegunVinculo(vinculoID) {

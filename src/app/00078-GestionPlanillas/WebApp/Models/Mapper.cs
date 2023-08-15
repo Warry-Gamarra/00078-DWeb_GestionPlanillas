@@ -280,8 +280,7 @@ namespace WebApp.Models
                 apellidoPaterno = dto.apellidoPaterno,
                 apellidoMaterno = dto.apellidoMaterno,
                 fecNac = dto.fecNac,
-                cui = dto.cui,
-                estaHabilitado = dto.estaHabilitado
+                cui = dto.cui
             };
 
             return model;

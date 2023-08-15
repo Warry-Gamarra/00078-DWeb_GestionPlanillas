@@ -10,5 +10,7 @@ namespace Domain.Services
     public interface IPersonaService
     {
         PersonaDTO ObtenerPersona(int tipoDocumentoID, string numDocumento);
+
+        List<PersonaDTO> ListarPersonasPorDocIdentidad(int tipoDocumentoID, string numDocumento);
     }
 }

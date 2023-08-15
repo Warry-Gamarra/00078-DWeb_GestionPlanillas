@@ -28,5 +28,14 @@ namespace Domain.Services.Implementations
 
             return personaDTO;
         }
+
+        public List<PersonaDTO> ListarPersonasPorDocIdentidad(int tipoDocumentoID, string numDocumento)
+        {
+            var lista = TC_Persona.ListByNumDocumento(tipoDocumentoID, numDocumento); ;
+
+            var result = lista.Select(x => Mapper.TC_Persona_To_PersonaDTO(x)).ToList();
+
+            return result;
+        }
     }
 }

@@ -27,8 +27,6 @@ namespace Data.Tables
 
         public string C_Cui { get; set; }
 
-        public bool B_Habilitado { get; set; }
-
         public static TC_Persona FindByNumDocumento(int I_TipoDocumentoID, string C_NumDocumento)
         {
             TC_Persona result;
@@ -43,6 +41,32 @@ namespace Data.Tables
                         I_TipoDocumentoID = I_TipoDocumentoID,
                         C_NumDocumento = C_NumDocumento
                     },commandType: System.Data.CommandType.Text);
+                }
+            }
+            catch (Exception)
+            {
+                result = null;
+            }
+
+            return result;
+        }
+
+        public static List<TC_Persona> ListByNumDocumento(int I_TipoDocumentoID, string C_NumDocumento)
+        {
+            List<TC_Persona> result;
+
+            try
+            {
+                string s_command = @"SELECT * FROM dbo.TC_Persona 
+                    WHERE B_Eliminado = 0 AND I_TipoDocumentoID = @I_TipoDocumentoID AND C_NumDocumento LIKE @C_NumDocumento + '%';";
+
+                using (var _dbConnection = new SqlConnection(Database.ConnectionString))
+                {
+                    result = _dbConnection.Query<TC_Persona>(s_command, new
+                    {
+                        I_TipoDocumentoID = I_TipoDocumentoID,
+                        C_NumDocumento = C_NumDocumento ?? ""
+                    }, commandType: System.Data.CommandType.Text).ToList();
                 }
             }
             catch (Exception)

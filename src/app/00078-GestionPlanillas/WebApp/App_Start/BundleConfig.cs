@@ -11,6 +11,7 @@ namespace WebApp
             bundles.Add(new StyleBundle("~/content/css").Include(
                 "~/Assets/bootstrap/css/bootstrap.min.css",
                 "~/Assets/grid-mvc/css/Gridmvc.css",
+                "~/Assets/jquery/css/jquery-ui.min.css",
                 "~/Assets/toastr/css/toastr.min.css",
                 "~/Assets/application/css/main.css",
                 "~/Assets/application/css/loaders.css",
@@ -31,12 +32,12 @@ namespace WebApp
 
 
             bundles.Add(new ScriptBundle("~/bundles/jquery").Include(
-                "~/Assets/jquery/jquery-3.3.1.min.js",
-                "~/Assets/jquery/jquery-ui.min.js"));
+                "~/Assets/jquery/js/jquery-3.3.1.min.js",
+                "~/Assets/jquery/js/jquery-ui.min.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/jqueryval").Include(
-                "~/Assets/jquery/jquery.validate*",
-                "~/Assets/jquery/jquery.validate.date.js"));
+                "~/Assets/jquery/js/jquery.validate*",
+                "~/Assets/jquery/js/jquery.validate.date.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/bootstrap").Include(
                 "~/Assets/bootstrap/js/popper.min.js",
@@ -67,7 +68,7 @@ namespace WebApp
             bundles.Add(new ScriptBundle("~/bundles/fileinput").Include(
                 "~/Assets/fileInput/js/fileinput.min.js",
                 "~/Assets/fileInput/js/locales/es.js",
-                "~/Assets/jquery/jquery.form.js"));
+                "~/Assets/jquery/js/jquery.form.js"));
 
         }
     }

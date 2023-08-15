@@ -10,5 +10,7 @@ namespace WebApp.ServiceFacade
     public interface IPersonaServiceFacade
     {
         PersonaModel ObtenerPersona(int tipoDocumentoID, string numDocumento);
+
+        List<PersonaModel> ListarPersonasPorDocIdentidad(int tipoDocumentoID, string numDocumento);
     }
 }

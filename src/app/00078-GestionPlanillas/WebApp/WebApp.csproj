@@ -45,9 +45,6 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="GridMvc, Version=2.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Grid.Mvc.3.1.0-ci1036\lib\net40\GridMvc.dll</HintPath>
-    </Reference>
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System" />
     <Reference Include="System.Data" />
@@ -317,33 +314,22 @@
     <Content Include="Assets\font-awesome\css\font-awesome.css" />
     <Content Include="Assets\font-awesome\css\font-awesome.min.css" />
     <Content Include="Assets\font-awesome\fonts\fontawesome-webfont.svg" />
-    <Content Include="Assets\grid-mvc\css\font-awesome.css" />
-    <Content Include="Assets\grid-mvc\css\font-awesome.min.css" />
-    <Content Include="Assets\grid-mvc\css\Gridmvc.css" />
-    <Content Include="Assets\grid-mvc\css\gridmvc.datepicker.css" />
-    <Content Include="Assets\grid-mvc\css\gridmvc.datepicker.min.css" />
-    <Content Include="Assets\grid-mvc\css\ladda-bootstrap\ladda-themeless.min.css" />
-    <Content Include="Assets\grid-mvc\js\gridmvc.js" />
-    <Content Include="Assets\grid-mvc\js\gridmvc.lang.fr.js" />
-    <Content Include="Assets\grid-mvc\js\gridmvc.lang.ru.js" />
-    <Content Include="Assets\grid-mvc\js\gridmvc.min.js" />
-    <Content Include="Assets\grid-mvc\js\ladda-bootstrap\ladda.min.js" />
-    <Content Include="Assets\grid-mvc\js\ladda-bootstrap\spin.min.js" />
     <Content Include="Assets\images\avatar_2x.png" />
     <Content Include="Assets\images\backgound.png" />
     <Content Include="Assets\images\logo-inverted.png" />
     <Content Include="Assets\images\logo.png" />
     <Content Include="Assets\images\unknown.png" />
-    <None Include="Assets\jquery\jquery-3.3.1.intellisense.js" />
-    <Content Include="Assets\jquery\jquery-3.3.1.min.js" />
-    <Content Include="Assets\jquery\jquery-ui.min.js" />
-    <Content Include="Assets\jquery\jquery.form.js" />
-    <Content Include="Assets\jquery\jquery.unobtrusive-ajax.js" />
-    <None Include="Assets\jquery\jquery.validate-vsdoc.js" />
-    <Content Include="Assets\jquery\jquery.validate.date.js" />
-    <Content Include="Assets\jquery\jquery.validate.js" />
-    <Content Include="Assets\jquery\jquery.validate.unobtrusive.js" />
-    <Content Include="Assets\jquery\modernizr-2.6.2.js" />
+    <None Include="Assets\jquery\js\jquery-3.3.1.intellisense.js" />
+    <Content Include="Assets\jquery\css\jquery-ui.min.css" />
+    <Content Include="Assets\jquery\js\jquery-3.3.1.min.js" />
+    <Content Include="Assets\jquery\js\jquery-ui.min.js" />
+    <Content Include="Assets\jquery\js\jquery.form.js" />
+    <Content Include="Assets\jquery\js\jquery.unobtrusive-ajax.js" />
+    <None Include="Assets\jquery\js\jquery.validate-vsdoc.js" />
+    <Content Include="Assets\jquery\js\jquery.validate.date.js" />
+    <Content Include="Assets\jquery\js\jquery.validate.js" />
+    <Content Include="Assets\jquery\js\jquery.validate.unobtrusive.js" />
+    <Content Include="Assets\jquery\js\modernizr-2.6.2.js" />
     <Content Include="Assets\select2\css\select2-bootstrap4.css" />
     <Content Include="Assets\select2\css\select2-bootstrap4.min.css" />
     <Content Include="Assets\select2\css\select2.css" />
@@ -429,7 +415,7 @@
     <Content Include="Assets\font-awesome\fonts\fontawesome-webfont.woff" />
     <Content Include="Assets\font-awesome\fonts\fontawesome-webfont.woff2" />
     <Content Include="Assets\font-awesome\fonts\FontAwesome.otf" />
-    <Content Include="Assets\jquery\jquery-3.3.1.min.map" />
+    <Content Include="Assets\jquery\js\jquery-3.3.1.min.map" />
     <Content Include="Assets\toastr\js\toastr.js.map" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
@@ -448,7 +434,6 @@
     <Content Include="Views\Shared\_Sidebar.cshtml" />
     <Content Include="Views\Shared\_GridPager.cshtml" />
     <Content Include="Views\Shared\_Grid.cshtml" />
-    <Content Include="Grid.mvc.readme" />
     <Content Include="Views\Account\Login.cshtml" />
     <Content Include="Views\Trabajadores\Index.cshtml" />
     <Content Include="Views\Planillas\Index.cshtml" />

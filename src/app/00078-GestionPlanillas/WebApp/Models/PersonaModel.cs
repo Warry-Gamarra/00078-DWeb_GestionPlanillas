@@ -22,7 +22,5 @@ namespace WebApp.Models
         public DateTime fecNac { get; set; }
 
         public string cui { get; set; }
-
-        public bool estaHabilitado { get; set; }
     }
 }

@@ -305,8 +305,7 @@ namespace Domain.Helpers
                 apellidoPaterno = table.T_ApellidoPaterno,
                 apellidoMaterno = table.T_ApellidoMaterno,
                 fecNac = table.D_FecNac,
-                cui = table.C_Cui,
-                estaHabilitado = table.B_Habilitado
+                cui = table.C_Cui
             };
 
             return personaDTO;
