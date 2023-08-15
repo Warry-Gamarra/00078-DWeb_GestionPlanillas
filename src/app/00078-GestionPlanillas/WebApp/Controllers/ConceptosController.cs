@@ -12,6 +12,7 @@ using WebMatrix.WebData;
 
 namespace WebApp.Controllers
 {
+    [Authorize]
     public class ConceptosController : Controller
     {
         private IConceptoServiceFacade _conceptoServiceFacade;

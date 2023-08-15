@@ -12,6 +12,7 @@ using WebMatrix.WebData;
 
 namespace WebApp.Controllers
 {
+    [Authorize]
     public class ValoresExternosController : Controller
     {
         IValorExternoConceptoServiceFacade _valorExternoConceptoServiceFacade;

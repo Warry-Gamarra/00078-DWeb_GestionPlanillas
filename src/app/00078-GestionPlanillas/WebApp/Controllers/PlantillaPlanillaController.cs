@@ -13,6 +13,7 @@ using WebMatrix.WebData;
 
 namespace WebApp.Controllers
 {
+    [Authorize]
     public class PlantillaPlanillaController : Controller
     {
         private ICategoriaPlanillaServiceFacade _categoriaPlanillaServiceFacade;

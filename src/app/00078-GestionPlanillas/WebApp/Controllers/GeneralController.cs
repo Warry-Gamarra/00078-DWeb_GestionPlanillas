@@ -10,6 +10,7 @@ using WebApp.ServiceFacade.Implementations;
 
 namespace WebApp.Controllers
 {
+    [Authorize]
     public class GeneralController : Controller
     {
         private IPeriodoServiceFacade _periodoServiceFacade;

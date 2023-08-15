@@ -15,6 +15,7 @@ using WebMatrix.WebData;
 
 namespace WebApp.Controllers
 {
+    [Authorize]
     public class PlanillasController : Controller
     {
         private IPlanillaServiceFacade _planillaServiceFacade;

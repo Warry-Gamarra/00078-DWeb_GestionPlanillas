@@ -14,6 +14,7 @@ using WebMatrix.WebData;
 
 namespace WebApp.Controllers
 {
+    [Authorize]
     public class TrabajadoresController : Controller
     {
         private ITrabajadorServiceFacade _trabajadorServiceFacade;
