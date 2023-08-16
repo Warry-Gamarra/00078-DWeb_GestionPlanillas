@@ -43,11 +43,11 @@ namespace Domain.Services.Implementations
                     case Operacion.Registrar:
 
                         string password = RandomPassword.Generate(8, RandomPassword.PASSWORD_CHARS_ALPHANUMERIC);
-
+                        result = new Result();
                         break;
 
                     case Operacion.Actualizar:
-
+                        result = new Result();
                         break;
 
                     default:
