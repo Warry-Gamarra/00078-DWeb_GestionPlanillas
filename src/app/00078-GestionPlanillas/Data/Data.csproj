@@ -81,6 +81,7 @@
     <Compile Include="Tables\TC_TipoDocumento.cs" />
     <Compile Include="Tables\TC_Vinculo.cs" />
     <Compile Include="Tables\TR_Periodo.cs" />
+    <Compile Include="Tables\Webpages_Roles.cs" />
     <Compile Include="Views\VW_Conceptos.cs" />
     <Compile Include="Views\VW_ConceptosAsignados_Plantilla.cs" />
     <Compile Include="Views\VW_ConceptosReferencia_Plantilla.cs" />

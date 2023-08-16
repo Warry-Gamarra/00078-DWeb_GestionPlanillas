@@ -1,1 +1,90 @@
-﻿
+﻿@model WebApp.Models.UsuarioModel
+@Scripts.Render("~/bundles/jqueryval")
+
+<div class="modal-header bg-dark-gray" style="border-radius: .2rem .2rem 0px 0px">
+    <h5 class="modal-title text-center"><i class="fa fa-user">&nbsp;</i>&nbsp;@ViewBag.Title</h5>
+    <button id="btn-close-header" type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+</div>
+
+@using (Ajax.BeginForm("Registrar", "Users", 
+    new AjaxOptions { 
+        HttpMethod = "POST", 
+        InsertionMode = InsertionMode.Replace, 
+        UpdateTargetId = "div_msg", 
+        OnBegin = "Load", 
+        OnComplete = "Stop" }))
+{
+    <div class="modal-body">
+        <div class="row">
+            <div class="container-fluid">
+                @Html.AntiForgeryToken()
+                @Html.HiddenFor(model => model.userId)
+                
+                <fieldset class="col-md-12">
+                    <legend>Datos de la cuenta</legend>
+                    <div class="row form-group">
+                        @Html.LabelFor(m => m.userName, new { @class = "col-md-3 control-label" })
+                        <div class="col-md-9">
+                            @Html.TextBoxFor(m => m.userName, new { @class = "form-control", placeholder = "Nombre de la cuenta" })
+                            <p class="col-md-12 small text-danger">@Html.ValidationMessageFor(model => model.userName)</p>
+                        </div>
+                    </div>
+
+                    <div class="row form-group">
+                        @Html.LabelFor(m => m.roleId, new { @class = "col-md-3 control-label" })
+                        <div class="col-md-9">
+                            @Html.DropDownListFor(m => m.roleId, ViewBag.ListaRoles as SelectList, "Seleccionar rol", new { @class = "form-control form-inline" })
+                            <p class="col-md-12 small text-danger">@Html.ValidationMessageFor(model => model.roleId)</p>
+                        </div>
+                    </div>
+
+                    <div class="row form-group" id="opt-dependencias">
+                        @Html.LabelFor(m => m.dependenciaID, new { @class = "col-md-3 control-label" })
+                        <div class="col-md-9">
+                            @Html.DropDownListFor(m => m.dependenciaID, ViewBag.ListaDependencias as SelectList, "Seleccionar dependencia", new { @class = "form-control" })
+                            <p class="col-md-12 small text-danger">@Html.ValidationMessageFor(model => model.dependenciaID)</p>
+                        </div>
+                    </div>
+                </fieldset>
+
+                <fieldset class="col-md-12">
+                    <legend>Datos del propietario de la cuenta</legend>
+                    <div class="row form-group">
+                        @Html.LabelFor(m => m.nomPersona, new { @class = "col-md-3 control-label" })
+                        <div class="col-md-9">
+                            @Html.TextBoxFor(m => m.nomPersona, new { @class = "form-control", placeholder = "Ingrese apellido paterno aquí" })
+                            <p class="small text-danger">@Html.ValidationMessageFor(model => model.nomPersona)</p>
+                        </div>
+                    </div>
+                    <div class="row form-group">
+                        @Html.LabelFor(m => m.correoUsuario, new { @class = "col-md-3 control-label" })
+                        <div class="col-md-9">
+                            @Html.TextBoxFor(m => m.correoUsuario, new { @class = "form-control", placeholder = "ejemplo: abc@dominio.com" })
+                            <p class="small text-danger">@Html.ValidationMessageFor(model => model.correoUsuario)</p>
+                        </div>
+                    </div>
+                </fieldset>
+            </div>
+
+        </div>
+    </div>
+
+    <div class="modal-footer" id="div_msg">
+        <div class="col-md-12" style="display:none" id="loading">
+            @if (Model.userId.HasValue)
+            {
+                <h6>Actualizando los datos...</h6>
+            }
+            else
+            {
+                <h6>Creando la cuenta y enviando mensaje...</h6>
+            }
+            <div class="progress">
+                <div class="indeterminate"></div>
+            </div>
+        </div>
+
+        <button type="submit" class="btn btn-primary" id="btnsubmit"><i class="fa fa-save"></i>&nbsp;Guardar</button>
+        <button type="button" class="btn btn-secondary" data-dismiss="modal" id="btn-cancelar"><i class="fa fa-times-circle-o">&nbsp;</i>Cancelar</button>
+    </div>
+}

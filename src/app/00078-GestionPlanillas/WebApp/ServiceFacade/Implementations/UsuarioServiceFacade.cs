@@ -40,7 +40,6 @@ namespace WebApp.ServiceFacade.Implementations
                     nomPersona = usuarioModel.nomPersona,
                     correoUsuario = usuarioModel.correoUsuario,
                     roleId = usuarioModel.roleId,
-                    roleName = usuarioModel.roleName,
                     dependenciaID = usuarioModel.dependenciaID
                 };
 

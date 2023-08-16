@@ -38,7 +38,26 @@ namespace Domain.Services.Implementations
 
             try
             {
-                result = null;
+                switch(operacion)
+                {
+                    case Operacion.Registrar:
+
+                        string password = RandomPassword.Generate(8, RandomPassword.PASSWORD_CHARS_ALPHANUMERIC);
+
+                        break;
+
+                    case Operacion.Actualizar:
+
+                        break;
+
+                    default:
+                        result = new Result()
+                        {
+                            Message = "No se reconoce la operación a realizar."
+                        };
+
+                        break;
+                }
             }
             catch (Exception ex)
             {

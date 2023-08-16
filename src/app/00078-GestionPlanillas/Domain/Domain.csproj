@@ -55,6 +55,7 @@
     <Compile Include="Entities\ConceptoAsignadoPlantillaDTO.cs" />
     <Compile Include="Entities\PeriodoDTO.cs" />
     <Compile Include="Entities\ProveedorDTO.cs" />
+    <Compile Include="Entities\RolDTO.cs" />
     <Compile Include="Entities\UsuarioDTO.cs" />
     <Compile Include="Entities\UsuarioEntity.cs" />
     <Compile Include="Entities\ValorConceptoEntity.cs" />
@@ -88,6 +89,7 @@
     <Compile Include="Enums\Vinculo.cs" />
     <Compile Include="Helpers\AjaxResponse.cs" />
     <Compile Include="Helpers\Mapper.cs" />
+    <Compile Include="Helpers\RandomPassword.cs" />
     <Compile Include="Helpers\Response.cs" />
     <Compile Include="Helpers\WebConfigParams.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -122,6 +124,7 @@
     <Compile Include="Services\Implementations\PlantillaPlanillaService.cs" />
     <Compile Include="Services\Implementations\ProveedorService.cs" />
     <Compile Include="Services\Implementations\RegimenService.cs" />
+    <Compile Include="Services\Implementations\RolService.cs" />
     <Compile Include="Services\Implementations\TipoConceptoService.cs" />
     <Compile Include="Services\Implementations\TipoDocumentoService.cs" />
     <Compile Include="Services\Implementations\UsuarioService.cs" />
@@ -143,6 +146,7 @@
     <Compile Include="Services\IUsuarioService.cs" />
     <Compile Include="Services\IValorExternoConceptoService.cs" />
     <Compile Include="Services\IVinculoService.cs" />
+    <Compile Include="Services\IRolService.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Data\Data.csproj">

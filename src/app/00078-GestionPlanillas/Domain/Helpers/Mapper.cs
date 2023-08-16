@@ -593,5 +593,16 @@ namespace Domain.Helpers
 
             return usuarioDTO;
         }
+
+        public static RolDTO Webpages_Roles_To_Webpages_Roles(Webpages_Roles table)
+        {
+            var rolDTO = new RolDTO()
+            {
+                roleId = table.RoleId,
+                roleName = table.RoleName
+            };
+
+            return rolDTO;
+        }
     }
 }

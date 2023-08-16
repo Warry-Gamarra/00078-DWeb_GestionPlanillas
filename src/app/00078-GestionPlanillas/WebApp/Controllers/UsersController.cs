@@ -17,10 +17,14 @@ namespace WebApp.Controllers
     public class UsersController : Controller
     {
         private IUsuarioServiceFacade _usuarioServiceFacade;
+        private IRolServiceFacade _rolServiceFacade;
+        private IDependenciaServiceFacade _dependenciaServiceFacade;
 
         public UsersController()
         {
             _usuarioServiceFacade = new UsuarioServiceFacade();
+            _rolServiceFacade = new RolServiceFacade();
+            _dependenciaServiceFacade = new DependenciaServiceFacade();
         }
 
         public ActionResult Index()
@@ -46,6 +50,10 @@ namespace WebApp.Controllers
             ViewBag.Title = "Nuevo Usuario";
 
             ViewBag.Action = "Registrar";
+
+            ViewBag.ListaRoles = _rolServiceFacade.ObtenerComboRoles();
+
+            ViewBag.ListaDependencias = _dependenciaServiceFacade.ObtenerComboDependencias();
 
             var usuarioModel = new UsuarioModel();
 
