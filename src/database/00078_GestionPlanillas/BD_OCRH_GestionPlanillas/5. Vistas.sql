@@ -221,6 +221,22 @@ GO
 
 
 
+IF EXISTS (SELECT * FROM INFORMATION_SCHEMA.VIEWS WHERE TABLE_NAME = 'VW_Usuarios')
+	DROP VIEW [dbo].[VW_Usuarios]
+GO
+
+CREATE VIEW [dbo].[VW_Usuarios]
+AS
+SELECT U.UserId, U.UserName, U.D_FecActualizaPassword, U.B_CambiaPassword, U.B_Habilitado, U.I_UsuarioCre, DU.I_DatosUsuarioID, DU.N_NumDoc, 
+    DU.T_NomPersona, DU.T_CorreoUsuario, UDU.D_FecAlta, UIR.RoleId, R.RoleName, U.I_DependenciaID
+FROM [dbo].[TC_Usuario] U
+    INNER JOIN [dbo].[webpages_UsersInRoles] UIR ON U.UserId = UIR.UserId
+	INNER JOIN [dbo].[webpages_Roles] R ON UIR.RoleId = R.RoleId
+	LEFT JOIN [dbo].[TI_UsuarioDatosUsuario] UDU ON UDU.UserId = U.UserId
+	LEFT JOIN [dbo].[TC_DatosUsuario] DU ON DU.I_DatosUsuarioID = UDU.I_DatosUsuarioID
+WHERE U.B_Eliminado = 0
+GO
+
 
 
 

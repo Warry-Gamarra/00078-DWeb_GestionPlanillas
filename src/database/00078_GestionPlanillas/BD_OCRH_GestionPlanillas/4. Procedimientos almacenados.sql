@@ -1464,23 +1464,23 @@ BEGIN
 			B_Eliminado = 1,
 			I_UsuarioMod = @I_UserID,
 			D_FecMod = GETDATE()
-		WHERE I_PlantillaPlanillaConceptoID = @I_PlantillaPlanillaConceptoID
+		WHERE I_PlantillaPlanillaConceptoID = @I_PlantillaPlanillaConceptoID;
 
 		UPDATE dbo.TI_PlantillaPlanilla_Concepto SET
 			B_Habilitado = 0,
 			B_Eliminado = 1,
 			I_UsuarioMod = @I_UserID,
 			D_FecMod = GETDATE()
-		WHERE I_PlantillaPlanillaConceptoID = @I_PlantillaPlanillaConceptoID
+		WHERE I_PlantillaPlanillaConceptoID = @I_PlantillaPlanillaConceptoID;
 		
 		COMMIT TRAN
-		SET @B_Result = 1
-		SET @T_Message = 'Eliminación correcta.'
+		SET @B_Result = 1;
+		SET @T_Message = 'Eliminación correcta.';
 	END TRY
 	BEGIN CATCH
 		ROLLBACK TRAN
-		SET @B_Result = 0
-		SET @T_Message = ERROR_MESSAGE()
+		SET @B_Result = 0;
+		SET @T_Message = ERROR_MESSAGE();
 	END CATCH
 END
 GO
@@ -1545,10 +1545,8 @@ BEGIN
 					@M_ValorConcepto = M_ValorConcepto,
 					@I_ProveedorID = I_ProveedorID
 			FROM @Tbl_ValorExterno
-			WHERE I_ID = @I_Indicador
+			WHERE I_ID = @I_Indicador;
 			
-			--SELECT * FROM dbo.TC_Trabajador_CategoriaPlanilla
-
 			IF NOT EXISTS(SELECT I_ValorExternoPeriodoID FROM dbo.TI_ValorExternoPeriodo WHERE I_TrabajadorCategoriaPlanillaID = @I_TrabajadorCategoriaPlanillaID AND I_PeriodoID = @I_PeriodoID AND B_Eliminado = 0)
 			BEGIN
 				INSERT dbo.TI_ValorExternoPeriodo(I_TrabajadorCategoriaPlanillaID, I_PeriodoID, B_Eliminado, I_UsuarioCre, D_FecCre)
@@ -1565,17 +1563,17 @@ BEGIN
 			INSERT dbo.TI_ValorExternoConcepto(I_ValorExternoPeriodoID, I_ConceptoID, M_ValorConcepto, I_ProveedorID, B_Eliminado, I_UsuarioCre, D_FecCre)
 			VALUES(@I_ValorExternoPeriodoID, @I_ConceptoID, @M_ValorConcepto, @I_ProveedorID, 0, @I_UserID, @D_FecActual);
 
-			SET @I_Indicador = @I_Indicador + 1
+			SET @I_Indicador = @I_Indicador + 1;
 		END
 
 		COMMIT TRAN
-		SET @B_Result = 1
-		SET @T_Message = 'Grabación correcta.'
+		SET @B_Result = 1;
+		SET @T_Message = 'Grabación correcta.';
 	END TRY
 	BEGIN CATCH
 		ROLLBACK TRAN
-		SET @B_Result = 0
-		SET @T_Message = ERROR_MESSAGE()
+		SET @B_Result = 0;
+		SET @T_Message = ERROR_MESSAGE();
 	END CATCH
 END
 GO
@@ -1605,13 +1603,13 @@ BEGIN
 		WHERE I_ConceptoExternoValorID = @I_ConceptoExternoValorID;
 
 		COMMIT TRAN
-		SET @B_Result = 1
-		SET @T_Message = 'Actualziación correcta.'
+		SET @B_Result = 1;
+		SET @T_Message = 'Actualziación correcta.';
 	END TRY
 	BEGIN CATCH
 		ROLLBACK TRAN
-		SET @B_Result = 0
-		SET @T_Message = ERROR_MESSAGE()
+		SET @B_Result = 0;
+		SET @T_Message = ERROR_MESSAGE();
 	END CATCH
 END
 GO
@@ -1636,16 +1634,143 @@ BEGIN
 			B_Eliminado = 1,
 			I_UsuarioMod = @I_UserID,
 			D_FecMod = GETDATE()
-		WHERE I_ConceptoExternoValorID = @I_ConceptoExternoValorID
+		WHERE I_ConceptoExternoValorID = @I_ConceptoExternoValorID;
 		
 		COMMIT TRAN
-		SET @B_Result = 1
-		SET @T_Message = 'Eliminación correcta.'
+		SET @B_Result = 1;
+		SET @T_Message = 'Eliminación correcta.';
 	END TRY
 	BEGIN CATCH
 		ROLLBACK TRAN
-		SET @B_Result = 0
-		SET @T_Message = ERROR_MESSAGE()
+		SET @B_Result = 0;
+		SET @T_Message = ERROR_MESSAGE();
 	END CATCH
+END
+GO
+
+
+
+IF EXISTS (SELECT * FROM INFORMATION_SCHEMA.ROUTINES WHERE ROUTINE_TYPE = 'PROCEDURE' AND ROUTINE_NAME = 'USP_I_RegistrarDatosUsuario')
+	DROP PROCEDURE [dbo].[USP_I_RegistrarDatosUsuario]
+GO
+  
+CREATE PROCEDURE [dbo].[USP_I_RegistrarDatosUsuario] 
+@UserId INT,
+@N_NumDoc VARCHAR(150),
+@T_NomPersona VARCHAR(250),
+@T_CorreoUsuario VARCHAR(100),
+@CurrentUserId INT,
+@B_Result BIT OUTPUT,
+@T_Message VARCHAR(4000) OUTPUT
+AS  
+BEGIN  
+	SET NOCOUNT ON;
+  
+	BEGIN TRANSACTION  
+	BEGIN TRY  
+		DECLARE @I_DatosUsuarioID INT,
+				@D_FecRegistro DATETIME = GETDATE();
+				
+		INSERT INTO TC_DatosUsuario(N_NumDoc, T_NomPersona, T_CorreoUsuario, I_UsuarioCre, D_FecCre)
+		VALUES(@N_NumDoc, @T_NomPersona, @T_CorreoUsuario, @CurrentUserId, @D_FecRegistro);
+  
+		SET @I_DatosUsuarioID = SCOPE_IDENTITY();
+  
+		INSERT INTO TI_UsuarioDatosUsuario(UserId, I_DatosUsuarioID, D_FecAlta)
+		VALUES(@UserId, @I_DatosUsuarioID, @D_FecRegistro);
+  
+		COMMIT TRANSACTION
+		SET @B_Result = 1;
+		SET @T_Message = 'El usuario se registró con éxito.';
+	END TRY
+	BEGIN CATCH
+		ROLLBACK TRANSACTION
+		SET @B_Result = 0;
+		SET @T_Message = ERROR_MESSAGE();
+	END CATCH
+END
+GO
+
+
+
+IF EXISTS (SELECT * FROM INFORMATION_SCHEMA.ROUTINES WHERE ROUTINE_TYPE = 'PROCEDURE' AND ROUTINE_NAME = 'USP_U_ActualizarEstadoUsuario')
+	DROP PROCEDURE [dbo].[USP_U_ActualizarEstadoUsuario]
+GO
+  
+CREATE PROCEDURE [dbo].[USP_U_ActualizarEstadoUsuario]
+@UserId INT,
+@B_Habilitado BIT,
+@CurrentUserId INT,
+@B_Result BIT OUTPUT,
+@T_Message VARCHAR(4000) OUTPUT
+AS  
+BEGIN  
+	SET NOCOUNT ON;  
+	
+	BEGIN TRY
+		UPDATE TC_Usuario SET 
+			B_Habilitado = @B_Habilitado,  
+			I_UsuarioMod = @CurrentUserId,
+			D_FecMod = GETDATE()
+		WHERE UserId = @UserId;
+  
+		SET @B_Result = 1;
+		SET @T_Message = 'Actualización de datos correcta';
+	END TRY  
+	BEGIN CATCH
+		SET @B_Result = 0;
+		SET @T_Message = ERROR_MESSAGE();
+	END CATCH
+END  
+GO
+
+
+
+IF EXISTS (SELECT * FROM INFORMATION_SCHEMA.ROUTINES WHERE ROUTINE_TYPE = 'PROCEDURE' AND ROUTINE_NAME = 'USP_U_ActualizarDatosUsuario')
+    DROP PROCEDURE [dbo].[USP_U_ActualizarDatosUsuario]
+GO
+
+CREATE PROCEDURE [dbo].[USP_U_ActualizarDatosUsuario]
+@UserId INT,
+@I_DatosUsuarioID INT,
+@N_NumDoc VARCHAR(15),
+@T_NomPersona VARCHAR(250),
+@T_CorreoUsuario VARCHAR(100),
+@I_DependenciaID INT,
+@CurrentUserId  INT,
+@B_Result BIT OUTPUT,
+@T_Message NVARCHAR(4000) OUTPUT
+AS
+BEGIN
+    SET NOCOUNT ON;
+
+    BEGIN TRANSACTION
+    BEGIN TRY
+    
+		DECLARE @D_FecAccion DATETIME = GETDATE();
+
+		UPDATE  TC_Usuario SET
+			I_DependenciaID = @I_DependenciaID,
+			I_UsuarioMod = @CurrentUserId,
+			D_FecMod = @D_FecAccion
+		WHERE UserId = @UserId;
+
+		UPDATE  TC_DatosUsuario SET
+			N_NumDoc = @N_NumDoc,
+			T_NomPersona = @T_NomPersona,
+			T_CorreoUsuario = @T_CorreoUsuario,
+			I_UsuarioMod = @CurrentUserId,
+			D_FecMod = @D_FecAccion
+		WHERE I_DatosUsuarioID = @I_DatosUsuarioID;
+   
+		COMMIT TRANSACTION
+		SET @B_Result = 1;
+		SET @T_Message = 'La operación se realizó con éxito';
+    END TRY
+    BEGIN CATCH
+		ROLLBACK TRANSACTION;
+		SET @B_Result = 0;
+		SET @T_Message = ERROR_MESSAGE();
+    END CATCH
 END
 GO

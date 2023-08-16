@@ -313,5 +313,28 @@ namespace WebApp.Models
 
             return model;
         }
+
+        public static UsuarioModel UsuarioDTO_To_UsuarioModel(UsuarioDTO dto)
+        {
+            var model = new UsuarioModel()
+            {
+                userId = dto.userId,
+                userName = dto.userName,
+                fecActualizaPassword = dto.fecActualizaPassword,
+                cambiaPassword = dto.cambiaPassword,
+                estaHabilitado = dto.estaHabilitado,
+                usuarioCre = dto.usuarioCre,
+                datosUsuarioID = dto.datosUsuarioID,
+                numDoc = dto.numDoc,
+                nomPersona = dto.nomPersona,
+                correoUsuario = dto.correoUsuario,
+                fecAlta = dto.fecAlta,
+                roleId = dto.roleId,
+                roleName = dto.roleName,
+                dependenciaID = dto.dependenciaID
+            };
+
+            return model;
+        }
     }
 }

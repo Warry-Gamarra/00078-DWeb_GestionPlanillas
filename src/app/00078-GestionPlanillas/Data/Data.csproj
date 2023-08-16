@@ -90,6 +90,7 @@
     <Compile Include="Views\VW_Docentes.cs" />
     <Compile Include="Views\VW_TrabajadoresCategoriaPlanilla.cs" />
     <Compile Include="Views\VW_Trabajadores.cs" />
+    <Compile Include="Views\VW_Usuarios.cs" />
     <Compile Include="Views\VW_ValoresExternos.cs" />
   </ItemGroup>
   <ItemGroup>

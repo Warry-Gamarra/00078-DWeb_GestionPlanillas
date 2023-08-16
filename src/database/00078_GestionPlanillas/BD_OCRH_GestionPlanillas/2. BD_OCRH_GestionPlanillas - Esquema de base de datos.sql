@@ -9,8 +9,7 @@ CREATE TABLE TC_Usuario
 ( 
 	UserId               int IDENTITY ( 1,1 ) ,
 	UserName             varchar(20)  NOT NULL ,
-	I_UsuarioCrea        int  NULL ,
-	D_FecActualiza       datetime  NULL ,
+	D_FecActualizaPassword datetime  NULL ,
 	B_CambiaPassword     bit  NOT NULL ,
 	B_Habilitado         bit  NOT NULL ,
 	B_Eliminado          bit  NOT NULL ,
@@ -19,10 +18,7 @@ CREATE TABLE TC_Usuario
 	I_UsuarioMod         int  NULL ,
 	D_FecMod             datetime  NULL ,
 	I_DependenciaID      int  NULL ,
-	CONSTRAINT PK_Usuario PRIMARY KEY  NONCLUSTERED (UserId ASC),
-	CONSTRAINT FK_Usuario_Usuario_UsuarioCrea FOREIGN KEY (I_UsuarioCrea) REFERENCES TC_Usuario(UserId)
-		ON DELETE NO ACTION
-		ON UPDATE NO ACTION
+	CONSTRAINT PK_Usuario PRIMARY KEY  NONCLUSTERED (UserId ASC)
 )
 go
 
@@ -82,10 +78,6 @@ CREATE TABLE TC_DatosUsuario
 	N_NumDoc             varchar(15)  NULL ,
 	T_NomPersona         varchar(250)  NULL ,
 	T_CorreoUsuario      varchar(100)  NULL ,
-	D_FecRegistro        datetime  NULL ,
-	D_FecActualiza       datetime  NULL ,
-	B_Habilitado         bit  NOT NULL ,
-	B_Eliminado          bit  NOT NULL ,
 	I_UsuarioCre         int  NULL ,
 	D_FecCre             datetime  NULL ,
 	I_UsuarioMod         int  NULL ,
@@ -102,7 +94,6 @@ CREATE TABLE TI_UsuarioDatosUsuario
 	I_DatosUsuarioID     int  NOT NULL ,
 	D_FecAlta            datetime  NOT NULL ,
 	D_FecBaja            datetime  NULL ,
-	B_Habilitado         bit  NOT NULL ,
 	CONSTRAINT PK_UsuarioDatosUsuario PRIMARY KEY  NONCLUSTERED (UserId ASC,I_DatosUsuarioID ASC),
 	CONSTRAINT FK_Usuario_UsuarioDatosUsuario FOREIGN KEY (UserId) REFERENCES TC_Usuario(UserId)
 		ON DELETE NO ACTION

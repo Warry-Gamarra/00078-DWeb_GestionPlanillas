@@ -19,6 +19,6 @@ namespace Domain.Services
 
         ConceptoDTO ObtenerConcepto(string conceptoCod);
 
-        Response CambiarEstado(int conceptoID, bool estadHabilitado, int userID);
+        Response CambiarEstado(int conceptoID, bool estaHabilitado, int userID);
     }
 }

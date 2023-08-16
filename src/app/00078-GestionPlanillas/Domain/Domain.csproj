@@ -55,6 +55,8 @@
     <Compile Include="Entities\ConceptoAsignadoPlantillaDTO.cs" />
     <Compile Include="Entities\PeriodoDTO.cs" />
     <Compile Include="Entities\ProveedorDTO.cs" />
+    <Compile Include="Entities\UsuarioDTO.cs" />
+    <Compile Include="Entities\UsuarioEntity.cs" />
     <Compile Include="Entities\ValorConceptoEntity.cs" />
     <Compile Include="Entities\ValorExternoConceptoDTO.cs" />
     <Compile Include="Entities\ValorExternoLecturaDTO.cs" />
@@ -122,6 +124,7 @@
     <Compile Include="Services\Implementations\RegimenService.cs" />
     <Compile Include="Services\Implementations\TipoConceptoService.cs" />
     <Compile Include="Services\Implementations\TipoDocumentoService.cs" />
+    <Compile Include="Services\Implementations\UsuarioService.cs" />
     <Compile Include="Services\Implementations\ValorExternoConceptoService.cs" />
     <Compile Include="Services\Implementations\VinculoService.cs" />
     <Compile Include="Services\IBancoService.cs" />
@@ -137,6 +140,7 @@
     <Compile Include="Services\ITrabajadorService.cs" />
     <Compile Include="Services\Implementations\TrabajadorService.cs" />
     <Compile Include="Services\IPlanillaService.cs" />
+    <Compile Include="Services\IUsuarioService.cs" />
     <Compile Include="Services\IValorExternoConceptoService.cs" />
     <Compile Include="Services\IVinculoService.cs" />
   </ItemGroup>

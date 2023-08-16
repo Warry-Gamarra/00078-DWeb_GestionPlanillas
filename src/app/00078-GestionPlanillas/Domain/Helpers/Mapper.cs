@@ -570,5 +570,28 @@ namespace Domain.Helpers
 
             return valorExternoConceptoDTO;
         }
+
+        public static UsuarioDTO VW_Usuarios_To_UsuarioDTO(VW_Usuarios view)
+        {
+            var usuarioDTO = new UsuarioDTO()
+            {
+                userId = view.UserId,
+                userName = view.UserName,
+                fecActualizaPassword = view.D_FecActualizaPassword,
+                cambiaPassword = view.B_CambiaPassword,
+                estaHabilitado = view.B_Habilitado,
+                usuarioCre = view.I_UsuarioCre,
+                datosUsuarioID = view.I_DatosUsuarioID,
+                numDoc = view.N_NumDoc,
+                nomPersona = view.T_NomPersona,
+                correoUsuario = view.T_CorreoUsuario,
+                fecAlta = view.D_FecAlta,
+                roleId = view.RoleId,
+                roleName = view.RoleName,
+                dependenciaID = view.I_DependenciaID
+            };
+
+            return usuarioDTO;
+        }
     }
 }
