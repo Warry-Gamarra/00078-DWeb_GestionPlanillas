@@ -20,6 +20,6 @@ namespace Domain.Services
 
         Response Eliminar(int conceptoExternoValorID, int userID);
 
-        ValorExternoConceptoDTO ObtenerPorTrabajadorCategoriaPlanillaYConcepto(int trabajadorCategoriaPlanillaID, int conceptoID);
+        ValorExternoConceptoDTO ObtenerPorTrabajadorCategoriaPlanillaYConcepto(int periodoID, int trabajadorCategoriaPlanillaID, int conceptoID);
     }
 }

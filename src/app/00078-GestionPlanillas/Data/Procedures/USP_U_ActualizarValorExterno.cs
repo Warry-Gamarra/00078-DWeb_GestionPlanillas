@@ -32,7 +32,7 @@ namespace Data.Procedures
                 {
                     parameters = new DynamicParameters();
                     parameters.Add(name: "I_ConceptoExternoValorID", dbType: DbType.Int32, value: I_ConceptoExternoValorID);
-                    parameters.Add(name: "M_ValorConcepto", dbType: DbType.Int32, value: M_ValorConcepto);
+                    parameters.Add(name: "M_ValorConcepto", dbType: DbType.Decimal, value: M_ValorConcepto);
                     parameters.Add(name: "I_UserID", dbType: DbType.Int32, value: I_UserID);
                     parameters.Add(name: "B_Result", dbType: DbType.Boolean, direction: ParameterDirection.Output);
                     parameters.Add(name: "T_Message", dbType: DbType.String, size: 4000, direction: ParameterDirection.Output);

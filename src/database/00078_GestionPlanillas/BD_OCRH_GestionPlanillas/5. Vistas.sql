@@ -246,7 +246,7 @@ GO
 
 
 
-
+/*
 
 --PLANILLA Administrativo
 SELECT        cap.T_CategoriaPlanillaDesc, per.I_Anio, per.T_MesDesc, pl.I_Correlativo, p.T_Nombre, p.T_ApellidoPaterno, p.T_ApellidoMaterno, nvr.C_NivelRemunerativoCod, 
@@ -312,3 +312,4 @@ FROM TC_Administrativo AS adm INNER JOIN
     TC_GrupoOcupacional AS grupocup ON grupocup.I_GrupoOcupacionalID = adm.I_GrupoOcupacionalID
 GO
 
+*/

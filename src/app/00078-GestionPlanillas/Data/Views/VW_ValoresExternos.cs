@@ -103,19 +103,20 @@ namespace Data.Views
             return result;
         }
 
-        public static VW_ValoresExternos FindByTrabajadorCategoriaPlanillaYConcepto(int I_TrabajadorCategoriaPlanillaID, int I_ConceptoID)
+        public static VW_ValoresExternos FindByTrabajadorCategoriaPlanillaYConcepto(int I_PeriodoID, int I_TrabajadorCategoriaPlanillaID, int I_ConceptoID)
         {
             VW_ValoresExternos result;
 
             try
             {
                 string s_command = @"SELECT * FROM dbo.VW_ValoresExternos 
-                    WHERE I_TrabajadorCategoriaPlanillaID = @I_TrabajadorCategoriaPlanillaID AND I_ConceptoID = @I_ConceptoID;";
+                    WHERE I_PeriodoID = @I_PeriodoID AND I_TrabajadorCategoriaPlanillaID = @I_TrabajadorCategoriaPlanillaID AND I_ConceptoID = @I_ConceptoID;";
 
                 using (var _dbConnection = new SqlConnection(Database.ConnectionString))
                 {
                     result = _dbConnection.QuerySingleOrDefault<VW_ValoresExternos>(s_command, 
-                        new { I_TrabajadorCategoriaPlanillaID = I_TrabajadorCategoriaPlanillaID, I_ConceptoID = I_ConceptoID }, commandType: System.Data.CommandType.Text);
+                        new { I_PeriodoID = I_PeriodoID, I_TrabajadorCategoriaPlanillaID = I_TrabajadorCategoriaPlanillaID, I_ConceptoID = I_ConceptoID }, 
+                        commandType: System.Data.CommandType.Text);
                 }
             }
             catch (Exception ex)

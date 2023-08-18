@@ -188,13 +188,13 @@ namespace Domain.Services.Implementations
             return Mapper.Result_To_Response(result);
         }
 
-        public ValorExternoConceptoDTO ObtenerPorTrabajadorCategoriaPlanillaYConcepto(int trabajadorCategoriaPlanillaID, int conceptoID)
+        public ValorExternoConceptoDTO ObtenerPorTrabajadorCategoriaPlanillaYConcepto(int periodoID, int trabajadorCategoriaPlanillaID, int conceptoID)
         {
             ValorExternoConceptoDTO valorExternoConceptoDTO;
 
             try
             {
-                var view = VW_ValoresExternos.FindByTrabajadorCategoriaPlanillaYConcepto(trabajadorCategoriaPlanillaID, conceptoID);
+                var view = VW_ValoresExternos.FindByTrabajadorCategoriaPlanillaYConcepto(periodoID, trabajadorCategoriaPlanillaID, conceptoID);
 
                 if (view == null)
                 {

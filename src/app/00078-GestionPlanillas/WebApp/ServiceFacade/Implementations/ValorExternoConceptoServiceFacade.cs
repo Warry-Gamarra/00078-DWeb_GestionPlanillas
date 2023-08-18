@@ -415,7 +415,8 @@ namespace WebApp.ServiceFacade.Implementations
 
                         dto.conceptoExiste = true;
 
-                        if (dto.trabajadorExiste && _valorExternoConceptoService.ObtenerPorTrabajadorCategoriaPlanillaYConcepto(dto.trabajadorCategoriaPlanillaID.Value, dto.conceptoID.Value) != null)
+                        if (dto.esPeriodoCorrecto && dto.trabajadorExiste && _valorExternoConceptoService.ObtenerPorTrabajadorCategoriaPlanillaYConcepto(
+                            dto.periodoID.Value, dto.trabajadorCategoriaPlanillaID.Value, dto.conceptoID.Value) != null)
                         {
                             dto.esDuplicadoEnBD = true;
 

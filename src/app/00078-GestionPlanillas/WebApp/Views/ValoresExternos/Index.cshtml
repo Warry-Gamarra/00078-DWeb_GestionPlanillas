@@ -300,11 +300,15 @@
 
                         jsonObject.forEach(function (item) {
                             if (item.esRegistroCorrecto) {
-                                sumTotalCorrecto += item.valorConcepto;
+                                sumTotalCorrecto += Number.parseFloat(item.valorConcepto.toPrecision(15));
+
+                                sumTotalCorrecto = Number.parseFloat(sumTotalCorrecto.toFixed(2));
                             }
 
                             if (item.valorConceptoCorrecto) {
-                                sumTotalArchivo += item.valorConcepto;
+                                sumTotalArchivo += Number.parseFloat(item.valorConcepto.toPrecision(15));
+
+                                sumTotalArchivo = Number.parseFloat(sumTotalArchivo.toFixed(2));
                             }
                         });
 
