@@ -459,6 +459,8 @@
     <Content Include="Views\Users\Index.cshtml" />
     <Content Include="Views\Users\_MantenimientoUsuario.cshtml" />
     <Content Include="Views\Users\_MsgRegistrarTrabajador.cshtml" />
+    <Content Include="Views\Account\_ChangePassword.cshtml" />
+    <Content Include="Views\Shared\_MsgPartial.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Domain.Helpers;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -99,6 +100,59 @@ namespace WebApp.Controllers
             return View(model);
         }
 
+        [HttpGet]
+        [Authorize]
+        [Route("seguridad/cambiar-password")]
+        public ActionResult CambiarPassword()
+        {
+            return PartialView("_ChangePassword");
+        }
 
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        [Route("seguridad/cambiar-password")]
+        public ActionResult CambiarPassword(ChangePasswordViewModel model)
+        {
+            Response result = new Response();
+
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    result.Success = WebSecurity.ChangePassword(User.Identity.Name, model.CurrentPassword, model.NewPassword);
+                }
+                catch (Exception ex)
+                {
+                    result.Message = ex.Message;
+                }
+
+                if (result.Success)
+                {
+                    result.Message = "Contraseña actualizada correctamente.";
+                }
+                else
+                {
+                    if (string.IsNullOrEmpty(result.Message))
+                    {
+                        result.Message = "El valor ingresado en el campo contraseña no corresponde a la contraseña actual.";
+                    }
+                }
+            }
+            else
+            {
+                string details = "";
+                foreach (ModelState modelState in ViewData.ModelState.Values)
+                {
+                    foreach (ModelError error in modelState.Errors)
+                    {
+                        details += error.ErrorMessage + " / ";
+                    }
+                }
+
+                result.Message = "Ha ocurrido un error con el envio de datos. " + details;
+            }
+
+            return PartialView("_MsgPartial", result);
+        }
     }
 }
