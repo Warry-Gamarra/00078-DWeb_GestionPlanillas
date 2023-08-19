@@ -588,7 +588,8 @@ namespace Domain.Helpers
                 fecAlta = view.D_FecAlta,
                 roleId = view.RoleId,
                 roleName = view.RoleName,
-                dependenciaID = view.I_DependenciaID
+                dependenciaID = view.I_DependenciaID,
+                dependenciaDesc = view.T_DependenciaDesc
             };
 
             return usuarioDTO;

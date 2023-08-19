@@ -87,6 +87,10 @@ namespace WebApp.Controllers
 
             var usuarioModel = _usuarioServiceFacade.ObtenerUsuario(id);
 
+            ViewBag.ListaRoles = _rolServiceFacade.ObtenerComboRoles(selectedItem: usuarioModel.roleId);
+
+            ViewBag.ListaDependencias = _dependenciaServiceFacade.ObtenerComboDependencias(selectedItem: usuarioModel.dependenciaID);
+
             return PartialView("_MantenimientoUsuario", usuarioModel);
         }
 
@@ -106,6 +110,15 @@ namespace WebApp.Controllers
             }
 
             return PartialView("_MsgRegistrarTrabajador", response);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public JsonResult CambiarEstado(int rowID, bool estaHabilitado)
+        {
+            var result = _usuarioServiceFacade.CambiarEstado(rowID, estaHabilitado, WebSecurity.CurrentUserId);
+
+            return Json(result, JsonRequestBehavior.AllowGet);
         }
     }
 }

@@ -1660,6 +1660,7 @@ CREATE PROCEDURE [dbo].[USP_I_RegistrarDatosUsuario]
 @T_NomPersona VARCHAR(250),
 @T_CorreoUsuario VARCHAR(100),
 @CurrentUserId INT,
+@D_FecRegistro DATETIME,
 @B_Result BIT OUTPUT,
 @T_Message VARCHAR(4000) OUTPUT
 AS  
@@ -1668,8 +1669,7 @@ BEGIN
   
 	BEGIN TRANSACTION  
 	BEGIN TRY  
-		DECLARE @I_DatosUsuarioID INT,
-				@D_FecRegistro DATETIME = GETDATE();
+		DECLARE @I_DatosUsuarioID INT
 				
 		INSERT INTO TC_DatosUsuario(N_NumDoc, T_NomPersona, T_CorreoUsuario, I_UsuarioCre, D_FecCre)
 		VALUES(@N_NumDoc, @T_NomPersona, @T_CorreoUsuario, @CurrentUserId, @D_FecRegistro);
@@ -1693,6 +1693,56 @@ GO
 
 
 
+IF EXISTS (SELECT * FROM INFORMATION_SCHEMA.ROUTINES WHERE ROUTINE_TYPE = 'PROCEDURE' AND ROUTINE_NAME = 'USP_U_ActualizarDatosUsuario')
+    DROP PROCEDURE [dbo].[USP_U_ActualizarDatosUsuario]
+GO
+
+CREATE PROCEDURE [dbo].[USP_U_ActualizarDatosUsuario]
+@UserId INT,
+@I_DatosUsuarioID INT,
+@N_NumDoc VARCHAR(15),
+@T_NomPersona VARCHAR(250),
+@T_CorreoUsuario VARCHAR(100),
+@I_DependenciaID INT,
+@CurrentUserId  INT,
+@D_FecMod DATETIME,
+@B_Result BIT OUTPUT,
+@T_Message NVARCHAR(4000) OUTPUT
+AS
+BEGIN
+    SET NOCOUNT ON;
+
+    BEGIN TRANSACTION
+    BEGIN TRY
+    
+		UPDATE  TC_Usuario SET
+			I_DependenciaID = @I_DependenciaID,
+			I_UsuarioMod = @CurrentUserId,
+			D_FecMod = @D_FecMod
+		WHERE UserId = @UserId;
+
+		UPDATE  TC_DatosUsuario SET
+			N_NumDoc = @N_NumDoc,
+			T_NomPersona = @T_NomPersona,
+			T_CorreoUsuario = @T_CorreoUsuario,
+			I_UsuarioMod = @CurrentUserId,
+			D_FecMod = @D_FecMod
+		WHERE I_DatosUsuarioID = @I_DatosUsuarioID;
+   
+		COMMIT TRANSACTION
+		SET @B_Result = 1;
+		SET @T_Message = 'La operación se realizó con éxito.';
+    END TRY
+    BEGIN CATCH
+		ROLLBACK TRANSACTION;
+		SET @B_Result = 0;
+		SET @T_Message = ERROR_MESSAGE();
+    END CATCH
+END
+GO
+
+
+
 IF EXISTS (SELECT * FROM INFORMATION_SCHEMA.ROUTINES WHERE ROUTINE_TYPE = 'PROCEDURE' AND ROUTINE_NAME = 'USP_U_ActualizarEstadoUsuario')
 	DROP PROCEDURE [dbo].[USP_U_ActualizarEstadoUsuario]
 GO
@@ -1708,69 +1758,34 @@ BEGIN
 	SET NOCOUNT ON;  
 	
 	BEGIN TRY
+		DECLARE @D_FecMod DATETIME = GETDATE()
+
 		UPDATE TC_Usuario SET 
 			B_Habilitado = @B_Habilitado,  
 			I_UsuarioMod = @CurrentUserId,
-			D_FecMod = GETDATE()
+			D_FecMod = @D_FecMod
 		WHERE UserId = @UserId;
+
+		IF (@B_Habilitado = 0)
+		BEGIN
+			UPDATE udu SET udu.D_FecBaja = @D_FecMod
+			FROM dbo.TC_Usuario u
+			INNER JOIN dbo.TI_UsuarioDatosUsuario udu ON udu.UserId = u.UserId
+			WHERE u.UserId = @UserId
+		END
+		ELSE BEGIN
+			UPDATE udu SET udu.D_FecBaja = NULL
+			FROM dbo.TC_Usuario u
+			INNER JOIN dbo.TI_UsuarioDatosUsuario udu ON udu.UserId = u.UserId
+			WHERE u.UserId = @UserId
+		END
   
 		SET @B_Result = 1;
-		SET @T_Message = 'Actualización de datos correcta';
+		SET @T_Message = 'Actualización de datos correcta.';
 	END TRY  
 	BEGIN CATCH
 		SET @B_Result = 0;
 		SET @T_Message = ERROR_MESSAGE();
 	END CATCH
 END  
-GO
-
-
-
-IF EXISTS (SELECT * FROM INFORMATION_SCHEMA.ROUTINES WHERE ROUTINE_TYPE = 'PROCEDURE' AND ROUTINE_NAME = 'USP_U_ActualizarDatosUsuario')
-    DROP PROCEDURE [dbo].[USP_U_ActualizarDatosUsuario]
-GO
-
-CREATE PROCEDURE [dbo].[USP_U_ActualizarDatosUsuario]
-@UserId INT,
-@I_DatosUsuarioID INT,
-@N_NumDoc VARCHAR(15),
-@T_NomPersona VARCHAR(250),
-@T_CorreoUsuario VARCHAR(100),
-@I_DependenciaID INT,
-@CurrentUserId  INT,
-@B_Result BIT OUTPUT,
-@T_Message NVARCHAR(4000) OUTPUT
-AS
-BEGIN
-    SET NOCOUNT ON;
-
-    BEGIN TRANSACTION
-    BEGIN TRY
-    
-		DECLARE @D_FecAccion DATETIME = GETDATE();
-
-		UPDATE  TC_Usuario SET
-			I_DependenciaID = @I_DependenciaID,
-			I_UsuarioMod = @CurrentUserId,
-			D_FecMod = @D_FecAccion
-		WHERE UserId = @UserId;
-
-		UPDATE  TC_DatosUsuario SET
-			N_NumDoc = @N_NumDoc,
-			T_NomPersona = @T_NomPersona,
-			T_CorreoUsuario = @T_CorreoUsuario,
-			I_UsuarioMod = @CurrentUserId,
-			D_FecMod = @D_FecAccion
-		WHERE I_DatosUsuarioID = @I_DatosUsuarioID;
-   
-		COMMIT TRANSACTION
-		SET @B_Result = 1;
-		SET @T_Message = 'La operación se realizó con éxito';
-    END TRY
-    BEGIN CATCH
-		ROLLBACK TRANSACTION;
-		SET @B_Result = 0;
-		SET @T_Message = ERROR_MESSAGE();
-    END CATCH
-END
 GO

@@ -68,16 +68,35 @@
                     { data: 'userName' },
                     { data: 'nomPersona' },
                     { data: 'roleName' },
-                    { data: 'estaHabilitado' },
+                    { data: 'userId' },
                     { data: 'userId' },
                     { data: 'userId' }
                 ],
                 columnDefs: [
                     {
+                        targets: -3,
+                        orderable: false,
+                        render: function (data, type, row) {
+                            let btnClass = (row.estaHabilitado === true) ? 'success' : 'secondary';
+                            let iClass = (row.estaHabilitado === true) ? 'check-circle-o' : 'minus-circle';
+                            let estado = (row.estaHabilitado === true) ? 'Habilitado' : 'Deshabilitado';
+                            let token = $('input[name="__RequestVerificationToken"]').val();
+                            let onClickFunction = `ChangeState(${data}, ${row.estaHabilitado}, '@Url.Action("CambiarEstado", "Users")', '${token}', 'dataTableUsuarios')`;
+
+                            let html = `<span id="td${data}">` +
+                                `<button type="submit" class="btn btn-xs btn-${btnClass}" onclick="${onClickFunction}">` +
+                                `<i class="fa fa-${iClass}" aria-hidden="true"></i> <span class="d-none d-md-inline-block">${estado}</span>` +
+                                '</button>' +
+                                '</span>';
+
+                            return html;
+                        }
+                    },
+                    {
                         targets: -2,
                         orderable: false,
                         render: function (data, type, row) {
-                            return `<a class="modal-link-lg" href="@Url.Action("Editar", "Users")/${data}` +
+                            return `<a class="modal-link" href="@Url.Action("Editar", "Users")/${data}` +
                                 '"><i class="fa fa-pencil-square-o" aria-hidden="true"></i> <span class="d-none d-md-inline-block">Editar</span></a>';
                         }
                     },
@@ -85,7 +104,7 @@
                         targets: -1,
                         orderable: false,
                         render: function (data, type, row) {
-                            return `<a class="modal-link-lg" href="@Url.Action("ResetPassword", "Users")/${data}` +
+                            return `<a class="modal-link" href="@Url.Action("ResetPassword", "Users")/${data}` +
                                 '"><i class="fa fa-refresh" aria-hidden="true"></i> <span class="d-none d-md-inline-block">Reestablecer</span></a>';
                         }
                     }

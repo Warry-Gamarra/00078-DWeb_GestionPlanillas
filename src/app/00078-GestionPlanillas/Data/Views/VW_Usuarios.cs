@@ -39,6 +39,8 @@ namespace Data.Views
 
         public int? I_DependenciaID { get; set; }
 
+        public string T_DependenciaDesc { get; set; }
+
         public static IEnumerable<VW_Usuarios> FindAll()
         {
             IEnumerable<VW_Usuarios> result;

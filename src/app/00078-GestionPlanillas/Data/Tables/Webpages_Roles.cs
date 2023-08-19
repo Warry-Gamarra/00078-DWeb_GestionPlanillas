@@ -35,5 +35,26 @@ namespace Data.Tables
 
             return result;
         }
+
+        public static Webpages_Roles FindByID(int RoleId)
+        {
+            Webpages_Roles result;
+
+            try
+            {
+                string s_command = "SELECT * FROM dbo.Webpages_Roles WHERE RoleId = @RoleId;";
+
+                using (var _dbConnection = new SqlConnection(Database.ConnectionString))
+                {
+                    result = _dbConnection.QuerySingle<Webpages_Roles>(s_command, new { RoleId = RoleId }, commandType: System.Data.CommandType.Text);
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+
+            return result;
+        }
     }
 }

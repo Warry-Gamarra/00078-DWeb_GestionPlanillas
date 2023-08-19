@@ -48,5 +48,7 @@ namespace WebApp.Models
 
         [Display(Name = "Dependencia")]
         public int? dependenciaID { get; set; }
+
+        public string dependenciaDesc { get; set; }
     }
 }

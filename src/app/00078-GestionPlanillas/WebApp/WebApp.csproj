@@ -458,6 +458,7 @@
     <Content Include="Views\ValoresExternos\_MsgActualizarValorExternoConcepto.cshtml" />
     <Content Include="Views\Users\Index.cshtml" />
     <Content Include="Views\Users\_MantenimientoUsuario.cshtml" />
+    <Content Include="Views\Users\_MsgRegistrarTrabajador.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

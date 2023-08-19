@@ -35,5 +35,7 @@ namespace Domain.Entities
         public string roleName { get; set; }
 
         public int? dependenciaID { get; set; }
+
+        public string dependenciaDesc { get; set; }
     }
 }

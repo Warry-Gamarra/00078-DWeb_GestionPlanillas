@@ -331,7 +331,8 @@ namespace WebApp.Models
                 fecAlta = dto.fecAlta,
                 roleId = dto.roleId,
                 roleName = dto.roleName,
-                dependenciaID = dto.dependenciaID
+                dependenciaID = dto.dependenciaID,
+                dependenciaDesc = dto.dependenciaDesc
             };
 
             return model;

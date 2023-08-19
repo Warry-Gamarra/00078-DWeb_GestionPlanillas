@@ -10,6 +10,10 @@ namespace Domain.Entities
     {
         public int? userId { get; set; }
 
+        public int? datosUsuarioID { get; set; }
+
+        public string userName { get; set; }
+
         public string numDoc { get; set; }
 
         public string nomPersona { get; set; }

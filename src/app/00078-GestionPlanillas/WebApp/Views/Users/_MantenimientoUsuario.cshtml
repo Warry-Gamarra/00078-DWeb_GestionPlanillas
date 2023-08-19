@@ -6,7 +6,7 @@
     <button id="btn-close-header" type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
 </div>
 
-@using (Ajax.BeginForm("Registrar", "Users", 
+@using (Ajax.BeginForm((string)ViewBag.Action, "Users", 
     new AjaxOptions { 
         HttpMethod = "POST", 
         InsertionMode = InsertionMode.Replace, 
@@ -19,7 +19,8 @@
             <div class="container-fluid">
                 @Html.AntiForgeryToken()
                 @Html.HiddenFor(model => model.userId)
-                
+                @Html.HiddenFor(model => model.datosUsuarioID)
+
                 <fieldset class="col-md-12">
                     <legend>Datos de la cuenta</legend>
                     <div class="row form-group">

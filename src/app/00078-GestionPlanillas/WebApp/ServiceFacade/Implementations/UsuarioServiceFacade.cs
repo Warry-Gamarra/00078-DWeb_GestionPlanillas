@@ -36,6 +36,8 @@ namespace WebApp.ServiceFacade.Implementations
                 var usuarioEntity = new UsuarioEntity()
                 {
                     userId = usuarioModel.userId,
+                    datosUsuarioID = usuarioModel.datosUsuarioID,
+                    userName = usuarioModel.userName,
                     numDoc = usuarioModel.numDoc,
                     nomPersona = usuarioModel.nomPersona,
                     correoUsuario = usuarioModel.correoUsuario,
