@@ -84,5 +84,12 @@ namespace WebApp.ServiceFacade.Implementations
 
             return usuarioModel;
         }
+
+        public Response ReestablecerPassword(int userID)
+        {
+            var response = _usuarioService.ReestablecerPassword(userID);
+            
+            return response;
+        }
     }
 }

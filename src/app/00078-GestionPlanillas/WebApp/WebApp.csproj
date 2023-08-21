@@ -461,6 +461,7 @@
     <Content Include="Views\Users\_MsgRegistrarTrabajador.cshtml" />
     <Content Include="Views\Account\_ChangePassword.cshtml" />
     <Content Include="Views\Shared\_MsgPartial.cshtml" />
+    <Content Include="Views\Users\_ResetPassword.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

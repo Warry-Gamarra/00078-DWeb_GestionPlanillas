@@ -8,6 +8,7 @@ using Domain.Helpers;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using System.Web.Security;
@@ -24,7 +25,7 @@ namespace Domain.Services.Implementations
             try
             {
                 var cambiarEstado = new USP_U_ActualizarEstadoUsuario()
-                { 
+                {
                     UserId = userID,
                     B_Habilitado = !estaHabilitado,
                     CurrentUserId = currentUserID
@@ -101,7 +102,7 @@ namespace Domain.Services.Implementations
                                 Message = "El usuario " + usuarioEntity.userName + " ya existe."
                             };
                         }
-                        
+
                         break;
 
                     case Operacion.Actualizar:
@@ -147,7 +148,7 @@ namespace Domain.Services.Implementations
                                 Message = "Ocurrió un error al validar el identificador del usuario."
                             };
                         }
-                            
+
                         break;
 
                     default:
@@ -202,6 +203,53 @@ namespace Domain.Services.Implementations
             }
 
             return usuarioDTO;
+        }
+
+        public Response ReestablecerPassword(int userID)
+        {
+            Response response;
+            string newPassword, token;
+
+            try
+            {
+                var user = VW_Usuarios.FindByID(userID);
+
+                if (WebSecurity.UserExists(user.UserName))
+                {
+                    newPassword = RandomPassword.Generate(8, RandomPassword.PASSWORD_CHARS_ALPHANUMERIC).ToString();
+
+                    token = WebSecurity.GeneratePasswordResetToken(user.UserName);
+
+                    response = new Response();
+
+                    response.Success = WebSecurity.ResetPassword(token, newPassword);
+
+                    if (response.Success)
+                    {
+                        response.Message = newPassword;
+                    }
+                    else
+                    {
+                        response.Message = "Ocurrió un error al reestablecer la contraseña.";
+                    }
+                }
+                else
+                {
+                    response = new Response()
+                    {
+                        Message = "El usuario " + user.UserName + " no existe."
+                    };
+                };
+            }
+            catch (Exception ex)
+            {
+                response = new Response()
+                {
+                    Message = ex.Message
+                };
+            }
+
+            return response;
         }
     }
 }

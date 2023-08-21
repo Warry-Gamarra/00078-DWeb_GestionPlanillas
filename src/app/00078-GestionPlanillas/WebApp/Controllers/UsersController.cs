@@ -120,5 +120,16 @@ namespace WebApp.Controllers
 
             return Json(result, JsonRequestBehavior.AllowGet);
         }
+
+        public ActionResult ResetPassword(int id)
+        {
+            var usuarioModel = _usuarioServiceFacade.ObtenerUsuario(id);
+
+            var result = _usuarioServiceFacade.ReestablecerPassword(id);
+
+            ViewBag.UserName = usuarioModel.userName;
+
+            return PartialView("_ResetPassword", result);
+        }
     }
 }

@@ -18,5 +18,7 @@ namespace Domain.Services
         UsuarioDTO ObtenerUsuario(int userID);
 
         Response CambiarEstado(int userID, bool estaHabilitado, int currentUserID);
+
+        Response ReestablecerPassword(int userID);
     }
 }
