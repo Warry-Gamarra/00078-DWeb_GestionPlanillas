@@ -25,7 +25,7 @@ namespace WebApp.Controllers
         [HttpGet]
         public ActionResult Index()
         {
-            ViewBag.Title = "Mantenimiento de Periodos";
+            ViewBag.Title = "Configuración de Periodos";
 
             return View();
         }
@@ -49,7 +49,10 @@ namespace WebApp.Controllers
 
             ViewBag.ListaMeses = _periodoServiceFacade.ObtenerComboMeses();
 
-            var periodo = new PeriodoModel();
+            var periodo = new PeriodoModel()
+            {
+                anio = DateTime.Now.Year
+            };
 
             return PartialView("_MantenimientoPeriodo", periodo);
         }

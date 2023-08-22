@@ -71,8 +71,7 @@ namespace WebApp.ServiceFacade.Implementations
                 {
                     periodoID = model.periodoID,
                     anio = model.anio,
-                    mes = model.mes,
-                    mesDesc = model.mesDesc
+                    mes = model.mes
                 };
 
                 response = _periodoService.GrabarPeriodo(operacion, periodoEntity, userID);

@@ -13,7 +13,5 @@ namespace Domain.Entities
         public int anio { get; set; }
 
         public int mes { get; set; }
-
-        public string mesDesc { get; set; }
     }
 }

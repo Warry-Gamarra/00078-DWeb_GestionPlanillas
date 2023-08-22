@@ -1,4 +1,5 @@
 ﻿using Data.Connection;
+using Data.Procedures;
 using Data.Tables;
 using Domain.Entities;
 using Domain.Enums;
@@ -96,6 +97,46 @@ namespace Domain.Services.Implementations
 
             try
             {
+                switch (operacion)
+                {
+                    case Operacion.Registrar:
+
+                        var registrarPeriodo = new USP_I_RegistrarPeriodo()
+                        {
+                            I_Anio = periodoEntity.anio,
+                            I_Mes = periodoEntity.mes,
+                            T_MesDesc = ObtenerMesDesc(periodoEntity.mes),
+                            I_UserID = userID
+                        };
+
+                        result = registrarPeriodo.Execute();
+
+                        break;
+
+                    case Operacion.Actualizar:
+
+                        var actualizarPeriodo = new USP_U_ActualizarPeriodo()
+                        {
+                            I_PeriodoID = periodoEntity.periodoID.Value,
+                            I_Anio = periodoEntity.anio,
+                            I_Mes = periodoEntity.mes,
+                            T_MesDesc = ObtenerMesDesc(periodoEntity.mes),
+                            I_UserID = userID
+                        };
+
+                        result = actualizarPeriodo.Execute();
+
+                        break;
+
+                    default:
+                        result = new Result()
+                        {
+                            Message = "No se reconoce la operación a realizar."
+                        };
+
+                        break;
+                }
+                /*
                 esPeriodoRepetido = true;
 
                 if (!esPeriodoRepetido)
@@ -123,6 +164,7 @@ namespace Domain.Services.Implementations
                             periodoEntity.anio, periodoEntity.mesDesc)
                     };
                 }
+                */
             }
             catch (Exception ex)
             {
