@@ -47,6 +47,7 @@
   <ItemGroup>
     <Compile Include="Connection\Database.cs" />
     <Compile Include="Connection\Result.cs" />
+    <Compile Include="Procedures\USP_D_EliminarPeriodo.cs" />
     <Compile Include="Procedures\USP_IU_GrabarValorExterno.cs" />
     <Compile Include="Procedures\USP_U_ActualizarPeriodo.cs" />
     <Compile Include="Procedures\USP_I_RegistrarPeriodo.cs" />

@@ -173,13 +173,13 @@ namespace Domain.Services.Implementations
 
                 if (plantillaPlanillaConceptoDTO != null)
                 {
-                    var cambiarEstado = new USP_U_EliminarPlantillaPlanillaConcepto()
+                    var eliminar = new USP_U_EliminarPlantillaPlanillaConcepto()
                     {
                         I_PlantillaPlanillaConceptoID = plantillaPlanillaConceptoID,
                         I_UserID = userID
                     };
 
-                    result = cambiarEstado.Execute();
+                    result = eliminar.Execute();
                 }
                 else
                 {

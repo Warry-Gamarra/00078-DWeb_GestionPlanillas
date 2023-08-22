@@ -127,5 +127,12 @@ namespace WebApp.ServiceFacade.Implementations
                 return new SelectList(lista, "mes", "mesDesc");
             }
         }
+
+        public Response Eliminar(int periodoID, int userID)
+        {
+            var result = _periodoService.Eliminar(periodoID, userID);
+
+            return result;
+        }
     }
 }

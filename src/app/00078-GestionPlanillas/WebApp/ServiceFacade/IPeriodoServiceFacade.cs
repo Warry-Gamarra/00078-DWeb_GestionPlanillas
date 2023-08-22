@@ -23,5 +23,7 @@ namespace WebApp.ServiceFacade
         PeriodoModel ObtenerPeriodo(int periodoID);
 
         SelectList ObtenerComboMeses(int? selectedItem = null);
+
+        Response Eliminar(int periodoID, int userID);
     }
 }

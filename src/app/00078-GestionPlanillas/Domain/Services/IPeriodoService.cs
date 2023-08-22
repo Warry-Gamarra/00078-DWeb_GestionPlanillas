@@ -26,5 +26,7 @@ namespace Domain.Services
         PeriodoDTO ObtenerPeriodo(int periodoID);
 
         List<MesDTO> ListarMeses();
+
+        Response Eliminar(int periodoID, int userID);
     }
 }

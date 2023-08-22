@@ -1877,3 +1877,38 @@ BEGIN
 	END CATCH
 END
 GO
+
+
+
+IF EXISTS (SELECT * FROM INFORMATION_SCHEMA.ROUTINES WHERE ROUTINE_TYPE = 'PROCEDURE' AND ROUTINE_NAME = 'USP_D_EliminarPeriodo')
+	DROP PROCEDURE [dbo].[USP_D_EliminarPeriodo]
+GO
+
+CREATE PROCEDURE [dbo].[USP_D_EliminarPeriodo]
+@I_PeriodoID INT,
+@I_UserID INT,
+@B_Result BIT OUTPUT,
+@T_Message VARCHAR(250) OUTPUT
+AS
+BEGIN
+	SET NOCOUNT ON;
+
+	BEGIN TRAN
+	BEGIN TRY
+	
+		DELETE TR_Periodo WHERE I_PeriodoID = @I_PeriodoID
+
+		COMMIT TRAN
+
+		SET @B_Result = 1
+
+		SET @T_Message = 'Actualización correcta.'
+	END TRY
+	BEGIN CATCH
+		ROLLBACK TRAN
+		SET @B_Result = 0
+
+		SET @T_Message = ERROR_MESSAGE()
+	END CATCH
+END
+GO

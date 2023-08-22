@@ -106,5 +106,14 @@ namespace WebApp.Controllers
 
             return PartialView("_MsgRegistrarPeriodo", response);
         }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public JsonResult Eliminar(int id)
+        {
+            var result = _periodoServiceFacade.Eliminar(id, WebSecurity.CurrentUserId);
+
+            return Json(result, JsonRequestBehavior.AllowGet);
+        }
     }
 }

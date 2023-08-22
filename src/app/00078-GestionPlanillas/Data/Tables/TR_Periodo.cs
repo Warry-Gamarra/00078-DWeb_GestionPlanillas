@@ -25,7 +25,7 @@ namespace Data.Tables
 
             try
             {
-                string s_command = "SELECT * FROM dbo.TR_Periodo;";
+                string s_command = "SELECT * FROM dbo.TR_Periodo ORDER BY I_Anio DESC, I_Mes ASC;";
 
                 using (var _dbConnection = new SqlConnection(Database.ConnectionString))
                 {
@@ -68,7 +68,7 @@ namespace Data.Tables
 
             try
             {
-                string s_command = "SELECT DISTINCT I_Anio FROM dbo.TR_Periodo;";
+                string s_command = "SELECT DISTINCT I_Anio FROM dbo.TR_Periodo ORDER BY I_Anio DESC;";
 
                 using (var _dbConnection = new SqlConnection(Database.ConnectionString))
                 {
@@ -89,7 +89,7 @@ namespace Data.Tables
 
             try
             {
-                string s_command = "SELECT * FROM dbo.TR_Periodo WHERE I_Anio = @I_Anio;";
+                string s_command = "SELECT * FROM dbo.TR_Periodo WHERE I_Anio = @I_Anio ORDER BY I_Mes ASC;";
 
                 using (var _dbConnection = new SqlConnection(Database.ConnectionString))
                 {

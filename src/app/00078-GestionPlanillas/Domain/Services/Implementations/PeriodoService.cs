@@ -1,6 +1,7 @@
 ﻿using Data.Connection;
 using Data.Procedures;
 using Data.Tables;
+using Data.Views;
 using Domain.Entities;
 using Domain.Enums;
 using Domain.Helpers;
@@ -101,6 +102,14 @@ namespace Domain.Services.Implementations
                 {
                     case Operacion.Registrar:
 
+                        esPeriodoRepetido = (TR_Periodo.GetByYearAndMonth(periodoEntity.anio, periodoEntity.mes) != null);
+
+                        if (esPeriodoRepetido)
+                        {
+                            throw new Exception(String.Format("El año {0} y mes {1} ya se encuentran registrados en el sistema.",
+                                periodoEntity.anio, ObtenerMesDesc(periodoEntity.mes)));
+                        }
+
                         var registrarPeriodo = new USP_I_RegistrarPeriodo()
                         {
                             I_Anio = periodoEntity.anio,
@@ -114,6 +123,36 @@ namespace Domain.Services.Implementations
                         break;
 
                     case Operacion.Actualizar:
+
+                        if (!periodoEntity.periodoID.HasValue)
+                        {
+                            throw new Exception("Ha ocurrido un error al obtener los datos. Por favor recargue la página y vuelva a intentarlo.");
+                        }
+
+                        var oldPeriodo = TR_Periodo.FindByID(periodoEntity.periodoID.Value);
+
+                        if (oldPeriodo == null)
+                        {
+                            throw new Exception("Ha ocurrido un error al obtener los datos. Por favor recargue la página y vuelva a intentarlo.");
+                        }
+
+                        var periodoBD = TR_Periodo.GetByYearAndMonth(periodoEntity.anio, periodoEntity.mes);
+
+                        if (periodoBD != null && periodoBD.I_PeriodoID != periodoEntity.periodoID.Value)
+                        {
+                            throw new Exception(String.Format("El año {0} y mes {1} ya se encuentran registrados en el sistema.",
+                                periodoEntity.anio, ObtenerMesDesc(periodoEntity.mes)));
+                        }
+
+                        var listaPlanillas = VW_ResumenPlanillaTrabajador.FindAll(oldPeriodo.I_Anio, oldPeriodo.I_Mes, null);
+
+                        existenPlanillasGeneradas = listaPlanillas.Count() > 0;
+
+                        if (existenPlanillasGeneradas && (oldPeriodo.I_Anio != periodoEntity.anio || oldPeriodo.I_Mes != periodoEntity.mes))
+                        {
+                            throw new Exception(String.Format("Ya existen planillas generadas para el año {0} y mes {1}.",
+                                oldPeriodo.I_Anio, oldPeriodo.T_MesDesc));
+                        }
 
                         var actualizarPeriodo = new USP_U_ActualizarPeriodo()
                         {
@@ -136,35 +175,6 @@ namespace Domain.Services.Implementations
 
                         break;
                 }
-                /*
-                esPeriodoRepetido = true;
-
-                if (!esPeriodoRepetido)
-                {
-                    existenPlanillasGeneradas = true;
-
-                    if (!existenPlanillasGeneradas)
-                    {
-                        
-                    }
-                    else
-                    {
-                        result = new Result()
-                        {
-                            Message = String.Format("Ya existen planillas generadas para el año {0} y mes {1}.",
-                            periodoEntity.anio, periodoEntity.mesDesc)
-                        };
-                    }
-                }
-                else
-                {
-                    result = new Result()
-                    {
-                        Message = String.Format("El año {0} y mes {1} ya se encuentran registrados en el sistema.",
-                            periodoEntity.anio, periodoEntity.mesDesc)
-                    };
-                }
-                */
             }
             catch (Exception ex)
             {
@@ -215,6 +225,44 @@ namespace Domain.Services.Implementations
             }
 
             return lista;
+        }
+
+        public Response Eliminar(int periodoID, int userID)
+        {
+            Result result;
+
+            try
+            {
+                var periodo = TR_Periodo.FindByID(periodoID);
+
+                if (periodo != null)
+                {
+                    var eliminar = new USP_D_EliminarPeriodo()
+                    {
+                        I_PeriodoID = periodoID,
+                        I_UserID = userID
+                    };
+
+                    result = eliminar.Execute();
+                }
+                else
+                {
+                    result = new Result()
+                    {
+                        Success = true,
+                        Message = "El periodo seleccionado ha sido eliminado con anterioridad."
+                    };
+                }
+            }
+            catch (Exception ex)
+            {
+                result = new Result()
+                {
+                    Message = ex.Message
+                };
+            }
+
+            return Mapper.Result_To_Response(result);
         }
     }
 }
