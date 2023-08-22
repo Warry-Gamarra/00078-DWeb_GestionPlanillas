@@ -237,13 +237,25 @@ namespace Domain.Services.Implementations
 
                 if (periodo != null)
                 {
-                    var eliminar = new USP_D_EliminarPeriodo()
-                    {
-                        I_PeriodoID = periodoID,
-                        I_UserID = userID
-                    };
+                    var listaPlanillas = VW_ResumenPlanillaTrabajador.FindAll(periodo.I_Anio, periodo.I_Mes, null);
 
-                    result = eliminar.Execute();
+                    if (listaPlanillas == null || listaPlanillas.Count() == 0)
+                    {
+                        var eliminar = new USP_D_EliminarPeriodo()
+                        {
+                            I_PeriodoID = periodoID,
+                            I_UserID = userID
+                        };
+
+                        result = eliminar.Execute();
+                    }
+                    else
+                    {
+                        result = new Result()
+                        {
+                            Message = "Existen planillas generadas en el periodo seleccionado."
+                        };
+                    }
                 }
                 else
                 {
