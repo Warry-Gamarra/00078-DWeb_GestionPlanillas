@@ -128,6 +128,7 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\ConceptosController.cs" />
+    <Compile Include="Controllers\PeriodosController.cs" />
     <Compile Include="Controllers\UsersController.cs" />
     <Compile Include="Controllers\ValoresExternosController.cs" />
     <Compile Include="Controllers\GeneralController.cs" />
@@ -146,6 +147,7 @@
     <Compile Include="Models\DocenteModel.cs" />
     <Compile Include="Models\Mapper.cs" />
     <Compile Include="Models\MesModel.cs" />
+    <Compile Include="Models\PeriodoModel.cs" />
     <Compile Include="Models\PersonaModel.cs" />
     <Compile Include="Models\PlantillaPlanillaModel.cs" />
     <Compile Include="Models\ResumenPlanillaTrabajadorModel.cs" />
@@ -467,6 +469,7 @@
     <Folder Include="App_Data\" />
     <Folder Include="Views\Default\" />
     <Folder Include="Views\General\" />
+    <Folder Include="Views\Periodos\" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

@@ -1,4 +1,7 @@
-﻿using Domain.Services;
+﻿using Domain.Entities;
+using Domain.Enums;
+using Domain.Helpers;
+using Domain.Services;
 using Domain.Services.Implementations;
 using System;
 using System.Collections.Generic;
@@ -44,9 +47,77 @@ namespace WebApp.ServiceFacade.Implementations
             }
         }
 
-        public SelectList ObtenerComboMeses(int anio, int? selectedItem = null)
+        public SelectList ObtenerComboMesesSegunAnio(int anio, int? selectedItem = null)
         {
-            var lista = _periodoService.ListarMeses(anio);
+            var lista = _periodoService.ListarMesesSegunAnio(anio);
+
+            if (selectedItem.HasValue)
+            {
+                return new SelectList(lista, "mes", "mesDesc", selectedItem.Value);
+            }
+            else
+            {
+                return new SelectList(lista, "mes", "mesDesc");
+            }
+        }
+
+        public Response GrabarPeriodo(Operacion operacion, PeriodoModel model, int userID)
+        {
+            Response response;
+
+            try
+            {
+                var periodoEntity = new PeriodoEntity()
+                {
+                    periodoID = model.periodoID,
+                    anio = model.anio,
+                    mes = model.mes,
+                    mesDesc = model.mesDesc
+                };
+
+                response = _periodoService.GrabarPeriodo(operacion, periodoEntity, userID);
+            }
+            catch (Exception ex)
+            {
+                response = new Response()
+                {
+                    Message = ex.Message
+                };
+            }
+
+            return response;
+        }
+
+        public List<PeriodoModel> ListarPeriodos()
+        {
+            var lista = _periodoService.ListarPeriodos()
+                .Select(x => Mapper.PeriodoDTO_To_PeriodoModel(x))
+                .ToList();
+
+            return lista;
+        }
+
+        public PeriodoModel ObtenerPeriodo(int periodoID)
+        {
+            PeriodoModel model;
+
+            var periodoDTO = _periodoService.ObtenerPeriodo(periodoID);
+
+            if (periodoDTO == null)
+            {
+                model = null;
+            }
+            else
+            {
+                model = Mapper.PeriodoDTO_To_PeriodoModel(periodoDTO);
+            }
+
+            return model;
+        }
+
+        public SelectList ObtenerComboMeses(int? selectedItem = null)
+        {
+            var lista = _periodoService.ListarMeses();
 
             if (selectedItem.HasValue)
             {

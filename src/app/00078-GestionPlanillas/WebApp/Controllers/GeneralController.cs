@@ -29,7 +29,7 @@ namespace WebApp.Controllers
 
             try
             {
-                var lista = _periodoServiceFacade.ObtenerComboMeses(I_Anio);
+                var lista = _periodoServiceFacade.ObtenerComboMesesSegunAnio(I_Anio);
 
                 response = new Response()
                 {

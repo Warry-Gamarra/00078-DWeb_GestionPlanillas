@@ -438,7 +438,8 @@ CREATE TABLE TR_Periodo
 	D_FecCre DATETIME,
 	I_UsuarioMod INT,
 	D_FecMod DATETIME,
-	CONSTRAINT PK_Periodo PRIMARY KEY (I_PeriodoID)
+	CONSTRAINT PK_Periodo PRIMARY KEY (I_PeriodoID),
+	CONSTRAINT UQ_Periodo UNIQUE(I_Anio, I_Mes)
 )
 
 CREATE TABLE TR_Planilla

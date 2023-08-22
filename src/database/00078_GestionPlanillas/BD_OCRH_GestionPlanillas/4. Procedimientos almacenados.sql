@@ -1789,3 +1789,91 @@ BEGIN
 	END CATCH
 END  
 GO
+
+
+
+IF EXISTS (SELECT * FROM INFORMATION_SCHEMA.ROUTINES WHERE ROUTINE_TYPE = 'PROCEDURE' AND ROUTINE_NAME = 'USP_I_RegistrarPeriodo')
+	DROP PROCEDURE [dbo].[USP_I_RegistrarPeriodo]
+GO
+
+CREATE PROCEDURE [dbo].[USP_I_RegistrarPeriodo]
+@I_Anio INT,
+@I_Mes INT,
+@T_MesDesc VARCHAR(250),
+@I_UserID INT,
+@B_Result BIT OUTPUT,
+@T_Message VARCHAR(250) OUTPUT
+AS
+BEGIN
+	SET NOCOUNT ON;
+
+	DECLARE @D_FecCre DATETIME;
+
+	BEGIN TRAN
+	BEGIN TRY
+		SET @D_FecCre = GETDATE()
+		
+		INSERT dbo.TR_Periodo(I_Anio, I_Mes, T_MesDesc, I_UsuarioCre, D_FecCre)
+		VALUES(@I_Anio, @I_Mes, @T_MesDesc, @I_UserID, @D_FecCre);
+
+		COMMIT TRAN
+
+		SET @B_Result = 1
+
+		SET @T_Message = 'Registro correcto.'
+	END TRY
+	BEGIN CATCH
+		ROLLBACK TRAN
+		SET @B_Result = 0
+
+		SET @T_Message = ERROR_MESSAGE()
+	END CATCH
+END
+GO
+
+
+
+IF EXISTS (SELECT * FROM INFORMATION_SCHEMA.ROUTINES WHERE ROUTINE_TYPE = 'PROCEDURE' AND ROUTINE_NAME = 'USP_U_ActualizarPeriodo')
+	DROP PROCEDURE [dbo].[USP_U_ActualizarPeriodo]
+GO
+
+CREATE PROCEDURE [dbo].[USP_U_ActualizarPeriodo]
+@I_PeriodoID INT,
+@I_Anio INT,
+@I_Mes INT,
+@T_MesDesc VARCHAR(250),
+@I_UserID INT,
+@B_Result BIT OUTPUT,
+@T_Message VARCHAR(250) OUTPUT
+AS
+BEGIN
+	SET NOCOUNT ON;
+
+	DECLARE @D_FecMod DATETIME;
+
+	BEGIN TRAN
+	BEGIN TRY
+		SET @D_FecMod = GETDATE()
+		
+		UPDATE dbo.TR_Periodo SET
+			I_Anio = @I_Anio,
+			I_Mes = @I_Mes,
+			T_MesDesc = @T_MesDesc,
+			I_UsuarioMod = @I_UserID,
+			D_FecMod = @D_FecMod
+		WHERE I_PeriodoID = @I_PeriodoID
+
+		COMMIT TRAN
+
+		SET @B_Result = 1
+
+		SET @T_Message = 'Actualización correcta.'
+	END TRY
+	BEGIN CATCH
+		ROLLBACK TRAN
+		SET @B_Result = 0
+
+		SET @T_Message = ERROR_MESSAGE()
+	END CATCH
+END
+GO

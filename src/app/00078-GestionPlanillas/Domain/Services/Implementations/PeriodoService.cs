@@ -1,5 +1,7 @@
-﻿using Data.Tables;
+﻿using Data.Connection;
+using Data.Tables;
 using Domain.Entities;
+using Domain.Enums;
 using Domain.Helpers;
 using System;
 using System.Collections.Generic;
@@ -23,7 +25,7 @@ namespace Domain.Services.Implementations
             return result;
         }
 
-        public List<MesDTO> ListarMeses(int I_Anio)
+        public List<MesDTO> ListarMesesSegunAnio(int I_Anio)
         {
             var lista = TR_Periodo.FindMonthsByYear(I_Anio);
 
@@ -82,8 +84,95 @@ namespace Domain.Services.Implementations
                 case 12:
                     return "Diciembre";
                 default:
-                    return "";
+                    throw new Exception("Mes no reconocido.");
             }
+        }
+
+        public Response GrabarPeriodo(Operacion operacion, PeriodoEntity periodoEntity, int userID)
+        {
+            Result result;
+            bool esPeriodoRepetido;
+            bool existenPlanillasGeneradas;
+
+            try
+            {
+                esPeriodoRepetido = true;
+
+                if (!esPeriodoRepetido)
+                {
+                    existenPlanillasGeneradas = true;
+
+                    if (!existenPlanillasGeneradas)
+                    {
+                        
+                    }
+                    else
+                    {
+                        result = new Result()
+                        {
+                            Message = String.Format("Ya existen planillas generadas para el año {0} y mes {1}.",
+                            periodoEntity.anio, periodoEntity.mesDesc)
+                        };
+                    }
+                }
+                else
+                {
+                    result = new Result()
+                    {
+                        Message = String.Format("El año {0} y mes {1} ya se encuentran registrados en el sistema.",
+                            periodoEntity.anio, periodoEntity.mesDesc)
+                    };
+                }
+            }
+            catch (Exception ex)
+            {
+                result = new Result()
+                {
+                    Message = ex.Message
+                };
+            }
+
+            return Mapper.Result_To_Response(result);
+        }
+
+        public List<PeriodoDTO> ListarPeriodos()
+        {
+            var lista = TR_Periodo.FindAll();
+
+            var result = lista.Select(x => Mapper.TR_Periodo_To_PeriodoDTO(x))
+                .ToList();
+
+            return result;
+        }
+
+        public PeriodoDTO ObtenerPeriodo(int periodoID)
+        {
+            PeriodoDTO periodoDTO;
+
+            var table = TR_Periodo.FindByID(periodoID);
+
+            if (table == null)
+            {
+                periodoDTO = null;
+            }
+            else
+            {
+                periodoDTO = Mapper.TR_Periodo_To_PeriodoDTO(table);
+            }
+
+            return periodoDTO;
+        }
+
+        public List<MesDTO> ListarMeses()
+        {
+            var lista = new List<MesDTO>();
+
+            for (int i = 1; i <= 12; i++)
+            {
+                lista.Add(new MesDTO() { mes = i, mesDesc = ObtenerMesDesc(i) });
+            }
+
+            return lista;
         }
     }
 }

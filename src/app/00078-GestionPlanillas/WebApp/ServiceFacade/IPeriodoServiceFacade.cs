@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Domain.Enums;
+using Domain.Helpers;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -12,6 +14,14 @@ namespace WebApp.ServiceFacade
     {
         SelectList ObtenerComboAños(int? selectedItem = null);
 
-        SelectList ObtenerComboMeses(int anio, int? selectedItem = null);
+        SelectList ObtenerComboMesesSegunAnio(int anio, int? selectedItem = null);
+
+        Response GrabarPeriodo(Operacion operacion, PeriodoModel model, int userID);
+
+        List<PeriodoModel> ListarPeriodos();
+
+        PeriodoModel ObtenerPeriodo(int periodoID);
+
+        SelectList ObtenerComboMeses(int? selectedItem = null);
     }
 }

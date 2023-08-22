@@ -19,6 +19,49 @@ namespace Data.Tables
 
         public string T_MesDesc { get; set; }
 
+        public static IEnumerable<TR_Periodo> FindAll()
+        {
+            IEnumerable<TR_Periodo> result;
+
+            try
+            {
+                string s_command = "SELECT * FROM dbo.TR_Periodo;";
+
+                using (var _dbConnection = new SqlConnection(Database.ConnectionString))
+                {
+                    result = _dbConnection.Query<TR_Periodo>(s_command, commandType: System.Data.CommandType.Text);
+                }
+            }
+            catch (Exception)
+            {
+                result = new List<TR_Periodo>();
+            }
+
+            return result;
+        }
+
+        public static TR_Periodo FindByID(int I_PeriodoID)
+        {
+            TR_Periodo result;
+
+            try
+            {
+                string s_command = "SELECT * FROM dbo.TR_Periodo WHERE I_PeriodoID = @I_PeriodoID;";
+
+                using (var _dbConnection = new SqlConnection(Database.ConnectionString))
+                {
+                    result = _dbConnection.QuerySingle<TR_Periodo>(s_command, 
+                        new { I_PeriodoID  = I_PeriodoID }, commandType: System.Data.CommandType.Text);
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+
+            return result;
+        }
+
         public static IEnumerable<TR_Periodo> GetYears()
         {
             IEnumerable<TR_Periodo> result;

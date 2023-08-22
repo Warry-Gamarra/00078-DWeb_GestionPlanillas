@@ -337,5 +337,18 @@ namespace WebApp.Models
 
             return model;
         }
+
+        public static PeriodoModel PeriodoDTO_To_PeriodoModel(PeriodoDTO dto)
+        {
+            var model = new PeriodoModel()
+            {
+                periodoID = dto.periodoID,
+                anio = dto.anio,
+                mes = dto.mes,
+                mesDesc = dto.mesDesc
+            };
+
+            return model;
+        }
     }
 }
