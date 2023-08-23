@@ -212,7 +212,7 @@
                     { data: 'conceptoDesc' },
                     { data: 'valorConcepto' },
                     { data: 'proveedorID' },
-                    { data: 'numDocumento', width: '15%' }
+                    { data: 'esRegistroCorrecto', width: '15%' }
                 ],
                 columnDefs: [
                     {
@@ -294,6 +294,7 @@
 
                     var numRows = api.rows().count();
 
+                    //Mostrar total
                     if (numRows > 0) {
                         let sumTotalCorrecto = 0;
                         let sumTotalArchivo = 0;
@@ -321,6 +322,41 @@
                         $("#summary").addClass("d-none");
                         $("#btnGrabarArchivo").addClass("d-none");
                     }
+
+                    //Filtro
+                    api.columns([11]).every(function () {
+                        let column = this;
+
+                        let select = document.createElement('select');
+                        select.add(new Option('Observaciones', ''));
+                        column.footer().replaceChildren(select);
+
+                        select.addEventListener('change', function () {
+                            var val = $.fn.dataTable.util.escapeRegex(select.value);
+
+                            if (val === "true") {
+                                column.search('^.{0}$', true, false).draw();
+                            } else if (val === "false") {
+                                column.search('.{1,}', true, false).draw();
+                            } else {
+                                column.search('').draw();
+                            }
+                        });
+
+                        column.data().unique().sort().each(function (d, j) {
+                            let textValue = (d === true) ? "Sólo correctos" : "Sólo observados";
+
+                            if (column.search() === '^' + d + '$') {
+                                select.add(new Option(textValue, d, true, true));
+                            } else {
+                                select.add(new Option(textValue, d));
+                            }
+                        });
+
+                        $(select).click(function (e) {
+                            e.stopPropagation();
+                        });
+                    });
                 }
             });
         }

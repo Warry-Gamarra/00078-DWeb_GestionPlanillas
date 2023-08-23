@@ -387,7 +387,7 @@ namespace WebApp.ServiceFacade.Implementations
                     }
                     else
                     {
-                        dto.observaciones.Add("El trabajador no existe.");
+                        dto.observaciones.Add("El trabajador no existe en el sistema.");
                     }
                 }
 
@@ -415,65 +415,63 @@ namespace WebApp.ServiceFacade.Implementations
 
                         dto.conceptoExiste = true;
 
+                        if (dto.esCategoriaPlanillaCorrecto)
+                        {
+                            var lista = _plantillaPlanillaConceptoService.ListarGrupoDeConceptosAsignados(dto.categoriaPlanillaID.Value, dto.conceptoID.Value);
+
+                            if (lista != null && lista.Count > 0)
+                            {
+                                dto.esValorFijo = lista.First().esValorFijo;
+                            }
+                            else
+                            {
+                                dto.observaciones.Add("El concepto no se encuentra asignado a ninguna planilla.");
+                            }
+                        }
+
+                        if (dto.valorConcepto.HasValue && dto.valorConcepto.Value > 0)
+                        {
+                            if (dto.esValorFijo.HasValue)
+                            {
+                                if (dto.esValorFijo.Value)
+                                {
+                                    dto.valorConceptoCorrecto = true;
+                                }
+                                else if (dto.valorConcepto.Value <= 100)
+                                {
+                                    dto.valorConceptoCorrecto = true;
+                                }
+                                else
+                                {
+                                    dto.observaciones.Add("Valor del concepto incorrecto (porcentaje superior al 100%).");
+                                }
+                            }
+                            else
+                            {
+                                dto.observaciones.Add("No se reconoce si el concepto es un valor fijo o porcentual.");
+                            }
+                        }
+                        else
+                        {
+                            dto.observaciones.Add("Valor del concepto incorrecto.");
+                        }
+
                         if (dto.esPeriodoCorrecto && dto.trabajadorExiste && _valorExternoConceptoService.ObtenerPorTrabajadorCategoriaPlanillaYConcepto(
                             dto.periodoID.Value, dto.trabajadorCategoriaPlanillaID.Value, dto.conceptoID.Value) != null)
                         {
                             dto.esDuplicadoEnBD = true;
 
-                            dto.observaciones.Add("El registro se encuentra duplicado.");
-                        }
-                        else
-                        {
-                            if (dto.esCategoriaPlanillaCorrecto)
-                            {
-                                var lista = _plantillaPlanillaConceptoService.ListarGrupoDeConceptosAsignados(dto.categoriaPlanillaID.Value, dto.conceptoID.Value);
-
-                                if (lista != null && lista.Count > 0)
-                                {
-                                    dto.esValorFijo = lista.First().esValorFijo;
-                                }
-                                else
-                                {
-                                    dto.observaciones.Add("El concepto no se encuentra asignado a ninguna planilla.");
-                                }
-                            }
-
-                            if (dto.valorConcepto.HasValue && dto.valorConcepto.Value > 0)
-                            {
-                                if (dto.esValorFijo.HasValue)
-                                {
-                                    if (dto.esValorFijo.Value)
-                                    {
-                                        dto.valorConceptoCorrecto = true;
-                                    }
-                                    else if (dto.valorConcepto.Value <= 100)
-                                    {
-                                        dto.valorConceptoCorrecto = true;
-                                    }
-                                    else
-                                    {
-                                        dto.observaciones.Add("Valor del concepto incorrecto (porcentaje superior al 100%).");
-                                    }
-                                }
-                                else
-                                {
-                                    dto.observaciones.Add("No se reconoce si el concepto es un valor fijo o porcentual.");
-                                }
-                            }
-                            else
-                            {
-                                dto.observaciones.Add("Valor del concepto incorrecto.");
-                            }
+                            dto.observaciones.Add("Esta información ya se encuentra registrada en el sistema.");
                         }
                     }
                     else
                     {
-                        dto.observaciones.Add("Código de concepto no existe.");
+                        dto.observaciones.Add("Código de concepto no existe en el sistema.");
                     }
                 }
                 else
                 {
-                    dto.observaciones.Add("Código de concepto incorrecto.");
+                    dto.observaciones.Add("Se necesita el Código de concepto.");
                 }
 
                 if (dto.proveedorID.HasValue && listaProveedores.Exists(x => x.proveedorID == dto.proveedorID.Value))
