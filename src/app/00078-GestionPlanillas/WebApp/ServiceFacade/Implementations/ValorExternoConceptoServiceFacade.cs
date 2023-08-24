@@ -504,14 +504,6 @@ namespace WebApp.ServiceFacade.Implementations
                         {
                             dto.observaciones.Add("Valor del concepto incorrecto.");
                         }
-
-                        if (dto.esPeriodoCorrecto && dto.trabajadorExiste && _valorExternoConceptoService.ObtenerPorTrabajadorCategoriaPlanillaYConcepto(
-                            dto.periodoID.Value, dto.trabajadorCategoriaPlanillaID.Value, dto.conceptoID.Value) != null)
-                        {
-                            dto.esDuplicadoEnBD = true;
-
-                            dto.observaciones.Add("Esta información ya se encuentra registrada en el sistema.");
-                        }
                     }
                     else
                     {

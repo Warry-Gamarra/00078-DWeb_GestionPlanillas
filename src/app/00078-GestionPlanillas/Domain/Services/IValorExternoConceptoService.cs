@@ -19,7 +19,5 @@ namespace Domain.Services
         Response ActualizarValorExternoConcepto(int conceptoExternoValorID, decimal valorConcepto, int userID);
 
         Response Eliminar(int conceptoExternoValorID, int userID);
-
-        ValorExternoConceptoDTO ObtenerPorTrabajadorCategoriaPlanillaYConcepto(int periodoID, int trabajadorCategoriaPlanillaID, int conceptoID);
     }
 }

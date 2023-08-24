@@ -187,31 +187,5 @@ namespace Domain.Services.Implementations
 
             return Mapper.Result_To_Response(result);
         }
-
-        public ValorExternoConceptoDTO ObtenerPorTrabajadorCategoriaPlanillaYConcepto(int periodoID, int trabajadorCategoriaPlanillaID, int conceptoID)
-        {
-            ValorExternoConceptoDTO valorExternoConceptoDTO;
-
-            try
-            {
-                var view = VW_ValoresExternos.FindByTrabajadorCategoriaPlanillaYConcepto(periodoID, trabajadorCategoriaPlanillaID, conceptoID);
-
-                if (view == null)
-                {
-                    valorExternoConceptoDTO = null;
-                }
-                else
-                {
-                    valorExternoConceptoDTO = Mapper.VW_ValoresExternos_To_ValorExternoConceptoDTO(view);
-                }
-
-            }
-            catch (Exception ex)
-            {
-                throw ex;
-            }
-
-            return valorExternoConceptoDTO;
-        }
     }
 }

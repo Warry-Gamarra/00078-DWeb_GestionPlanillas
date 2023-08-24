@@ -50,8 +50,6 @@ namespace Domain.Entities
 
         public bool conceptoExiste { get; set; }
 
-        public bool esDuplicadoEnBD { get; set; }
-
         public bool esDuplicadoEnArchivo { get; set; }
 
         public int? conceptoID { get; set; }
@@ -84,8 +82,7 @@ namespace Domain.Entities
         {
             get
             {
-                return esPeriodoCorrecto && trabajadorExiste && !tienePlanilla && 
-                    !esDuplicadoEnBD && !esDuplicadoEnArchivo && valorConceptoCorrecto && esProveedorCorrecto;
+                return esPeriodoCorrecto && trabajadorExiste && !tienePlanilla && !esDuplicadoEnArchivo && valorConceptoCorrecto && esProveedorCorrecto;
             }
         }
 
