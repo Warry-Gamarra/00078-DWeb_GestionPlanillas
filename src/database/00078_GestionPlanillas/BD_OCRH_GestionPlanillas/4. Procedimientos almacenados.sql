@@ -1553,15 +1553,26 @@ BEGIN
 				VALUES(@I_TrabajadorCategoriaPlanillaID, @I_PeriodoID, 0, @I_UserID, @D_FecActual);
 
 				SET @I_ValorExternoPeriodoID = SCOPE_IDENTITY();
-			END
-			ELSE
+			END ELSE
 			BEGIN
 				SET @I_ValorExternoPeriodoID = (SELECT I_ValorExternoPeriodoID FROM dbo.TI_ValorExternoPeriodo 
 					WHERE I_TrabajadorCategoriaPlanillaID = @I_TrabajadorCategoriaPlanillaID AND I_PeriodoID = @I_PeriodoID AND B_Eliminado = 0);
 			END
 
-			INSERT dbo.TI_ValorExternoConcepto(I_ValorExternoPeriodoID, I_ConceptoID, M_ValorConcepto, I_ProveedorID, B_Eliminado, I_UsuarioCre, D_FecCre)
-			VALUES(@I_ValorExternoPeriodoID, @I_ConceptoID, @M_ValorConcepto, @I_ProveedorID, 0, @I_UserID, @D_FecActual);
+			IF NOT EXISTS(SELECT I_ConceptoExternoValorID FROM dbo.TI_ValorExternoConcepto 
+				WHERE I_ValorExternoPeriodoID = @I_ValorExternoPeriodoID AND I_ConceptoID = @I_ConceptoID AND B_Eliminado = 0) 
+			BEGIN
+				INSERT dbo.TI_ValorExternoConcepto(I_ValorExternoPeriodoID, I_ConceptoID, M_ValorConcepto, I_ProveedorID, B_Eliminado, I_UsuarioCre, D_FecCre)
+				VALUES(@I_ValorExternoPeriodoID, @I_ConceptoID, @M_ValorConcepto, @I_ProveedorID, 0, @I_UserID, @D_FecActual);
+			END ELSE
+			BEGIN
+				UPDATE dbo.TI_ValorExternoConcepto SET 
+					M_ValorConcepto = @M_ValorConcepto,
+					I_ProveedorID = @I_ProveedorID,
+					I_UsuarioMod = @I_UserID,
+					D_FecMod = @D_FecActual
+				WHERE I_ValorExternoPeriodoID = @I_ValorExternoPeriodoID AND I_ConceptoID = @I_ConceptoID AND B_Eliminado = 0
+			END
 
 			SET @I_Indicador = @I_Indicador + 1;
 		END
