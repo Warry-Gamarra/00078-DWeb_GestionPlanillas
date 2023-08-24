@@ -44,13 +44,16 @@
 
     <div class="card mb-4">
         <div class="card-header">
-            @using (Html.BeginForm("GuardarInformacion", "ValoresExternos", FormMethod.Post,
-                new { id = "form-register" }))
+            @using (Html.BeginForm("DescargarResultadoLectura", "ValoresExternos", FormMethod.Post, new { id = "form-register", target = "_blank" }))
             {
                 @Html.AntiForgeryToken()
                 <span class="h4">Vista previa</span>
                 <input type="hidden" id="fileName" name="fileName" />
-                <button class="btn btn-primary pull-right d-none" id="btnGrabarArchivo">
+                <button type="submit" class="btn btn-primary pull-right d-none" id="btnDescargarResultadoLectura">
+                    <i class="fa fa-download" aria-hidden="true"></i> Descargar [.xlsx]
+                </button>
+                <label class="pull-right">&nbsp;</label>
+                <button type="button" class="btn btn-primary pull-right d-none" id="btnGrabarArchivo">
                     <i class="fa fa-save" aria-hidden="true"></i> Guardar información
                 </button>
             }
@@ -120,11 +123,7 @@
                 elErrorContainer: '#error-matricula'
             });
 
-            $('#inputFile').on('change', function (event) {
-                limpiarData();
-            });
-
-            $('#inputFile').on('filecleared', function (event) {
+            $('#inputFile').on('change filecleared', function (event) {
                 limpiarData();
             });
 
@@ -164,22 +163,21 @@
                 });
             });
 
-            $('#form-register').on('submit', function (event) {
-                event.preventDefault();
-                var form = $(this);
-
-                form.ajaxSubmit({
-                    cache: false,
-                    url: form.attr("action"),
+            $('#form-register #btnGrabarArchivo').on('click', function () {
+                $.ajax({
+                    url: '@Url.Action("GuardarInformacion", "ValoresExternos")',
                     type: "POST",
-                    processData: false,
-                    dataType: "json",
+                    data: {
+                        __RequestVerificationToken: $('#form-register input[name="__RequestVerificationToken"]').val(),
+                        fileName: $('#form-register #fileName').val()
+                    },
                     beforeSend: function () {
                     },
                     success: function (result) {
                         if (result.success) {
                             toastr.success(result.message);
                             limpiarData();
+                            $("#inputFile").fileinput("clear");
                         } else {
                             toastr.error(result.message);
                         }
@@ -236,13 +234,7 @@
                     {
                         targets: 9,
                         render: function (data, type, row) {
-                            let simbolo = "?";
-
-                            if (row.esValorFijo != null) {
-                                simbolo = row.esValorFijo ? "S/." : "%";
-                            }
-                            
-                            return data + ` ( ${simbolo} )`;
+                            return data + ` ( ${row.simboloValorConcepto} )`;
                         }
                     },
                     {
@@ -318,9 +310,11 @@
 
                         $("#summary").removeClass("d-none");
                         $("#btnGrabarArchivo").removeClass("d-none");
+                        $("#btnDescargarResultadoLectura").removeClass("d-none");
                     } else {
                         $("#summary").addClass("d-none");
                         $("#btnGrabarArchivo").addClass("d-none");
+                        $("#btnDescargarResultadoLectura").addClass("d-none");
                     }
 
                     //Filtro

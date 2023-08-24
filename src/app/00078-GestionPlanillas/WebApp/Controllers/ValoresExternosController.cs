@@ -2,6 +2,7 @@
 using Domain.Helpers;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
@@ -72,6 +73,29 @@ namespace WebApp.Controllers
             };
 
             return Json(response, JsonRequestBehavior.AllowGet);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult DescargarResultadoLectura(string fileName)
+        {
+            FileContent fileContent;
+            string errorMessage;
+
+            try
+            {
+                fileContent = _valorExternoConceptoServiceFacade.ObtenerResultadoLectura(FormatoArchivo.XLSX, fileName);
+
+                return File(fileContent.fileContent, fileContent.contentType, fileContent.fileName);
+            }
+            catch (Exception ex)
+            {
+                errorMessage = ex.Message;
+            }
+
+            ViewBag.ErrorMessage = errorMessage;
+
+            return View();
         }
 
         [HttpGet]

@@ -64,6 +64,14 @@ namespace Domain.Entities
 
         public bool? esValorFijo { get; set; }
 
+        public string simboloValorConcepto
+        {
+            get
+            {
+                return esValorFijo.HasValue ? (esValorFijo.Value ? "S/." : "%") : "?";
+            }
+        }
+
         public bool valorConceptoCorrecto { get; set; }
 
         public int? proveedorID { get; set; }

@@ -456,13 +456,9 @@ namespace Domain.Helpers
 
         public static ValorExternoLecturaDTO ExcelDataReader_To_ValorExternoLecturaDTO(IExcelDataReader reader)
         {
-        string stringValue; int intValue; decimal decimalValue;
+            string stringValue; int intValue; decimal decimalValue;
 
-            var dtoConceptoExternoValorDTO = new ValorExternoLecturaDTO()
-            {
-                numDocumento = reader.GetValue(3).ToString(),
-                conceptoCod = reader.GetValue(5).ToString()
-            };
+            var dtoConceptoExternoValorDTO = new ValorExternoLecturaDTO();
 
             if (reader.GetValue(0) != null)
             {
@@ -488,6 +484,11 @@ namespace Domain.Helpers
                     dtoConceptoExternoValorDTO.tipoDocumentoID = intValue;
             }
 
+            if (reader.GetValue(3) != null)
+            {
+                dtoConceptoExternoValorDTO.numDocumento = reader.GetValue(3).ToString();
+            }
+
             if (reader.GetValue(4) != null)
             {
                 stringValue = reader.GetValue(4).ToString();
@@ -496,7 +497,13 @@ namespace Domain.Helpers
                     dtoConceptoExternoValorDTO.categoriaPlanillaID = intValue;
             }
 
+
             if (reader.GetValue(5) != null)
+            {
+                dtoConceptoExternoValorDTO.conceptoCod = reader.GetValue(5).ToString();
+            }
+            
+            if (reader.GetValue(6) != null)
             {
                 stringValue = reader.GetValue(6).ToString();
 
@@ -504,7 +511,7 @@ namespace Domain.Helpers
                     dtoConceptoExternoValorDTO.valorConcepto = decimalValue;
             }
 
-            if (reader.GetValue(6) != null)
+            if (reader.GetValue(7) != null)
             {
                 stringValue = reader.GetValue(7).ToString();
 

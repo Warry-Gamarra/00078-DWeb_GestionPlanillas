@@ -22,5 +22,7 @@ namespace WebApp.ServiceFacade
         Response ActualizarValorExternoConcepto(int conceptoExternoValorID, decimal valorConcepto, int userID);
 
         Response Eliminar(int conceptoExternoValorID, int userID);
+
+        FileContent ObtenerResultadoLectura(FormatoArchivo formatoArchivo, string fileName);
     }
 }
