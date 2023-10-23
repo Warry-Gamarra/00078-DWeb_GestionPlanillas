@@ -470,12 +470,14 @@
     <Content Include="Views\Periodos\Index.cshtml" />
     <Content Include="Views\Periodos\_MantenimientoPeriodo.cshtml" />
     <Content Include="Views\Periodos\_MsgRegistrarPeriodo.cshtml" />
+    <Content Include="Views\Dependencias\Index.cshtml" />
+    <Content Include="Views\Dependencias\_MsgRegistrarDependencia.cshtml" />
+    <Content Include="Views\Dependencias\_MantenimientoDependencia.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Views\ActividadesMetas\" />
     <Folder Include="Views\Default\" />
-    <Folder Include="Views\Dependencias\" />
     <Folder Include="Views\General\" />
   </ItemGroup>
   <ItemGroup>
