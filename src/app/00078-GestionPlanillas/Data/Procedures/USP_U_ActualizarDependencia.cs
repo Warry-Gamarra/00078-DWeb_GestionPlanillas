@@ -10,13 +10,15 @@ using System.Threading.Tasks;
 
 namespace Data.Procedures
 {
-    public class USP_U_ActualizarEstadoUsuario
+    public class USP_U_ActualizarDependencia
     {
-        public int UserId { get; set; }
+        public int I_DependenciaID { get; set; }
 
-        public bool B_Habilitado { get; set; }
+        public string C_DependenciaCod { get; set; }
 
-        public int CurrentUserId { get; set; }
+        public string T_DependenciaDesc { get; set; }
+
+        public int I_UserID { get; set; }
 
         public Result Execute()
         {
@@ -26,14 +28,15 @@ namespace Data.Procedures
 
             try
             {
-                string s_command = "USP_U_ActualizarEstadoUsuario";
+                string s_command = "USP_U_ActualizarDependencia";
 
                 using (var _dbConnection = new SqlConnection(Database.ConnectionString))
                 {
                     parameters = new DynamicParameters();
-                    parameters.Add(name: "UserId", dbType: DbType.Int32, value: UserId);
-                    parameters.Add(name: "B_Habilitado", dbType: DbType.Int32, value: B_Habilitado);
-                    parameters.Add(name: "CurrentUserId", dbType: DbType.Int32, value: CurrentUserId);
+                    parameters.Add(name: "I_DependenciaID", dbType: DbType.Int32, value: I_DependenciaID);
+                    parameters.Add(name: "C_DependenciaCod", dbType: DbType.String, value: C_DependenciaCod);
+                    parameters.Add(name: "T_DependenciaDesc", dbType: DbType.String, value: T_DependenciaDesc);
+                    parameters.Add(name: "I_UserID", dbType: DbType.Int32, value: I_UserID);
                     parameters.Add(name: "B_Result", dbType: DbType.Boolean, direction: ParameterDirection.Output);
                     parameters.Add(name: "T_Message", dbType: DbType.String, size: 4000, direction: ParameterDirection.Output);
 

@@ -24,7 +24,7 @@ namespace Domain.Services.Implementations
 
             try
             {
-                var cambiarEstado = new USP_U_ActualizarEstadoUsuario()
+                var cambiarEstado = new USP_U_CambiarEstadoUsuario()
                 {
                     UserId = userID,
                     B_Habilitado = !estaHabilitado,

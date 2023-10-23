@@ -69,7 +69,7 @@ SELECT
 	c.I_ConceptoID, c.I_TipoConceptoID, c.C_ConceptoCod, c.T_ConceptoDesc, c.T_ConceptoAbrv, c.B_Habilitado, tc.T_TipoConceptoDesc
 FROM dbo.TC_Concepto c
 INNER JOIN dbo.TC_TipoConcepto tc ON tc.I_TipoConceptoID = c.I_TipoConceptoID
-WHERE c.B_Eliminado = 0 AND tc.B_Eliminado = 0
+WHERE c.B_Eliminado = 0
 GO
 
 

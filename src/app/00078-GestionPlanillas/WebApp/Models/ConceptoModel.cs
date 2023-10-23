@@ -22,7 +22,7 @@ namespace WebApp.Models
         public string conceptoCod { get; set; }
 
         [DisplayName("Descripción")]
-        [Required(ErrorMessage = "La {0} es obligatorio.")]
+        [Required(ErrorMessage = "La {0} es obligatoria.")]
         public string conceptoDesc { get; set; }
 
         [DisplayName("Abreviatura")]

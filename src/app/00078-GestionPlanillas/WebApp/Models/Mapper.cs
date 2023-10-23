@@ -350,5 +350,18 @@ namespace WebApp.Models
 
             return model;
         }
+
+        public static DependenciaModel DependenciaDTO_To_DependenciaModel(DependenciaDTO dto)
+        {
+            var model = new DependenciaModel()
+            {
+                dependenciaID = dto.dependenciaID,
+                dependenciaCod = dto.dependenciaCod,
+                dependenciaDesc = dto.dependenciaDesc,
+                estaHabilitado = dto.estaHabilitado
+            };
+
+            return model;
+        }
     }
 }

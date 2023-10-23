@@ -39,5 +39,47 @@ namespace Data.Tables
 
             return result;
         }
+        
+        public static TC_Dependencia FindByID(int I_DependenciaID)
+        {
+            TC_Dependencia result;
+
+            try
+            {
+                string s_command = "SELECT * FROM dbo.TC_Dependencia WHERE B_Eliminado = 0 AND I_DependenciaID = @I_DependenciaID;";
+
+                using (var _dbConnection = new SqlConnection(Database.ConnectionString))
+                {
+                    result = _dbConnection.QuerySingleOrDefault<TC_Dependencia>(s_command, new { I_DependenciaID  = I_DependenciaID }, commandType: System.Data.CommandType.Text);
+                }
+            }
+            catch (Exception)
+            {
+                result = null;
+            }
+
+            return result;
+        }
+
+        public static TC_Dependencia FindByCod(string C_DependenciaCod)
+        {
+            TC_Dependencia result;
+
+            try
+            {
+                string s_command = "SELECT * FROM dbo.TC_Dependencia WHERE B_Eliminado = 0 AND C_DependenciaCod = @C_DependenciaCod;";
+
+                using (var _dbConnection = new SqlConnection(Database.ConnectionString))
+                {
+                    result = _dbConnection.QuerySingleOrDefault<TC_Dependencia>(s_command, new { C_DependenciaCod = C_DependenciaCod }, commandType: System.Data.CommandType.Text);
+                }
+            }
+            catch (Exception)
+            {
+                result = null;
+            }
+
+            return result;
+        }
     }
 }

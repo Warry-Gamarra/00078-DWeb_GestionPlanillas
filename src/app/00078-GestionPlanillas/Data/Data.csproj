@@ -49,13 +49,16 @@
     <Compile Include="Connection\Result.cs" />
     <Compile Include="Procedures\USP_D_EliminarPeriodo.cs" />
     <Compile Include="Procedures\USP_IU_GrabarValorExterno.cs" />
+    <Compile Include="Procedures\USP_I_RegistrarDependencia.cs" />
+    <Compile Include="Procedures\USP_U_ActualizarDependencia.cs" />
     <Compile Include="Procedures\USP_U_ActualizarPeriodo.cs" />
     <Compile Include="Procedures\USP_I_RegistrarPeriodo.cs" />
     <Compile Include="Procedures\USP_U_ActualizarDatosUsuario.cs" />
     <Compile Include="Procedures\USP_I_RegistrarDatosUsuario.cs" />
     <Compile Include="Procedures\USP_I_RegistrarPlantillaPlanillaConcepto.cs" />
     <Compile Include="Procedures\USP_I_RegistrarPlantillaPlanilla.cs" />
-    <Compile Include="Procedures\USP_U_ActualizarEstadoUsuario.cs" />
+    <Compile Include="Procedures\USP_U_CambiarEstadoDependencia.cs" />
+    <Compile Include="Procedures\USP_U_CambiarEstadoUsuario.cs" />
     <Compile Include="Procedures\USP_U_ActualizarPlantillaPlanillaConcepto.cs" />
     <Compile Include="Procedures\USP_U_ActualizarPlantillaPlanilla.cs" />
     <Compile Include="Procedures\USP_U_ActualizarConcepto.cs" />
@@ -67,6 +70,7 @@
     <Compile Include="Procedures\USP_U_CambiarEstadoPlantillaPlanillaConcepto.cs" />
     <Compile Include="Procedures\USP_U_CambiarEstadoPlantillaPlanilla.cs" />
     <Compile Include="Procedures\USP_U_CambiarEstadoConcepto.cs" />
+    <Compile Include="Procedures\USP_U_EliminarDependencia.cs" />
     <Compile Include="Procedures\USP_U_EliminarPlantillaPlanillaConcepto.cs" />
     <Compile Include="Procedures\USP_U_EliminarValorExternoConcepto.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -85,6 +89,7 @@
     <Compile Include="Tables\TC_Regimen.cs" />
     <Compile Include="Tables\TC_TipoConcepto.cs" />
     <Compile Include="Tables\TC_TipoDocumento.cs" />
+    <Compile Include="Tables\TC_Trabajador_Dependencia.cs" />
     <Compile Include="Tables\TC_Vinculo.cs" />
     <Compile Include="Tables\TR_Periodo.cs" />
     <Compile Include="Tables\Webpages_Roles.cs" />
