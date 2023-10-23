@@ -667,3 +667,29 @@ CREATE TABLE TI_AsistenciaTrabajador
 	CONSTRAINT FK_Trabajador_AsistenciaTrabajador FOREIGN KEY (I_TrabajadorID) REFERENCES TC_Trabajador(I_TrabajadorID),
 	CONSTRAINT FK_Periodo_AsistenciaTrabajador FOREIGN KEY (I_PeriodoID) REFERENCES TR_Periodo(I_PeriodoID)
 )
+
+CREATE TABLE TC_Actividad
+(
+	I_ActividadID INT IDENTITY(1,1),
+	T_ActividadDesc VARCHAR(250),
+	C_ActividadCod VARCHAR(20),
+	B_Eliminado BIT NOT NULL,
+	I_UsuarioCre INT,
+	D_FecCre DATETIME,
+	I_UsuarioMod INT,
+	D_FecMod DATETIME,
+	CONSTRAINT PK_Actividad PRIMARY KEY (I_ActividadID)
+)
+
+CREATE TABLE TC_Meta
+(
+	I_MetaID INT IDENTITY(1,1),
+	T_MetaDesc VARCHAR(250),
+	C_MetaCod VARCHAR(20),
+	B_Eliminado BIT NOT NULL,
+	I_UsuarioCre INT,
+	D_FecCre DATETIME,
+	I_UsuarioMod INT,
+	D_FecMod DATETIME,
+	CONSTRAINT PK_Meta PRIMARY KEY (I_MetaID)
+)

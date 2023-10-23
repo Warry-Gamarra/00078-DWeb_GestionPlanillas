@@ -49,8 +49,12 @@
     <Compile Include="Connection\Result.cs" />
     <Compile Include="Procedures\USP_D_EliminarPeriodo.cs" />
     <Compile Include="Procedures\USP_IU_GrabarValorExterno.cs" />
+    <Compile Include="Procedures\USP_I_RegistrarActividad.cs" />
     <Compile Include="Procedures\USP_I_RegistrarDependencia.cs" />
+    <Compile Include="Procedures\USP_I_RegistrarMeta.cs" />
+    <Compile Include="Procedures\USP_U_ActualizarActividad.cs" />
     <Compile Include="Procedures\USP_U_ActualizarDependencia.cs" />
+    <Compile Include="Procedures\USP_U_ActualizarMeta.cs" />
     <Compile Include="Procedures\USP_U_ActualizarPeriodo.cs" />
     <Compile Include="Procedures\USP_I_RegistrarPeriodo.cs" />
     <Compile Include="Procedures\USP_U_ActualizarDatosUsuario.cs" />
@@ -70,10 +74,13 @@
     <Compile Include="Procedures\USP_U_CambiarEstadoPlantillaPlanillaConcepto.cs" />
     <Compile Include="Procedures\USP_U_CambiarEstadoPlantillaPlanilla.cs" />
     <Compile Include="Procedures\USP_U_CambiarEstadoConcepto.cs" />
+    <Compile Include="Procedures\USP_U_EliminarActividad.cs" />
     <Compile Include="Procedures\USP_U_EliminarDependencia.cs" />
+    <Compile Include="Procedures\USP_U_EliminarMeta.cs" />
     <Compile Include="Procedures\USP_U_EliminarPlantillaPlanillaConcepto.cs" />
     <Compile Include="Procedures\USP_U_EliminarValorExternoConcepto.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Tables\TC_Actividad.cs" />
     <Compile Include="Tables\TC_CategoriaDocente.cs" />
     <Compile Include="Tables\TC_Afp.cs" />
     <Compile Include="Tables\TC_Banco.cs" />
@@ -83,6 +90,7 @@
     <Compile Include="Tables\TC_Estado.cs" />
     <Compile Include="Tables\TC_GrupoOcupacional.cs" />
     <Compile Include="Tables\TC_HorasDocente.cs" />
+    <Compile Include="Tables\TC_Meta.cs" />
     <Compile Include="Tables\TC_NivelRemunerativo.cs" />
     <Compile Include="Tables\TC_Persona.cs" />
     <Compile Include="Tables\TC_Proveedor.cs" />

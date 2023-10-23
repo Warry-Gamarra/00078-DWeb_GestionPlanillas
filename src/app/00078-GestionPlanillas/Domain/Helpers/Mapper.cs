@@ -612,5 +612,29 @@ namespace Domain.Helpers
 
             return rolDTO;
         }
+
+        public static ActividadDTO TC_Actividad_To_ActividadDTO(TC_Actividad table)
+        {
+            var actividadDTO = new ActividadDTO()
+            {
+                actividadID = table.I_ActividadID,
+                actividadDesc = table.T_ActividadDesc,
+                actividadCod = table.C_ActividadCod
+            };
+
+            return actividadDTO;
+        }
+
+        public static MetaDTO TC_Meta_To_MetaDTO(TC_Meta table)
+        {
+            var metaDTO = new MetaDTO()
+            {
+                metaID = table.I_MetaID,
+                metaDesc = table.T_MetaDesc,
+                metaCod = table.C_MetaCod
+            };
+
+            return metaDTO;
+        }
     }
 }

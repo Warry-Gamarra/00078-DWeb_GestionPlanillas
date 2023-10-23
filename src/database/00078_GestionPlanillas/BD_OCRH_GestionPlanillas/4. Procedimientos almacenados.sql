@@ -2083,3 +2083,245 @@ BEGIN
 	END CATCH
 END
 GO
+
+
+
+IF EXISTS (SELECT * FROM INFORMATION_SCHEMA.ROUTINES WHERE ROUTINE_TYPE = 'PROCEDURE' AND ROUTINE_NAME = 'USP_I_RegistrarActividad')
+	DROP PROCEDURE [dbo].[USP_I_RegistrarActividad]
+GO
+
+CREATE PROCEDURE [dbo].[USP_I_RegistrarActividad]
+@C_ActividadCod VARCHAR(20),
+@T_ActividadDesc VARCHAR(250),
+@I_UserID INT,
+@B_Result BIT OUTPUT,
+@T_Message VARCHAR(250) OUTPUT
+AS
+BEGIN
+	SET NOCOUNT ON;
+
+	DECLARE @D_FecCre DATETIME;
+
+	BEGIN TRAN
+	BEGIN TRY
+		SET @D_FecCre = GETDATE();
+
+		INSERT dbo.TC_Actividad(T_ActividadDesc, C_ActividadCod, B_Eliminado, I_UsuarioCre, D_FecCre)
+		VALUES(@T_ActividadDesc, @C_ActividadCod, 0, @I_UserID, @D_FecCre);
+
+		COMMIT TRAN
+
+		SET @B_Result = 1;
+
+		SET @T_Message = 'Registro correcto.';
+	END TRY
+	BEGIN CATCH
+		ROLLBACK TRAN
+		SET @B_Result = 0;
+
+		SET @T_Message = ERROR_MESSAGE();
+	END CATCH
+END
+GO
+
+
+
+IF EXISTS (SELECT * FROM INFORMATION_SCHEMA.ROUTINES WHERE ROUTINE_TYPE = 'PROCEDURE' AND ROUTINE_NAME = 'USP_U_ActualizarActividad')
+	DROP PROCEDURE [dbo].[USP_U_ActualizarActividad]
+GO
+
+CREATE PROCEDURE [dbo].[USP_U_ActualizarActividad]
+@I_ActividadID INT,
+@C_ActividadCod VARCHAR(20),
+@T_ActividadDesc VARCHAR(250),
+@I_UserID INT,
+@B_Result BIT OUTPUT,
+@T_Message VARCHAR(250) OUTPUT
+AS
+BEGIN
+	SET NOCOUNT ON;
+
+	DECLARE @D_FecMod DATETIME;
+
+	BEGIN TRAN
+	BEGIN TRY
+		SET @D_FecMod = GETDATE();
+
+		UPDATE dbo.TC_Actividad SET
+			C_ActividadCod = @C_ActividadCod,
+			T_ActividadDesc = @T_ActividadDesc,
+			I_UsuarioMod = @I_UserID,
+			D_FecMod = @D_FecMod
+		WHERE I_ActividadID = @I_ActividadID;
+
+		COMMIT TRAN
+
+		SET @B_Result = 1;
+
+		SET @T_Message = 'Actualización correcta.';
+	END TRY
+	BEGIN CATCH
+		ROLLBACK TRAN
+		SET @B_Result = 0;
+
+		SET @T_Message = ERROR_MESSAGE();
+	END CATCH
+END
+GO
+
+
+
+IF EXISTS (SELECT * FROM INFORMATION_SCHEMA.ROUTINES WHERE ROUTINE_TYPE = 'PROCEDURE' AND ROUTINE_NAME = 'USP_U_EliminarActividad')
+	DROP PROCEDURE [dbo].[USP_U_EliminarActividad]
+GO
+
+CREATE PROCEDURE [dbo].[USP_U_EliminarActividad]
+@I_ActividadID INT,
+@I_UserID INT,
+@B_Result BIT OUTPUT,
+@T_Message VARCHAR(250) OUTPUT
+AS
+BEGIN
+	SET NOCOUNT ON;
+
+	BEGIN TRAN
+	BEGIN TRY
+	
+		UPDATE dbo.TC_Actividad SET 
+			B_Eliminado= 1,
+			I_UsuarioMod = @I_UserID,
+			D_FecMod = GETDATE()
+		WHERE I_ActividadID = @I_ActividadID
+
+		COMMIT TRAN
+		SET @B_Result = 1;
+		SET @T_Message = 'Eliminación correcta.';
+	END TRY
+	BEGIN CATCH
+		ROLLBACK TRAN
+		SET @B_Result = 0;
+		SET @T_Message = ERROR_MESSAGE();
+	END CATCH
+END
+GO
+
+
+
+IF EXISTS (SELECT * FROM INFORMATION_SCHEMA.ROUTINES WHERE ROUTINE_TYPE = 'PROCEDURE' AND ROUTINE_NAME = 'USP_I_RegistrarMeta')
+	DROP PROCEDURE [dbo].[USP_I_RegistrarMeta]
+GO
+
+CREATE PROCEDURE [dbo].[USP_I_RegistrarMeta]
+@C_MetaCod VARCHAR(20),
+@T_MetaDesc VARCHAR(250),
+@I_UserID INT,
+@B_Result BIT OUTPUT,
+@T_Message VARCHAR(250) OUTPUT
+AS
+BEGIN
+	SET NOCOUNT ON;
+
+	DECLARE @D_FecCre DATETIME;
+
+	BEGIN TRAN
+	BEGIN TRY
+		SET @D_FecCre = GETDATE();
+
+		INSERT dbo.TC_Meta(T_MetaDesc, C_MetaCod, B_Eliminado, I_UsuarioCre, D_FecCre)
+		VALUES(@T_MetaDesc, @C_MetaCod, 0, @I_UserID, @D_FecCre);
+
+		COMMIT TRAN
+
+		SET @B_Result = 1;
+
+		SET @T_Message = 'Registro correcto.';
+	END TRY
+	BEGIN CATCH
+		ROLLBACK TRAN
+		SET @B_Result = 0;
+
+		SET @T_Message = ERROR_MESSAGE();
+	END CATCH
+END
+GO
+
+
+
+IF EXISTS (SELECT * FROM INFORMATION_SCHEMA.ROUTINES WHERE ROUTINE_TYPE = 'PROCEDURE' AND ROUTINE_NAME = 'USP_U_ActualizarMeta')
+	DROP PROCEDURE [dbo].[USP_U_ActualizarMeta]
+GO
+
+CREATE PROCEDURE [dbo].[USP_U_ActualizarMeta]
+@I_MetaID INT,
+@C_MetaCod VARCHAR(20),
+@T_MetaDesc VARCHAR(250),
+@I_UserID INT,
+@B_Result BIT OUTPUT,
+@T_Message VARCHAR(250) OUTPUT
+AS
+BEGIN
+	SET NOCOUNT ON;
+
+	DECLARE @D_FecMod DATETIME;
+
+	BEGIN TRAN
+	BEGIN TRY
+		SET @D_FecMod = GETDATE();
+
+		UPDATE dbo.TC_Meta SET
+			C_MetaCod = @C_MetaCod,
+			T_MetaDesc = @T_MetaDesc,
+			I_UsuarioMod = @I_UserID,
+			D_FecMod = @D_FecMod
+		WHERE I_MetaID = @I_MetaID;
+
+		COMMIT TRAN
+
+		SET @B_Result = 1;
+
+		SET @T_Message = 'Actualización correcta.';
+	END TRY
+	BEGIN CATCH
+		ROLLBACK TRAN
+		SET @B_Result = 0;
+
+		SET @T_Message = ERROR_MESSAGE();
+	END CATCH
+END
+GO
+
+
+
+IF EXISTS (SELECT * FROM INFORMATION_SCHEMA.ROUTINES WHERE ROUTINE_TYPE = 'PROCEDURE' AND ROUTINE_NAME = 'USP_U_EliminarMeta')
+	DROP PROCEDURE [dbo].[USP_U_EliminarMeta]
+GO
+
+CREATE PROCEDURE [dbo].[USP_U_EliminarMeta]
+@I_MetaID INT,
+@I_UserID INT,
+@B_Result BIT OUTPUT,
+@T_Message VARCHAR(250) OUTPUT
+AS
+BEGIN
+	SET NOCOUNT ON;
+
+	BEGIN TRAN
+	BEGIN TRY
+	
+		UPDATE dbo.TC_Meta SET 
+			B_Eliminado= 1,
+			I_UsuarioMod = @I_UserID,
+			D_FecMod = GETDATE()
+		WHERE I_MetaID = @I_MetaID
+
+		COMMIT TRAN
+		SET @B_Result = 1;
+		SET @T_Message = 'Eliminación correcta.';
+	END TRY
+	BEGIN CATCH
+		ROLLBACK TRAN
+		SET @B_Result = 0;
+		SET @T_Message = ERROR_MESSAGE();
+	END CATCH
+END
+GO
