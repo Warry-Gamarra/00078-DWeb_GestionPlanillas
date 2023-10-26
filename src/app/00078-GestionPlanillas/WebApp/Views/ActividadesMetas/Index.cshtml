@@ -5,7 +5,7 @@
                 <ol class="breadcrumb float-right small d-none d-sm-inline-flex">
                     <li class="breadcrumb-item"><a href="@Url.Action("Index", "Home")"><i class="fa fa-home">&nbsp;</i>Inicio</a></li>
                     <li class="breadcrumb-item"><span><i class="fa fa-cogs" aria-hidden="true">&nbsp;</i>Configuración </span></li>
-                    <li class="breadcrumb-item active"><span><i class="fa bi-building">&nbsp;</i>@ViewBag.Title </span></li>
+                    <li class="breadcrumb-item active"><span><i class="fa fa-flag">&nbsp;</i>@ViewBag.Title </span></li>
                 </ol>
             </nav>
             <h1 class="">@ViewBag.Title <small></small></h1>
@@ -14,28 +14,40 @@
 
     <div class="card mb-4">
         <div class="card-header">
-            <span class="h4">Dependencias</span>
-            <a href="@Url.Action("Nuevo", "Dependencias")" class="btn btn-primary pull-right modal-link">
-                <i class="fa fa-plus-circle" aria-hidden="true"></i> Nueva dependencia
+            <span class="h4">Actividades y Metas</span>
+            <a href="@Url.Action("Nuevo", "ActividadesMetas")" class="btn btn-primary pull-right modal-link">
+                <i class="fa fa-plus-circle" aria-hidden="true"></i> Nuevo registro
             </a>
         </div>
         <div class="card-body">
             <div class="table-responsive">
-                <table class="table table-hover" id="dataTableDependencias" width="100%">
+                <table class="table table-hover" id="dataTableDepActividadesMetas" width="100%">
                     <thead class="thead-dark">
                         <tr>
-                            <th>Código</th>
+                            <th>Año</th>
+                            <th>Clase</th>
+                            <th>Cod.Dep.</th>
+                            <th>Dependencia</th>
+                            <th>Actividad</th>
+                            <th>Meta</th>
                             <th>Descripción</th>
-                            <th></th>
+                            <th>Cod.Cat.Presup.</th>
+                            <th>Cat.Presupuestal</th>
                             <th></th>
                             <th></th>
                         </tr>
                     </thead>
                     <tfoot>
                         <tr>
-                            <th>Código</th>
+                            <th>Año</th>
+                            <th>Clase</th>
+                            <th>Cod.Dep.</th>
+                            <th>Dependencia</th>
+                            <th>Actividad</th>
+                            <th>Meta</th>
                             <th>Descripción</th>
-                            <th></th>
+                            <th>Cod.Cat.Presup.</th>
+                            <th>Cat.Presupuestal</th>
                             <th></th>
                             <th></th>
                         </tr>
@@ -49,13 +61,13 @@
 @section scripts {
     <script type="text/javascript">
         $(document).ready(function () {
-            generarDataTableDependencias();
+            generarDataTableDepActividadesMetas();
 
             $(".modal").on('hide.bs.modal', function () {
-                generarDataTableDependencias();
+                generarDataTableDepActividadesMetas();
             });
 
-            $('#dataTableDependencias').on('click', '.btn-eliminar', function (event) {
+            $('#dataTableDepActividadesMetas').on('click', '.btn-eliminar', function (event) {
                 event.preventDefault();
 
                 let id = $(this).data("id");
@@ -73,7 +85,7 @@
                 }).then((result) => {
                     if (result.isConfirmed) {
                         $.ajax({
-                            url: '@Url.Action("Eliminar", "Dependencias")/' + id,
+                            url: '@Url.Action("Eliminar", "ActividadesMetas")/' + id,
                             type: "POST",
                             data: { __RequestVerificationToken: token },
                             beforeSend: function () {
@@ -81,7 +93,7 @@
                             success: function (data) {
                                 if (data.Success) {
                                     mostrarMensajeSistema(data.Message, MENSAJE.SUCCESS);
-                                    generarDataTableDependencias();
+                                    generarDataTableDepActividadesMetas();
                                 } else {
                                     mostrarMensajeSistema(data.Message, MENSAJE.ERROR);
                                 }
@@ -95,48 +107,31 @@
             });
         });
 
-        function generarDataTableDependencias() {
-            $('#dataTableDependencias').DataTable({
+        function generarDataTableDepActividadesMetas() {
+            $('#dataTableDepActividadesMetas').DataTable({
                 ajax: {
-                    'url': '@Url.Action("ObtenerListaDependencias", "Dependencias")',
+                    'url': '@Url.Action("ObtenerListaDepActividadMetas", "ActividadesMetas")',
                     'type': 'get'
                 },
                 columns: [
+                    { data: 'anio' },
+                    { data: 'categoriaPlanillaDesc' },
                     { data: 'dependenciaCod' },
                     { data: 'dependenciaDesc' },
-                    { data: 'estaHabilitado' },
-                    { data: 'dependenciaID', width: '10%' },
-                    { data: 'dependenciaID', width: '10%' }
+                    { data: 'actividadCod' },
+                    { data: 'metaCod' },
+                    { data: 'descripcion' },
+                    { data: 'categoriaPresupCod' },
+                    { data: 'categoriaPresupDesc' },
+                    { data: 'depActividadMetaID', width: '10%' },
+                    { data: 'depActividadMetaID', width: '10%' }
                 ],
                 columnDefs: [
-                    {
-                        targets: -3,
-                        orderable: false,
-                        render: function (data, type, row) {
-                            let btnClass = (row.estaHabilitado === true) ? 'success' : 'secondary';
-                            let iClass = (row.estaHabilitado === true) ? 'check-circle-o' : 'minus-circle';
-                            let estado = (row.estaHabilitado === true) ? 'Habilitado' : 'Deshabilitado';
-
-                            let url = '@Url.Action("CambiarEstado", "Dependencias")';
-                            let token = $('input[name="__RequestVerificationToken"]').val();
-                            let container = 'dataTableDependencias';
-
-                            let onClickFunction = `ChangeState(${row.dependenciaID}, ${row.estaHabilitado}, '${url}', '${token}', '${container}')`;
-
-                            let html = `<span id="td${row.dependenciaID}">` +
-                                `<button type="submit" class="btn btn-xs btn-${btnClass}" onclick="${onClickFunction}">` +
-                                `<i class="fa fa-${iClass}" aria-hidden="true"></i> <span class="d-none d-md-inline-block">${estado}</span>` +
-                                '</button>' +
-                                '</span>';
-
-                            return html;
-                        }
-                    },
                     {
                         targets: -2,
                         orderable: false,
                         render: function (data, type, row) {
-                            return `<a class="modal-link" href="@Url.Action("Editar", "Dependencias")/${data}` +
+                            return `<a class="modal-link" href="@Url.Action("Editar", "ActividadesMetas")/${data}` +
                                 '"><i class="fa fa-pencil-square-o" aria-hidden="true"></i> <span class="d-none d-md-inline-block">Editar</span></a>';
                         }
                     },
@@ -173,7 +168,33 @@
                     loadingRecords: "Cargando...",
                     processing: "Procesando..."
                 },
-                searching: true
+                searching: true,
+                initComplete: function () {
+                    this.api().columns([0]).every(function () {
+                        let column = this;
+
+                        let select = document.createElement('select');
+                        select.add(new Option('Año', ''));
+                        column.footer().replaceChildren(select);
+
+                        select.addEventListener('change', function () {
+                            var val = $.fn.dataTable.util.escapeRegex(select.value);
+                            column.search(val ? '^' + val + '$' : '', true, false).draw();
+                        });
+
+                        column.data().unique().sort().each(function (d, j) {
+                            if (column.search() === '^' + d + '$') {
+                                select.add(new Option(d, d, true, true));
+                            } else {
+                                select.add(new Option(d, d));
+                            }
+                        });
+
+                        $(select).click(function (e) {
+                            e.stopPropagation();
+                        });
+                    });
+                }
             });
         }
     </script>

@@ -1,0 +1,108 @@
+﻿@model WebApp.Models.DepActividadMetaModel
+@Scripts.Render("~/bundles/jqueryval")
+
+<div class="modal-header bg-dark-gray" style="border-radius: .2rem .2rem 0px 0px">
+    <h5 class="modal-title text-center"><i class="fa fa-tag">&nbsp;</i> @ViewBag.Title</h5>
+    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+</div>
+
+<div class="modal-body">
+    @using (Ajax.BeginForm((string)ViewBag.Action, "ActividadesMetas", new { area = "" }, new AjaxOptions
+    {
+        HttpMethod = "POST",
+        InsertionMode = InsertionMode.Replace,
+        UpdateTargetId = "div_msg",
+        OnBegin = "Load",
+        OnComplete = "Stop"
+    }))
+    {
+        @Html.AntiForgeryToken()
+        @Html.HiddenFor(model => model.depActividadMetaID)
+        <div class="form-row">
+            <div class="col-12">
+                <div class="form-group">
+                    @Html.LabelFor(model => model.anio, new { @class = "control-label" })
+                    @Html.TextBoxFor(model => model.anio, new { @class = "form-control", @maxlength = "20" })
+                    @Html.ValidationMessageFor(model => model.anio, null, new { @class = "text-danger" })
+                </div>
+            </div>
+        </div>
+
+        <div class="form-row">
+            <div class="col-12">
+                <div class="form-group">
+                    @Html.LabelFor(model => model.categoriaPlanillaID, new { @class = "control-label" })
+                    @Html.TextBoxFor(model => model.categoriaPlanillaID, new { @class = "form-control", @maxlength = "20" })
+                    @Html.ValidationMessageFor(model => model.categoriaPlanillaID, null, new { @class = "text-danger" })
+                </div>
+            </div>
+        </div>
+
+        <div class="form-row">
+            <div class="col-12">
+                <div class="form-group">
+                    @Html.LabelFor(model => model.dependenciaID, new { @class = "control-label" })
+                    @Html.TextBoxFor(model => model.dependenciaID, new { @class = "form-control", @maxlength = "20" })
+                    @Html.ValidationMessageFor(model => model.dependenciaID, null, new { @class = "text-danger" })
+                </div>
+            </div>
+        </div>
+        
+        <div class="form-row">
+            <div class="col-12">
+                <div class="form-group">
+                    @Html.LabelFor(model => model.actividadID, new { @class = "control-label" })
+                    @Html.TextBoxFor(model => model.actividadID, new { @class = "form-control", @maxlength = "20" })
+                    @Html.ValidationMessageFor(model => model.actividadID, null, new { @class = "text-danger" })
+                </div>
+            </div>
+        </div>
+
+        <div class="form-row">
+            <div class="col-12">
+                <div class="form-group">
+                    @Html.LabelFor(model => model.metaID, new { @class = "control-label" })
+                    @Html.TextBoxFor(model => model.metaID, new { @class = "form-control", @maxlength = "20" })
+                    @Html.ValidationMessageFor(model => model.metaID, null, new { @class = "text-danger" })
+                </div>
+            </div>
+        </div>
+
+        <div class="form-row">
+            <div class="col-12">
+                <div class="form-group">
+                    @Html.LabelFor(model => model.descripcion, new { @class = "control-label" })
+                    @Html.TextBoxFor(model => model.descripcion, new { @class = "form-control", @maxlength = "250" })
+                    @Html.ValidationMessageFor(model => model.descripcion, null, new { @class = "text-danger" })
+                </div>
+            </div>
+        </div>
+
+        <div class="form-row">
+            <div class="col-12">
+                <div class="form-group">
+                    @Html.LabelFor(model => model.categoriaPresupuestalID, new { @class = "control-label" })
+                    @Html.TextBoxFor(model => model.categoriaPresupuestalID, new { @class = "form-control", @maxlength = "20" })
+                    @Html.ValidationMessageFor(model => model.categoriaPresupuestalID, null, new { @class = "text-danger" })
+                </div>
+            </div>
+        </div>
+
+        <div class="row d-flex justify-content-center">
+            <button type="submit" class="btn btn-primary center" id="btnsubmit"><i class="fa fa-save"></i> Guardar</button>
+        </div>
+    }
+</div>
+
+<div class="modal-footer" id="div_msg">
+    <div class="col-md-12" style="display:none" id="loading">
+        <h6>Espere un momento...</h6>
+        <div class="progress">
+            <div class="indeterminate"></div>
+        </div>
+    </div>
+
+    <button type="button" class="btn btn-secondary" id="btnCancel" data-dismiss="modal">
+        <i class="fa fa-times-circle-o"></i> Cerrar
+    </button>
+</div>

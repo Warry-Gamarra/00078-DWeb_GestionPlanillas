@@ -24,7 +24,7 @@ namespace WebApp.Controllers
         [HttpGet]
         public ActionResult Index()
         {
-            ViewBag.Title = "Mantenimiento de Dependencias";
+            ViewBag.Title = "Dependencias";
 
             return View();
         }

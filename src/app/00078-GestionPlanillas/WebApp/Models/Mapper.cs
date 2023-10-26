@@ -1,4 +1,5 @@
 ﻿using Domain.Entities;
+using Domain.Enums;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -359,6 +360,32 @@ namespace WebApp.Models
                 dependenciaCod = dto.dependenciaCod,
                 dependenciaDesc = dto.dependenciaDesc,
                 estaHabilitado = dto.estaHabilitado
+            };
+
+            return model;
+        }
+
+        public static DepActividadMetaModel DepActividadMetaDTO_To_DepActividadMetaModel(DepActividadMetaDTO dto)
+        {
+            var model = new DepActividadMetaModel()
+            {
+                depActividadMetaID = dto.depActividadMetaID,
+                anio = dto.anio,
+                categoriaPlanillaID = dto.categoriaPlanillaID,
+                categoriaPlanillaDesc = dto.categoriaPlanillaDesc,
+                dependenciaID = dto.dependenciaID,
+                dependenciaCod = dto.dependenciaCod,
+                dependenciaDesc = dto.dependenciaDesc,
+                descripcion = dto.descripcion,
+                actividadID = dto.actividadID,
+                actividadCod = dto.actividadCod,
+                actividadDesc = dto.actividadDesc,
+                metaID = dto.metaID,
+                metaCod = dto.metaCod,
+                metaDesc = dto.metaDesc,
+                categoriaPresupuestalID = dto.categoriaPresupuestalID,
+                categoriaPresupCod = dto.categoriaPresupCod,
+                categoriaPresupDesc = dto.categoriaPresupDesc
             };
 
             return model;

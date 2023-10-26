@@ -18,14 +18,13 @@ namespace Domain.Services.Implementations
         public Response GrabarDepActividadMeta(Operacion operacion, DepActividadMetaEntity depActividadMetaEntity, int userID)
         {
             Result result;
-            bool esRegistroDuplicado = true;
 
             try
             {
                 switch (operacion)
                 {
                     case Operacion.Registrar:
-                        if (VW_DepActividadMeta.IsDuplicate(depActividadMetaEntity.anio, depActividadMetaEntity.categoriaPlanillaID, 
+                        if (!VW_DepActividadMeta.IsDuplicate(null, depActividadMetaEntity.anio, depActividadMetaEntity.categoriaPlanillaID, 
                             depActividadMetaEntity.dependenciaID, depActividadMetaEntity.actividadID, depActividadMetaEntity.metaID))
                         {
                             var grabarDepActividadMeta = new USP_I_RegistrarDepActividadMeta()
@@ -59,19 +58,9 @@ namespace Domain.Services.Implementations
                             throw new Exception("Ha ocurrido un error al obtener los datos. Por favor recargue la página y vuelva a intentarlo.");
                         }
 
-                        //var actividadDTO = TC_Actividad.FindAll()
-                        //    .Where(x =>
-                        //        x.I_ActividadID != actividadEntity.actividadID.Value &&
-                        //        x.C_ActividadCod == actividadEntity.actividadCod)
-                        //    .FirstOrDefault();
-
-                        //if (actividadDTO != null)
-                        //{
-                        //    esCodigoActividadUnico = false;
-                        //}
-
-                        //if (esCodigoActividadUnico)
-                        //{
+                        if (!VW_DepActividadMeta.IsDuplicate(depActividadMetaEntity.depActividadMetaID.Value, depActividadMetaEntity.anio, depActividadMetaEntity.categoriaPlanillaID,
+                            depActividadMetaEntity.dependenciaID, depActividadMetaEntity.actividadID, depActividadMetaEntity.metaID))
+                        {
                             var actualizarDepActividadMeta = new USP_U_ActualizarDepActividadMeta()
                             {
                                 I_DepActividadMetaID = depActividadMetaEntity.depActividadMetaID.Value,
@@ -86,14 +75,14 @@ namespace Domain.Services.Implementations
                             };
 
                             result = actualizarDepActividadMeta.Execute();
-                        //}
-                        //else
-                        //{
-                        //    result = new Result()
-                        //    {
-                        //        Message = String.Format("El código \"{0}\" se encuentra repetido en el sistema.", actividadEntity.actividadCod)
-                        //    };
-                        //}
+                        }
+                        else
+                        {
+                            result = new Result()
+                            {
+                                Message = "Registro duplicado"
+                            };
+                        }
 
                         break;
 

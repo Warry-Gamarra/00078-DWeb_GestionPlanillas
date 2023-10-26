@@ -89,19 +89,29 @@ namespace Data.Views
             return result;
         }
 
-        public static bool IsDuplicate(int I_Anio, int I_CategoriaPlanillaID, int I_DependenciaID, int I_ActividadID, int I_MetaID)
+        public static bool IsDuplicate(int? I_DepActividadMetaID, int I_Anio, int I_CategoriaPlanillaID, int I_DependenciaID, int I_ActividadID, int I_MetaID)
         {
             IEnumerable<VW_DepActividadMeta> result;
             bool isDuplicate;
 
             try
             {
-                string s_command = "SELECT * FROM dbo.VW_DepActividadMeta " +
-                    "WHERE I_Anio = @I_Anio AND I_CategoriaPlanillaID = @I_CategoriaPlanillaID AND I_DependenciaID = @I_DependenciaID AND I_ActividadID = @I_ActividadID AND I_MetaID = @I_MetaID;";
+                string s_command = "SELECT * FROM dbo.VW_DepActividadMeta WHERE ";
+
+                s_command += I_DepActividadMetaID.HasValue ? "NOT I_DepActividadMetaID = @I_DepActividadMetaID AND " : "";
+
+                s_command += "I_Anio = @I_Anio AND I_CategoriaPlanillaID = @I_CategoriaPlanillaID AND I_DependenciaID = @I_DependenciaID AND I_ActividadID = @I_ActividadID AND I_MetaID = @I_MetaID;";
 
                 using (var _dbConnection = new SqlConnection(Database.ConnectionString))
                 {
-                    result = _dbConnection.Query<VW_DepActividadMeta>(s_command, commandType: System.Data.CommandType.Text);
+                    result = _dbConnection.Query<VW_DepActividadMeta>(s_command, new {
+                        I_DepActividadMetaID = I_DepActividadMetaID,
+                        I_Anio = I_Anio,
+                        I_CategoriaPlanillaID = I_CategoriaPlanillaID,
+                        I_DependenciaID = I_DependenciaID,
+                        I_ActividadID = I_ActividadID,
+                        I_MetaID = I_MetaID
+                    },commandType: System.Data.CommandType.Text);
                 }
 
                 isDuplicate = result.Count() > 0;
