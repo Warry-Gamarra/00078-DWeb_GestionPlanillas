@@ -47,6 +47,8 @@ namespace WebApp.Controllers
 
             ViewBag.Action = "Registrar";
 
+            ViewBag.ListaAños = _periodoServiceFacade.ObtenerComboAños();
+
             ViewBag.ListaMeses = _periodoServiceFacade.ObtenerComboMeses();
 
             var periodo = new PeriodoModel()
@@ -83,6 +85,8 @@ namespace WebApp.Controllers
             ViewBag.Action = "Actualizar";
 
             var periodo = _periodoServiceFacade.ObtenerPeriodo(id);
+
+            ViewBag.ListaAños = _periodoServiceFacade.ObtenerComboAños(selectedItem: periodo.anio);
 
             ViewBag.ListaMeses = _periodoServiceFacade.ObtenerComboMeses(selectedItem: periodo.mes);
 

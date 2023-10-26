@@ -2312,7 +2312,139 @@ BEGIN
 			B_Eliminado= 1,
 			I_UsuarioMod = @I_UserID,
 			D_FecMod = GETDATE()
-		WHERE I_MetaID = @I_MetaID
+		WHERE I_MetaID = @I_MetaID;
+
+		COMMIT TRAN
+		SET @B_Result = 1;
+		SET @T_Message = 'Eliminación correcta.';
+	END TRY
+	BEGIN CATCH
+		ROLLBACK TRAN
+		SET @B_Result = 0;
+		SET @T_Message = ERROR_MESSAGE();
+	END CATCH
+END
+GO
+
+
+
+IF EXISTS (SELECT * FROM INFORMATION_SCHEMA.ROUTINES WHERE ROUTINE_TYPE = 'PROCEDURE' AND ROUTINE_NAME = 'USP_I_RegistrarDepActividadMeta')
+	DROP PROCEDURE [dbo].[USP_I_RegistrarDepActividadMeta]
+GO
+
+CREATE PROCEDURE [dbo].[USP_I_RegistrarDepActividadMeta]
+@I_Anio INT,
+@I_CategoriaPlanillaID INT,
+@I_DependenciaID INT,
+@T_Descripcion VARCHAR(250),
+@I_ActividadID INT,
+@I_MetaID INT,
+@I_CategoriaPresupuestalID INT,
+@I_UserID INT,
+@B_Result BIT OUTPUT,
+@T_Message VARCHAR(250) OUTPUT
+AS
+BEGIN
+	SET NOCOUNT ON;
+
+	DECLARE @D_FecCre DATETIME;
+
+	BEGIN TRAN
+	BEGIN TRY
+		SET @D_FecCre = GETDATE();
+
+		INSERT dbo.TC_DepActividadMeta(I_Anio, I_CategoriaPlanillaID, I_DependenciaID, T_Descripcion, I_ActividadID, I_MetaID, I_CategoriaPresupuestalID, I_UsuarioCre, D_FecCre)
+		VALUES(@I_Anio, @I_CategoriaPlanillaID, @I_DependenciaID, @T_Descripcion, @I_ActividadID, @I_MetaID, @I_CategoriaPresupuestalID, @I_UserID, @D_FecCre);
+
+		COMMIT TRAN
+
+		SET @B_Result = 1;
+
+		SET @T_Message = 'Registro correcto.';
+	END TRY
+	BEGIN CATCH
+		ROLLBACK TRAN
+		SET @B_Result = 0;
+
+		SET @T_Message = ERROR_MESSAGE();
+	END CATCH
+END
+GO
+
+
+
+IF EXISTS (SELECT * FROM INFORMATION_SCHEMA.ROUTINES WHERE ROUTINE_TYPE = 'PROCEDURE' AND ROUTINE_NAME = 'USP_U_ActualizarDepActividadMeta')
+	DROP PROCEDURE [dbo].[USP_U_ActualizarDepActividadMeta]
+GO
+
+CREATE PROCEDURE [dbo].[USP_U_ActualizarDepActividadMeta]
+@I_DepActividadMetaID INT,
+@I_Anio INT,
+@I_CategoriaPlanillaID INT,
+@I_DependenciaID INT,
+@T_Descripcion VARCHAR(250),
+@I_ActividadID INT,
+@I_MetaID INT,
+@I_CategoriaPresupuestalID INT,
+@I_UserID INT,
+@B_Result BIT OUTPUT,
+@T_Message VARCHAR(250) OUTPUT
+AS
+BEGIN
+	SET NOCOUNT ON;
+
+	DECLARE @D_FecMod DATETIME;
+
+	BEGIN TRAN
+	BEGIN TRY
+		SET @D_FecMod = GETDATE();
+
+		UPDATE dbo.TC_DepActividadMeta SET
+			I_Anio = @I_Anio,
+			I_CategoriaPlanillaID = @I_CategoriaPlanillaID,
+			I_DependenciaID = @I_DependenciaID,
+			T_Descripcion = @T_Descripcion,
+			I_ActividadID = @I_ActividadID,
+			I_MetaID = @I_MetaID,
+			I_CategoriaPresupuestalID = @I_CategoriaPresupuestalID,
+			I_UsuarioMod = @I_UserID,
+			D_FecMod = @D_FecMod
+		WHERE I_DepActividadMetaID = @I_DepActividadMetaID;
+
+		COMMIT TRAN
+
+		SET @B_Result = 1;
+
+		SET @T_Message = 'Actualización correcta.';
+	END TRY
+	BEGIN CATCH
+		ROLLBACK TRAN
+		SET @B_Result = 0;
+
+		SET @T_Message = ERROR_MESSAGE();
+	END CATCH
+END
+GO
+
+
+
+IF EXISTS (SELECT * FROM INFORMATION_SCHEMA.ROUTINES WHERE ROUTINE_TYPE = 'PROCEDURE' AND ROUTINE_NAME = 'USP_D_EliminarDepActividadMeta')
+	DROP PROCEDURE [dbo].[USP_D_EliminarDepActividadMeta]
+GO
+
+CREATE PROCEDURE [dbo].[USP_D_EliminarDepActividadMeta]
+@I_DepActividadMetaID INT,
+@I_UserID INT,
+@B_Result BIT OUTPUT,
+@T_Message VARCHAR(250) OUTPUT
+AS
+BEGIN
+	SET NOCOUNT ON;
+
+	BEGIN TRAN
+	BEGIN TRY
+	
+		DELETE FROM dbo.TC_DepActividadMeta WHERE I_DepActividadMetaID = @I_DepActividadMetaID;
 
 		COMMIT TRAN
 		SET @B_Result = 1;

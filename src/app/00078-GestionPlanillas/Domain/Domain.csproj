@@ -75,6 +75,8 @@
     <Compile Include="Entities\ConceptoDTO.cs" />
     <Compile Include="Entities\ConceptoEntity.cs" />
     <Compile Include="Entities\ConceptoAsignadoPlantillaDTO.cs" />
+    <Compile Include="Entities\DepActividadMetaDTO.cs" />
+    <Compile Include="Entities\DepActividadMetaEntity.cs" />
     <Compile Include="Entities\DependenciaEntity.cs" />
     <Compile Include="Entities\MetaDTO.cs" />
     <Compile Include="Entities\MetaEntity.cs" />
@@ -125,6 +127,7 @@
     <Compile Include="Services\ICategoriaDocenteService.cs" />
     <Compile Include="Services\ICategoriaPlanillaService.cs" />
     <Compile Include="Services\IConceptoService.cs" />
+    <Compile Include="Services\IDepActividadMetaService.cs" />
     <Compile Include="Services\IGeneracionArchivoService.cs" />
     <Compile Include="Services\IGrupoOcupacionalService.cs" />
     <Compile Include="Services\IAdministrativoService.cs" />
@@ -142,6 +145,7 @@
     <Compile Include="Services\Implementations\CategoriaDocenteService.cs" />
     <Compile Include="Services\Implementations\CategoriaPlanillaService.cs" />
     <Compile Include="Services\Implementations\ConceptoService.cs" />
+    <Compile Include="Services\Implementations\DepActividadMetaService.cs" />
     <Compile Include="Services\Implementations\DependenciaService.cs" />
     <Compile Include="Services\Implementations\DocenteService.cs" />
     <Compile Include="Services\Implementations\EstadoService.cs" />

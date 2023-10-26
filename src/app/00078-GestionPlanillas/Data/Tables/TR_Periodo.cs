@@ -68,7 +68,7 @@ namespace Data.Tables
 
             try
             {
-                string s_command = "SELECT DISTINCT I_Anio FROM dbo.TR_Periodo ORDER BY I_Anio DESC;";
+                string s_command = "SELECT I_Anio FROM dbo.TC_Anio ORDER BY I_Anio DESC;";
 
                 using (var _dbConnection = new SqlConnection(Database.ConnectionString))
                 {

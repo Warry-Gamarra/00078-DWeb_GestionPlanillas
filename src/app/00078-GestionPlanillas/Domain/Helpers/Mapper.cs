@@ -2,6 +2,7 @@
 using Data.Tables;
 using Data.Views;
 using Domain.Entities;
+using Domain.Enums;
 using ExcelDataReader;
 using System;
 using System.Collections.Generic;
@@ -635,6 +636,32 @@ namespace Domain.Helpers
             };
 
             return metaDTO;
+        }
+
+        public static DepActividadMetaDTO VW_DepActividadMeta_To_DepActividadMetaDTO(VW_DepActividadMeta view)
+        {
+            var depActividadMetaDTO = new DepActividadMetaDTO()
+            {
+                depActividadMetaID = view.I_DepActividadMetaID,
+                anio = view.I_Anio,
+                categoriaPlanillaID = view.I_CategoriaPlanillaID,
+                categoriaPlanillaDesc = view.T_CategoriaPlanillaDesc,
+                dependenciaID = view.I_DependenciaID,
+                dependenciaCod = view.C_DependenciaCod,
+                dependenciaDesc = view.T_DependenciaDesc,
+                descripcion = view.T_Descripcion,
+                actividadID = view.I_ActividadID,
+                actividadCod = view.C_ActividadCod,
+                actividadDesc = view.T_ActividadDesc,
+                metaID = view.I_MetaID,
+                metaCod = view.C_MetaCod,
+                metaDesc = view.T_MetaDesc,
+                categoriaPresupuestalID = view.I_CategoriaPresupuestalID,
+                categoriaPresupCod = view.T_CategoriaPresupCod,
+                categoriaPresupDesc = view.T_CategoriaPresupDesc
+            };
+
+            return depActividadMetaDTO;
         }
     }
 }

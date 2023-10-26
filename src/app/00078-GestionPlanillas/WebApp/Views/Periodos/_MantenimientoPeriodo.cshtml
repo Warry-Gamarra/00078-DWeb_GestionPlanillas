@@ -22,7 +22,7 @@
             <div class="col-12">
                 <div class="form-group">
                     @Html.LabelFor(model => model.anio, new { @class = "control-label" })
-                    @Html.TextBoxFor(model => model.anio, new { @class = "form-control", @maxlength = "4" })
+                    @Html.DropDownListFor(model => model.anio, ViewBag.ListaAños as SelectList, "[ SELECCIONAR ]", new { @class = "form-control" })
                     @Html.ValidationMessageFor(model => model.anio, null, new { @class = "text-danger" })
                 </div>
             </div>

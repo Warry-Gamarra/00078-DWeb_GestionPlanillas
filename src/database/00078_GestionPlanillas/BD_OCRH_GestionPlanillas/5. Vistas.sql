@@ -240,7 +240,37 @@ GO
 
 
 
+IF EXISTS (SELECT * FROM INFORMATION_SCHEMA.VIEWS WHERE TABLE_NAME = 'VW_DepActividadMeta')
+	DROP VIEW [dbo].[VW_DepActividadMeta]
+GO
 
+CREATE VIEW [dbo].[VW_DepActividadMeta]
+AS
+SELECT
+	dam.I_DepActividadMetaID,
+	dam.I_Anio,
+	cp.I_CategoriaPlanillaID,
+	cp.T_CategoriaPlanillaDesc,
+	dep.I_DependenciaID,
+	dep.C_DependenciaCod,
+	dep.T_DependenciaDesc,
+	dam.T_Descripcion,
+	act.I_ActividadID,
+	act.C_ActividadCod,
+	act.T_ActividadDesc,
+	met.I_MetaID,
+	met.C_MetaCod,
+	met.T_MetaDesc,
+	catp.I_CategoriaPresupuestalID,
+	catp.T_CategoriaPresupCod,
+	catp.T_CategoriaPresupDesc
+FROM dbo.TC_DepActividadMeta dam
+INNER JOIN dbo.TC_CategoriaPlanilla cp ON cp.I_CategoriaPlanillaID = dam.I_CategoriaPlanillaID
+INNER JOIN dbo.TC_Dependencia dep ON dep.I_DependenciaID = dam.I_DependenciaID
+INNER JOIN dbo.TC_Actividad act ON act.I_ActividadID = dam.I_ActividadID
+INNER JOIN dbo.TC_Meta met ON met.I_MetaID = dam.I_MetaID
+INNER JOIN dbo.TC_CategoriaPresupuestal catp ON catp.I_CategoriaPresupuestalID = dam.I_CategoriaPresupuestalID
+GO
 
 
 

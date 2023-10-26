@@ -281,6 +281,16 @@ GO
 
 
 --DATA EJEMPLO
+INSERT dbo.TC_Anio(I_Anio) VALUES(2023)
+INSERT dbo.TC_Anio(I_Anio) VALUES(2024)
+INSERT dbo.TC_Anio(I_Anio) VALUES(2025)
+INSERT dbo.TC_Anio(I_Anio) VALUES(2026)
+INSERT dbo.TC_Anio(I_Anio) VALUES(2027)
+INSERT dbo.TC_Anio(I_Anio) VALUES(2028)
+INSERT dbo.TC_Anio(I_Anio) VALUES(2029)
+INSERT dbo.TC_Anio(I_Anio) VALUES(2030)
+GO
+
 INSERT dbo.TR_Periodo(I_Anio, I_Mes, T_MesDesc)VALUES(2023, 1, 'Enero')
 INSERT dbo.TR_Periodo(I_Anio, I_Mes, T_MesDesc)VALUES(2023, 2, 'Febrero')
 INSERT dbo.TR_Periodo(I_Anio, I_Mes, T_MesDesc)VALUES(2023, 3, 'Marzo')
@@ -299,6 +309,46 @@ GO
 INSERT dbo.TC_Proveedor(T_ProveedorDesc, B_Habilitado, B_Eliminado) VALUES('BANCO DE LA NACIÓN', 1, 0)
 INSERT dbo.TC_Proveedor(T_ProveedorDesc, B_Habilitado, B_Eliminado) VALUES('BANCO DE CRÉDITO', 1, 0)
 INSERT dbo.TC_Proveedor(T_ProveedorDesc, B_Habilitado, B_Eliminado) VALUES('BANCO SCOTIABANK', 1, 0)
+GO
+
+
+INSERT dbo.TC_Actividad(T_ActividadDesc, C_ActividadCod, B_Eliminado) VALUES('', '5000001', 0)
+INSERT dbo.TC_Actividad(T_ActividadDesc, C_ActividadCod, B_Eliminado) VALUES('', '5000002', 0)
+INSERT dbo.TC_Actividad(T_ActividadDesc, C_ActividadCod, B_Eliminado) VALUES('', '5000003', 0)
+INSERT dbo.TC_Actividad(T_ActividadDesc, C_ActividadCod, B_Eliminado) VALUES('', '5000004', 0)
+INSERT dbo.TC_Actividad(T_ActividadDesc, C_ActividadCod, B_Eliminado) VALUES('', '5000005', 0)
+INSERT dbo.TC_Actividad(T_ActividadDesc, C_ActividadCod, B_Eliminado) VALUES('', '5000006', 0)
+INSERT dbo.TC_Actividad(T_ActividadDesc, C_ActividadCod, B_Eliminado) VALUES('', '5000276', 0)
+INSERT dbo.TC_Actividad(T_ActividadDesc, C_ActividadCod, B_Eliminado) VALUES('', '5001792', 0)
+INSERT dbo.TC_Actividad(T_ActividadDesc, C_ActividadCod, B_Eliminado) VALUES('', '5001980', 0)
+INSERT dbo.TC_Actividad(T_ActividadDesc, C_ActividadCod, B_Eliminado) VALUES('', '5002006', 0)
+INSERT dbo.TC_Actividad(T_ActividadDesc, C_ActividadCod, B_Eliminado) VALUES('', '5002008', 0)
+INSERT dbo.TC_Actividad(T_ActividadDesc, C_ActividadCod, B_Eliminado) VALUES('', '5002189', 0)
+INSERT dbo.TC_Actividad(T_ActividadDesc, C_ActividadCod, B_Eliminado) VALUES('', '5002267', 0)
+INSERT dbo.TC_Actividad(T_ActividadDesc, C_ActividadCod, B_Eliminado) VALUES('', '5005857', 0)
+GO
+
+
+INSERT dbo.TC_Meta(T_MetaDesc, C_MetaCod, B_Eliminado) VALUES('', '0000', 0)
+INSERT dbo.TC_Meta(T_MetaDesc, C_MetaCod, B_Eliminado) VALUES('', '0011', 0)
+INSERT dbo.TC_Meta(T_MetaDesc, C_MetaCod, B_Eliminado) VALUES('', '0014', 0)
+INSERT dbo.TC_Meta(T_MetaDesc, C_MetaCod, B_Eliminado) VALUES('', '0021', 0)
+INSERT dbo.TC_Meta(T_MetaDesc, C_MetaCod, B_Eliminado) VALUES('', '0022', 0)
+INSERT dbo.TC_Meta(T_MetaDesc, C_MetaCod, B_Eliminado) VALUES('', '0023', 0)
+INSERT dbo.TC_Meta(T_MetaDesc, C_MetaCod, B_Eliminado) VALUES('', '0024', 0)
+INSERT dbo.TC_Meta(T_MetaDesc, C_MetaCod, B_Eliminado) VALUES('', '0025', 0)
+INSERT dbo.TC_Meta(T_MetaDesc, C_MetaCod, B_Eliminado) VALUES('', '0026', 0)
+INSERT dbo.TC_Meta(T_MetaDesc, C_MetaCod, B_Eliminado) VALUES('', '0028', 0)
+INSERT dbo.TC_Meta(T_MetaDesc, C_MetaCod, B_Eliminado) VALUES('', '0029', 0)
+INSERT dbo.TC_Meta(T_MetaDesc, C_MetaCod, B_Eliminado) VALUES('', '0030', 0)
+INSERT dbo.TC_Meta(T_MetaDesc, C_MetaCod, B_Eliminado) VALUES('', '0031', 0)
+INSERT dbo.TC_Meta(T_MetaDesc, C_MetaCod, B_Eliminado) VALUES('', '0032', 0)
+GO
+
+
+INSERT dbo.TC_CategoriaPresupuestal(T_CategoriaPresupDesc, T_CategoriaPresupCod, B_Habilitado, B_Eliminado) VALUES('0066', 'PROGRAMA PRESUPUESTAL CON ENFOQUE DE RESULTADO', 1, 0)
+INSERT dbo.TC_CategoriaPresupuestal(T_CategoriaPresupDesc, T_CategoriaPresupCod, B_Habilitado, B_Eliminado) VALUES('9001', 'ACCIONES CENTRALES', 1, 0)
+INSERT dbo.TC_CategoriaPresupuestal(T_CategoriaPresupDesc, T_CategoriaPresupCod, B_Habilitado, B_Eliminado) VALUES('9002', 'ASIGNACIONES PRESUPUESTARIAS QUE NO RESULTAN EN PRODUCTOS', 1, 0)
 GO
 
 

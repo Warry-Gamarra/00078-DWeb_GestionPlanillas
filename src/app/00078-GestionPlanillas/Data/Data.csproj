@@ -47,12 +47,15 @@
   <ItemGroup>
     <Compile Include="Connection\Database.cs" />
     <Compile Include="Connection\Result.cs" />
+    <Compile Include="Procedures\USP_D_EliminarDepActividadMeta.cs" />
     <Compile Include="Procedures\USP_D_EliminarPeriodo.cs" />
     <Compile Include="Procedures\USP_IU_GrabarValorExterno.cs" />
     <Compile Include="Procedures\USP_I_RegistrarActividad.cs" />
+    <Compile Include="Procedures\USP_I_RegistrarDepActividadMeta.cs" />
     <Compile Include="Procedures\USP_I_RegistrarDependencia.cs" />
     <Compile Include="Procedures\USP_I_RegistrarMeta.cs" />
     <Compile Include="Procedures\USP_U_ActualizarActividad.cs" />
+    <Compile Include="Procedures\USP_U_ActualizarDepActividadMeta.cs" />
     <Compile Include="Procedures\USP_U_ActualizarDependencia.cs" />
     <Compile Include="Procedures\USP_U_ActualizarMeta.cs" />
     <Compile Include="Procedures\USP_U_ActualizarPeriodo.cs" />
@@ -104,6 +107,7 @@
     <Compile Include="Views\VW_Conceptos.cs" />
     <Compile Include="Views\VW_ConceptosAsignados_Plantilla.cs" />
     <Compile Include="Views\VW_ConceptosReferencia_Plantilla.cs" />
+    <Compile Include="Views\VW_DepActividadMeta.cs" />
     <Compile Include="Views\VW_PlantillasPlanilla.cs" />
     <Compile Include="Views\VW_ResumenPlanillaTrabajador.cs" />
     <Compile Include="Views\VW_Administrativo.cs" />

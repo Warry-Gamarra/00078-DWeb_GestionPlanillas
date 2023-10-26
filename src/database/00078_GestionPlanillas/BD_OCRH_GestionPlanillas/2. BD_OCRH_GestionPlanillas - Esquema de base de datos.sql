@@ -428,6 +428,12 @@ CREATE TABLE TC_Trabajador_CategoriaPlanilla
 	CONSTRAINT FK_CategoriaPlanilla_TrabajadorCategoriaPlanilla FOREIGN KEY (I_CategoriaPlanillaID) REFERENCES TC_CategoriaPlanilla(I_CategoriaPlanillaID)
 )
 
+CREATE TABLE TC_Anio
+(
+	I_Anio INT NOT NULL,
+	CONSTRAINT PK_Anio PRIMARY KEY (I_Anio)
+)
+
 CREATE TABLE TR_Periodo
 (
 	I_PeriodoID INT IDENTITY(1,1),
@@ -439,6 +445,7 @@ CREATE TABLE TR_Periodo
 	I_UsuarioMod INT,
 	D_FecMod DATETIME,
 	CONSTRAINT PK_Periodo PRIMARY KEY (I_PeriodoID),
+	CONSTRAINT FK_Anio_Periodo FOREIGN KEY (I_Anio) REFERENCES TC_Anio(I_Anio),
 	CONSTRAINT UQ_Periodo UNIQUE(I_Anio, I_Mes)
 )
 
@@ -692,4 +699,41 @@ CREATE TABLE TC_Meta
 	I_UsuarioMod INT,
 	D_FecMod DATETIME,
 	CONSTRAINT PK_Meta PRIMARY KEY (I_MetaID)
+)
+
+CREATE TABLE TC_CategoriaPresupuestal
+(
+	I_CategoriaPresupuestalID INT IDENTITY(1,1),
+	T_CategoriaPresupDesc VARCHAR(250),
+	T_CategoriaPresupCod VARCHAR(250),
+	B_Habilitado BIT NOT NULL,
+	B_Eliminado BIT NOT NULL,
+	I_UsuarioCre INT,
+	D_FecCre DATETIME,
+	I_UsuarioMod INT,
+	D_FecMod DATETIME,
+	CONSTRAINT PK_CategoriaPresupuestal PRIMARY KEY (I_CategoriaPresupuestalID)
+)
+
+CREATE TABLE TC_DepActividadMeta
+(
+	I_DepActividadMetaID INT IDENTITY(1,1),
+	I_Anio INT NOT NULL,
+	I_CategoriaPlanillaID INT NOT NULL,
+	I_DependenciaID INT NOT NULL,
+	T_Descripcion VARCHAR(250),
+	I_ActividadID INT NOT NULL,
+	I_MetaID INT NOT NULL,
+	I_CategoriaPresupuestalID INT NOT NULL,
+	I_UsuarioCre INT,
+	D_FecCre DATETIME,
+	I_UsuarioMod INT,
+	D_FecMod DATETIME,
+	CONSTRAINT FK_Anio_DepActividadMeta FOREIGN KEY (I_Anio) REFERENCES TC_Anio(I_Anio),
+	CONSTRAINT PK_DepActividadMeta PRIMARY KEY(I_DepActividadMetaID),
+	CONSTRAINT FK_CategoriaPlanilla_DepActividadMeta FOREIGN KEY(I_CategoriaPlanillaID) REFERENCES TC_CategoriaPlanilla(I_CategoriaPlanillaID),
+	CONSTRAINT FK_Dependencia_DepActividadMeta FOREIGN KEY(I_DependenciaID) REFERENCES TC_Dependencia(I_DependenciaID),
+	CONSTRAINT FK_Actividad_DepActividadMeta FOREIGN KEY(I_ActividadID) REFERENCES TC_Actividad(I_ActividadID),
+	CONSTRAINT FK_Meta_DepActividadMeta FOREIGN KEY(I_MetaID) REFERENCES TC_Meta(I_MetaID),
+	CONSTRAINT FK_CategoriaPresupuestal_DepActividadMeta FOREIGN KEY(I_CategoriaPresupuestalID) REFERENCES TC_CategoriaPresupuestal(I_CategoriaPresupuestalID)
 )
