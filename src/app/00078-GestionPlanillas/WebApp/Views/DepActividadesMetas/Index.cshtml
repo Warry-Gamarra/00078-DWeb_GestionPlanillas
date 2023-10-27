@@ -15,7 +15,7 @@
     <div class="card mb-4">
         <div class="card-header">
             <span class="h4">Actividades y Metas</span>
-            <a href="@Url.Action("Nuevo", "ActividadesMetas")" class="btn btn-primary pull-right modal-link">
+            <a href="@Url.Action("Nuevo", "DepActividadesMetas")" class="btn btn-primary pull-right modal-link">
                 <i class="fa fa-plus-circle" aria-hidden="true"></i> Nuevo registro
             </a>
         </div>
@@ -85,7 +85,7 @@
                 }).then((result) => {
                     if (result.isConfirmed) {
                         $.ajax({
-                            url: '@Url.Action("Eliminar", "ActividadesMetas")/' + id,
+                            url: '@Url.Action("Eliminar", "DepActividadesMetas")/' + id,
                             type: "POST",
                             data: { __RequestVerificationToken: token },
                             beforeSend: function () {
@@ -110,7 +110,7 @@
         function generarDataTableDepActividadesMetas() {
             $('#dataTableDepActividadesMetas').DataTable({
                 ajax: {
-                    'url': '@Url.Action("ObtenerListaDepActividadMetas", "ActividadesMetas")',
+                    'url': '@Url.Action("ObtenerListaDepActividadMetas", "DepActividadesMetas")',
                     'type': 'get'
                 },
                 columns: [
@@ -131,7 +131,7 @@
                         targets: -2,
                         orderable: false,
                         render: function (data, type, row) {
-                            return `<a class="modal-link" href="@Url.Action("Editar", "ActividadesMetas")/${data}` +
+                            return `<a class="modal-link" href="@Url.Action("Editar", "DepActividadesMetas")/${data}` +
                                 '"><i class="fa fa-pencil-square-o" aria-hidden="true"></i> <span class="d-none d-md-inline-block">Editar</span></a>';
                         }
                     },

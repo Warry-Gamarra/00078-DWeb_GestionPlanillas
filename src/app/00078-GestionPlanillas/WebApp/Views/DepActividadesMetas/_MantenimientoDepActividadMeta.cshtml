@@ -7,7 +7,7 @@
 </div>
 
 <div class="modal-body">
-    @using (Ajax.BeginForm((string)ViewBag.Action, "ActividadesMetas", new { area = "" }, new AjaxOptions
+    @using (Ajax.BeginForm((string)ViewBag.Action, "DepActividadesMetas", new { area = "" }, new AjaxOptions
     {
         HttpMethod = "POST",
         InsertionMode = InsertionMode.Replace,
@@ -42,7 +42,7 @@
             <div class="col-12">
                 <div class="form-group">
                     @Html.LabelFor(model => model.dependenciaID, new { @class = "control-label" })
-                    @Html.TextBoxFor(model => model.dependenciaID, new { @class = "form-control", @maxlength = "20" })
+                    @Html.DropDownListFor(model => model.dependenciaID, ViewBag.ListaDependencias as SelectList, "[ SELECCIONAR ]", new { @class = "form-control text-uppercase select-filter-modal" })
                     @Html.ValidationMessageFor(model => model.dependenciaID, null, new { @class = "text-danger" })
                 </div>
             </div>
@@ -52,7 +52,7 @@
             <div class="col-12">
                 <div class="form-group">
                     @Html.LabelFor(model => model.actividadID, new { @class = "control-label" })
-                    @Html.TextBoxFor(model => model.actividadID, new { @class = "form-control", @maxlength = "20" })
+                    @Html.DropDownListFor(model => model.actividadID, ViewBag.ListaActividades as SelectList, "[ SELECCIONAR ]", new { @class = "form-control text-uppercase" })
                     @Html.ValidationMessageFor(model => model.actividadID, null, new { @class = "text-danger" })
                 </div>
             </div>
@@ -62,7 +62,7 @@
             <div class="col-12">
                 <div class="form-group">
                     @Html.LabelFor(model => model.metaID, new { @class = "control-label" })
-                    @Html.TextBoxFor(model => model.metaID, new { @class = "form-control", @maxlength = "20" })
+                    @Html.DropDownListFor(model => model.metaID, ViewBag.ListaMetas as SelectList, "[ SELECCIONAR ]", new { @class = "form-control text-uppercase" })
                     @Html.ValidationMessageFor(model => model.metaID, null, new { @class = "text-danger" })
                 </div>
             </div>
@@ -106,3 +106,15 @@
         <i class="fa fa-times-circle-o"></i> Cerrar
     </button>
 </div>
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        $('.select-filter-modal').select2({
+            theme: 'bootstrap4',
+            dropdownParent: $('#modal-container'),
+            placeholder: "[ SELECCIONAR ]"
+        }).on('hide', function (e) {
+            e.stopPropagation();
+        });
+    });
+</script>

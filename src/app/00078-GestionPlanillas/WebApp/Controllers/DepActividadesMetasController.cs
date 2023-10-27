@@ -12,13 +12,19 @@ using WebMatrix.WebData;
 
 namespace WebApp.Controllers
 {
-    public class ActividadesMetasController : Controller
+    public class DepActividadesMetasController : Controller
     {
         private IDepActividadMetaServiceFacade _depActividadMetaServiceFacade;
+        private IActividadServiceFacade _actividadServiceFacade;
+        private IMetaServiceFacade _metaServiceFacade;
+        private IDependenciaServiceFacade _dependenciaServiceFacade;
 
-        public ActividadesMetasController()
+        public DepActividadesMetasController()
         {
             _depActividadMetaServiceFacade = new DepActividadMetaServiceFacade();
+            _actividadServiceFacade = new ActividadServiceFacade();
+            _metaServiceFacade = new MetaServiceFacade();
+            _dependenciaServiceFacade = new DependenciaServiceFacade();
         }
 
         [HttpGet]
@@ -48,7 +54,13 @@ namespace WebApp.Controllers
 
             var model = new DepActividadMetaModel();
 
-            return PartialView("_MantenimientoActividadMeta", model);
+            ViewBag.ListaActividades = _actividadServiceFacade.ObtenerComboActividades();
+
+            ViewBag.ListaMetas = _metaServiceFacade.ObtenerComboMetas();
+
+            ViewBag.ListaDependencias = _dependenciaServiceFacade.ObtenerComboDependencias();
+
+            return PartialView("_MantenimientoDepActividadMeta", model);
         }
 
         [HttpPost]
@@ -66,7 +78,7 @@ namespace WebApp.Controllers
                 response.Message = "Ocurrió un error.";
             }
 
-            return PartialView("_MsgRegistrarActividadMeta", response);
+            return PartialView("_MsgRegistrarDepActividadMeta", response);
         }
 
         [HttpGet]
@@ -78,7 +90,13 @@ namespace WebApp.Controllers
 
             var model = _depActividadMetaServiceFacade.ObtenerDepActividadMeta(id);
 
-            return PartialView("_MantenimientoActividadMeta", model);
+            ViewBag.ListaActividades = _actividadServiceFacade.ObtenerComboActividades(model.actividadID);
+
+            ViewBag.ListaMetas = _metaServiceFacade.ObtenerComboMetas(model.metaID);
+
+            ViewBag.ListaDependencias = _dependenciaServiceFacade.ObtenerComboDependencias(incluirDeshabilitados: true, selectedItem: model.dependenciaID);
+
+            return PartialView("_MantenimientoDepActividadMeta", model);
         }
 
         [HttpPost]
@@ -96,7 +114,7 @@ namespace WebApp.Controllers
                 response.Message = "Ocurrió un error.";
             }
 
-            return PartialView("_MsgRegistrarActividadMeta", response);
+            return PartialView("_MsgRegistrarDepActividadMeta", response);
         }
 
         [HttpPost]

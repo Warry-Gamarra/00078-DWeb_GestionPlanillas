@@ -89,7 +89,7 @@ namespace WebApp.Controllers
 
             ViewBag.ListaRoles = _rolServiceFacade.ObtenerComboRoles(selectedItem: usuarioModel.roleId);
 
-            ViewBag.ListaDependencias = _dependenciaServiceFacade.ObtenerComboDependencias(selectedItem: usuarioModel.dependenciaID);
+            ViewBag.ListaDependencias = _dependenciaServiceFacade.ObtenerComboDependencias(incluirDeshabilitados: true, selectedItem: usuarioModel.dependenciaID);
 
             return PartialView("_MantenimientoUsuario", usuarioModel);
         }
