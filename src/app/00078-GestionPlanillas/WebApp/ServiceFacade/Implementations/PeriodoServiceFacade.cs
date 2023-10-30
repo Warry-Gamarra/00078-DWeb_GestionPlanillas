@@ -21,6 +21,11 @@ namespace WebApp.ServiceFacade.Implementations
             _periodoService = new PeriodoService();
         }
 
+        public List<int> ListarAños()
+        {
+            return _periodoService.ListarAños();
+        }
+
         public SelectList ObtenerComboAños(int? selectedItem = null)
         {
             var lista = _periodoService.ListarAños();
@@ -47,9 +52,9 @@ namespace WebApp.ServiceFacade.Implementations
             }
         }
 
-        public SelectList ObtenerComboMesesSegunAnio(int anio, int? selectedItem = null)
+        public SelectList ObtenerComboMesesSegunAño(int año, int? selectedItem = null)
         {
-            var lista = _periodoService.ListarMesesSegunAnio(anio);
+            var lista = _periodoService.ListarMesesSegunAño(año);
 
             if (selectedItem.HasValue)
             {
@@ -59,6 +64,25 @@ namespace WebApp.ServiceFacade.Implementations
             {
                 return new SelectList(lista, "mes", "mesDesc");
             }
+        }
+
+        public Response GrabarAño(int año)
+        {
+            Response response;
+
+            try
+            {
+                response = _periodoService.GrabarAño(año);
+            }
+            catch (Exception ex)
+            {
+                response = new Response()
+                {
+                    Message = ex.Message
+                };
+            }
+
+            return response;
         }
 
         public Response GrabarPeriodo(Operacion operacion, PeriodoModel model, int userID)

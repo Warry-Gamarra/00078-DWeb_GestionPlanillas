@@ -119,5 +119,39 @@ namespace WebApp.Controllers
 
             return Json(result, JsonRequestBehavior.AllowGet);
         }
+
+        [HttpGet]
+        public ActionResult NuevoAnio()
+        {
+            ViewBag.Title = "Nuevo Año";
+
+            ViewBag.Action = "RegistrarAnio";
+
+            int ultimoAño = _periodoServiceFacade.ListarAños().Max();
+
+            ViewBag.UltimoAño = ultimoAño;
+
+            ViewBag.NuevoAño = ultimoAño + 1;
+
+            return PartialView("_MantenimientoAño");
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult RegistrarAnio(int anio)
+        {
+            Response response = new Response();
+
+            if (ModelState.IsValid)
+            {
+                response = _periodoServiceFacade.GrabarAño(anio);
+            }
+            else
+            {
+                response.Message = "Ocurrió un error.";
+            }
+
+            return PartialView("_MsgRegistrarAño", response);
+        }
     }
 }

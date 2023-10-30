@@ -13,11 +13,13 @@ namespace Domain.Services
     {
         List<int> ListarAños();
 
-        List<MesDTO> ListarMesesSegunAnio(int I_Anio);
+        List<MesDTO> ListarMesesSegunAño(int año);
 
-        PeriodoDTO ObtenerPeriodo(int anio, int mes);
+        PeriodoDTO ObtenerPeriodo(int año, int mes);
 
         string ObtenerMesDesc(int mes);
+
+        Response GrabarAño(int año);
 
         Response GrabarPeriodo(Operacion operacion, PeriodoEntity periodoEntity, int userID);
 

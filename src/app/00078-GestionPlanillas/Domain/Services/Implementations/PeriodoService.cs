@@ -2,6 +2,7 @@
 using Data.Procedures;
 using Data.Tables;
 using Data.Views;
+using DocumentFormat.OpenXml.Spreadsheet;
 using Domain.Entities;
 using Domain.Enums;
 using Domain.Helpers;
@@ -27,9 +28,9 @@ namespace Domain.Services.Implementations
             return result;
         }
 
-        public List<MesDTO> ListarMesesSegunAnio(int I_Anio)
+        public List<MesDTO> ListarMesesSegunAño(int año)
         {
-            var lista = TR_Periodo.FindMonthsByYear(I_Anio);
+            var lista = TR_Periodo.FindMonthsByYear(año);
 
             var result = lista
                 .OrderBy(x => x.I_Mes)
@@ -39,11 +40,11 @@ namespace Domain.Services.Implementations
             return result;
         }
 
-        public PeriodoDTO ObtenerPeriodo(int anio, int mes)
+        public PeriodoDTO ObtenerPeriodo(int año, int mes)
         {
             PeriodoDTO periodoDTO;
 
-            var table = TR_Periodo.GetByYearAndMonth(anio, mes);
+            var table = TR_Periodo.GetByYearAndMonth(año, mes);
 
             if (table == null)
             {
@@ -88,6 +89,43 @@ namespace Domain.Services.Implementations
                 default:
                     throw new Exception("Mes no reconocido.");
             }
+        }
+
+        public Response GrabarAño(int año)
+        {
+            Result result;
+            bool añoRepetido;
+
+            try
+            {
+                añoRepetido = ListarAños().Exists(x => x.Equals(año));
+
+                if (!añoRepetido)
+                {
+                    var registrarPeriodo = new USP_I_RegistrarAnio()
+                    {
+                        I_Anio = año
+                    };
+
+                    result = registrarPeriodo.Execute();
+                }
+                else
+                {
+                    result = new Result()
+                    {
+                        Message = "El año " + año.ToString() + " se encuentra repetido"
+                    };
+                }
+            }
+            catch (Exception ex)
+            {
+                result = new Result()
+                {
+                    Message = ex.Message
+                };
+            }
+
+            return Mapper.Result_To_Response(result);
         }
 
         public Response GrabarPeriodo(Operacion operacion, PeriodoEntity periodoEntity, int userID)

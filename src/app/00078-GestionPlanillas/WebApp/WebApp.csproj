@@ -483,6 +483,8 @@
     <Content Include="Views\DepActividadesMetas\Index.cshtml" />
     <Content Include="Views\DepActividadesMetas\_MsgRegistrarDepActividadMeta.cshtml" />
     <Content Include="Views\DepActividadesMetas\_MantenimientoDepActividadMeta.cshtml" />
+    <Content Include="Views\Periodos\_MantenimientoAño.cshtml" />
+    <Content Include="Views\Periodos\_MsgRegistrarAño.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

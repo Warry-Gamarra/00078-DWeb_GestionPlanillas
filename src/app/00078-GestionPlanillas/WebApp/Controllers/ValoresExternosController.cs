@@ -109,7 +109,7 @@ namespace WebApp.Controllers
 
             ViewBag.ListaAños = listaAños;
 
-            ViewBag.ListaMeses = _periodoServiceFacade.ObtenerComboMesesSegunAnio(año);
+            ViewBag.ListaMeses = _periodoServiceFacade.ObtenerComboMesesSegunAño(año);
 
             ViewBag.ListaCategoriasPlanillas = _categoriaPlanillaServiceFacade.ObtenerComboCategoriasPlanillas();
 
