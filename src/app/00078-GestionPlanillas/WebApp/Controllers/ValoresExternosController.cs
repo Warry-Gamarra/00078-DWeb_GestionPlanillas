@@ -16,7 +16,7 @@ namespace WebApp.Controllers
     [Authorize]
     public class ValoresExternosController : Controller
     {
-        IValorExternoConceptoServiceFacade _valorExternoConceptoServiceFacade;
+        private IValorExternoConceptoServiceFacade _valorExternoConceptoServiceFacade;
         private IPeriodoServiceFacade _periodoServiceFacade;
         private ICategoriaPlanillaServiceFacade _categoriaPlanillaServiceFacade;
 

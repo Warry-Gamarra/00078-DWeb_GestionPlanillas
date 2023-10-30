@@ -89,6 +89,7 @@
     <Compile Include="Tables\TC_Afp.cs" />
     <Compile Include="Tables\TC_Banco.cs" />
     <Compile Include="Tables\TC_CategoriaPlanilla.cs" />
+    <Compile Include="Tables\TC_CategoriaPresupuestal.cs" />
     <Compile Include="Tables\TC_DedicacionDocente.cs" />
     <Compile Include="Tables\TC_Dependencia.cs" />
     <Compile Include="Tables\TC_Estado.cs" />

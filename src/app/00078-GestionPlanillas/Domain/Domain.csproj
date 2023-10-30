@@ -72,6 +72,8 @@
     <Compile Include="Entities\BancoDTO.cs" />
     <Compile Include="Entities\CategoriaDocenteDTO.cs" />
     <Compile Include="Entities\CategoriaPlanillaDTO.cs" />
+    <Compile Include="Entities\CategoriaPresupuestalDTO.cs" />
+    <Compile Include="Entities\CategoriaPresupuestalEntity.cs" />
     <Compile Include="Entities\ConceptoDTO.cs" />
     <Compile Include="Entities\ConceptoEntity.cs" />
     <Compile Include="Entities\ConceptoAsignadoPlantillaDTO.cs" />
@@ -126,6 +128,7 @@
     <Compile Include="Services\IActividadService.cs" />
     <Compile Include="Services\ICategoriaDocenteService.cs" />
     <Compile Include="Services\ICategoriaPlanillaService.cs" />
+    <Compile Include="Services\ICategoriaPresupuestalService.cs" />
     <Compile Include="Services\IConceptoService.cs" />
     <Compile Include="Services\IDepActividadMetaService.cs" />
     <Compile Include="Services\IGeneracionArchivoService.cs" />
@@ -144,6 +147,7 @@
     <Compile Include="Services\Implementations\BancoService.cs" />
     <Compile Include="Services\Implementations\CategoriaDocenteService.cs" />
     <Compile Include="Services\Implementations\CategoriaPlanillaService.cs" />
+    <Compile Include="Services\Implementations\CategoriaPresupuestalService.cs" />
     <Compile Include="Services\Implementations\ConceptoService.cs" />
     <Compile Include="Services\Implementations\DepActividadMetaService.cs" />
     <Compile Include="Services\Implementations\DependenciaService.cs" />

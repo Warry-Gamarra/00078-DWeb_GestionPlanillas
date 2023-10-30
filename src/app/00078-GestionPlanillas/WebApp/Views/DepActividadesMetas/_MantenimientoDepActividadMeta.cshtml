@@ -22,7 +22,7 @@
             <div class="col-12">
                 <div class="form-group">
                     @Html.LabelFor(model => model.anio, new { @class = "control-label" })
-                    @Html.TextBoxFor(model => model.anio, new { @class = "form-control", @maxlength = "20" })
+                    @Html.DropDownListFor(model => model.anio, ViewBag.ListaAños as SelectList, "[ SELECCIONAR ]", new { @class = "form-control text-uppercase select-filter-modal" })
                     @Html.ValidationMessageFor(model => model.anio, null, new { @class = "text-danger" })
                 </div>
             </div>
@@ -32,7 +32,7 @@
             <div class="col-12">
                 <div class="form-group">
                     @Html.LabelFor(model => model.categoriaPlanillaID, new { @class = "control-label" })
-                    @Html.TextBoxFor(model => model.categoriaPlanillaID, new { @class = "form-control", @maxlength = "20" })
+                    @Html.DropDownListFor(model => model.categoriaPlanillaID, ViewBag.ListaCategoriasPlanillas as SelectList, "[ SELECCIONAR ]", new { @class = "form-control text-uppercase select-filter-modal" })
                     @Html.ValidationMessageFor(model => model.categoriaPlanillaID, null, new { @class = "text-danger" })
                 </div>
             </div>
@@ -52,7 +52,7 @@
             <div class="col-12">
                 <div class="form-group">
                     @Html.LabelFor(model => model.actividadID, new { @class = "control-label" })
-                    @Html.DropDownListFor(model => model.actividadID, ViewBag.ListaActividades as SelectList, "[ SELECCIONAR ]", new { @class = "form-control text-uppercase" })
+                    @Html.DropDownListFor(model => model.actividadID, ViewBag.ListaActividades as SelectList, "[ SELECCIONAR ]", new { @class = "form-control text-uppercase select-filter-modal" })
                     @Html.ValidationMessageFor(model => model.actividadID, null, new { @class = "text-danger" })
                 </div>
             </div>
@@ -62,7 +62,7 @@
             <div class="col-12">
                 <div class="form-group">
                     @Html.LabelFor(model => model.metaID, new { @class = "control-label" })
-                    @Html.DropDownListFor(model => model.metaID, ViewBag.ListaMetas as SelectList, "[ SELECCIONAR ]", new { @class = "form-control text-uppercase" })
+                    @Html.DropDownListFor(model => model.metaID, ViewBag.ListaMetas as SelectList, "[ SELECCIONAR ]", new { @class = "form-control text-uppercase select-filter-modal" })
                     @Html.ValidationMessageFor(model => model.metaID, null, new { @class = "text-danger" })
                 </div>
             </div>
@@ -82,7 +82,7 @@
             <div class="col-12">
                 <div class="form-group">
                     @Html.LabelFor(model => model.categoriaPresupuestalID, new { @class = "control-label" })
-                    @Html.TextBoxFor(model => model.categoriaPresupuestalID, new { @class = "form-control", @maxlength = "20" })
+                    @Html.DropDownListFor(model => model.categoriaPresupuestalID, ViewBag.ListarCategoriaPresupuestal as SelectList, "[ SELECCIONAR ]", new { @class = "form-control text-uppercase select-filter-modal" })
                     @Html.ValidationMessageFor(model => model.categoriaPresupuestalID, null, new { @class = "text-danger" })
                 </div>
             </div>

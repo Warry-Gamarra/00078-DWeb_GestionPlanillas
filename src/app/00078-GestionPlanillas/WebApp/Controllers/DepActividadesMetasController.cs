@@ -18,6 +18,9 @@ namespace WebApp.Controllers
         private IActividadServiceFacade _actividadServiceFacade;
         private IMetaServiceFacade _metaServiceFacade;
         private IDependenciaServiceFacade _dependenciaServiceFacade;
+        private IPeriodoServiceFacade _periodoServiceFacade;
+        private ICategoriaPlanillaServiceFacade _categoriaPlanillaServiceFacade;
+        private ICategoriaPresupuestalServiceFacade _categoriaPresupuestalServiceFacade;
 
         public DepActividadesMetasController()
         {
@@ -25,6 +28,9 @@ namespace WebApp.Controllers
             _actividadServiceFacade = new ActividadServiceFacade();
             _metaServiceFacade = new MetaServiceFacade();
             _dependenciaServiceFacade = new DependenciaServiceFacade();
+            _periodoServiceFacade = new PeriodoServiceFacade();
+            _categoriaPlanillaServiceFacade = new CategoriaPlanillaServiceFacade();
+            _categoriaPresupuestalServiceFacade = new CategoriaPresupuestalServiceFacade();
         }
 
         [HttpGet]
@@ -54,11 +60,17 @@ namespace WebApp.Controllers
 
             var model = new DepActividadMetaModel();
 
+            ViewBag.ListaAños = _periodoServiceFacade.ObtenerComboAños();
+
             ViewBag.ListaActividades = _actividadServiceFacade.ObtenerComboActividades();
 
             ViewBag.ListaMetas = _metaServiceFacade.ObtenerComboMetas();
 
             ViewBag.ListaDependencias = _dependenciaServiceFacade.ObtenerComboDependencias();
+
+            ViewBag.ListaCategoriasPlanillas = _categoriaPlanillaServiceFacade.ObtenerComboCategoriasPlanillas();
+
+            ViewBag.ListarCategoriaPresupuestal = _categoriaPresupuestalServiceFacade.ObtenerComboCategoriaPresupuestal();
 
             return PartialView("_MantenimientoDepActividadMeta", model);
         }
@@ -90,11 +102,17 @@ namespace WebApp.Controllers
 
             var model = _depActividadMetaServiceFacade.ObtenerDepActividadMeta(id);
 
+            ViewBag.ListaAños = _periodoServiceFacade.ObtenerComboAños(selectedItem: model.anio);
+
             ViewBag.ListaActividades = _actividadServiceFacade.ObtenerComboActividades(model.actividadID);
 
             ViewBag.ListaMetas = _metaServiceFacade.ObtenerComboMetas(model.metaID);
 
             ViewBag.ListaDependencias = _dependenciaServiceFacade.ObtenerComboDependencias(incluirDeshabilitados: true, selectedItem: model.dependenciaID);
+
+            ViewBag.ListaCategoriasPlanillas = _categoriaPlanillaServiceFacade.ObtenerComboCategoriasPlanillas(incluirDeshabilitados: true, selectedItem: model.dependenciaID);
+
+            ViewBag.ListarCategoriaPresupuestal = _categoriaPresupuestalServiceFacade.ObtenerComboCategoriaPresupuestal(incluirDeshabilitados: true, selectedItem: model.categoriaPresupuestalID);
 
             return PartialView("_MantenimientoDepActividadMeta", model);
         }

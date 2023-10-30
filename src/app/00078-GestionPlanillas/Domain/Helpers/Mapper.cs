@@ -663,5 +663,18 @@ namespace Domain.Helpers
 
             return depActividadMetaDTO;
         }
+
+        public static CategoriaPresupuestalDTO TC_CategoriaPresupuestal_To_CategoriaPresupuestalDTO(TC_CategoriaPresupuestal table)
+        {
+            var categoriaPresupuestalDTO = new CategoriaPresupuestalDTO()
+            {
+                categoriaPresupuestalID = table.I_CategoriaPresupuestalID,
+                categoriaPresupDesc = table.T_CategoriaPresupDesc,
+                categoriaPresupCod = table.T_CategoriaPresupCod,
+                estaHabilitado = table.B_Habilitado
+            };
+
+            return categoriaPresupuestalDTO;
+        }
     }
 }

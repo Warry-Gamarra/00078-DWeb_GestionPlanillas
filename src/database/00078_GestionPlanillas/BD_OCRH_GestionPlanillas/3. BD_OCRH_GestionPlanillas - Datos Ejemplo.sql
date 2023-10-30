@@ -346,9 +346,9 @@ INSERT dbo.TC_Meta(T_MetaDesc, C_MetaCod, B_Eliminado) VALUES('', '0032', 0)
 GO
 
 
-INSERT dbo.TC_CategoriaPresupuestal(T_CategoriaPresupDesc, T_CategoriaPresupCod, B_Habilitado, B_Eliminado) VALUES('0066', 'PROGRAMA PRESUPUESTAL CON ENFOQUE DE RESULTADO', 1, 0)
-INSERT dbo.TC_CategoriaPresupuestal(T_CategoriaPresupDesc, T_CategoriaPresupCod, B_Habilitado, B_Eliminado) VALUES('9001', 'ACCIONES CENTRALES', 1, 0)
-INSERT dbo.TC_CategoriaPresupuestal(T_CategoriaPresupDesc, T_CategoriaPresupCod, B_Habilitado, B_Eliminado) VALUES('9002', 'ASIGNACIONES PRESUPUESTARIAS QUE NO RESULTAN EN PRODUCTOS', 1, 0)
+INSERT dbo.TC_CategoriaPresupuestal(T_CategoriaPresupCod, T_CategoriaPresupDesc, B_Habilitado, B_Eliminado) VALUES('0066', 'PROGRAMA PRESUPUESTAL CON ENFOQUE DE RESULTADO', 1, 0)
+INSERT dbo.TC_CategoriaPresupuestal(T_CategoriaPresupCod, T_CategoriaPresupDesc, B_Habilitado, B_Eliminado) VALUES('9001', 'ACCIONES CENTRALES', 1, 0)
+INSERT dbo.TC_CategoriaPresupuestal(T_CategoriaPresupCod, T_CategoriaPresupDesc, B_Habilitado, B_Eliminado) VALUES('9002', 'ASIGNACIONES PRESUPUESTARIAS QUE NO RESULTAN EN PRODUCTOS', 1, 0)
 GO
 
 

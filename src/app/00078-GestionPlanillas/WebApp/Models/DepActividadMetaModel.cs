@@ -49,6 +49,7 @@ namespace WebApp.Models
 
         public string metaDesc { get; set; }
 
+        [DisplayName("Categoría presupuestal")]
         public int categoriaPresupuestalID { get; set; }
 
         public string categoriaPresupCod { get; set; }
