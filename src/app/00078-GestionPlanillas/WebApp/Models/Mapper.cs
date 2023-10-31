@@ -390,5 +390,29 @@ namespace WebApp.Models
 
             return model;
         }
+
+        public static ActividadModel ActividadDTO_To_ActividadModel(ActividadDTO dto)
+        {
+            var model = new ActividadModel()
+            {
+                actividadID = dto.actividadID,
+                actividadCod = dto.actividadCod,
+                actividadDesc = dto.actividadDesc
+            };
+
+            return model;
+        }
+
+        public static MetaModel MetaDTO_To_MetaModel(MetaDTO dto)
+        {
+            var model = new MetaModel()
+            {
+                metaID = dto.metaID,
+                metaCod = dto.metaCod,
+                metaDesc = dto.metaDesc
+            };
+
+            return model;
+        }
     }
 }

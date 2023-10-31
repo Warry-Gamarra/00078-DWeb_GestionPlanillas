@@ -127,9 +127,11 @@
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\ActividadesController.cs" />
     <Compile Include="Controllers\DepActividadesMetasController.cs" />
     <Compile Include="Controllers\ConceptosController.cs" />
     <Compile Include="Controllers\DependenciasController.cs" />
+    <Compile Include="Controllers\MetasController.cs" />
     <Compile Include="Controllers\PeriodosController.cs" />
     <Compile Include="Controllers\UsersController.cs" />
     <Compile Include="Controllers\ValoresExternosController.cs" />
@@ -142,6 +144,7 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Models\ActividadModel.cs" />
     <Compile Include="Models\AdministrativoModel.cs" />
     <Compile Include="Models\ConceptoModel.cs" />
     <Compile Include="Models\ConceptoAsignadoPlantillaModel.cs" />
@@ -151,6 +154,7 @@
     <Compile Include="Models\DocenteModel.cs" />
     <Compile Include="Models\Mapper.cs" />
     <Compile Include="Models\MesModel.cs" />
+    <Compile Include="Models\MetaModel.cs" />
     <Compile Include="Models\PeriodoModel.cs" />
     <Compile Include="Models\PersonaModel.cs" />
     <Compile Include="Models\PlantillaPlanillaModel.cs" />
@@ -487,6 +491,10 @@
     <Content Include="Views\DepActividadesMetas\_MantenimientoDepActividadMeta.cshtml" />
     <Content Include="Views\Periodos\_MantenimientoAño.cshtml" />
     <Content Include="Views\Periodos\_MsgRegistrarAño.cshtml" />
+    <Content Include="Views\Actividades\_MsgRegistrarActividad.cshtml" />
+    <Content Include="Views\Actividades\_MantenimientoActividad.cshtml" />
+    <Content Include="Views\Metas\_MantenimientoMeta.cshtml" />
+    <Content Include="Views\Metas\_MsgRegistrarMeta.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
