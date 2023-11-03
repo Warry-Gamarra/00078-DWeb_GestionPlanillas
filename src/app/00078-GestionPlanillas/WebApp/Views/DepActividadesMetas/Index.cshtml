@@ -128,24 +128,22 @@
 
 @section scripts {
     <script type="text/javascript">
+        var modalActivo = null;
+
         $(document).ready(function () {
             generarDataTableDepActividadesMetas();
             generarDataTableActividades();
             generarDataTableMetas();
 
-
-            //CORREGIR CIERRE DE MODALES
-            //$(".modal").on('hide.bs.modal', function () {
-            //    generarDataTableDepActividadesMetas();
-            //});
-
-            //$(".modal > #dataTableActividades").on('hide.bs.modal', function () {
-            //    generarDataTableActividades();
-            //});
-
-            //$(".modal > #dataTableMetas").on('hide.bs.modal', function () {
-            //    generarDataTableMetas();
-            //});
+            $(".modal").on('hide.bs.modal', function () {
+                if (modalActivo === "modal-dependencia-actividad-meta") {
+                    generarDataTableDepActividadesMetas();
+                } else if (modalActivo === "modal-actividad") {
+                    generarDataTableActividades();
+                } else if (modalActivo === "modal-meta") {
+                    generarDataTableMetas();
+                }
+            });
 
             $('#dataTableDepActividadesMetas').on('click', '.btn-eliminar', function (event) {
                 event.preventDefault();

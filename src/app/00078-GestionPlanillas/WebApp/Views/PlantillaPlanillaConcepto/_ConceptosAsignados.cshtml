@@ -81,6 +81,8 @@
 </div>
 
 <script type="text/javascript">
+    modalActivo = "modal-plantilla-planilla-concepto";
+
     generarDatatableConceptosAsignados();
 
     $('.modal-body').on('click', '#btn-agregar', function (event) {
@@ -241,7 +243,7 @@
                             select.add(new Option(d, d, true, true));
                         } else {
                             select.add(new Option(d, d));
-                        } 
+                        }
                     });
 
                     $(select).click(function (e) {

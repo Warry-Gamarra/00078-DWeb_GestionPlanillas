@@ -83,19 +83,19 @@
 
 @section scripts {
     <script type="text/javascript">
+        var modalActivo = null;
+
         $(document).ready(function () {
             generarDatatableConceptos();
             generarDatatablePlantillasPlanilla();
 
-
-            //CORREGIR CIERRE DE MODALES
-            //$(".modal").on('hide.bs.modal', function () {
-            //    generarDatatableConceptos();
-            //});
-
-            //$(".modal").on('hide.bs.modal', function () {
-            //    generarDatatablePlantillasPlanilla();
-            //});
+            $(".modal").on('hide.bs.modal', function () {
+                if (modalActivo === "modal-plantilla-planilla") {
+                    generarDatatablePlantillasPlanilla();
+                } else if (modalActivo === "modal-concepto") {
+                    generarDatatableConceptos();
+                }
+            });
         });
 
         function generarDatatableConceptos() {

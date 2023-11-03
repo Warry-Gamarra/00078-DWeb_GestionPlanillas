@@ -49,14 +49,16 @@
 
 @section scripts {
     <script type="text/javascript">
+        var modalActivo = null;
+
         $(document).ready(function () {
             generarDataTablePeriodos();
 
-
-            //CORREGIR CIERRE DE MODALEAS
-            //$(".modal").on('hide.bs.modal', function () {
-            //    generarDataTablePeriodos();
-            //});
+            $(".modal").on('hide.bs.modal', function () {
+                if (modalActivo === "modal-periodo") {
+                    generarDataTablePeriodos();
+                }
+            });
 
             $('#dataTablePeriodos').on('click', '.btn-eliminar', function (event) {
                 event.preventDefault();
