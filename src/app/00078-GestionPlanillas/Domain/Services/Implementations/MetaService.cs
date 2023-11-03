@@ -1,6 +1,7 @@
 ﻿using Data.Connection;
 using Data.Procedures;
 using Data.Tables;
+using Data.Views;
 using Domain.Entities;
 using Domain.Enums;
 using Domain.Helpers;
@@ -151,13 +152,23 @@ namespace Domain.Services.Implementations
 
                 if (meta != null)
                 {
-                    var eliminar = new USP_U_EliminarMeta()
+                    if (!VW_DepActividadMeta.existsMeta(metaID))
                     {
-                        I_MetaID = metaID,
-                        I_UserID = userID
-                    };
+                        var eliminar = new USP_U_EliminarMeta()
+                        {
+                            I_MetaID = metaID,
+                            I_UserID = userID
+                        };
 
-                    result = eliminar.Execute();
+                        result = eliminar.Execute();
+                    }
+                    else
+                    {
+                        result = new Result()
+                        {
+                            Message = "La meta \"" + meta.C_MetaCod + "\" no se puede eliminar."
+                        };
+                    }
                 }
                 else
                 {

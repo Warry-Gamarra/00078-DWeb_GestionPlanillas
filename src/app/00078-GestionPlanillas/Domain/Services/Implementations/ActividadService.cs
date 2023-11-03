@@ -1,6 +1,7 @@
 ﻿using Data.Connection;
 using Data.Procedures;
 using Data.Tables;
+using Data.Views;
 using DocumentFormat.OpenXml.Office2016.Drawing.ChartDrawing;
 using Domain.Entities;
 using Domain.Enums;
@@ -148,17 +149,27 @@ namespace Domain.Services.Implementations
 
             try
             {
-                var meta = TC_Actividad.FindByID(actividadID);
+                var actividad = TC_Actividad.FindByID(actividadID);
 
-                if (meta != null)
+                if (actividad != null)
                 {
-                    var eliminar = new USP_U_EliminarActividad()
+                    if (!VW_DepActividadMeta.existsActividad(actividadID))
                     {
-                        I_ActividadID = actividadID,
-                        I_UserID = userID
-                    };
+                        var eliminar = new USP_U_EliminarActividad()
+                        {
+                            I_ActividadID = actividadID,
+                            I_UserID = userID
+                        };
 
-                    result = eliminar.Execute();
+                        result = eliminar.Execute();
+                    }
+                    else
+                    {
+                        result = new Result()
+                        {
+                            Message = "La actividad \"" + actividad.C_ActividadCod + "\" no se puede eliminar."
+                        };
+                    }
                 }
                 else
                 {

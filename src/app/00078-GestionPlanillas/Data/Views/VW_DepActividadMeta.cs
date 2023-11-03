@@ -123,5 +123,53 @@ namespace Data.Views
 
             return isDuplicate;
         }
+
+        public static bool existsActividad(int I_ActividadID)
+        {
+            IEnumerable<VW_DepActividadMeta> result;
+            bool existsActividad;
+
+            try
+            {
+                string s_command = "SELECT * FROM dbo.VW_DepActividadMeta WHERE I_ActividadID = @I_ActividadID;";
+
+                using (var _dbConnection = new SqlConnection(Database.ConnectionString))
+                {
+                    result = _dbConnection.Query<VW_DepActividadMeta>(s_command, new { I_ActividadID = I_ActividadID }, commandType: System.Data.CommandType.Text);
+                }
+
+                existsActividad = result.Count() > 0;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+
+            return existsActividad;
+        }
+
+        public static bool existsMeta(int I_MetaID)
+        {
+            IEnumerable<VW_DepActividadMeta> result;
+            bool existsMeta;
+
+            try
+            {
+                string s_command = "SELECT * FROM dbo.VW_DepActividadMeta WHERE I_MetaID = @I_MetaID;";
+
+                using (var _dbConnection = new SqlConnection(Database.ConnectionString))
+                {
+                    result = _dbConnection.Query<VW_DepActividadMeta>(s_command, new { I_MetaID = I_MetaID }, commandType: System.Data.CommandType.Text);
+                }
+
+                existsMeta = result.Count() > 0;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+
+            return existsMeta;
+        }
     }
 }

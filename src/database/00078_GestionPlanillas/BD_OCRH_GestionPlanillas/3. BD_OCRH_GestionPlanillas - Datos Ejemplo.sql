@@ -282,13 +282,6 @@ GO
 
 --DATA EJEMPLO
 INSERT dbo.TC_Anio(I_Anio) VALUES(2023)
-INSERT dbo.TC_Anio(I_Anio) VALUES(2024)
-INSERT dbo.TC_Anio(I_Anio) VALUES(2025)
-INSERT dbo.TC_Anio(I_Anio) VALUES(2026)
-INSERT dbo.TC_Anio(I_Anio) VALUES(2027)
-INSERT dbo.TC_Anio(I_Anio) VALUES(2028)
-INSERT dbo.TC_Anio(I_Anio) VALUES(2029)
-INSERT dbo.TC_Anio(I_Anio) VALUES(2030)
 GO
 
 INSERT dbo.TR_Periodo(I_Anio, I_Mes, T_MesDesc)VALUES(2023, 1, 'Enero')
@@ -350,6 +343,202 @@ INSERT dbo.TC_CategoriaPresupuestal(T_CategoriaPresupCod, T_CategoriaPresupDesc,
 INSERT dbo.TC_CategoriaPresupuestal(T_CategoriaPresupCod, T_CategoriaPresupDesc, B_Habilitado, B_Eliminado) VALUES('9001', 'ACCIONES CENTRALES', 1, 0)
 INSERT dbo.TC_CategoriaPresupuestal(T_CategoriaPresupCod, T_CategoriaPresupDesc, B_Habilitado, B_Eliminado) VALUES('9002', 'ASIGNACIONES PRESUPUESTARIAS QUE NO RESULTAN EN PRODUCTOS', 1, 0)
 GO
+
+SET IDENTITY_INSERT [dbo].[TC_DepActividadMeta] ON 
+GO
+INSERT [dbo].[TC_DepActividadMeta] ([I_DepActividadMetaID], [I_Anio], [I_CategoriaPlanillaID], [I_DependenciaID], [T_Descripcion], [I_ActividadID], [I_MetaID], [I_CategoriaPresupuestalID], [I_UsuarioCre], [D_FecCre], [I_UsuarioMod], [D_FecMod]) VALUES (1, 2023, 1, 1, NULL, 7, 2, 1, NULL, NULL, NULL, NULL)
+GO
+INSERT [dbo].[TC_DepActividadMeta] ([I_DepActividadMetaID], [I_Anio], [I_CategoriaPlanillaID], [I_DependenciaID], [T_Descripcion], [I_ActividadID], [I_MetaID], [I_CategoriaPresupuestalID], [I_UsuarioCre], [D_FecCre], [I_UsuarioMod], [D_FecMod]) VALUES (2, 2023, 1, 2, NULL, 2, 5, 2, NULL, NULL, NULL, NULL)
+GO
+INSERT [dbo].[TC_DepActividadMeta] ([I_DepActividadMetaID], [I_Anio], [I_CategoriaPlanillaID], [I_DependenciaID], [T_Descripcion], [I_ActividadID], [I_MetaID], [I_CategoriaPresupuestalID], [I_UsuarioCre], [D_FecCre], [I_UsuarioMod], [D_FecMod]) VALUES (3, 2023, 2, 2, NULL, 2, 5, 2, NULL, NULL, NULL, NULL)
+GO
+INSERT [dbo].[TC_DepActividadMeta] ([I_DepActividadMetaID], [I_Anio], [I_CategoriaPlanillaID], [I_DependenciaID], [T_Descripcion], [I_ActividadID], [I_MetaID], [I_CategoriaPresupuestalID], [I_UsuarioCre], [D_FecCre], [I_UsuarioMod], [D_FecMod]) VALUES (4, 2023, 1, 3, NULL, 7, 2, 1, NULL, NULL, NULL, NULL)
+GO
+INSERT [dbo].[TC_DepActividadMeta] ([I_DepActividadMetaID], [I_Anio], [I_CategoriaPlanillaID], [I_DependenciaID], [T_Descripcion], [I_ActividadID], [I_MetaID], [I_CategoriaPresupuestalID], [I_UsuarioCre], [D_FecCre], [I_UsuarioMod], [D_FecMod]) VALUES (5, 2023, 2, 3, NULL, 14, 3, 1, NULL, NULL, NULL, NULL)
+GO
+INSERT [dbo].[TC_DepActividadMeta] ([I_DepActividadMetaID], [I_Anio], [I_CategoriaPlanillaID], [I_DependenciaID], [T_Descripcion], [I_ActividadID], [I_MetaID], [I_CategoriaPresupuestalID], [I_UsuarioCre], [D_FecCre], [I_UsuarioMod], [D_FecMod]) VALUES (6, 2023, 1, 4, NULL, 6, 9, 2, NULL, NULL, NULL, NULL)
+GO
+INSERT [dbo].[TC_DepActividadMeta] ([I_DepActividadMetaID], [I_Anio], [I_CategoriaPlanillaID], [I_DependenciaID], [T_Descripcion], [I_ActividadID], [I_MetaID], [I_CategoriaPresupuestalID], [I_UsuarioCre], [D_FecCre], [I_UsuarioMod], [D_FecMod]) VALUES (7, 2023, 1, 5, NULL, 1, 4, 2, NULL, NULL, NULL, NULL)
+GO
+INSERT [dbo].[TC_DepActividadMeta] ([I_DepActividadMetaID], [I_Anio], [I_CategoriaPlanillaID], [I_DependenciaID], [T_Descripcion], [I_ActividadID], [I_MetaID], [I_CategoriaPresupuestalID], [I_UsuarioCre], [D_FecCre], [I_UsuarioMod], [D_FecMod]) VALUES (8, 2023, 1, 6, NULL, 3, 6, 2, NULL, NULL, NULL, NULL)
+GO
+INSERT [dbo].[TC_DepActividadMeta] ([I_DepActividadMetaID], [I_Anio], [I_CategoriaPlanillaID], [I_DependenciaID], [T_Descripcion], [I_ActividadID], [I_MetaID], [I_CategoriaPresupuestalID], [I_UsuarioCre], [D_FecCre], [I_UsuarioMod], [D_FecMod]) VALUES (9, 2023, 2, 6, NULL, 3, 6, 2, NULL, NULL, NULL, NULL)
+GO
+INSERT [dbo].[TC_DepActividadMeta] ([I_DepActividadMetaID], [I_Anio], [I_CategoriaPlanillaID], [I_DependenciaID], [T_Descripcion], [I_ActividadID], [I_MetaID], [I_CategoriaPresupuestalID], [I_UsuarioCre], [D_FecCre], [I_UsuarioMod], [D_FecMod]) VALUES (10, 2023, 1, 7, NULL, 4, 7, 2, NULL, NULL, NULL, NULL)
+GO
+INSERT [dbo].[TC_DepActividadMeta] ([I_DepActividadMetaID], [I_Anio], [I_CategoriaPlanillaID], [I_DependenciaID], [T_Descripcion], [I_ActividadID], [I_MetaID], [I_CategoriaPresupuestalID], [I_UsuarioCre], [D_FecCre], [I_UsuarioMod], [D_FecMod]) VALUES (11, 2023, 1, 8, NULL, 2, 5, 2, NULL, NULL, NULL, NULL)
+GO
+INSERT [dbo].[TC_DepActividadMeta] ([I_DepActividadMetaID], [I_Anio], [I_CategoriaPlanillaID], [I_DependenciaID], [T_Descripcion], [I_ActividadID], [I_MetaID], [I_CategoriaPresupuestalID], [I_UsuarioCre], [D_FecCre], [I_UsuarioMod], [D_FecMod]) VALUES (12, 2023, 1, 9, NULL, 3, 6, 2, NULL, NULL, NULL, NULL)
+GO
+INSERT [dbo].[TC_DepActividadMeta] ([I_DepActividadMetaID], [I_Anio], [I_CategoriaPlanillaID], [I_DependenciaID], [T_Descripcion], [I_ActividadID], [I_MetaID], [I_CategoriaPresupuestalID], [I_UsuarioCre], [D_FecCre], [I_UsuarioMod], [D_FecMod]) VALUES (13, 2023, 1, 10, NULL, 7, 2, 1, NULL, NULL, NULL, NULL)
+GO
+INSERT [dbo].[TC_DepActividadMeta] ([I_DepActividadMetaID], [I_Anio], [I_CategoriaPlanillaID], [I_DependenciaID], [T_Descripcion], [I_ActividadID], [I_MetaID], [I_CategoriaPresupuestalID], [I_UsuarioCre], [D_FecCre], [I_UsuarioMod], [D_FecMod]) VALUES (14, 2023, 3, 10, NULL, 7, 2, 1, NULL, NULL, NULL, NULL)
+GO
+INSERT [dbo].[TC_DepActividadMeta] ([I_DepActividadMetaID], [I_Anio], [I_CategoriaPlanillaID], [I_DependenciaID], [T_Descripcion], [I_ActividadID], [I_MetaID], [I_CategoriaPresupuestalID], [I_UsuarioCre], [D_FecCre], [I_UsuarioMod], [D_FecMod]) VALUES (15, 2023, 2, 10, NULL, 14, 3, 1, NULL, NULL, NULL, NULL)
+GO
+INSERT [dbo].[TC_DepActividadMeta] ([I_DepActividadMetaID], [I_Anio], [I_CategoriaPlanillaID], [I_DependenciaID], [T_Descripcion], [I_ActividadID], [I_MetaID], [I_CategoriaPresupuestalID], [I_UsuarioCre], [D_FecCre], [I_UsuarioMod], [D_FecMod]) VALUES (16, 2023, 1, 11, NULL, 3, 6, 2, NULL, NULL, NULL, NULL)
+GO
+INSERT [dbo].[TC_DepActividadMeta] ([I_DepActividadMetaID], [I_Anio], [I_CategoriaPlanillaID], [I_DependenciaID], [T_Descripcion], [I_ActividadID], [I_MetaID], [I_CategoriaPresupuestalID], [I_UsuarioCre], [D_FecCre], [I_UsuarioMod], [D_FecMod]) VALUES (17, 2023, 2, 11, NULL, 3, 6, 2, NULL, NULL, NULL, NULL)
+GO
+INSERT [dbo].[TC_DepActividadMeta] ([I_DepActividadMetaID], [I_Anio], [I_CategoriaPlanillaID], [I_DependenciaID], [T_Descripcion], [I_ActividadID], [I_MetaID], [I_CategoriaPresupuestalID], [I_UsuarioCre], [D_FecCre], [I_UsuarioMod], [D_FecMod]) VALUES (18, 2023, 1, 12, NULL, 3, 6, 2, NULL, NULL, NULL, NULL)
+GO
+INSERT [dbo].[TC_DepActividadMeta] ([I_DepActividadMetaID], [I_Anio], [I_CategoriaPlanillaID], [I_DependenciaID], [T_Descripcion], [I_ActividadID], [I_MetaID], [I_CategoriaPresupuestalID], [I_UsuarioCre], [D_FecCre], [I_UsuarioMod], [D_FecMod]) VALUES (19, 2023, 2, 12, NULL, 3, 6, 2, NULL, NULL, NULL, NULL)
+GO
+INSERT [dbo].[TC_DepActividadMeta] ([I_DepActividadMetaID], [I_Anio], [I_CategoriaPlanillaID], [I_DependenciaID], [T_Descripcion], [I_ActividadID], [I_MetaID], [I_CategoriaPresupuestalID], [I_UsuarioCre], [D_FecCre], [I_UsuarioMod], [D_FecMod]) VALUES (20, 2023, 1, 13, NULL, 12, 13, 3, NULL, NULL, NULL, NULL)
+GO
+INSERT [dbo].[TC_DepActividadMeta] ([I_DepActividadMetaID], [I_Anio], [I_CategoriaPlanillaID], [I_DependenciaID], [T_Descripcion], [I_ActividadID], [I_MetaID], [I_CategoriaPresupuestalID], [I_UsuarioCre], [D_FecCre], [I_UsuarioMod], [D_FecMod]) VALUES (21, 2023, 2, 13, NULL, 12, 13, 3, NULL, NULL, NULL, NULL)
+GO
+INSERT [dbo].[TC_DepActividadMeta] ([I_DepActividadMetaID], [I_Anio], [I_CategoriaPlanillaID], [I_DependenciaID], [T_Descripcion], [I_ActividadID], [I_MetaID], [I_CategoriaPresupuestalID], [I_UsuarioCre], [D_FecCre], [I_UsuarioMod], [D_FecMod]) VALUES (22, 2023, 1, 14, NULL, 3, 6, 2, NULL, NULL, NULL, NULL)
+GO
+INSERT [dbo].[TC_DepActividadMeta] ([I_DepActividadMetaID], [I_Anio], [I_CategoriaPlanillaID], [I_DependenciaID], [T_Descripcion], [I_ActividadID], [I_MetaID], [I_CategoriaPresupuestalID], [I_UsuarioCre], [D_FecCre], [I_UsuarioMod], [D_FecMod]) VALUES (23, 2023, 2, 14, NULL, 3, 6, 2, NULL, NULL, NULL, NULL)
+GO
+INSERT [dbo].[TC_DepActividadMeta] ([I_DepActividadMetaID], [I_Anio], [I_CategoriaPlanillaID], [I_DependenciaID], [T_Descripcion], [I_ActividadID], [I_MetaID], [I_CategoriaPresupuestalID], [I_UsuarioCre], [D_FecCre], [I_UsuarioMod], [D_FecMod]) VALUES (24, 2023, 1, 15, NULL, 10, 12, 3, NULL, NULL, NULL, NULL)
+GO
+INSERT [dbo].[TC_DepActividadMeta] ([I_DepActividadMetaID], [I_Anio], [I_CategoriaPlanillaID], [I_DependenciaID], [T_Descripcion], [I_ActividadID], [I_MetaID], [I_CategoriaPresupuestalID], [I_UsuarioCre], [D_FecCre], [I_UsuarioMod], [D_FecMod]) VALUES (25, 2023, 2, 15, NULL, 10, 12, 3, NULL, NULL, NULL, NULL)
+GO
+INSERT [dbo].[TC_DepActividadMeta] ([I_DepActividadMetaID], [I_Anio], [I_CategoriaPlanillaID], [I_DependenciaID], [T_Descripcion], [I_ActividadID], [I_MetaID], [I_CategoriaPresupuestalID], [I_UsuarioCre], [D_FecCre], [I_UsuarioMod], [D_FecMod]) VALUES (26, 2023, 1, 16, NULL, 13, 14, 3, NULL, NULL, NULL, NULL)
+GO
+INSERT [dbo].[TC_DepActividadMeta] ([I_DepActividadMetaID], [I_Anio], [I_CategoriaPlanillaID], [I_DependenciaID], [T_Descripcion], [I_ActividadID], [I_MetaID], [I_CategoriaPresupuestalID], [I_UsuarioCre], [D_FecCre], [I_UsuarioMod], [D_FecMod]) VALUES (27, 2023, 2, 16, NULL, 13, 14, 3, NULL, NULL, NULL, NULL)
+GO
+INSERT [dbo].[TC_DepActividadMeta] ([I_DepActividadMetaID], [I_Anio], [I_CategoriaPlanillaID], [I_DependenciaID], [T_Descripcion], [I_ActividadID], [I_MetaID], [I_CategoriaPresupuestalID], [I_UsuarioCre], [D_FecCre], [I_UsuarioMod], [D_FecMod]) VALUES (28, 2023, 1, 17, NULL, 11, 1, 3, NULL, NULL, NULL, NULL)
+GO
+INSERT [dbo].[TC_DepActividadMeta] ([I_DepActividadMetaID], [I_Anio], [I_CategoriaPlanillaID], [I_DependenciaID], [T_Descripcion], [I_ActividadID], [I_MetaID], [I_CategoriaPresupuestalID], [I_UsuarioCre], [D_FecCre], [I_UsuarioMod], [D_FecMod]) VALUES (29, 2023, 2, 17, NULL, 11, 1, 3, NULL, NULL, NULL, NULL)
+GO
+INSERT [dbo].[TC_DepActividadMeta] ([I_DepActividadMetaID], [I_Anio], [I_CategoriaPlanillaID], [I_DependenciaID], [T_Descripcion], [I_ActividadID], [I_MetaID], [I_CategoriaPresupuestalID], [I_UsuarioCre], [D_FecCre], [I_UsuarioMod], [D_FecMod]) VALUES (30, 2023, 1, 18, NULL, 9, 11, 3, NULL, NULL, NULL, NULL)
+GO
+INSERT [dbo].[TC_DepActividadMeta] ([I_DepActividadMetaID], [I_Anio], [I_CategoriaPlanillaID], [I_DependenciaID], [T_Descripcion], [I_ActividadID], [I_MetaID], [I_CategoriaPresupuestalID], [I_UsuarioCre], [D_FecCre], [I_UsuarioMod], [D_FecMod]) VALUES (31, 2023, 2, 18, NULL, 9, 11, 3, NULL, NULL, NULL, NULL)
+GO
+INSERT [dbo].[TC_DepActividadMeta] ([I_DepActividadMetaID], [I_Anio], [I_CategoriaPlanillaID], [I_DependenciaID], [T_Descripcion], [I_ActividadID], [I_MetaID], [I_CategoriaPresupuestalID], [I_UsuarioCre], [D_FecCre], [I_UsuarioMod], [D_FecMod]) VALUES (32, 2023, 1, 19, NULL, 2, 5, 2, NULL, NULL, NULL, NULL)
+GO
+INSERT [dbo].[TC_DepActividadMeta] ([I_DepActividadMetaID], [I_Anio], [I_CategoriaPlanillaID], [I_DependenciaID], [T_Descripcion], [I_ActividadID], [I_MetaID], [I_CategoriaPresupuestalID], [I_UsuarioCre], [D_FecCre], [I_UsuarioMod], [D_FecMod]) VALUES (33, 2023, 2, 19, NULL, 2, 5, 2, NULL, NULL, NULL, NULL)
+GO
+INSERT [dbo].[TC_DepActividadMeta] ([I_DepActividadMetaID], [I_Anio], [I_CategoriaPlanillaID], [I_DependenciaID], [T_Descripcion], [I_ActividadID], [I_MetaID], [I_CategoriaPresupuestalID], [I_UsuarioCre], [D_FecCre], [I_UsuarioMod], [D_FecMod]) VALUES (34, 2023, 1, 20, NULL, 3, 6, 2, NULL, NULL, NULL, NULL)
+GO
+INSERT [dbo].[TC_DepActividadMeta] ([I_DepActividadMetaID], [I_Anio], [I_CategoriaPlanillaID], [I_DependenciaID], [T_Descripcion], [I_ActividadID], [I_MetaID], [I_CategoriaPresupuestalID], [I_UsuarioCre], [D_FecCre], [I_UsuarioMod], [D_FecMod]) VALUES (35, 2023, 2, 20, NULL, 3, 6, 2, NULL, NULL, NULL, NULL)
+GO
+INSERT [dbo].[TC_DepActividadMeta] ([I_DepActividadMetaID], [I_Anio], [I_CategoriaPlanillaID], [I_DependenciaID], [T_Descripcion], [I_ActividadID], [I_MetaID], [I_CategoriaPresupuestalID], [I_UsuarioCre], [D_FecCre], [I_UsuarioMod], [D_FecMod]) VALUES (36, 2023, 1, 21, NULL, 7, 2, 1, NULL, NULL, NULL, NULL)
+GO
+INSERT [dbo].[TC_DepActividadMeta] ([I_DepActividadMetaID], [I_Anio], [I_CategoriaPlanillaID], [I_DependenciaID], [T_Descripcion], [I_ActividadID], [I_MetaID], [I_CategoriaPresupuestalID], [I_UsuarioCre], [D_FecCre], [I_UsuarioMod], [D_FecMod]) VALUES (37, 2023, 1, 22, NULL, 8, 10, 3, NULL, NULL, NULL, NULL)
+GO
+INSERT [dbo].[TC_DepActividadMeta] ([I_DepActividadMetaID], [I_Anio], [I_CategoriaPlanillaID], [I_DependenciaID], [T_Descripcion], [I_ActividadID], [I_MetaID], [I_CategoriaPresupuestalID], [I_UsuarioCre], [D_FecCre], [I_UsuarioMod], [D_FecMod]) VALUES (38, 2023, 2, 22, NULL, 8, 10, 3, NULL, NULL, NULL, NULL)
+GO
+INSERT [dbo].[TC_DepActividadMeta] ([I_DepActividadMetaID], [I_Anio], [I_CategoriaPlanillaID], [I_DependenciaID], [T_Descripcion], [I_ActividadID], [I_MetaID], [I_CategoriaPresupuestalID], [I_UsuarioCre], [D_FecCre], [I_UsuarioMod], [D_FecMod]) VALUES (39, 2023, 1, 23, NULL, 7, 2, 1, NULL, NULL, NULL, NULL)
+GO
+INSERT [dbo].[TC_DepActividadMeta] ([I_DepActividadMetaID], [I_Anio], [I_CategoriaPlanillaID], [I_DependenciaID], [T_Descripcion], [I_ActividadID], [I_MetaID], [I_CategoriaPresupuestalID], [I_UsuarioCre], [D_FecCre], [I_UsuarioMod], [D_FecMod]) VALUES (40, 2023, 2, 23, NULL, 14, 3, 1, NULL, NULL, NULL, NULL)
+GO
+INSERT [dbo].[TC_DepActividadMeta] ([I_DepActividadMetaID], [I_Anio], [I_CategoriaPlanillaID], [I_DependenciaID], [T_Descripcion], [I_ActividadID], [I_MetaID], [I_CategoriaPresupuestalID], [I_UsuarioCre], [D_FecCre], [I_UsuarioMod], [D_FecMod]) VALUES (41, 2023, 1, 24, NULL, 7, 2, 1, NULL, NULL, NULL, NULL)
+GO
+INSERT [dbo].[TC_DepActividadMeta] ([I_DepActividadMetaID], [I_Anio], [I_CategoriaPlanillaID], [I_DependenciaID], [T_Descripcion], [I_ActividadID], [I_MetaID], [I_CategoriaPresupuestalID], [I_UsuarioCre], [D_FecCre], [I_UsuarioMod], [D_FecMod]) VALUES (42, 2023, 2, 24, NULL, 14, 3, 1, NULL, NULL, NULL, NULL)
+GO
+INSERT [dbo].[TC_DepActividadMeta] ([I_DepActividadMetaID], [I_Anio], [I_CategoriaPlanillaID], [I_DependenciaID], [T_Descripcion], [I_ActividadID], [I_MetaID], [I_CategoriaPresupuestalID], [I_UsuarioCre], [D_FecCre], [I_UsuarioMod], [D_FecMod]) VALUES (43, 2023, 1, 25, NULL, 7, 2, 1, NULL, NULL, NULL, NULL)
+GO
+INSERT [dbo].[TC_DepActividadMeta] ([I_DepActividadMetaID], [I_Anio], [I_CategoriaPlanillaID], [I_DependenciaID], [T_Descripcion], [I_ActividadID], [I_MetaID], [I_CategoriaPresupuestalID], [I_UsuarioCre], [D_FecCre], [I_UsuarioMod], [D_FecMod]) VALUES (44, 2023, 2, 25, NULL, 14, 3, 1, NULL, NULL, NULL, NULL)
+GO
+INSERT [dbo].[TC_DepActividadMeta] ([I_DepActividadMetaID], [I_Anio], [I_CategoriaPlanillaID], [I_DependenciaID], [T_Descripcion], [I_ActividadID], [I_MetaID], [I_CategoriaPresupuestalID], [I_UsuarioCre], [D_FecCre], [I_UsuarioMod], [D_FecMod]) VALUES (45, 2023, 1, 26, NULL, 5, 8, 2, NULL, NULL, NULL, NULL)
+GO
+INSERT [dbo].[TC_DepActividadMeta] ([I_DepActividadMetaID], [I_Anio], [I_CategoriaPlanillaID], [I_DependenciaID], [T_Descripcion], [I_ActividadID], [I_MetaID], [I_CategoriaPresupuestalID], [I_UsuarioCre], [D_FecCre], [I_UsuarioMod], [D_FecMod]) VALUES (46, 2023, 1, 27, NULL, 3, 6, 2, NULL, NULL, NULL, NULL)
+GO
+INSERT [dbo].[TC_DepActividadMeta] ([I_DepActividadMetaID], [I_Anio], [I_CategoriaPlanillaID], [I_DependenciaID], [T_Descripcion], [I_ActividadID], [I_MetaID], [I_CategoriaPresupuestalID], [I_UsuarioCre], [D_FecCre], [I_UsuarioMod], [D_FecMod]) VALUES (47, 2023, 1, 28, NULL, 3, 6, 2, NULL, NULL, NULL, NULL)
+GO
+INSERT [dbo].[TC_DepActividadMeta] ([I_DepActividadMetaID], [I_Anio], [I_CategoriaPlanillaID], [I_DependenciaID], [T_Descripcion], [I_ActividadID], [I_MetaID], [I_CategoriaPresupuestalID], [I_UsuarioCre], [D_FecCre], [I_UsuarioMod], [D_FecMod]) VALUES (48, 2023, 2, 28, NULL, 3, 6, 2, NULL, NULL, NULL, NULL)
+GO
+INSERT [dbo].[TC_DepActividadMeta] ([I_DepActividadMetaID], [I_Anio], [I_CategoriaPlanillaID], [I_DependenciaID], [T_Descripcion], [I_ActividadID], [I_MetaID], [I_CategoriaPresupuestalID], [I_UsuarioCre], [D_FecCre], [I_UsuarioMod], [D_FecMod]) VALUES (49, 2023, 1, 29, NULL, 3, 6, 2, NULL, NULL, NULL, NULL)
+GO
+INSERT [dbo].[TC_DepActividadMeta] ([I_DepActividadMetaID], [I_Anio], [I_CategoriaPlanillaID], [I_DependenciaID], [T_Descripcion], [I_ActividadID], [I_MetaID], [I_CategoriaPresupuestalID], [I_UsuarioCre], [D_FecCre], [I_UsuarioMod], [D_FecMod]) VALUES (50, 2023, 2, 29, NULL, 3, 6, 2, NULL, NULL, NULL, NULL)
+GO
+INSERT [dbo].[TC_DepActividadMeta] ([I_DepActividadMetaID], [I_Anio], [I_CategoriaPlanillaID], [I_DependenciaID], [T_Descripcion], [I_ActividadID], [I_MetaID], [I_CategoriaPresupuestalID], [I_UsuarioCre], [D_FecCre], [I_UsuarioMod], [D_FecMod]) VALUES (51, 2023, 1, 30, NULL, 3, 6, 2, NULL, NULL, NULL, NULL)
+GO
+INSERT [dbo].[TC_DepActividadMeta] ([I_DepActividadMetaID], [I_Anio], [I_CategoriaPlanillaID], [I_DependenciaID], [T_Descripcion], [I_ActividadID], [I_MetaID], [I_CategoriaPresupuestalID], [I_UsuarioCre], [D_FecCre], [I_UsuarioMod], [D_FecMod]) VALUES (52, 2023, 1, 31, NULL, 2, 5, 2, NULL, NULL, NULL, NULL)
+GO
+INSERT [dbo].[TC_DepActividadMeta] ([I_DepActividadMetaID], [I_Anio], [I_CategoriaPlanillaID], [I_DependenciaID], [T_Descripcion], [I_ActividadID], [I_MetaID], [I_CategoriaPresupuestalID], [I_UsuarioCre], [D_FecCre], [I_UsuarioMod], [D_FecMod]) VALUES (53, 2023, 2, 31, NULL, 2, 5, 2, NULL, NULL, NULL, NULL)
+GO
+INSERT [dbo].[TC_DepActividadMeta] ([I_DepActividadMetaID], [I_Anio], [I_CategoriaPlanillaID], [I_DependenciaID], [T_Descripcion], [I_ActividadID], [I_MetaID], [I_CategoriaPresupuestalID], [I_UsuarioCre], [D_FecCre], [I_UsuarioMod], [D_FecMod]) VALUES (54, 2023, 1, 32, NULL, 3, 6, 2, NULL, NULL, NULL, NULL)
+GO
+INSERT [dbo].[TC_DepActividadMeta] ([I_DepActividadMetaID], [I_Anio], [I_CategoriaPlanillaID], [I_DependenciaID], [T_Descripcion], [I_ActividadID], [I_MetaID], [I_CategoriaPresupuestalID], [I_UsuarioCre], [D_FecCre], [I_UsuarioMod], [D_FecMod]) VALUES (55, 2023, 1, 33, NULL, 8, 10, 2, NULL, NULL, NULL, NULL)
+GO
+INSERT [dbo].[TC_DepActividadMeta] ([I_DepActividadMetaID], [I_Anio], [I_CategoriaPlanillaID], [I_DependenciaID], [T_Descripcion], [I_ActividadID], [I_MetaID], [I_CategoriaPresupuestalID], [I_UsuarioCre], [D_FecCre], [I_UsuarioMod], [D_FecMod]) VALUES (56, 2023, 2, 34, NULL, 14, 3, 1, NULL, NULL, NULL, NULL)
+GO
+INSERT [dbo].[TC_DepActividadMeta] ([I_DepActividadMetaID], [I_Anio], [I_CategoriaPlanillaID], [I_DependenciaID], [T_Descripcion], [I_ActividadID], [I_MetaID], [I_CategoriaPresupuestalID], [I_UsuarioCre], [D_FecCre], [I_UsuarioMod], [D_FecMod]) VALUES (57, 2023, 1, 34, NULL, 7, 2, 1, NULL, NULL, NULL, NULL)
+GO
+INSERT [dbo].[TC_DepActividadMeta] ([I_DepActividadMetaID], [I_Anio], [I_CategoriaPlanillaID], [I_DependenciaID], [T_Descripcion], [I_ActividadID], [I_MetaID], [I_CategoriaPresupuestalID], [I_UsuarioCre], [D_FecCre], [I_UsuarioMod], [D_FecMod]) VALUES (58, 2023, 2, 35, NULL, 14, 3, 1, NULL, NULL, NULL, NULL)
+GO
+INSERT [dbo].[TC_DepActividadMeta] ([I_DepActividadMetaID], [I_Anio], [I_CategoriaPlanillaID], [I_DependenciaID], [T_Descripcion], [I_ActividadID], [I_MetaID], [I_CategoriaPresupuestalID], [I_UsuarioCre], [D_FecCre], [I_UsuarioMod], [D_FecMod]) VALUES (59, 2023, 1, 35, NULL, 7, 2, 1, NULL, NULL, NULL, NULL)
+GO
+INSERT [dbo].[TC_DepActividadMeta] ([I_DepActividadMetaID], [I_Anio], [I_CategoriaPlanillaID], [I_DependenciaID], [T_Descripcion], [I_ActividadID], [I_MetaID], [I_CategoriaPresupuestalID], [I_UsuarioCre], [D_FecCre], [I_UsuarioMod], [D_FecMod]) VALUES (60, 2023, 2, 36, NULL, 14, 3, 1, NULL, NULL, NULL, NULL)
+GO
+INSERT [dbo].[TC_DepActividadMeta] ([I_DepActividadMetaID], [I_Anio], [I_CategoriaPlanillaID], [I_DependenciaID], [T_Descripcion], [I_ActividadID], [I_MetaID], [I_CategoriaPresupuestalID], [I_UsuarioCre], [D_FecCre], [I_UsuarioMod], [D_FecMod]) VALUES (61, 2023, 1, 36, NULL, 7, 2, 1, NULL, NULL, NULL, NULL)
+GO
+INSERT [dbo].[TC_DepActividadMeta] ([I_DepActividadMetaID], [I_Anio], [I_CategoriaPlanillaID], [I_DependenciaID], [T_Descripcion], [I_ActividadID], [I_MetaID], [I_CategoriaPresupuestalID], [I_UsuarioCre], [D_FecCre], [I_UsuarioMod], [D_FecMod]) VALUES (62, 2023, 2, 37, NULL, 14, 3, 1, NULL, NULL, NULL, NULL)
+GO
+INSERT [dbo].[TC_DepActividadMeta] ([I_DepActividadMetaID], [I_Anio], [I_CategoriaPlanillaID], [I_DependenciaID], [T_Descripcion], [I_ActividadID], [I_MetaID], [I_CategoriaPresupuestalID], [I_UsuarioCre], [D_FecCre], [I_UsuarioMod], [D_FecMod]) VALUES (63, 2023, 1, 37, NULL, 7, 2, 1, NULL, NULL, NULL, NULL)
+GO
+INSERT [dbo].[TC_DepActividadMeta] ([I_DepActividadMetaID], [I_Anio], [I_CategoriaPlanillaID], [I_DependenciaID], [T_Descripcion], [I_ActividadID], [I_MetaID], [I_CategoriaPresupuestalID], [I_UsuarioCre], [D_FecCre], [I_UsuarioMod], [D_FecMod]) VALUES (64, 2023, 2, 38, NULL, 14, 3, 1, NULL, NULL, NULL, NULL)
+GO
+INSERT [dbo].[TC_DepActividadMeta] ([I_DepActividadMetaID], [I_Anio], [I_CategoriaPlanillaID], [I_DependenciaID], [T_Descripcion], [I_ActividadID], [I_MetaID], [I_CategoriaPresupuestalID], [I_UsuarioCre], [D_FecCre], [I_UsuarioMod], [D_FecMod]) VALUES (65, 2023, 1, 38, NULL, 7, 2, 1, NULL, NULL, NULL, NULL)
+GO
+INSERT [dbo].[TC_DepActividadMeta] ([I_DepActividadMetaID], [I_Anio], [I_CategoriaPlanillaID], [I_DependenciaID], [T_Descripcion], [I_ActividadID], [I_MetaID], [I_CategoriaPresupuestalID], [I_UsuarioCre], [D_FecCre], [I_UsuarioMod], [D_FecMod]) VALUES (66, 2023, 2, 39, NULL, 14, 3, 1, NULL, NULL, NULL, NULL)
+GO
+INSERT [dbo].[TC_DepActividadMeta] ([I_DepActividadMetaID], [I_Anio], [I_CategoriaPlanillaID], [I_DependenciaID], [T_Descripcion], [I_ActividadID], [I_MetaID], [I_CategoriaPresupuestalID], [I_UsuarioCre], [D_FecCre], [I_UsuarioMod], [D_FecMod]) VALUES (67, 2023, 1, 39, NULL, 7, 2, 1, NULL, NULL, NULL, NULL)
+GO
+INSERT [dbo].[TC_DepActividadMeta] ([I_DepActividadMetaID], [I_Anio], [I_CategoriaPlanillaID], [I_DependenciaID], [T_Descripcion], [I_ActividadID], [I_MetaID], [I_CategoriaPresupuestalID], [I_UsuarioCre], [D_FecCre], [I_UsuarioMod], [D_FecMod]) VALUES (68, 2023, 2, 40, NULL, 14, 3, 1, NULL, NULL, NULL, NULL)
+GO
+INSERT [dbo].[TC_DepActividadMeta] ([I_DepActividadMetaID], [I_Anio], [I_CategoriaPlanillaID], [I_DependenciaID], [T_Descripcion], [I_ActividadID], [I_MetaID], [I_CategoriaPresupuestalID], [I_UsuarioCre], [D_FecCre], [I_UsuarioMod], [D_FecMod]) VALUES (69, 2023, 1, 40, NULL, 7, 2, 1, NULL, NULL, NULL, NULL)
+GO
+INSERT [dbo].[TC_DepActividadMeta] ([I_DepActividadMetaID], [I_Anio], [I_CategoriaPlanillaID], [I_DependenciaID], [T_Descripcion], [I_ActividadID], [I_MetaID], [I_CategoriaPresupuestalID], [I_UsuarioCre], [D_FecCre], [I_UsuarioMod], [D_FecMod]) VALUES (70, 2023, 2, 41, NULL, 14, 3, 1, NULL, NULL, NULL, NULL)
+GO
+INSERT [dbo].[TC_DepActividadMeta] ([I_DepActividadMetaID], [I_Anio], [I_CategoriaPlanillaID], [I_DependenciaID], [T_Descripcion], [I_ActividadID], [I_MetaID], [I_CategoriaPresupuestalID], [I_UsuarioCre], [D_FecCre], [I_UsuarioMod], [D_FecMod]) VALUES (71, 2023, 1, 41, NULL, 7, 2, 1, NULL, NULL, NULL, NULL)
+GO
+INSERT [dbo].[TC_DepActividadMeta] ([I_DepActividadMetaID], [I_Anio], [I_CategoriaPlanillaID], [I_DependenciaID], [T_Descripcion], [I_ActividadID], [I_MetaID], [I_CategoriaPresupuestalID], [I_UsuarioCre], [D_FecCre], [I_UsuarioMod], [D_FecMod]) VALUES (72, 2023, 2, 42, NULL, 14, 3, 1, NULL, NULL, NULL, NULL)
+GO
+INSERT [dbo].[TC_DepActividadMeta] ([I_DepActividadMetaID], [I_Anio], [I_CategoriaPlanillaID], [I_DependenciaID], [T_Descripcion], [I_ActividadID], [I_MetaID], [I_CategoriaPresupuestalID], [I_UsuarioCre], [D_FecCre], [I_UsuarioMod], [D_FecMod]) VALUES (73, 2023, 1, 42, NULL, 7, 2, 1, NULL, NULL, NULL, NULL)
+GO
+INSERT [dbo].[TC_DepActividadMeta] ([I_DepActividadMetaID], [I_Anio], [I_CategoriaPlanillaID], [I_DependenciaID], [T_Descripcion], [I_ActividadID], [I_MetaID], [I_CategoriaPresupuestalID], [I_UsuarioCre], [D_FecCre], [I_UsuarioMod], [D_FecMod]) VALUES (74, 2023, 2, 43, NULL, 14, 3, 1, NULL, NULL, NULL, NULL)
+GO
+INSERT [dbo].[TC_DepActividadMeta] ([I_DepActividadMetaID], [I_Anio], [I_CategoriaPlanillaID], [I_DependenciaID], [T_Descripcion], [I_ActividadID], [I_MetaID], [I_CategoriaPresupuestalID], [I_UsuarioCre], [D_FecCre], [I_UsuarioMod], [D_FecMod]) VALUES (75, 2023, 1, 43, NULL, 7, 2, 1, NULL, NULL, NULL, NULL)
+GO
+INSERT [dbo].[TC_DepActividadMeta] ([I_DepActividadMetaID], [I_Anio], [I_CategoriaPlanillaID], [I_DependenciaID], [T_Descripcion], [I_ActividadID], [I_MetaID], [I_CategoriaPresupuestalID], [I_UsuarioCre], [D_FecCre], [I_UsuarioMod], [D_FecMod]) VALUES (76, 2023, 2, 44, NULL, 14, 3, 1, NULL, NULL, NULL, NULL)
+GO
+INSERT [dbo].[TC_DepActividadMeta] ([I_DepActividadMetaID], [I_Anio], [I_CategoriaPlanillaID], [I_DependenciaID], [T_Descripcion], [I_ActividadID], [I_MetaID], [I_CategoriaPresupuestalID], [I_UsuarioCre], [D_FecCre], [I_UsuarioMod], [D_FecMod]) VALUES (77, 2023, 1, 44, NULL, 7, 2, 1, NULL, NULL, NULL, NULL)
+GO
+INSERT [dbo].[TC_DepActividadMeta] ([I_DepActividadMetaID], [I_Anio], [I_CategoriaPlanillaID], [I_DependenciaID], [T_Descripcion], [I_ActividadID], [I_MetaID], [I_CategoriaPresupuestalID], [I_UsuarioCre], [D_FecCre], [I_UsuarioMod], [D_FecMod]) VALUES (78, 2023, 2, 45, NULL, 14, 3, 1, NULL, NULL, NULL, NULL)
+GO
+INSERT [dbo].[TC_DepActividadMeta] ([I_DepActividadMetaID], [I_Anio], [I_CategoriaPlanillaID], [I_DependenciaID], [T_Descripcion], [I_ActividadID], [I_MetaID], [I_CategoriaPresupuestalID], [I_UsuarioCre], [D_FecCre], [I_UsuarioMod], [D_FecMod]) VALUES (79, 2023, 1, 45, NULL, 7, 2, 1, NULL, NULL, NULL, NULL)
+GO
+INSERT [dbo].[TC_DepActividadMeta] ([I_DepActividadMetaID], [I_Anio], [I_CategoriaPlanillaID], [I_DependenciaID], [T_Descripcion], [I_ActividadID], [I_MetaID], [I_CategoriaPresupuestalID], [I_UsuarioCre], [D_FecCre], [I_UsuarioMod], [D_FecMod]) VALUES (80, 2023, 2, 46, NULL, 14, 3, 1, NULL, NULL, NULL, NULL)
+GO
+INSERT [dbo].[TC_DepActividadMeta] ([I_DepActividadMetaID], [I_Anio], [I_CategoriaPlanillaID], [I_DependenciaID], [T_Descripcion], [I_ActividadID], [I_MetaID], [I_CategoriaPresupuestalID], [I_UsuarioCre], [D_FecCre], [I_UsuarioMod], [D_FecMod]) VALUES (81, 2023, 1, 46, NULL, 7, 2, 1, NULL, NULL, NULL, NULL)
+GO
+INSERT [dbo].[TC_DepActividadMeta] ([I_DepActividadMetaID], [I_Anio], [I_CategoriaPlanillaID], [I_DependenciaID], [T_Descripcion], [I_ActividadID], [I_MetaID], [I_CategoriaPresupuestalID], [I_UsuarioCre], [D_FecCre], [I_UsuarioMod], [D_FecMod]) VALUES (82, 2023, 2, 47, NULL, 14, 3, 1, NULL, NULL, NULL, NULL)
+GO
+INSERT [dbo].[TC_DepActividadMeta] ([I_DepActividadMetaID], [I_Anio], [I_CategoriaPlanillaID], [I_DependenciaID], [T_Descripcion], [I_ActividadID], [I_MetaID], [I_CategoriaPresupuestalID], [I_UsuarioCre], [D_FecCre], [I_UsuarioMod], [D_FecMod]) VALUES (83, 2023, 1, 47, NULL, 7, 2, 1, NULL, NULL, NULL, NULL)
+GO
+INSERT [dbo].[TC_DepActividadMeta] ([I_DepActividadMetaID], [I_Anio], [I_CategoriaPlanillaID], [I_DependenciaID], [T_Descripcion], [I_ActividadID], [I_MetaID], [I_CategoriaPresupuestalID], [I_UsuarioCre], [D_FecCre], [I_UsuarioMod], [D_FecMod]) VALUES (84, 2023, 2, 48, NULL, 14, 3, 1, NULL, NULL, NULL, NULL)
+GO
+INSERT [dbo].[TC_DepActividadMeta] ([I_DepActividadMetaID], [I_Anio], [I_CategoriaPlanillaID], [I_DependenciaID], [T_Descripcion], [I_ActividadID], [I_MetaID], [I_CategoriaPresupuestalID], [I_UsuarioCre], [D_FecCre], [I_UsuarioMod], [D_FecMod]) VALUES (85, 2023, 1, 48, NULL, 7, 2, 1, NULL, NULL, NULL, NULL)
+GO
+INSERT [dbo].[TC_DepActividadMeta] ([I_DepActividadMetaID], [I_Anio], [I_CategoriaPlanillaID], [I_DependenciaID], [T_Descripcion], [I_ActividadID], [I_MetaID], [I_CategoriaPresupuestalID], [I_UsuarioCre], [D_FecCre], [I_UsuarioMod], [D_FecMod]) VALUES (86, 2023, 2, 49, NULL, 14, 3, 1, NULL, NULL, NULL, NULL)
+GO
+INSERT [dbo].[TC_DepActividadMeta] ([I_DepActividadMetaID], [I_Anio], [I_CategoriaPlanillaID], [I_DependenciaID], [T_Descripcion], [I_ActividadID], [I_MetaID], [I_CategoriaPresupuestalID], [I_UsuarioCre], [D_FecCre], [I_UsuarioMod], [D_FecMod]) VALUES (87, 2023, 1, 49, NULL, 7, 2, 1, NULL, NULL, NULL, NULL)
+GO
+INSERT [dbo].[TC_DepActividadMeta] ([I_DepActividadMetaID], [I_Anio], [I_CategoriaPlanillaID], [I_DependenciaID], [T_Descripcion], [I_ActividadID], [I_MetaID], [I_CategoriaPresupuestalID], [I_UsuarioCre], [D_FecCre], [I_UsuarioMod], [D_FecMod]) VALUES (88, 2023, 2, 50, NULL, 14, 3, 1, NULL, NULL, NULL, NULL)
+GO
+INSERT [dbo].[TC_DepActividadMeta] ([I_DepActividadMetaID], [I_Anio], [I_CategoriaPlanillaID], [I_DependenciaID], [T_Descripcion], [I_ActividadID], [I_MetaID], [I_CategoriaPresupuestalID], [I_UsuarioCre], [D_FecCre], [I_UsuarioMod], [D_FecMod]) VALUES (89, 2023, 1, 50, NULL, 7, 2, 1, NULL, NULL, NULL, NULL)
+GO
+INSERT [dbo].[TC_DepActividadMeta] ([I_DepActividadMetaID], [I_Anio], [I_CategoriaPlanillaID], [I_DependenciaID], [T_Descripcion], [I_ActividadID], [I_MetaID], [I_CategoriaPresupuestalID], [I_UsuarioCre], [D_FecCre], [I_UsuarioMod], [D_FecMod]) VALUES (90, 2023, 3, 50, NULL, 7, 2, 1, NULL, NULL, NULL, NULL)
+GO
+INSERT [dbo].[TC_DepActividadMeta] ([I_DepActividadMetaID], [I_Anio], [I_CategoriaPlanillaID], [I_DependenciaID], [T_Descripcion], [I_ActividadID], [I_MetaID], [I_CategoriaPresupuestalID], [I_UsuarioCre], [D_FecCre], [I_UsuarioMod], [D_FecMod]) VALUES (91, 2023, 2, 51, NULL, 14, 3, 1, NULL, NULL, NULL, NULL)
+GO
+INSERT [dbo].[TC_DepActividadMeta] ([I_DepActividadMetaID], [I_Anio], [I_CategoriaPlanillaID], [I_DependenciaID], [T_Descripcion], [I_ActividadID], [I_MetaID], [I_CategoriaPresupuestalID], [I_UsuarioCre], [D_FecCre], [I_UsuarioMod], [D_FecMod]) VALUES (92, 2023, 1, 51, NULL, 7, 2, 1, NULL, NULL, NULL, NULL)
+GO
+INSERT [dbo].[TC_DepActividadMeta] ([I_DepActividadMetaID], [I_Anio], [I_CategoriaPlanillaID], [I_DependenciaID], [T_Descripcion], [I_ActividadID], [I_MetaID], [I_CategoriaPresupuestalID], [I_UsuarioCre], [D_FecCre], [I_UsuarioMod], [D_FecMod]) VALUES (93, 2023, 1, 52, NULL, 3, 6, 2, NULL, NULL, NULL, NULL)
+GO
+INSERT [dbo].[TC_DepActividadMeta] ([I_DepActividadMetaID], [I_Anio], [I_CategoriaPlanillaID], [I_DependenciaID], [T_Descripcion], [I_ActividadID], [I_MetaID], [I_CategoriaPresupuestalID], [I_UsuarioCre], [D_FecCre], [I_UsuarioMod], [D_FecMod]) VALUES (94, 2023, 2, 21, NULL, 14, 3, 1, NULL, NULL, NULL, NULL)
+GO
+INSERT [dbo].[TC_DepActividadMeta] ([I_DepActividadMetaID], [I_Anio], [I_CategoriaPlanillaID], [I_DependenciaID], [T_Descripcion], [I_ActividadID], [I_MetaID], [I_CategoriaPresupuestalID], [I_UsuarioCre], [D_FecCre], [I_UsuarioMod], [D_FecMod]) VALUES (95, 2023, 2, 53, NULL, 2, 5, 1, NULL, NULL, NULL, NULL)
+GO
+SET IDENTITY_INSERT [dbo].[TC_DepActividadMeta] OFF
+GO
+
 
 
 /*
