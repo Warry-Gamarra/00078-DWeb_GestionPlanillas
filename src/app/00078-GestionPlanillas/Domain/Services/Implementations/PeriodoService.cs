@@ -182,9 +182,7 @@ namespace Domain.Services.Implementations
                                 periodoEntity.anio, ObtenerMesDesc(periodoEntity.mes)));
                         }
 
-                        var listaPlanillas = VW_ResumenPlanillaTrabajador.FindAll(oldPeriodo.I_Anio, oldPeriodo.I_Mes, null);
-
-                        existenPlanillasGeneradas = listaPlanillas.Count() > 0;
+                        existenPlanillasGeneradas = TR_Planilla.ExistePlanilla(oldPeriodo.I_Anio, oldPeriodo.I_Mes);
 
                         if (existenPlanillasGeneradas && (oldPeriodo.I_Anio != periodoEntity.anio || oldPeriodo.I_Mes != periodoEntity.mes))
                         {
@@ -275,9 +273,9 @@ namespace Domain.Services.Implementations
 
                 if (periodo != null)
                 {
-                    var listaPlanillas = VW_ResumenPlanillaTrabajador.FindAll(periodo.I_Anio, periodo.I_Mes, null);
+                    var existenPlanillasGeneradas = TR_Planilla.ExistePlanilla(periodo.I_Anio, periodo.I_Mes);
 
-                    if (listaPlanillas == null || listaPlanillas.Count() == 0)
+                    if (!existenPlanillasGeneradas)
                     {
                         var eliminar = new USP_D_EliminarPeriodo()
                         {

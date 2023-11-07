@@ -94,7 +94,7 @@ namespace Domain.Services.Implementations
 
                 if (dto != null)
                 {
-                    bool tienePlanilla = _planillaService.ExistePlanillaTrabajador(dto.trabajadorID, dto.periodoID, dto.categoriaPlanillaID);
+                    bool tienePlanilla = _planillaService.ExistePlanillaTrabajador(dto.trabajadorID, dto.anio, dto.mes, dto.categoriaPlanillaID);
 
                     if (!tienePlanilla)
                     {
@@ -146,7 +146,7 @@ namespace Domain.Services.Implementations
 
                 if (dto != null)
                 {
-                    bool tienePlanilla = _planillaService.ExistePlanillaTrabajador(dto.trabajadorID, dto.periodoID, dto.categoriaPlanillaID);
+                    bool tienePlanilla = _planillaService.ExistePlanillaTrabajador(dto.trabajadorID, dto.anio, dto.mes, dto.categoriaPlanillaID);
 
                     if (!tienePlanilla)
                     {

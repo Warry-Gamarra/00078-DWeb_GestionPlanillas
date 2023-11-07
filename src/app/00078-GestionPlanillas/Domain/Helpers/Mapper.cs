@@ -1,4 +1,5 @@
 ﻿using Data.Connection;
+using Data.Procedures;
 using Data.Tables;
 using Data.Views;
 using Domain.Entities;
@@ -62,39 +63,38 @@ namespace Domain.Helpers
             return trabajadorDTO;
         }
 
-        public static ResumenPlanillaTrabajadorDTO VW_ResumenPlanillaTrabajador_To_ResumenPlanillaTrabajadorDTO(VW_ResumenPlanillaTrabajador view)
+        public static ResumenPlanillaTrabajadorDTO USP_S_ListarResumenPlanillaTrabajador_To_ResumenPlanillaTrabajadorDTO(USP_S_ListarResumenPlanillaTrabajador sp)
         {
             var trabajadorDTO = new ResumenPlanillaTrabajadorDTO()
             {
-                trabajadorID = view.I_TrabajadorID,
-                trabajadorCod = view.C_TrabajadorCod,
-                nombre = view.T_Nombre,
-                apellidoPaterno = view.T_ApellidoPaterno,
-                apellidoMaterno = view.T_ApellidoMaterno,
-                tipoDocumentoID = view.I_TipoDocumentoID,
-                tipoDocumentoDesc = view.T_TipoDocumentoDesc,
-                numDocumento = view.C_NumDocumento,
-                fechaIngreso = view.D_FechaIngreso,
-                regimenID = view.I_RegimenID,
-                regimenDesc = view.T_RegimenDesc,
-                estadoID = view.I_EstadoID,
-                estadoDesc = view.T_EstadoDesc,
-                vinculoID = view.I_VinculoID,
-                vinculoDesc = view.T_VinculoDesc,
-                trabajadorPlanillaID = view.I_TrabajadorPlanillaID,
-                totalRemuneracion = view.I_TotalRemuneracion,
-                totalReintegro = view.I_TotalReintegro,
-                totalDeduccion = view.I_TotalDeduccion,
-                totalBruto = view.I_TotalBruto,
-                totalDescuento = view.I_TotalDescuento,
-                totalSueldo = view.I_TotalSueldo,
-                planillaID = view.I_PlanillaID,
-                periodoID = view.I_PeriodoID,
-                anio = view.I_Anio,
-                mes = view.I_Mes,
-                mesDesc = view.T_MesDesc,
-                categoriaPlanillaID = view.I_CategoriaPlanillaID,
-                categoriaPlanillaDesc = view.T_CategoriaPlanillaDesc
+                trabajadorID = sp.I_TrabajadorID,
+                trabajadorCod = sp.C_TrabajadorCod,
+                nombre = sp.T_Nombre,
+                apellidoPaterno = sp.T_ApellidoPaterno,
+                apellidoMaterno = sp.T_ApellidoMaterno,
+                tipoDocumentoID = sp.I_TipoDocumentoID,
+                tipoDocumentoDesc = sp.T_TipoDocumentoDesc,
+                numDocumento = sp.C_NumDocumento,
+                regimenID = sp.I_RegimenID,
+                regimenDesc = sp.T_RegimenDesc,
+                estadoID = sp.I_EstadoID,
+                estadoDesc = sp.T_EstadoDesc,
+                vinculoID = sp.I_VinculoID,
+                vinculoDesc = sp.T_VinculoDesc,
+                trabajadorPlanillaID = sp.I_TrabajadorPlanillaID,
+                totalRemuneracion = sp.I_TotalRemuneracion,
+                totalReintegro = sp.I_TotalReintegro,
+                totalDeduccion = sp.I_TotalDeduccion,
+                totalBruto = sp.I_TotalBruto,
+                totalDescuento = sp.I_TotalDescuento,
+                totalSueldo = sp.I_TotalSueldo,
+                planillaID = sp.I_PlanillaID,
+                periodoID = sp.I_PeriodoID,
+                anio = sp.I_Anio,
+                mes = sp.I_Mes,
+                mesDesc = sp.T_MesDesc,
+                categoriaPlanillaID = sp.I_CategoriaPlanillaID,
+                categoriaPlanillaDesc = sp.T_CategoriaPlanillaDesc
             };
 
             return trabajadorDTO;

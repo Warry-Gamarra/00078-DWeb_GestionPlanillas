@@ -2,6 +2,7 @@
 using Data.Connection;
 using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Data.SqlClient;
 using System.Linq;
 using System.Text;
@@ -24,7 +25,7 @@ namespace Data.Tables
 
                 using (var _dbConnection = new SqlConnection(Database.ConnectionString))
                 {
-                    cantRegistros = _dbConnection.Query<int>(s_command, new { I_DependenciaID = I_DependenciaID }, commandType: System.Data.CommandType.Text).Count();
+                    cantRegistros = _dbConnection.Query<int>(s_command, new { I_DependenciaID = I_DependenciaID }, commandType: CommandType.Text).Count();
 
                     isThereAnyEmployee = cantRegistros > 0;
                 }

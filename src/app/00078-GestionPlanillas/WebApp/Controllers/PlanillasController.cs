@@ -56,9 +56,9 @@ namespace WebApp.Controllers
 
             List<ResumenPlanillaTrabajadorModel> lista;
 
-            if (anio.HasValue && mes.HasValue)
+            if (anio.HasValue && mes.HasValue && idCategoria.HasValue)
             {
-                lista = _planillaServiceFacade.ListarResumenPlanillaTrabajador(anio, mes, idCategoria).ToList();
+                lista = _planillaServiceFacade.ListarResumenPlanillaTrabajador(anio.Value, mes.Value, idCategoria.Value).ToList();
             }
             else
             {

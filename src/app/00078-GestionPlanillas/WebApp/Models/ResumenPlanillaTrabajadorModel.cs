@@ -29,17 +29,6 @@ namespace WebApp.Models
 
         public string numDocumento { get; set; }
 
-        public DateTime? fechaIngreso { get; set; }
-
-        public string fechaIngresoFormat
-        {
-            get
-            {
-                return fechaIngreso.HasValue ? fechaIngreso.Value.ToString("dd/MM/yyyy") : "";
-            }
-
-        }
-
         public int? regimenID { get; set; }
 
         public string regimenDesc { get; set; }

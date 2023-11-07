@@ -60,7 +60,6 @@ namespace WebApp.Models
                 tipoDocumentoID = dto.tipoDocumentoID,
                 tipoDocumentoDesc = dto.tipoDocumentoDesc,
                 numDocumento = dto.numDocumento,
-                fechaIngreso = dto.fechaIngreso,
                 regimenID = dto.regimenID,
                 regimenDesc = dto.regimenDesc,
                 estadoID = dto.estadoID,

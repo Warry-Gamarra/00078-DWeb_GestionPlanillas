@@ -165,7 +165,7 @@ namespace WebApp.ServiceFacade.Implementations
                     model = Mapper.ValorExternoConceptoDTO_To_ValorExternoConceptoModel(dto);
 
                     model.tienePlanilla = _planillaService.ExistePlanillaTrabajador(
-                        model.trabajadorID, model.periodoID, model.categoriaPlanillaID);
+                        model.trabajadorID, model.anio, model.mes, model.categoriaPlanillaID);
                 }
             }
             catch (Exception)
@@ -442,7 +442,7 @@ namespace WebApp.ServiceFacade.Implementations
 
                 if (dto.esPeriodoCorrecto && dto.trabajadorExiste)
                 {
-                    dto.tienePlanilla = _planillaService.ExistePlanillaTrabajador(trabajadorDTO.trabajadorID, periodoDTO.periodoID, trabajadorDTO.categoriaPlanillaID);
+                    dto.tienePlanilla = _planillaService.ExistePlanillaTrabajador(trabajadorDTO.trabajadorID, periodoDTO.anio, periodoDTO.mes, trabajadorDTO.categoriaPlanillaID);
 
                     if (dto.tienePlanilla)
                     {

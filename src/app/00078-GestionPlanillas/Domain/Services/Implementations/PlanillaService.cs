@@ -15,10 +15,10 @@ namespace Domain.Services.Implementations
 {
     public class PlanillaService : IPlanillaService
     {
-        public List<ResumenPlanillaTrabajadorDTO> ListarResumenPlanillaTrabajadores(int? anio, int? mes, int? idCategoria)
+        public List<ResumenPlanillaTrabajadorDTO> ListarResumenPlanillaTrabajadores(int anio, int mes, int idCategoria)
         {
-            var lista = VW_ResumenPlanillaTrabajador.FindAll(anio, mes, idCategoria)
-                .Select(x => Mapper.VW_ResumenPlanillaTrabajador_To_ResumenPlanillaTrabajadorDTO(x)).ToList();
+            var lista = USP_S_ListarResumenPlanillaTrabajador.Execute(anio, mes, idCategoria)
+                .Select(x => Mapper.USP_S_ListarResumenPlanillaTrabajador_To_ResumenPlanillaTrabajadorDTO(x)).ToList();
 
             return lista;
         }
@@ -46,13 +46,15 @@ namespace Domain.Services.Implementations
             return Mapper.Result_To_Response(result);
         }
 
-        public bool ExistePlanillaTrabajador(int idTrabajador, int idPeriodo, int idCategoria)
+        public bool ExistePlanillaTrabajador(int idTrabajador, int año, int mes, int idCategoria)
         {
             try
             {
-                var view = VW_ResumenPlanillaTrabajador.GetByPeriodoTrabajador(idTrabajador, idPeriodo, idCategoria);
+                var planillaTrabajador = USP_S_ListarResumenPlanillaTrabajador.Execute(año, mes, idCategoria)
+                    .Where(x => x.I_TrabajadorID == idTrabajador)
+                    .FirstOrDefault();
 
-                bool existePlanilla = (view != null ? true : false);
+                bool existePlanilla = (planillaTrabajador != null ? true : false);
 
                 return existePlanilla;
             }

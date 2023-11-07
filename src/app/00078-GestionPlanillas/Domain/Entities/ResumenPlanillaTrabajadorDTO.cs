@@ -24,8 +24,6 @@ namespace Domain.Entities
 
         public string numDocumento { get; set; }
 
-        public DateTime? fechaIngreso { get; set; }
-
         public int? regimenID { get; set; }
 
         public string regimenDesc { get; set; }

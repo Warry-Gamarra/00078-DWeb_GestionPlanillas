@@ -20,7 +20,7 @@ namespace WebApp.ServiceFacade.Implementations
             _planillaService = new PlanillaService();
         }
 
-        public List<ResumenPlanillaTrabajadorModel> ListarResumenPlanillaTrabajador(int? anio, int? mes, int? idCategoria)
+        public List<ResumenPlanillaTrabajadorModel> ListarResumenPlanillaTrabajador(int anio, int mes, int idCategoria)
         {
             var lista = new List<ResumenPlanillaTrabajadorModel>();
 
