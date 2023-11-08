@@ -676,5 +676,23 @@ namespace Domain.Helpers
 
             return categoriaPresupuestalDTO;
         }
+
+        public static TotalPlanillaDependenciaDTO USP_S_ListarTotalPlanillaPorDependencia_To_TotalPlanillaDependenciaDTO(USP_S_ListarTotalPlanillaPorDependencia sp)
+        {
+            var dto = new TotalPlanillaDependenciaDTO()
+            {
+                actividadCod = sp.C_ActividadCod,
+                dependenciaCod = sp.C_DependenciaCod,
+                dependenciaDesc = sp.T_DependenciaDesc,
+                totalRemuneracion = sp.I_TotalRemuneracion,
+                totalReintegro = sp.I_TotalReintegro,
+                totalDeduccion = sp.I_TotalDeduccion,
+                totalBruto = sp.I_TotalBruto,
+                totalDescuento = sp.I_TotalDescuento,
+                totalSueldo = sp.I_TotalSueldo
+            };
+
+            return dto;
+        }
     }
 }

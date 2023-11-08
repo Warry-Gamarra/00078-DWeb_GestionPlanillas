@@ -413,5 +413,23 @@ namespace WebApp.Models
 
             return model;
         }
+
+        public static TotalPlanillaDependenciaModel TotalPlanillaDependenciaDTO_To_TotalPlanillaDependenciaModel(TotalPlanillaDependenciaDTO dto)
+        {
+            var model = new TotalPlanillaDependenciaModel()
+            {
+                actividadCod = dto.actividadCod,
+                dependenciaCod = dto.dependenciaCod,
+                dependenciaDesc = dto.dependenciaDesc,
+                totalRemuneracion = dto.totalRemuneracion,
+                totalReintegro = dto.totalReintegro,
+                totalDeduccion = dto.totalDeduccion,
+                totalBruto = dto.totalBruto,
+                totalDescuento = dto.totalDescuento,
+                totalSueldo = dto.totalSueldo
+            };
+
+            return model;
+        }
     }
 }

@@ -15,15 +15,16 @@ namespace Domain.Services.Implementations
 {
     public class PlanillaService : IPlanillaService
     {
-        public List<ResumenPlanillaTrabajadorDTO> ListarResumenPlanillaTrabajadores(int anio, int mes, int idCategoria)
+        public List<ResumenPlanillaTrabajadorDTO> ListarResumenPlanillaTrabajadores(int año, int mes, int idCategoria)
         {
-            var lista = USP_S_ListarResumenPlanillaTrabajador.Execute(anio, mes, idCategoria)
-                .Select(x => Mapper.USP_S_ListarResumenPlanillaTrabajador_To_ResumenPlanillaTrabajadorDTO(x)).ToList();
+            var lista = USP_S_ListarResumenPlanillaTrabajador.Execute(año, mes, idCategoria)
+                .Select(x => Mapper.USP_S_ListarResumenPlanillaTrabajador_To_ResumenPlanillaTrabajadorDTO(x))
+                .ToList();
 
             return lista;
         }
 
-        public Response GenerarPlanilla(List<int> trabajadores, int anio, int mes, int categoriaPlanillaID, int userID)
+        public Response GenerarPlanilla(List<int> trabajadores, int año, int mes, int categoriaPlanillaID, int userID)
         {
             DataTable dataTable = new DataTable();
             dataTable.Columns.Add("I_TrabajadorID");
@@ -35,7 +36,7 @@ namespace Domain.Services.Implementations
             var generarPlanilla = new USP_I_GenerarPlanilla_Docente_Administrativo()
             {
                 Tbl_Trabajador = dataTable,
-                I_Anio = anio,
+                I_Anio = año,
                 I_Mes = mes,
                 I_CategoriaPlanillaID = categoriaPlanillaID,
                 I_UserID = userID
@@ -62,6 +63,15 @@ namespace Domain.Services.Implementations
             {
                 throw ex;
             }
+        }
+
+        public List<TotalPlanillaDependenciaDTO> ListarTotalPlanillaPorDependencia(int año, int mes, int idCategoria)
+        {
+            var lista = USP_S_ListarTotalPlanillaPorDependencia.Execute(año, mes, idCategoria)
+                .Select(x => Mapper.USP_S_ListarTotalPlanillaPorDependencia_To_TotalPlanillaDependenciaDTO(x))
+                .ToList();
+
+            return lista;
         }
     }
 }

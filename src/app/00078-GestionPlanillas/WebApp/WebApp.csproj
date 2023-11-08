@@ -159,6 +159,7 @@
     <Compile Include="Models\PersonaModel.cs" />
     <Compile Include="Models\PlantillaPlanillaModel.cs" />
     <Compile Include="Models\ResumenPlanillaTrabajadorModel.cs" />
+    <Compile Include="Models\TotalPlanillaDependenciaModel.cs" />
     <Compile Include="Models\TrabajadorCategoriaPlanillaModel.cs" />
     <Compile Include="Models\TrabajadorModel.cs" />
     <Compile Include="Models\UsersModel.cs" />
@@ -458,7 +459,7 @@
     <Content Include="Views\Shared\_Sidebar.cshtml" />
     <Content Include="Views\Account\Login.cshtml" />
     <Content Include="Views\Trabajadores\Index.cshtml" />
-    <Content Include="Views\Planillas\Index.cshtml" />
+    <Content Include="Views\Planillas\Resumen.cshtml" />
     <Content Include="Views\Trabajadores\_MantenimientoTrabajador.cshtml" />
     <Content Include="Views\Trabajadores\_MsgRegistrarTrabajador.cshtml" />
     <Content Include="Views\Planillas\Generar.cshtml" />
@@ -495,6 +496,7 @@
     <Content Include="Views\Actividades\_MantenimientoActividad.cshtml" />
     <Content Include="Views\Metas\_MantenimientoMeta.cshtml" />
     <Content Include="Views\Metas\_MsgRegistrarMeta.cshtml" />
+    <Content Include="Views\Planillas\TotalDependencia.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

@@ -2507,15 +2507,52 @@ CREATE PROCEDURE [dbo].[USP_S_ListarResumenPlanillaTrabajador]
 @I_Mes INT,
 @I_CategoriaPlanillaID INT
 AS
-SELECT
-	trab.I_TrabajadorID, trab.C_TrabajadorCod, trab.T_Nombre, trab.T_ApellidoPaterno, trab.T_ApellidoMaterno, trab.I_TipoDocumentoID, trab.T_TipoDocumentoDesc, trab.C_NumDocumento,
-	trab.I_RegimenID, trab.T_RegimenDesc, trab.I_EstadoID, trab.T_EstadoDesc, trab.I_VinculoID, trab.T_VinculoDesc,
-	trabpla.I_TrabajadorPlanillaID, trabpla.I_TotalRemuneracion, trabpla.I_TotalReintegro, trabpla.I_TotalDeduccion, trabpla.I_TotalBruto, trabpla.I_TotalDescuento, trabpla.I_TotalSueldo,
-	pla.I_PlanillaID, pla.I_PeriodoID, per.I_Anio, per.I_Mes, per.T_MesDesc, pla.I_CategoriaPlanillaID, catpla.T_CategoriaPlanillaDesc
-FROM dbo.VW_Trabajadores AS trab INNER JOIN
-	dbo.TR_TrabajadorPlanilla AS trabpla ON trabpla.I_TrabajadorID = trab.I_TrabajadorID INNER JOIN
-	dbo.TR_Planilla AS pla ON pla.I_PlanillaID = trabpla.I_PlanillaID INNER JOIN
-	dbo.TR_Periodo AS per ON per.I_PeriodoID = pla.I_PeriodoID INNER JOIN
-	dbo.TC_CategoriaPlanilla AS catpla ON catpla.I_CategoriaPlanillaID = pla.I_CategoriaPlanillaID
-WHERE trabpla.B_Anulado = 0 AND pla.B_Anulado = 0 AND per.I_Anio = @I_Anio AND per.I_Mes = @I_Mes AND pla.I_CategoriaPlanillaID = @I_CategoriaPlanillaID
+BEGIN
+	SET NOCOUNT ON;
+	SELECT
+		trab.I_TrabajadorID, trab.C_TrabajadorCod, trab.T_Nombre, trab.T_ApellidoPaterno, trab.T_ApellidoMaterno, trab.I_TipoDocumentoID, trab.T_TipoDocumentoDesc, trab.C_NumDocumento,
+		trab.I_RegimenID, trab.T_RegimenDesc, trab.I_EstadoID, trab.T_EstadoDesc, trab.I_VinculoID, trab.T_VinculoDesc,
+		trabpla.I_TrabajadorPlanillaID, trabpla.I_TotalRemuneracion, trabpla.I_TotalReintegro, trabpla.I_TotalDeduccion, trabpla.I_TotalBruto, trabpla.I_TotalDescuento, trabpla.I_TotalSueldo,
+		pla.I_PlanillaID, pla.I_PeriodoID, per.I_Anio, per.I_Mes, per.T_MesDesc, pla.I_CategoriaPlanillaID, catpla.T_CategoriaPlanillaDesc
+	FROM dbo.VW_Trabajadores AS trab INNER JOIN
+		dbo.TR_TrabajadorPlanilla AS trabpla ON trabpla.I_TrabajadorID = trab.I_TrabajadorID INNER JOIN
+		dbo.TR_Planilla AS pla ON pla.I_PlanillaID = trabpla.I_PlanillaID INNER JOIN
+		dbo.TR_Periodo AS per ON per.I_PeriodoID = pla.I_PeriodoID INNER JOIN
+		dbo.TC_CategoriaPlanilla AS catpla ON catpla.I_CategoriaPlanillaID = pla.I_CategoriaPlanillaID
+	WHERE trabpla.B_Anulado = 0 AND pla.B_Anulado = 0 AND per.I_Anio = @I_Anio AND per.I_Mes = @I_Mes AND pla.I_CategoriaPlanillaID = @I_CategoriaPlanillaID
+END
+GO
+
+
+
+IF EXISTS (SELECT * FROM INFORMATION_SCHEMA.ROUTINES WHERE ROUTINE_TYPE = 'PROCEDURE' AND ROUTINE_NAME = 'USP_S_ListarTotalPlanillaPorDependencia')
+	DROP PROCEDURE [dbo].[USP_S_ListarTotalPlanillaPorDependencia]
+GO
+
+CREATE PROCEDURE [dbo].[USP_S_ListarTotalPlanillaPorDependencia]
+@I_Anio INT,
+@I_Mes INT,
+@I_CategoriaPlanillaID INT
+AS
+BEGIN
+	SET NOCOUNT ON;
+	SELECT
+		dam.C_ActividadCod,
+		dam.C_DependenciaCod,
+		dam.T_DependenciaDesc,
+		SUM(trabpla.I_TotalRemuneracion) AS I_TotalRemuneracion, 
+		SUM(trabpla.I_TotalReintegro) AS I_TotalReintegro,
+		SUM(trabpla.I_TotalDeduccion) AS I_TotalDeduccion,
+		SUM(trabpla.I_TotalBruto) AS I_TotalBruto,
+		SUM(trabpla.I_TotalDescuento) AS I_TotalDescuento,
+		SUM(trabpla.I_TotalSueldo) AS I_TotalSueldo
+	FROM dbo.TR_Planilla AS pla INNER JOIN
+		dbo.TR_Periodo AS per ON per.I_PeriodoID = pla.I_PeriodoID INNER JOIN
+		dbo.TC_CategoriaPlanilla AS catpla ON catpla.I_CategoriaPlanillaID = pla.I_CategoriaPlanillaID INNER JOIN
+		dbo.TR_TrabajadorPlanilla AS trabpla ON trabpla.I_PlanillaID = pla.I_PlanillaID INNER JOIN
+		dbo.VW_DepActividadMeta AS dam ON dam.I_DependenciaID = trabpla.I_DependenciaID AND dam.I_Anio = per.I_Anio AND dam.I_CategoriaPlanillaID = pla.I_CategoriaPlanillaID
+	WHERE trabpla.B_Anulado = 0 AND pla.B_Anulado = 0 AND per.I_Anio = @I_Anio AND per.I_Mes = @I_Mes AND pla.I_CategoriaPlanillaID = @I_CategoriaPlanillaID
+	GROUP BY dam.C_ActividadCod, dam.C_DependenciaCod, dam.T_DependenciaDesc,
+		trabpla.I_TotalRemuneracion, trabpla.I_TotalReintegro, trabpla.I_TotalDeduccion, trabpla.I_TotalBruto, trabpla.I_TotalDescuento, trabpla.I_TotalSueldo
+END
 GO

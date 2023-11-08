@@ -20,24 +20,24 @@ namespace WebApp.ServiceFacade.Implementations
             _planillaService = new PlanillaService();
         }
 
-        public List<ResumenPlanillaTrabajadorModel> ListarResumenPlanillaTrabajador(int anio, int mes, int idCategoria)
+        public List<ResumenPlanillaTrabajadorModel> ListarResumenPlanillaTrabajador(int año, int mes, int idCategoria)
         {
             var lista = new List<ResumenPlanillaTrabajadorModel>();
 
-            lista = _planillaService.ListarResumenPlanillaTrabajadores(anio, mes, idCategoria)
+            lista = _planillaService.ListarResumenPlanillaTrabajadores(año, mes, idCategoria)
                 .Select(x => Mapper.ResumenPlanillaTrabajadorDTO_To_ResumenPlanillaTrabajadorModel(x))
                 .ToList();
 
             return lista;
         }
 
-        public Response GenerarPlanilla(List<int> trabajadores, int anio, int mes, int categoriaPlanillaID, int userID)
+        public Response GenerarPlanilla(List<int> trabajadores, int año, int mes, int categoriaPlanillaID, int userID)
         {
             Response response;
 
             try
             {
-                response = _planillaService.GenerarPlanilla(trabajadores, anio, mes, categoriaPlanillaID, userID);
+                response = _planillaService.GenerarPlanilla(trabajadores, año, mes, categoriaPlanillaID, userID);
             }
             catch (Exception ex)
             {
@@ -48,6 +48,15 @@ namespace WebApp.ServiceFacade.Implementations
             }
 
             return response;
+        }
+
+        public List<TotalPlanillaDependenciaModel> ListarTotalPlanillaPorDependencia(int año, int mes, int idCategoria)
+        {
+            var lista = _planillaService.ListarTotalPlanillaPorDependencia(año, mes, idCategoria)
+                .Select(x => Mapper.TotalPlanillaDependenciaDTO_To_TotalPlanillaDependenciaModel(x))
+                .ToList();
+
+            return lista;
         }
     }
 }

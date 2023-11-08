@@ -32,7 +32,7 @@ namespace WebApp.Controllers
         }
 
         [HttpGet]
-        public ActionResult Index()
+        public ActionResult Resumen()
         {
             var listaAños = _periodoServiceFacade.ObtenerComboAños();
 
@@ -187,6 +187,45 @@ namespace WebApp.Controllers
             }
 
             return Json(response, JsonRequestBehavior.AllowGet);
-        }   
+        }
+
+        [HttpGet]
+        public ActionResult TotalDependencia()
+        {
+            var listaAños = _periodoServiceFacade.ObtenerComboAños();
+
+            var año = (listaAños.Count() > 0) ? int.Parse(listaAños.First().Value) : DateTime.Now.Year;
+
+            ViewBag.Title = "Total Planilla por Dependencia";
+
+            ViewBag.ListaAños = listaAños;
+
+            ViewBag.ListaMeses = _periodoServiceFacade.ObtenerComboMesesSegunAño(año);
+
+            ViewBag.ListaCategoriasPlanillas = _categoriaPlanillaServiceFacade.ObtenerComboCategoriasPlanillas();
+
+            return View();
+        }
+
+        [HttpGet]
+        public JsonResult ObtenerListaTotalPlanillaPorDependencia(int? anio, int? mes, int? idCategoria)
+        {
+            var result = new AjaxResponse();
+
+            List<TotalPlanillaDependenciaModel> lista;
+
+            if (anio.HasValue && mes.HasValue && idCategoria.HasValue)
+            {
+                lista = _planillaServiceFacade.ListarTotalPlanillaPorDependencia(anio.Value, mes.Value, idCategoria.Value).ToList();
+            }
+            else
+            {
+                lista = new List<TotalPlanillaDependenciaModel>();
+            }
+
+            result.data = lista;
+
+            return Json(result, JsonRequestBehavior.AllowGet);
+        }
     }
 }

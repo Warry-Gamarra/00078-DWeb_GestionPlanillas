@@ -11,10 +11,12 @@ namespace Domain.Services
 {
     public interface IPlanillaService
     {
-        List<ResumenPlanillaTrabajadorDTO> ListarResumenPlanillaTrabajadores(int anio, int mes, int idCategoria);
+        List<ResumenPlanillaTrabajadorDTO> ListarResumenPlanillaTrabajadores(int año, int mes, int idCategoria);
 
-        Response GenerarPlanilla(List<int> trabajadores, int anio, int mes, int categoriaPlanillaID, int userID);
+        Response GenerarPlanilla(List<int> trabajadores, int año, int mes, int categoriaPlanillaID, int userID);
 
         bool ExistePlanillaTrabajador(int idTrabajador, int año, int mes, int idCategoria);
+
+        List<TotalPlanillaDependenciaDTO> ListarTotalPlanillaPorDependencia(int año, int mes, int idCategoria);
     }
 }

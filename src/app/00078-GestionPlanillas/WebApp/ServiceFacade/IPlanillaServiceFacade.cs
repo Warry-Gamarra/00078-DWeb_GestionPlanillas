@@ -10,8 +10,10 @@ namespace WebApp.ServiceFacade
 {
     public interface IPlanillaServiceFacade
     {
-        List<ResumenPlanillaTrabajadorModel> ListarResumenPlanillaTrabajador(int anio, int mes, int idCategoria);
+        List<ResumenPlanillaTrabajadorModel> ListarResumenPlanillaTrabajador(int año, int mes, int idCategoria);
 
-        Response GenerarPlanilla(List<int> trabajadores, int anio, int mes, int categoriaPlanillaID, int userID);
+        Response GenerarPlanilla(List<int> trabajadores, int año, int mes, int categoriaPlanillaID, int userID);
+
+        List<TotalPlanillaDependenciaModel> ListarTotalPlanillaPorDependencia(int año, int mes, int idCategoria);
     }
 }

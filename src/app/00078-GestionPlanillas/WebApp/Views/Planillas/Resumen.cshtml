@@ -17,7 +17,7 @@
             <div class="col-12">
                 <div class="card">
                     <div class="card-body bg-light-gray">
-                        @using (Html.BeginForm("Index", "Planillas", FormMethod.Get, new { id = "frmConsultaResumenPlanilla" }))
+                        @using (Html.BeginForm("Resumen", "Planillas", FormMethod.Get, new { id = "frmConsultaResumenPlanilla" }))
                         {
                             <div class="form-row">
                                 <div class="form-group col-lg-2 col-md-4 col-6">
@@ -137,6 +137,12 @@
                     { data: 'totalBrutoFormat' },
                     { data: 'totalDescuentoFormat' },
                     { data: 'totalSueldoFormat' }
+                ],
+                columnDefs: [
+                    {
+                        targets: [-1, -2, -3, -4, -5, -6],
+                        className: 'text-right'
+                    }
                 ],
                 bStateSave: false,
                 bDestroy: true,
