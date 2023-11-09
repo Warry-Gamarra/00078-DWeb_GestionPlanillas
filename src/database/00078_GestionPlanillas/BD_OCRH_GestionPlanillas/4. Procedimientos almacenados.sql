@@ -2556,3 +2556,61 @@ BEGIN
 		trabpla.I_TotalRemuneracion, trabpla.I_TotalReintegro, trabpla.I_TotalDeduccion, trabpla.I_TotalBruto, trabpla.I_TotalDescuento, trabpla.I_TotalSueldo
 END
 GO
+
+
+
+IF EXISTS (SELECT * FROM INFORMATION_SCHEMA.ROUTINES WHERE ROUTINE_TYPE = 'PROCEDURE' AND ROUTINE_NAME = 'USP_S_ListarResumenSIAF')
+	DROP PROCEDURE [dbo].[USP_S_ListarResumenSIAF]
+GO
+
+CREATE PROCEDURE [dbo].[USP_S_ListarResumenSIAF]
+@I_Anio INT,
+@I_Mes INT,
+@I_CategoriaPlanillaID INT
+AS
+BEGIN
+	SET NOCOUNT ON;
+
+	DECLARE @I_PeriodoID INT,
+			--Construcción de consulta
+			@SQLString NVARCHAR(2000),
+			@ParmDefinition NVARCHAR(1000),
+			@Columns VARCHAR(1000),
+			@ColumnNames VARCHAR(1000);
+    
+	SET @I_PeriodoID = (SELECT per.I_PeriodoID FROM dbo.TR_Periodo per WHERE per.I_Anio = @I_Anio AND per.I_Mes = @I_Mes);
+
+	SELECT DISTINCT ctp.I_ConceptoID FROM dbo.TR_Concepto_TrabajadorPlanilla ctp
+	INNER JOIN dbo.TR_TrabajadorPlanilla trab ON trab.I_TrabajadorID = ctp.I_TrabajadorPlanillaID
+	INNER JOIN dbo.TR_Planilla pla ON pla.I_PlanillaID = trab.I_PlanillaID
+	WHERE trab.B_Anulado = 0 AND ctp.B_Anulado = 0 AND pla.I_PeriodoID = @I_PeriodoID AND pla.I_CategoriaPlanillaID = @I_CategoriaPlanillaID;
+
+	WITH Tmp_Conceptos(I_ConceptoID)
+	AS
+	(
+		SELECT DISTINCT ctp.I_ConceptoID
+		FROM dbo.TR_Concepto_TrabajadorPlanilla ctp
+		INNER JOIN dbo.TR_TrabajadorPlanilla trab ON trab.I_TrabajadorID = ctp.I_TrabajadorPlanillaID
+		INNER JOIN dbo.TR_Planilla pla ON pla.I_PlanillaID = trab.I_PlanillaID
+		WHERE trab.B_Anulado = 0 AND ctp.B_Anulado = 0 AND pla.I_PeriodoID = @I_PeriodoID AND pla.I_CategoriaPlanillaID = @I_CategoriaPlanillaID
+	)
+	SELECT 
+		@Columns = STRING_AGG('[' + CAST(I_ConceptoID AS VARCHAR) + ']', ',')
+	FROM Tmp_Conceptos;
+
+	SET @SQLString = N'SELECT I_TrabajadorID, I_DependenciaID, ' + @Columns + ' FROM
+		(SELECT trab.I_TrabajadorID, trab.I_DependenciaID, ctp.I_ConceptoID, ctp.M_Monto FROM dbo.TR_Concepto_TrabajadorPlanilla ctp
+		INNER JOIN dbo.TR_TrabajadorPlanilla trab ON trab.I_TrabajadorID = ctp.I_TrabajadorPlanillaID
+		INNER JOIN dbo.TR_Planilla pla ON pla.I_PlanillaID = trab.I_PlanillaID
+		WHERE trab.B_Anulado = 0 AND ctp.B_Anulado = 0 AND pla.I_PeriodoID = @I_PeriodoID AND pla.I_CategoriaPlanillaID = @I_CategoriaPlanillaID) AS SourceTable
+	PIVOT (
+		SUM(M_Monto) FOR I_ConceptoID IN (' + @Columns + ')
+	) AS PivottABLE';
+
+	SET @ParmDefinition = N'@I_PeriodoID INT, @I_CategoriaPlanillaID INT';
+	
+	EXECUTE SP_EXECUTESQL @SQLString, @ParmDefinition,
+	  @I_PeriodoID = @I_PeriodoID,
+	  @I_CategoriaPlanillaID = @I_CategoriaPlanillaID;
+END
+GO
