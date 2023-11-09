@@ -1,0 +1,89 @@
+﻿<div class="container-fluid">
+    <div class="col-12 mb-4">
+        <section class="content-header">
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb float-right small d-none d-sm-inline-flex">
+                    <li class="breadcrumb-item"><a href="@Url.Action("Index", "Home")"><i class="fa fa-home">&nbsp;</i>Inicio</a></li>
+                    <li class="breadcrumb-item"><span><i class="fa fa-bar-chart">&nbsp;</i>Reportes </span></li>
+                    <li class="breadcrumb-item active"><span><i class="fa fa-table">&nbsp;</i>@ViewBag.Title </span></li>
+                </ol>
+            </nav>
+            <h1 class="">@ViewBag.Title <small></small></h1>
+        </section>
+    </div>
+
+    <div class="col-12 mt-4">
+        <div class="row">
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-body bg-light-gray">
+                        @using (Html.BeginForm("ResumenSIAF", "Planillas", FormMethod.Get, new { id = "frmConsultaResumenSIAF" }))
+                        {
+                            <div class="form-row">
+                                <div class="form-group col-lg-2 col-md-4 col-6">
+                                    @Html.Label("anio", "Año", new { @class = "control-label" })
+                                    @Html.DropDownList("anio", ViewBag.ListaAños as SelectList, null, new { @class = "form-control" })
+                                </div>
+
+                                <div class="form-group col-lg-2 col-md-4 col-6">
+                                    @Html.Label("mes", "Mes", new { @class = "control-label" })
+                                    @Html.DropDownList("mes", ViewBag.ListaMeses as SelectList, null, new { @class = "form-control text-uppercase" })
+                                </div>
+
+                                <div class="form-group col-lg-3 col-md-4 col-6">
+                                    <label for="idCategoria">Categoria</label>
+                                    @Html.DropDownList("idCategoria", ViewBag.ListaCategoriasPlanillas as SelectList, new { @class = "form-control text-uppercase" })
+                                </div>
+
+                                <div class="form-group col-lg-2 col-4">
+                                    <label>&nbsp;</label>
+                                    <button type="button" class="btn btn-block btn-outline-primary"><i class="fa fa-fw fa-search"></i> Consultar</button>
+                                </div>
+                            </div>
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="table-responsive mt-4" style="min-height:300px">
+            <table class="table table-hover" id="dataTablePlanilla" width="100%">
+                <thead class="thead-dark">
+                    <tr>
+                        <th>Planilla</th>
+                        <th>Año</th>
+                        <th>Mes</th>
+                        <th>Tip.Doc.</th>
+                        <th>Num.Doc.</th>
+                        <th>Apellidos y Nombres</th>
+                        <th>Régimen</th>
+                        <th>Remu.</th>
+                        <th>Reint.</th>
+                        <th>Deducc.</th>
+                        <th>Bruto</th>
+                        <th>Desc.</th>
+                        <th>Total</th>
+                    </tr>
+                </thead>
+                <tfoot>
+                    <tr>
+                        <th>Planilla</th>
+                        <th>Año</th>
+                        <th>Mes</th>
+                        <th>Tip.Doc.</th>
+                        <th>Num.Doc.</th>
+                        <th>Apellidos y Nombres</th>
+                        <th>Régimen</th>
+                        <th>Remu.</th>
+                        <th>Reint.</th>
+                        <th>Deducc.</th>
+                        <th>Bruto</th>
+                        <th>Desc.</th>
+                        <th>Total</th>
+                    </tr>
+                </tfoot>
+            </table>
+        </div>
+
+    </div>
+</div>

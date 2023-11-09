@@ -73,5 +73,12 @@ namespace Domain.Services.Implementations
 
             return lista;
         }
+
+        public IEnumerable<IDictionary<string, object>> ListarResumenSIAF(int año, int mes, int idCategoria)
+        {
+            var lista = USP_S_ListarResumenSIAF.Execute(año, mes, idCategoria);
+
+            return lista;
+        }
     }
 }

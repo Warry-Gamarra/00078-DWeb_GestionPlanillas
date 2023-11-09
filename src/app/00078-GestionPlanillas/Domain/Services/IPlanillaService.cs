@@ -18,5 +18,7 @@ namespace Domain.Services
         bool ExistePlanillaTrabajador(int idTrabajador, int año, int mes, int idCategoria);
 
         List<TotalPlanillaDependenciaDTO> ListarTotalPlanillaPorDependencia(int año, int mes, int idCategoria);
+
+        IEnumerable<IDictionary<string, object>> ListarResumenSIAF(int año, int mes, int idCategoria);
     }
 }

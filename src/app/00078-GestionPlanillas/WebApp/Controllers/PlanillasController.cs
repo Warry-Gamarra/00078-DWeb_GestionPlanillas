@@ -227,5 +227,26 @@ namespace WebApp.Controllers
 
             return Json(result, JsonRequestBehavior.AllowGet);
         }
+
+
+        [HttpGet]
+        public ActionResult ResumenSIAF()
+        {
+            var listaAños = _periodoServiceFacade.ObtenerComboAños();
+
+            var año = (listaAños.Count() > 0) ? int.Parse(listaAños.First().Value) : DateTime.Now.Year;
+
+            ViewBag.Title = "Resumen SIAF";
+
+            ViewBag.ListaAños = listaAños;
+
+            ViewBag.ListaMeses = _periodoServiceFacade.ObtenerComboMesesSegunAño(año);
+
+            ViewBag.ListaCategoriasPlanillas = _categoriaPlanillaServiceFacade.ObtenerComboCategoriasPlanillas();
+
+            var lista = _planillaServiceFacade.ListarResumenSIAF(2023, 1, 2);
+
+            return View();
+        }
     }
 }

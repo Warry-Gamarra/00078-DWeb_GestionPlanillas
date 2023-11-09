@@ -15,5 +15,7 @@ namespace WebApp.ServiceFacade
         Response GenerarPlanilla(List<int> trabajadores, int año, int mes, int categoriaPlanillaID, int userID);
 
         List<TotalPlanillaDependenciaModel> ListarTotalPlanillaPorDependencia(int año, int mes, int idCategoria);
+
+        IEnumerable<IDictionary<string, object>> ListarResumenSIAF(int año, int mes, int idCategoria);
     }
 }
