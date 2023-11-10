@@ -159,6 +159,7 @@
     <Compile Include="Models\PersonaModel.cs" />
     <Compile Include="Models\PlantillaPlanillaModel.cs" />
     <Compile Include="Models\ResumenPlanillaTrabajadorModel.cs" />
+    <Compile Include="Models\ResumenSIAFModel.cs" />
     <Compile Include="Models\TotalPlanillaDependenciaModel.cs" />
     <Compile Include="Models\TrabajadorCategoriaPlanillaModel.cs" />
     <Compile Include="Models\TrabajadorModel.cs" />

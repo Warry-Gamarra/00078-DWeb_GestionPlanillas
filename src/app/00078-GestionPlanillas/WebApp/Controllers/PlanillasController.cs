@@ -8,6 +8,7 @@ using System.Reflection;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.UI;
+using System.Web.WebPages;
 using WebApp.Models;
 using WebApp.ServiceFacade;
 using WebApp.ServiceFacade.Implementations;
@@ -230,23 +231,31 @@ namespace WebApp.Controllers
 
 
         [HttpGet]
-        public ActionResult ResumenSIAF()
+        public ActionResult ResumenSIAF(int? anio, int? mes, int? idCategoria)
         {
             var listaAños = _periodoServiceFacade.ObtenerComboAños();
 
-            var año = (listaAños.Count() > 0) ? int.Parse(listaAños.First().Value) : DateTime.Now.Year;
+            anio = anio.HasValue ? anio.Value : listaAños.First().Value.AsInt();
+
+            var listaMeses = _periodoServiceFacade.ObtenerComboMesesSegunAño(anio.Value);
+
+            mes = mes.HasValue ? mes.Value : listaMeses.First().Value.AsInt();
+
+            var listaCatPlanillas = _categoriaPlanillaServiceFacade.ObtenerComboCategoriasPlanillas();
+
+            idCategoria = idCategoria.HasValue ? idCategoria.Value : listaCatPlanillas.First().Value.AsInt();
 
             ViewBag.Title = "Resumen SIAF";
 
             ViewBag.ListaAños = listaAños;
 
-            ViewBag.ListaMeses = _periodoServiceFacade.ObtenerComboMesesSegunAño(año);
+            ViewBag.ListaMeses = listaMeses;
 
-            ViewBag.ListaCategoriasPlanillas = _categoriaPlanillaServiceFacade.ObtenerComboCategoriasPlanillas();
+            ViewBag.ListaCategoriasPlanillas = listaCatPlanillas;
 
-            var lista = _planillaServiceFacade.ListarResumenSIAF(2023, 1, 2);
+            var model = _planillaServiceFacade.ListarResumenSIAF(anio.Value, mes.Value, idCategoria.Value);
 
-            return View();
+            return View(model);
         }
     }
 }

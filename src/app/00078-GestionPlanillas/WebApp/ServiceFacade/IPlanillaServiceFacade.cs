@@ -16,6 +16,6 @@ namespace WebApp.ServiceFacade
 
         List<TotalPlanillaDependenciaModel> ListarTotalPlanillaPorDependencia(int año, int mes, int idCategoria);
 
-        IEnumerable<IDictionary<string, object>> ListarResumenSIAF(int año, int mes, int idCategoria);
+        ResumenSIAFModel ListarResumenSIAF(int año, int mes, int idCategoria);
     }
 }

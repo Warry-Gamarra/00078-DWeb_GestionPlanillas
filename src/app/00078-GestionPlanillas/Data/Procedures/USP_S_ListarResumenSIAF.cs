@@ -13,12 +13,26 @@ namespace Data.Procedures
 {
     public class USP_S_ListarResumenSIAF
     {
-        public static IEnumerable<IDictionary<string, object>> Execute(int I_Anio, int I_Mes, int I_CategoriaPlanillaID)
+        public USP_S_ListarResumenSIAF(IEnumerable<string> columnasConcepto, IEnumerable<IDictionary<string, object>> detalle)
         {
-            IEnumerable<string> cabecera;
-            IEnumerable<IDictionary<string, object>> detalle;
+            this.cabecera = new List<string>() { "Actividad", "Meta", "Dependencia" };
+
+            this.cabecera = this.cabecera.Concat(columnasConcepto);
+
+            this.detalle = detalle;
+        }
+
+        public IEnumerable<string> cabecera { get; }
+
+        public IEnumerable<IDictionary<string, object>> detalle { get; }
+
+        public static USP_S_ListarResumenSIAF Execute(int I_Anio, int I_Mes, int I_CategoriaPlanillaID)
+        {
             string command;
             DynamicParameters parameters;
+            IEnumerable<string> columnasConcepto;
+            IEnumerable<IDictionary<string, object>> detalle;
+            USP_S_ListarResumenSIAF results;
 
             try
             {
@@ -36,9 +50,18 @@ namespace Data.Procedures
                 {
                     var query = _dbConnection.QueryMultiple(command, parameters, commandType: CommandType.StoredProcedure);
 
-                    cabecera = query.Read<string>();
+                    columnasConcepto = query.Read<string>();
 
-                    detalle = query.Read().Select(row => (IDictionary<string, object>)row);
+                    if (columnasConcepto != null && columnasConcepto.Count() > 0)
+                    {
+                        detalle = query.Read().Select(row => (IDictionary<string, object>)row);
+                    }
+                    else
+                    {
+                        detalle = new List<Dictionary<string, object>>();
+                    }
+
+                    results = new USP_S_ListarResumenSIAF(columnasConcepto, detalle);
                 }
             }
             catch (Exception ex)
@@ -46,7 +69,7 @@ namespace Data.Procedures
                 throw ex;
             }
 
-            return null;
+            return results;
         }
     }
 }

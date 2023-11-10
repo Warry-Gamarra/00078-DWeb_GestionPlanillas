@@ -74,11 +74,13 @@ namespace Domain.Services.Implementations
             return lista;
         }
 
-        public IEnumerable<IDictionary<string, object>> ListarResumenSIAF(int año, int mes, int idCategoria)
+        public ResumenSIAFDTO ListarResumenSIAF(int año, int mes, int idCategoria)
         {
-            var lista = USP_S_ListarResumenSIAF.Execute(año, mes, idCategoria);
+            var spResults = USP_S_ListarResumenSIAF.Execute(año, mes, idCategoria);
 
-            return lista;
+            var dto = new ResumenSIAFDTO(spResults.cabecera, spResults.detalle);
+
+            return dto;
         }
     }
 }

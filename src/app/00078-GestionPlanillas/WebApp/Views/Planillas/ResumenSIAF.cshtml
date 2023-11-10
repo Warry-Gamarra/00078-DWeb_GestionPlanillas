@@ -1,4 +1,6 @@
-﻿<div class="container-fluid">
+﻿@model WebApp.Models.ResumenSIAFModel
+
+<div class="container-fluid">
     <div class="col-12 mb-4">
         <section class="content-header">
             <nav aria-label="breadcrumb">
@@ -37,7 +39,7 @@
 
                                 <div class="form-group col-lg-2 col-4">
                                     <label>&nbsp;</label>
-                                    <button type="button" class="btn btn-block btn-outline-primary"><i class="fa fa-fw fa-search"></i> Consultar</button>
+                                    <button type="submit" class="btn btn-block btn-outline-primary"><i class="fa fa-fw fa-search"></i> Consultar</button>
                                 </div>
                             </div>
                         }
@@ -50,38 +52,23 @@
             <table class="table table-hover" id="dataTablePlanilla" width="100%">
                 <thead class="thead-dark">
                     <tr>
-                        <th>Planilla</th>
-                        <th>Año</th>
-                        <th>Mes</th>
-                        <th>Tip.Doc.</th>
-                        <th>Num.Doc.</th>
-                        <th>Apellidos y Nombres</th>
-                        <th>Régimen</th>
-                        <th>Remu.</th>
-                        <th>Reint.</th>
-                        <th>Deducc.</th>
-                        <th>Bruto</th>
-                        <th>Desc.</th>
-                        <th>Total</th>
+                        @foreach (var columnName in Model.cabecera)
+                        {
+                            <th>@columnName</th>
+                        }
                     </tr>
                 </thead>
-                <tfoot>
-                    <tr>
-                        <th>Planilla</th>
-                        <th>Año</th>
-                        <th>Mes</th>
-                        <th>Tip.Doc.</th>
-                        <th>Num.Doc.</th>
-                        <th>Apellidos y Nombres</th>
-                        <th>Régimen</th>
-                        <th>Remu.</th>
-                        <th>Reint.</th>
-                        <th>Deducc.</th>
-                        <th>Bruto</th>
-                        <th>Desc.</th>
-                        <th>Total</th>
-                    </tr>
-                </tfoot>
+                <tbody>
+                    @foreach(var item in Model.detalle)
+                    {
+                        <tr>
+                            @foreach (var columnName in Model.cabecera)
+                            { 
+                                <td>@item[columnName]</td>
+                            }
+                        </tr>
+                    }
+                </tbody>
             </table>
         </div>
 

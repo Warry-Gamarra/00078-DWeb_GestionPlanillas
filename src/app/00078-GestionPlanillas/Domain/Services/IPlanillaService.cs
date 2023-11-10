@@ -19,6 +19,6 @@ namespace Domain.Services
 
         List<TotalPlanillaDependenciaDTO> ListarTotalPlanillaPorDependencia(int año, int mes, int idCategoria);
 
-        IEnumerable<IDictionary<string, object>> ListarResumenSIAF(int año, int mes, int idCategoria);
+        ResumenSIAFDTO ListarResumenSIAF(int año, int mes, int idCategoria);
     }
 }

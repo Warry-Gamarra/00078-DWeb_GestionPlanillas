@@ -59,11 +59,13 @@ namespace WebApp.ServiceFacade.Implementations
             return lista;
         }
 
-        public IEnumerable<IDictionary<string, object>> ListarResumenSIAF(int año, int mes, int idCategoria)
+        public ResumenSIAFModel ListarResumenSIAF(int año, int mes, int idCategoria)
         {
-            var lista = _planillaService.ListarResumenSIAF(año, mes, idCategoria);
+            var dto = _planillaService.ListarResumenSIAF(año, mes, idCategoria);
 
-            return lista;
+            var model = new ResumenSIAFModel(dto.cabecera, dto.detalle);
+
+            return model;
         }
     }
 }

@@ -85,6 +85,7 @@
     <Compile Include="Entities\PeriodoDTO.cs" />
     <Compile Include="Entities\PeriodoEntity.cs" />
     <Compile Include="Entities\ProveedorDTO.cs" />
+    <Compile Include="Entities\ResumenSIAFDTO.cs" />
     <Compile Include="Entities\RolDTO.cs" />
     <Compile Include="Entities\TotalPlanillaDependenciaDTO.cs" />
     <Compile Include="Entities\UsuarioDTO.cs" />

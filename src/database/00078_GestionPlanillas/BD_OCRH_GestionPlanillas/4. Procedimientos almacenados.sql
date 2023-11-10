@@ -2580,31 +2580,33 @@ BEGIN
     
 	SET @I_PeriodoID = (SELECT per.I_PeriodoID FROM dbo.TR_Periodo per WHERE per.I_Anio = @I_Anio AND per.I_Mes = @I_Mes);
 
-	SELECT DISTINCT ctp.I_ConceptoID FROM dbo.TR_Concepto_TrabajadorPlanilla ctp
-	INNER JOIN dbo.TR_TrabajadorPlanilla trab ON trab.I_TrabajadorID = ctp.I_TrabajadorPlanillaID
+	SELECT DISTINCT ctp.T_ConceptoAbrv FROM dbo.TR_Concepto_TrabajadorPlanilla ctp
+	INNER JOIN dbo.TR_TrabajadorPlanilla trab ON trab.I_TrabajadorPlanillaID = ctp.I_TrabajadorPlanillaID
 	INNER JOIN dbo.TR_Planilla pla ON pla.I_PlanillaID = trab.I_PlanillaID
 	WHERE trab.B_Anulado = 0 AND ctp.B_Anulado = 0 AND pla.I_PeriodoID = @I_PeriodoID AND pla.I_CategoriaPlanillaID = @I_CategoriaPlanillaID;
 
-	WITH Tmp_Conceptos(I_ConceptoID)
+	WITH Tmp_Conceptos(T_ConceptoAbrv)
 	AS
 	(
-		SELECT DISTINCT ctp.I_ConceptoID
+		SELECT DISTINCT ctp.T_ConceptoAbrv
 		FROM dbo.TR_Concepto_TrabajadorPlanilla ctp
-		INNER JOIN dbo.TR_TrabajadorPlanilla trab ON trab.I_TrabajadorID = ctp.I_TrabajadorPlanillaID
+		INNER JOIN dbo.TR_TrabajadorPlanilla trab ON trab.I_TrabajadorPlanillaID = ctp.I_TrabajadorPlanillaID
 		INNER JOIN dbo.TR_Planilla pla ON pla.I_PlanillaID = trab.I_PlanillaID
 		WHERE trab.B_Anulado = 0 AND ctp.B_Anulado = 0 AND pla.I_PeriodoID = @I_PeriodoID AND pla.I_CategoriaPlanillaID = @I_CategoriaPlanillaID
 	)
 	SELECT 
-		@Columns = STRING_AGG('[' + CAST(I_ConceptoID AS VARCHAR) + ']', ',')
+		@Columns = STRING_AGG('[' + T_ConceptoAbrv + ']', ',')
 	FROM Tmp_Conceptos;
 
-	SET @SQLString = N'SELECT I_TrabajadorID, I_DependenciaID, ' + @Columns + ' FROM
-		(SELECT trab.I_TrabajadorID, trab.I_DependenciaID, ctp.I_ConceptoID, ctp.M_Monto FROM dbo.TR_Concepto_TrabajadorPlanilla ctp
-		INNER JOIN dbo.TR_TrabajadorPlanilla trab ON trab.I_TrabajadorID = ctp.I_TrabajadorPlanillaID
-		INNER JOIN dbo.TR_Planilla pla ON pla.I_PlanillaID = trab.I_PlanillaID
-		WHERE trab.B_Anulado = 0 AND ctp.B_Anulado = 0 AND pla.I_PeriodoID = @I_PeriodoID AND pla.I_CategoriaPlanillaID = @I_CategoriaPlanillaID) AS SourceTable
+	SET @SQLString = N'SELECT C_ActividadCod AS Actividad, C_MetaCod AS Meta, T_DependenciaDesc AS Dependencia, ' + @Columns + ' FROM
+		(SELECT dam.C_ActividadCod, dam.C_MetaCod, dam.T_DependenciaDesc, ctp.T_ConceptoAbrv, ctp.M_Monto FROM dbo.TR_Concepto_TrabajadorPlanilla ctp
+		INNER JOIN dbo.TR_TrabajadorPlanilla trabpla ON trabpla.I_TrabajadorPlanillaID = ctp.I_TrabajadorPlanillaID
+		INNER JOIN dbo.TR_Planilla pla ON pla.I_PlanillaID = trabpla.I_PlanillaID
+		INNER JOIN dbo.TR_Periodo per ON per.I_PeriodoID = pla.I_PeriodoID
+		INNER JOIN dbo.VW_DepActividadMeta AS dam ON dam.I_DependenciaID = trabpla.I_DependenciaID AND dam.I_Anio = per.I_Anio AND dam.I_CategoriaPlanillaID = pla.I_CategoriaPlanillaID
+		WHERE trabpla.B_Anulado = 0 AND ctp.B_Anulado = 0 AND per.I_PeriodoID = @I_PeriodoID AND pla.I_CategoriaPlanillaID = @I_CategoriaPlanillaID) AS SourceTable
 	PIVOT (
-		SUM(M_Monto) FOR I_ConceptoID IN (' + @Columns + ')
+		SUM(M_Monto) FOR T_ConceptoAbrv IN (' + @Columns + ')
 	) AS PivottABLE';
 
 	SET @ParmDefinition = N'@I_PeriodoID INT, @I_CategoriaPlanillaID INT';
@@ -2614,3 +2616,4 @@ BEGIN
 	  @I_CategoriaPlanillaID = @I_CategoriaPlanillaID;
 END
 GO
+
