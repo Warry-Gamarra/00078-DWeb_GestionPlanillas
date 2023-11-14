@@ -10,11 +10,11 @@ namespace WebApp.ServiceFacade
 {
     public interface IPlanillaServiceFacade
     {
-        List<ResumenPlanillaTrabajadorModel> ListarResumenPlanillaTrabajador(int año, int mes, int idCategoria);
+        IEnumerable<ResumenPlanillaTrabajadorModel> ListarResumenPlanillaTrabajador(int año, int mes, int idCategoria);
 
         Response GenerarPlanilla(List<int> trabajadores, int año, int mes, int categoriaPlanillaID, int userID);
 
-        List<TotalPlanillaDependenciaModel> ListarTotalPlanillaPorDependencia(int año, int mes, int idCategoria);
+        IEnumerable<TotalPlanillaDependenciaModel> ListarTotalPlanillaPorDependencia(int año, int mes, int idCategoria);
 
         ResumenSIAFModel ListarResumenSIAF(int año, int mes, int idCategoria);
     }

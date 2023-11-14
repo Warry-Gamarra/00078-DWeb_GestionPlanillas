@@ -60,7 +60,7 @@ namespace WebApp.Controllers
 
             var model = new DepActividadMetaModel();
 
-            ViewBag.ListaAños = _periodoServiceFacade.ObtenerComboAños();
+            ViewBag.ListaAños = _periodoServiceFacade.ObtenerComboAños(soloAñoConMeses: false);
 
             ViewBag.ListaActividades = _actividadServiceFacade.ObtenerComboActividades();
 
@@ -102,7 +102,7 @@ namespace WebApp.Controllers
 
             var model = _depActividadMetaServiceFacade.ObtenerDepActividadMeta(id);
 
-            ViewBag.ListaAños = _periodoServiceFacade.ObtenerComboAños(selectedItem: model.anio);
+            ViewBag.ListaAños = _periodoServiceFacade.ObtenerComboAños(soloAñoConMeses: false, selectedItem: model.anio);
 
             ViewBag.ListaActividades = _actividadServiceFacade.ObtenerComboActividades(model.actividadID);
 

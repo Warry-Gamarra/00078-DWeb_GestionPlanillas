@@ -101,7 +101,7 @@ namespace WebApp.Controllers
         [HttpGet]
         public ActionResult Mantenimiento()
         {
-            var listaAños = _periodoServiceFacade.ObtenerComboAños();
+            var listaAños = _periodoServiceFacade.ObtenerComboAños(soloAñoConMeses: true);
 
             var año = (listaAños.Count() > 0) ? int.Parse(listaAños.First().Value) : DateTime.Now.Year;
 

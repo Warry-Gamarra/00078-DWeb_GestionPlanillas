@@ -20,13 +20,10 @@ namespace WebApp.ServiceFacade.Implementations
             _planillaService = new PlanillaService();
         }
 
-        public List<ResumenPlanillaTrabajadorModel> ListarResumenPlanillaTrabajador(int año, int mes, int idCategoria)
+        public IEnumerable<ResumenPlanillaTrabajadorModel> ListarResumenPlanillaTrabajador(int año, int mes, int idCategoria)
         {
-            var lista = new List<ResumenPlanillaTrabajadorModel>();
-
-            lista = _planillaService.ListarResumenPlanillaTrabajadores(año, mes, idCategoria)
-                .Select(x => Mapper.ResumenPlanillaTrabajadorDTO_To_ResumenPlanillaTrabajadorModel(x))
-                .ToList();
+            var lista = _planillaService.ListarResumenPlanillaTrabajadores(año, mes, idCategoria)
+                .Select(x => Mapper.ResumenPlanillaTrabajadorDTO_To_ResumenPlanillaTrabajadorModel(x));
 
             return lista;
         }
@@ -50,11 +47,10 @@ namespace WebApp.ServiceFacade.Implementations
             return response;
         }
 
-        public List<TotalPlanillaDependenciaModel> ListarTotalPlanillaPorDependencia(int año, int mes, int idCategoria)
+        public IEnumerable<TotalPlanillaDependenciaModel> ListarTotalPlanillaPorDependencia(int año, int mes, int idCategoria)
         {
             var lista = _planillaService.ListarTotalPlanillaPorDependencia(año, mes, idCategoria)
-                .Select(x => Mapper.TotalPlanillaDependenciaDTO_To_TotalPlanillaDependenciaModel(x))
-                .ToList();
+                .Select(x => Mapper.TotalPlanillaDependenciaDTO_To_TotalPlanillaDependenciaModel(x));
 
             return lista;
         }

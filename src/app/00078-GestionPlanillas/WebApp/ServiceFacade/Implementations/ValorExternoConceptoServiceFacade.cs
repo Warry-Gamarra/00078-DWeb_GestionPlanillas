@@ -141,8 +141,9 @@ namespace WebApp.ServiceFacade.Implementations
                 .Select(x => Mapper.ValorExternoConceptoDTO_To_ValorExternoConceptoModel(x))
                 .ToList();
 
+            //TRATAR DE USAR CONSTAINS EN LUGAR DE EXISTS PARA NO CONVERTIR A LISTA.
             lista.ForEach(x => {
-                x.tienePlanilla = listaTrabajadoresConPlanilla.Exists(y => y.trabajadorID == x.trabajadorID);
+                x.tienePlanilla = listaTrabajadoresConPlanilla.ToList().Exists(y => y.trabajadorID == x.trabajadorID);
             });
 
             return lista;

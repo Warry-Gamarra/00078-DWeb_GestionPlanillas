@@ -35,7 +35,7 @@ namespace WebApp.Controllers
         [HttpGet]
         public ActionResult Resumen()
         {
-            var listaAños = _periodoServiceFacade.ObtenerComboAños();
+            var listaAños = _periodoServiceFacade.ObtenerComboAños(soloAñoConMeses: true);
 
             var año = (listaAños.Count() > 0) ? int.Parse(listaAños.First().Value) : DateTime.Now.Year;
 
@@ -74,7 +74,7 @@ namespace WebApp.Controllers
         [HttpGet]
         public ActionResult Generar()
         {
-            var listaAños = _periodoServiceFacade.ObtenerComboAños();
+            var listaAños = _periodoServiceFacade.ObtenerComboAños(soloAñoConMeses: true);
 
             var año = (listaAños.Count() > 0) ? int.Parse(listaAños.First().Value) : DateTime.Now.Year;
 
@@ -191,49 +191,72 @@ namespace WebApp.Controllers
         }
 
         [HttpGet]
-        public ActionResult TotalDependencia()
+        public ActionResult ResumenDependencia(int? anio, int? mes, int? idCategoria)
         {
-            var listaAños = _periodoServiceFacade.ObtenerComboAños();
+            IEnumerable<TotalPlanillaDependenciaModel> model;
 
-            var año = (listaAños.Count() > 0) ? int.Parse(listaAños.First().Value) : DateTime.Now.Year;
+            bool aplicarBusqueda = (anio.HasValue && mes.HasValue && idCategoria.HasValue);
 
-            ViewBag.Title = "Total Planilla por Dependencia";
+            var listaAños = _periodoServiceFacade.ObtenerComboAños(soloAñoConMeses: true);
 
-            ViewBag.ListaAños = listaAños;
+            anio = anio.HasValue ? anio.Value : listaAños.First().Value.AsInt();
 
-            ViewBag.ListaMeses = _periodoServiceFacade.ObtenerComboMesesSegunAño(año);
+            var listaMeses = _periodoServiceFacade.ObtenerComboMesesSegunAño(anio.Value);
 
-            ViewBag.ListaCategoriasPlanillas = _categoriaPlanillaServiceFacade.ObtenerComboCategoriasPlanillas();
+            mes = mes.HasValue ? mes.Value : listaMeses.First().Value.AsInt();
 
-            return View();
-        }
+            var listaCatPlanillas = _categoriaPlanillaServiceFacade.ObtenerComboCategoriasPlanillas();
 
-        [HttpGet]
-        public JsonResult ObtenerListaTotalPlanillaPorDependencia(int? anio, int? mes, int? idCategoria)
-        {
-            var result = new AjaxResponse();
+            idCategoria = idCategoria.HasValue ? idCategoria.Value : listaCatPlanillas.First().Value.AsInt();
 
-            List<TotalPlanillaDependenciaModel> lista;
-
-            if (anio.HasValue && mes.HasValue && idCategoria.HasValue)
+            if (aplicarBusqueda)
             {
-                lista = _planillaServiceFacade.ListarTotalPlanillaPorDependencia(anio.Value, mes.Value, idCategoria.Value).ToList();
+                model = _planillaServiceFacade.ListarTotalPlanillaPorDependencia(anio.Value, mes.Value, idCategoria.Value);
             }
             else
             {
-                lista = new List<TotalPlanillaDependenciaModel>();
+                model = null;
             }
 
-            result.data = lista;
+            ViewBag.Title = "Resumen Planilla por Dependencia";
 
-            return Json(result, JsonRequestBehavior.AllowGet);
+            ViewBag.ListaAños = listaAños;
+
+            ViewBag.ListaMeses = listaMeses;
+
+            ViewBag.ListaCategoriasPlanillas = listaCatPlanillas;
+
+            ViewBag.EsPlanillaDocente = (idCategoria.Value == (int)CategoriaPlanilla.HaberesDocente);
+
+            return View(model);
         }
+
+        //[HttpGet]
+        //public JsonResult ObtenerListaTotalPlanillaPorDependencia(int? anio, int? mes, int? idCategoria)
+        //{
+        //    var result = new AjaxResponse();
+
+        //    List<TotalPlanillaDependenciaModel> lista;
+
+        //    if (anio.HasValue && mes.HasValue && idCategoria.HasValue)
+        //    {
+        //        lista = _planillaServiceFacade.ListarTotalPlanillaPorDependencia(anio.Value, mes.Value, idCategoria.Value).ToList();
+        //    }
+        //    else
+        //    {
+        //        lista = new List<TotalPlanillaDependenciaModel>();
+        //    }
+
+        //    result.data = lista;
+
+        //    return Json(result, JsonRequestBehavior.AllowGet);
+        //}
 
 
         [HttpGet]
         public ActionResult ResumenSIAF(int? anio, int? mes, int? idCategoria)
         {
-            var listaAños = _periodoServiceFacade.ObtenerComboAños();
+            var listaAños = _periodoServiceFacade.ObtenerComboAños(soloAñoConMeses: true);
 
             anio = anio.HasValue ? anio.Value : listaAños.First().Value.AsInt();
 

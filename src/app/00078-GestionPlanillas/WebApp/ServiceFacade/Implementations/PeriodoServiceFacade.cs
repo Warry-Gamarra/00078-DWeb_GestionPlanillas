@@ -21,14 +21,14 @@ namespace WebApp.ServiceFacade.Implementations
             _periodoService = new PeriodoService();
         }
 
-        public List<int> ListarAños()
+        public List<int> ListarAños(bool soloAñoConMeses)
         {
-            return _periodoService.ListarAños();
+            return _periodoService.ListarAños(soloAñoConMeses);
         }
 
-        public SelectList ObtenerComboAños(int? selectedItem = null)
+        public SelectList ObtenerComboAños(bool soloAñoConMeses, int? selectedItem = null)
         {
-            var lista = _periodoService.ListarAños();
+            var lista = _periodoService.ListarAños(soloAñoConMeses);
 
             var result = new List<SelectListItem>();
 

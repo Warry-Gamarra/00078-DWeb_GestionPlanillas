@@ -131,9 +131,9 @@ namespace WebApp.ServiceFacade.Implementations
             var lista = _trabajadorService.ListarTrabajadoresCategoriaPlanilla(categoriaPlanillaID)
                 .Select(x => Mapper.TrabajadorCategoriaPlanillaDTO_To_TrabajadorCategoriaPlanillaModel(x))
                 .ToList();
-
+            //CAMBIAR EXISTS POR CONTAINS PARA NO TRANSFORMAR LA LISTA
             lista.ForEach(x => {
-                x.tienePlanilla = listaTrabajadoresConPlanilla.Exists(y => y.trabajadorID == x.trabajadorID);
+                x.tienePlanilla = listaTrabajadoresConPlanilla.ToList().Exists(y => y.trabajadorID == x.trabajadorID);
                 x.seleccionado = x.estado.Equals(Estado.Activo);
             });
 

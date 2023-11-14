@@ -12,9 +12,9 @@ namespace WebApp.ServiceFacade
 {
     public interface IPeriodoServiceFacade
     {
-        List<int> ListarAños();
+        List<int> ListarAños(bool soloAñoConMeses);
 
-        SelectList ObtenerComboAños(int? selectedItem = null);
+        SelectList ObtenerComboAños(bool soloAñoConMeses, int? selectedItem = null);
 
         SelectList ObtenerComboMesesSegunAño(int año, int? selectedItem = null);
 

@@ -47,7 +47,7 @@ namespace WebApp.Controllers
 
             ViewBag.Action = "Registrar";
 
-            ViewBag.ListaAños = _periodoServiceFacade.ObtenerComboAños();
+            ViewBag.ListaAños = _periodoServiceFacade.ObtenerComboAños(soloAñoConMeses: false);
 
             ViewBag.ListaMeses = _periodoServiceFacade.ObtenerComboMeses();
 
@@ -86,7 +86,7 @@ namespace WebApp.Controllers
 
             var periodo = _periodoServiceFacade.ObtenerPeriodo(id);
 
-            ViewBag.ListaAños = _periodoServiceFacade.ObtenerComboAños(selectedItem: periodo.anio);
+            ViewBag.ListaAños = _periodoServiceFacade.ObtenerComboAños(soloAñoConMeses: false, selectedItem: periodo.anio);
 
             ViewBag.ListaMeses = _periodoServiceFacade.ObtenerComboMeses(selectedItem: periodo.mes);
 
@@ -127,7 +127,7 @@ namespace WebApp.Controllers
 
             ViewBag.Action = "RegistrarAnio";
 
-            int ultimoAño = _periodoServiceFacade.ListarAños().Max();
+            int ultimoAño = _periodoServiceFacade.ListarAños(false).Max();
 
             ViewBag.UltimoAño = ultimoAño;
 

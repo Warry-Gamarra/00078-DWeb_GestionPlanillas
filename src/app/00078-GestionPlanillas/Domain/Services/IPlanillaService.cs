@@ -11,13 +11,13 @@ namespace Domain.Services
 {
     public interface IPlanillaService
     {
-        List<ResumenPlanillaTrabajadorDTO> ListarResumenPlanillaTrabajadores(int año, int mes, int idCategoria);
+        IEnumerable<ResumenPlanillaTrabajadorDTO> ListarResumenPlanillaTrabajadores(int año, int mes, int idCategoria);
 
         Response GenerarPlanilla(List<int> trabajadores, int año, int mes, int categoriaPlanillaID, int userID);
 
         bool ExistePlanillaTrabajador(int idTrabajador, int año, int mes, int idCategoria);
 
-        List<TotalPlanillaDependenciaDTO> ListarTotalPlanillaPorDependencia(int año, int mes, int idCategoria);
+        IEnumerable<TotalPlanillaDependenciaDTO> ListarTotalPlanillaPorDependencia(int año, int mes, int idCategoria);
 
         ResumenSIAFDTO ListarResumenSIAF(int año, int mes, int idCategoria);
     }

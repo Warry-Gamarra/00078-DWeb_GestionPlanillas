@@ -16,9 +16,9 @@ namespace Domain.Services.Implementations
 {
     public class PeriodoService : IPeriodoService
     {
-        public List<int> ListarAños()
+        public List<int> ListarAños(bool soloAñoConMeses)
         {
-            var listar = TR_Periodo.GetYears();
+            var listar = TR_Periodo.GetYears(soloAñoConMeses);
 
             var result = listar
                 .OrderByDescending(x => x.I_Anio)
@@ -98,7 +98,7 @@ namespace Domain.Services.Implementations
 
             try
             {
-                añoRepetido = ListarAños().Exists(x => x.Equals(año));
+                añoRepetido = ListarAños(false).Exists(x => x.Equals(año));
 
                 if (!añoRepetido)
                 {

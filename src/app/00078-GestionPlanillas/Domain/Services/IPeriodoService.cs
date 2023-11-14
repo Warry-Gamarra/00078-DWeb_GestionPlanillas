@@ -11,7 +11,7 @@ namespace Domain.Services
 {
     public interface IPeriodoService
     {
-        List<int> ListarAños();
+        List<int> ListarAños(bool soloAñoConMeses);
 
         List<MesDTO> ListarMesesSegunAño(int año);
 

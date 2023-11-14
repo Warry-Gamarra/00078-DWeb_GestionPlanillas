@@ -15,11 +15,10 @@ namespace Domain.Services.Implementations
 {
     public class PlanillaService : IPlanillaService
     {
-        public List<ResumenPlanillaTrabajadorDTO> ListarResumenPlanillaTrabajadores(int año, int mes, int idCategoria)
+        public IEnumerable<ResumenPlanillaTrabajadorDTO> ListarResumenPlanillaTrabajadores(int año, int mes, int idCategoria)
         {
             var lista = USP_S_ListarResumenPlanillaTrabajador.Execute(año, mes, idCategoria)
-                .Select(x => Mapper.USP_S_ListarResumenPlanillaTrabajador_To_ResumenPlanillaTrabajadorDTO(x))
-                .ToList();
+                .Select(x => Mapper.USP_S_ListarResumenPlanillaTrabajador_To_ResumenPlanillaTrabajadorDTO(x));
 
             return lista;
         }
@@ -65,11 +64,10 @@ namespace Domain.Services.Implementations
             }
         }
 
-        public List<TotalPlanillaDependenciaDTO> ListarTotalPlanillaPorDependencia(int año, int mes, int idCategoria)
+        public IEnumerable<TotalPlanillaDependenciaDTO> ListarTotalPlanillaPorDependencia(int año, int mes, int idCategoria)
         {
             var lista = USP_S_ListarTotalPlanillaPorDependencia.Execute(año, mes, idCategoria)
-                .Select(x => Mapper.USP_S_ListarTotalPlanillaPorDependencia_To_TotalPlanillaDependenciaDTO(x))
-                .ToList();
+                .Select(x => Mapper.USP_S_ListarTotalPlanillaPorDependencia_To_TotalPlanillaDependenciaDTO(x));
 
             return lista;
         }

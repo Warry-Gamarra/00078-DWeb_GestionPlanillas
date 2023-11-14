@@ -497,7 +497,7 @@
     <Content Include="Views\Actividades\_MantenimientoActividad.cshtml" />
     <Content Include="Views\Metas\_MantenimientoMeta.cshtml" />
     <Content Include="Views\Metas\_MsgRegistrarMeta.cshtml" />
-    <Content Include="Views\Planillas\TotalDependencia.cshtml" />
+    <Content Include="Views\Planillas\ResumenDependencia.cshtml" />
     <Content Include="Views\Planillas\ResumenSIAF.cshtml" />
   </ItemGroup>
   <ItemGroup>

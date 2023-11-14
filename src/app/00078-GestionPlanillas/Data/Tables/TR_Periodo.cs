@@ -62,13 +62,20 @@ namespace Data.Tables
             return result;
         }
 
-        public static IEnumerable<TR_Periodo> GetYears()
+        public static IEnumerable<TR_Periodo> GetYears(bool soloAñoConMeses)
         {
             IEnumerable<TR_Periodo> result;
-
+            string s_command;
             try
             {
-                string s_command = "SELECT I_Anio FROM dbo.TC_Anio ORDER BY I_Anio DESC;";
+                if (soloAñoConMeses)
+                {
+                    s_command = "SELECT a.I_Anio FROM dbo.TC_Anio a WHERE EXISTS(SELECT p.I_Anio FROM dbo.TR_Periodo p WHERE P.I_Anio = a.I_Anio) ORDER BY a.I_Anio DESC;";
+                }
+                else
+                {
+                    s_command = "SELECT I_Anio FROM dbo.TC_Anio ORDER BY I_Anio DESC;";
+                }
 
                 using (var _dbConnection = new SqlConnection(Database.ConnectionString))
                 {
