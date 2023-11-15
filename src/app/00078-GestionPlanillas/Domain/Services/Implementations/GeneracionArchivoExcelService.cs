@@ -2,6 +2,7 @@
 using DocumentFormat.OpenXml.Spreadsheet;
 using Domain.Entities;
 using Domain.Helpers;
+using Domain.Reports;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -79,6 +80,41 @@ namespace Domain.Services.Implementations
                         fileContent = content,
                         contentType = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
                         fileName = "Resultado de la lectura de archivo.xlsx"
+                    };
+
+                    return fileContent;
+                }
+            }
+        }
+
+        public FileContent GenerarExcelResumenPorActividadYDependencia(ReporteResumenPorActividadYDependencia reporte)
+        {
+            FileContent fileContent;
+            int currentRow = 1;
+
+            using (var workbook = new XLWorkbook())
+            {
+                var worksheet = workbook.Worksheets.Add("Hoja1");
+
+                foreach (var item in reporte.listaResumenPorActividad)
+                {
+                    currentRow++;
+
+                    worksheet.Cell(currentRow, 1).SetValue<string>("Actividad");
+                    worksheet.Cell(currentRow, 2).SetValue<string>(item.actividadCod);
+                }
+
+                using (var stream = new MemoryStream())
+                {
+                    workbook.SaveAs(stream);
+
+                    var content = stream.ToArray();
+
+                    fileContent = new FileContent()
+                    {
+                        fileContent = content,
+                        contentType = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+                        fileName = "Reporte Resumen por Dependencia.xlsx"
                     };
 
                     return fileContent;

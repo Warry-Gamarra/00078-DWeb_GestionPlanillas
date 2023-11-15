@@ -1,5 +1,6 @@
 ﻿using Domain.Entities;
 using Domain.Helpers;
+using Domain.Reports;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,5 +12,7 @@ namespace Domain.Services
     public interface IGeneracionArchivoService
     {
         FileContent GenerarExcelDeLecturaValoresDeConceptos(List<ValorExternoLecturaProcesadoDTO> lista);
+
+        FileContent GenerarExcelResumenPorActividadYDependencia(ReporteResumenPorActividadYDependencia reporte);
     }
 }

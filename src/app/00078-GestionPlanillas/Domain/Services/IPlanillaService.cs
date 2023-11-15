@@ -1,6 +1,7 @@
 ﻿using Domain.Entities;
 using Domain.Enums;
 using Domain.Helpers;
+using Domain.Reports;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -17,7 +18,7 @@ namespace Domain.Services
 
         bool ExistePlanillaTrabajador(int idTrabajador, int año, int mes, int idCategoria);
 
-        IEnumerable<TotalPlanillaDependenciaDTO> ListarTotalPlanillaPorDependencia(int año, int mes, int idCategoria);
+        ReporteResumenPorActividadYDependencia ListarResumenActividadPorDependencia(int año, int mes, int idCategoria);
 
         ResumenSIAFDTO ListarResumenSIAF(int año, int mes, int idCategoria);
     }

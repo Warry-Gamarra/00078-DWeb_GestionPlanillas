@@ -1,11 +1,13 @@
-﻿using System;
+﻿using Domain.Helpers;
+using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Web;
+using System.Text;
+using System.Threading.Tasks;
 
-namespace WebApp.Models
+namespace Domain.Entities
 {
-    public class TotalPlanillaDependenciaModel
+    public class ResumenPorActividadYDependenciaDTO
     {
         public string actividadCod { get; set; }
 
@@ -19,7 +21,7 @@ namespace WebApp.Models
         {
             get
             {
-                return totalRemuneracion.ToString("#,0.00");
+                return totalRemuneracion.ToString(Formats.BASIC_DECIMAL);
             }
 
         }
@@ -30,7 +32,7 @@ namespace WebApp.Models
         {
             get
             {
-                return totalReintegro.ToString("#,0.00");
+                return totalReintegro.ToString(Formats.BASIC_DECIMAL);
             }
 
         }
@@ -41,7 +43,7 @@ namespace WebApp.Models
         {
             get
             {
-                return totalDeduccion.ToString("#,0.00");
+                return totalDeduccion.ToString(Formats.BASIC_DECIMAL);
             }
 
         }
@@ -52,7 +54,7 @@ namespace WebApp.Models
         {
             get
             {
-                return totalBruto.ToString("#,0.00");
+                return totalBruto.ToString(Formats.BASIC_DECIMAL);
             }
         }
 
@@ -62,7 +64,7 @@ namespace WebApp.Models
         {
             get
             {
-                return totalDescuento.ToString("#,0.00");
+                return totalDescuento.ToString(Formats.BASIC_DECIMAL);
             }
 
         }
@@ -73,7 +75,7 @@ namespace WebApp.Models
         {
             get
             {
-                return totalSueldo.ToString("#,0.00");
+                return totalSueldo.ToString(Formats.BASIC_DECIMAL);
             }
 
         }

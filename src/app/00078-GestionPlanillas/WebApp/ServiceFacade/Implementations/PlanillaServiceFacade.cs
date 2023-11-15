@@ -1,8 +1,12 @@
-﻿using Domain.Helpers;
+﻿using Domain.Entities;
+using Domain.Enums;
+using Domain.Helpers;
+using Domain.Reports;
 using Domain.Services;
 using Domain.Services.Implementations;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -14,10 +18,13 @@ namespace WebApp.ServiceFacade.Implementations
     public class PlanillaServiceFacade : IPlanillaServiceFacade
     {
         private IPlanillaService _planillaService;
+        private IPeriodoService _periodoService;
+        private object generacionArchivoService;
 
         public PlanillaServiceFacade()
         {
             _planillaService = new PlanillaService();
+            _periodoService = new PeriodoService();
         }
 
         public IEnumerable<ResumenPlanillaTrabajadorModel> ListarResumenPlanillaTrabajador(int año, int mes, int idCategoria)
@@ -47,12 +54,31 @@ namespace WebApp.ServiceFacade.Implementations
             return response;
         }
 
-        public IEnumerable<TotalPlanillaDependenciaModel> ListarTotalPlanillaPorDependencia(int año, int mes, int idCategoria)
+        public ReporteResumenPorActividadYDependencia ObtenerReporteResumenPorActividadYDependencia(int año, int mes, int idCategoria)
         {
-            var lista = _planillaService.ListarTotalPlanillaPorDependencia(año, mes, idCategoria)
-                .Select(x => Mapper.TotalPlanillaDependenciaDTO_To_TotalPlanillaDependenciaModel(x));
+            return _planillaService.ListarResumenActividadPorDependencia(año, mes, idCategoria);
+        }
 
-            return lista;
+        public FileContent ObtenerReporteResumenPorActividadYDependencia(int año, int mes, int idCategoria, FormatoArchivo formatoArchivo)
+        {
+            IGeneracionArchivoService generacionArchivoService;
+            ReporteResumenPorActividadYDependencia reporte;
+            FileContent fileContent;
+
+            try
+            {
+                reporte = _planillaService.ListarResumenActividadPorDependencia(año, mes, idCategoria);
+
+                generacionArchivoService = new GeneracionArchivoExcelService();
+
+                fileContent = generacionArchivoService.GenerarExcelResumenPorActividadYDependencia(reporte);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+
+            return fileContent;
         }
 
         public ResumenSIAFModel ListarResumenSIAF(int año, int mes, int idCategoria)

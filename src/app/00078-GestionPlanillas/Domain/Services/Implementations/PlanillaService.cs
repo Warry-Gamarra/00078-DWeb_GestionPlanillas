@@ -3,6 +3,7 @@ using Data.Views;
 using Domain.Entities;
 using Domain.Enums;
 using Domain.Helpers;
+using Domain.Reports;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -15,6 +16,13 @@ namespace Domain.Services.Implementations
 {
     public class PlanillaService : IPlanillaService
     {
+        private IPeriodoService _periodoService;
+
+        public PlanillaService()
+        {
+            _periodoService = new PeriodoService();
+        }
+
         public IEnumerable<ResumenPlanillaTrabajadorDTO> ListarResumenPlanillaTrabajadores(int año, int mes, int idCategoria)
         {
             var lista = USP_S_ListarResumenPlanillaTrabajador.Execute(año, mes, idCategoria)
@@ -64,12 +72,12 @@ namespace Domain.Services.Implementations
             }
         }
 
-        public IEnumerable<TotalPlanillaDependenciaDTO> ListarTotalPlanillaPorDependencia(int año, int mes, int idCategoria)
+        public ReporteResumenPorActividadYDependencia ListarResumenActividadPorDependencia(int año, int mes, int idCategoria)
         {
-            var lista = USP_S_ListarTotalPlanillaPorDependencia.Execute(año, mes, idCategoria)
-                .Select(x => Mapper.USP_S_ListarTotalPlanillaPorDependencia_To_TotalPlanillaDependenciaDTO(x));
+            var lista = USP_S_ListarResumenPorActividadYDependencia.Execute(año, mes, idCategoria)
+                .Select(x => Mapper.USP_S_ListarResumenPorActividadYDependencia_To_ResumenPorActividadYDependenciaDTO(x));
 
-            return lista;
+            return new ReporteResumenPorActividadYDependencia(año, _periodoService.ObtenerMesDesc(mes), "-", lista);
         }
 
         public ResumenSIAFDTO ListarResumenSIAF(int año, int mes, int idCategoria)

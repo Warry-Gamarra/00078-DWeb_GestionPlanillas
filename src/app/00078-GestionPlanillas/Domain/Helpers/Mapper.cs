@@ -677,9 +677,10 @@ namespace Domain.Helpers
             return categoriaPresupuestalDTO;
         }
 
-        public static TotalPlanillaDependenciaDTO USP_S_ListarTotalPlanillaPorDependencia_To_TotalPlanillaDependenciaDTO(USP_S_ListarTotalPlanillaPorDependencia sp)
+        public static ResumenPorActividadYDependenciaDTO USP_S_ListarResumenPorActividadYDependencia_To_ResumenPorActividadYDependenciaDTO(
+            USP_S_ListarResumenPorActividadYDependencia sp)
         {
-            var dto = new TotalPlanillaDependenciaDTO()
+            var dto = new ResumenPorActividadYDependenciaDTO()
             {
                 actividadCod = sp.C_ActividadCod,
                 dependenciaCod = sp.C_DependenciaCod,

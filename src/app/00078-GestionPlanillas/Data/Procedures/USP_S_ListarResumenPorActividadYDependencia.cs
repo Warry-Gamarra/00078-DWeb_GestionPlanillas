@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace Data.Procedures
 {
-    public class USP_S_ListarTotalPlanillaPorDependencia
+    public class USP_S_ListarResumenPorActividadYDependencia
     {
         public string C_ActividadCod { get; }
 
@@ -30,15 +30,15 @@ namespace Data.Procedures
 
         public decimal I_TotalSueldo { get; }
 
-        public static IEnumerable<USP_S_ListarTotalPlanillaPorDependencia> Execute(int I_Anio, int I_Mes, int I_CategoriaPlanillaID)
+        public static IEnumerable<USP_S_ListarResumenPorActividadYDependencia> Execute(int I_Anio, int I_Mes, int I_CategoriaPlanillaID)
         {
-            IEnumerable<USP_S_ListarTotalPlanillaPorDependencia> result;
+            IEnumerable<USP_S_ListarResumenPorActividadYDependencia> result;
             DynamicParameters parameters;
             string command;
 
             try
             {
-                command = "USP_S_ListarTotalPlanillaPorDependencia";
+                command = "USP_S_ListarResumenPorActividadYDependencia";
 
                 parameters = new DynamicParameters();
 
@@ -50,7 +50,7 @@ namespace Data.Procedures
 
                 using (var _dbConnection = new SqlConnection(Database.ConnectionString))
                 {
-                    result = _dbConnection.Query<USP_S_ListarTotalPlanillaPorDependencia>(command, parameters, commandType: CommandType.StoredProcedure);
+                    result = _dbConnection.Query<USP_S_ListarResumenPorActividadYDependencia>(command, parameters, commandType: CommandType.StoredProcedure);
                 }
             }
             catch (Exception ex)

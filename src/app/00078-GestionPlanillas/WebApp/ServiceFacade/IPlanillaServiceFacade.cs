@@ -1,4 +1,6 @@
-﻿using Domain.Helpers;
+﻿using Domain.Enums;
+using Domain.Helpers;
+using Domain.Reports;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,7 +16,9 @@ namespace WebApp.ServiceFacade
 
         Response GenerarPlanilla(List<int> trabajadores, int año, int mes, int categoriaPlanillaID, int userID);
 
-        IEnumerable<TotalPlanillaDependenciaModel> ListarTotalPlanillaPorDependencia(int año, int mes, int idCategoria);
+        ReporteResumenPorActividadYDependencia ObtenerReporteResumenPorActividadYDependencia(int año, int mes, int idCategoria);
+
+        FileContent ObtenerReporteResumenPorActividadYDependencia(int año, int mes, int idCategoria, FormatoArchivo formatoArchivo);
 
         ResumenSIAFModel ListarResumenSIAF(int año, int mes, int idCategoria);
     }

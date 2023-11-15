@@ -2525,11 +2525,11 @@ GO
 
 
 
-IF EXISTS (SELECT * FROM INFORMATION_SCHEMA.ROUTINES WHERE ROUTINE_TYPE = 'PROCEDURE' AND ROUTINE_NAME = 'USP_S_ListarTotalPlanillaPorDependencia')
-	DROP PROCEDURE [dbo].[USP_S_ListarTotalPlanillaPorDependencia]
+IF EXISTS (SELECT * FROM INFORMATION_SCHEMA.ROUTINES WHERE ROUTINE_TYPE = 'PROCEDURE' AND ROUTINE_NAME = 'USP_S_ListarResumenPorActividadYDependencia')
+	DROP PROCEDURE [dbo].[USP_S_ListarResumenPorActividadYDependencia]
 GO
 
-CREATE PROCEDURE [dbo].[USP_S_ListarTotalPlanillaPorDependencia]
+CREATE PROCEDURE [dbo].[USP_S_ListarResumenPorActividadYDependencia]
 @I_Anio INT,
 @I_Mes INT,
 @I_CategoriaPlanillaID INT
