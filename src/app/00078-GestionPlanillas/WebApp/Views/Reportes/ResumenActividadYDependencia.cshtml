@@ -72,7 +72,7 @@
 
                                 <div class="form-group col-lg-2 col-4">
                                     <label>&nbsp;</label>
-                                    <button type="submit" class="btn btn-block btn-outline-primary"><i class="fa fa-fw fa-search"></i> Consultar</button>
+                                    <button type="button" id="btnConsultar" class="btn btn-block btn-outline-primary"><i class="fa fa-fw fa-search"></i> Consultar</button>
                                 </div>
                             </div>
                         }
@@ -174,14 +174,14 @@
                 CargarMeses(this, cmbDestino, url);
              });
 
+            $(document).on("click", "#btnConsultar", function (e) {
+                document.forms.frmResumenPorActividadYDependencia.action = "@Url.Action("ResumenActividadYDependencia", "Reportes")";
+                document.forms.frmResumenPorActividadYDependencia.submit();
+            });
+            
             $(document).on("click", "#btnExcelDescargar", function (e) {
-                let anio = $("#frmResumenPorActividadYDependencia #anio").val();
-                let mes = $("#frmResumenPorActividadYDependencia #mes").val();
-                let idCategoria = $("#frmResumenPorActividadYDependencia #idCategoria").val();
-
                 document.forms.frmResumenPorActividadYDependencia.action = "@Url.Action("DescargaResumenActividadYDependencia", "Reportes")";
                 document.forms.frmResumenPorActividadYDependencia.submit();
-                
             });
         });
     </script>

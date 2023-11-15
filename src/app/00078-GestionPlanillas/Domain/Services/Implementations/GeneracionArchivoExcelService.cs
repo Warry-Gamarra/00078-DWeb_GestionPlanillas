@@ -5,10 +5,12 @@ using Domain.Helpers;
 using Domain.Reports;
 using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Web;
 
 namespace Domain.Services.Implementations
 {
@@ -90,18 +92,71 @@ namespace Domain.Services.Implementations
         public FileContent GenerarExcelResumenPorActividadYDependencia(ReporteResumenPorActividadYDependencia reporte)
         {
             FileContent fileContent;
-            int currentRow = 1;
+            int currentRow;
 
             using (var workbook = new XLWorkbook())
             {
                 var worksheet = workbook.Worksheets.Add("Hoja1");
 
-                foreach (var item in reporte.listaResumenPorActividad)
+                worksheet.Column("C").Width = 60;
+
+                var image = worksheet.AddPicture(HttpContext.Current.Server.MapPath("~\\Assets\\images\\logo.png"));
+
+                image.MoveTo(worksheet.Cell(1, 1), worksheet.Cell(2, 2));
+
+                worksheet.Cell(1, 9).SetValue<string>(reporte.fechaConsulta);
+                worksheet.Cell(2, 9).SetValue<string>(reporte.horaConsulta);
+                worksheet.Cell(4, 1).SetValue<string>(reporte.oficina);
+                worksheet.Cell(5, 1).SetValue<string>(reporte.subOficina);
+
+                var titleCell = worksheet.Cell(6, 1);
+
+                titleCell.Value = reporte.titulo;
+
+                worksheet.Range(titleCell, worksheet.Cell(6, 9)).Merge(true);
+
+                currentRow = 8;
+
+                foreach (var actividad in reporte.listaResumenPorActividad)
                 {
+                    worksheet.Cell(currentRow, 1).SetValue<string>("Actividad");
+                    worksheet.Cell(currentRow, 2).SetValue<string>(actividad.actividadCod);
+                    worksheet.Cell(currentRow, 3).SetValue<string>("Dependencia");
+                    worksheet.Cell(currentRow, 4).SetValue<string>("Remuneración");
+                    worksheet.Cell(currentRow, 5).SetValue<string>("Reintegro");
+                    worksheet.Cell(currentRow, 6).SetValue<string>("Deducción");
+                    worksheet.Cell(currentRow, 7).SetValue<string>("Bruto");
+                    worksheet.Cell(currentRow, 8).SetValue<string>("Total Descuento");
+                    worksheet.Cell(currentRow, 9).SetValue<string>("Neto a Pagar");
+
                     currentRow++;
 
-                    worksheet.Cell(currentRow, 1).SetValue<string>("Actividad");
-                    worksheet.Cell(currentRow, 2).SetValue<string>(item.actividadCod);
+                    foreach (var dependencia in actividad.listaDependencias)
+                    {
+                        worksheet.Cell(currentRow, 1).SetValue<string>("");
+                        worksheet.Cell(currentRow, 2).SetValue<string>("");
+                        worksheet.Cell(currentRow, 3).SetValue<string>(dependencia.dependenciaDesc);
+                        worksheet.Cell(currentRow, 4).SetValue<decimal>(dependencia.totalRemuneracion);
+                        worksheet.Cell(currentRow, 5).SetValue<decimal>(dependencia.totalReintegro);
+                        worksheet.Cell(currentRow, 6).SetValue<decimal>(dependencia.totalDeduccion);
+                        worksheet.Cell(currentRow, 7).SetValue<decimal>(dependencia.totalBruto);
+                        worksheet.Cell(currentRow, 8).SetValue<decimal>(dependencia.totalDescuento);
+                        worksheet.Cell(currentRow, 9).SetValue<decimal>(dependencia.totalSueldo);
+
+                        currentRow++;
+                    }
+
+                    worksheet.Cell(currentRow, 1).SetValue<string>("Total por Actividad");
+                    worksheet.Cell(currentRow, 2).SetValue<string>("");
+                    worksheet.Cell(currentRow, 3).SetValue<string>("");
+                    worksheet.Cell(currentRow, 4).SetValue<decimal>(actividad.totalRemuneracion);
+                    worksheet.Cell(currentRow, 5).SetValue<decimal>(actividad.totalReintegro);
+                    worksheet.Cell(currentRow, 6).SetValue<decimal>(actividad.totalDeduccion);
+                    worksheet.Cell(currentRow, 7).SetValue<decimal>(actividad.totalBruto);
+                    worksheet.Cell(currentRow, 8).SetValue<decimal>(actividad.totalDescuento);
+                    worksheet.Cell(currentRow, 9).SetValue<decimal>(actividad.totalSueldo);
+
+                    currentRow++;
                 }
 
                 using (var stream = new MemoryStream())
