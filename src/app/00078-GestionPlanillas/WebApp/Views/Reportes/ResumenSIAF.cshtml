@@ -1,4 +1,4 @@
-﻿@model WebApp.Models.ResumenSIAFModel
+﻿@model Domain.Reports.ReporteResumenSIAF
 
 <div class="container-fluid">
     <div class="col-12 mb-4">
@@ -19,7 +19,7 @@
             <div class="col-12">
                 <div class="card">
                     <div class="card-body bg-light-gray">
-                        @using (Html.BeginForm("ResumenSIAF", "Reportes", FormMethod.Get, new { id = "frmConsultaResumenSIAF" }))
+                        @using (Html.BeginForm("ResumenSIAF", "Reportes", FormMethod.Get, new { id = "frmResumenSIAF" }))
                         {
                             <div class="form-row">
                                 <div class="form-group col-lg-2 col-md-4 col-6">
@@ -32,14 +32,9 @@
                                     @Html.DropDownList("mes", ViewBag.ListaMeses as SelectList, null, new { @class = "form-control text-uppercase" })
                                 </div>
 
-                                <div class="form-group col-lg-3 col-md-4 col-6">
-                                    <label for="idCategoria">Categoria</label>
-                                    @Html.DropDownList("idCategoria", ViewBag.ListaCategoriasPlanillas as SelectList, new { @class = "form-control text-uppercase" })
-                                </div>
-
                                 <div class="form-group col-lg-2 col-4">
                                     <label>&nbsp;</label>
-                                    <button type="submit" class="btn btn-block btn-outline-primary"><i class="fa fa-fw fa-search"></i> Consultar</button>
+                                    <button type="button" id="btnConsultar" class="btn btn-block btn-outline-primary"><i class="fa fa-fw fa-search"></i> Consultar</button>
                                 </div>
                             </div>
                         }
@@ -48,29 +43,101 @@
             </div>
         </div>
 
-        <div class="table-responsive mt-4" style="min-height:300px">
-            <table class="table table-hover" id="dataTablePlanilla" width="100%">
-                <thead class="thead-dark">
-                    <tr>
-                        @foreach (var columnName in Model.cabecera)
-                        {
-                            <th>@columnName</th>
-                        }
-                    </tr>
-                </thead>
-                <tbody>
-                    @foreach(var item in Model.detalle)
-                    {
-                        <tr>
-                            @foreach (var columnName in Model.cabecera)
-                            { 
-                                <td>@item[columnName]</td>
-                            }
-                        </tr>
-                    }
-                </tbody>
-            </table>
-        </div>
+        @if (Model != null)
+        {
+            <div class="row">
+                <div class="col-12 mt-4">
+                    <p class="h3 text-center">@Model.titulo</p>
 
+                    @if (Model.resumenAdministrativo.detalle != null && Model.resumenAdministrativo.detalle.Count() > 0)
+                    {
+                        <p class="h5">@Model.tituloResumenAdministrativo</p>
+
+                        <div class="table-responsive mt-4">
+                            <table class="table table-bordered" width="100%">
+                                <thead class="thead-dark">
+                                    <tr>
+                                        @foreach (var columnName in Model.resumenAdministrativo.cabecera)
+                                        {
+                                            <th>@columnName</th>
+                                        }
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach (var item in Model.resumenAdministrativo.detalle)
+                                    {
+                                        <tr>
+                                            @foreach (var columnName in Model.resumenAdministrativo.cabecera)
+                                            {
+                                                <td>@item[columnName]</td>
+                                            }
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+                    }
+
+                    @if (Model.resumenDocente.detalle != null && Model.resumenDocente.detalle.Count() > 0)
+                    {
+                        <p class="h5">@Model.tituloResumenDocente</p>
+
+                        <div class="table-responsive mt-4">
+                            <table class="table table-bordered" width="100%">
+                                <thead class="thead-dark">
+                                    <tr>
+                                        @foreach (var columnName in Model.resumenDocente.cabecera)
+                                        {
+                                            <th>@columnName</th>
+                                        }
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach (var item in Model.resumenDocente.detalle)
+                                    {
+                                        <tr>
+                                            @foreach (var columnName in Model.resumenDocente.cabecera)
+                                            {
+                                                <td>@item[columnName]</td>
+                                            }
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+                    }
+
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <button type="button" id="btnExcelDescargar" class="btn btn-link pl-0">Descargar información en Excel [.xlsx]</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
     </div>
 </div>
+
+@section scripts {
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $("#frmResumenSIAF").on("change", "#anio", function () {
+                let cmbDestino = $('#frmResumenSIAF #mes');
+
+                let url = '@Url.Action("ObtenerMesesPorAnio", "General")';
+
+                CargarMeses(this, cmbDestino, url);
+             });
+
+            $(document).on("click", "#btnConsultar", function (e) {
+                document.forms.frmResumenSIAF.action = "@Url.Action("ResumenSIAF", "Reportes")";
+                document.forms.frmResumenSIAF.submit();
+            });
+
+            $(document).on("click", "#btnExcelDescargar", function (e) {
+                document.forms.frmResumenSIAF.action = "@Url.Action("DescargaResumenSIAF", "Reportes")";
+                document.forms.frmResumenSIAF.submit();
+            });
+        });
+    </script>
+}

@@ -125,8 +125,12 @@ namespace WebApp.Controllers
         }
 
         [HttpGet]
-        public ActionResult ResumenSIAF(int? anio, int? mes, int? idCategoria)
+        public ActionResult ResumenSIAF(int? anio, int? mes)
         {
+            ReporteResumenSIAF model = null;
+
+            bool aplicarBusqueda = (anio.HasValue && mes.HasValue);
+
             var listaAños = _periodoServiceFacade.ObtenerComboAños(soloAñoConMeses: true);
 
             anio = anio.HasValue ? anio.Value : listaAños.First().Value.AsInt();
@@ -135,9 +139,10 @@ namespace WebApp.Controllers
 
             mes = mes.HasValue ? mes.Value : listaMeses.First().Value.AsInt();
 
-            var listaCatPlanillas = _categoriaPlanillaServiceFacade.ObtenerComboCategoriasPlanillas();
-
-            idCategoria = idCategoria.HasValue ? idCategoria.Value : listaCatPlanillas.First().Value.AsInt();
+            if (aplicarBusqueda)
+            {
+                model = _planillaServiceFacade.ObtenerReporteResumenSIAF(anio.Value, mes.Value);
+            }
 
             ViewBag.Title = "Resumen SIAF";
 
@@ -145,11 +150,29 @@ namespace WebApp.Controllers
 
             ViewBag.ListaMeses = listaMeses;
 
-            ViewBag.ListaCategoriasPlanillas = listaCatPlanillas;
-
-            var model = _planillaServiceFacade.ListarResumenSIAF(anio.Value, mes.Value, idCategoria.Value);
-
             return View(model);
+        }
+
+        [HttpGet]
+        public ActionResult DescargaResumenSIAF(int anio, int mes)
+        {
+            FileContent fileContent;
+            string errorMessage;
+
+            try
+            {
+                fileContent = _planillaServiceFacade.ObtenerReporteResumenSIAF(anio, mes, FormatoArchivo.XLSX);
+
+                return File(fileContent.fileContent, fileContent.contentType, fileContent.fileName);
+            }
+            catch (Exception ex)
+            {
+                errorMessage = ex.Message;
+            }
+
+            ViewBag.ErrorMessage = errorMessage;
+
+            return View();
         }
     }
 }

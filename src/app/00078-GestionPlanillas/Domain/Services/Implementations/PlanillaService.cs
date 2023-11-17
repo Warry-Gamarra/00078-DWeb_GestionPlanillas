@@ -72,7 +72,7 @@ namespace Domain.Services.Implementations
             }
         }
 
-        public ReporteResumenPorActividadYDependencia ListarResumenActividadPorDependencia(int año, int mes, int idCategoria)
+        public ReporteResumenPorActividadYDependencia ObtenerReporteResumenActividadPorDependencia(int año, int mes, int idCategoria)
         {
             var lista = USP_S_ListarResumenPorActividadYDependencia.Execute(año, mes, idCategoria)
                 .Select(x => Mapper.USP_S_ListarResumenPorActividadYDependencia_To_ResumenPorActividadYDependenciaDTO(x));
@@ -80,13 +80,17 @@ namespace Domain.Services.Implementations
             return new ReporteResumenPorActividadYDependencia(año, _periodoService.ObtenerMesDesc(mes), "-", lista);
         }
 
-        public ResumenSIAFDTO ListarResumenSIAF(int año, int mes, int idCategoria)
+        public ReporteResumenSIAF ObtenerReporteResumenSIAF(int año, int mes)
         {
-            var spResults = USP_S_ListarResumenSIAF.Execute(año, mes, idCategoria);
+            var admSpResult = USP_S_ListarResumenSIAF.Execute(año, mes, (int)CategoriaPlanilla.HaberesAdministrativo);
 
-            var dto = new ResumenSIAFDTO(spResults.cabecera, spResults.detalle);
+            var resumenAdm = new ResumenSIAFDTO(admSpResult.cabecera, admSpResult.detalle);
 
-            return dto;
+            var docSpResult = USP_S_ListarResumenSIAF.Execute(año, mes, (int)CategoriaPlanilla.HaberesDocente);
+
+            var resumenDoc = new ResumenSIAFDTO(docSpResult.cabecera, docSpResult.detalle);
+
+            return new ReporteResumenSIAF(año, _periodoService.ObtenerMesDesc(mes), resumenAdm, resumenDoc);
         }
     }
 }

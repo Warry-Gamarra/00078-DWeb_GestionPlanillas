@@ -2598,8 +2598,8 @@ BEGIN
 		@Columns = STRING_AGG('[' + T_ConceptoAbrv + ']', ',')
 	FROM Tmp_Conceptos;
 
-	SET @SQLString = N'SELECT C_ActividadCod AS Actividad, C_MetaCod AS Meta, T_DependenciaDesc AS Dependencia, ' + @Columns + ' FROM
-		(SELECT dam.C_ActividadCod, dam.C_MetaCod, dam.T_DependenciaDesc, ctp.T_ConceptoAbrv, ctp.M_Monto FROM dbo.TR_Concepto_TrabajadorPlanilla ctp
+	SET @SQLString = N'SELECT C_ActividadCod AS Actividad, C_MetaCod AS Meta, ' + @Columns + ' FROM
+		(SELECT dam.C_ActividadCod, dam.C_MetaCod, ctp.T_ConceptoAbrv, ctp.M_Monto FROM dbo.TR_Concepto_TrabajadorPlanilla ctp
 		INNER JOIN dbo.TR_TrabajadorPlanilla trabpla ON trabpla.I_TrabajadorPlanillaID = ctp.I_TrabajadorPlanillaID
 		INNER JOIN dbo.TR_Planilla pla ON pla.I_PlanillaID = trabpla.I_PlanillaID
 		INNER JOIN dbo.TR_Periodo per ON per.I_PeriodoID = pla.I_PeriodoID
@@ -2616,4 +2616,3 @@ BEGIN
 	  @I_CategoriaPlanillaID = @I_CategoriaPlanillaID;
 END
 GO
-

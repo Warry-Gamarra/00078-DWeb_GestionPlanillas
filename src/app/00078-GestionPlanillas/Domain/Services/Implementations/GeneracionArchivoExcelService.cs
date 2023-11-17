@@ -307,5 +307,120 @@ namespace Domain.Services.Implementations
                 }
             }
         }
+
+        public FileContent GenerarExcelResumenSIAF(ReporteResumenSIAF reporte)
+        {
+            FileContent fileContent;
+            IXLCell cell;
+            int currentRow;
+            int currentCol;
+
+            using (var workbook = new XLWorkbook())
+            {
+                var worksheet = workbook.Worksheets.Add("Hoja1");
+                
+                var celdaTitulo = worksheet.Cell(1, 1).SetValue<string>(reporte.titulo);
+                celdaTitulo.Style.Font.Bold = true;
+
+                var celdaTituloAdm = worksheet.Cell(2, 1).SetValue<string>(reporte.tituloResumenAdministrativo);
+                celdaTituloAdm.Style.Font.Bold = true;
+
+                currentCol = 1;
+                foreach (var columnName in reporte.resumenAdministrativo.cabecera)
+                {
+                    cell = worksheet.Cell(3, currentCol).SetValue<string>(columnName);
+                    cell.Style.Border.TopBorder = XLBorderStyleValues.Thin;
+                    cell.Style.Border.BottomBorder = XLBorderStyleValues.Thin;
+                    cell.Style.Border.LeftBorder = XLBorderStyleValues.Thin;
+                    cell.Style.Border.RightBorder = XLBorderStyleValues.Thin;
+                    currentCol++;
+                }
+
+                currentRow = 4;
+                currentCol = 1;
+                foreach (var item in reporte.resumenAdministrativo.detalle)
+                {
+                    foreach(var columnName in reporte.resumenAdministrativo.cabecera)
+                    {
+                        if (columnName == "Actividad" || columnName == "Meta")
+                        {
+                            cell = worksheet.Cell(currentRow, currentCol).SetValue<string>((string)item[columnName]);
+                        }
+                        else
+                        {
+                            cell = worksheet.Cell(currentRow, currentCol).SetValue<decimal>((decimal)item[columnName]);
+                            cell.Style.NumberFormat.Format = Formats.BASIC_DECIMAL;
+                        }
+
+                        cell.Style.Border.TopBorder = XLBorderStyleValues.Thin;
+                        cell.Style.Border.BottomBorder = XLBorderStyleValues.Thin;
+                        cell.Style.Border.LeftBorder = XLBorderStyleValues.Thin;
+                        cell.Style.Border.RightBorder = XLBorderStyleValues.Thin;
+                        currentCol++;
+                    }
+                    currentRow++;
+                    currentCol = 1;
+                }
+
+
+                currentRow++;
+                var celdaTituloDoc = worksheet.Cell(currentRow, 1).SetValue<string>(reporte.tituloResumenDocente);
+                celdaTituloDoc.Style.Font.Bold = true;
+
+                currentRow++;
+                currentCol = 1;
+                foreach (var columnName in reporte.resumenDocente.cabecera)
+                {
+                    cell = worksheet.Cell(currentRow, currentCol).SetValue<string>(columnName);
+                    cell.Style.Border.TopBorder = XLBorderStyleValues.Thin;
+                    cell.Style.Border.BottomBorder = XLBorderStyleValues.Thin;
+                    cell.Style.Border.LeftBorder = XLBorderStyleValues.Thin;
+                    cell.Style.Border.RightBorder = XLBorderStyleValues.Thin;
+                    currentCol++;
+                }
+
+                currentRow++;
+                currentCol = 1;
+                foreach (var item in reporte.resumenDocente.detalle)
+                {
+                    foreach (var columnName in reporte.resumenDocente.cabecera)
+                    {
+                        if (columnName == "Actividad" || columnName == "Meta")
+                        {
+                            cell = worksheet.Cell(currentRow, currentCol).SetValue<string>((string)item[columnName]);
+                        }
+                        else
+                        {
+                            cell = worksheet.Cell(currentRow, currentCol).SetValue<decimal>((decimal)item[columnName]);
+                            cell.Style.NumberFormat.Format = Formats.BASIC_DECIMAL;
+                        }
+    
+                        cell.Style.Border.TopBorder = XLBorderStyleValues.Thin;
+                        cell.Style.Border.BottomBorder = XLBorderStyleValues.Thin;
+                        cell.Style.Border.LeftBorder = XLBorderStyleValues.Thin;
+                        cell.Style.Border.RightBorder = XLBorderStyleValues.Thin;
+                        currentCol++;
+                    }
+                    currentRow++;
+                    currentCol = 1;
+                }
+
+                using (var stream = new MemoryStream())
+                {
+                    workbook.SaveAs(stream);
+
+                    var content = stream.ToArray();
+
+                    fileContent = new FileContent()
+                    {
+                        fileContent = content,
+                        contentType = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+                        fileName = "Resumen SIAF.xlsx"
+                    };
+
+                    return fileContent;
+                }
+            }
+        }
     }
 }

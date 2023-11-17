@@ -56,7 +56,7 @@ namespace WebApp.ServiceFacade.Implementations
 
         public ReporteResumenPorActividadYDependencia ObtenerReporteResumenPorActividadYDependencia(int año, int mes, int idCategoria)
         {
-            return _planillaService.ListarResumenActividadPorDependencia(año, mes, idCategoria);
+            return _planillaService.ObtenerReporteResumenActividadPorDependencia(año, mes, idCategoria);
         }
 
         public FileContent ObtenerReporteResumenPorActividadYDependencia(int año, int mes, int idCategoria, FormatoArchivo formatoArchivo)
@@ -67,7 +67,7 @@ namespace WebApp.ServiceFacade.Implementations
 
             try
             {
-                reporte = _planillaService.ListarResumenActividadPorDependencia(año, mes, idCategoria);
+                reporte = _planillaService.ObtenerReporteResumenActividadPorDependencia(año, mes, idCategoria);
 
                 generacionArchivoService = new GeneracionArchivoExcelService();
 
@@ -81,13 +81,31 @@ namespace WebApp.ServiceFacade.Implementations
             return fileContent;
         }
 
-        public ResumenSIAFModel ListarResumenSIAF(int año, int mes, int idCategoria)
+        public ReporteResumenSIAF ObtenerReporteResumenSIAF(int año, int mes)
         {
-            var dto = _planillaService.ListarResumenSIAF(año, mes, idCategoria);
+            return _planillaService.ObtenerReporteResumenSIAF(año, mes);
+        }
 
-            var model = new ResumenSIAFModel(dto.cabecera, dto.detalle);
+        public FileContent ObtenerReporteResumenSIAF(int año, int mes, FormatoArchivo formatoArchivo)
+        {
+            IGeneracionArchivoService generacionArchivoService;
+            ReporteResumenSIAF reporte;
+            FileContent fileContent;
 
-            return model;
+            try
+            {
+                reporte = _planillaService.ObtenerReporteResumenSIAF(año, mes);
+
+                generacionArchivoService = new GeneracionArchivoExcelService();
+
+                fileContent = generacionArchivoService.GenerarExcelResumenSIAF(reporte);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+
+            return fileContent;
         }
     }
 }

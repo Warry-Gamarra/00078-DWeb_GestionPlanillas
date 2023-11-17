@@ -131,6 +131,7 @@
     <Compile Include="Helpers\WebConfigParams.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Reports\ReporteResumenPorActividadYDependencia.cs" />
+    <Compile Include="Reports\ReporteResumenSIAF.cs" />
     <Compile Include="Services\IActividadService.cs" />
     <Compile Include="Services\ICategoriaDocenteService.cs" />
     <Compile Include="Services\ICategoriaPlanillaService.cs" />

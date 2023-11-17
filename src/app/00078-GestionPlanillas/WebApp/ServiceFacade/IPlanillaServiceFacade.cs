@@ -20,6 +20,8 @@ namespace WebApp.ServiceFacade
 
         FileContent ObtenerReporteResumenPorActividadYDependencia(int año, int mes, int idCategoria, FormatoArchivo formatoArchivo);
 
-        ResumenSIAFModel ListarResumenSIAF(int año, int mes, int idCategoria);
+        ReporteResumenSIAF ObtenerReporteResumenSIAF(int año, int mes);
+
+        FileContent ObtenerReporteResumenSIAF(int año, int mes, FormatoArchivo formatoArchivo);
     }
 }

@@ -14,5 +14,7 @@ namespace Domain.Services
         FileContent GenerarExcelDeLecturaValoresDeConceptos(List<ValorExternoLecturaProcesadoDTO> lista);
 
         FileContent GenerarExcelResumenPorActividadYDependencia(ReporteResumenPorActividadYDependencia reporte);
+
+        FileContent GenerarExcelResumenSIAF(ReporteResumenSIAF reporte);
     }
 }

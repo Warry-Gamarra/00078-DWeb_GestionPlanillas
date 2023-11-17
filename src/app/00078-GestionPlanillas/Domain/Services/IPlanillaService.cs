@@ -18,8 +18,8 @@ namespace Domain.Services
 
         bool ExistePlanillaTrabajador(int idTrabajador, int año, int mes, int idCategoria);
 
-        ReporteResumenPorActividadYDependencia ListarResumenActividadPorDependencia(int año, int mes, int idCategoria);
+        ReporteResumenPorActividadYDependencia ObtenerReporteResumenActividadPorDependencia(int año, int mes, int idCategoria);
 
-        ResumenSIAFDTO ListarResumenSIAF(int año, int mes, int idCategoria);
+        ReporteResumenSIAF ObtenerReporteResumenSIAF(int año, int mes);
     }
 }
