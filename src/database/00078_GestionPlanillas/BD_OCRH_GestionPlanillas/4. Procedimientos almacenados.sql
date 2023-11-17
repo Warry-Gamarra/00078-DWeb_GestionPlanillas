@@ -730,8 +730,8 @@ BEGIN
 							SET @I_TrabajadorPlanillaID = SCOPE_IDENTITY();
 						END
 					
-						INSERT dbo.TR_Concepto_TrabajadorPlanilla(I_TrabajadorPlanillaID, I_ConceptoID, C_ConceptoCod, T_ConceptoDesc, T_ConceptoAbrv, M_Monto, B_Anulado, I_UsuarioCre, D_FecCre)
-						VALUES(@I_TrabajadorPlanillaID, @I_ConceptoID, @C_ConceptoCod, @T_ConceptoDesc, @T_ConceptoAbrv, @M_ValorConcepto, 0, @I_UserID, @D_FecRegistro);
+						INSERT dbo.TR_Concepto_TrabajadorPlanilla(I_TrabajadorPlanillaID, I_ConceptoID, C_ConceptoCod, T_ConceptoDesc, T_ConceptoAbrv, M_Monto, I_Orden, B_Anulado, I_UsuarioCre, D_FecCre)
+						VALUES(@I_TrabajadorPlanillaID, @I_ConceptoID, @C_ConceptoCod, @T_ConceptoDesc, @T_ConceptoAbrv, @M_ValorConcepto, 1, 0, @I_UserID, @D_FecRegistro);
 					
 						SET @I_TotalRemuneracionTrabajador = @I_TotalRemuneracionTrabajador + @M_ValorConcepto;
 					END
@@ -815,8 +815,8 @@ BEGIN
 							SET @I_TrabajadorPlanillaID = SCOPE_IDENTITY();
 						END
 
-						INSERT dbo.TR_Concepto_TrabajadorPlanilla(I_TrabajadorPlanillaID, I_ConceptoID, C_ConceptoCod, T_ConceptoDesc, T_ConceptoAbrv, M_Monto, B_Anulado, I_UsuarioCre, D_FecCre)
-						VALUES(@I_TrabajadorPlanillaID, @I_ConceptoID, @C_ConceptoCod, @T_ConceptoDesc, @T_ConceptoAbrv, @M_ValorConcepto, 0, @I_UserID, @D_FecRegistro);
+						INSERT dbo.TR_Concepto_TrabajadorPlanilla(I_TrabajadorPlanillaID, I_ConceptoID, C_ConceptoCod, T_ConceptoDesc, T_ConceptoAbrv, M_Monto, I_Orden, B_Anulado, I_UsuarioCre, D_FecCre)
+						VALUES(@I_TrabajadorPlanillaID, @I_ConceptoID, @C_ConceptoCod, @T_ConceptoDesc, @T_ConceptoAbrv, @M_ValorConcepto, 4, 0, @I_UserID, @D_FecRegistro);
 
 						SET @I_TotalDescuentoTrabajador = @I_TotalDescuentoTrabajador + @M_ValorConcepto;
 					END
@@ -900,8 +900,8 @@ BEGIN
 							SET @I_TrabajadorPlanillaID = SCOPE_IDENTITY();
 						END
 
-						INSERT dbo.TR_Concepto_TrabajadorPlanilla(I_TrabajadorPlanillaID, I_ConceptoID, C_ConceptoCod, T_ConceptoDesc, T_ConceptoAbrv, M_Monto, B_Anulado, I_UsuarioCre, D_FecCre)
-						VALUES(@I_TrabajadorPlanillaID, @I_ConceptoID, @C_ConceptoCod, @T_ConceptoDesc, @T_ConceptoAbrv, @M_ValorConcepto, 0, @I_UserID, @D_FecRegistro);
+						INSERT dbo.TR_Concepto_TrabajadorPlanilla(I_TrabajadorPlanillaID, I_ConceptoID, C_ConceptoCod, T_ConceptoDesc, T_ConceptoAbrv, M_Monto, I_Orden, B_Anulado, I_UsuarioCre, D_FecCre)
+						VALUES(@I_TrabajadorPlanillaID, @I_ConceptoID, @C_ConceptoCod, @T_ConceptoDesc, @T_ConceptoAbrv, @M_ValorConcepto, 2, 0, @I_UserID, @D_FecRegistro);
 
 						SET @I_TotalReintegroTrabajador = @I_TotalReintegroTrabajador + @M_ValorConcepto;
 					END
@@ -985,8 +985,8 @@ BEGIN
 							SET @I_TrabajadorPlanillaID = SCOPE_IDENTITY();
 						END
 
-						INSERT dbo.TR_Concepto_TrabajadorPlanilla(I_TrabajadorPlanillaID, I_ConceptoID, C_ConceptoCod, T_ConceptoDesc, T_ConceptoAbrv, M_Monto, B_Anulado, I_UsuarioCre, D_FecCre)
-						VALUES(@I_TrabajadorPlanillaID, @I_ConceptoID, @C_ConceptoCod, @T_ConceptoDesc, @T_ConceptoAbrv, @M_ValorConcepto, 0, @I_UserID, @D_FecRegistro);
+						INSERT dbo.TR_Concepto_TrabajadorPlanilla(I_TrabajadorPlanillaID, I_ConceptoID, C_ConceptoCod, T_ConceptoDesc, T_ConceptoAbrv, M_Monto, I_Orden, B_Anulado, I_UsuarioCre, D_FecCre)
+						VALUES(@I_TrabajadorPlanillaID, @I_ConceptoID, @C_ConceptoCod, @T_ConceptoDesc, @T_ConceptoAbrv, @M_ValorConcepto, 3, 0, @I_UserID, @D_FecRegistro);
 
 						SET @I_TotalDeduccionTrabajador = @I_TotalDeduccionTrabajador + @M_ValorConcepto;
 					END
@@ -2580,10 +2580,11 @@ BEGIN
     
 	SET @I_PeriodoID = (SELECT per.I_PeriodoID FROM dbo.TR_Periodo per WHERE per.I_Anio = @I_Anio AND per.I_Mes = @I_Mes);
 
-	SELECT DISTINCT ctp.T_ConceptoAbrv FROM dbo.TR_Concepto_TrabajadorPlanilla ctp
+	SELECT DISTINCT ctp.T_ConceptoAbrv, ctp.I_Orden FROM dbo.TR_Concepto_TrabajadorPlanilla ctp
 	INNER JOIN dbo.TR_TrabajadorPlanilla trab ON trab.I_TrabajadorPlanillaID = ctp.I_TrabajadorPlanillaID
 	INNER JOIN dbo.TR_Planilla pla ON pla.I_PlanillaID = trab.I_PlanillaID
-	WHERE trab.B_Anulado = 0 AND ctp.B_Anulado = 0 AND pla.I_PeriodoID = @I_PeriodoID AND pla.I_CategoriaPlanillaID = @I_CategoriaPlanillaID;
+	WHERE trab.B_Anulado = 0 AND ctp.B_Anulado = 0 AND pla.I_PeriodoID = @I_PeriodoID AND pla.I_CategoriaPlanillaID = @I_CategoriaPlanillaID
+	ORDER BY ctp.I_Orden;
 
 	WITH Tmp_Conceptos(T_ConceptoAbrv)
 	AS

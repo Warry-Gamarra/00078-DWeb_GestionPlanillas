@@ -362,8 +362,9 @@ namespace Domain.Services.Implementations
                     currentCol = 1;
                 }
 
+                worksheet.Cell(currentRow, currentCol).SetValue<string>(reporte.pieTablaAdministrativo);
 
-                currentRow++;
+                currentRow += 2;
                 var celdaTituloDoc = worksheet.Cell(currentRow, 1).SetValue<string>(reporte.tituloResumenDocente);
                 celdaTituloDoc.Style.Font.Bold = true;
 
@@ -404,6 +405,8 @@ namespace Domain.Services.Implementations
                     currentRow++;
                     currentCol = 1;
                 }
+
+                worksheet.Cell(currentRow, currentCol).SetValue<string>(reporte.pieTablaDocente);
 
                 using (var stream = new MemoryStream())
                 {

@@ -504,6 +504,7 @@ CREATE TABLE TR_Concepto_TrabajadorPlanilla
 	T_ConceptoDesc VARCHAR(250) NOT NULL,
 	T_ConceptoAbrv VARCHAR(250),
 	M_Monto DECIMAL(15,2) NOT NULL,
+	I_Orden TINYINT NOT NULL,
 	B_Anulado BIT NOT NULL,
 	I_UsuarioCre INT,
 	D_FecCre DATETIME,

@@ -19,6 +19,14 @@ namespace Domain.Reports
             }
         }
 
+        public string pieTablaAdministrativo
+        {
+            get
+            {
+                return "Total Admin";
+            }
+        }
+
         public ResumenSIAFDTO resumenAdministrativo { get; set; }
 
         public string tituloResumenDocente
@@ -26,6 +34,14 @@ namespace Domain.Reports
             get
             {
                 return "DOCENTE";
+            }
+        }
+
+        public string pieTablaDocente
+        {
+            get
+            {
+                return "Total Doc";
             }
         }
 
