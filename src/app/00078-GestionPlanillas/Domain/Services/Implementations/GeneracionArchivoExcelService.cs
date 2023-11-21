@@ -314,7 +314,8 @@ namespace Domain.Services.Implementations
             IXLCell cell;
             int currentRow;
             int currentCol;
-
+            int firstDataCol;
+            string formula;
             using (var workbook = new XLWorkbook())
             {
                 var worksheet = workbook.Worksheets.Add("Hoja1");
@@ -338,6 +339,7 @@ namespace Domain.Services.Implementations
 
                 currentRow = 4;
                 currentCol = 1;
+                firstDataCol = currentRow;
                 foreach (var item in reporte.resumenAdministrativo.detalle)
                 {
                     foreach(var columnName in reporte.resumenAdministrativo.cabecera)
@@ -363,6 +365,24 @@ namespace Domain.Services.Implementations
                 }
 
                 worksheet.Cell(currentRow, currentCol).SetValue<string>(reporte.pieTablaAdministrativo);
+                foreach (var columnName in reporte.resumenAdministrativo.cabecera)
+                {
+                    if (columnName != "Actividad" && columnName != "Meta")
+                    {
+                        cell = worksheet.Cell(currentRow, currentCol);
+                        formula = string.Format("SUM(R[{0}]C:R[-1]C)", firstDataCol - currentRow);
+                        cell.SetFormulaR1C1(formula);
+                        cell.Style.NumberFormat.Format = Formats.BASIC_DECIMAL;
+                        cell.Style.Font.Bold = true;
+                        cell.Style.Border.TopBorder = XLBorderStyleValues.Thin;
+                        cell.Style.Border.BottomBorder = XLBorderStyleValues.Thin;
+                        cell.Style.Border.LeftBorder = XLBorderStyleValues.Thin;
+                        cell.Style.Border.RightBorder = XLBorderStyleValues.Thin;
+
+
+                    }
+                    currentCol++;
+                }
 
                 currentRow += 2;
                 var celdaTituloDoc = worksheet.Cell(currentRow, 1).SetValue<string>(reporte.tituloResumenDocente);
@@ -382,6 +402,7 @@ namespace Domain.Services.Implementations
 
                 currentRow++;
                 currentCol = 1;
+                firstDataCol = currentRow;
                 foreach (var item in reporte.resumenDocente.detalle)
                 {
                     foreach (var columnName in reporte.resumenDocente.cabecera)
@@ -407,6 +428,24 @@ namespace Domain.Services.Implementations
                 }
 
                 worksheet.Cell(currentRow, currentCol).SetValue<string>(reporte.pieTablaDocente);
+                foreach (var columnName in reporte.resumenDocente.cabecera)
+                {
+                    if (columnName != "Actividad" && columnName != "Meta")
+                    {
+                        cell = worksheet.Cell(currentRow, currentCol);
+                        formula = string.Format("SUM(R[{0}]C:R[-1]C)", firstDataCol - currentRow);
+                        cell.SetFormulaR1C1(formula);
+                        cell.Style.NumberFormat.Format = Formats.BASIC_DECIMAL;
+                        cell.Style.Font.Bold = true;
+                        cell.Style.Border.TopBorder = XLBorderStyleValues.Thin;
+                        cell.Style.Border.BottomBorder = XLBorderStyleValues.Thin;
+                        cell.Style.Border.LeftBorder = XLBorderStyleValues.Thin;
+                        cell.Style.Border.RightBorder = XLBorderStyleValues.Thin;
+
+
+                    }
+                    currentCol++;
+                }
 
                 using (var stream = new MemoryStream())
                 {
