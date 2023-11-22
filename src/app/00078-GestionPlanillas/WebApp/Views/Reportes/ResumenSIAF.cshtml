@@ -73,6 +73,21 @@
                                             }
                                         </tr>
                                     }
+                                    <tr>
+                                        @foreach (var columnName in Model.resumenAdministrativo.cabecera)
+                                        {
+                                            if (columnName == "Actividad")
+                                            {
+                                                <th colspan="2">@Model.pieTablaAdministrativo</th>
+                                            }
+                                            else if (columnName != "Meta")
+                                            {
+                                                <th>
+                                                    @Model.resumenAdministrativo.detalle.Sum(item => (decimal)item[columnName])
+                                                </th>
+                                            }
+                                        }
+                                    </tr>
                                 </tbody>
                             </table>
                         </div>
@@ -102,6 +117,19 @@
                                             }
                                         </tr>
                                     }
+                                    <tr>
+                                        @foreach (var columnName in Model.resumenDocente.cabecera)
+                                        {
+                                            if (columnName == "Actividad")
+                                            {
+                                                <th colspan="2">@Model.pieTablaDocente</th>
+                                            }
+                                            else if (columnName != "Meta")
+                                            {
+                                                <th>@Model.resumenDocente.detalle.Sum(item => (decimal)item[columnName])</th>
+                                            }
+                                        }
+                                    </tr>
                                 </tbody>
                             </table>
                         </div>
