@@ -34,6 +34,7 @@
                             <th>Vínculo</th>
                             <th>Estado</th>
                             <th></th>
+                            <th></th>
                         </tr>
                     </thead>
                     <tfoot>
@@ -47,6 +48,7 @@
                             <th>Régimen</th>
                             <th>Vínculo</th>
                             <th>Estado</th>
+                            <th></th>
                             <th></th>
                         </tr>
                     </tfoot>
@@ -82,15 +84,24 @@
                     { data: 'regimenDesc' },
                     { data: 'vinculoDesc' },
                     { data: 'estadoDesc' },
+                    { data: 'trabajadorID' },
                     { data: 'trabajadorID' }
                 ],
                 columnDefs: [
                     {
-                        targets: -1,
+                        targets: -2,
                         orderable: false,
                         render: function (data, type, row) {
                             return `<a class="modal-link-lg" href="@Url.Action("Editar", "Trabajadores")/${data}` +
                                 '"><i class="fa fa-pencil-square-o" aria-hidden="true"></i> <span class="d-none d-md-inline-block">Editar</span></a>';
+                        }
+                    },
+                    {
+                        targets: -1,
+                        orderable: false,
+                        render: function (data, type, row) {
+                            return `<a class="modal-link-lg" href="@Url.Action("AsignarPlanilla", "Trabajadores")/${data}` +
+                                '"><i class="fa fa-plus-circle" aria-hidden="true"></i> <span class="d-none d-md-inline-block">Agregar</span></a>';
                         }
                     }
                 ],

@@ -10,8 +10,8 @@ namespace WebApp.ServiceFacade
 {
     public interface IHorasDocenteServiceFacade
     {
-        SelectList ObtenerComboHorasDedicacionDocente(int? selectedItem = null);
+        SelectList ObtenerComboHorasDedicacionDocente(bool? esParaDocenteOrdinario, int? selectedItem = null);
 
-        List<HorasDedicacionDocenteDTO> ListarHorasDedicacionDocente();
+        List<HorasDedicacionDocenteDTO> ListarHorasDedicacionDocente(bool? esParaDocenteOrdinario);
     }
 }

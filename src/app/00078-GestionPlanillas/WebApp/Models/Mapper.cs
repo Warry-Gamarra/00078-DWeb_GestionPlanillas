@@ -34,7 +34,6 @@ namespace WebApp.Models
                 estadoDesc = dto.estadoDesc,
                 vinculoID = dto.vinculoID,
                 vinculoDesc = dto.vinculoDesc,
-                trabajadorDependenciaID = dto.trabajadorDependenciaID,
                 dependenciaID = dto.dependenciaID,
                 dependenciaCod = dto.dependenciaCod,
                 dependenciaDesc = dto.dependenciaDesc,

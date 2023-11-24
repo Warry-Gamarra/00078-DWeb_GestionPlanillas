@@ -498,6 +498,8 @@
     <Content Include="Views\Metas\_MsgRegistrarMeta.cshtml" />
     <Content Include="Views\Reportes\ResumenActividadYDependencia.cshtml" />
     <Content Include="Views\Reportes\ResumenSIAF.cshtml" />
+    <Content Include="Views\Trabajadores\_AsignarPlanilla.cshtml" />
+    <Content Include="Views\Trabajadores\_MsgAsignarPlanilla.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

@@ -123,18 +123,18 @@ INSERT TI_PlantillaPlanilla(I_CategoriaPlanillaID, B_Habilitado, B_Eliminado) VA
 GO
 
 
-INSERT TC_CategoriaDocente(C_CategoriaDocenteCod, T_CategoriaDocenteDesc, B_Habilitado, B_Eliminado) VALUES('PR', 'PRINCIPAL', 1, 0)
-INSERT TC_CategoriaDocente(C_CategoriaDocenteCod, T_CategoriaDocenteDesc, B_Habilitado, B_Eliminado) VALUES('AS', 'ASOCIADO', 1, 0)
-INSERT TC_CategoriaDocente(C_CategoriaDocenteCod, T_CategoriaDocenteDesc, B_Habilitado, B_Eliminado) VALUES('AX', 'AUXILIAR', 1, 0)
-INSERT TC_CategoriaDocente(C_CategoriaDocenteCod, T_CategoriaDocenteDesc, B_Habilitado, B_Eliminado) VALUES('JP', 'JEFE DE PRÁCTICA', 1, 0)
+--DOCENTE ORDINARIO
+INSERT TC_CategoriaDocente(C_CategoriaDocenteCod, T_CategoriaDocenteDesc, B_ParaDocenteOrdinario, B_Habilitado, B_Eliminado) VALUES('PR', 'PRINCIPAL', 1, 1, 0)
+INSERT TC_CategoriaDocente(C_CategoriaDocenteCod, T_CategoriaDocenteDesc, B_ParaDocenteOrdinario, B_Habilitado, B_Eliminado) VALUES('AS', 'ASOCIADO', 1, 1, 0)
+INSERT TC_CategoriaDocente(C_CategoriaDocenteCod, T_CategoriaDocenteDesc, B_ParaDocenteOrdinario, B_Habilitado, B_Eliminado) VALUES('AX', 'AUXILIAR', 1, 1, 0)
+INSERT TC_CategoriaDocente(C_CategoriaDocenteCod, T_CategoriaDocenteDesc, B_ParaDocenteOrdinario, B_Habilitado, B_Eliminado) VALUES('JP', 'JEFE DE PRÁCTICA', 1, 1, 0)
 GO
 
 
-INSERT TC_DedicacionDocente(C_DedicacionDocenteCod, T_DedicacionDocenteDesc, B_Habilitado, B_Eliminado) VALUES('DE', 'DEDICACIÓN EXCLUSIVA', 1, 0)
-INSERT TC_DedicacionDocente(C_DedicacionDocenteCod, T_DedicacionDocenteDesc, B_Habilitado, B_Eliminado) VALUES('TC', 'TIEMPO COMPLETO', 1, 0)
-INSERT TC_DedicacionDocente(C_DedicacionDocenteCod, T_DedicacionDocenteDesc, B_Habilitado, B_Eliminado) VALUES('TP', 'TIEMPO PARCIAL', 1, 0)
+INSERT TC_DedicacionDocente(C_DedicacionDocenteCod, T_DedicacionDocenteDesc, B_ParaDocenteOrdinario, B_Habilitado, B_Eliminado) VALUES('DE', 'DEDICACIÓN EXCLUSIVA', 1, 1, 0)
+INSERT TC_DedicacionDocente(C_DedicacionDocenteCod, T_DedicacionDocenteDesc, B_ParaDocenteOrdinario, B_Habilitado, B_Eliminado) VALUES('TC', 'TIEMPO COMPLETO', 1, 1, 0)
+INSERT TC_DedicacionDocente(C_DedicacionDocenteCod, T_DedicacionDocenteDesc, B_ParaDocenteOrdinario, B_Habilitado, B_Eliminado) VALUES('TP', 'TIEMPO PARCIAL', 1, 1, 0)
 GO
-
 
 INSERT TC_HorasDocente(I_DedicacionDocenteID, I_Horas, B_Habilitado, B_Eliminado) VALUES(1, 40, 1, 0)
 INSERT TC_HorasDocente(I_DedicacionDocenteID, I_Horas, B_Habilitado, B_Eliminado) VALUES(2, 40, 1, 0)
@@ -151,6 +151,22 @@ INSERT TC_HorasDocente(I_DedicacionDocenteID, I_Horas, B_Habilitado, B_Eliminado
 INSERT TC_HorasDocente(I_DedicacionDocenteID, I_Horas, B_Habilitado, B_Eliminado) VALUES(3, 10, 1, 0)
 INSERT TC_HorasDocente(I_DedicacionDocenteID, I_Horas, B_Habilitado, B_Eliminado) VALUES(3, 9, 1, 0)
 INSERT TC_HorasDocente(I_DedicacionDocenteID, I_Horas, B_Habilitado, B_Eliminado) VALUES(3, 8, 1, 0)
+GO
+
+
+--DOCENTE CONTRATADO
+INSERT TC_CategoriaDocente(C_CategoriaDocenteCod, T_CategoriaDocenteDesc, B_ParaDocenteOrdinario, B_Habilitado, B_Eliminado) VALUES('A', 'A', 0, 1, 0)
+INSERT TC_CategoriaDocente(C_CategoriaDocenteCod, T_CategoriaDocenteDesc, B_ParaDocenteOrdinario, B_Habilitado, B_Eliminado) VALUES('B', 'B', 0, 1, 0)
+GO
+
+INSERT TC_DedicacionDocente(C_DedicacionDocenteCod, T_DedicacionDocenteDesc, B_ParaDocenteOrdinario, B_Habilitado, B_Eliminado) VALUES('1', '1', 0, 1, 0)
+INSERT TC_DedicacionDocente(C_DedicacionDocenteCod, T_DedicacionDocenteDesc, B_ParaDocenteOrdinario, B_Habilitado, B_Eliminado) VALUES('2', '2', 0, 1, 0)
+INSERT TC_DedicacionDocente(C_DedicacionDocenteCod, T_DedicacionDocenteDesc, B_ParaDocenteOrdinario, B_Habilitado, B_Eliminado) VALUES('3', '3', 0, 1, 0)
+GO
+
+INSERT TC_HorasDocente(I_DedicacionDocenteID, I_Horas, B_Habilitado, B_Eliminado) VALUES(4, 32, 1, 0)
+INSERT TC_HorasDocente(I_DedicacionDocenteID, I_Horas, B_Habilitado, B_Eliminado) VALUES(5, 16, 1, 0)
+INSERT TC_HorasDocente(I_DedicacionDocenteID, I_Horas, B_Habilitado, B_Eliminado) VALUES(6, 8, 1, 0)
 GO
 
 
@@ -192,12 +208,13 @@ GO
 
 INSERT dbo.TC_Vinculo(T_VinculoDesc, C_VinculoCod, B_Habilitado, B_Eliminado) VALUES('ADMINISTRATIVO PERMANENTE', 'AP', 1, 0)
 INSERT dbo.TC_Vinculo(T_VinculoDesc, C_VinculoCod, B_Habilitado, B_Eliminado) VALUES('ADMINISTRATIVO CONTRATADO', 'AC', 1, 0)
-INSERT dbo.TC_Vinculo(T_VinculoDesc, C_VinculoCod, B_Habilitado, B_Eliminado) VALUES('MÉDICO PERMANENTE', 'MP', 0, 0)
+INSERT dbo.TC_Vinculo(T_VinculoDesc, C_VinculoCod, B_Habilitado, B_Eliminado) VALUES('MÉDICO PERMANENTE', 'MP', 1, 0)
 INSERT dbo.TC_Vinculo(T_VinculoDesc, C_VinculoCod, B_Habilitado, B_Eliminado) VALUES('DOCENTE PERMANENTE', 'DP', 1, 0)
-INSERT dbo.TC_Vinculo(T_VinculoDesc, C_VinculoCod, B_Habilitado, B_Eliminado) VALUES('DOCENTE CONTRATADO', 'DC', 0, 0)
-INSERT dbo.TC_Vinculo(T_VinculoDesc, C_VinculoCod, B_Habilitado, B_Eliminado) VALUES('CESANTE ADMINISTRATIVO', 'CA', 0, 0)
-INSERT dbo.TC_Vinculo(T_VinculoDesc, C_VinculoCod, B_Habilitado, B_Eliminado) VALUES('CESANTE MÉDICO', 'CM', 0, 0)
+INSERT dbo.TC_Vinculo(T_VinculoDesc, C_VinculoCod, B_Habilitado, B_Eliminado) VALUES('DOCENTE CONTRATADO', 'DC', 1, 0)
+INSERT dbo.TC_Vinculo(T_VinculoDesc, C_VinculoCod, B_Habilitado, B_Eliminado) VALUES('CESANTE ADMINISTRATIVO', 'CA', 1, 0)
+INSERT dbo.TC_Vinculo(T_VinculoDesc, C_VinculoCod, B_Habilitado, B_Eliminado) VALUES('CESANTE MÉDICO', 'CM', 1, 0)
 INSERT dbo.TC_Vinculo(T_VinculoDesc, C_VinculoCod, B_Habilitado, B_Eliminado) VALUES('SERVIDOR PERMANENTE', 'SP', 0, 0)
+INSERT dbo.TC_Vinculo(T_VinculoDesc, C_VinculoCod, B_Habilitado, B_Eliminado) VALUES('PRACTICANTE', 'PR', 1, 0)
 GO
 
 

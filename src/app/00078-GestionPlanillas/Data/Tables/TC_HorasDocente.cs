@@ -19,16 +19,6 @@ namespace Data.Tables
 
         public bool B_Habilitado { get; set; }
 
-        public bool B_Eliminado { get; set; }
-
-        public int? I_UsuarioCre { get; set; }
-
-        public DateTime? D_FecCre { get; set; }
-
-        public int? I_UsuarioMod { get; set; }
-
-        public DateTime? D_FecMod { get; set; }
-
         public static IEnumerable<TC_HorasDocente> FindAll()
         {
             IEnumerable<TC_HorasDocente> result;

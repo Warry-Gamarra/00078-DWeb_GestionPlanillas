@@ -18,11 +18,11 @@ namespace WebApp.ServiceFacade.Implementations
             _horasDocenteService = new HorasDocenteService();
         }
 
-        public SelectList ObtenerComboHorasDedicacionDocente(int? selectedItem = null)
+        public SelectList ObtenerComboHorasDedicacionDocente(bool? esParaDocenteOrdinario, int? selectedItem = null)
         {
             var result = new List<SelectListItem>();
 
-            var lista = _horasDocenteService.ListarHorasDedicacionDocente();
+            var lista = _horasDocenteService.ListarHorasDedicacionDocente(esParaDocenteOrdinario);
 
             foreach (var group in lista.GroupBy(x => x.dedicacionDocenteDesc))
             {
@@ -44,11 +44,11 @@ namespace WebApp.ServiceFacade.Implementations
             return new SelectList(result, "Value", "Text", "Group.Name", null, null);
         }
 
-        public List<HorasDedicacionDocenteDTO> ListarHorasDedicacionDocente()
+        public List<HorasDedicacionDocenteDTO> ListarHorasDedicacionDocente(bool? esParaDocenteOrdinario)
         {
             var result = new List<SelectListItem>();
 
-            var lista = _horasDocenteService.ListarHorasDedicacionDocente()
+            var lista = _horasDocenteService.ListarHorasDedicacionDocente(esParaDocenteOrdinario)
                 .ToList();
 
             return lista;

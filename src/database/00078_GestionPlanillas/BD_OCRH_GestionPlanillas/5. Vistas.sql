@@ -13,7 +13,7 @@ SELECT
 	tipdoc.I_TipoDocumentoID, tipdoc.T_TipoDocumentoDesc, per.C_NumDocumento, 
 	trab.D_FechaIngreso, reg.I_RegimenID, reg.T_RegimenDesc, afp.I_AfpID, afp.T_AfpDesc, trab.T_Cuspp, 
 	est.I_EstadoID, est.T_EstadoDesc, vin.I_VinculoID, vin.T_VinculoDesc,
-	trabdep.I_TrabajadorDependenciaID, dep.I_DependenciaID, dep.C_DependenciaCod, dep.T_DependenciaDesc,
+	dep.I_DependenciaID, dep.C_DependenciaCod, dep.T_DependenciaDesc,
 	cta.I_CuentaBancariaID, cta.T_NroCuentaBancaria, bco.I_BancoID, bco.T_BancoDesc, bco.T_BancoAbrv
 FROM 
 	dbo.TC_Persona AS per INNER JOIN
@@ -24,9 +24,8 @@ FROM
 	dbo.TC_Regimen AS reg ON reg.I_RegimenID = trab.I_RegimenID LEFT JOIN 
 	dbo.TC_Afp AS afp ON afp.I_AfpID = trab.I_AfpID INNER JOIN
 	dbo.TC_Estado AS est ON est.I_EstadoID = trab.I_EstadoID INNER JOIN 
-	dbo.TC_Vinculo AS vin ON vin.I_VinculoID = trab.I_VinculoID LEFT JOIN
-	dbo.TC_Trabajador_Dependencia AS trabdep ON trabdep.I_TrabajadorID = trab.I_TrabajadorID AND trabdep.B_Habilitado = 1 LEFT JOIN
-	dbo.TC_Dependencia AS dep ON dep.I_DependenciaID = trabdep.I_DependenciaID LEFT JOIN
+	dbo.TC_Vinculo AS vin ON vin.I_VinculoID = trab.I_VinculoID INNER JOIN
+	dbo.TC_Dependencia AS dep ON dep.I_DependenciaID = trabcat.I_DependenciaID LEFT JOIN
 	dbo.TC_CuentaBancaria AS cta ON cta.I_TrabajadorID = trab.I_TrabajadorID AND cta.B_Habilitado = 1 LEFT JOIN
 	dbo.TC_Banco AS bco ON bco.I_BancoID = cta.I_BancoID
 WHERE per.B_Eliminado = 0 AND trab.B_Eliminado = 0 AND trabcat.B_Eliminado = 0 AND catpla.B_PlanillaCabecera = 1

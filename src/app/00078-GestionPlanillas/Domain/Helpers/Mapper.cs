@@ -289,7 +289,8 @@ namespace Domain.Helpers
                 categoriaDocenteID = table.I_CategoriaDocenteID,
                 categoriaDocenteDesc = table.T_CategoriaDocenteDesc,
                 categoriaDocenteCod = table.C_CategoriaDocenteCod,
-                estaHabilitado = table.B_Habilitado
+                estaHabilitado = table.B_Habilitado,
+                esParaDocenteOrdinario = table.B_ParaDocenteOrdinario
             };
 
             return categoriaDocenteDTO;

@@ -149,6 +149,7 @@ namespace Domain.Services.Implementations
                                 I_HorasDocenteID = trabajadorEntity.horasDocenteID,
                                 I_GrupoOcupacionalID = trabajadorEntity.grupoOcupacionalID,
                                 I_NivelRemunerativoID = trabajadorEntity.nivelRemunerativoID,
+                                I_CategoriaPlanillaID = categoriaPlanillaID,
                                 I_UserID = userID
                             };
 
@@ -224,9 +225,29 @@ namespace Domain.Services.Implementations
                 case 2:
                     categoriaPlanilla = CategoriaPlanilla.HaberesAdministrativo;
                     break;
+                
+                case 3:
+                    categoriaPlanilla = CategoriaPlanilla.HaberesMedico;
+                    break;
 
                 case 4:
                     categoriaPlanilla = CategoriaPlanilla.HaberesDocente;
+                    break;
+
+                case 5:
+                    categoriaPlanilla = CategoriaPlanilla.HaberesDocente;
+                    break;
+
+                case 6:
+                    categoriaPlanilla = CategoriaPlanilla.Pensiones;
+                    break;
+
+                case 7:
+                    categoriaPlanilla = CategoriaPlanilla.Pensiones;
+                    break;
+
+                case 9:
+                    categoriaPlanilla = CategoriaPlanilla.Practicante;
                     break;
 
                 default:

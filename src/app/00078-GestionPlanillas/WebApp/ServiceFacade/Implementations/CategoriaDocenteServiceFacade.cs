@@ -18,9 +18,9 @@ namespace WebApp.ServiceFacade.Implementations
             _categoriaDocenteService = new CategoriaDocenteService();
         }
 
-        public SelectList ObtenerComboCategoriasDocente(bool incluirDeshabilitados = false, int? selectedItem = null)
+        public SelectList ObtenerComboCategoriasDocente(bool? esParaDocenteOrdinario, bool incluirDeshabilitados = false, int? selectedItem = null)
         {
-            var lista = _categoriaDocenteService.ListarCategoriasDocente(incluirDeshabilitados);
+            var lista = _categoriaDocenteService.ListarCategoriasDocente(esParaDocenteOrdinario, incluirDeshabilitados);
 
             if (selectedItem.HasValue)
             {
@@ -32,9 +32,9 @@ namespace WebApp.ServiceFacade.Implementations
             }
         }
 
-        public List<CategoriaDocenteDTO> ListarCategoriasDocente(bool incluirDeshabilitados = false)
+        public List<CategoriaDocenteDTO> ListarCategoriasDocente(bool? esParaDocenteOrdinario,  bool incluirDeshabilitados = false)
         {
-            var lista = _categoriaDocenteService.ListarCategoriasDocente(incluirDeshabilitados)
+            var lista = _categoriaDocenteService.ListarCategoriasDocente(esParaDocenteOrdinario, incluirDeshabilitados)
                 .ToList();
 
             return lista;

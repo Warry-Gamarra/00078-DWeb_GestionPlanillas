@@ -36,6 +36,7 @@ BEGIN
 	SET NOCOUNT ON;
 
 	DECLARE @I_TrabajadorID INT,
+			@C_VinculoCod VARCHAR(20),
 			@D_FecCre DATETIME;
 
 	BEGIN TRAN
@@ -53,37 +54,38 @@ BEGIN
 		VALUES(@I_PersonaID, @C_TrabajadorCod, @D_FechaIngreso, @I_EstadoID, @I_VinculoID, @I_RegimenID, @I_AfpID, @T_Cuspp, 0, @I_UserID, @D_FecCre);
 
 		SET @I_TrabajadorID = SCOPE_IDENTITY();
+		
+		SET @C_VinculoCod = (SELECT v.C_VinculoCod FROM dbo.TC_Vinculo v WHERE v.I_VinculoID = @I_VinculoID);
+		------**************FALTA CORREGIR EL REGISTRAR Y EDITAR TRABAJADOR****
+		INSERT dbo.TC_Trabajador_CategoriaPlanilla(I_TrabajadorID, I_CategoriaPlanillaID, I_DependenciaID, B_Habilitado, B_Eliminado, I_UsuarioCre, D_FecCre)
+		VALUES(@I_TrabajadorID, @I_CategoriaPlanillaID, @I_DependenciaID, 1, 0, @I_UserID, @D_FecCre);
 
-		INSERT dbo.TC_Trabajador_Dependencia(I_TrabajadorID, I_DependenciaID, B_Habilitado, B_Eliminado, I_UsuarioCre, D_FecCre)
-		VALUES(@I_TrabajadorID, @I_DependenciaID, 1, 0, @I_UserID, @D_FecCre);
-
-		INSERT dbo.TC_CuentaBancaria(I_TrabajadorID, I_BancoID, T_NroCuentaBancaria, B_Habilitado, B_Eliminado, I_UsuarioCre, D_FecCre)
-		VALUES(@I_TrabajadorID, @I_BancoID, @T_NroCuentaBancaria, 1, 0, @I_UserID, @D_FecCre);
-
-		INSERT dbo.TC_Trabajador_CategoriaPlanilla(I_TrabajadorID, I_CategoriaPlanillaID, B_Habilitado, B_Eliminado, I_UsuarioCre, D_FecCre)
-		VALUES(@I_TrabajadorID, @I_CategoriaPlanillaID, 1, 0, @I_UserID, @D_FecCre);
-
-		IF (@I_VinculoID IN (1,2)) BEGIN
-			INSERT dbo.TC_Administrativo(I_TrabajadorID, I_GrupoOcupacionalID, I_NivelRemunerativoID, B_Habilitado, B_Eliminado, I_UsuarioCre, D_FecCre)
-			VALUES(@I_TrabajadorID, @I_GrupoOcupacionalID, @I_NivelRemunerativoID, 1, 0, @I_UserID, @D_FecCre)
+		IF (@I_BancoID IS NOT NULL AND @T_NroCuentaBancaria IS NOT NULL AND LEN(@T_NroCuentaBancaria) > 0) BEGIN
+			INSERT dbo.TC_CuentaBancaria(I_TrabajadorID, I_BancoID, T_NroCuentaBancaria, B_Habilitado, B_Eliminado, I_UsuarioCre, D_FecCre)
+			VALUES(@I_TrabajadorID, @I_BancoID, @T_NroCuentaBancaria, 1, 0, @I_UserID, @D_FecCre);
 		END
 
-		IF (@I_VinculoID = 4) BEGIN
+		IF (@C_VinculoCod IN ('AP','AC')) BEGIN
+			INSERT dbo.TC_Administrativo(I_TrabajadorID, I_GrupoOcupacionalID, I_NivelRemunerativoID, B_Habilitado, B_Eliminado, I_UsuarioCre, D_FecCre)
+			VALUES(@I_TrabajadorID, @I_GrupoOcupacionalID, @I_NivelRemunerativoID, 1, 0, @I_UserID, @D_FecCre);
+		END
+
+		IF (@C_VinculoCod IN ('DP','DC')) BEGIN
 			INSERT dbo.TC_Docente(I_TrabajadorID, I_CategoriaDocenteID, I_HorasDocenteID, B_Habilitado, B_Eliminado, I_UsuarioCre, D_FecCre)
-			VALUES(@I_TrabajadorID, @I_CategoriaDocenteID, @I_HorasDocenteID, 1, 0, @I_UserID, @D_FecCre)
+			VALUES(@I_TrabajadorID, @I_CategoriaDocenteID, @I_HorasDocenteID, 1, 0, @I_UserID, @D_FecCre);
 		END
 
 		COMMIT TRAN
 
-		SET @B_Result = 1
+		SET @B_Result = 1;
 
-		SET @T_Message = 'Registro correcto.'
+		SET @T_Message = 'Registro correcto.';
 	END TRY
 	BEGIN CATCH
 		ROLLBACK TRAN
 		SET @B_Result = 0
 
-		SET @T_Message = ERROR_MESSAGE()
+		SET @T_Message = ERROR_MESSAGE();
 	END CATCH
 END
 GO
@@ -95,7 +97,7 @@ IF EXISTS (SELECT * FROM INFORMATION_SCHEMA.ROUTINES WHERE ROUTINE_TYPE = 'PROCE
 GO
 
 CREATE PROCEDURE [dbo].[USP_U_ActualizarTrabajador]
-@I_trabajadorID INT,
+@I_TrabajadorID INT,
 @C_TrabajadorCod VARCHAR(20),
 @T_ApellidoPaterno VARCHAR(250),
 @T_ApellidoMaterno VARCHAR(250),
@@ -115,6 +117,7 @@ CREATE PROCEDURE [dbo].[USP_U_ActualizarTrabajador]
 @I_HorasDocenteID INT = NULL,
 @I_GrupoOcupacionalID INT = NULL,
 @I_NivelRemunerativoID INT = NULL,
+@I_CategoriaPlanillaID INT,
 @I_UserID INT,
 @B_Result BIT OUTPUT,
 @T_Message VARCHAR(250) OUTPUT
@@ -129,8 +132,7 @@ BEGIN
 
 	BEGIN TRAN
 	BEGIN TRY
-		SET @D_FecMod = GETDATE()
-
+		SET @D_FecMod = GETDATE();
 
 		--Actualizar Persona
 		UPDATE per SET 
@@ -143,7 +145,7 @@ BEGIN
 			per.D_FecMod = @D_FecMod
 		FROM dbo.TC_Persona per
 		INNER JOIN dbo.TC_Trabajador trab ON trab.I_PersonaID = per.I_PersonaID
-		WHERE trab.I_TrabajadorID = @I_trabajadorID
+		WHERE trab.I_TrabajadorID = @I_TrabajadorID;
 
 		--Actualizar Trabajador
 		UPDATE dbo.TC_Trabajador SET
@@ -156,50 +158,14 @@ BEGIN
 			T_Cuspp = @T_Cuspp,
 			I_UsuarioMod = @I_UserID,
 			D_FecMod = @D_FecMod
-		WHERE I_TrabajadorID = @I_TrabajadorID
+		WHERE I_TrabajadorID = @I_TrabajadorID;
 
-		--Actualizar Dependencia
-		IF (@I_DependenciaID IS NULL) BEGIN
-
-			UPDATE dbo.TC_Trabajador_Dependencia SET 
-				B_Habilitado = 0,
-				I_UsuarioMod = @I_UserID,
-				D_FecMod = @D_FecMod
-			WHERE I_TrabajadorID = @I_trabajadorID AND B_Habilitado = 1 AND B_Eliminado = 0
-
-		END ELSE BEGIN
-
-			IF EXISTS(SELECT I_trabajadorID FROM dbo.TC_Trabajador_Dependencia 
-				WHERE I_TrabajadorID = @I_trabajadorID AND I_DependenciaID = @I_DependenciaID AND B_Eliminado = 0)
-			BEGIN
-				IF NOT EXISTS(SELECT I_trabajadorID FROM dbo.TC_Trabajador_Dependencia 
-					WHERE I_TrabajadorID = @I_trabajadorID AND I_DependenciaID = @I_DependenciaID AND B_Habilitado = 1 AND B_Eliminado = 0)
-				BEGIN
-					UPDATE dbo.TC_Trabajador_Dependencia SET 
-						B_Habilitado = 0,
-						I_UsuarioMod = @I_UserID,
-						D_FecMod = @D_FecMod
-					WHERE I_TrabajadorID = @I_trabajadorID AND B_Habilitado = 1 AND B_Eliminado = 0
-
-					UPDATE dbo.TC_Trabajador_Dependencia SET 
-						B_Habilitado = 1,
-						I_UsuarioMod = @I_UserID,
-						D_FecMod = @D_FecMod
-					WHERE I_TrabajadorID = @I_trabajadorID AND I_DependenciaID = @I_DependenciaID AND B_Eliminado = 0
-				END
-			
-			END ELSE BEGIN 
-				UPDATE dbo.TC_Trabajador_Dependencia SET 
-					B_Habilitado = 0,
-					I_UsuarioMod = @I_UserID,
-					D_FecMod = @D_FecMod
-				WHERE I_TrabajadorID = @I_trabajadorID AND B_Habilitado = 1 AND B_Eliminado = 0
-
-				INSERT dbo.TC_Trabajador_Dependencia(I_TrabajadorID, I_DependenciaID, B_Habilitado, B_Eliminado, I_UsuarioCre, D_FecCre)
-				VALUES(@I_TrabajadorID, @I_DependenciaID, 1, 0, @I_UserID, @D_FecMod)
-			END
-
-		END
+		--Actualizar CategoriaPlanilla de Trabajador
+		UPDATE dbo.TC_Trabajador_CategoriaPlanilla SET
+			I_DependenciaID = @I_DependenciaID,
+			I_UsuarioMod = @I_UserID,
+			D_FecMod = @D_FecMod
+		WHERE I_TrabajadorID = @I_TrabajadorID AND I_CategoriaPlanillaID = @I_CategoriaPlanillaID AND B_Habilitado = 1 AND B_Eliminado = 0;
 
 		--Actualizar Cuentas Bancarias
 		IF (@I_BancoID IS NULL) BEGIN
@@ -208,41 +174,41 @@ BEGIN
 				B_Habilitado = 0,
 				I_UsuarioMod = @I_UserID,
 				D_FecMod = @D_FecMod
-			WHERE I_TrabajadorID = @I_trabajadorID AND B_Habilitado = 1 AND B_Eliminado = 0
+			WHERE I_TrabajadorID = @I_TrabajadorID AND B_Habilitado = 1 AND B_Eliminado = 0;
 
 		END ELSE BEGIN
 
 			IF EXISTS(SELECT I_TrabajadorID FROM dbo.TC_CuentaBancaria 
-				WHERE I_TrabajadorID = @I_trabajadorID AND I_BancoID = @I_BancoID AND B_Eliminado = 0)
+				WHERE I_TrabajadorID = @I_TrabajadorID AND I_BancoID = @I_BancoID AND B_Eliminado = 0)
 			BEGIN
 				IF EXISTS(SELECT I_TrabajadorID FROM dbo.TC_CuentaBancaria 
-					WHERE I_TrabajadorID = @I_trabajadorID AND I_BancoID = @I_BancoID AND B_Habilitado = 1 AND B_Eliminado = 0)
+					WHERE I_TrabajadorID = @I_TrabajadorID AND I_BancoID = @I_BancoID AND B_Habilitado = 1 AND B_Eliminado = 0)
 				BEGIN
 					UPDATE dbo.TC_CuentaBancaria SET
 						T_NroCuentaBancaria = @T_NroCuentaBancaria,
 						I_UsuarioMod = @I_UserID,
 						D_FecMod = @D_FecMod
-					WHERE I_TrabajadorID = @I_trabajadorID AND I_BancoID = @I_BancoID AND B_Habilitado = 1 AND B_Eliminado = 0
+					WHERE I_TrabajadorID = @I_TrabajadorID AND I_BancoID = @I_BancoID AND B_Habilitado = 1 AND B_Eliminado = 0
 				END ELSE BEGIN
 					UPDATE dbo.TC_CuentaBancaria SET
 						B_Habilitado = 0,
 						I_UsuarioMod = @I_UserID,
 						D_FecMod = @D_FecMod
-					WHERE I_TrabajadorID = @I_trabajadorID AND B_Habilitado = 1 AND B_Eliminado = 0
+					WHERE I_TrabajadorID = @I_TrabajadorID AND B_Habilitado = 1 AND B_Eliminado = 0
 
 					UPDATE dbo.TC_CuentaBancaria SET
 						T_NroCuentaBancaria = @T_NroCuentaBancaria,
 						B_Habilitado = 1,
 						I_UsuarioMod = @I_UserID,
 						D_FecMod = @D_FecMod
-					WHERE I_TrabajadorID = @I_trabajadorID AND I_BancoID = @I_BancoID AND B_Eliminado = 0
+					WHERE I_TrabajadorID = @I_TrabajadorID AND I_BancoID = @I_BancoID AND B_Eliminado = 0
 				END
 			END ELSE BEGIN
 				UPDATE dbo.TC_CuentaBancaria SET
 					B_Habilitado = 0,
 					I_UsuarioMod = @I_UserID,
 					D_FecMod = @D_FecMod
-				WHERE I_TrabajadorID = @I_trabajadorID AND B_Habilitado = 1 AND B_Eliminado = 0
+				WHERE I_TrabajadorID = @I_TrabajadorID AND B_Habilitado = 1 AND B_Eliminado = 0
 
 				INSERT dbo.TC_CuentaBancaria(I_TrabajadorID, I_BancoID, T_NroCuentaBancaria, B_Habilitado, B_Eliminado, I_UsuarioCre, D_FecCre)
 				VALUES(@I_TrabajadorID, @I_BancoID, @T_NroCuentaBancaria, 1, 0, @I_UserID, @D_FecMod)
@@ -588,18 +554,16 @@ BEGIN
 	--2. Obtener la lista de trabajadores
 	IF (@I_CategoriaPlanillaID = @I_ADMINISTRATIVOID) BEGIN
 		INSERT #tmp_trabajador(I_TrabajadorID, I_TrabajadorCategoriaPlanillaID, I_DependenciaID, I_Filtro1, I_Filtro2)
-		SELECT adm.I_TrabajadorID, tca.I_TrabajadorCategoriaPlanillaID, tdep.I_DependenciaID, adm.I_GrupoOcupacionalID, adm.I_NivelRemunerativoID 
+		SELECT adm.I_TrabajadorID, tca.I_TrabajadorCategoriaPlanillaID, tca.I_DependenciaID, adm.I_GrupoOcupacionalID, adm.I_NivelRemunerativoID 
 		FROM dbo.TC_Administrativo adm
 		INNER JOIN dbo.TC_Trabajador trab ON trab.I_TrabajadorID = adm.I_TrabajadorID
 		INNER JOIN dbo.TC_Trabajador_CategoriaPlanilla tca ON tca.I_TrabajadorID = trab.I_TrabajadorID 
 		INNER JOIN dbo.TC_GrupoOcupacional gr ON gr.I_GrupoOcupacionalID = adm.I_GrupoOcupacionalID
 		INNER JOIN dbo.TC_NivelRemunerativo nivrem ON nivrem.I_NivelRemunerativoID = adm.I_NivelRemunerativoID
-		INNER JOIN dbo.TC_Trabajador_Dependencia tdep ON tdep.I_TrabajadorID = trab.I_TrabajadorID
 		INNER JOIN @Tbl_Trabajador tmp ON tmp.I_ID = trab.I_TrabajadorID
 		WHERE trab.B_Eliminado = 0 AND 
 			adm.B_Habilitado = 1 AND adm.B_Eliminado = 0 AND 
 			tca.B_Habilitado = 1 AND tca.B_Eliminado = 0 AND tca.I_CategoriaPlanillaID = @I_CategoriaPlanillaID AND
-			tdep.B_Habilitado = 1 AND tdep.B_Eliminado = 0 AND
 			NOT EXISTS(SELECT pl.I_PlanillaID FROM dbo.TR_Planilla pl 
 				INNER JOIN dbo.TR_TrabajadorPlanilla tpl ON tpl.I_PlanillaID = pl.I_PlanillaID 
 				WHERE tpl.B_Anulado = 0 AND pl.I_PeriodoID = @I_PeriodoID AND pl.I_CategoriaPlanillaID = @I_CategoriaPlanillaID AND tpl.I_TrabajadorID = trab.I_TrabajadorID);
@@ -607,17 +571,27 @@ BEGIN
 
 	IF (@I_CategoriaPlanillaID = @I_DOCENTEID) BEGIN
 		INSERT #tmp_trabajador(I_TrabajadorID, I_TrabajadorCategoriaPlanillaID, I_DependenciaID, I_Filtro1, I_Filtro2)
-		SELECT doc.I_TrabajadorID, tca.I_TrabajadorCategoriaPlanillaID, tdep.I_DependenciaID, doc.I_CategoriaDocenteID, doc.I_HorasDocenteID FROM dbo.TC_Docente doc
+		SELECT doc.I_TrabajadorID, tca.I_TrabajadorCategoriaPlanillaID, tca.I_DependenciaID, doc.I_CategoriaDocenteID, doc.I_HorasDocenteID FROM dbo.TC_Docente doc
 		INNER JOIN dbo.TC_Trabajador trab ON trab.I_TrabajadorID = doc.I_TrabajadorID
 		INNER JOIN dbo.TC_Trabajador_CategoriaPlanilla tca ON tca.I_TrabajadorID = trab.I_TrabajadorID 
 		INNER JOIN dbo.TC_CategoriaDocente cd ON cd.I_CategoriaDocenteID = doc.I_CategoriaDocenteID
 		INNER JOIN dbo.TC_HorasDocente hd ON hd.I_HorasDocenteID = doc.I_HorasDocenteID
-		INNER JOIN dbo.TC_Trabajador_Dependencia tdep ON tdep.I_TrabajadorID = trab.I_TrabajadorID
 		INNER JOIN @Tbl_Trabajador tmp ON tmp.I_ID = trab.I_TrabajadorID
 		WHERE trab.B_Eliminado = 0 AND 
 			doc.B_Habilitado = 1 AND doc.B_Eliminado = 0 AND 
 			tca.B_Habilitado = 1 AND tca.B_Eliminado = 0 AND tca.I_CategoriaPlanillaID = @I_CategoriaPlanillaID AND
-			tdep.B_Habilitado = 1 AND tdep.B_Eliminado = 0 AND
+			NOT EXISTS(SELECT pl.I_PlanillaID FROM dbo.TR_Planilla pl 
+				INNER JOIN dbo.TR_TrabajadorPlanilla tpl ON tpl.I_PlanillaID = pl.I_PlanillaID 
+				WHERE tpl.B_Anulado = 0 AND pl.I_PeriodoID = @I_PeriodoID AND pl.I_CategoriaPlanillaID = @I_CategoriaPlanillaID AND tpl.I_TrabajadorID = trab.I_TrabajadorID);
+	END
+
+	IF (@I_CategoriaPlanillaID NOT IN (@I_ADMINISTRATIVOID, @I_DOCENTEID)) BEGIN
+		INSERT #tmp_trabajador(I_TrabajadorID, I_TrabajadorCategoriaPlanillaID, I_DependenciaID)
+		SELECT trab.I_TrabajadorID, tca.I_TrabajadorCategoriaPlanillaID, tca.I_DependenciaID FROM dbo.TC_Trabajador trab
+		INNER JOIN dbo.TC_Trabajador_CategoriaPlanilla tca ON tca.I_TrabajadorID = trab.I_TrabajadorID 
+		INNER JOIN @Tbl_Trabajador tmp ON tmp.I_ID = trab.I_TrabajadorID
+		WHERE trab.B_Eliminado = 0 AND 
+			tca.B_Habilitado = 1 AND tca.B_Eliminado = 0 AND tca.I_CategoriaPlanillaID = @I_CategoriaPlanillaID AND
 			NOT EXISTS(SELECT pl.I_PlanillaID FROM dbo.TR_Planilla pl 
 				INNER JOIN dbo.TR_TrabajadorPlanilla tpl ON tpl.I_PlanillaID = pl.I_PlanillaID 
 				WHERE tpl.B_Anulado = 0 AND pl.I_PeriodoID = @I_PeriodoID AND pl.I_CategoriaPlanillaID = @I_CategoriaPlanillaID AND tpl.I_TrabajadorID = trab.I_TrabajadorID);

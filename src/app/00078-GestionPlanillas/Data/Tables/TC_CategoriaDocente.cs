@@ -17,6 +17,8 @@ namespace Data.Tables
 
         public string C_CategoriaDocenteCod { get; set; }
 
+        public bool B_ParaDocenteOrdinario { get; set; }
+
         public bool B_Habilitado { get; set; }
 
         public static IEnumerable<TC_CategoriaDocente> FindAll()

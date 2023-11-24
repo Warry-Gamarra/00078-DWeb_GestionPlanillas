@@ -9,6 +9,6 @@ namespace Domain.Services
 {
     public interface IHorasDocenteService
     {
-        List<HorasDedicacionDocenteDTO> ListarHorasDedicacionDocente();
+        List<HorasDedicacionDocenteDTO> ListarHorasDedicacionDocente(bool? esParaDocenteOrdinario);
     }
 }

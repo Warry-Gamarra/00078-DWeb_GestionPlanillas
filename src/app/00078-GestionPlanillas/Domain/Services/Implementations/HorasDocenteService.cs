@@ -11,7 +11,7 @@ namespace Domain.Services.Implementations
 {
     public class HorasDocenteService : IHorasDocenteService
     {
-        public List<HorasDedicacionDocenteDTO> ListarHorasDedicacionDocente()
+        public List<HorasDedicacionDocenteDTO> ListarHorasDedicacionDocente(bool? esParaDocenteOrdinario)
         {
             var result = new List<HorasDedicacionDocenteDTO>();
 
@@ -27,10 +27,18 @@ namespace Domain.Services.Implementations
                     dedicacionDocenteID = dedicacion.I_DedicacionDocenteID,
                     dedicacionDocenteDesc = dedicacion.T_DedicacionDocenteDesc,
                     dedicacionDocenteCod = dedicacion.C_DedicacionDocenteCod,
-                    estaDedicacionHabilitada = dedicacion.B_Habilitado
+                    estaDedicacionHabilitada = dedicacion.B_Habilitado,
+                    esParaDocenteOrdinario = dedicacion.B_ParaDocenteOrdinario
                 };
 
-                result.Add(item);
+                if (esParaDocenteOrdinario.HasValue && dedicacion.B_ParaDocenteOrdinario == esParaDocenteOrdinario.Value)
+                {
+                    result.Add(item);
+                }
+                else
+                {
+                    result.Add(item);
+                }
             }
 
             return result.OrderBy(x => x.horas).ToList();

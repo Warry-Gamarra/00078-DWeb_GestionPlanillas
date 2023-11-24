@@ -14,6 +14,8 @@ namespace Domain.Entities
 
         public string categoriaDocenteCod { get; set; }
 
+        public bool esParaDocenteOrdinario { get; set; }
+
         public bool estaHabilitado { get; set; }
     }
 }

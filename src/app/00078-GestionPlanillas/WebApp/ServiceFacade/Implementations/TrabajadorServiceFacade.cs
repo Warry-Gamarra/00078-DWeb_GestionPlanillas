@@ -61,9 +61,7 @@ namespace WebApp.ServiceFacade.Implementations
                     trabajadorModel.grupoOcupacionalID = administrativo.grupoOcupacionalID;
 
                     trabajadorModel.grupoOcupacionalDesc = administrativo.grupoOcupacionalDesc;
-                }
-
-                if (trabajadorModel.Vinculo.Equals(Vinculo.DocentePermanente))
+                } else if (trabajadorModel.Vinculo.Equals(Vinculo.DocentePermanente) || trabajadorModel.Vinculo.Equals(Vinculo.DocenteContratado))
                 {
                     var docente = _docenteService.ListarDocentePorTrabajadorID(trabajadorID).First();
 
@@ -73,7 +71,7 @@ namespace WebApp.ServiceFacade.Implementations
 
                     trabajadorModel.horasDocenteID = docente.horasDocenteID;
 
-                    trabajadorModel.horas = String.Format("{0} / {1}", docente.dedicacionDocenteCod, docente.horas);
+                    trabajadorModel.horasDocente = String.Format("{0} / {1}", docente.dedicacionDocenteCod, docente.horas);
                 }
             }
 

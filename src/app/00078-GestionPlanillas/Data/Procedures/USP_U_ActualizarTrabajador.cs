@@ -52,6 +52,8 @@ namespace Data.Procedures
 
         public int? I_NivelRemunerativoID { get; set; }
 
+        public int I_CategoriaPlanillaID { get; set; }
+
         public int I_UserID { get; set; }
 
         public Result Execute()
@@ -87,6 +89,7 @@ namespace Data.Procedures
                     parameters.Add(name: "I_HorasDocenteID", dbType: DbType.Int32, value: I_HorasDocenteID);
                     parameters.Add(name: "I_GrupoOcupacionalID", dbType: DbType.Int32, value: I_GrupoOcupacionalID);
                     parameters.Add(name: "I_NivelRemunerativoID", dbType: DbType.Int32, value: I_NivelRemunerativoID);
+                    parameters.Add(name: "I_CategoriaPlanillaID", dbType: DbType.Int32, value: I_CategoriaPlanillaID);
                     parameters.Add(name: "I_UserID", dbType: DbType.Int32, value: I_UserID);
                     parameters.Add(name: "B_Result", dbType: DbType.Boolean, direction: ParameterDirection.Output);
                     parameters.Add(name: "T_Message", dbType: DbType.String, size: 4000, direction: ParameterDirection.Output);

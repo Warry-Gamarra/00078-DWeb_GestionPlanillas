@@ -10,8 +10,8 @@ namespace WebApp.ServiceFacade
 {
     public interface ICategoriaDocenteServiceFacade
     {
-        SelectList ObtenerComboCategoriasDocente(bool incluirDeshabilitados = false, int? selectedItem = null);
+        SelectList ObtenerComboCategoriasDocente(bool? esParaDocenteOrdinario, bool incluirDeshabilitados = false, int? selectedItem = null);
 
-        List<CategoriaDocenteDTO> ListarCategoriasDocente(bool incluirDeshabilitados = false);
+        List<CategoriaDocenteDTO> ListarCategoriasDocente(bool? esParaDocenteOrdinario, bool incluirDeshabilitados = false);
     }
 }

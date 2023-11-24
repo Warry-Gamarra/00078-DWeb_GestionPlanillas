@@ -11,9 +11,14 @@ namespace Domain.Services.Implementations
 {
     public class CategoriaDocenteService : ICategoriaDocenteService
     {
-        public List<CategoriaDocenteDTO> ListarCategoriasDocente(bool incluirDeshabilitados = false)
+        public List<CategoriaDocenteDTO> ListarCategoriasDocente(bool? esParaDocenteOrdinario, bool incluirDeshabilitados = false)
         {
             var lista = TC_CategoriaDocente.FindAll();
+
+            if (esParaDocenteOrdinario.HasValue)
+            {
+                lista = lista.Where(x => x.B_ParaDocenteOrdinario == esParaDocenteOrdinario.Value);
+            }
 
             if (!incluirDeshabilitados)
             {

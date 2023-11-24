@@ -67,7 +67,6 @@ namespace WebApp.Models
 
         public string afpDesc { get; set; }
 
-        [DisplayName("CUSPP")]
         public string cuspp { get; set; }
 
         [DisplayName("Estado")]
@@ -88,8 +87,6 @@ namespace WebApp.Models
 
         public string vinculoDesc { get; set; }
 
-        public int? trabajadorDependenciaID { get; set; }
-
         [DisplayName("Dependencia")]
         [Required(ErrorMessage = "La {0} es obligatoria.")]
         public int? dependenciaID { get; set; }
@@ -100,11 +97,9 @@ namespace WebApp.Models
 
         public int? cuentaBancariaID { get; set; }
 
-        [Required(ErrorMessage = "El Num.Cuenta es obligatorio.")]
         public string nroCuentaBancaria { get; set; }
 
         [DisplayName("Cta.Banco")]
-        [Required(ErrorMessage = "Seleccionar la {0}.")]
         public int? bancoID { get; set; }
 
         public string bancoDesc { get; set; }
@@ -119,7 +114,7 @@ namespace WebApp.Models
         [DisplayName("Ded.Docente/Horas")]
         public int? horasDocenteID { get; set; }
 
-        public string horas { get; set; }
+        public string horasDocente { get; set; }
 
         [DisplayName("Grup.Ocupacional")]
         public int? grupoOcupacionalID { get; set; }

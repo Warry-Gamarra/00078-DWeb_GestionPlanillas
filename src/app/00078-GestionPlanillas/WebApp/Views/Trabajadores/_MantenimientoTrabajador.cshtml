@@ -19,6 +19,7 @@
         @Html.AntiForgeryToken()
         @Html.HiddenFor(model => model.trabajadorID)
         @Html.HiddenFor(model => model.personaID)
+        @Html.HiddenFor(model => model.cuspp)
         <div class="form-row">
             <div class="col-2">
                 <div class="form-group">
@@ -70,39 +71,30 @@
                     @Html.DropDownListFor(model => model.vinculoID, ViewBag.ListaVinculos as SelectList, null, new { @class = "form-control text-uppercase" })
                 </div>
             </div>
-            <div class="col-2 administrativo">
+            <div class="col-3 administrativo">
                 <div class="form-group">
                     @Html.LabelFor(model => model.grupoOcupacionalID, new { @class = "control-label" })
                     @Html.DropDownListFor(model => model.grupoOcupacionalID, ViewBag.GruposOcupacionales as SelectList, new { @class = "form-control text-uppercase" })
                 </div>
             </div>
-            <div class="col-2 administrativo">
+            <div class="col-3 administrativo">
                 <div class="form-group">
                     @Html.LabelFor(model => model.nivelRemunerativoID, new { @class = "control-label" })
                     @Html.DropDownListFor(model => model.nivelRemunerativoID, ViewBag.NivelesRemunerativos as SelectList, new { @class = "form-control text-uppercase" })
                 </div>
             </div>
-            <div class="col-2 docente">
+            <div class="col-3 docente">
                 <div class="form-group">
                     @Html.LabelFor(model => model.categoriaDocenteID, new { @class = "control-label" })
-                    @Html.DropDownListFor(model => model.categoriaDocenteID, ViewBag.CategoriasDocente as SelectList, new { @class = "form-control text-uppercase" })
+                    @Html.DropDownListFor(model => model.categoriaDocenteID, new SelectList(new List<SelectListItem>()), new { @class = "form-control text-uppercase" })
                 </div>
             </div>
-            <div class="col-2 docente">
+            <div class="col-3 docente">
                 <div class="form-group">
                     @Html.LabelFor(model => model.horasDocenteID, new { @class = "control-label" })
-                    @Html.DropDownListFor(model => model.horasDocenteID, ViewBag.HorasDocente as SelectList, new { @class = "form-control text-uppercase" })
+                    @Html.DropDownListFor(model => model.horasDocenteID, new SelectList(new List<SelectListItem>()), new { @class = "form-control text-uppercase" })
                 </div>
             </div>
-            <div class="col-2">
-                <div class="form-group">
-                    @Html.LabelFor(model => model.estadoID, new { @class = "control-label" })
-                    @Html.DropDownListFor(model => model.estadoID, ViewBag.ListaEstados as SelectList, null, new { @class = "form-control text-uppercase" })
-                </div>
-            </div>
-        </div>
-
-        <div class="form-row">
             <div class="col-3">
                 <div class="form-group">
                     @Html.LabelFor(model => model.fechaIngreso, new { @class = "control-label" })
@@ -112,6 +104,13 @@
                             <span class="input-group-text"><i class="fa fa-calendar-o"></i></span>
                         </div>
                     </div>
+                </div>
+            </div>
+            <div class="col-3">
+                <div class="form-group">
+                    @Html.LabelFor(model => model.estadoID, new { @class = "control-label" })
+                    @Html.DropDownListFor(model => model.estadoID, ViewBag.ListaEstados as SelectList, null, new { @class = "form-control text-uppercase" })
+                    @Html.ValidationMessageFor(model => model.estadoID, null, new { @class = "text-danger" })
                 </div>
             </div>
             <div class="col-3">
@@ -126,12 +125,6 @@
                     <label class="control-label" for="nroCuentaBancaria">&nbsp;</label>
                     @Html.TextBoxFor(model => model.nroCuentaBancaria, new { @class = "form-control", @placeholder = "Num.Cuenta" })
                     @Html.ValidationMessageFor(model => model.nroCuentaBancaria, null, new { @class = "text-danger" })
-                </div>
-            </div>
-            <div class="col-3">
-                <div class="form-group">
-                    <label class="control-label" for="">Carnet Essalud</label>
-                    <input type="text" class="form-control" value="7606021NRPAW000" readonly />
                 </div>
             </div>
         </div>
@@ -149,28 +142,16 @@
         </div>
 
         <div class="form-row">
-            <div class="col-3">
+            <div class="col-6">
                 <div class="form-group">
                     @Html.LabelFor(model => model.regimenID, new { @class = "control-label" })
                     @Html.DropDownListFor(model => model.regimenID, ViewBag.ListaRegimenes as SelectList, null, new { @class = "form-control text-uppercase" })
                 </div>
             </div>
-            <div class="col-3">
+            <div class="col-6">
                 <div class="form-group">
                     @Html.LabelFor(model => model.afpID, new { @class = "control-label" })
                     @Html.DropDownListFor(model => model.afpID, ViewBag.ListaAfps as SelectList, "[ SELECCIONAR ]", new { @class = "form-control text-uppercase" })
-                </div>
-            </div>
-            <div class="col-3">
-                <div class="form-group">
-                    @Html.LabelFor(model => model.cuspp, new { @class = "control-label" })
-                    @Html.TextBoxFor(model => model.cuspp, new { @class = "form-control" })
-                </div>
-            </div>
-            <div class="col-3">
-                <div class="form-group">
-                    <label class="control-label" for="">CARGO</label>
-                    <input type="text" class="form-control" value="" readonly />
                 </div>
             </div>
         </div>
@@ -196,6 +177,15 @@
 
 <script type="text/javascript">
     $(document).ready(function () {
+
+        var listaCategeoriaDocenteOrdinario = @Html.Raw(Json.Encode(ViewBag.CategoriasDocenteOrdinario as SelectList));
+
+        var listaCategeoriaDocenteContratado = @Html.Raw(Json.Encode(ViewBag.CategoriasDocenteContratado as SelectList));
+
+        var listaHorasDocenteOrdinario = @Html.Raw(Json.Encode(ViewBag.HorasDocenteOrdinario as SelectList));
+
+        var listaHorasDocenteContratado = @Html.Raw(Json.Encode(ViewBag.HorasDocenteContratado as SelectList));
+
         $('.select-filter-modal').select2({
             theme: 'bootstrap4',
             dropdownParent: $('#modal-container-lg'),
@@ -283,6 +273,12 @@
                 break;
 
             case VINCULO.DOCENTE_PERMANENTE:
+                cargarComboDocente(listaCategeoriaDocenteOrdinario, listaHorasDocenteOrdinario);
+                $('.modal-body .docente').css("display", "block");
+                break;
+
+            case VINCULO.DOCENTE_CONTRATADO:
+                cargarComboDocente(listaCategeoriaDocenteContratado, listaHorasDocenteContratado);
                 $('.modal-body .docente').css("display", "block");
                 break;
         }
@@ -296,5 +292,9 @@
             $('.modal-body #afpID').prop("disabled", "disabled");
             $('.modal-body #cuspp').prop("disabled", "disabled");
         }
+    }
+
+    function cargarComboDocente(listaCategoria, listaHoras) {
+        
     }
 </script>

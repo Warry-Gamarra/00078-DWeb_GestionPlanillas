@@ -37,5 +37,7 @@ namespace Domain.Entities
                 return String.Format("{0} / {1}", dedicacionDocenteDesc, horas.ToString());
             }
         }
+
+        public bool esParaDocenteOrdinario { get; set; }
     }
 }

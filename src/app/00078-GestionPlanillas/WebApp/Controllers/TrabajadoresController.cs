@@ -27,6 +27,7 @@ namespace WebApp.Controllers
         private IBancoServiceFacade _bancoServiceFacade;
         private IDependenciaServiceFacade _dependenciaServiceFacade;
         private IAfpServiceFacade _afpServiceFacade;
+        private ICategoriaPlanillaServiceFacade _categoriaPlanillaServiceFacade;
 
         private INivelRemunerativoServiceFacade _nivelRemunerativoServiceFacade;
         private IGrupoOcupacionalServiceFacade _grupoOcupacionalServiceFacade;
@@ -46,6 +47,7 @@ namespace WebApp.Controllers
             _bancoServiceFacade = new BancoServiceFacade();
             _dependenciaServiceFacade = new DependenciaServiceFacade();
             _afpServiceFacade = new AfpServiceFacade();
+            _categoriaPlanillaServiceFacade = new CategoriaPlanillaServiceFacade();
 
             _nivelRemunerativoServiceFacade = new NivelRemunerativoServiceFacade();
             _grupoOcupacionalServiceFacade = new GrupoOcupacionalServiceFacade();
@@ -97,9 +99,13 @@ namespace WebApp.Controllers
 
             ViewBag.NivelesRemunerativos = _nivelRemunerativoServiceFacade.ObtenerComboNivelesRemunerativos();
 
-            ViewBag.CategoriasDocente = _categoriaDocenteServiceFacade.ObtenerComboCategoriasDocente();
+            ViewBag.CategoriasDocenteOrdinario = _categoriaDocenteServiceFacade.ObtenerComboCategoriasDocente(true);
 
-            ViewBag.HorasDocente = _horasDocenteServiceFacade.ObtenerComboHorasDedicacionDocente();
+            ViewBag.HorasDocenteOrdinario = _horasDocenteServiceFacade.ObtenerComboHorasDedicacionDocente(true);
+
+            ViewBag.CategoriasDocenteContratado = _categoriaDocenteServiceFacade.ObtenerComboCategoriasDocente(false);
+
+            ViewBag.HorasDocenteContratado = _horasDocenteServiceFacade.ObtenerComboHorasDedicacionDocente(false);
 
             var trabajador = new TrabajadorModel();
 
@@ -151,9 +157,13 @@ namespace WebApp.Controllers
 
             ViewBag.NivelesRemunerativos = _nivelRemunerativoServiceFacade.ObtenerComboNivelesRemunerativos(selectedItem: trabajador.nivelRemunerativoID);
 
-            ViewBag.CategoriasDocente = _categoriaDocenteServiceFacade.ObtenerComboCategoriasDocente(selectedItem: trabajador.categoriaDocenteID);
+            ViewBag.CategoriasDocenteOrdinario = _categoriaDocenteServiceFacade.ObtenerComboCategoriasDocente(true, selectedItem: trabajador.categoriaDocenteID);
 
-            ViewBag.HorasDocente = _horasDocenteServiceFacade.ObtenerComboHorasDedicacionDocente(selectedItem: trabajador.horasDocenteID);
+            ViewBag.HorasDocenteOrdinario = _horasDocenteServiceFacade.ObtenerComboHorasDedicacionDocente(true, selectedItem: trabajador.horasDocenteID);
+
+            ViewBag.CategoriasDocenteContratado = _categoriaDocenteServiceFacade.ObtenerComboCategoriasDocente(false, selectedItem: trabajador.categoriaDocenteID);
+
+            ViewBag.HorasDocenteContratado = _horasDocenteServiceFacade.ObtenerComboHorasDedicacionDocente(false, selectedItem: trabajador.horasDocenteID);
 
             return PartialView("_MantenimientoTrabajador", trabajador);
         }
@@ -174,6 +184,41 @@ namespace WebApp.Controllers
             }
 
             return PartialView("_MsgRegistrarTrabajador", response);
+        }
+
+        [HttpGet]
+        public ActionResult AsignarPlanilla(int id)
+        {
+            ViewBag.Title = "Asignar a Planilla";
+
+            ViewBag.Action = "AsignarPlanilla";
+
+            var model = new TrabajadorCategoriaPlanillaModel();
+
+            ViewBag.ListaCategoriasPlanillas = _categoriaPlanillaServiceFacade.ObtenerComboCategoriasPlanillas();
+
+            ViewBag.ListaDependencias = _dependenciaServiceFacade.ObtenerComboDependencias(incluirDeshabilitados: false);
+
+            return PartialView("_AsignarPlanilla", model);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult AsignarPlanilla(TrabajadorCategoriaPlanillaModel model)
+        {
+            Response response = new Response();
+
+            if (ModelState.IsValid)
+            {
+                response.Success = true;
+                response.Message = "Asignación correcta";
+            }
+            else
+            {
+                response.Message = "Ocurrió un error.";
+            }
+
+            return PartialView("_MsgAsignarPlanilla", response);
         }
     }
 }

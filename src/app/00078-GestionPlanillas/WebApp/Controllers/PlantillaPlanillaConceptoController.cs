@@ -63,9 +63,9 @@ namespace WebApp.Controllers
 
             var listaNivelRemunerativo = _nivelRemunerativoServiceFacade.ListarNivelesRemunerativos();
 
-            var listaCategoriaDocente = _categoriaDocenteServiceFacade.ListarCategoriasDocente();
+            var listaCategoriaDocente = _categoriaDocenteServiceFacade.ListarCategoriasDocente(null);
 
-            var listaHorasDocente = _horasDocenteServiceFacade.ListarHorasDedicacionDocente();
+            var listaHorasDocente = _horasDocenteServiceFacade.ListarHorasDedicacionDocente(null);
 
             lista.ForEach(x => {
                 if (x.categoriaPlanillaID == 1)
@@ -130,11 +130,11 @@ namespace WebApp.Controllers
             {
                 ViewBag.DescFiltro1 = "Categoría";
 
-                ViewBag.ListaFiltro1 = _categoriaDocenteServiceFacade.ObtenerComboCategoriasDocente();
+                ViewBag.ListaFiltro1 = _categoriaDocenteServiceFacade.ObtenerComboCategoriasDocente(null);
 
                 ViewBag.DescFiltro2 = "Dedicación";
 
-                ViewBag.ListaFiltro2 = _horasDocenteServiceFacade.ObtenerComboHorasDedicacionDocente();
+                ViewBag.ListaFiltro2 = _horasDocenteServiceFacade.ObtenerComboHorasDedicacionDocente(null);
             }
             else
             {
@@ -205,11 +205,11 @@ namespace WebApp.Controllers
             {
                 ViewBag.DescFiltro1 = "Categoría";
 
-                ViewBag.ListaFiltro1 = _categoriaDocenteServiceFacade.ObtenerComboCategoriasDocente(selectedItem: model.filtro1);
+                ViewBag.ListaFiltro1 = _categoriaDocenteServiceFacade.ObtenerComboCategoriasDocente(null, selectedItem: model.filtro1);
 
                 ViewBag.DescFiltro2 = "Dedicación";
 
-                ViewBag.ListaFiltro2 = _horasDocenteServiceFacade.ObtenerComboHorasDedicacionDocente(selectedItem: model.filtro2);
+                ViewBag.ListaFiltro2 = _horasDocenteServiceFacade.ObtenerComboHorasDedicacionDocente(null,selectedItem: model.filtro2);
             }
             else
             {
