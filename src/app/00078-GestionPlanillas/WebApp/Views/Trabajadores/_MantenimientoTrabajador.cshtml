@@ -86,7 +86,7 @@
             <div class="col-3 docente">
                 <div class="form-group">
                     @Html.LabelFor(model => model.categoriaDocenteID, new { @class = "control-label" })
-                    @Html.DropDownListFor(model => model.categoriaDocenteID, new SelectList(new List<SelectListItem>()), new { @class = "form-control text-uppercase" })
+                    @Html.DropDownListFor(model => model.categoriaDocenteID, ViewBag.CategoriasDocenteOrdinario as SelectList, new { @class = "form-control text-uppercase" })
                 </div>
             </div>
             <div class="col-3 docente">
@@ -177,15 +177,6 @@
 
 <script type="text/javascript">
     $(document).ready(function () {
-
-        var listaCategeoriaDocenteOrdinario = @Html.Raw(Json.Encode(ViewBag.CategoriasDocenteOrdinario as SelectList));
-
-        var listaCategeoriaDocenteContratado = @Html.Raw(Json.Encode(ViewBag.CategoriasDocenteContratado as SelectList));
-
-        var listaHorasDocenteOrdinario = @Html.Raw(Json.Encode(ViewBag.HorasDocenteOrdinario as SelectList));
-
-        var listaHorasDocenteContratado = @Html.Raw(Json.Encode(ViewBag.HorasDocenteContratado as SelectList));
-
         $('.select-filter-modal').select2({
             theme: 'bootstrap4',
             dropdownParent: $('#modal-container-lg'),
@@ -250,19 +241,24 @@
             },
             select: function (event, ui) {
                 var persona = ui.item.persona;
-                $('#numDocumento').val(persona.numDocumento);
-                $('#apellidoPaterno').val(persona.apellidoPaterno);
-                $('#apellidoMaterno').val(persona.apellidoMaterno);
-                $('#nombre').val(persona.nombre);
+                $('.modal-body #numDocumento').val(persona.numDocumento);
+                $('.modal-body #apellidoPaterno').val(persona.apellidoPaterno);
+                $('.modal-body #apellidoMaterno').val(persona.apellidoMaterno);
+                $('.modal-body #nombre').val(persona.nombre);
                 return false;
             }
         });
     });
 
     function mostrarFiltroSegunVinculo(vinculoID) {
+        let listaCategeoriaDocenteOrdinario = @Html.Raw(Json.Encode(ViewBag.CategoriasDocenteOrdinario as SelectList));
+        let listaCategeoriaDocenteContratado = @Html.Raw(Json.Encode(ViewBag.CategoriasDocenteContratado as SelectList));
+        let listaHorasDocenteOrdinario = @Html.Raw(Json.Encode(ViewBag.HorasDocenteOrdinario as SelectList));
+        let listaHorasDocenteContratado = @Html.Raw(Json.Encode(ViewBag.HorasDocenteContratado as SelectList));
+
         $('.modal-body .administrativo').css("display", "none");
         $('.modal-body .docente').css("display", "none");
-
+        
         switch (vinculoID) {
             case VINCULO.ADMINISTRATIVO_PERMANENTE:
                 $('.modal-body .administrativo').css("display", "block");
@@ -295,6 +291,20 @@
     }
 
     function cargarComboDocente(listaCategoria, listaHoras) {
-        
+        let comboCategoria = $('.modal-body #categoriaDocenteID');
+
+        comboCategoria.empty();
+
+        $.each(listaCategoria, function (index, item) {
+            comboCategoria.append('<option value="' + item.Value + '">' + item.Text + '</option>');
+        });
+
+        let comboHora = $('.modal-body #horasDocenteID');
+
+        comboHora.empty();
+
+        $.each(listaHoras, function (index, item) {
+            comboHora.append('<option value="' + item.Value + '">' + item.Text + '</option>');
+        });
     }
 </script>
