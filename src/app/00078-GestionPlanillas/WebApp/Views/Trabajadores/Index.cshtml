@@ -93,7 +93,7 @@
                         orderable: false,
                         render: function (data, type, row) {
                             return `<a class="modal-link-lg" href="@Url.Action("Editar", "Trabajadores")/${data}` +
-                                '"><i class="fa fa-pencil-square-o" aria-hidden="true"></i> <span class="d-none d-md-inline-block">Editar</span></a>';
+                                '" title="Editar"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a>';
                         }
                     },
                     {
@@ -101,7 +101,7 @@
                         orderable: false,
                         render: function (data, type, row) {
                             return `<a class="modal-link-lg" href="@Url.Action("AsignarPlanilla", "Trabajadores")/${data}` +
-                                '"><i class="fa fa-plus-circle" aria-hidden="true"></i> <span class="d-none d-md-inline-block">Agregar</span></a>';
+                                '" title="Agregar a otra planilla"><i class="fa fa-plus-circle" aria-hidden="true"></i></a>';
                         }
                     }
                 ],

@@ -106,12 +106,10 @@ namespace WebApp.Models
 
         public string bancoAbrv { get; set; }
 
-        [DisplayName("Cat.Docente")]
         public int? categoriaDocenteID { get; set; }
 
         public string categoriaDocenteDesc { get; set; }
 
-        [DisplayName("Ded.Docente/Horas")]
         public int? horasDocenteID { get; set; }
 
         public string horasDocente { get; set; }

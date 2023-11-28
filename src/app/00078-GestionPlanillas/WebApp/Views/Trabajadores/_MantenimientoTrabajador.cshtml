@@ -67,8 +67,17 @@
             </div>
             <div class="col-4">
                 <div class="form-group">
-                    @Html.LabelFor(model => model.vinculoID, new { @class = "control-label" })
-                    @Html.DropDownListFor(model => model.vinculoID, ViewBag.ListaVinculos as SelectList, null, new { @class = "form-control text-uppercase" })
+                    @if ((bool)ViewBag.PermitirEdicionVinculo)
+                    {
+                        @Html.LabelFor(model => model.vinculoID, new { @class = "control-label" })
+                        @Html.DropDownListFor(model => model.vinculoID, ViewBag.ListaVinculos as SelectList, null, new { @class = "form-control text-uppercase" })
+                    }
+                    else
+                    {
+                        @Html.LabelFor(model => model.vinculoID, new { @class = "control-label" })
+                        @Html.TextBoxFor(model => model.vinculoDesc, new { @class = "form-control text-uppercase", @readonly = "readonly" })
+                        @Html.HiddenFor(model => model.vinculoID)
+                    }
                 </div>
             </div>
             <div class="col-3 administrativo">
@@ -85,13 +94,13 @@
             </div>
             <div class="col-3 docente">
                 <div class="form-group">
-                    @Html.LabelFor(model => model.categoriaDocenteID, new { @class = "control-label" })
+                    <label for="categoriaDocenteID" class="control-label"></label>
                     @Html.DropDownListFor(model => model.categoriaDocenteID, ViewBag.CategoriasDocenteOrdinario as SelectList, new { @class = "form-control text-uppercase" })
                 </div>
             </div>
             <div class="col-3 docente">
                 <div class="form-group">
-                    @Html.LabelFor(model => model.horasDocenteID, new { @class = "control-label" })
+                    <label for="horasDocenteID" class="control-label"></label>
                     @Html.DropDownListFor(model => model.horasDocenteID, new SelectList(new List<SelectListItem>()), new { @class = "form-control text-uppercase" })
                 </div>
             </div>
@@ -269,12 +278,12 @@
                 break;
 
             case VINCULO.DOCENTE_PERMANENTE:
-                cargarComboDocente(listaCategeoriaDocenteOrdinario, listaHorasDocenteOrdinario);
+                cargarComboDocente(true, listaCategeoriaDocenteOrdinario, listaHorasDocenteOrdinario);
                 $('.modal-body .docente').css("display", "block");
                 break;
 
             case VINCULO.DOCENTE_CONTRATADO:
-                cargarComboDocente(listaCategeoriaDocenteContratado, listaHorasDocenteContratado);
+                cargarComboDocente(false, listaCategeoriaDocenteContratado, listaHorasDocenteContratado);
                 $('.modal-body .docente').css("display", "block");
                 break;
         }
@@ -290,21 +299,43 @@
         }
     }
 
-    function cargarComboDocente(listaCategoria, listaHoras) {
+    function cargarComboDocente(esParaDocenteOrdinario, listaCategoria, listaHoras) {
+        let labelCategoria = 'Cat.Docente';
+        let labelHoras = 'Ded.Docente / Horas';
+
         let comboCategoria = $('.modal-body #categoriaDocenteID');
+        let comboHora = $('.modal-body #horasDocenteID');
 
         comboCategoria.empty();
+        comboHora.empty();
 
         $.each(listaCategoria, function (index, item) {
             comboCategoria.append('<option value="' + item.Value + '">' + item.Text + '</option>');
         });
 
-        let comboHora = $('.modal-body #horasDocenteID');
+        if (esParaDocenteOrdinario) {
+            let currentGroup = null;
 
-        comboHora.empty();
+            $.each(listaHoras, function (index, item) {
+                if (item.Group.Name !== currentGroup) {
+                    comboHora.append('<optgroup label="' + item.Group.Name + '"></optgroup>');
+                    currentGroup = item.Group.Name;
+                }
 
-        $.each(listaHoras, function (index, item) {
-            comboHora.append('<option value="' + item.Value + '">' + item.Text + '</option>');
-        });
+                comboHora.find('optgroup[label="' + item.Group.Name + '"]')
+                    .append('<option value="' + item.Value + '">' + item.Text + '</option>');
+            });
+        }
+        else {
+            $.each(listaHoras, function (index, item) {
+                comboHora.append('<option value="' + item.Value + '">' + item.Text + '</option>');
+            });
+
+            labelCategoria = 'Tipo Docente';
+            labelHoras = 'Clasif.Docente / Horas';
+        }
+
+        $('.modal-body label[for=categoriaDocenteID]').html(labelCategoria);
+        $('.modal-body label[for=horasDocenteID]').html(labelHoras);
     }
 </script>

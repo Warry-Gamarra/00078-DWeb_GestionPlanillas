@@ -56,9 +56,9 @@ BEGIN
 		SET @I_TrabajadorID = SCOPE_IDENTITY();
 		
 		SET @C_VinculoCod = (SELECT v.C_VinculoCod FROM dbo.TC_Vinculo v WHERE v.I_VinculoID = @I_VinculoID);
-		------**************FALTA CORREGIR EL REGISTRAR Y EDITAR TRABAJADOR****
-		INSERT dbo.TC_Trabajador_CategoriaPlanilla(I_TrabajadorID, I_CategoriaPlanillaID, I_DependenciaID, B_Habilitado, B_Eliminado, I_UsuarioCre, D_FecCre)
-		VALUES(@I_TrabajadorID, @I_CategoriaPlanillaID, @I_DependenciaID, 1, 0, @I_UserID, @D_FecCre);
+
+		INSERT dbo.TC_Trabajador_CategoriaPlanilla(I_TrabajadorID, I_CategoriaPlanillaID, B_CategoriaPrincipal, I_DependenciaID, B_Habilitado, B_Eliminado, I_UsuarioCre, D_FecCre)
+		VALUES(@I_TrabajadorID, @I_CategoriaPlanillaID, 1, @I_DependenciaID, 1, 0, @I_UserID, @D_FecCre);
 
 		IF (@I_BancoID IS NOT NULL AND @T_NroCuentaBancaria IS NOT NULL AND LEN(@T_NroCuentaBancaria) > 0) BEGIN
 			INSERT dbo.TC_CuentaBancaria(I_TrabajadorID, I_BancoID, T_NroCuentaBancaria, B_Habilitado, B_Eliminado, I_UsuarioCre, D_FecCre)

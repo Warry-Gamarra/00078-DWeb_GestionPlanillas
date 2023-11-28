@@ -107,6 +107,8 @@ namespace WebApp.Controllers
 
             ViewBag.HorasDocenteContratado = _horasDocenteServiceFacade.ObtenerComboHorasDedicacionDocente(false);
 
+            ViewBag.PermitirEdicionVinculo = true;
+
             var trabajador = new TrabajadorModel();
 
             return PartialView("_MantenimientoTrabajador", trabajador);
@@ -164,6 +166,8 @@ namespace WebApp.Controllers
             ViewBag.CategoriasDocenteContratado = _categoriaDocenteServiceFacade.ObtenerComboCategoriasDocente(false, selectedItem: trabajador.categoriaDocenteID);
 
             ViewBag.HorasDocenteContratado = _horasDocenteServiceFacade.ObtenerComboHorasDedicacionDocente(false, selectedItem: trabajador.horasDocenteID);
+
+            ViewBag.PermitirEdicionVinculo = false;
 
             return PartialView("_MantenimientoTrabajador", trabajador);
         }

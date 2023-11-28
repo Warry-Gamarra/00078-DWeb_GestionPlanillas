@@ -397,28 +397,13 @@ CREATE TABLE TC_Dependencia
 	CONSTRAINT PK_Dependencia PRIMARY KEY (I_DependenciaID)
 )
 
---CREATE TABLE TC_Trabajador_Dependencia
---(
---	I_TrabajadorDependenciaID INT IDENTITY(1,1),
---	I_TrabajadorID INT NOT NULL,
-	
---	B_Habilitado BIT NOT NULL,
---	B_Eliminado BIT NOT NULL,
---	I_UsuarioCre INT,
---	D_FecCre DATETIME,
---	I_UsuarioMod INT,
---	D_FecMod DATETIME,
---	CONSTRAINT PK_TrabajadorDependencia PRIMARY KEY (I_TrabajadorDependenciaID),
---	CONSTRAINT FK_Trabajador_TrabajadorDependencia FOREIGN KEY (I_TrabajadorID) REFERENCES TC_Trabajador(I_TrabajadorID),
---	CONSTRAINT FK_Dependencia_TrabajadorDependencia FOREIGN KEY (I_DependenciaID) REFERENCES TC_Dependencia(I_DependenciaID)
---)
-
 CREATE TABLE TC_Trabajador_CategoriaPlanilla
 (
 	I_TrabajadorCategoriaPlanillaID INT IDENTITY(1,1),
 	I_TrabajadorID INT NOT NULL,
 	I_CategoriaPlanillaID INT NOT NULL,
 	I_DependenciaID INT NOT NULL,
+	B_CategoriaPrincipal BIT NOT NULL,
 	B_Habilitado BIT NOT NULL,
 	B_Eliminado BIT NOT NULL,
 	I_UsuarioCre INT,

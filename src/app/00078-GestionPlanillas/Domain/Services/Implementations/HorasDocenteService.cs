@@ -31,9 +31,12 @@ namespace Domain.Services.Implementations
                     esParaDocenteOrdinario = dedicacion.B_ParaDocenteOrdinario
                 };
 
-                if (esParaDocenteOrdinario.HasValue && dedicacion.B_ParaDocenteOrdinario == esParaDocenteOrdinario.Value)
+                if (esParaDocenteOrdinario.HasValue)
                 {
-                    result.Add(item);
+                    if (dedicacion.B_ParaDocenteOrdinario == esParaDocenteOrdinario.Value)
+                    {
+                        result.Add(item);
+                    }   
                 }
                 else
                 {
@@ -41,7 +44,10 @@ namespace Domain.Services.Implementations
                 }
             }
 
-            return result.OrderBy(x => x.horas).ToList();
+            if (esParaDocenteOrdinario.HasValue && esParaDocenteOrdinario.Value)
+                return result.OrderBy(x => x.horas).ToList();
+            else
+                return result.ToList();
         }
     }
 }

@@ -5,7 +5,7 @@ GO
 IF EXISTS (SELECT * FROM INFORMATION_SCHEMA.VIEWS WHERE TABLE_NAME = 'VW_Trabajadores')
 	DROP VIEW [dbo].[VW_Trabajadores]
 GO
-
+--reemplazar consultas por B_CategoriaPrincipal
 CREATE VIEW [dbo].[VW_Trabajadores]
 AS
 SELECT 
@@ -19,7 +19,6 @@ FROM
 	dbo.TC_Persona AS per INNER JOIN
 	dbo.TC_Trabajador AS trab ON trab.I_PersonaID = per.I_PersonaID INNER JOIN
 	dbo.TC_Trabajador_CategoriaPlanilla AS trabcat ON trabcat.I_TrabajadorID = trab.I_TrabajadorID INNER JOIN
-	dbo.TC_CategoriaPlanilla AS catpla ON catpla.I_CategoriaPlanillaID = trabcat.I_CategoriaPlanillaID INNER JOIN
 	dbo.TC_TipoDocumento AS tipdoc ON tipdoc.I_TipoDocumentoID = per.I_TipoDocumentoID LEFT JOIN
 	dbo.TC_Regimen AS reg ON reg.I_RegimenID = trab.I_RegimenID LEFT JOIN 
 	dbo.TC_Afp AS afp ON afp.I_AfpID = trab.I_AfpID INNER JOIN
@@ -28,7 +27,7 @@ FROM
 	dbo.TC_Dependencia AS dep ON dep.I_DependenciaID = trabcat.I_DependenciaID LEFT JOIN
 	dbo.TC_CuentaBancaria AS cta ON cta.I_TrabajadorID = trab.I_TrabajadorID AND cta.B_Habilitado = 1 LEFT JOIN
 	dbo.TC_Banco AS bco ON bco.I_BancoID = cta.I_BancoID
-WHERE per.B_Eliminado = 0 AND trab.B_Eliminado = 0 AND trabcat.B_Eliminado = 0 AND catpla.B_PlanillaCabecera = 1
+WHERE per.B_Eliminado = 0 AND trab.B_Eliminado = 0 AND trabcat.B_Eliminado = 0 AND trabcat.B_CategoriaPrincipal = 1
 GO
 
 
@@ -36,7 +35,7 @@ GO
 IF EXISTS (SELECT * FROM INFORMATION_SCHEMA.VIEWS WHERE TABLE_NAME = 'VW_TrabajadoresCategoriaPlanilla')
 	DROP VIEW [dbo].[VW_TrabajadoresCategoriaPlanilla]
 GO
-
+--VERIFICAR QUE B_CategoriaPrincipal Y B_PlanillaCabecera ESTEN EL LA CLASE C#
 CREATE VIEW [dbo].[VW_TrabajadoresCategoriaPlanilla]
 AS
 SELECT 
@@ -44,7 +43,7 @@ SELECT
 	tipdoc.I_TipoDocumentoID, tipdoc.T_TipoDocumentoDesc, per.C_NumDocumento,
 	est.I_EstadoID, est.T_EstadoDesc, vin.I_VinculoID, vin.T_VinculoDesc,
 	trabcat.I_TrabajadorCategoriaPlanillaID, catpla.I_CategoriaPlanillaID, catpla.T_CategoriaPlanillaDesc,
-	catpla.B_PlanillaCabecera
+	trabcat.B_CategoriaPrincipal, catpla.B_PlanillaCabecera
 FROM 
 	dbo.TC_Persona AS per INNER JOIN
 	dbo.TC_Trabajador AS trab ON trab.I_PersonaID = per.I_PersonaID INNER JOIN
