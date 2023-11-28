@@ -143,7 +143,6 @@ CREATE TABLE TC_CategoriaPlanilla
 	I_CategoriaPlanillaID INT IDENTITY(1,1),
 	I_ClasePlanillaID INT NOT NULL,
 	T_CategoriaPlanillaDesc VARCHAR(250) NOT NULL,
-	B_PlanillaCabecera BIT NOT NULL,
 	B_Habilitado BIT NOT NULL,
 	B_Eliminado BIT NOT NULL,
 	I_UsuarioCre INT,
@@ -397,13 +396,28 @@ CREATE TABLE TC_Dependencia
 	CONSTRAINT PK_Dependencia PRIMARY KEY (I_DependenciaID)
 )
 
+CREATE TABLE TC_GrupoTrabajo
+(
+	I_GrupoTrabajoID INT IDENTITY(1,1),
+	C_GrupoTrabajoCod VARCHAR(20),
+	T_GrupoTrabajoDesc VARCHAR(250),
+	B_Habilitado BIT NOT NULL,
+	B_Eliminado BIT NOT NULL,
+	I_UsuarioCre INT,
+	D_FecCre DATETIME,
+	I_UsuarioMod INT,
+	D_FecMod DATETIME,
+	CONSTRAINT PK_GrupoTrabajo PRIMARY KEY (I_GrupoTrabajoID)
+)
+
 CREATE TABLE TC_Trabajador_CategoriaPlanilla
 (
 	I_TrabajadorCategoriaPlanillaID INT IDENTITY(1,1),
 	I_TrabajadorID INT NOT NULL,
 	I_CategoriaPlanillaID INT NOT NULL,
-	I_DependenciaID INT NOT NULL,
 	B_CategoriaPrincipal BIT NOT NULL,
+	I_DependenciaID INT NOT NULL,
+	I_GrupoTrabajoID INT,
 	B_Habilitado BIT NOT NULL,
 	B_Eliminado BIT NOT NULL,
 	I_UsuarioCre INT,
@@ -412,7 +426,8 @@ CREATE TABLE TC_Trabajador_CategoriaPlanilla
 	D_FecMod DATETIME,
 	CONSTRAINT PK_Trabajador_TrabajadorCategoriaPlanilla PRIMARY KEY (I_TrabajadorCategoriaPlanillaID),
 	CONSTRAINT FK_CategoriaPlanilla_TrabajadorCategoriaPlanilla FOREIGN KEY (I_CategoriaPlanillaID) REFERENCES TC_CategoriaPlanilla(I_CategoriaPlanillaID),
-	CONSTRAINT FK_Dependencia_TrabajadorCategoriaPlanilla FOREIGN KEY (I_DependenciaID) REFERENCES TC_Dependencia(I_DependenciaID)
+	CONSTRAINT FK_Dependencia_TrabajadorCategoriaPlanilla FOREIGN KEY (I_DependenciaID) REFERENCES TC_Dependencia(I_DependenciaID),
+	CONSTRAINT FK_GrupoTrabajo_TrabajadorCategoriaPlanilla FOREIGN KEY (I_GrupoTrabajoID) REFERENCES TC_GrupoTrabajo(I_GrupoTrabajoID)
 )
 
 CREATE TABLE TC_Anio

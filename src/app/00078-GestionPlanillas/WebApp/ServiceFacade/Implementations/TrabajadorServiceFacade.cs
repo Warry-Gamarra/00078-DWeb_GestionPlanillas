@@ -137,5 +137,10 @@ namespace WebApp.ServiceFacade.Implementations
 
             return lista;
         }
+
+        public CategoriaPlanilla ObtenerCategoriaPlanillaSegunVinculo(int vinculoID)
+        {
+            return _trabajadorService.ObtenerCategoriaPlanillaSegunVinculo(vinculoID);
+        }
     }
 }

@@ -89,7 +89,7 @@ namespace WebApp.Models
 
         [DisplayName("Dependencia")]
         [Required(ErrorMessage = "La {0} es obligatoria.")]
-        public int? dependenciaID { get; set; }
+        public int dependenciaID { get; set; }
 
         public string dependenciaCod { get; set; }
 

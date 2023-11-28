@@ -81,6 +81,7 @@
     <Compile Include="Entities\DepActividadMetaDTO.cs" />
     <Compile Include="Entities\DepActividadMetaEntity.cs" />
     <Compile Include="Entities\DependenciaEntity.cs" />
+    <Compile Include="Entities\GrupoTrabajoDTO.cs" />
     <Compile Include="Entities\MetaDTO.cs" />
     <Compile Include="Entities\MetaEntity.cs" />
     <Compile Include="Entities\PeriodoDTO.cs" />
@@ -145,6 +146,7 @@
     <Compile Include="Services\IDependenciaService.cs" />
     <Compile Include="Services\IDocenteService.cs" />
     <Compile Include="Services\IEstadoService.cs" />
+    <Compile Include="Services\IGrupoTrabajoService.cs" />
     <Compile Include="Services\IHorasDocenteService.cs" />
     <Compile Include="Services\ILecturaArchivoService.cs" />
     <Compile Include="Services\IMetaService.cs" />
@@ -162,6 +164,7 @@
     <Compile Include="Services\Implementations\EstadoService.cs" />
     <Compile Include="Services\Implementations\GeneracionArchivoExcelService.cs" />
     <Compile Include="Services\Implementations\GrupoOcupacionalService.cs" />
+    <Compile Include="Services\Implementations\GrupoTrabajoService.cs" />
     <Compile Include="Services\Implementations\HorasDocenteService.cs" />
     <Compile Include="Services\Implementations\LecturaArchivoExcelService.cs" />
     <Compile Include="Services\Implementations\MetaService.cs" />

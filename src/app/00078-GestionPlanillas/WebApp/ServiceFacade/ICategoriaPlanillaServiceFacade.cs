@@ -10,5 +10,7 @@ namespace WebApp.ServiceFacade
     public interface ICategoriaPlanillaServiceFacade
     {
         SelectList ObtenerComboCategoriasPlanillas(bool incluirDeshabilitados = false, int? selectedItem = null);
+
+        SelectList ObtenerComboCategoriasPlanillas(int categoriaPlanillaExcluidaID, bool incluirDeshabilitados = false, int? selectedItem = null);
     }
 }

@@ -21,5 +21,7 @@ namespace Domain.Services
         List<TrabajadorCategoriaPlanillaDTO> ListarTrabajadoresCategoriaPlanilla(int? I_CategoriaPlanillaID = null);
 
         TrabajadorCategoriaPlanillaDTO ObtenerTrabajadorPorDocumentoYCategoria(int tipoDocumentoID, string numDocumento, int categoriaPlanillaID);
+
+        CategoriaPlanilla ObtenerCategoriaPlanillaSegunVinculo(int vinculoID);
     }
 }

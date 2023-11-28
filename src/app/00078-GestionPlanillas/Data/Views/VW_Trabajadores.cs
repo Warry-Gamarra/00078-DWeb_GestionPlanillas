@@ -51,7 +51,7 @@ namespace Data.Views
 
         public int? I_TrabajadorDependenciaID { get; set; }
 
-        public int? I_DependenciaID { get; set; }
+        public int I_DependenciaID { get; set; }
 
         public string C_DependenciaCod { get; set; }
 

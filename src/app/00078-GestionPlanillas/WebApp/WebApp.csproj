@@ -169,10 +169,12 @@
     <Compile Include="ServiceFacade\IActividadServiceFacade.cs" />
     <Compile Include="ServiceFacade\ICategoriaPresupuestalServiceFacade.cs" />
     <Compile Include="ServiceFacade\IDepActividadMetaServiceFacade.cs" />
+    <Compile Include="ServiceFacade\IGrupoTrabajoServiceFacade.cs" />
     <Compile Include="ServiceFacade\IMetaServiceFacade.cs" />
     <Compile Include="ServiceFacade\Implementations\ActividadServiceFacade.cs" />
     <Compile Include="ServiceFacade\Implementations\CategoriaPresupuestalServiceFacade.cs" />
     <Compile Include="ServiceFacade\Implementations\DepActividadMetaServiceFacade.cs" />
+    <Compile Include="ServiceFacade\Implementations\GrupoTrabajoServiceFacade.cs" />
     <Compile Include="ServiceFacade\Implementations\MetaServiceFacade.cs" />
     <Compile Include="ServiceFacade\Implementations\RolServiceFacade.cs" />
     <Compile Include="ServiceFacade\Implementations\UsuarioServiceFacade.cs" />

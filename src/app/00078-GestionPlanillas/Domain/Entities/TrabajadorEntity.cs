@@ -36,7 +36,7 @@ namespace Domain.Entities
 
         public string nroCuentaBancaria { get; set; }
 
-        public int? dependenciaID { get; set; }
+        public int dependenciaID { get; set; }
 
         public int? afp { get; set; }
 

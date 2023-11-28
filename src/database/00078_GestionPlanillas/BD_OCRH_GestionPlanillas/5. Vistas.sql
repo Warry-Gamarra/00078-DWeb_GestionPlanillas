@@ -5,7 +5,7 @@ GO
 IF EXISTS (SELECT * FROM INFORMATION_SCHEMA.VIEWS WHERE TABLE_NAME = 'VW_Trabajadores')
 	DROP VIEW [dbo].[VW_Trabajadores]
 GO
---reemplazar consultas por B_CategoriaPrincipal
+
 CREATE VIEW [dbo].[VW_Trabajadores]
 AS
 SELECT 
@@ -35,15 +35,17 @@ GO
 IF EXISTS (SELECT * FROM INFORMATION_SCHEMA.VIEWS WHERE TABLE_NAME = 'VW_TrabajadoresCategoriaPlanilla')
 	DROP VIEW [dbo].[VW_TrabajadoresCategoriaPlanilla]
 GO
---VERIFICAR QUE B_CategoriaPrincipal Y B_PlanillaCabecera ESTEN EL LA CLASE C#
+
 CREATE VIEW [dbo].[VW_TrabajadoresCategoriaPlanilla]
 AS
-SELECT 
+SELECT
 	trab.I_TrabajadorID, trab.C_TrabajadorCod, per.I_PersonaID, per.T_Nombre, per.T_ApellidoPaterno, per.T_ApellidoMaterno, 
 	tipdoc.I_TipoDocumentoID, tipdoc.T_TipoDocumentoDesc, per.C_NumDocumento,
 	est.I_EstadoID, est.T_EstadoDesc, vin.I_VinculoID, vin.T_VinculoDesc,
 	trabcat.I_TrabajadorCategoriaPlanillaID, catpla.I_CategoriaPlanillaID, catpla.T_CategoriaPlanillaDesc,
-	trabcat.B_CategoriaPrincipal, catpla.B_PlanillaCabecera
+	trabcat.B_CategoriaPrincipal,
+	dep.I_DependenciaID, dep.C_DependenciaCod, dep.T_DependenciaDesc,
+	grup.I_GrupoTrabajoID, grup.C_GrupoTrabajoCod, grup.T_GrupoTrabajoDesc
 FROM 
 	dbo.TC_Persona AS per INNER JOIN
 	dbo.TC_Trabajador AS trab ON trab.I_PersonaID = per.I_PersonaID INNER JOIN
@@ -51,7 +53,9 @@ FROM
 	dbo.TC_Estado AS est ON est.I_EstadoID = trab.I_EstadoID INNER JOIN 
 	dbo.TC_Vinculo AS vin ON vin.I_VinculoID = trab.I_VinculoID INNER JOIN
 	dbo.TC_Trabajador_CategoriaPlanilla AS trabcat ON trabcat.I_TrabajadorID = trab.I_TrabajadorID INNER JOIN
-	dbo.TC_CategoriaPlanilla AS catpla ON catpla.I_CategoriaPlanillaID = trabcat.I_CategoriaPlanillaID
+	dbo.TC_CategoriaPlanilla AS catpla ON catpla.I_CategoriaPlanillaID = trabcat.I_CategoriaPlanillaID INNER JOIN
+	dbo.TC_Dependencia AS dep ON dep.I_DependenciaID = trabcat.I_DependenciaID LEFT JOIN
+	dbo.TC_GrupoTrabajo AS grup ON grup.I_GrupoTrabajoID = trabcat.I_GrupoTrabajoID
 WHERE per.B_Eliminado = 0 AND trab.B_Eliminado = 0 AND trabcat.B_Eliminado = 0 
 GO
 

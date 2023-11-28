@@ -357,7 +357,13 @@ namespace Domain.Helpers
                 trabajadorCategoriaPlanillaID = view.I_TrabajadorCategoriaPlanillaID,
                 categoriaPlanillaID = view.I_CategoriaPlanillaID,
                 categoriaPlanillaDesc = view.T_CategoriaPlanillaDesc,
-                esPlanillaCabecera = view.B_PlanillaCabecera
+                esCategoriaPrincipal = view.B_CategoriaPrincipal,
+                dependenciaID = view.I_DependenciaID,
+                dependenciaCod = view.C_DependenciaCod,
+                dependenciaDesc = view.T_DependenciaDesc,
+                grupoTrabajoID = view.I_GrupoTrabajoID,
+                grupoTrabajoCod = view.C_GrupoTrabajoCod,
+                grupoTrabajoDesc = view.T_GrupoTrabajoDesc
             };
 
             return trabajadorCategoriaPlanillaDTO;
@@ -692,6 +698,19 @@ namespace Domain.Helpers
                 totalBruto = sp.I_TotalBruto,
                 totalDescuento = sp.I_TotalDescuento,
                 totalSueldo = sp.I_TotalSueldo
+            };
+
+            return dto;
+        }
+
+        public static GrupoTrabajoDTO TC_GrupoTrabajo_To_GrupoTrabajoDTO(TC_GrupoTrabajo table)
+        {
+            var dto = new GrupoTrabajoDTO()
+            {
+                grupoTrabajoID = table.I_GrupoTrabajoID,
+                grupoTrabajoDesc = table.T_GrupoTrabajoDesc,
+                grupoTrabajoCod = table.C_GrupoTrabajoCod,
+                estaHabilitado = table.B_Habilitado
             };
 
             return dto;

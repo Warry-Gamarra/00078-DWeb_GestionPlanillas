@@ -212,7 +212,7 @@ namespace Domain.Services.Implementations
             return trabajadorCategoriaPlanillaDTO;
         }
 
-        private CategoriaPlanilla ObtenerCategoriaPlanillaSegunVinculo(int vinculoID)
+        public CategoriaPlanilla ObtenerCategoriaPlanillaSegunVinculo(int vinculoID)
         {
             CategoriaPlanilla categoriaPlanilla;
 

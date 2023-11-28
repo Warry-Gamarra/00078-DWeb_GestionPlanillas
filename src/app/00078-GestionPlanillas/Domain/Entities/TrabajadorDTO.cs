@@ -48,7 +48,7 @@ namespace Domain.Entities
 
         public int? trabajadorDependenciaID { get; set; }
 
-        public int? dependenciaID { get; set; }
+        public int dependenciaID { get; set; }
 
         public string dependenciaCod { get; set; }
 

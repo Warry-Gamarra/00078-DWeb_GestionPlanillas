@@ -38,7 +38,7 @@ namespace Data.Procedures
 
         public string T_NroCuentaBancaria { get;set; }
 
-        public int? I_DependenciaID { get;set; }
+        public int I_DependenciaID { get;set; }
 
         public int? I_AfpID { get; set; }
 

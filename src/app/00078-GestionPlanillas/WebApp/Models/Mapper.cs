@@ -168,9 +168,15 @@ namespace WebApp.Models
                 vinculoDesc = dto.vinculoDesc,
                 trabajadorCategoriaPlanillaID = dto.trabajadorCategoriaPlanillaID,
                 categoriaPlanillaID = dto.categoriaPlanillaID,
-                esPlanillaCabecera = dto.esPlanillaCabecera,
                 categoriaPlanillaDesc = dto.categoriaPlanillaDesc,
-                seleccionado = true
+                esCategoriaPrincipal = dto.esCategoriaPrincipal,
+                seleccionado = true,
+                dependenciaID = dto.dependenciaID,
+                dependenciaCod = dto.dependenciaCod,
+                dependenciaDesc = dto.dependenciaDesc,
+                grupoTrabajoID = dto.grupoTrabajoID,
+                grupoTrabajoCod = dto.grupoTrabajoCod,
+                grupoTrabajoDesc = dto.grupoTrabajoDesc
             };
 
             return model;

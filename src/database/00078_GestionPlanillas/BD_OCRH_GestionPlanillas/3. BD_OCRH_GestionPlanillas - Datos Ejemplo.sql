@@ -103,15 +103,15 @@ GO
 SET IDENTITY_INSERT TC_CategoriaPlanilla ON
 GO
 
-INSERT dbo.TC_CategoriaPlanilla(I_CategoriaPlanillaID, I_ClasePlanillaID, T_CategoriaPlanillaDesc, B_PlanillaCabecera, B_Habilitado, B_Eliminado) VALUES(1, 1, 'Haberes Administrativo', 1, 1, 0)
-INSERT dbo.TC_CategoriaPlanilla(I_CategoriaPlanillaID, I_ClasePlanillaID, T_CategoriaPlanillaDesc, B_PlanillaCabecera, B_Habilitado, B_Eliminado) VALUES(2, 1, 'Haberes Docente', 1, 1, 0)
-INSERT dbo.TC_CategoriaPlanilla(I_CategoriaPlanillaID, I_ClasePlanillaID, T_CategoriaPlanillaDesc, B_PlanillaCabecera, B_Habilitado, B_Eliminado) VALUES(3, 1, 'Haberes Médico', 1, 1, 0)
-INSERT dbo.TC_CategoriaPlanilla(I_CategoriaPlanillaID, I_ClasePlanillaID, T_CategoriaPlanillaDesc, B_PlanillaCabecera, B_Habilitado, B_Eliminado) VALUES(4, 7, 'Pensiones', 1, 1, 0)
-INSERT dbo.TC_CategoriaPlanilla(I_CategoriaPlanillaID, I_ClasePlanillaID, T_CategoriaPlanillaDesc, B_PlanillaCabecera, B_Habilitado, B_Eliminado) VALUES(5, 2, 'CAFAE', 0, 1, 0)
-INSERT dbo.TC_CategoriaPlanilla(I_CategoriaPlanillaID, I_ClasePlanillaID, T_CategoriaPlanillaDesc, B_PlanillaCabecera, B_Habilitado, B_Eliminado) VALUES(6, 14, 'Docente Investigador', 0, 1, 0)
-INSERT dbo.TC_CategoriaPlanilla(I_CategoriaPlanillaID, I_ClasePlanillaID, T_CategoriaPlanillaDesc, B_PlanillaCabecera, B_Habilitado, B_Eliminado) VALUES(7, 6, 'Practicante', 1, 1, 0)
-INSERT dbo.TC_CategoriaPlanilla(I_CategoriaPlanillaID, I_ClasePlanillaID, T_CategoriaPlanillaDesc, B_PlanillaCabecera, B_Habilitado, B_Eliminado) VALUES(8, 14, 'Productividad', 0, 1, 0)
-INSERT dbo.TC_CategoriaPlanilla(I_CategoriaPlanillaID, I_ClasePlanillaID, T_CategoriaPlanillaDesc, B_PlanillaCabecera, B_Habilitado, B_Eliminado) VALUES(9, 14, 'Generadora de Recursos', 0, 1, 0)
+INSERT dbo.TC_CategoriaPlanilla(I_CategoriaPlanillaID, I_ClasePlanillaID, T_CategoriaPlanillaDesc, B_Habilitado, B_Eliminado) VALUES(1, 1, 'Haberes Administrativo', 1, 0)
+INSERT dbo.TC_CategoriaPlanilla(I_CategoriaPlanillaID, I_ClasePlanillaID, T_CategoriaPlanillaDesc, B_Habilitado, B_Eliminado) VALUES(2, 1, 'Haberes Docente', 1, 0)
+INSERT dbo.TC_CategoriaPlanilla(I_CategoriaPlanillaID, I_ClasePlanillaID, T_CategoriaPlanillaDesc, B_Habilitado, B_Eliminado) VALUES(3, 1, 'Haberes Médico', 1, 0)
+INSERT dbo.TC_CategoriaPlanilla(I_CategoriaPlanillaID, I_ClasePlanillaID, T_CategoriaPlanillaDesc, B_Habilitado, B_Eliminado) VALUES(4, 7, 'Pensiones', 1, 0)
+INSERT dbo.TC_CategoriaPlanilla(I_CategoriaPlanillaID, I_ClasePlanillaID, T_CategoriaPlanillaDesc, B_Habilitado, B_Eliminado) VALUES(5, 2, 'CAFAE', 1, 0)
+INSERT dbo.TC_CategoriaPlanilla(I_CategoriaPlanillaID, I_ClasePlanillaID, T_CategoriaPlanillaDesc, B_Habilitado, B_Eliminado) VALUES(6, 14, 'Docente Investigador', 1, 0)
+INSERT dbo.TC_CategoriaPlanilla(I_CategoriaPlanillaID, I_ClasePlanillaID, T_CategoriaPlanillaDesc, B_Habilitado, B_Eliminado) VALUES(7, 6, 'Practicante', 1, 0)
+INSERT dbo.TC_CategoriaPlanilla(I_CategoriaPlanillaID, I_ClasePlanillaID, T_CategoriaPlanillaDesc, B_Habilitado, B_Eliminado) VALUES(8, 14, 'Productividad', 1, 0)
+INSERT dbo.TC_CategoriaPlanilla(I_CategoriaPlanillaID, I_ClasePlanillaID, T_CategoriaPlanillaDesc, B_Habilitado, B_Eliminado) VALUES(9, 14, 'Generadora de Recursos', 1, 0)
 GO
 
 SET IDENTITY_INSERT TC_CategoriaPlanilla OFF
@@ -319,6 +319,11 @@ GO
 INSERT dbo.TC_Proveedor(T_ProveedorDesc, B_Habilitado, B_Eliminado) VALUES('BANCO DE LA NACIÓN', 1, 0)
 INSERT dbo.TC_Proveedor(T_ProveedorDesc, B_Habilitado, B_Eliminado) VALUES('BANCO DE CRÉDITO', 1, 0)
 INSERT dbo.TC_Proveedor(T_ProveedorDesc, B_Habilitado, B_Eliminado) VALUES('BANCO SCOTIABANK', 1, 0)
+GO
+
+
+INSERT dbo.TC_GrupoTrabajo(C_GrupoTrabajoCod, T_GrupoTrabajoDesc, B_Habilitado, B_Eliminado) VALUES('ADPRE2024', 'PROCESO DE ADMISIÓN PREGRADO 2024', 1, 0);
+INSERT dbo.TC_GrupoTrabajo(C_GrupoTrabajoCod, T_GrupoTrabajoDesc, B_Habilitado, B_Eliminado) VALUES('CPRV', 'CEPREVI', 1, 0);
 GO
 
 

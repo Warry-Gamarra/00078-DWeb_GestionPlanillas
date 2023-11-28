@@ -30,5 +30,20 @@ namespace WebApp.ServiceFacade.Implementations
                 return new SelectList(lista, "categoriaPlanillaID", "categoriaPlanillaDesc");
             }
         }
+
+        public SelectList ObtenerComboCategoriasPlanillas(int categoriaPlanillaExcluidaID, bool incluirDeshabilitados = false, int? selectedItem = null)
+        {
+            var lista = _categoriaPlanillaService.ListarCategoriasPlanillas(incluirDeshabilitados)
+                .Where(x => x.categoriaPlanillaID != categoriaPlanillaExcluidaID);
+            
+            if (selectedItem.HasValue)
+            {
+                return new SelectList(lista, "categoriaPlanillaID", "categoriaPlanillaDesc", selectedItem.Value);
+            }
+            else
+            {
+                return new SelectList(lista, "categoriaPlanillaID", "categoriaPlanillaDesc");
+            }
+        }
     }
 }

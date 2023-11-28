@@ -20,7 +20,7 @@ CREATE PROCEDURE [dbo].[USP_I_RegistrarTrabajador]
 @I_VinculoID INT,
 @I_BancoID INT = NULL,
 @T_NroCuentaBancaria VARCHAR(250) = NULL,
-@I_DependenciaID INT = NULL,
+@I_DependenciaID INT,
 @I_AfpID INT = NULL,
 @T_Cuspp VARCHAR(20) = NULL,
 @I_CategoriaDocenteID INT = NULL,
@@ -41,7 +41,7 @@ BEGIN
 
 	BEGIN TRAN
 	BEGIN TRY
-		SET @D_FecCre = GETDATE()
+		SET @D_FecCre = GETDATE();
 
 		IF (@I_PersonaID IS NULL OR @I_PersonaID = 0) BEGIN
 			INSERT dbo.TC_Persona(T_ApellidoPaterno, T_ApellidoMaterno, T_Nombre, I_TipoDocumentoID, C_NumDocumento, B_Eliminado, I_UsuarioCre, D_FecCre)
@@ -83,7 +83,7 @@ BEGIN
 	END TRY
 	BEGIN CATCH
 		ROLLBACK TRAN
-		SET @B_Result = 0
+		SET @B_Result = 0;
 
 		SET @T_Message = ERROR_MESSAGE();
 	END CATCH
@@ -110,7 +110,7 @@ CREATE PROCEDURE [dbo].[USP_U_ActualizarTrabajador]
 @I_VinculoID INT,
 @I_BancoID INT = NULL,
 @T_NroCuentaBancaria VARCHAR(250) = NULL,
-@I_DependenciaID INT = NULL,
+@I_DependenciaID INT,
 @I_AfpID INT = NULL,
 @T_Cuspp VARCHAR(20) = NULL,
 @I_CategoriaDocenteID INT = NULL,
@@ -128,7 +128,8 @@ BEGIN
 	DECLARE @I_ADMINISTRATIVOID INT = 1,
 			@I_DOCENTEID INT = 2;
 
-	DECLARE @D_FecMod DATETIME;
+	DECLARE @C_VinculoCod VARCHAR(20),
+			@D_FecMod DATETIME;
 
 	BEGIN TRAN
 	BEGIN TRY
@@ -165,7 +166,7 @@ BEGIN
 			I_DependenciaID = @I_DependenciaID,
 			I_UsuarioMod = @I_UserID,
 			D_FecMod = @D_FecMod
-		WHERE I_TrabajadorID = @I_TrabajadorID AND I_CategoriaPlanillaID = @I_CategoriaPlanillaID AND B_Habilitado = 1 AND B_Eliminado = 0;
+		WHERE I_TrabajadorID = @I_TrabajadorID AND I_CategoriaPlanillaID = @I_CategoriaPlanillaID AND B_CategoriaPrincipal =1 AND B_Habilitado = 1 AND B_Eliminado = 0;
 
 		--Actualizar Cuentas Bancarias
 		IF (@I_BancoID IS NULL) BEGIN
@@ -216,7 +217,9 @@ BEGIN
 
 		END
 
-		IF (@I_VinculoID IN (1,2)) BEGIN
+		SET @C_VinculoCod = (SELECT v.C_VinculoCod FROM dbo.TC_Vinculo v WHERE v.I_VinculoID = @I_VinculoID);
+
+		IF (@C_VinculoCod IN ('AP','AC')) BEGIN
 			IF EXISTS(SELECT doc.I_DocenteID FROM dbo.TC_Docente doc 
 				WHERE doc.I_TrabajadorID = @I_TrabajadorID AND doc.B_Habilitado = 1 AND doc.B_Eliminado = 0) 
 			BEGIN
@@ -249,8 +252,8 @@ BEGIN
 				WHERE I_TrabajadorID = @I_TrabajadorID AND B_Habilitado = 1 AND B_Eliminado = 0
 			END
 		END
-
-		IF (@I_VinculoID = 4) BEGIN
+		
+		IF (@C_VinculoCod IN ('DP','DC')) BEGIN
 			IF EXISTS(SELECT adm.I_AdministrativoID FROM dbo.TC_Administrativo adm 
 				WHERE adm.I_TrabajadorID = @I_trabajadorID AND adm.B_Habilitado = 1 AND adm.B_Eliminado = 0)
 			BEGIN
@@ -286,15 +289,15 @@ BEGIN
 		
 		COMMIT TRAN
 
-		SET @B_Result = 1
+		SET @B_Result = 1;
 
-		SET @T_Message = 'Actualización correcta.'
+		SET @T_Message = 'Actualización correcta.';
 	END TRY
 	BEGIN CATCH
 		ROLLBACK TRAN
-		SET @B_Result = 0
+		SET @B_Result = 0;
 
-		SET @T_Message = ERROR_MESSAGE()
+		SET @T_Message = ERROR_MESSAGE();
 	END CATCH
 END
 GO
@@ -331,7 +334,7 @@ BEGIN
 			@B_ConceptoObtenido = 1
 		FROM dbo.TI_PlantillaPlanilla_Concepto ppc
 		WHERE ppc.I_PlantillaPlanillaID = @I_PlantillaPlanillaID AND ppc.I_ConceptoID = @I_ConceptoID AND ppc.B_Habilitado = 1 AND ppc.B_Eliminado = 0 AND
-			ppc.B_AplicarFiltro1 = 1 AND ppc.I_Filtro1 = @I_Filtro1 AND ppc.B_AplicarFiltro2 = 1 AND ppc.I_Filtro2 = @I_Filtro2
+			ppc.B_AplicarFiltro1 = 1 AND ppc.I_Filtro1 = @I_Filtro1 AND ppc.B_AplicarFiltro2 = 1 AND ppc.I_Filtro2 = @I_Filtro2;
 	END
 	ELSE
 	BEGIN
@@ -347,7 +350,7 @@ BEGIN
 				@B_ConceptoObtenido = 1
 			FROM dbo.TI_PlantillaPlanilla_Concepto ppc
 			WHERE ppc.I_PlantillaPlanillaID = @I_PlantillaPlanillaID AND ppc.I_ConceptoID = @I_ConceptoID AND ppc.B_Habilitado = 1 AND ppc.B_Eliminado = 0 AND
-				ppc.B_AplicarFiltro1 = 1 AND ppc.I_Filtro1 = @I_Filtro1 AND ppc.B_AplicarFiltro2 = 0
+				ppc.B_AplicarFiltro1 = 1 AND ppc.I_Filtro1 = @I_Filtro1 AND ppc.B_AplicarFiltro2 = 0;
 		END
 		ELSE BEGIN
 			IF ((SELECT COUNT(ppc.I_PlantillaPlanillaConceptoID) FROM dbo.TI_PlantillaPlanilla_Concepto ppc
@@ -362,7 +365,7 @@ BEGIN
 					@B_ConceptoObtenido = 1
 				FROM dbo.TI_PlantillaPlanilla_Concepto ppc
 				WHERE ppc.I_PlantillaPlanillaID = @I_PlantillaPlanillaID AND ppc.I_ConceptoID = @I_ConceptoID AND ppc.B_Habilitado = 1 AND ppc.B_Eliminado = 0 AND
-					ppc.B_AplicarFiltro1 = 0 AND ppc.B_AplicarFiltro2 = 1 AND ppc.I_Filtro2 = @I_Filtro2
+					ppc.B_AplicarFiltro1 = 0 AND ppc.B_AplicarFiltro2 = 1 AND ppc.I_Filtro2 = @I_Filtro2;
 			END
 			ELSE BEGIN
 				IF ((SELECT COUNT(ppc.I_PlantillaPlanillaConceptoID) FROM dbo.TI_PlantillaPlanilla_Concepto ppc
@@ -377,7 +380,7 @@ BEGIN
 						@B_ConceptoObtenido = 1
 					FROM dbo.TI_PlantillaPlanilla_Concepto ppc
 					WHERE ppc.I_PlantillaPlanillaID = @I_PlantillaPlanillaID AND ppc.I_ConceptoID = @I_ConceptoID AND ppc.B_Habilitado = 1 AND ppc.B_Eliminado = 0 AND
-						ppc.B_AplicarFiltro1 = 0 AND ppc.B_AplicarFiltro2 = 0
+						ppc.B_AplicarFiltro1 = 0 AND ppc.B_AplicarFiltro2 = 0;
 				END
 			END
 		END
@@ -1088,7 +1091,7 @@ IF EXISTS (SELECT * FROM INFORMATION_SCHEMA.ROUTINES WHERE ROUTINE_TYPE = 'PROCE
 	DROP PROCEDURE [dbo].[USP_U_ActualizarConcepto]
 GO
 
-CREATE PROCEDURE dbo.USP_U_ActualizarConcepto
+CREATE PROCEDURE [dbo].[USP_U_ActualizarConcepto]
 @I_ConceptoID INT,
 @I_TipoConceptoID INT,
 @C_ConceptoCod VARCHAR(20),
@@ -1130,7 +1133,7 @@ IF EXISTS (SELECT * FROM INFORMATION_SCHEMA.ROUTINES WHERE ROUTINE_TYPE = 'PROCE
 	DROP PROCEDURE [dbo].[USP_U_CambiarEstadoConcepto]
 GO
 
-CREATE PROCEDURE dbo.USP_U_CambiarEstadoConcepto
+CREATE PROCEDURE [dbo].[USP_U_CambiarEstadoConcepto]
 @I_ConceptoID INT,
 @B_Habilitado BIT,
 @I_UserID INT,
@@ -1166,7 +1169,7 @@ IF EXISTS (SELECT * FROM INFORMATION_SCHEMA.ROUTINES WHERE ROUTINE_TYPE = 'PROCE
 	DROP PROCEDURE [dbo].[USP_I_RegistrarPlantillaPlanilla]
 GO
 
-CREATE PROCEDURE dbo.USP_I_RegistrarPlantillaPlanilla
+CREATE PROCEDURE [dbo].[USP_I_RegistrarPlantillaPlanilla]
 @I_CategoriaPlanillaID INT,
 @T_PlantillaPlanillaDesc VARCHAR(250),
 @I_UserID INT,
@@ -1199,7 +1202,7 @@ IF EXISTS (SELECT * FROM INFORMATION_SCHEMA.ROUTINES WHERE ROUTINE_TYPE = 'PROCE
 	DROP PROCEDURE [dbo].[USP_U_ActualizarPlantillaPlanilla]
 GO
 
-CREATE PROCEDURE dbo.USP_U_ActualizarPlantillaPlanilla
+CREATE PROCEDURE [dbo].[USP_U_ActualizarPlantillaPlanilla]
 @I_PlantillaPlanillaID INT,
 @I_CategoriaPlanillaID INT,
 @T_PlantillaPlanillaDesc VARCHAR(250),
@@ -1237,7 +1240,7 @@ IF EXISTS (SELECT * FROM INFORMATION_SCHEMA.ROUTINES WHERE ROUTINE_TYPE = 'PROCE
 	DROP PROCEDURE [dbo].[USP_U_CambiarEstadoPlantillaPlanilla]
 GO
 
-CREATE PROCEDURE dbo.USP_U_CambiarEstadoPlantillaPlanilla
+CREATE PROCEDURE [dbo].[USP_U_CambiarEstadoPlantillaPlanilla]
 @I_PlantillaPlanillaID INT,
 @B_Habilitado BIT,
 @I_UserID INT,
@@ -1273,7 +1276,7 @@ IF EXISTS (SELECT * FROM INFORMATION_SCHEMA.ROUTINES WHERE ROUTINE_TYPE = 'PROCE
 	DROP PROCEDURE [dbo].[USP_I_RegistrarPlantillaPlanillaConcepto]
 GO
 
-CREATE PROCEDURE dbo.USP_I_RegistrarPlantillaPlanillaConcepto
+CREATE PROCEDURE [dbo].[USP_I_RegistrarPlantillaPlanillaConcepto]
 @Tbl_ConceptoReferencia [dbo].[type_dataIdentifiers] READONLY,
 @I_PlantillaPlanillaID INT,
 @I_ConceptoID INT,
@@ -1322,7 +1325,7 @@ IF EXISTS (SELECT * FROM INFORMATION_SCHEMA.ROUTINES WHERE ROUTINE_TYPE = 'PROCE
 	DROP PROCEDURE [dbo].[USP_U_ActualizarPlantillaPlanillaConcepto]
 GO
 
-CREATE PROCEDURE dbo.USP_U_ActualizarPlantillaPlanillaConcepto
+CREATE PROCEDURE [dbo].[USP_U_ActualizarPlantillaPlanillaConcepto]
 @Tbl_ConceptoReferencia [dbo].[type_dataIdentifiers] READONLY,
 @I_PlantillaPlanillaConceptoID INT,
 @I_PlantillaPlanillaID INT,
@@ -1394,7 +1397,7 @@ IF EXISTS (SELECT * FROM INFORMATION_SCHEMA.ROUTINES WHERE ROUTINE_TYPE = 'PROCE
 	DROP PROCEDURE [dbo].[USP_U_CambiarEstadoPlantillaPlanillaConcepto]
 GO
 
-CREATE PROCEDURE dbo.USP_U_CambiarEstadoPlantillaPlanillaConcepto
+CREATE PROCEDURE [dbo].[USP_U_CambiarEstadoPlantillaPlanillaConcepto]
 @I_PlantillaPlanillaConceptoID INT,
 @B_Habilitado BIT,
 @I_UserID INT,
@@ -1430,7 +1433,7 @@ IF EXISTS (SELECT * FROM INFORMATION_SCHEMA.ROUTINES WHERE ROUTINE_TYPE = 'PROCE
 	DROP PROCEDURE [dbo].[USP_U_EliminarPlantillaPlanillaConcepto]
 GO
 
-CREATE PROCEDURE dbo.USP_U_EliminarPlantillaPlanillaConcepto
+CREATE PROCEDURE [dbo].[USP_U_EliminarPlantillaPlanillaConcepto]
 @I_PlantillaPlanillaConceptoID INT,
 @I_UserID INT,
 @B_Result BIT OUTPUT,
@@ -2589,5 +2592,166 @@ BEGIN
 	EXECUTE SP_EXECUTESQL @SQLString, @ParmDefinition,
 	  @I_PeriodoID = @I_PeriodoID,
 	  @I_CategoriaPlanillaID = @I_CategoriaPlanillaID;
+END
+GO
+
+
+
+IF EXISTS (SELECT * FROM INFORMATION_SCHEMA.ROUTINES WHERE ROUTINE_TYPE = 'PROCEDURE' AND ROUTINE_NAME = 'USP_I_RegistrarCategoriaPlanillaTrabajador')
+	DROP PROCEDURE [dbo].[USP_I_RegistrarCategoriaPlanillaTrabajador]
+GO
+
+CREATE PROCEDURE [dbo].[USP_I_RegistrarCategoriaPlanillaTrabajador]
+@I_TrabajadorID VARCHAR(20),
+@I_CategoriaPlanillaID INT,
+@I_DependenciaID INT,
+@I_GrupoTrabajoID INT = NULL,
+@I_UserID INT,
+@B_Result BIT OUTPUT,
+@T_Message VARCHAR(250) OUTPUT
+AS
+BEGIN
+	SET NOCOUNT ON;
+
+	DECLARE @D_FecCre DATETIME;
+
+	BEGIN TRAN
+	BEGIN TRY
+		SET @D_FecCre = GETDATE();
+
+		INSERT dbo.TC_Trabajador_CategoriaPlanilla(I_TrabajadorID, I_CategoriaPlanillaID, B_CategoriaPrincipal, I_DependenciaID, I_GrupoTrabajoID,
+			B_Habilitado, B_Eliminado, I_UsuarioCre, D_FecCre)
+		VALUES(@I_TrabajadorID, @I_CategoriaPlanillaID, 0, @I_DependenciaID, @I_GrupoTrabajoID, 1, 0, @I_UserID, @D_FecCre)
+
+		COMMIT TRAN
+
+		SET @B_Result = 1;
+
+		SET @T_Message = 'Registro correcto.';
+	END TRY
+	BEGIN CATCH
+		ROLLBACK TRAN
+		SET @B_Result = 0;
+
+		SET @T_Message = ERROR_MESSAGE();
+	END CATCH
+END
+GO
+
+
+
+IF EXISTS (SELECT * FROM INFORMATION_SCHEMA.ROUTINES WHERE ROUTINE_TYPE = 'PROCEDURE' AND ROUTINE_NAME = 'USP_U_ActualizarCategoriaPlanillaTrabajador')
+	DROP PROCEDURE [dbo].[USP_U_ActualizarCategoriaPlanillaTrabajador]
+GO
+
+CREATE PROCEDURE [dbo].[USP_U_ActualizarCategoriaPlanillaTrabajador]
+@I_TrabajadorCategoriaPlanillaID INT,
+@I_CategoriaPlanillaID INT,
+@I_DependenciaID INT,
+@I_GrupoTrabajoID INT = NULL,
+@I_UserID INT,
+@B_Result BIT OUTPUT,
+@T_Message VARCHAR(250) OUTPUT
+AS
+BEGIN
+	SET NOCOUNT ON;
+
+	DECLARE @D_FecMod DATETIME;
+
+	BEGIN TRAN
+	BEGIN TRY
+		SET @D_FecMod = GETDATE();
+
+		UPDATE dbo.TC_Trabajador_CategoriaPlanilla SET
+			I_CategoriaPlanillaID = @I_CategoriaPlanillaID,
+			I_DependenciaID = @I_DependenciaID,
+			I_GrupoTrabajoID = @I_GrupoTrabajoID,
+			I_UsuarioMod = @I_UserID,
+			D_FecMod = @D_FecMod
+		WHERE I_TrabajadorCategoriaPlanillaID = @I_TrabajadorCategoriaPlanillaID
+
+		COMMIT TRAN
+
+		SET @B_Result = 1;
+
+		SET @T_Message = 'Actualización correcta.';
+	END TRY
+	BEGIN CATCH
+		ROLLBACK TRAN
+		SET @B_Result = 0;
+
+		SET @T_Message = ERROR_MESSAGE();
+	END CATCH
+END
+GO
+
+
+
+IF EXISTS (SELECT * FROM INFORMATION_SCHEMA.ROUTINES WHERE ROUTINE_TYPE = 'PROCEDURE' AND ROUTINE_NAME = 'USP_U_CambiarEstadoTrabajadorCategoriaPlanilla')
+	DROP PROCEDURE [dbo].[USP_U_CambiarEstadoTrabajadorCategoriaPlanilla]
+GO
+
+CREATE PROCEDURE [dbo].[USP_U_CambiarEstadoTrabajadorCategoriaPlanilla]
+@I_TrabajadorCategoriaPlanillaID INT,
+@B_Habilitado BIT,
+@I_UserID INT,
+@B_Result BIT OUTPUT,
+@T_Message VARCHAR(250) OUTPUT
+AS
+BEGIN
+	SET NOCOUNT ON;
+	
+	BEGIN TRAN
+	BEGIN TRY
+		UPDATE dbo.TC_Trabajador_CategoriaPlanilla SET
+			B_Habilitado = @B_Habilitado,
+			I_UsuarioMod = @I_UserID,
+			D_FecMod = GETDATE()
+		WHERE I_TrabajadorCategoriaPlanillaID = @I_TrabajadorCategoriaPlanillaID;
+
+		COMMIT TRAN
+		SET @B_Result = 1;
+		SET @T_Message = 'Actualización correcta.';
+	END TRY
+	BEGIN CATCH
+		ROLLBACK TRAN
+		SET @B_Result = 0;
+		SET @T_Message = ERROR_MESSAGE();
+	END CATCH
+END
+GO
+
+
+
+IF EXISTS (SELECT * FROM INFORMATION_SCHEMA.ROUTINES WHERE ROUTINE_TYPE = 'PROCEDURE' AND ROUTINE_NAME = 'USP_U_EliminarTrabajadorCategoriaPlanilla')
+	DROP PROCEDURE [dbo].[USP_U_EliminarTrabajadorCategoriaPlanilla]
+GO
+
+CREATE PROCEDURE [dbo].[USP_U_EliminarTrabajadorCategoriaPlanilla]
+@I_TrabajadorCategoriaPlanillaID INT,
+@I_UserID INT,
+@B_Result BIT OUTPUT,
+@T_Message VARCHAR(250) OUTPUT
+AS
+BEGIN
+	SET NOCOUNT ON;
+	
+	BEGIN TRAN
+	BEGIN TRY
+		UPDATE dbo.TC_Trabajador_CategoriaPlanilla SET
+			B_Eliminado = 1,
+			I_UsuarioMod = @I_UserID,
+			D_FecMod = GETDATE()
+		WHERE I_TrabajadorCategoriaPlanillaID = @I_TrabajadorCategoriaPlanillaID;
+
+		COMMIT TRAN
+		SET @B_Result = 1;
+		SET @T_Message = 'Eliminación correcta.';
+	END TRY
+	BEGIN CATCH
+		ROLLBACK TRAN
+		SET @B_Result = 0;
+		SET @T_Message = ERROR_MESSAGE();
+	END CATCH
 END
 GO

@@ -28,6 +28,7 @@ namespace WebApp.Controllers
         private IDependenciaServiceFacade _dependenciaServiceFacade;
         private IAfpServiceFacade _afpServiceFacade;
         private ICategoriaPlanillaServiceFacade _categoriaPlanillaServiceFacade;
+        private IGrupoTrabajoServiceFacade _grupoTrabajoServiceFacade;
 
         private INivelRemunerativoServiceFacade _nivelRemunerativoServiceFacade;
         private IGrupoOcupacionalServiceFacade _grupoOcupacionalServiceFacade;
@@ -48,6 +49,7 @@ namespace WebApp.Controllers
             _dependenciaServiceFacade = new DependenciaServiceFacade();
             _afpServiceFacade = new AfpServiceFacade();
             _categoriaPlanillaServiceFacade = new CategoriaPlanillaServiceFacade();
+            _grupoTrabajoServiceFacade = new GrupoTrabajoServiceFacade();
 
             _nivelRemunerativoServiceFacade = new NivelRemunerativoServiceFacade();
             _grupoOcupacionalServiceFacade = new GrupoOcupacionalServiceFacade();
@@ -197,11 +199,17 @@ namespace WebApp.Controllers
 
             ViewBag.Action = "AsignarPlanilla";
 
-            var model = new TrabajadorCategoriaPlanillaModel();
+            var trabajador = _trabajadorServiceFacade.ObtenerTrabajador(id);
 
-            ViewBag.ListaCategoriasPlanillas = _categoriaPlanillaServiceFacade.ObtenerComboCategoriasPlanillas();
+            var categoriaPlanillaID = (int)_trabajadorServiceFacade.ObtenerCategoriaPlanillaSegunVinculo(trabajador.vinculoID);
+
+            ViewBag.ListaCategoriasPlanillas = _categoriaPlanillaServiceFacade.ObtenerComboCategoriasPlanillas(categoriaPlanillaExcluidaID: categoriaPlanillaID);
+
+            ViewBag.ListaGruposTrabajo = _grupoTrabajoServiceFacade.ObtenerComboGruposTrabajo();
 
             ViewBag.ListaDependencias = _dependenciaServiceFacade.ObtenerComboDependencias(incluirDeshabilitados: false);
+
+            var model = new TrabajadorCategoriaPlanillaModel();
 
             return PartialView("_AsignarPlanilla", model);
         }

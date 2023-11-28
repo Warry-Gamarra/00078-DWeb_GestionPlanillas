@@ -43,7 +43,19 @@ namespace Data.Views
 
         public string T_CategoriaPlanillaDesc { get; set; }
 
-        public bool B_PlanillaCabecera { get;set; }
+        public bool B_CategoriaPrincipal { get; set; }
+
+        public int I_DependenciaID { get; set; }
+
+        public string C_DependenciaCod { get; set; }
+
+        public string T_DependenciaDesc { get; set; }
+
+        public int? I_GrupoTrabajoID { get; set; }
+
+        public string C_GrupoTrabajoCod { get; set; }
+
+        public string T_GrupoTrabajoDesc { get; set; }
 
         public static IEnumerable<VW_TrabajadoresCategoriaPlanilla> FindByFilters(int? I_CategoriaPlanillaID = null)
         {

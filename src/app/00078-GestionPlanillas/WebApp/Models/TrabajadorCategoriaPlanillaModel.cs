@@ -1,6 +1,7 @@
 ﻿using Domain.Enums;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Web;
 
@@ -50,16 +51,32 @@ namespace WebApp.Models
 
         public string vinculoDesc { get; set; }
 
-        public int trabajadorCategoriaPlanillaID { get; set; }
+        public int? trabajadorCategoriaPlanillaID { get; set; }
 
+        [DisplayName("Planilla")]
         public int categoriaPlanillaID { get; set; }
 
         public string categoriaPlanillaDesc { get; set; }
 
-        public bool esPlanillaCabecera { get; set; }
+        public bool esCategoriaPrincipal { get; set; }
 
         public bool seleccionado { get; set; }
 
         public bool tienePlanilla { get; set; }
+
+
+        [DisplayName("Dependencia")]
+        public int dependenciaID { get; set; }
+
+        public string dependenciaCod { get; set; }
+
+        public string dependenciaDesc { get; set; }
+
+        [DisplayName("Agrupar")]
+        public int? grupoTrabajoID { get; set; }
+
+        public string grupoTrabajoCod { get; set; }
+
+        public string grupoTrabajoDesc { get; set; }
     }
 }
