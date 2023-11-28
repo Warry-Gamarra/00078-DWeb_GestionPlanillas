@@ -52,12 +52,14 @@
     <Compile Include="Procedures\USP_IU_GrabarValorExterno.cs" />
     <Compile Include="Procedures\USP_I_RegistrarActividad.cs" />
     <Compile Include="Procedures\USP_I_RegistrarAnio.cs" />
+    <Compile Include="Procedures\USP_I_RegistrarCategoriaPlanillaTrabajador.cs" />
     <Compile Include="Procedures\USP_I_RegistrarDepActividadMeta.cs" />
     <Compile Include="Procedures\USP_I_RegistrarDependencia.cs" />
     <Compile Include="Procedures\USP_I_RegistrarMeta.cs" />
     <Compile Include="Procedures\USP_S_ListarResumenSIAF.cs" />
     <Compile Include="Procedures\USP_S_ListarResumenPorActividadYDependencia.cs" />
     <Compile Include="Procedures\USP_U_ActualizarActividad.cs" />
+    <Compile Include="Procedures\USP_U_ActualizarCategoriaPlanillaTrabajador.cs" />
     <Compile Include="Procedures\USP_U_ActualizarDepActividadMeta.cs" />
     <Compile Include="Procedures\USP_U_ActualizarDependencia.cs" />
     <Compile Include="Procedures\USP_U_ActualizarMeta.cs" />
@@ -68,6 +70,7 @@
     <Compile Include="Procedures\USP_I_RegistrarPlantillaPlanillaConcepto.cs" />
     <Compile Include="Procedures\USP_I_RegistrarPlantillaPlanilla.cs" />
     <Compile Include="Procedures\USP_U_CambiarEstadoDependencia.cs" />
+    <Compile Include="Procedures\USP_U_CambiarEstadoTrabajadorCategoriaPlanilla.cs" />
     <Compile Include="Procedures\USP_U_CambiarEstadoUsuario.cs" />
     <Compile Include="Procedures\USP_U_ActualizarPlantillaPlanillaConcepto.cs" />
     <Compile Include="Procedures\USP_U_ActualizarPlantillaPlanilla.cs" />
@@ -84,6 +87,7 @@
     <Compile Include="Procedures\USP_U_EliminarDependencia.cs" />
     <Compile Include="Procedures\USP_U_EliminarMeta.cs" />
     <Compile Include="Procedures\USP_U_EliminarPlantillaPlanillaConcepto.cs" />
+    <Compile Include="Procedures\USP_U_EliminarTrabajadorCategoriaPlanilla.cs" />
     <Compile Include="Procedures\USP_U_EliminarValorExternoConcepto.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Tables\TC_Actividad.cs" />

@@ -2602,7 +2602,7 @@ IF EXISTS (SELECT * FROM INFORMATION_SCHEMA.ROUTINES WHERE ROUTINE_TYPE = 'PROCE
 GO
 
 CREATE PROCEDURE [dbo].[USP_I_RegistrarCategoriaPlanillaTrabajador]
-@I_TrabajadorID VARCHAR(20),
+@I_TrabajadorID INT,
 @I_CategoriaPlanillaID INT,
 @I_DependenciaID INT,
 @I_GrupoTrabajoID INT = NULL,
