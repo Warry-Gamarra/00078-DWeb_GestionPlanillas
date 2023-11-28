@@ -57,6 +57,8 @@ namespace Data.Views
 
         public string T_GrupoTrabajoDesc { get; set; }
 
+        public bool B_Habilitado { get; set; }
+
         public static IEnumerable<VW_TrabajadoresCategoriaPlanilla> FindByFilters(int? I_CategoriaPlanillaID = null)
         {
             IEnumerable<VW_TrabajadoresCategoriaPlanilla> result;
@@ -121,6 +123,29 @@ namespace Data.Views
                     result = _dbConnection.QuerySingleOrDefault<VW_TrabajadoresCategoriaPlanilla>(s_command,
                         new { I_TrabajadorCategoriaPlanillaID = I_TrabajadorCategoriaPlanillaID },
                         commandType: System.Data.CommandType.Text);
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+
+            return result;
+        }
+
+        public static IEnumerable<VW_TrabajadoresCategoriaPlanilla> FindByTrabajadorID(int I_TrabajadorID)
+        {
+            IEnumerable<VW_TrabajadoresCategoriaPlanilla> result;
+
+            try
+            {
+                string s_command = @"SELECT * FROM dbo.VW_TrabajadoresCategoriaPlanilla WHERE I_TrabajadorID = @I_TrabajadorID 
+                    ORDER BY B_CategoriaPrincipal DESC, T_CategoriaPlanillaDesc;";
+
+                using (var _dbConnection = new SqlConnection(Database.ConnectionString))
+                {
+                    result = _dbConnection.Query<VW_TrabajadoresCategoriaPlanilla>(s_command,
+                        new { I_TrabajadorID = I_TrabajadorID }, commandType: System.Data.CommandType.Text);
                 }
             }
             catch (Exception ex)

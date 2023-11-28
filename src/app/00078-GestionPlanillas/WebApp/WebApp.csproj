@@ -504,6 +504,7 @@
     <Content Include="Views\Reportes\ResumenSIAF.cshtml" />
     <Content Include="Views\Trabajadores\_AsignarCategoriaPlanilla.cshtml" />
     <Content Include="Views\Trabajadores\_MsgAsignarCategoriaPlanilla.cshtml" />
+    <Content Include="Views\Trabajadores\_CategoriasPlanillaAsignadas.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

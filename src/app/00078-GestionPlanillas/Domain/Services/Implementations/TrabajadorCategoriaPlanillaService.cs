@@ -77,9 +77,18 @@ namespace Domain.Services.Implementations
             return Mapper.Result_To_Response(result);
         }
 
-        public List<TrabajadorCategoriaPlanillaDTO> ListarTrabajadoresCategoriaPlanilla(int? I_CategoriaPlanillaID = null)
+        public List<TrabajadorCategoriaPlanillaDTO> ListarCategoriaPlanillaPorTrabajador(int trabajadorID)
         {
-            var lista = VW_TrabajadoresCategoriaPlanilla.FindByFilters(I_CategoriaPlanillaID)
+            var lista = VW_TrabajadoresCategoriaPlanilla.FindByTrabajadorID(trabajadorID)
+                .Select(x => Mapper.VW_TrabajadoresCategoriaPlanilla_To_TrabajadorCategoriaPlanillaDTO(x))
+                .ToList();
+
+            return lista;
+        }
+
+        public List<TrabajadorCategoriaPlanillaDTO> ListarTrabajadoresCategoriaPlanilla(int? categoriaPlanillaID = null)
+        {
+            var lista = VW_TrabajadoresCategoriaPlanilla.FindByFilters(categoriaPlanillaID)
                 .Select(x => Mapper.VW_TrabajadoresCategoriaPlanilla_To_TrabajadorCategoriaPlanillaDTO(x))
                 .ToList();
 

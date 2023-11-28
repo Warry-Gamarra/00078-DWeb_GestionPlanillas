@@ -78,5 +78,7 @@ namespace WebApp.Models
         public string grupoTrabajoCod { get; set; }
 
         public string grupoTrabajoDesc { get; set; }
+
+        public bool estaHabilitado { get; set; }
     }
 }

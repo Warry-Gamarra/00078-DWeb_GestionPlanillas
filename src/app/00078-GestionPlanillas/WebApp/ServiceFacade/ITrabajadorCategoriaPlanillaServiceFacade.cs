@@ -12,6 +12,8 @@ namespace WebApp.ServiceFacade
     {
         Response GrabarTrabajadorCategoriaPlanilla(Operacion operacion, TrabajadorCategoriaPlanillaModel trabajadorCategoriaPlanillaModel, int userID);
 
+        List<TrabajadorCategoriaPlanillaModel> ListarCategoriaPlanillaPorTrabajador(int trabajadorID);
+
         List<TrabajadorCategoriaPlanillaModel> ListarTrabajadoresAptos(int anio, int mes, int categoriaPlanillaID);
 
         TrabajadorCategoriaPlanillaModel ObtenerTrabajadorCategoriaPlanilla(int trabajadorCategoriaPlanillaID);

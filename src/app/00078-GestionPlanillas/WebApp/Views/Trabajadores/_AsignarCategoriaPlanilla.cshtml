@@ -1,23 +1,18 @@
 ﻿@model WebApp.Models.TrabajadorCategoriaPlanillaModel
 @Scripts.Render("~/bundles/jqueryval")
 
-<div class="modal-header bg-dark-gray" style="border-radius: .2rem .2rem 0px 0px">
-    <h5 class="modal-title text-center"><i class="fa fa-tag">&nbsp;</i> @ViewBag.Title</h5>
-    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-</div>
-
-<div class="modal-body">
-    @using (Ajax.BeginForm((string)ViewBag.Action, "Trabajadores", new { area = "" }, new AjaxOptions
-    {
-        HttpMethod = "POST",
-        InsertionMode = InsertionMode.Replace,
-        UpdateTargetId = "div_msg",
-        OnBegin = "Load",
-        OnComplete = "Stop"
-    }))
-    {
-        @Html.AntiForgeryToken()
-        @Html.HiddenFor(model => model.trabajadorID)
+@using (Ajax.BeginForm((string)ViewBag.Action, "Trabajadores", new { area = "" }, new AjaxOptions
+{
+    HttpMethod = "POST",
+    InsertionMode = InsertionMode.Replace,
+    UpdateTargetId = "div_msg",
+    OnBegin = "Load",
+    OnComplete = "Stop"
+}))
+{
+    @Html.AntiForgeryToken()
+    @Html.HiddenFor(model => model.trabajadorID)
+    @Html.HiddenFor(model => model.trabajadorCategoriaPlanillaID)
 
     <div class="form-row">
         <div class="col-6">
@@ -34,42 +29,43 @@
                 @Html.ValidationMessageFor(model => model.grupoTrabajoID, null, new { @class = "text-danger" })
             </div>
         </div>
-
     </div>
 
-        <div class="form-row">
-            <div class="col-12">
-                <div class="mb-3 row">
-                    @Html.LabelFor(model => model.dependenciaID, new { @class = "col-sm-2 control-label" })
-                    <div class="col-sm-10">
-                        @Html.DropDownListFor(model => model.dependenciaID, ViewBag.ListaDependencias as SelectList, "[ SELECCIONAR ]", new { @class = "form-control text-uppercase select-filter-modal" })
-                        @Html.ValidationMessageFor(model => model.dependenciaID, null, new { @class = "text-danger" })
-                    </div>
+    <div class="form-row">
+        <div class="col-12">
+            <div class="mb-3 row">
+                @Html.LabelFor(model => model.dependenciaID, new { @class = "col-sm-2 control-label" })
+                <div class="col-sm-10">
+                    @Html.DropDownListFor(model => model.dependenciaID, ViewBag.ListaDependencias as SelectList, "[ SELECCIONAR ]", new { @class = "form-control text-uppercase select-filter-modal" })
+                    @Html.ValidationMessageFor(model => model.dependenciaID, null, new { @class = "text-danger" })
                 </div>
             </div>
         </div>
-
-        <div class="row d-flex justify-content-center">
-            <button type="submit" class="btn btn-primary center" id="btnsubmit"><i class="fa fa-save"></i> Guardar</button>
-        </div>
-    }
-</div>
-
-<div class="modal-footer" id="div_msg">
-    <div class="col-md-12" style="display:none" id="loading">
-        <h6>Espere un momento...</h6>
-        <div class="progress">
-            <div class="indeterminate"></div>
-        </div>
     </div>
 
-    <button type="button" class="btn btn-secondary" id="btnCancel" data-dismiss="modal">
-        <i class="fa fa-times-circle-o"></i> Cerrar
-    </button>
+    <div class="row d-flex justify-content-center">
+        <button type="submit" class="btn btn-primary center" id="btnsubmit"><i class="fa fa-save"></i> Guardar</button>
+    </div>
+}
+
+
+<div class="modal-footer mt-4" id="div_msg">
+    <a href="@Url.Action("CategoriasPlanillaAsignadas","Trabajadores", new { id = Model.trabajadorID })" class="btn btn-outline-primary" id="btn-return">
+        <i class="fa fa-arrow-left" aria-hidden="true"></i>&nbsp;Volver a la lista
+    </a>
+    <button type="button" class="btn btn-secondary" id="btnCancel" data-dismiss="modal"><i class="fa fa-times-circle-o"></i>&nbsp;Cerrar</button>
 </div>
 
 <script type="text/javascript">
-    $(document).ready(function () {
+    $(function () {
+        $('#content-body').on('click', '#btn-return', function (event) {
+            event.preventDefault();
+
+            let url = $(event.currentTarget).attr("href");
+
+            loadForm(url, "cargando formulario...");
+        });
+
         $('.select-filter-modal').select2({
             theme: 'bootstrap4',
             dropdownParent: $('#modal-container-lg'),
@@ -78,4 +74,17 @@
             e.stopPropagation();
         });
     });
+
+    function loadForm(url, message) {
+        $('#load-message').html(message);
+
+        $('#content-body').hide();
+        $('#spin-loader').show();
+
+        let modal = $('#modal-container-lg');
+
+        setTimeout(function () {
+            modal.find('.modal-content').load(url)
+        }, 600);
+    }
 </script>

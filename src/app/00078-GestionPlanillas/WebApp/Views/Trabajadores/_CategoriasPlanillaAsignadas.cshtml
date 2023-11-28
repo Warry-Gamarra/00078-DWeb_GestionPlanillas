@@ -1,4 +1,4 @@
-﻿@model WebApp.Models.PlantillaPlanillaModel
+﻿@model WebApp.Models.TrabajadorModel
 
 <div class="modal-header bg-dark-gray" style="border-radius: .2rem .2rem 0px 0px">
     <h5 class="modal-title text-center"><i class="fa fa-tag"></i>&nbsp;@ViewBag.Title</h5>
@@ -8,26 +8,17 @@
 <div class="modal-body">
     <div class="container-fluid mb-4">
         <dl class="row">
-            <dt class="col-sm-3">Clase Planilla</dt>
-            <dd class="col-sm-9">@Model.clasePlanillaDesc</dd>
+            <dt class="col-sm-3">Trabajador</dt>
+            <dd class="col-sm-9">@Model.apellidosNombre.ToUpper()</dd>
 
-            <dt class="col-sm-3">Categoría Planilla</dt>
-            <dd class="col-sm-9">@Model.categoriaPlanillaDesc</dd>
+            <dt class="col-sm-3">Vínculo</dt>
+            <dd class="col-sm-9">@Model.vinculoDesc.ToUpper()</dd>
 
-            <dt class="col-sm-3">Descripción</dt>
-            <dd class="col-sm-9">@Model.plantillaPlanillaDesc</dd>
+            <dt class="col-sm-3">Planilla Principal</dt>
+            <dd class="col-sm-9">@ViewBag.CategoriaPlanillaDesc</dd>
 
             <dt class="col-sm-3">Estado</dt>
-            <dd class="col-sm-9">
-                @if (Model.estaHabilitado)
-                {
-                    <span class="text-success">Habilitado</span>
-                }
-                else
-                {
-                    <span class="text-secondary">Deshabilitado</span>
-                }
-            </dd>
+            <dd class="col-sm-9">@Model.estadoDesc.ToUpper()</dd>
         </dl>
 
         <hr />
@@ -44,14 +35,12 @@
     </div>
     <div class="container-fluid" id="content-body">
         <div class="table-responsive mb-4">
-            <table class="table table-hover" id="dataTableConceptosAsignados" width="100%">
+            <table class="table table-hover" id="dataTableCategoriasPlanillaAsignadas" width="100%">
                 <thead class="thead-dark">
                     <tr>
-                        <th>Tip.Concepto</th>
-                        <th>Código</th>
-                        <th>Descripción</th>
-                        <th>Valor</th>
-                        <th>Aplica a</th>
+                        <th>Planilla</th>
+                        <th>Dependencia</th>
+                        <th>Grupo</th>
                         <th>Estado</th>
                         <th></th>
                         <th></th>
@@ -59,11 +48,9 @@
                 </thead>
                 <tfoot>
                     <tr>
-                        <th>Tip.Concepto</th>
-                        <th>Código</th>
-                        <th>Descripción</th>
-                        <th>Valor</th>
-                        <th>Aplica a</th>
+                        <th>Planilla</th>
+                        <th>Dependencia</th>
+                        <th>Grupo</th>
                         <th>Estado</th>
                         <th></th>
                         <th></th>
@@ -72,8 +59,8 @@
             </table>
         </div>
         <div class="modal-footer" id="div_msg">
-            <a href="@Url.Action("Asignar","PlantillaPlanillaConcepto", new { id = Model.plantillaPlanillaID.Value })" class="btn btn-primary" id="btn-agregar">
-                <i class="fa fa-plus-circle" aria-hidden="true"></i>&nbsp;Agregar concepto
+            <a href="@Url.Action("AsignarCategoriaPlanilla","Trabajadores", new { id = Model.trabajadorID.Value })" class="btn btn-primary" id="btn-agregar">
+                <i class="fa fa-plus-circle" aria-hidden="true"></i>&nbsp;Agregar planilla
             </a>
             <button type="button" class="btn btn-secondary" id="btnCancel" data-dismiss="modal"><i class="fa fa-times-circle-o"></i>&nbsp;Cerrar</button>
         </div>
@@ -83,7 +70,7 @@
 <script type="text/javascript">
     modalActivo = null;
 
-    generarDatatableConceptosAsignados();
+    generarDatatableCategoriasPlanillaAsignadas();
 
     $('.modal-body').on('click', '#btn-agregar', function (event) {
         event.preventDefault();
@@ -94,7 +81,7 @@
     $('.modal-body').on('click', '.btn-editar', function (event) {
         event.preventDefault();
         var url = $(event.currentTarget).attr('href');
-        loadForm(url, 'obteniendo datos del concepto...');
+        loadForm(url, 'obteniendo datos del trabajador...');
     });
 
     $('.modal-body').on('click', '.btn-eliminar', function (event) {
@@ -115,7 +102,7 @@
         }).then((result) => {
             if (result.isConfirmed) {
                 $.ajax({
-                    url: '@Url.Action("Eliminar", "PlantillaPlanillaConcepto")/' + id,
+                    url: '@Url.Action("EliminarCategoriaPlanilla", "Trabajadores")/' + id,
                     type: "POST",
                     data: { __RequestVerificationToken: token },
                     beforeSend: function () {
@@ -128,7 +115,7 @@
 
                         if (data.Success) {
                             mostrarMensajeSistema(data.Message, MENSAJE.SUCCESS);
-                            generarDatatableConceptosAsignados();
+                            generarDatatableCategoriasPlanillaAsignadas();
                         } else {
                             mostrarMensajeSistema(data.Message, MENSAJE.ERROR);
                         }
@@ -143,23 +130,27 @@
         });
     });
 
-    function generarDatatableConceptosAsignados() {
-        $('#dataTableConceptosAsignados').DataTable({
+    function generarDatatableCategoriasPlanillaAsignadas() {
+        $('#dataTableCategoriasPlanillaAsignadas').DataTable({
             ajax: {
-                'url': '@Url.Action("ObtenerConceptosAsignados", "PlantillaPlanillaConcepto", new { id = Model.plantillaPlanillaID.Value })',
+                'url': '@Url.Action("ObtenerListaTrabajadoresCategoriaPlanilla", "Trabajadores", new { id = Model.trabajadorID.Value })',
                 'type': 'get'
             },
             columns: [
-                { data: 'tipoConceptoDesc' },
-                { data: 'conceptoCod' },
-                { data: 'conceptoDesc' },
-                { data: 'valorConceptoFormateado' },
-                { data: 'descFiltro' },
-                { data: 'estaHabilitado' },
-                { data: 'plantillaPlanillaConceptoID' },
-                { data: 'plantillaPlanillaConceptoID' }
+                { data: 'esCategoriaPrincipal' },
+                { data: 'dependenciaDesc' },
+                { data: 'grupoTrabajoDesc' },
+                { data: 'trabajadorCategoriaPlanillaID' },
+                { data: 'trabajadorCategoriaPlanillaID' },
+                { data: 'trabajadorCategoriaPlanillaID' }
             ],
             columnDefs: [
+                {
+                    targets: 0,
+                    render: function (data, type, row) {
+                        return data ? row.categoriaPlanillaDesc + '<br/><b>(Principal)<b/>' : row.categoriaPlanillaDesc;
+                    }
+                },
                 {
                     targets: -3,
                     orderable: false,
@@ -167,18 +158,14 @@
                         let btnClass = (row.estaHabilitado === true) ? 'success' : 'secondary';
                         let iClass = (row.estaHabilitado === true) ? 'check-circle-o' : 'minus-circle';
                         let estado = (row.estaHabilitado === true) ? 'Habilitado' : 'Deshabilitado';
-
-                        let url = '@Url.Action("CambiarEstado", "PlantillaPlanillaConcepto")';
                         let token = $('input[name="__RequestVerificationToken"]').val();
-                        let container = 'dataTableConceptosAsignados';
+                        let onClickFunction = `ChangeState(${data}, ${row.estaHabilitado}, '@Url.Action("CambiarEstadoCategoriaPlanilla", "Trabajadores")', '${token}', 'dataTableCategoriasPlanillaAsignadas')`;
 
-                        let onClickFunction = `ChangeState(${row.plantillaPlanillaConceptoID}, ${row.estaHabilitado}, '${url}', '${token}', '${container}')`;
-
-                        let html = `<span id="td${row.plantillaPlanillaConceptoID}">` +
+                        let html = row.esCategoriaPrincipal ? '' : (`<span id="td${data}">` +
                             `<button type="submit" class="btn btn-xs btn-${btnClass}" onclick="${onClickFunction}">` +
                             `<i class="fa fa-${iClass}" aria-hidden="true"></i> <span class="d-none d-md-inline-block">${estado}</span>` +
                             '</button>' +
-                            '</span>';
+                            '</span>');
 
                         return html;
                     }
@@ -187,7 +174,7 @@
                     targets: -2,
                     orderable: false,
                     render: function (data, type, row) {
-                        return `<a class="btn-editar" href="@Url.Action("Editar", "PlantillaPlanillaConcepto")/${data}` +
+                        return row.esCategoriaPrincipal ? '' : `<a class="btn-editar" href="@Url.Action("EditarCategoriaPlanilla", "Trabajadores")/${data}` +
                             '" title="Editar"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a>';
                     }
                 },
@@ -195,7 +182,7 @@
                     targets: -1,
                     orderable: false,
                     render: function (data, type, row) {
-                        return `<a class="btn-eliminar" href="#" data-id="${data}"` +
+                        return row.esCategoriaPrincipal ? '' : `<a class="btn-eliminar" href="#" data-id="${data}"` +
                             '" title="Eliminar"><i class="fa fa-trash" aria-hidden="true"></i></a>';
                     }
                 }
@@ -224,33 +211,7 @@
                 loadingRecords: "Cargando...",
                 processing: "Procesando..."
             },
-            searching: true,
-            initComplete: function () {
-                this.api().columns([0]).every(function () {
-                    let column = this;
-
-                    let select = document.createElement('select');
-                    select.add(new Option('Tip.Concepto', ''));
-                    column.footer().replaceChildren(select);
-
-                    select.addEventListener('change', function () {
-                        var val = $.fn.dataTable.util.escapeRegex(select.value);
-                        column.search(val ? '^' + val + '$' : '', true, false).draw();
-                    });
-
-                    column.data().unique().sort().each(function (d, j) {
-                        if (column.search() === '^' + d + '$') {
-                            select.add(new Option(d, d, true, true));
-                        } else {
-                            select.add(new Option(d, d));
-                        }
-                    });
-
-                    $(select).click(function (e) {
-                        e.stopPropagation();
-                    });
-                });
-            }
+            searching: true
         });
     }
 
@@ -279,4 +240,3 @@
         })
     }
 </script>
-

@@ -45,8 +45,6 @@ namespace WebApp.Controllers
         {
             ViewBag.Title = "Conceptos asignados";
 
-            ViewBag.Action = "Actualizar";
-
             var plantilla = _plantillaPlanillaServiceFacade.ObtenerPlantillaPlanilla(id);
 
             return PartialView("_ConceptosAsignados", plantilla);

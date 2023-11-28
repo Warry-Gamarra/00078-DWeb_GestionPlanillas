@@ -195,6 +195,29 @@ namespace WebApp.Controllers
         }
 
         [HttpGet]
+        public ActionResult CategoriasPlanillaAsignadas(int id)
+        {
+            ViewBag.Title = "Categorias planillas asignados";
+
+            var trabajador = _trabajadorServiceFacade.ObtenerTrabajador(id);
+
+            ViewBag.CategoriaPlanillaDesc = _trabajadorCategoriaPlanillaService.ListarCategoriaPlanillaPorTrabajador(id)
+                .Where(x => x.esCategoriaPrincipal).First().categoriaPlanillaDesc.ToUpper();
+
+            return PartialView("_CategoriasPlanillaAsignadas", trabajador);
+        }
+
+        [HttpGet]
+        public JsonResult ObtenerListaTrabajadoresCategoriaPlanilla(int id)
+        {
+            var result = new AjaxResponse();
+
+            result.data = _trabajadorCategoriaPlanillaService.ListarCategoriaPlanillaPorTrabajador(id);
+
+            return Json(result, JsonRequestBehavior.AllowGet);
+        }
+
+        [HttpGet]
         public ActionResult AsignarCategoriaPlanilla(int id)
         {
             ViewBag.Title = "Asignar a Planilla";
@@ -233,6 +256,8 @@ namespace WebApp.Controllers
             {
                 response.Message = "Ocurrió un error.";
             }
+
+            ViewBag.TrabajadorID = model.trabajadorID;
 
             return PartialView("_MsgAsignarCategoriaPlanilla", response);
         }
@@ -275,7 +300,27 @@ namespace WebApp.Controllers
                 response.Message = "Ocurrió un error.";
             }
 
+            ViewBag.TrabajadorID = model.trabajadorID;
+
             return PartialView("_MsgAsignarCategoriaPlanilla", response);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public JsonResult CambiarEstadoCategoriaPlanilla(int rowID, bool estaHabilitado)
+        {
+            var result = _trabajadorCategoriaPlanillaService.CambiarEstado(rowID, estaHabilitado, WebSecurity.CurrentUserId);
+
+            return Json(result, JsonRequestBehavior.AllowGet);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public JsonResult EliminarCategoriaPlanilla(int id)
+        {
+            var result = _trabajadorCategoriaPlanillaService.Eliminar(id, WebSecurity.CurrentUserId);
+
+            return Json(result, JsonRequestBehavior.AllowGet);
         }
     }
 }

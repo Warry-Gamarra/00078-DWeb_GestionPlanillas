@@ -13,7 +13,9 @@ namespace Domain.Services
     {
         Response GrabarTrabajadorCategoriaPlanilla(Operacion operacion, TrabajadorCategoriaPlanillaEntity trabajadorCategoriaPlanillaEntity, int userID);
 
-        List<TrabajadorCategoriaPlanillaDTO> ListarTrabajadoresCategoriaPlanilla(int? I_CategoriaPlanillaID = null);
+        List<TrabajadorCategoriaPlanillaDTO> ListarCategoriaPlanillaPorTrabajador(int trabajadorID);
+
+        List<TrabajadorCategoriaPlanillaDTO> ListarTrabajadoresCategoriaPlanilla(int? categoriaPlanillaID = null);
 
         TrabajadorCategoriaPlanillaDTO ObtenerTrabajadorCategoriaPlanilla(int trabajadorCategoriaPlanillaID);
 

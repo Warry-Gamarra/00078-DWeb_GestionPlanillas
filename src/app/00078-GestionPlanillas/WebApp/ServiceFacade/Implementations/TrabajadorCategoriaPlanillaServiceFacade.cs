@@ -50,22 +50,11 @@ namespace WebApp.ServiceFacade.Implementations
             return response;
         }
 
-        public TrabajadorCategoriaPlanillaModel ObtenerTrabajadorCategoriaPlanilla(int trabajadorCategoriaPlanillaID)
+        public List<TrabajadorCategoriaPlanillaModel> ListarCategoriaPlanillaPorTrabajador(int trabajadorID)
         {
-            TrabajadorCategoriaPlanillaModel trabajadorCategoriaPlanillaModel;
-
-            var trabajadorCategoriaPlanillaDTO = _trabajadorCategoriaPlanillaService.ObtenerTrabajadorCategoriaPlanilla(trabajadorCategoriaPlanillaID);
-
-            if (trabajadorCategoriaPlanillaDTO == null)
-            {
-                trabajadorCategoriaPlanillaModel = null;
-            }
-            else
-            {
-                trabajadorCategoriaPlanillaModel = Mapper.TrabajadorCategoriaPlanillaDTO_To_TrabajadorCategoriaPlanillaModel(trabajadorCategoriaPlanillaDTO);
-            }
-
-            return trabajadorCategoriaPlanillaModel;
+            return _trabajadorCategoriaPlanillaService.ListarCategoriaPlanillaPorTrabajador(trabajadorID)
+                .Select(x => Mapper.TrabajadorCategoriaPlanillaDTO_To_TrabajadorCategoriaPlanillaModel(x))
+                .ToList();
         }
 
         public List<TrabajadorCategoriaPlanillaModel> ListarTrabajadoresAptos(int anio, int mes, int categoriaPlanillaID)
@@ -82,6 +71,24 @@ namespace WebApp.ServiceFacade.Implementations
             });
 
             return lista;
+        }
+
+        public TrabajadorCategoriaPlanillaModel ObtenerTrabajadorCategoriaPlanilla(int trabajadorCategoriaPlanillaID)
+        {
+            TrabajadorCategoriaPlanillaModel trabajadorCategoriaPlanillaModel;
+
+            var trabajadorCategoriaPlanillaDTO = _trabajadorCategoriaPlanillaService.ObtenerTrabajadorCategoriaPlanilla(trabajadorCategoriaPlanillaID);
+
+            if (trabajadorCategoriaPlanillaDTO == null)
+            {
+                trabajadorCategoriaPlanillaModel = null;
+            }
+            else
+            {
+                trabajadorCategoriaPlanillaModel = Mapper.TrabajadorCategoriaPlanillaDTO_To_TrabajadorCategoriaPlanillaModel(trabajadorCategoriaPlanillaDTO);
+            }
+
+            return trabajadorCategoriaPlanillaModel;
         }
 
         public Response CambiarEstado(int trabajadorCategoriaPlanillaID, bool estaHabilitado, int userID)
