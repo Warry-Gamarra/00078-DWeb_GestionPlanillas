@@ -47,13 +47,33 @@ namespace Domain.Reports
 
         public ResumenSIAFDTO resumenDocente { get; set; }
 
-        public ReporteResumenSIAF(int año, string mes, ResumenSIAFDTO resumenAdministrativo, ResumenSIAFDTO resumenDocente)
+        public string tituloResumenGeneradoraRecursos
+        {
+            get
+            {
+                return "GENERADORA DE RECURSOS";
+            }
+        }
+
+        public string pieTablaGeneradoraRecursos
+        {
+            get
+            {
+                return "Total Gene.Recursos";
+            }
+        }
+
+        public ResumenSIAFDTO resumenGeneradoraRecursos { get; set; }
+
+        public ReporteResumenSIAF(int año, string mes, ResumenSIAFDTO resumenAdministrativo, ResumenSIAFDTO resumenDocente, ResumenSIAFDTO resumenGeneradoraRecursos)
         { 
             titulo = String.Format("RESUMEN SIAF PLANILLA DE HABERES MES DE {0} {1}", mes.ToUpper(), año);
 
             this.resumenAdministrativo = resumenAdministrativo;
 
             this.resumenDocente = resumenDocente;
+
+            this.resumenGeneradoraRecursos = resumenGeneradoraRecursos;
         }
     }
 }

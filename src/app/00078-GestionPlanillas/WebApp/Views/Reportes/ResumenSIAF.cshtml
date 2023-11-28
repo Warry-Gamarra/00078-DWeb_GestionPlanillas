@@ -135,6 +135,50 @@
                         </div>
                     }
 
+                    @if (Model.resumenGeneradoraRecursos.detalle != null && Model.resumenGeneradoraRecursos.detalle.Count() > 0)
+                    {
+                        <p class="h5">@Model.tituloResumenGeneradoraRecursos</p>
+
+                        <div class="table-responsive mt-4">
+                            <table class="table table-bordered" width="100%">
+                                <thead class="thead-dark">
+                                    <tr>
+                                        @foreach (var columnName in Model.resumenGeneradoraRecursos.cabecera)
+                                        {
+                                            <th>@columnName</th>
+                                        }
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach (var item in Model.resumenGeneradoraRecursos.detalle)
+                                    {
+                                        <tr>
+                                            @foreach (var columnName in Model.resumenGeneradoraRecursos.cabecera)
+                                            {
+                                                <td>@item[columnName]</td>
+                                            }
+                                        </tr>
+                                    }
+                                    <tr>
+                                        @foreach (var columnName in Model.resumenGeneradoraRecursos.cabecera)
+                                        {
+                                            if (columnName == "Actividad")
+                                            {
+                                                <th colspan="2">@Model.pieTablaGeneradoraRecursos</th>
+                                            }
+                                            else if (columnName != "Meta")
+                                            {
+                                                <th>
+                                                    @Model.resumenGeneradoraRecursos.detalle.Sum(item => (decimal)item[columnName])
+                                                </th>
+                                            }
+                                        }
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    }
+
                     <div class="row">
                         <div class="col-lg-12">
                             <button type="button" id="btnExcelDescargar" class="btn btn-link pl-0">Descargar información en Excel [.xlsx]</button>

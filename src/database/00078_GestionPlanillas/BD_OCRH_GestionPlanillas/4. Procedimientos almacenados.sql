@@ -512,8 +512,8 @@ BEGIN
 		I_TrabajadorID INT NOT NULL,
 		I_TrabajadorCategoriaPlanillaID INT NOT NULL,
 		I_DependenciaID INT NOT NULL,
-		I_Filtro1 INT NOT NULL,
-		I_Filtro2 INT NOT NULL
+		I_Filtro1 INT,
+		I_Filtro2 INT
 	);
 
 	DECLARE @tmp_remuneracion TABLE(

@@ -90,7 +90,11 @@ namespace Domain.Services.Implementations
 
             var resumenDoc = new ResumenSIAFDTO(docSpResult.cabecera, docSpResult.detalle);
 
-            return new ReporteResumenSIAF(año, _periodoService.ObtenerMesDesc(mes), resumenAdm, resumenDoc);
+            var generadoraRecursoSpResult = USP_S_ListarResumenSIAF.Execute(año, mes, (int)CategoriaPlanilla.GeneradoraDeRecursos);
+
+            var resumenGeneradoraRecursos = new ResumenSIAFDTO(generadoraRecursoSpResult.cabecera, generadoraRecursoSpResult.detalle);
+
+            return new ReporteResumenSIAF(año, _periodoService.ObtenerMesDesc(mes), resumenAdm, resumenDoc, resumenGeneradoraRecursos);
         }
     }
 }

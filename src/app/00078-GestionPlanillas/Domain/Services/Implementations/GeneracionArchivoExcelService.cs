@@ -447,6 +447,69 @@ namespace Domain.Services.Implementations
                     currentCol++;
                 }
 
+                currentRow += 2;
+                var celdaTituloGeneRecursos = worksheet.Cell(currentRow, 1).SetValue<string>(reporte.tituloResumenGeneradoraRecursos);
+                celdaTituloGeneRecursos.Style.Font.Bold = true;
+
+                currentRow++;
+                currentCol = 1;
+                foreach (var columnName in reporte.resumenGeneradoraRecursos.cabecera)
+                {
+                    cell = worksheet.Cell(currentRow, currentCol).SetValue<string>(columnName);
+                    cell.Style.Border.TopBorder = XLBorderStyleValues.Thin;
+                    cell.Style.Border.BottomBorder = XLBorderStyleValues.Thin;
+                    cell.Style.Border.LeftBorder = XLBorderStyleValues.Thin;
+                    cell.Style.Border.RightBorder = XLBorderStyleValues.Thin;
+                    currentCol++;
+                }
+
+                currentRow++;
+                currentCol = 1;
+                firstDataCol = currentRow;
+                foreach (var item in reporte.resumenGeneradoraRecursos.detalle)
+                {
+                    foreach (var columnName in reporte.resumenGeneradoraRecursos.cabecera)
+                    {
+                        if (columnName == "Actividad" || columnName == "Meta")
+                        {
+                            cell = worksheet.Cell(currentRow, currentCol).SetValue<string>((string)item[columnName]);
+                        }
+                        else
+                        {
+                            cell = worksheet.Cell(currentRow, currentCol).SetValue<decimal>((decimal)item[columnName]);
+                            cell.Style.NumberFormat.Format = Formats.BASIC_DECIMAL;
+                        }
+
+                        cell.Style.Border.TopBorder = XLBorderStyleValues.Thin;
+                        cell.Style.Border.BottomBorder = XLBorderStyleValues.Thin;
+                        cell.Style.Border.LeftBorder = XLBorderStyleValues.Thin;
+                        cell.Style.Border.RightBorder = XLBorderStyleValues.Thin;
+                        currentCol++;
+                    }
+                    currentRow++;
+                    currentCol = 1;
+                }
+
+                worksheet.Cell(currentRow, currentCol).SetValue<string>(reporte.pieTablaGeneradoraRecursos);
+                foreach (var columnName in reporte.resumenGeneradoraRecursos.cabecera)
+                {
+                    if (columnName != "Actividad" && columnName != "Meta")
+                    {
+                        cell = worksheet.Cell(currentRow, currentCol);
+                        formula = string.Format("SUM(R[{0}]C:R[-1]C)", firstDataCol - currentRow);
+                        cell.SetFormulaR1C1(formula);
+                        cell.Style.NumberFormat.Format = Formats.BASIC_DECIMAL;
+                        cell.Style.Font.Bold = true;
+                        cell.Style.Border.TopBorder = XLBorderStyleValues.Thin;
+                        cell.Style.Border.BottomBorder = XLBorderStyleValues.Thin;
+                        cell.Style.Border.LeftBorder = XLBorderStyleValues.Thin;
+                        cell.Style.Border.RightBorder = XLBorderStyleValues.Thin;
+
+
+                    }
+                    currentCol++;
+                }
+
                 using (var stream = new MemoryStream())
                 {
                     workbook.SaveAs(stream);
