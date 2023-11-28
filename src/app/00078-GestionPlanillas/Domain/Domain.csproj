@@ -180,6 +180,7 @@
     <Compile Include="Services\Implementations\RolService.cs" />
     <Compile Include="Services\Implementations\TipoConceptoService.cs" />
     <Compile Include="Services\Implementations\TipoDocumentoService.cs" />
+    <Compile Include="Services\Implementations\TrabajadorCategoriaPlanillaService.cs" />
     <Compile Include="Services\Implementations\UsuarioService.cs" />
     <Compile Include="Services\Implementations\ValorExternoConceptoService.cs" />
     <Compile Include="Services\Implementations\VinculoService.cs" />
@@ -193,6 +194,7 @@
     <Compile Include="Services\IRegimenService.cs" />
     <Compile Include="Services\ITipoConceptoService.cs" />
     <Compile Include="Services\ITipoDocumentoService.cs" />
+    <Compile Include="Services\ITrabajadorCategoriaPlanillaService.cs" />
     <Compile Include="Services\ITrabajadorService.cs" />
     <Compile Include="Services\Implementations\TrabajadorService.cs" />
     <Compile Include="Services\IPlanillaService.cs" />

@@ -23,6 +23,7 @@ namespace WebApp.Controllers
         private ICategoriaPlanillaServiceFacade _categoriaPlanillaServiceFacade;
         private IPeriodoServiceFacade _periodoServiceFacade;
         private ITrabajadorServiceFacade _trabajadorServiceFacade;
+        private ITrabajadorCategoriaPlanillaServiceFacade _trabajadorCategoriPlanillaServiceFacade;
 
         public PlanillasController()
         {
@@ -30,6 +31,7 @@ namespace WebApp.Controllers
             _categoriaPlanillaServiceFacade = new CategoriaPlanillaServiceFacade();
             _periodoServiceFacade = new PeriodoServiceFacade();
             _trabajadorServiceFacade = new TrabajadorServiceFacade();
+            _trabajadorCategoriPlanillaServiceFacade = new TrabajadorCategoriaPlanillaServiceFacade();
         }
 
         [HttpGet]
@@ -64,7 +66,7 @@ namespace WebApp.Controllers
 
             if (anio.HasValue && mes.HasValue && idCategoria.HasValue)
             {
-                listaTrabajadoresAptos = _trabajadorServiceFacade.ListarTrabajadoresAptos(
+                listaTrabajadoresAptos = _trabajadorCategoriPlanillaServiceFacade.ListarTrabajadoresAptos(
                     anio.Value, mes.Value, idCategoria.Value).ToList();
             }
             else

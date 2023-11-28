@@ -2597,11 +2597,11 @@ GO
 
 
 
-IF EXISTS (SELECT * FROM INFORMATION_SCHEMA.ROUTINES WHERE ROUTINE_TYPE = 'PROCEDURE' AND ROUTINE_NAME = 'USP_I_RegistrarCategoriaPlanillaTrabajador')
-	DROP PROCEDURE [dbo].[USP_I_RegistrarCategoriaPlanillaTrabajador]
+IF EXISTS (SELECT * FROM INFORMATION_SCHEMA.ROUTINES WHERE ROUTINE_TYPE = 'PROCEDURE' AND ROUTINE_NAME = 'USP_I_RegistrarTrabajadorCategoriaPlanilla')
+	DROP PROCEDURE [dbo].[USP_I_RegistrarTrabajadorCategoriaPlanilla]
 GO
 
-CREATE PROCEDURE [dbo].[USP_I_RegistrarCategoriaPlanillaTrabajador]
+CREATE PROCEDURE [dbo].[USP_I_RegistrarTrabajadorCategoriaPlanilla]
 @I_TrabajadorID INT,
 @I_CategoriaPlanillaID INT,
 @I_DependenciaID INT,
@@ -2640,11 +2640,11 @@ GO
 
 
 
-IF EXISTS (SELECT * FROM INFORMATION_SCHEMA.ROUTINES WHERE ROUTINE_TYPE = 'PROCEDURE' AND ROUTINE_NAME = 'USP_U_ActualizarCategoriaPlanillaTrabajador')
-	DROP PROCEDURE [dbo].[USP_U_ActualizarCategoriaPlanillaTrabajador]
+IF EXISTS (SELECT * FROM INFORMATION_SCHEMA.ROUTINES WHERE ROUTINE_TYPE = 'PROCEDURE' AND ROUTINE_NAME = 'USP_U_ActualizarTrabajadorCategoriaPlanilla')
+	DROP PROCEDURE [dbo].[USP_U_ActualizarTrabajadorCategoriaPlanilla]
 GO
 
-CREATE PROCEDURE [dbo].[USP_U_ActualizarCategoriaPlanillaTrabajador]
+CREATE PROCEDURE [dbo].[USP_U_ActualizarTrabajadorCategoriaPlanilla]
 @I_TrabajadorCategoriaPlanillaID INT,
 @I_CategoriaPlanillaID INT,
 @I_DependenciaID INT,

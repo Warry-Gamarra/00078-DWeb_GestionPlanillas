@@ -177,9 +177,11 @@
     <Compile Include="ServiceFacade\Implementations\GrupoTrabajoServiceFacade.cs" />
     <Compile Include="ServiceFacade\Implementations\MetaServiceFacade.cs" />
     <Compile Include="ServiceFacade\Implementations\RolServiceFacade.cs" />
+    <Compile Include="ServiceFacade\Implementations\TrabajadorCategoriaPlanillaServiceFacade.cs" />
     <Compile Include="ServiceFacade\Implementations\UsuarioServiceFacade.cs" />
     <Compile Include="ServiceFacade\Implementations\ValorExternoConceptoServiceFacade.cs" />
     <Compile Include="ServiceFacade\IRolServiceFacade.cs" />
+    <Compile Include="ServiceFacade\ITrabajadorCategoriaPlanillaServiceFacade.cs" />
     <Compile Include="ServiceFacade\IUsuarioServiceFacade.cs" />
     <Compile Include="ServiceFacade\IValorExternoConceptoServiceFacade.cs" />
     <Compile Include="ServiceFacade\IAdministrativoServiceFacade.cs" />
@@ -500,8 +502,8 @@
     <Content Include="Views\Metas\_MsgRegistrarMeta.cshtml" />
     <Content Include="Views\Reportes\ResumenActividadYDependencia.cshtml" />
     <Content Include="Views\Reportes\ResumenSIAF.cshtml" />
-    <Content Include="Views\Trabajadores\_AsignarPlanilla.cshtml" />
-    <Content Include="Views\Trabajadores\_MsgAsignarPlanilla.cshtml" />
+    <Content Include="Views\Trabajadores\_AsignarCategoriaPlanilla.cshtml" />
+    <Content Include="Views\Trabajadores\_MsgAsignarCategoriaPlanilla.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

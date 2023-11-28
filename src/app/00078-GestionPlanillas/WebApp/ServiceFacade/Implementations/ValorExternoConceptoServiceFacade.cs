@@ -17,6 +17,7 @@ namespace WebApp.ServiceFacade.Implementations
     {
         private IPeriodoService _periodoService;
         private ITrabajadorService _trabajadorService;
+        private ITrabajadorCategoriaPlanillaService _trabajadorCategoriaPlanillaService;
         private IConceptoService _conceptoService;
         private IProveedorService _proveedorService;
         private IValorExternoConceptoService _valorExternoConceptoService;
@@ -32,6 +33,7 @@ namespace WebApp.ServiceFacade.Implementations
         {
             _periodoService = new PeriodoService();
             _trabajadorService = new TrabajadorService();
+            _trabajadorCategoriaPlanillaService = new TrabajadorCategoriaPlanillaService();
             _conceptoService = new ConceptoService();
             _proveedorService = new ProveedorService();
             _valorExternoConceptoService = new ValorExternoConceptoService();
@@ -421,7 +423,7 @@ namespace WebApp.ServiceFacade.Implementations
                     {
                         dto.datosPersona = String.Format("{0} {1} {2}", personaDTO.apellidoPaterno, personaDTO.apellidoMaterno, personaDTO.nombre);
 
-                        trabajadorDTO = _trabajadorService.ObtenerTrabajadorPorDocumentoYCategoria(dto.tipoDocumentoID.Value, dto.numDocumento, dto.categoriaPlanillaID.Value);
+                        trabajadorDTO = _trabajadorCategoriaPlanillaService.ObtenerTrabajadorPorDocumentoYCategoria(dto.tipoDocumentoID.Value, dto.numDocumento, dto.categoriaPlanillaID.Value);
 
                         if (trabajadorDTO != null)
                         {

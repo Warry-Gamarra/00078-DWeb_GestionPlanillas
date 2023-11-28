@@ -18,6 +18,7 @@ namespace WebApp.Controllers
     public class TrabajadoresController : Controller
     {
         private ITrabajadorServiceFacade _trabajadorServiceFacade;
+        private ITrabajadorCategoriaPlanillaServiceFacade _trabajadorCategoriaPlanillaService;
         private IAdministrativoServiceFacade _administrativoServiceFacade;
         private IDocenteServiceFacade _docenteServiceFacade;
         private IEstadoServiceFacade _estadoServiceFacade;
@@ -39,6 +40,7 @@ namespace WebApp.Controllers
         public TrabajadoresController()
         {
             _trabajadorServiceFacade = new TrabajadorServiceFacade();
+            _trabajadorCategoriaPlanillaService = new TrabajadorCategoriaPlanillaServiceFacade();
             _administrativoServiceFacade = new AdministrativoServiceFacade();
             _docenteServiceFacade = new DocenteServiceFacade();
             _estadoServiceFacade = new EstadoServiceFacade();
@@ -193,15 +195,15 @@ namespace WebApp.Controllers
         }
 
         [HttpGet]
-        public ActionResult AsignarPlanilla(int id)
+        public ActionResult AsignarCategoriaPlanilla(int id)
         {
             ViewBag.Title = "Asignar a Planilla";
 
-            ViewBag.Action = "AsignarPlanilla";
+            ViewBag.Action = "AsignarCategoriaPlanilla";
 
             var trabajador = _trabajadorServiceFacade.ObtenerTrabajador(id);
 
-            var categoriaPlanillaID = (int)_trabajadorServiceFacade.ObtenerCategoriaPlanillaSegunVinculo(trabajador.vinculoID);
+            var categoriaPlanillaID = (int)_trabajadorCategoriaPlanillaService.ObtenerCategoriaPlanillaSegunVinculo(trabajador.vinculoID);
 
             ViewBag.ListaCategoriasPlanillas = _categoriaPlanillaServiceFacade.ObtenerComboCategoriasPlanillas(categoriaPlanillaExcluidaID: categoriaPlanillaID);
 
@@ -209,28 +211,71 @@ namespace WebApp.Controllers
 
             ViewBag.ListaDependencias = _dependenciaServiceFacade.ObtenerComboDependencias(incluirDeshabilitados: false);
 
-            var model = new TrabajadorCategoriaPlanillaModel();
+            var model = new TrabajadorCategoriaPlanillaModel()
+            {
+                trabajadorID = trabajador.trabajadorID.Value
+            };
 
-            return PartialView("_AsignarPlanilla", model);
+            return PartialView("_AsignarCategoriaPlanilla", model);
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult AsignarPlanilla(TrabajadorCategoriaPlanillaModel model)
+        public ActionResult AsignarCategoriaPlanilla(TrabajadorCategoriaPlanillaModel model)
         {
             Response response = new Response();
 
             if (ModelState.IsValid)
             {
-                response.Success = true;
-                response.Message = "Asignación correcta";
+                response = _trabajadorCategoriaPlanillaService.GrabarTrabajadorCategoriaPlanilla(Operacion.Registrar, model, WebSecurity.CurrentUserId);
             }
             else
             {
                 response.Message = "Ocurrió un error.";
             }
 
-            return PartialView("_MsgAsignarPlanilla", response);
+            return PartialView("_MsgAsignarCategoriaPlanilla", response);
+        }
+
+        [HttpGet]
+        public ActionResult EditarCategoriaPlanilla(int id)
+        {
+            ViewBag.Title = "Asignar a Planilla";
+
+            ViewBag.Action = "EditarCategoriaPlanilla";
+
+            var model = _trabajadorCategoriaPlanillaService.ObtenerTrabajadorCategoriaPlanilla(id);
+
+            var trabajador = _trabajadorServiceFacade.ObtenerTrabajador(model.trabajadorID);
+
+            var categoriaPlanillaPrincipalID = (int)_trabajadorCategoriaPlanillaService.ObtenerCategoriaPlanillaSegunVinculo(trabajador.vinculoID);
+
+            ViewBag.ListaCategoriasPlanillas = _categoriaPlanillaServiceFacade.ObtenerComboCategoriasPlanillas(
+                categoriaPlanillaExcluidaID: categoriaPlanillaPrincipalID, incluirDeshabilitados: true, selectedItem: model.categoriaPlanillaID);
+
+            ViewBag.ListaGruposTrabajo = _grupoTrabajoServiceFacade.ObtenerComboGruposTrabajo(incluirDeshabilitados: true, selectedItem: model.grupoTrabajoID);
+
+            ViewBag.ListaDependencias = _dependenciaServiceFacade.ObtenerComboDependencias(incluirDeshabilitados: true, selectedItem: model.dependenciaID);
+
+            return PartialView("_AsignarCategoriaPlanilla", model);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult EditarCategoriaPlanilla(TrabajadorCategoriaPlanillaModel model)
+        {
+            Response response = new Response();
+
+            if (ModelState.IsValid)
+            {
+                response = _trabajadorCategoriaPlanillaService.GrabarTrabajadorCategoriaPlanilla(Operacion.Actualizar, model, WebSecurity.CurrentUserId);
+            }
+            else
+            {
+                response.Message = "Ocurrió un error.";
+            }
+
+            return PartialView("_MsgAsignarCategoriaPlanilla", response);
         }
     }
 }

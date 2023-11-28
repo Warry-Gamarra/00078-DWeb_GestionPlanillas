@@ -16,6 +16,13 @@ namespace Domain.Services.Implementations
 {
     public class TrabajadorService : ITrabajadorService
     {
+        private ITrabajadorCategoriaPlanillaService _trabajadorCategoriaPlanillaService;
+
+        public TrabajadorService()
+        {
+            _trabajadorCategoriaPlanillaService = new TrabajadorCategoriaPlanillaService();
+        }
+
         public List<TrabajadorDTO> ListarTrabajadores()
         {
             var lista = VW_Trabajadores.FindAll()
@@ -56,7 +63,7 @@ namespace Domain.Services.Implementations
                 {
                     case Operacion.Registrar:
 
-                        categoriaPlanillaID = (int)ObtenerCategoriaPlanillaSegunVinculo(trabajadorEntity.vinculoID);
+                        categoriaPlanillaID = (int)_trabajadorCategoriaPlanillaService.ObtenerCategoriaPlanillaSegunVinculo(trabajadorEntity.vinculoID);
 
                         persona = TC_Persona.FindByNumDocumento(trabajadorEntity.tipoDocumentoID, trabajadorEntity.numDocumento);
 
@@ -115,7 +122,7 @@ namespace Domain.Services.Implementations
                             throw new Exception("Ha ocurrido un error al obtener los datos. Por favor recargue la página y vuelva a intentarlo.");
                         }
 
-                        categoriaPlanillaID = (int)ObtenerCategoriaPlanillaSegunVinculo(trabajadorEntity.vinculoID);
+                        categoriaPlanillaID = (int)_trabajadorCategoriaPlanillaService.ObtenerCategoriaPlanillaSegunVinculo(trabajadorEntity.vinculoID);
 
                         trabajadoresCategoriaPlanilla = VW_TrabajadoresCategoriaPlanilla.FindByDocumentoYCategoria(
                             trabajadorEntity.tipoDocumentoID, trabajadorEntity.numDocumento, categoriaPlanillaID);
@@ -183,78 +190,6 @@ namespace Domain.Services.Implementations
             }
 
             return Mapper.Result_To_Response(result);
-        }
-
-        public List<TrabajadorCategoriaPlanillaDTO> ListarTrabajadoresCategoriaPlanilla(int? I_CategoriaPlanillaID = null)
-        {
-            var lista = VW_TrabajadoresCategoriaPlanilla.FindByFilters(I_CategoriaPlanillaID)
-                .Select(x => Mapper.VW_TrabajadoresCategoriaPlanilla_To_TrabajadorCategoriaPlanillaDTO(x))
-                .ToList();
-
-            return lista;
-        }
-
-        public TrabajadorCategoriaPlanillaDTO ObtenerTrabajadorPorDocumentoYCategoria(int tipoDocumentoID, string numDocumento, int categoriaPlanillaID)
-        {
-            TrabajadorCategoriaPlanillaDTO trabajadorCategoriaPlanillaDTO;
-
-            var view = VW_TrabajadoresCategoriaPlanilla.FindByDocumentoYCategoria(tipoDocumentoID, numDocumento, categoriaPlanillaID);
-            
-            if (view == null)
-            {
-                trabajadorCategoriaPlanillaDTO = null;
-            }
-            else
-            {
-                trabajadorCategoriaPlanillaDTO = Mapper.VW_TrabajadoresCategoriaPlanilla_To_TrabajadorCategoriaPlanillaDTO(view);
-            }
-
-            return trabajadorCategoriaPlanillaDTO;
-        }
-
-        public CategoriaPlanilla ObtenerCategoriaPlanillaSegunVinculo(int vinculoID)
-        {
-            CategoriaPlanilla categoriaPlanilla;
-
-            switch (vinculoID)
-            {
-                case 1:
-                    categoriaPlanilla = CategoriaPlanilla.HaberesAdministrativo;
-                    break;
-
-                case 2:
-                    categoriaPlanilla = CategoriaPlanilla.HaberesAdministrativo;
-                    break;
-                
-                case 3:
-                    categoriaPlanilla = CategoriaPlanilla.HaberesMedico;
-                    break;
-
-                case 4:
-                    categoriaPlanilla = CategoriaPlanilla.HaberesDocente;
-                    break;
-
-                case 5:
-                    categoriaPlanilla = CategoriaPlanilla.HaberesDocente;
-                    break;
-
-                case 6:
-                    categoriaPlanilla = CategoriaPlanilla.Pensiones;
-                    break;
-
-                case 7:
-                    categoriaPlanilla = CategoriaPlanilla.Pensiones;
-                    break;
-
-                case 9:
-                    categoriaPlanilla = CategoriaPlanilla.Practicante;
-                    break;
-
-                default:
-                    throw new NotImplementedException("Acción no implementada.");
-            }
-
-            return categoriaPlanilla;
         }
     }
 }

@@ -52,14 +52,14 @@
     <Compile Include="Procedures\USP_IU_GrabarValorExterno.cs" />
     <Compile Include="Procedures\USP_I_RegistrarActividad.cs" />
     <Compile Include="Procedures\USP_I_RegistrarAnio.cs" />
-    <Compile Include="Procedures\USP_I_RegistrarCategoriaPlanillaTrabajador.cs" />
+    <Compile Include="Procedures\USP_I_RegistrarTrabajadorCategoriaPlanilla.cs" />
     <Compile Include="Procedures\USP_I_RegistrarDepActividadMeta.cs" />
     <Compile Include="Procedures\USP_I_RegistrarDependencia.cs" />
     <Compile Include="Procedures\USP_I_RegistrarMeta.cs" />
     <Compile Include="Procedures\USP_S_ListarResumenSIAF.cs" />
     <Compile Include="Procedures\USP_S_ListarResumenPorActividadYDependencia.cs" />
     <Compile Include="Procedures\USP_U_ActualizarActividad.cs" />
-    <Compile Include="Procedures\USP_U_ActualizarCategoriaPlanillaTrabajador.cs" />
+    <Compile Include="Procedures\USP_U_ActualizarTrabajadorCategoriaPlanilla.cs" />
     <Compile Include="Procedures\USP_U_ActualizarDepActividadMeta.cs" />
     <Compile Include="Procedures\USP_U_ActualizarDependencia.cs" />
     <Compile Include="Procedures\USP_U_ActualizarMeta.cs" />

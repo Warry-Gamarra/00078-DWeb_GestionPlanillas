@@ -76,9 +76,9 @@ namespace Data.Views
                         new { I_CategoriaPlanillaID = I_CategoriaPlanillaID }, commandType: System.Data.CommandType.Text);
                 }
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                result = new List<VW_TrabajadoresCategoriaPlanilla>();
+                throw ex;
             }
 
             return result;
@@ -100,9 +100,32 @@ namespace Data.Views
                         commandType: System.Data.CommandType.Text);
                 }
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                result = null;
+                throw ex;
+            }
+
+            return result;
+        }
+
+        public static VW_TrabajadoresCategoriaPlanilla FindByID(int I_TrabajadorCategoriaPlanillaID)
+        {
+            VW_TrabajadoresCategoriaPlanilla result;
+
+            try
+            {
+                string s_command = "SELECT * FROM dbo.VW_TrabajadoresCategoriaPlanilla WHERE I_TrabajadorCategoriaPlanillaID = @I_TrabajadorCategoriaPlanillaID;";
+
+                using (var _dbConnection = new SqlConnection(Database.ConnectionString))
+                {
+                    result = _dbConnection.QuerySingleOrDefault<VW_TrabajadoresCategoriaPlanilla>(s_command,
+                        new { I_TrabajadorCategoriaPlanillaID = I_TrabajadorCategoriaPlanillaID },
+                        commandType: System.Data.CommandType.Text);
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
             }
 
             return result;

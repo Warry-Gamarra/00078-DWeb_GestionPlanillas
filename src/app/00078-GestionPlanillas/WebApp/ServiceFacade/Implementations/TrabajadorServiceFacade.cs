@@ -121,26 +121,5 @@ namespace WebApp.ServiceFacade.Implementations
 
             return response;
         }
-
-        public List<TrabajadorCategoriaPlanillaModel> ListarTrabajadoresAptos(int anio, int mes, int categoriaPlanillaID)
-        {
-            var listaTrabajadoresConPlanilla = _planillaService.ListarResumenPlanillaTrabajadores(anio, mes, categoriaPlanillaID);
-
-            var lista = _trabajadorService.ListarTrabajadoresCategoriaPlanilla(categoriaPlanillaID)
-                .Select(x => Mapper.TrabajadorCategoriaPlanillaDTO_To_TrabajadorCategoriaPlanillaModel(x))
-                .ToList();
-
-            lista.ForEach(x => {
-                x.tienePlanilla = listaTrabajadoresConPlanilla.Any(y => y.trabajadorID == x.trabajadorID);
-                x.seleccionado = x.estado.Equals(Estado.Activo);
-            });
-
-            return lista;
-        }
-
-        public CategoriaPlanilla ObtenerCategoriaPlanillaSegunVinculo(int vinculoID)
-        {
-            return _trabajadorService.ObtenerCategoriaPlanillaSegunVinculo(vinculoID);
-        }
     }
 }

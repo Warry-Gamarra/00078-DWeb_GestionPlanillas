@@ -424,7 +424,8 @@ CREATE TABLE TC_Trabajador_CategoriaPlanilla
 	D_FecCre DATETIME,
 	I_UsuarioMod INT,
 	D_FecMod DATETIME,
-	CONSTRAINT PK_Trabajador_TrabajadorCategoriaPlanilla PRIMARY KEY (I_TrabajadorCategoriaPlanillaID),
+	CONSTRAINT PK_TrabajadorCategoriaPlanilla PRIMARY KEY (I_TrabajadorCategoriaPlanillaID),
+	CONSTRAINT FK_Trabajador_TrabajadorCategoriaPlanilla FOREIGN KEY (I_TrabajadorID) REFERENCES TC_Trabajador(I_TrabajadorID),
 	CONSTRAINT FK_CategoriaPlanilla_TrabajadorCategoriaPlanilla FOREIGN KEY (I_CategoriaPlanillaID) REFERENCES TC_CategoriaPlanilla(I_CategoriaPlanillaID),
 	CONSTRAINT FK_Dependencia_TrabajadorCategoriaPlanilla FOREIGN KEY (I_DependenciaID) REFERENCES TC_Dependencia(I_DependenciaID),
 	CONSTRAINT FK_GrupoTrabajo_TrabajadorCategoriaPlanilla FOREIGN KEY (I_GrupoTrabajoID) REFERENCES TC_GrupoTrabajo(I_GrupoTrabajoID)
