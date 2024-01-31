@@ -1,17 +1,13 @@
 ﻿using ClosedXML.Excel;
-using DocumentFormat.OpenXml.Spreadsheet;
 using Domain.Entities;
 using Domain.Helpers;
 using Domain.Reports;
 using System;
 using System.Collections.Generic;
-using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 using System.Web;
-using Formats = Domain.Helpers.Formats;
 
 namespace Domain.Services.Implementations
 {
@@ -83,6 +79,74 @@ namespace Domain.Services.Implementations
                         fileContent = content,
                         contentType = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
                         fileName = "Resultado de la lectura de archivo.xlsx"
+                    };
+
+                    return fileContent;
+                }
+            }
+        }
+
+        public FileContent GenerarExcelResumenPlanillaTrabajador(IEnumerable<ResumenPlanillaTrabajadorDTO> data)
+        {
+            FileContent fileContent;
+            int currentRow = 1;
+
+            using (var workbook = new XLWorkbook())
+            {
+                var worksheet = workbook.Worksheets.Add("Hoja1");
+
+                worksheet.Column("A").Width = 20;
+                worksheet.Column("F").Width = 35;
+                worksheet.Column("G").Width = 15;
+
+                worksheet.Cell(currentRow, 1).SetValue<string>("Planilla");
+                worksheet.Cell(currentRow, 2).SetValue<string>("Año");
+                worksheet.Cell(currentRow, 3).SetValue<string>("Mes");
+                worksheet.Cell(currentRow, 4).SetValue<string>("Tip.Doc.");
+                worksheet.Cell(currentRow, 5).SetValue<string>("Num.Doc.");
+                worksheet.Cell(currentRow, 6).SetValue<string>("Apellidos y Nombres");
+                worksheet.Cell(currentRow, 7).SetValue<string>("Régimen");
+                worksheet.Cell(currentRow, 8).SetValue<string>("Remu.");
+                worksheet.Cell(currentRow, 9).SetValue<string>("Reint.");
+                worksheet.Cell(currentRow, 10).SetValue<string>("Deducc.");
+                worksheet.Cell(currentRow, 11).SetValue<string>("Bruto");
+                worksheet.Cell(currentRow, 12).SetValue<string>("Desc.");
+                worksheet.Cell(currentRow, 13).SetValue<string>("Total");
+
+                worksheet.Range(worksheet.Cell(1, 1), worksheet.Cell(currentRow, 13)).Style.Font.Bold = true;
+
+                foreach (var item in data)
+                {
+                    currentRow++;
+
+                    worksheet.Cell(currentRow, 1).SetValue<string>(item.categoriaPlanillaDesc);
+                    worksheet.Cell(currentRow, 2).SetValue<string>(item.anio.ToString());
+                    worksheet.Cell(currentRow, 3).SetValue<string>(item.mesDesc);
+                    worksheet.Cell(currentRow, 4).SetValue<string>(item.tipoDocumentoDesc);
+                    worksheet.Cell(currentRow, 5).SetValue<string>(item.numDocumento);
+                    worksheet.Cell(currentRow, 6).SetValue<string>(String.Format("{0} {1}, {2}", item.apellidoPaterno, item.apellidoMaterno, item.nombre));
+                    worksheet.Cell(currentRow, 7).SetValue<string>(item.regimenDesc);
+                    worksheet.Cell(currentRow, 8).SetValue<decimal>(item.totalRemuneracion);
+                    worksheet.Cell(currentRow, 9).SetValue<decimal>(item.totalReintegro);
+                    worksheet.Cell(currentRow, 10).SetValue<decimal>(item.totalDeduccion);
+                    worksheet.Cell(currentRow, 11).SetValue<decimal>(item.totalBruto);
+                    worksheet.Cell(currentRow, 12).SetValue<decimal>(item.totalDescuento);
+                    worksheet.Cell(currentRow, 13).SetValue<decimal>(item.totalSueldo);
+                }
+
+                worksheet.Range(worksheet.Cell(2, 7), worksheet.Cell(currentRow, 13)).Style.NumberFormat.Format = Formats.BASIC_DECIMAL;
+
+                using (var stream = new MemoryStream())
+                {
+                    workbook.SaveAs(stream);
+
+                    var content = stream.ToArray();
+
+                    fileContent = new FileContent()
+                    {
+                        fileContent = content,
+                        contentType = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+                        fileName = "Reporte totales por trabajador.xlsx"
                     };
 
                     return fileContent;
@@ -316,6 +380,7 @@ namespace Domain.Services.Implementations
             int currentCol;
             int firstDataCol;
             string formula;
+
             using (var workbook = new XLWorkbook())
             {
                 var worksheet = workbook.Worksheets.Add("Hoja1");

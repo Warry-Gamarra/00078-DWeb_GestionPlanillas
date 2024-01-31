@@ -35,7 +35,7 @@ namespace WebApp.Controllers
 
             var año = (listaAños.Count() > 0) ? int.Parse(listaAños.First().Value) : DateTime.Now.Year;
 
-            ViewBag.Title = "Resumen Planilla de Trabajadores";
+            ViewBag.Title = "Resumen de Totales por Trabajador";
 
             ViewBag.ListaAños = listaAños;
 
@@ -65,6 +65,28 @@ namespace WebApp.Controllers
             result.data = lista;
 
             return Json(result, JsonRequestBehavior.AllowGet);
+        }
+
+        [HttpGet]
+        public ActionResult DescargaResumenPlanilla(int anio, int mes, int idCategoria)
+        {
+            FileContent fileContent;
+            string errorMessage;
+
+            try
+            {
+                fileContent = _planillaServiceFacade.ListarResumenPlanillaTrabajador(anio, mes, idCategoria, FormatoArchivo.XLSX);
+
+                return File(fileContent.fileContent, fileContent.contentType, fileContent.fileName);
+            }
+            catch (Exception ex)
+            {
+                errorMessage = ex.Message;
+            }
+
+            ViewBag.ErrorMessage = errorMessage;
+
+            return View();
         }
 
         [HttpGet]

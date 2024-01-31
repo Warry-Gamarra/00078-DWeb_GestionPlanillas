@@ -35,6 +35,28 @@ namespace WebApp.ServiceFacade.Implementations
             return lista;
         }
 
+        public FileContent ListarResumenPlanillaTrabajador(int año, int mes, int idCategoria, FormatoArchivo formatoArchivo)
+        {
+            IGeneracionArchivoService generacionArchivoService;
+            IEnumerable<ResumenPlanillaTrabajadorDTO> data;
+            FileContent fileContent;
+
+            try
+            {
+                data = _planillaService.ListarResumenPlanillaTrabajadores(año, mes, idCategoria);
+
+                generacionArchivoService = new GeneracionArchivoExcelService();
+
+                fileContent = generacionArchivoService.GenerarExcelResumenPlanillaTrabajador(data);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+
+            return fileContent;
+        }
+
         public Response GenerarPlanilla(List<int> trabajadores, int año, int mes, int categoriaPlanillaID, int userID)
         {
             Response response;

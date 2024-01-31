@@ -37,7 +37,9 @@
 
                                 <div class="form-group col-lg-2 col-4">
                                     <label>&nbsp;</label>
-                                    <button type="button" class="btn btn-block btn-outline-primary"><i class="fa fa-fw fa-search"></i> Consultar</button>
+                                    <button type="button" class="btn btn-block btn-outline-primary" id="btnConsultar">
+                                        <i class="fa fa-fw fa-search"></i> Consultar
+                                    </button>
                                 </div>
                             </div>
                         }
@@ -46,7 +48,7 @@
             </div>
         </div>
 
-        <div class="table-responsive mt-4" style="min-height:300px">
+        <div class="table-responsive mt-4">
             <table class="table table-hover" id="dataTablePlanilla" width="100%">
                 <thead class="thead-dark">
                     <tr>
@@ -85,6 +87,11 @@
             </table>
         </div>
 
+        <div class="row" id="divDescargaExcel">
+            <div class="col-lg-12">
+                <button type="button" id="btnExcelDescargar" class="btn btn-link pl-0">Descargar información en Excel [.xlsx]</button>
+            </div>
+        </div>
     </div>
 </div>
 
@@ -101,12 +108,21 @@
                 CargarMeses(this, cmbDestino, url);
              });
 
-            $("#frmConsultaResumenPlanilla").on("click", "button", function () {
+            $("#frmConsultaResumenPlanilla").on("click", "#btnConsultar", function () {
                 let anio = $("#frmConsultaResumenPlanilla #anio").val();
                 let mes = $("#frmConsultaResumenPlanilla #mes").val();
                 let idCategoria = $("#frmConsultaResumenPlanilla #idCategoria").val();
 
                 generarDatatablePlanilla(anio, mes, idCategoria);
+            });
+
+            $(document).on("click", "#btnExcelDescargar", function (e) {
+                let anio = $("#frmConsultaResumenPlanilla #anio").val();
+                let mes = $("#frmConsultaResumenPlanilla #mes").val();
+                let idCategoria = $("#frmConsultaResumenPlanilla #idCategoria").val();
+
+                document.forms.frmConsultaResumenPlanilla.action = "@Url.Action("DescargaResumenPlanilla", "Reportes")";
+                document.forms.frmConsultaResumenPlanilla.submit();
             });
         });
 
@@ -168,7 +184,16 @@
                     loadingRecords: "Cargando...",
                     processing: "Procesando..."
                 },
-                searching: true
+                searching: true,
+                initComplete: function () {
+                    var api = this.api();
+
+                    if (api.rows().count() > 0) {
+                        $('#divDescargaExcel').css('display', 'flex');
+                    } else {
+                        $('#divDescargaExcel').css('display', 'none');
+                    }
+                }
             });
         }
     </script>

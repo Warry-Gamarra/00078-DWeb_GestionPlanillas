@@ -13,6 +13,8 @@ namespace Domain.Services
     {
         FileContent GenerarExcelDeLecturaValoresDeConceptos(List<ValorExternoLecturaProcesadoDTO> lista);
 
+        FileContent GenerarExcelResumenPlanillaTrabajador(IEnumerable<ResumenPlanillaTrabajadorDTO> data);
+
         FileContent GenerarExcelResumenPorActividadYDependencia(ReporteResumenPorActividadYDependencia reporte);
 
         FileContent GenerarExcelResumenSIAF(ReporteResumenSIAF reporte);

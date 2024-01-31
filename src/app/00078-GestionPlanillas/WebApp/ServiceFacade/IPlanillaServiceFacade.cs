@@ -14,6 +14,8 @@ namespace WebApp.ServiceFacade
     {
         IEnumerable<ResumenPlanillaTrabajadorModel> ListarResumenPlanillaTrabajador(int año, int mes, int idCategoria);
 
+        FileContent ListarResumenPlanillaTrabajador(int año, int mes, int idCategoria, FormatoArchivo formatoArchivo);
+
         Response GenerarPlanilla(List<int> trabajadores, int año, int mes, int categoriaPlanillaID, int userID);
 
         ReporteResumenPorActividadYDependencia ObtenerReporteResumenPorActividadYDependencia(int año, int mes, int idCategoria);
