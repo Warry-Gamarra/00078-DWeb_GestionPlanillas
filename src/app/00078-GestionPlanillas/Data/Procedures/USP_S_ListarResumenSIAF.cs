@@ -15,7 +15,7 @@ namespace Data.Procedures
     {
         public USP_S_ListarResumenSIAF(IEnumerable<string> columnasConcepto, IEnumerable<IDictionary<string, object>> detalle)
         {
-            this.cabecera = new List<string>() { "Actividad", "Meta" };
+            this.cabecera = new List<string>() { "Actividad", "Meta", "I_VinculoID" };
 
             this.cabecera = this.cabecera.Concat(columnasConcepto);
 
