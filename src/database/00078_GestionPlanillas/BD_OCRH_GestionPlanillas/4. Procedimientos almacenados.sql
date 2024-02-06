@@ -2547,7 +2547,8 @@ GO
 CREATE PROCEDURE [dbo].[USP_S_ListarResumenSIAF]
 @I_Anio INT,
 @I_Mes INT,
-@I_CategoriaPlanillaID INT
+@I_CategoriaPlanillaID INT,
+@I_VinculoID INT = NULL
 AS
 BEGIN
 	SET NOCOUNT ON;
@@ -2580,22 +2581,24 @@ BEGIN
 		@Columns = STRING_AGG('[' + T_ConceptoAbrv + ']', ',')
 	FROM Tmp_Conceptos;
 
-	SET @SQLString = N'SELECT C_ActividadCod AS Actividad, C_MetaCod AS Meta, I_VinculoID, ' + @Columns + ' FROM
-		(SELECT dam.C_ActividadCod, dam.C_MetaCod, trabpla.I_VinculoID, ctp.T_ConceptoAbrv, ctp.M_Monto FROM dbo.TR_Concepto_TrabajadorPlanilla ctp
+	SET @SQLString = N'SELECT C_ActividadCod AS Actividad, C_MetaCod AS Meta, ' + @Columns + ' FROM
+		(SELECT dam.C_ActividadCod, dam.C_MetaCod, ctp.T_ConceptoAbrv, ctp.M_Monto FROM dbo.TR_Concepto_TrabajadorPlanilla ctp
 		INNER JOIN dbo.TR_TrabajadorPlanilla trabpla ON trabpla.I_TrabajadorPlanillaID = ctp.I_TrabajadorPlanillaID
 		INNER JOIN dbo.TR_Planilla pla ON pla.I_PlanillaID = trabpla.I_PlanillaID
 		INNER JOIN dbo.TR_Periodo per ON per.I_PeriodoID = pla.I_PeriodoID
 		INNER JOIN dbo.VW_DepActividadMeta AS dam ON dam.I_DependenciaID = trabpla.I_DependenciaID AND dam.I_Anio = per.I_Anio AND dam.I_CategoriaPlanillaID = pla.I_CategoriaPlanillaID
-		WHERE trabpla.B_Anulado = 0 AND ctp.B_Anulado = 0 AND per.I_PeriodoID = @I_PeriodoID AND pla.I_CategoriaPlanillaID = @I_CategoriaPlanillaID) AS SourceTable
+		WHERE trabpla.B_Anulado = 0 AND ctp.B_Anulado = 0 AND per.I_PeriodoID = @I_PeriodoID AND pla.I_CategoriaPlanillaID = @I_CategoriaPlanillaID
+		' + CASE WHEN @I_VinculoID IS NULL THEN '' ELSE ' AND trabpla.I_VinculoID = @I_VinculoID' END + ') AS SourceTable
 	PIVOT (
 		SUM(M_Monto) FOR T_ConceptoAbrv IN (' + @Columns + ')
 	) AS PivottABLE';
 
-	SET @ParmDefinition = N'@I_PeriodoID INT, @I_CategoriaPlanillaID INT';
-	
+	SET @ParmDefinition = N'@I_PeriodoID INT, @I_CategoriaPlanillaID INT, @I_VinculoID INT';
+
 	EXECUTE SP_EXECUTESQL @SQLString, @ParmDefinition,
 	  @I_PeriodoID = @I_PeriodoID,
-	  @I_CategoriaPlanillaID = @I_CategoriaPlanillaID;
+	  @I_CategoriaPlanillaID = @I_CategoriaPlanillaID,
+	  @I_VinculoID = @I_VinculoID;
 END
 GO
 

@@ -15,7 +15,7 @@ namespace Data.Procedures
     {
         public USP_S_ListarResumenSIAF(IEnumerable<string> columnasConcepto, IEnumerable<IDictionary<string, object>> detalle)
         {
-            this.cabecera = new List<string>() { "Actividad", "Meta", "I_VinculoID" };
+            this.cabecera = new List<string>() { "Actividad", "Meta" };
 
             this.cabecera = this.cabecera.Concat(columnasConcepto);
 
@@ -26,7 +26,7 @@ namespace Data.Procedures
 
         public IEnumerable<IDictionary<string, object>> detalle { get; }
 
-        public static USP_S_ListarResumenSIAF Execute(int I_Anio, int I_Mes, int I_CategoriaPlanillaID)
+        public static USP_S_ListarResumenSIAF Execute(int I_Anio, int I_Mes, int I_CategoriaPlanillaID, int? I_VinculoID = null)
         {
             string command;
             DynamicParameters parameters;
@@ -45,6 +45,11 @@ namespace Data.Procedures
                 parameters.Add(name: "I_Mes", dbType: DbType.Int32, value: I_Mes);
 
                 parameters.Add(name: "I_CategoriaPlanillaID", dbType: DbType.Int32, value: I_CategoriaPlanillaID);
+
+                if (I_VinculoID.HasValue)
+                {
+                    parameters.Add(name: "I_VinculoID", dbType: DbType.Int32, value: I_VinculoID);
+                }
 
                 using (var _dbConnection = new SqlConnection(Database.ConnectionString))
                 {

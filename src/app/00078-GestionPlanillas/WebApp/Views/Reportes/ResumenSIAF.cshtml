@@ -49,134 +49,51 @@
                 <div class="col-12 mt-4">
                     <p class="h3 text-center">@Model.titulo</p>
 
-                    @if (Model.resumenAdministrativo.detalle != null && Model.resumenAdministrativo.detalle.Count() > 0)
+                    @foreach (var resumen in Model.listaResumenes)
                     {
-                        <p class="h5">@Model.tituloResumenAdministrativo</p>
+                        if (resumen.detalle != null && resumen.detalle.Count() > 0)
+                        {
+                            <p class="h5">@resumen.titulo</p>
 
-                        <div class="table-responsive mt-4">
-                            <table class="table table-bordered" width="100%">
-                                <thead class="thead-dark">
-                                    <tr>
-                                        @foreach (var columnName in Model.resumenAdministrativo.cabecera)
-                                        {
-                                            <th>@columnName</th>
-                                        }
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    @foreach (var item in Model.resumenAdministrativo.detalle)
-                                    {
+                            <div class="table-responsive mt-4">
+                                <table class="table table-bordered" width="100%">
+                                    <thead class="thead-dark">
                                         <tr>
-                                            @foreach (var columnName in Model.resumenAdministrativo.cabecera)
+                                            @foreach (var columnName in resumen.cabecera)
                                             {
-                                                <td>@item[columnName]</td>
+                                                <th>@columnName</th>
                                             }
                                         </tr>
-                                    }
-                                    <tr>
-                                        @foreach (var columnName in Model.resumenAdministrativo.cabecera)
+                                    </thead>
+                                    <tbody>
+                                        @foreach (var item in resumen.detalle)
                                         {
-                                            if (columnName == "Actividad")
-                                            {
-                                                <th colspan="2">@Model.pieTablaAdministrativo</th>
-                                            }
-                                            else if (columnName != "Meta")
-                                            {
-                                                <th>
-                                                    @Model.resumenAdministrativo.detalle.Sum(item => (decimal)item[columnName])
-                                                </th>
-                                            }
+                                            <tr>
+                                                @foreach (var columnName in resumen.cabecera)
+                                                {
+                                                    <td>@item[columnName]</td>
+                                                }
+                                            </tr>
                                         }
-                                    </tr>
-                                </tbody>
-                            </table>
-                        </div>
-                    }
-
-                    @if (Model.resumenDocente.detalle != null && Model.resumenDocente.detalle.Count() > 0)
-                    {
-                        <p class="h5">@Model.tituloResumenDocente</p>
-
-                        <div class="table-responsive mt-4">
-                            <table class="table table-bordered" width="100%">
-                                <thead class="thead-dark">
-                                    <tr>
-                                        @foreach (var columnName in Model.resumenDocente.cabecera)
-                                        {
-                                            <th>@columnName</th>
-                                        }
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    @foreach (var item in Model.resumenDocente.detalle)
-                                    {
                                         <tr>
-                                            @foreach (var columnName in Model.resumenDocente.cabecera)
+                                            @foreach (var columnName in resumen.cabecera)
                                             {
-                                                <td>@item[columnName]</td>
+                                                if (columnName == "Actividad")
+                                                {
+                                                    <th colspan="2">@resumen.pieTabla</th>
+                                                }
+                                                else if (columnName != "Meta")
+                                                {
+                                                    <th>
+                                                        @resumen.detalle.Sum(item => (decimal)item[columnName])
+                                                    </th>
+                                                }
                                             }
                                         </tr>
-                                    }
-                                    <tr>
-                                        @foreach (var columnName in Model.resumenDocente.cabecera)
-                                        {
-                                            if (columnName == "Actividad")
-                                            {
-                                                <th colspan="2">@Model.pieTablaDocente</th>
-                                            }
-                                            else if (columnName != "Meta")
-                                            {
-                                                <th>@Model.resumenDocente.detalle.Sum(item => (decimal)item[columnName])</th>
-                                            }
-                                        }
-                                    </tr>
-                                </tbody>
-                            </table>
-                        </div>
-                    }
-
-                    @if (Model.resumenGeneradoraRecursos.detalle != null && Model.resumenGeneradoraRecursos.detalle.Count() > 0)
-                    {
-                        <p class="h5">@Model.tituloResumenGeneradoraRecursos</p>
-
-                        <div class="table-responsive mt-4">
-                            <table class="table table-bordered" width="100%">
-                                <thead class="thead-dark">
-                                    <tr>
-                                        @foreach (var columnName in Model.resumenGeneradoraRecursos.cabecera)
-                                        {
-                                            <th>@columnName</th>
-                                        }
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    @foreach (var item in Model.resumenGeneradoraRecursos.detalle)
-                                    {
-                                        <tr>
-                                            @foreach (var columnName in Model.resumenGeneradoraRecursos.cabecera)
-                                            {
-                                                <td>@item[columnName]</td>
-                                            }
-                                        </tr>
-                                    }
-                                    <tr>
-                                        @foreach (var columnName in Model.resumenGeneradoraRecursos.cabecera)
-                                        {
-                                            if (columnName == "Actividad")
-                                            {
-                                                <th colspan="2">@Model.pieTablaGeneradoraRecursos</th>
-                                            }
-                                            else if (columnName != "Meta")
-                                            {
-                                                <th>
-                                                    @Model.resumenGeneradoraRecursos.detalle.Sum(item => (decimal)item[columnName])
-                                                </th>
-                                            }
-                                        }
-                                    </tr>
-                                </tbody>
-                            </table>
-                        </div>
+                                    </tbody>
+                                </table>
+                            </div>
+                        }
                     }
 
                     <div class="row">

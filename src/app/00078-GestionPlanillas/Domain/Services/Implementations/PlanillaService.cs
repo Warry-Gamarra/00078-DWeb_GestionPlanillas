@@ -82,19 +82,28 @@ namespace Domain.Services.Implementations
 
         public ReporteResumenSIAF ObtenerReporteResumenSIAF(int año, int mes)
         {
-            var admSpResult = USP_S_ListarResumenSIAF.Execute(año, mes, (int)CategoriaPlanilla.HaberesAdministrativo);
+            var admContratadoResult = USP_S_ListarResumenSIAF.Execute(año, mes, (int)CategoriaPlanilla.HaberesAdministrativo, (int)Vinculo.AdministrativoContratado);
 
-            var resumenAdm = new ResumenSIAFDTO(admSpResult.cabecera, admSpResult.detalle);
+            var resumenAdmContratado = new ResumenSIAFDTO("ADMINISTRATIVO CONTRATADO", admContratadoResult.cabecera, admContratadoResult.detalle, "Total Adm Contr");
 
-            var docSpResult = USP_S_ListarResumenSIAF.Execute(año, mes, (int)CategoriaPlanilla.HaberesDocente);
+            var admPermanenteResult = USP_S_ListarResumenSIAF.Execute(año, mes, (int)CategoriaPlanilla.HaberesAdministrativo, (int)Vinculo.AdministrativoPermanente);
 
-            var resumenDoc = new ResumenSIAFDTO(docSpResult.cabecera, docSpResult.detalle);
+            var resumenAdmPermanente = new ResumenSIAFDTO("ADMINISTRATIVO PERMANENTE", admPermanenteResult.cabecera, admPermanenteResult.detalle, "Total Adm Perman");
 
-            var generadoraRecursoSpResult = USP_S_ListarResumenSIAF.Execute(año, mes, (int)CategoriaPlanilla.GeneradoraDeRecursos);
+            var docPermanenteResult = USP_S_ListarResumenSIAF.Execute(año, mes, (int)CategoriaPlanilla.HaberesDocente, (int)Vinculo.DocentePermanente);
 
-            var resumenGeneradoraRecursos = new ResumenSIAFDTO(generadoraRecursoSpResult.cabecera, generadoraRecursoSpResult.detalle);
+            var resumenDocPermanente = new ResumenSIAFDTO("DOCENTE PERMANENTE", docPermanenteResult.cabecera, docPermanenteResult.detalle, "Total Doc Perman");
 
-            return new ReporteResumenSIAF(año, _periodoService.ObtenerMesDesc(mes), resumenAdm, resumenDoc, resumenGeneradoraRecursos);
+            var listaResumenes = new List<ResumenSIAFDTO>();
+
+            listaResumenes.Add(resumenAdmContratado);
+
+            listaResumenes.Add(resumenAdmPermanente);
+
+            listaResumenes.Add(resumenDocPermanente);
+
+            return new ReporteResumenSIAF(año, _periodoService.ObtenerMesDesc(mes), listaResumenes);
         }
     }
 }
+;

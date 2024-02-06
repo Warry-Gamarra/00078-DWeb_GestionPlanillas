@@ -376,203 +376,90 @@ namespace Domain.Services.Implementations
         {
             FileContent fileContent;
             IXLCell cell;
-            int currentRow;
-            int currentCol;
+            int currentRow = 1;
+            int currentCol = 1;
             int firstDataCol;
             string formula;
 
             using (var workbook = new XLWorkbook())
             {
                 var worksheet = workbook.Worksheets.Add("Hoja1");
-                
-                var celdaTitulo = worksheet.Cell(1, 1).SetValue<string>(reporte.titulo);
+
+                var celdaTitulo = worksheet.Cell(currentRow, currentCol).SetValue<string>(reporte.titulo);
                 celdaTitulo.Style.Font.Bold = true;
 
-                var celdaTituloAdm = worksheet.Cell(2, 1).SetValue<string>(reporte.tituloResumenAdministrativo);
-                celdaTituloAdm.Style.Font.Bold = true;
-
-                currentCol = 1;
-                foreach (var columnName in reporte.resumenAdministrativo.cabecera)
-                {
-                    cell = worksheet.Cell(3, currentCol).SetValue<string>(columnName);
-                    cell.Style.Border.TopBorder = XLBorderStyleValues.Thin;
-                    cell.Style.Border.BottomBorder = XLBorderStyleValues.Thin;
-                    cell.Style.Border.LeftBorder = XLBorderStyleValues.Thin;
-                    cell.Style.Border.RightBorder = XLBorderStyleValues.Thin;
-                    currentCol++;
-                }
-
-                currentRow = 4;
-                currentCol = 1;
-                firstDataCol = currentRow;
-                foreach (var item in reporte.resumenAdministrativo.detalle)
-                {
-                    foreach(var columnName in reporte.resumenAdministrativo.cabecera)
-                    {
-                        if (columnName == "Actividad" || columnName == "Meta")
-                        {
-                            cell = worksheet.Cell(currentRow, currentCol).SetValue<string>((string)item[columnName]);
-                        }
-                        else
-                        {
-                            cell = worksheet.Cell(currentRow, currentCol).SetValue<decimal>((decimal)item[columnName]);
-                            cell.Style.NumberFormat.Format = Formats.BASIC_DECIMAL;
-                        }
-
-                        cell.Style.Border.TopBorder = XLBorderStyleValues.Thin;
-                        cell.Style.Border.BottomBorder = XLBorderStyleValues.Thin;
-                        cell.Style.Border.LeftBorder = XLBorderStyleValues.Thin;
-                        cell.Style.Border.RightBorder = XLBorderStyleValues.Thin;
-                        currentCol++;
-                    }
-                    currentRow++;
-                    currentCol = 1;
-                }
-
-                worksheet.Cell(currentRow, currentCol).SetValue<string>(reporte.pieTablaAdministrativo);
-                foreach (var columnName in reporte.resumenAdministrativo.cabecera)
-                {
-                    if (columnName != "Actividad" && columnName != "Meta")
-                    {
-                        cell = worksheet.Cell(currentRow, currentCol);
-                        formula = string.Format("SUM(R[{0}]C:R[-1]C)", firstDataCol - currentRow);
-                        cell.SetFormulaR1C1(formula);
-                        cell.Style.NumberFormat.Format = Formats.BASIC_DECIMAL;
-                        cell.Style.Font.Bold = true;
-                        cell.Style.Border.TopBorder = XLBorderStyleValues.Thin;
-                        cell.Style.Border.BottomBorder = XLBorderStyleValues.Thin;
-                        cell.Style.Border.LeftBorder = XLBorderStyleValues.Thin;
-                        cell.Style.Border.RightBorder = XLBorderStyleValues.Thin;
-
-
-                    }
-                    currentCol++;
-                }
-
-                currentRow += 2;
-                var celdaTituloDoc = worksheet.Cell(currentRow, 1).SetValue<string>(reporte.tituloResumenDocente);
-                celdaTituloDoc.Style.Font.Bold = true;
-
                 currentRow++;
-                currentCol = 1;
-                foreach (var columnName in reporte.resumenDocente.cabecera)
-                {
-                    cell = worksheet.Cell(currentRow, currentCol).SetValue<string>(columnName);
-                    cell.Style.Border.TopBorder = XLBorderStyleValues.Thin;
-                    cell.Style.Border.BottomBorder = XLBorderStyleValues.Thin;
-                    cell.Style.Border.LeftBorder = XLBorderStyleValues.Thin;
-                    cell.Style.Border.RightBorder = XLBorderStyleValues.Thin;
-                    currentCol++;
-                }
 
-                currentRow++;
-                currentCol = 1;
-                firstDataCol = currentRow;
-                foreach (var item in reporte.resumenDocente.detalle)
+                foreach (var resumen in reporte.listaResumenes)
                 {
-                    foreach (var columnName in reporte.resumenDocente.cabecera)
+                    if (resumen.detalle != null && resumen.detalle.Count() > 0)
                     {
-                        if (columnName == "Actividad" || columnName == "Meta")
+                        currentCol = 1;
+
+                        var celdaTituloAdm = worksheet.Cell(currentRow, currentCol).SetValue<string>(resumen.titulo);
+                        celdaTituloAdm.Style.Font.Bold = true;
+
+                        currentRow++;
+
+                        foreach (var columnName in resumen.cabecera)
                         {
-                            cell = worksheet.Cell(currentRow, currentCol).SetValue<string>((string)item[columnName]);
-                        }
-                        else
-                        {
-                            cell = worksheet.Cell(currentRow, currentCol).SetValue<decimal>((decimal)item[columnName]);
-                            cell.Style.NumberFormat.Format = Formats.BASIC_DECIMAL;
-                        }
-    
-                        cell.Style.Border.TopBorder = XLBorderStyleValues.Thin;
-                        cell.Style.Border.BottomBorder = XLBorderStyleValues.Thin;
-                        cell.Style.Border.LeftBorder = XLBorderStyleValues.Thin;
-                        cell.Style.Border.RightBorder = XLBorderStyleValues.Thin;
-                        currentCol++;
-                    }
-                    currentRow++;
-                    currentCol = 1;
-                }
-
-                worksheet.Cell(currentRow, currentCol).SetValue<string>(reporte.pieTablaDocente);
-                foreach (var columnName in reporte.resumenDocente.cabecera)
-                {
-                    if (columnName != "Actividad" && columnName != "Meta")
-                    {
-                        cell = worksheet.Cell(currentRow, currentCol);
-                        formula = string.Format("SUM(R[{0}]C:R[-1]C)", firstDataCol - currentRow);
-                        cell.SetFormulaR1C1(formula);
-                        cell.Style.NumberFormat.Format = Formats.BASIC_DECIMAL;
-                        cell.Style.Font.Bold = true;
-                        cell.Style.Border.TopBorder = XLBorderStyleValues.Thin;
-                        cell.Style.Border.BottomBorder = XLBorderStyleValues.Thin;
-                        cell.Style.Border.LeftBorder = XLBorderStyleValues.Thin;
-                        cell.Style.Border.RightBorder = XLBorderStyleValues.Thin;
-
-
-                    }
-                    currentCol++;
-                }
-
-                currentRow += 2;
-                var celdaTituloGeneRecursos = worksheet.Cell(currentRow, 1).SetValue<string>(reporte.tituloResumenGeneradoraRecursos);
-                celdaTituloGeneRecursos.Style.Font.Bold = true;
-
-                currentRow++;
-                currentCol = 1;
-                foreach (var columnName in reporte.resumenGeneradoraRecursos.cabecera)
-                {
-                    cell = worksheet.Cell(currentRow, currentCol).SetValue<string>(columnName);
-                    cell.Style.Border.TopBorder = XLBorderStyleValues.Thin;
-                    cell.Style.Border.BottomBorder = XLBorderStyleValues.Thin;
-                    cell.Style.Border.LeftBorder = XLBorderStyleValues.Thin;
-                    cell.Style.Border.RightBorder = XLBorderStyleValues.Thin;
-                    currentCol++;
-                }
-
-                currentRow++;
-                currentCol = 1;
-                firstDataCol = currentRow;
-                foreach (var item in reporte.resumenGeneradoraRecursos.detalle)
-                {
-                    foreach (var columnName in reporte.resumenGeneradoraRecursos.cabecera)
-                    {
-                        if (columnName == "Actividad" || columnName == "Meta")
-                        {
-                            cell = worksheet.Cell(currentRow, currentCol).SetValue<string>((string)item[columnName]);
-                        }
-                        else
-                        {
-                            cell = worksheet.Cell(currentRow, currentCol).SetValue<decimal>((decimal)item[columnName]);
-                            cell.Style.NumberFormat.Format = Formats.BASIC_DECIMAL;
+                            cell = worksheet.Cell(currentRow, currentCol).SetValue<string>(columnName);
+                            cell.Style.Border.TopBorder = XLBorderStyleValues.Thin;
+                            cell.Style.Border.BottomBorder = XLBorderStyleValues.Thin;
+                            cell.Style.Border.LeftBorder = XLBorderStyleValues.Thin;
+                            cell.Style.Border.RightBorder = XLBorderStyleValues.Thin;
+                            currentCol++;
                         }
 
-                        cell.Style.Border.TopBorder = XLBorderStyleValues.Thin;
-                        cell.Style.Border.BottomBorder = XLBorderStyleValues.Thin;
-                        cell.Style.Border.LeftBorder = XLBorderStyleValues.Thin;
-                        cell.Style.Border.RightBorder = XLBorderStyleValues.Thin;
-                        currentCol++;
+                        currentRow++;
+                        currentCol = 1;
+                        firstDataCol = currentRow;
+                        foreach (var item in resumen.detalle)
+                        {
+                            foreach (var columnName in resumen.cabecera)
+                            {
+                                if (columnName == "Actividad" || columnName == "Meta")
+                                {
+                                    cell = worksheet.Cell(currentRow, currentCol).SetValue<string>((string)item[columnName]);
+                                }
+                                else
+                                {
+                                    cell = worksheet.Cell(currentRow, currentCol).SetValue<decimal>((decimal)item[columnName]);
+                                    cell.Style.NumberFormat.Format = Formats.BASIC_DECIMAL;
+                                }
+
+                                cell.Style.Border.TopBorder = XLBorderStyleValues.Thin;
+                                cell.Style.Border.BottomBorder = XLBorderStyleValues.Thin;
+                                cell.Style.Border.LeftBorder = XLBorderStyleValues.Thin;
+                                cell.Style.Border.RightBorder = XLBorderStyleValues.Thin;
+                                currentCol++;
+                            }
+                            currentRow++;
+                            currentCol = 1;
+                        }
+
+                        worksheet.Cell(currentRow, currentCol).SetValue<string>(resumen.pieTabla);
+                        foreach (var columnName in resumen.cabecera)
+                        {
+                            if (columnName != "Actividad" && columnName != "Meta")
+                            {
+                                cell = worksheet.Cell(currentRow, currentCol);
+                                formula = string.Format("SUM(R[{0}]C:R[-1]C)", firstDataCol - currentRow);
+                                cell.SetFormulaR1C1(formula);
+                                cell.Style.NumberFormat.Format = Formats.BASIC_DECIMAL;
+                                cell.Style.Font.Bold = true;
+                                cell.Style.Border.TopBorder = XLBorderStyleValues.Thin;
+                                cell.Style.Border.BottomBorder = XLBorderStyleValues.Thin;
+                                cell.Style.Border.LeftBorder = XLBorderStyleValues.Thin;
+                                cell.Style.Border.RightBorder = XLBorderStyleValues.Thin;
+
+
+                            }
+                            currentCol++;
+                        }
+
+                        currentRow += 2;
                     }
-                    currentRow++;
-                    currentCol = 1;
-                }
-
-                worksheet.Cell(currentRow, currentCol).SetValue<string>(reporte.pieTablaGeneradoraRecursos);
-                foreach (var columnName in reporte.resumenGeneradoraRecursos.cabecera)
-                {
-                    if (columnName != "Actividad" && columnName != "Meta")
-                    {
-                        cell = worksheet.Cell(currentRow, currentCol);
-                        formula = string.Format("SUM(R[{0}]C:R[-1]C)", firstDataCol - currentRow);
-                        cell.SetFormulaR1C1(formula);
-                        cell.Style.NumberFormat.Format = Formats.BASIC_DECIMAL;
-                        cell.Style.Font.Bold = true;
-                        cell.Style.Border.TopBorder = XLBorderStyleValues.Thin;
-                        cell.Style.Border.BottomBorder = XLBorderStyleValues.Thin;
-                        cell.Style.Border.LeftBorder = XLBorderStyleValues.Thin;
-                        cell.Style.Border.RightBorder = XLBorderStyleValues.Thin;
-
-
-                    }
-                    currentCol++;
                 }
 
                 using (var stream = new MemoryStream())
