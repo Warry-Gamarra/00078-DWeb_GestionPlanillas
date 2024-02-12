@@ -10,6 +10,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using static ClosedXML.Excel.XLPredefinedFormat;
 
 namespace Domain.Helpers
 {
@@ -712,6 +713,26 @@ namespace Domain.Helpers
                 grupoTrabajoDesc = table.T_GrupoTrabajoDesc,
                 grupoTrabajoCod = table.C_GrupoTrabajoCod,
                 estaHabilitado = table.B_Habilitado
+            };
+
+            return dto;
+        }
+
+        public static TrabajadorConPlanillaDTO USP_S_ListarTrabajadoresConPlanilla_To_TrabajadorConPlanillaDTO(USP_S_ListarTrabajadoresConPlanilla sp)
+        {
+            var dto = new TrabajadorConPlanillaDTO()
+            {
+                trabajadorID = sp.I_TrabajadorID,
+                trabajadorCod = sp.C_TrabajadorCod,
+                nombre = sp.T_Nombre,
+                apellidoPaterno = sp.T_ApellidoPaterno,
+                apellidoMaterno = sp.T_ApellidoMaterno,
+                tipoDocumentoDesc = sp.T_TipoDocumentoDesc,
+                numDocumento = sp.C_NumDocumento,
+                estadoDesc = sp.T_EstadoDesc,
+                vinculoDesc = sp.T_VinculoDesc,
+                año = sp.I_Anio,
+                mes = sp.I_Mes
             };
 
             return dto;

@@ -419,5 +419,25 @@ namespace WebApp.Models
 
             return model;
         }
+        
+        public static TrabajadorConPlanillaModel TrabajadorConPlanillaDTO_To_TrabajadorConPlanillaModel(TrabajadorConPlanillaDTO dto)
+        {
+            var model = new TrabajadorConPlanillaModel()
+            {
+                trabajadorID = dto.trabajadorID,
+                trabajadorCod = dto.trabajadorCod,
+                nombre = dto.nombre,
+                apellidoPaterno = dto.apellidoPaterno,
+                apellidoMaterno = dto.apellidoMaterno,
+                tipoDocumentoDesc = dto.tipoDocumentoDesc,
+                numDocumento = dto.numDocumento,
+                estadoDesc = dto.estadoDesc,
+                vinculoDesc = dto.vinculoDesc,
+                año = dto.año,
+                mes = dto.mes
+            };
+
+            return model;
+        }
     }
 }

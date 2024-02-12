@@ -191,5 +191,14 @@ namespace Domain.Services.Implementations
 
             return Mapper.Result_To_Response(result);
         }
+
+        public List<TrabajadorConPlanillaDTO> ListarTrabajadoresConPlanilla(int año, int mes)
+        {
+            var lista = USP_S_ListarTrabajadoresConPlanilla.Execute(año, mes)
+                .Select(x => Mapper.USP_S_ListarTrabajadoresConPlanilla_To_TrabajadorConPlanillaDTO(x))
+                .ToList();
+
+            return lista;
+        }
     }
 }

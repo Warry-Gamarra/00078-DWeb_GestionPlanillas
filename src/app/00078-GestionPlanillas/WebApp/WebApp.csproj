@@ -161,6 +161,7 @@
     <Compile Include="Models\PlantillaPlanillaModel.cs" />
     <Compile Include="Models\ResumenPlanillaTrabajadorModel.cs" />
     <Compile Include="Models\TrabajadorCategoriaPlanillaModel.cs" />
+    <Compile Include="Models\TrabajadorConPlanillaModel.cs" />
     <Compile Include="Models\TrabajadorModel.cs" />
     <Compile Include="Models\UsersModel.cs" />
     <Compile Include="Models\UsuarioModel.cs" />

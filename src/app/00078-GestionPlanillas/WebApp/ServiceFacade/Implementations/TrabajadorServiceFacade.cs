@@ -121,5 +121,14 @@ namespace WebApp.ServiceFacade.Implementations
 
             return response;
         }
+
+        public List<TrabajadorConPlanillaModel> ListarTrabajadoresConPlanilla(int año, int mes)
+        {
+            var lista = _trabajadorService.ListarTrabajadoresConPlanilla(año, mes)
+                .Select(x => Mapper.TrabajadorConPlanillaDTO_To_TrabajadorConPlanillaModel(x))
+                .ToList();
+
+            return lista;
+        }
     }
 }

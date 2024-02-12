@@ -1060,7 +1060,7 @@ IF EXISTS (SELECT * FROM INFORMATION_SCHEMA.ROUTINES WHERE ROUTINE_TYPE = 'PROCE
 	DROP PROCEDURE [dbo].[USP_I_RegistrarConcepto]
 GO
 
-CREATE PROCEDURE dbo.USP_I_RegistrarConcepto
+CREATE PROCEDURE [dbo].[USP_I_RegistrarConcepto]
 @I_TipoConceptoID INT,
 @C_ConceptoCod VARCHAR(20),
 @T_ConceptoDesc VARCHAR(250),
@@ -1618,7 +1618,7 @@ IF EXISTS (SELECT * FROM INFORMATION_SCHEMA.ROUTINES WHERE ROUTINE_TYPE = 'PROCE
 	DROP PROCEDURE [dbo].[USP_U_EliminarValorExternoConcepto]
 GO
 
-CREATE PROCEDURE dbo.USP_U_EliminarValorExternoConcepto
+CREATE PROCEDURE [dbo].[USP_U_EliminarValorExternoConcepto]
 @I_ConceptoExternoValorID INT,
 @I_UserID INT,
 @B_Result BIT OUTPUT,
@@ -2761,4 +2761,32 @@ BEGIN
 		SET @T_Message = ERROR_MESSAGE();
 	END CATCH
 END
+GO
+
+
+
+IF EXISTS (SELECT * FROM INFORMATION_SCHEMA.ROUTINES WHERE ROUTINE_TYPE = 'PROCEDURE' AND ROUTINE_NAME = 'USP_S_ListarTrabajadoresConPlanilla')
+	DROP PROCEDURE [dbo].[USP_S_ListarTrabajadoresConPlanilla]
+GO
+
+CREATE PROCEDURE [dbo].[USP_S_ListarTrabajadoresConPlanilla]
+@I_Anio INT,
+@I_Mes INT
+AS
+SELECT
+	trab.I_TrabajadorID, trab.C_TrabajadorCod, per.T_Nombre, per.T_ApellidoPaterno, per.T_ApellidoMaterno, 
+	tipdoc.T_TipoDocumentoDesc, per.C_NumDocumento, est.T_EstadoDesc, vin.T_VinculoDesc,
+	@I_Anio AS I_Anio, @I_Mes AS I_Mes
+FROM 
+	dbo.TC_Persona AS per INNER JOIN
+	dbo.TC_Trabajador AS trab ON trab.I_PersonaID = per.I_PersonaID INNER JOIN
+	dbo.TC_TipoDocumento AS tipdoc ON tipdoc.I_TipoDocumentoID = per.I_TipoDocumentoID INNER JOIN
+	dbo.TC_Estado AS est ON est.I_EstadoID = trab.I_EstadoID INNER JOIN 
+	dbo.TC_Vinculo AS vin ON vin.I_VinculoID = trab.I_VinculoID
+WHERE	per.B_Eliminado = 0 AND 
+		trab.B_Eliminado = 0 AND 
+		EXISTS(SELECT tp.I_TrabajadorPlanillaID FROM dbo.TR_TrabajadorPlanilla tp 
+			INNER JOIN dbo.TR_Planilla pl ON pl.I_PlanillaID = tp.I_PlanillaID
+			INNER JOIN dbo.TR_Periodo pr ON pr.I_PeriodoID = pl.I_PeriodoID
+			WHERE tp.I_TrabajadorID = trab.I_TrabajadorID AND pr.I_Anio = @I_Anio AND pr.I_Mes = @I_Mes);
 GO

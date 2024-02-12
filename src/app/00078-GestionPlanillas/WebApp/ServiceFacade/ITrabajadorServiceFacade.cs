@@ -16,5 +16,7 @@ namespace WebApp.ServiceFacade
         TrabajadorModel ObtenerTrabajador(int trabajadorID);
 
         Response GrabarTrabajador(Operacion operacion, TrabajadorModel model, int userID);
+
+        List<TrabajadorConPlanillaModel> ListarTrabajadoresConPlanilla(int año, int mes);
     }
 }
