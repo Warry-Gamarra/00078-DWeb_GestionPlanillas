@@ -73,6 +73,7 @@
     <Compile Include="Entities\BancoDTO.cs" />
     <Compile Include="Entities\CategoriaDocenteDTO.cs" />
     <Compile Include="Entities\CategoriaPlanillaDTO.cs" />
+    <Compile Include="Entities\CategoriaPlanillaGeneradaParaTrabajadorDTO.cs" />
     <Compile Include="Entities\CategoriaPresupuestalDTO.cs" />
     <Compile Include="Entities\CategoriaPresupuestalEntity.cs" />
     <Compile Include="Entities\ConceptoDTO.cs" />

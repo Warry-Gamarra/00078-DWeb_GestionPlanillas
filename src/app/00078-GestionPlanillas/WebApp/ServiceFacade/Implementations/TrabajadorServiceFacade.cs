@@ -27,11 +27,10 @@ namespace WebApp.ServiceFacade.Implementations
             _planillaService = new PlanillaService();
         }
 
-        public List<TrabajadorModel> ListarTrabajadores()
+        public IEnumerable<TrabajadorModel> ListarTrabajadores()
         {
             var lista = _trabajadorService.ListarTrabajadores()
-                .Select(x => Mapper.TrabajadorDTO_To_TrabajadorModel(x))
-                .ToList();
+                .Select(x => Mapper.TrabajadorDTO_To_TrabajadorModel(x));
 
             return lista;
         }
@@ -122,11 +121,10 @@ namespace WebApp.ServiceFacade.Implementations
             return response;
         }
 
-        public List<TrabajadorConPlanillaModel> ListarTrabajadoresConPlanilla(int año, int mes)
+        public IEnumerable<TrabajadorConPlanillaModel> ListarTrabajadoresConPlanilla(int año, int mes)
         {
             var lista = _trabajadorService.ListarTrabajadoresConPlanilla(año, mes)
-                .Select(x => Mapper.TrabajadorConPlanillaDTO_To_TrabajadorConPlanillaModel(x))
-                .ToList();
+                .Select(x => Mapper.TrabajadorConPlanillaDTO_To_TrabajadorConPlanillaModel(x));
 
             return lista;
         }

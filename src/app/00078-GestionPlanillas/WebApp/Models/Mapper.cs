@@ -439,5 +439,24 @@ namespace WebApp.Models
 
             return model;
         }
+
+        public static CategoriaPlanillaGeneradaParaTrabajadorModel CategoriaPlanillaGeneradaParaTrabajadorDTO_To_CategoriaPlanillaGeneradaParaTrabajadorModel(
+            CategoriaPlanillaGeneradaParaTrabajadorDTO dto)
+        {
+            var model = new CategoriaPlanillaGeneradaParaTrabajadorModel()
+            {
+                planillaID = dto.planillaID,
+                año = dto.año,
+                mes = dto.mes,
+                mesDesc = dto.mesDesc,
+                dependenciaDesc = dto.dependenciaDesc,
+                categoriaPlanillaID = dto.categoriaPlanillaID,
+                categoriaPlanillaDesc = dto.categoriaPlanillaDesc,
+                clasePlanillaDesc = dto.clasePlanillaDesc,
+                tipoPlanillaDesc = dto.tipoPlanillaDesc
+            };
+
+            return model;
+        }
     }
 }

@@ -104,6 +104,14 @@ namespace Domain.Services.Implementations
 
             return new ReporteResumenSIAF(año, _periodoService.ObtenerMesDesc(mes), listaResumenes);
         }
+
+        public IEnumerable<CategoriaPlanillaGeneradaParaTrabajadorDTO> ListarCategoriaPlanillaGeneradaPorTrabajador(int trabajadorID, int año, int mes)
+        {
+            var lista = USP_S_ListarCategoriaPlanillaGeneradaPorTrabajador.Execute(trabajadorID, año, mes)
+                .Select(x => Mapper.USP_S_ListarCategoriaPlanillaGeneradaPorTrabajador_To_CategoriaPlanillaGeneradaParaTrabajadorModel(x));
+
+            return lista;
+        }
     }
 }
 ;

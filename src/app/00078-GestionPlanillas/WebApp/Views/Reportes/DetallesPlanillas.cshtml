@@ -1,4 +1,6 @@
-﻿<div class="container-fluid">
+﻿@model Domain.Reports.ReporteResumenSIAF
+
+<div class="container-fluid">
     <div class="col-12 mb-4">
         <section class="content-header">
             <nav aria-label="breadcrumb">
@@ -17,7 +19,7 @@
             <div class="col-12">
                 <div class="card">
                     <div class="card-body bg-light-gray">
-                        @using (Html.BeginForm("ResumenPlanilla", "Reportes", FormMethod.Get, new { id = "frmConsultaResumenPlanilla" }))
+                        @using (Html.BeginForm("DetallePlanillaPorTrabajador", "Reportes", FormMethod.Get, new { id = "frmDetallePlanillaPorTrabajador" }))
                         {
                             <div class="form-row">
                                 <div class="form-group col-lg-2 col-md-4 col-6">
@@ -30,16 +32,9 @@
                                     @Html.DropDownList("mes", ViewBag.ListaMeses as SelectList, null, new { @class = "form-control text-uppercase" })
                                 </div>
 
-                                <div class="form-group col-lg-3 col-md-4 col-6">
-                                    <label for="idCategoria">Categoria</label>
-                                    @Html.DropDownList("idCategoria", ViewBag.ListaCategoriasPlanillas as SelectList, new { @class = "form-control text-uppercase" })
-                                </div>
-
                                 <div class="form-group col-lg-2 col-4">
                                     <label>&nbsp;</label>
-                                    <button type="button" class="btn btn-block btn-outline-primary" id="btnConsultar">
-                                        <i class="fa fa-fw fa-search"></i> Consultar
-                                    </button>
+                                    <button type="button" id="btnConsultar" class="btn btn-block btn-outline-primary"><i class="fa fa-fw fa-search"></i> Consultar</button>
                                 </div>
                             </div>
                         }
@@ -49,48 +44,30 @@
         </div>
 
         <div class="table-responsive mt-4">
-            <table class="table table-hover" id="dataTablePlanilla" width="100%">
+            <table class="table table-hover" id="dataTableTrabajadoresConPlanilla" width="100%">
                 <thead class="thead-dark">
                     <tr>
-                        <th>Planilla</th>
-                        <th>Año</th>
-                        <th>Mes</th>
+                        <th>Cod.Trab.</th>
                         <th>Tip.Doc.</th>
                         <th>Num.Doc.</th>
                         <th>Apellidos y Nombres</th>
-                        <th>Régimen</th>
-                        <th>Remu.</th>
-                        <th>Reint.</th>
-                        <th>Deducc.</th>
-                        <th>Bruto</th>
-                        <th>Desc.</th>
-                        <th>Total</th>
+                        <th>Estado</th>
+                        <th>Vínculo</th>
+                        <th></th>
                     </tr>
                 </thead>
                 <tfoot>
                     <tr>
-                        <th>Planilla</th>
-                        <th>Año</th>
-                        <th>Mes</th>
+                        <th>Cod.Trab.</th>
                         <th>Tip.Doc.</th>
                         <th>Num.Doc.</th>
                         <th>Apellidos y Nombres</th>
-                        <th>Régimen</th>
-                        <th>Remu.</th>
-                        <th>Reint.</th>
-                        <th>Deducc.</th>
-                        <th>Bruto</th>
-                        <th>Desc.</th>
-                        <th>Total</th>
+                        <th>Estado</th>
+                        <th>Vínculo</th>
+                        <th></th>
                     </tr>
                 </tfoot>
             </table>
-        </div>
-
-        <div class="row" id="divDescargaExcel">
-            <div class="col-lg-12">
-                <button type="button" id="btnExcelDescargar" class="btn btn-link pl-0">Descargar información en Excel [.xlsx]</button>
-            </div>
         </div>
     </div>
 </div>
@@ -98,66 +75,54 @@
 @section scripts {
     <script type="text/javascript">
         $(document).ready(function () {
-             generarDatatablePlanilla(null, null, null);
+            generarDatatableTrabajadoresConPlanilla(null, null);
 
-             $("#frmConsultaResumenPlanilla").on("change", "#anio", function () {
-                let cmbDestino = $('#frmConsultaResumenPlanilla #mes');
+            $("#frmDetallePlanillaPorTrabajador").on("change", "#anio", function () {
+                let cmbDestino = $('#frmDetallePlanillaPorTrabajador #mes');
 
                 let url = '@Url.Action("ObtenerMesesPorAnio", "General")';
 
                 CargarMeses(this, cmbDestino, url);
              });
 
-            $("#frmConsultaResumenPlanilla").on("click", "#btnConsultar", function () {
-                let anio = $("#frmConsultaResumenPlanilla #anio").val();
-                let mes = $("#frmConsultaResumenPlanilla #mes").val();
-                let idCategoria = $("#frmConsultaResumenPlanilla #idCategoria").val();
+            $("#frmDetallePlanillaPorTrabajador").on("click", "#btnConsultar", function () {
+                let anio = $("#frmDetallePlanillaPorTrabajador #anio").val();
+                let mes = $("#frmDetallePlanillaPorTrabajador #mes").val();
 
-                generarDatatablePlanilla(anio, mes, idCategoria);
-            });
-
-            $(document).on("click", "#btnExcelDescargar", function (e) {
-                let anio = $("#frmConsultaResumenPlanilla #anio").val();
-                let mes = $("#frmConsultaResumenPlanilla #mes").val();
-                let idCategoria = $("#frmConsultaResumenPlanilla #idCategoria").val();
-
-                document.forms.frmConsultaResumenPlanilla.action = "@Url.Action("DescargaResumenPlanilla", "Reportes")";
-                document.forms.frmConsultaResumenPlanilla.submit();
+                generarDatatableTrabajadoresConPlanilla(anio, mes);
             });
         });
 
-        function generarDatatablePlanilla(anio, mes, idCategoria) {
+        function generarDatatableTrabajadoresConPlanilla(anio, mes) {
             let parametros = {
                 anio: anio,
-                mes: mes,
-                idCategoria: idCategoria
+                mes: mes
             };
 
-            $('#dataTablePlanilla').DataTable({
+            $('#dataTableTrabajadoresConPlanilla').DataTable({
                 ajax: {
-                    'url': '@Url.Action("ObtenerResumenPlanilla", "Reportes")',
+                    'url': '@Url.Action("ObtenerListaTrabajadoresConPlanilla", "Reportes")',
                     'data': parametros,
                     'type': 'get'
                 },
                 columns: [
-                    { data: 'categoriaPlanillaDesc' },
-                    { data: 'anio' },
-                    { data: 'mesDesc' },
+                    { data: 'trabajadorCod' },
                     { data: 'tipoDocumentoDesc' },
                     { data: 'numDocumento' },
                     { data: 'apellidosNombre' },
-                    { data: 'regimenDesc' },
-                    { data: 'totalRemuneracionFormat' },
-                    { data: 'totalReintegroFormat' },
-                    { data: 'totalDeduccionFormat' },
-                    { data: 'totalBrutoFormat' },
-                    { data: 'totalDescuentoFormat' },
-                    { data: 'totalSueldoFormat' }
+                    { data: 'estadoDesc' },
+                    { data: 'vinculoDesc' },
+                    { data: 'trabajadorID' }
                 ],
                 columnDefs: [
                     {
-                        targets: [-1, -2, -3, -4, -5, -6],
-                        className: 'text-right'
+                        targets: -1,
+                        orderable: false,
+                        className: 'text-center',
+                        render: function (data, type, row) {
+                            return `<a class="modal-link-lg" href="@Url.Action("DetallePlanilla", "Reportes")?trabajadorID=${row.trabajadorID}&anio=${row.año}&mes=${row.mes}` +
+                                '" title="Ver planillas"><i class="fa bi-ui-checks" aria-hidden="true"></i></a>';
+                        }
                     }
                 ],
                 bStateSave: false,
@@ -184,16 +149,7 @@
                     loadingRecords: "Cargando...",
                     processing: "Procesando..."
                 },
-                searching: true,
-                initComplete: function () {
-                    var api = this.api();
-
-                    if (api.rows().count() > 0) {
-                        $('#divDescargaExcel').css('display', 'flex');
-                    } else {
-                        $('#divDescargaExcel').css('display', 'none');
-                    }
-                }
+                searching: true
             });
         }
     </script>

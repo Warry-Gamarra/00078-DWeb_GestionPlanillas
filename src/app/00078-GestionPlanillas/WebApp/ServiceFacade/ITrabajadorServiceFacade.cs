@@ -11,12 +11,12 @@ namespace WebApp.ServiceFacade
 {
     public interface ITrabajadorServiceFacade
     {
-        List<TrabajadorModel> ListarTrabajadores();
+        IEnumerable<TrabajadorModel> ListarTrabajadores();
 
         TrabajadorModel ObtenerTrabajador(int trabajadorID);
 
         Response GrabarTrabajador(Operacion operacion, TrabajadorModel model, int userID);
 
-        List<TrabajadorConPlanillaModel> ListarTrabajadoresConPlanilla(int año, int mes);
+        IEnumerable<TrabajadorConPlanillaModel> ListarTrabajadoresConPlanilla(int año, int mes);
     }
 }

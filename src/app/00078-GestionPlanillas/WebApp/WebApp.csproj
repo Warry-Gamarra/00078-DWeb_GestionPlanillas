@@ -147,6 +147,7 @@
     </Compile>
     <Compile Include="Models\ActividadModel.cs" />
     <Compile Include="Models\AdministrativoModel.cs" />
+    <Compile Include="Models\CategoriaPlanillaGeneradaParaTrabajadorModel.cs" />
     <Compile Include="Models\ConceptoModel.cs" />
     <Compile Include="Models\ConceptoAsignadoPlantillaModel.cs" />
     <Compile Include="Models\ConceptoReferenciaModel.cs" />
@@ -506,6 +507,8 @@
     <Content Include="Views\Trabajadores\_AsignarCategoriaPlanilla.cshtml" />
     <Content Include="Views\Trabajadores\_MsgAsignarCategoriaPlanilla.cshtml" />
     <Content Include="Views\Trabajadores\_CategoriasPlanillaAsignadas.cshtml" />
+    <Content Include="Views\Reportes\DetallesPlanillas.cshtml" />
+    <Content Include="Views\Reportes\_DetallePlanilla.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

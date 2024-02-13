@@ -2773,20 +2773,51 @@ CREATE PROCEDURE [dbo].[USP_S_ListarTrabajadoresConPlanilla]
 @I_Anio INT,
 @I_Mes INT
 AS
-SELECT
-	trab.I_TrabajadorID, trab.C_TrabajadorCod, per.T_Nombre, per.T_ApellidoPaterno, per.T_ApellidoMaterno, 
-	tipdoc.T_TipoDocumentoDesc, per.C_NumDocumento, est.T_EstadoDesc, vin.T_VinculoDesc,
-	@I_Anio AS I_Anio, @I_Mes AS I_Mes
-FROM 
-	dbo.TC_Persona AS per INNER JOIN
-	dbo.TC_Trabajador AS trab ON trab.I_PersonaID = per.I_PersonaID INNER JOIN
-	dbo.TC_TipoDocumento AS tipdoc ON tipdoc.I_TipoDocumentoID = per.I_TipoDocumentoID INNER JOIN
-	dbo.TC_Estado AS est ON est.I_EstadoID = trab.I_EstadoID INNER JOIN 
-	dbo.TC_Vinculo AS vin ON vin.I_VinculoID = trab.I_VinculoID
-WHERE	per.B_Eliminado = 0 AND 
-		trab.B_Eliminado = 0 AND 
-		EXISTS(SELECT tp.I_TrabajadorPlanillaID FROM dbo.TR_TrabajadorPlanilla tp 
-			INNER JOIN dbo.TR_Planilla pl ON pl.I_PlanillaID = tp.I_PlanillaID
-			INNER JOIN dbo.TR_Periodo pr ON pr.I_PeriodoID = pl.I_PeriodoID
-			WHERE tp.I_TrabajadorID = trab.I_TrabajadorID AND pr.I_Anio = @I_Anio AND pr.I_Mes = @I_Mes);
+BEGIN
+	SET NOCOUNT ON;
+	SELECT
+		trab.I_TrabajadorID, trab.C_TrabajadorCod, per.T_Nombre, per.T_ApellidoPaterno, per.T_ApellidoMaterno, 
+		tipdoc.T_TipoDocumentoDesc, per.C_NumDocumento, est.T_EstadoDesc, vin.T_VinculoDesc,
+		@I_Anio AS I_Anio, @I_Mes AS I_Mes
+	FROM 
+		dbo.TC_Persona AS per INNER JOIN
+		dbo.TC_Trabajador AS trab ON trab.I_PersonaID = per.I_PersonaID INNER JOIN
+		dbo.TC_TipoDocumento AS tipdoc ON tipdoc.I_TipoDocumentoID = per.I_TipoDocumentoID INNER JOIN
+		dbo.TC_Estado AS est ON est.I_EstadoID = trab.I_EstadoID INNER JOIN 
+		dbo.TC_Vinculo AS vin ON vin.I_VinculoID = trab.I_VinculoID
+	WHERE	per.B_Eliminado = 0 AND 
+			trab.B_Eliminado = 0 AND 
+			EXISTS(SELECT tp.I_TrabajadorPlanillaID FROM dbo.TR_TrabajadorPlanilla tp 
+				INNER JOIN dbo.TR_Planilla pl ON pl.I_PlanillaID = tp.I_PlanillaID
+				INNER JOIN dbo.TR_Periodo pr ON pr.I_PeriodoID = pl.I_PeriodoID
+				WHERE tp.I_TrabajadorID = trab.I_TrabajadorID AND pr.I_Anio = @I_Anio AND pr.I_Mes = @I_Mes);
+END
+GO
+
+
+
+IF EXISTS (SELECT * FROM INFORMATION_SCHEMA.ROUTINES WHERE ROUTINE_TYPE = 'PROCEDURE' AND ROUTINE_NAME = 'USP_S_ListarCategoriaPlanillaGeneradaPorTrabajador')
+	DROP PROCEDURE [dbo].[USP_S_ListarCategoriaPlanillaGeneradaPorTrabajador]
+GO
+
+CREATE PROCEDURE [dbo].[USP_S_ListarCategoriaPlanillaGeneradaPorTrabajador]
+@I_TrabajadorID INT,
+@I_Anio INT,
+@I_Mes INT
+AS
+BEGIN
+	SET NOCOUNT ON;
+
+	SELECT pl.I_PlanillaID, pr.I_Anio, pr.I_Mes, pr.T_MesDesc, 
+		dep.T_DependenciaDesc, cp.I_CategoriaPlanillaID, cp.T_CategoriaPlanillaDesc, cl.T_ClasePlanillaDesc, tp.T_TipoPlanillaDesc
+	FROM dbo.TR_TrabajadorPlanilla trabPla
+	INNER  JOIN dbo.TR_Planilla pl ON pl.I_PlanillaID = trabPla.I_PlanillaID
+	INNER JOIN dbo.TR_Periodo pr ON pr.I_PeriodoID = pl.I_PeriodoID
+	INNER JOIN dbo.TC_Dependencia dep ON dep.I_DependenciaID = trabPla.I_DependenciaID
+	INNER JOIN dbo.TC_CategoriaPlanilla cp ON cp.I_CategoriaPlanillaID = pl.I_CategoriaPlanillaID
+	INNER JOIN dbo.TC_ClasePlanilla cl ON cl.I_ClasePlanillaID = cp.I_ClasePlanillaID
+	INNER JOIN dbo.TC_TipoPlanilla tp ON tp.I_TipoPlanillaID = cl.I_TipoPlanillaID
+	WHERE trabPla.B_Anulado = 0 AND pl.B_Anulado = 0 AND 
+		pr.I_Anio = @I_Anio AND pr.I_Mes = @I_Mes AND trabPla.I_TrabajadorID = @I_TrabajadorID;
+END
 GO

@@ -2,6 +2,7 @@
 using Domain.Helpers;
 using Domain.Reports;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -47,15 +48,15 @@ namespace WebApp.Controllers
         }
 
         [HttpGet]
-        public JsonResult ObtenerListaTrabajadoreConPlanilla(int? anio, int? mes, int? idCategoria)
+        public JsonResult ObtenerResumenPlanilla(int? anio, int? mes, int? idCategoria)
         {
             var result = new AjaxResponse();
 
-            List<ResumenPlanillaTrabajadorModel> lista;
+            IEnumerable<ResumenPlanillaTrabajadorModel> lista;
 
             if (anio.HasValue && mes.HasValue && idCategoria.HasValue)
             {
-                lista = _planillaServiceFacade.ListarResumenPlanillaTrabajador(anio.Value, mes.Value, idCategoria.Value).ToList();
+                lista = _planillaServiceFacade.ListarResumenPlanillaTrabajador(anio.Value, mes.Value, idCategoria.Value);
             }
             else
             {
@@ -195,6 +196,71 @@ namespace WebApp.Controllers
             ViewBag.ErrorMessage = errorMessage;
 
             return View();
+        }
+
+        [HttpGet]
+        public ActionResult DetallesPlanillas()
+        {
+            var listaAños = _periodoServiceFacade.ObtenerComboAños(soloAñoConMeses: true);
+
+            var año = (listaAños.Count() > 0) ? int.Parse(listaAños.First().Value) : DateTime.Now.Year;
+
+            ViewBag.Title = "Detalles de Planillas";
+
+            ViewBag.ListaAños = listaAños;
+
+            ViewBag.ListaMeses = _periodoServiceFacade.ObtenerComboMesesSegunAño(año);
+
+            return View();
+        }
+
+        [HttpGet]
+        public JsonResult ObtenerListaTrabajadoresConPlanilla(int? anio, int? mes)
+        {
+            var result = new AjaxResponse();
+
+            IEnumerable<TrabajadorConPlanillaModel> lista;
+
+            if (anio.HasValue && mes.HasValue)
+            {
+                lista = _trabajadorServiceFacade.ListarTrabajadoresConPlanilla(anio.Value, mes.Value);
+            }
+            else
+            {
+                lista = new List<TrabajadorConPlanillaModel>();
+            }
+
+            result.data = lista;
+
+            return Json(result, JsonRequestBehavior.AllowGet);
+        }
+
+        [HttpGet]
+        public ActionResult DetallePlanilla(int trabajadorID, int anio, int mes)
+        {
+            ViewBag.Title = "Detalle del Trabajador";
+
+            var model = _trabajadorServiceFacade.ListarTrabajadoresConPlanilla(anio, mes)
+                .First(x => x.trabajadorID == trabajadorID);
+
+            var categoriasPlanilla = _planillaServiceFacade.ListarCategoriaPlanillaGeneradaPorTrabajador(trabajadorID, anio, mes);
+
+            ViewBag.ListaCategorias = new SelectList(categoriasPlanilla, "planillaID", "categoriaPlanillaDesc");
+
+            ViewBag.InformacionCategoriaPlanillaGenerada = categoriasPlanilla.First();
+
+            return PartialView("_DetallePlanilla", model);
+        }
+
+        [HttpGet]
+        public JsonResult ObtenerInformacionCategoriaPlanillaGenerada(int trabajadorID, int planillaID, int anio, int mes)
+        {
+            var result = new AjaxResponse();
+
+            result.data = _planillaServiceFacade.ListarCategoriaPlanillaGeneradaPorTrabajador(trabajadorID, anio, mes)
+                .First(x => x.planillaID == planillaID);
+
+            return Json(result, JsonRequestBehavior.AllowGet);
         }
     }
 }

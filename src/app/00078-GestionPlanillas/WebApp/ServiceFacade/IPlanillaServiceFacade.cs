@@ -1,4 +1,5 @@
-﻿using Domain.Enums;
+﻿using Domain.Entities;
+using Domain.Enums;
 using Domain.Helpers;
 using Domain.Reports;
 using System;
@@ -25,5 +26,7 @@ namespace WebApp.ServiceFacade
         ReporteResumenSIAF ObtenerReporteResumenSIAF(int año, int mes);
 
         FileContent ObtenerReporteResumenSIAF(int año, int mes, FormatoArchivo formatoArchivo);
+
+        IEnumerable<CategoriaPlanillaGeneradaParaTrabajadorModel> ListarCategoriaPlanillaGeneradaPorTrabajador(int trabajadorID, int año, int mes);
     }
 }

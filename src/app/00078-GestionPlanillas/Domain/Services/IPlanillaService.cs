@@ -21,5 +21,7 @@ namespace Domain.Services
         ReporteResumenPorActividadYDependencia ObtenerReporteResumenActividadPorDependencia(int año, int mes, int idCategoria);
 
         ReporteResumenSIAF ObtenerReporteResumenSIAF(int año, int mes);
+
+        IEnumerable<CategoriaPlanillaGeneradaParaTrabajadorDTO> ListarCategoriaPlanillaGeneradaPorTrabajador(int trabajadorID, int año, int mes);
     }
 }

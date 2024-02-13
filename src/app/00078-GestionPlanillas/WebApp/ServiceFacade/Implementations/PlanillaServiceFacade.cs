@@ -129,5 +129,13 @@ namespace WebApp.ServiceFacade.Implementations
 
             return fileContent;
         }
+
+        public IEnumerable<CategoriaPlanillaGeneradaParaTrabajadorModel> ListarCategoriaPlanillaGeneradaPorTrabajador(int trabajadorID, int año, int mes)
+        {
+            var lista = _planillaService.ListarCategoriaPlanillaGeneradaPorTrabajador(trabajadorID, año, mes)
+                .Select(x => Mapper.CategoriaPlanillaGeneradaParaTrabajadorDTO_To_CategoriaPlanillaGeneradaParaTrabajadorModel(x));
+
+            return lista;
+        }
     }
 }

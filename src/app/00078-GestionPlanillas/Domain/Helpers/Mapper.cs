@@ -737,5 +737,24 @@ namespace Domain.Helpers
 
             return dto;
         }
+
+        public static CategoriaPlanillaGeneradaParaTrabajadorDTO USP_S_ListarCategoriaPlanillaGeneradaPorTrabajador_To_CategoriaPlanillaGeneradaParaTrabajadorModel(
+            USP_S_ListarCategoriaPlanillaGeneradaPorTrabajador sp)
+        {
+            var dto = new CategoriaPlanillaGeneradaParaTrabajadorDTO()
+            {
+                planillaID = sp.I_PlanillaID,
+                año = sp.I_Anio,
+                mes = sp.I_Mes,
+                mesDesc = sp.T_MesDesc,
+                dependenciaDesc = sp.T_DependenciaDesc,
+                categoriaPlanillaID = sp.I_CategoriaPlanillaID,
+                categoriaPlanillaDesc = sp.T_CategoriaPlanillaDesc,
+                clasePlanillaDesc = sp.T_ClasePlanillaDesc,
+                tipoPlanillaDesc = sp.T_TipoPlanillaDesc
+            };
+
+            return dto;
+        }
     }
 }

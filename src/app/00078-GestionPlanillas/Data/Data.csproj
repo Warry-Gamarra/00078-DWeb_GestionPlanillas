@@ -56,6 +56,7 @@
     <Compile Include="Procedures\USP_I_RegistrarDepActividadMeta.cs" />
     <Compile Include="Procedures\USP_I_RegistrarDependencia.cs" />
     <Compile Include="Procedures\USP_I_RegistrarMeta.cs" />
+    <Compile Include="Procedures\USP_S_ListarCategoriaPlanillaGeneradaPorTrabajador.cs" />
     <Compile Include="Procedures\USP_S_ListarResumenSIAF.cs" />
     <Compile Include="Procedures\USP_S_ListarResumenPorActividadYDependencia.cs" />
     <Compile Include="Procedures\USP_S_ListarTrabajadoresConPlanilla.cs" />
