@@ -112,6 +112,13 @@ namespace Domain.Services.Implementations
 
             return lista;
         }
+
+        public IEnumerable<ConceptoGeneradoDTO> ListarConceptosGeneradosPorategoriaYTrabajador(int trabajadorPlanillaID)
+        {
+            var lista = USP_S_ListarConceptosGeneradosPorategoriaYTrabajador.Execute(trabajadorPlanillaID)
+                .Select(x => Mapper.USP_S_ListarConceptosGeneradosPorategoriaYTrabajador_To_ConceptoGeneradoDTO(x));
+
+            return lista;
+        }
     }
 }
-;

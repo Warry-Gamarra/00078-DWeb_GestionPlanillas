@@ -744,6 +744,7 @@ namespace Domain.Helpers
             var dto = new CategoriaPlanillaGeneradaParaTrabajadorDTO()
             {
                 planillaID = sp.I_PlanillaID,
+                trabajadorPlanillaID = sp.I_TrabajadorPlanillaID,
                 año = sp.I_Anio,
                 mes = sp.I_Mes,
                 mesDesc = sp.T_MesDesc,
@@ -752,6 +753,22 @@ namespace Domain.Helpers
                 categoriaPlanillaDesc = sp.T_CategoriaPlanillaDesc,
                 clasePlanillaDesc = sp.T_ClasePlanillaDesc,
                 tipoPlanillaDesc = sp.T_TipoPlanillaDesc
+            };
+
+            return dto;
+        }
+
+        public static ConceptoGeneradoDTO USP_S_ListarConceptosGeneradosPorategoriaYTrabajador_To_ConceptoGeneradoDTO(
+            USP_S_ListarConceptosGeneradosPorategoriaYTrabajador sp)
+        {
+            var dto = new ConceptoGeneradoDTO()
+            {
+                tipoConceptoID = sp.I_TipoConceptoID,
+                tipoConceptoDesc = sp.T_TipoConceptoDesc,
+                conceptoCod = sp.C_ConceptoCod,
+                conceptoDesc = sp.T_ConceptoDesc,
+                conceptoAbrv = sp.T_ConceptoAbrv,
+                monto = sp.M_Monto
             };
 
             return dto;

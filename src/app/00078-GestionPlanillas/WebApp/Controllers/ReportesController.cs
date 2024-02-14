@@ -249,6 +249,8 @@ namespace WebApp.Controllers
 
             ViewBag.InformacionCategoriaPlanillaGenerada = categoriasPlanilla.First();
 
+            ViewBag.ConceptosGenerados = _planillaServiceFacade.ListarConceptosGeneradosPorategoriaYTrabajador(categoriasPlanilla.First().trabajadorPlanillaID);
+
             return PartialView("_DetallePlanilla", model);
         }
 

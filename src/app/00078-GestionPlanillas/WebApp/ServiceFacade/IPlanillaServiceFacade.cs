@@ -28,5 +28,7 @@ namespace WebApp.ServiceFacade
         FileContent ObtenerReporteResumenSIAF(int año, int mes, FormatoArchivo formatoArchivo);
 
         IEnumerable<CategoriaPlanillaGeneradaParaTrabajadorModel> ListarCategoriaPlanillaGeneradaPorTrabajador(int trabajadorID, int año, int mes);
+
+        IEnumerable<ConceptoGeneradoModel> ListarConceptosGeneradosPorategoriaYTrabajador(int trabajadorPlanillaID);
     }
 }

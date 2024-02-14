@@ -9,6 +9,8 @@ namespace WebApp.Models
     {
         public int planillaID { get; set; }
 
+        public int trabajadorPlanillaID { get; set; }
+
         public int año { get; set; }
 
         public int mes { get; set; }

@@ -446,6 +446,7 @@ namespace WebApp.Models
             var model = new CategoriaPlanillaGeneradaParaTrabajadorModel()
             {
                 planillaID = dto.planillaID,
+                trabajadorPlanillaID = dto.trabajadorPlanillaID,
                 año = dto.año,
                 mes = dto.mes,
                 mesDesc = dto.mesDesc,
@@ -454,6 +455,21 @@ namespace WebApp.Models
                 categoriaPlanillaDesc = dto.categoriaPlanillaDesc,
                 clasePlanillaDesc = dto.clasePlanillaDesc,
                 tipoPlanillaDesc = dto.tipoPlanillaDesc
+            };
+
+            return model;
+        }
+
+        public static ConceptoGeneradoModel ConceptoGeneradoDTO_To_ConceptoGeneradoModel( ConceptoGeneradoDTO dto)
+        {
+            var model = new ConceptoGeneradoModel()
+            {
+                tipoConceptoID = dto.tipoConceptoID,
+                tipoConceptoDesc = dto.tipoConceptoDesc,
+                conceptoCod = dto.conceptoCod,
+                conceptoDesc = dto.conceptoDesc,
+                conceptoAbrv = dto.conceptoAbrv,
+                monto = dto.monto
             };
 
             return model;

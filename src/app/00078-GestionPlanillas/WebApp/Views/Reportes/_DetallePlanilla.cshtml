@@ -1,5 +1,10 @@
 ﻿@model WebApp.Models.TrabajadorConPlanillaModel
 
+@{ 
+    var planilla = (WebApp.Models.CategoriaPlanillaGeneradaParaTrabajadorModel)ViewBag.InformacionCategoriaPlanillaGenerada;
+    var conceptos = (IEnumerable<WebApp.Models.ConceptoGeneradoModel>)ViewBag.ConceptosGenerados;
+}
+
 <div class="modal-header bg-dark-gray" style="border-radius: .2rem .2rem 0px 0px">
     <h5 class="modal-title text-center"><i class="fa fa-tag"></i>&nbsp;@ViewBag.Title</h5>
     <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
@@ -22,12 +27,23 @@
 
             <dt class="col-sm-3">Vínculo</dt>
             <dd class="col-sm-9">@Model.vinculoDesc</dd>
-
-            <dt class="col-sm-3">Planillas</dt>
-            <dd class="col-sm-9">@Html.DropDownList("cmbCategorias", ViewBag.ListaCategorias as SelectList, new { @class="form-control" })</dd>
         </dl>
 
         <hr />
+
+        <dl class="row">
+            <dt class="col-sm-3">Planilla</dt>
+            <dd class="col-sm-9">@Html.DropDownList("cmbCategorias", ViewBag.ListaCategorias as SelectList, new { @class = "form-control uppercase" })</dd>
+
+            <dt class="col-sm-3">Tipo planilla</dt>
+            <dd class="col-sm-9">@planilla.tipoPlanillaDesc</dd>
+
+            <dt class="col-sm-3">Clase planilla</dt>
+            <dd class="col-sm-9">@planilla.clasePlanillaDesc</dd>
+
+            <dt class="col-sm-3">Dependencia</dt>
+            <dd class="col-sm-9">@planilla.dependenciaDesc</dd>
+        </dl>
     </div>
     <div class="container-fluid" id="spin-loader" style="display:none;">
         <div class="d-flex justify-content-center">
@@ -47,23 +63,26 @@
                         <th>Tip.Concepto</th>
                         <th>Código</th>
                         <th>Descripción</th>
-                        <th>Valor</th>
-                        <th>Aplica a</th>
-                        <th>Estado</th>
-                        <th></th>
-                        <th></th>
+                        <th>Monto</th>
                     </tr>
                 </thead>
+                <tbody>
+                    @foreach (var item in conceptos)
+                    {
+                        <tr>
+                            <td>@item.tipoConceptoDesc</td>
+                            <td>@item.conceptoCod</td>
+                            <td>@item.conceptoDesc</td>
+                            <td>@item.montoFormateado</td>
+                        </tr>
+                    }
+                </tbody>
                 <tfoot>
                     <tr>
                         <th>Tip.Concepto</th>
                         <th>Código</th>
                         <th>Descripción</th>
-                        <th>Valor</th>
-                        <th>Aplica a</th>
-                        <th>Estado</th>
-                        <th></th>
-                        <th></th>
+                        <th>Monto</th>
                     </tr>
                 </tfoot>
             </table>

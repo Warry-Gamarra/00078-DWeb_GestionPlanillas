@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Domain.Helpers;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -35,7 +36,7 @@ namespace WebApp.Models
         {
             get
             {
-                return fechaIngreso.HasValue ? fechaIngreso.Value.ToString("dd/MM/yyyy") : "";
+                return fechaIngreso.HasValue ? fechaIngreso.Value.ToString(Formats.BASIC_DATE) : "";
             }
 
         }

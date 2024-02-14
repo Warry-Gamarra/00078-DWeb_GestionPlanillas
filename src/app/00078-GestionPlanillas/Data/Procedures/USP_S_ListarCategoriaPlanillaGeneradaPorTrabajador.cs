@@ -14,6 +14,8 @@ namespace Data.Procedures
     {
         public int I_PlanillaID { get; set; }
 
+        public int I_TrabajadorPlanillaID { get; set; }
+
         public int I_Anio { get; set; }
 
         public int I_Mes { get; set; }

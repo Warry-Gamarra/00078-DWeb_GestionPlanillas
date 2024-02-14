@@ -137,5 +137,13 @@ namespace WebApp.ServiceFacade.Implementations
 
             return lista;
         }
+
+        public IEnumerable<ConceptoGeneradoModel> ListarConceptosGeneradosPorategoriaYTrabajador(int trabajadorPlanillaID)
+        {
+            var lista = _planillaService.ListarConceptosGeneradosPorategoriaYTrabajador(trabajadorPlanillaID)
+                .Select(x => Mapper.ConceptoGeneradoDTO_To_ConceptoGeneradoModel(x));
+
+            return lista;
+        }
     }
 }

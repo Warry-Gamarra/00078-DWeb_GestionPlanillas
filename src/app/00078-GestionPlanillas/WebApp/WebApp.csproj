@@ -148,6 +148,7 @@
     <Compile Include="Models\ActividadModel.cs" />
     <Compile Include="Models\AdministrativoModel.cs" />
     <Compile Include="Models\CategoriaPlanillaGeneradaParaTrabajadorModel.cs" />
+    <Compile Include="Models\ConceptoGeneradoModel.cs" />
     <Compile Include="Models\ConceptoModel.cs" />
     <Compile Include="Models\ConceptoAsignadoPlantillaModel.cs" />
     <Compile Include="Models\ConceptoReferenciaModel.cs" />

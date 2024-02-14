@@ -79,6 +79,7 @@
     <Compile Include="Entities\ConceptoDTO.cs" />
     <Compile Include="Entities\ConceptoEntity.cs" />
     <Compile Include="Entities\ConceptoAsignadoPlantillaDTO.cs" />
+    <Compile Include="Entities\ConceptoGeneradoDTO.cs" />
     <Compile Include="Entities\DepActividadMetaDTO.cs" />
     <Compile Include="Entities\DepActividadMetaEntity.cs" />
     <Compile Include="Entities\DependenciaEntity.cs" />

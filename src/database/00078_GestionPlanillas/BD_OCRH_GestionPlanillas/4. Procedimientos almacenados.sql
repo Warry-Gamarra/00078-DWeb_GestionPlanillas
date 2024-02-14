@@ -2808,7 +2808,7 @@ AS
 BEGIN
 	SET NOCOUNT ON;
 
-	SELECT pl.I_PlanillaID, pr.I_Anio, pr.I_Mes, pr.T_MesDesc, 
+	SELECT pl.I_PlanillaID, trabPla.I_TrabajadorPlanillaID, pr.I_Anio, pr.I_Mes, pr.T_MesDesc, 
 		dep.T_DependenciaDesc, cp.I_CategoriaPlanillaID, cp.T_CategoriaPlanillaDesc, cl.T_ClasePlanillaDesc, tp.T_TipoPlanillaDesc
 	FROM dbo.TR_TrabajadorPlanilla trabPla
 	INNER  JOIN dbo.TR_Planilla pl ON pl.I_PlanillaID = trabPla.I_PlanillaID
@@ -2819,5 +2819,25 @@ BEGIN
 	INNER JOIN dbo.TC_TipoPlanilla tp ON tp.I_TipoPlanillaID = cl.I_TipoPlanillaID
 	WHERE trabPla.B_Anulado = 0 AND pl.B_Anulado = 0 AND 
 		pr.I_Anio = @I_Anio AND pr.I_Mes = @I_Mes AND trabPla.I_TrabajadorID = @I_TrabajadorID;
+END
+GO
+
+
+
+IF EXISTS (SELECT * FROM INFORMATION_SCHEMA.ROUTINES WHERE ROUTINE_TYPE = 'PROCEDURE' AND ROUTINE_NAME = 'USP_S_ListarConceptosGeneradosPorategoriaYTrabajador')
+	DROP PROCEDURE [dbo].[USP_S_ListarConceptosGeneradosPorategoriaYTrabajador]
+GO
+
+CREATE PROCEDURE [dbo].[USP_S_ListarConceptosGeneradosPorategoriaYTrabajador]
+@I_TrabajadorPlanillaID INT
+AS
+BEGIN
+	SET NOCOUNT ON;
+
+	SELECT t.I_TipoConceptoID, t.T_TipoConceptoDesc, cp.C_ConceptoCod, cp.T_ConceptoDesc, cp.T_ConceptoAbrv, cp.M_Monto FROM dbo.TR_Concepto_TrabajadorPlanilla cp
+	INNER JOIN dbo.TC_Concepto c ON c.I_ConceptoID = cp.I_ConceptoID
+	INNER JOIN dbo.TC_TipoConcepto t ON t.I_TipoConceptoID = c.I_TipoConceptoID
+	WHERE cp.I_TrabajadorPlanillaID = 1 AND cp.B_Anulado = 0
+	ORDER BY cp.I_Orden
 END
 GO
