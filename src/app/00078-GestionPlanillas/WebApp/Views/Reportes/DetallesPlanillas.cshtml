@@ -91,6 +91,33 @@
 
                 generarDatatableTrabajadoresConPlanilla(anio, mes);
             });
+
+            $(document).on('change', '.modal-body #cmbCategorias', function () {
+                let parametros = {
+                    trabajadorID: $(this).data("trabajador-id"),
+                    trabajadorPlanillaID: $(this).val(),
+                    anio: $(this).data("anio"),
+                    mes: $(this).data("mes")
+                };
+
+                $.ajax({
+                    url: '@Url.Action("DetallePlanilla", "Reportes")',
+                    type: "GET",
+                    data: parametros,
+                    beforeSend: function () {
+                        $('#content-body').hide();
+                        $('#spin-loader').show();
+                    },
+                    success: function (data) {
+                        $('#modal-container-lg').find('.modal-content').html(data);
+                    },
+                    error: function (jqXHR, textStatus, errorThrown) {
+                        $('#content-body').html('<p class="alert alert-danger">' + jqXHR.responseText + '</p>');
+                        $('#spin-loader').hide();
+                        $('#content-body').show();
+                    }
+                });
+            });
         });
 
         function generarDatatableTrabajadoresConPlanilla(anio, mes) {

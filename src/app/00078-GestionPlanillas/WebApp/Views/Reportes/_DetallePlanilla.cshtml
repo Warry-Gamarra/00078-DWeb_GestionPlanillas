@@ -33,7 +33,13 @@
 
         <dl class="row">
             <dt class="col-sm-3">Planilla</dt>
-            <dd class="col-sm-9">@Html.DropDownList("cmbCategorias", ViewBag.ListaCategorias as SelectList, new { @class = "form-control text-uppercase" })</dd>
+            <dd class="col-sm-9">
+                @Html.DropDownList("cmbCategorias", ViewBag.ListaCategorias as SelectList, new { 
+                    @class = "form-control text-uppercase", 
+                    data_trabajador_id = Model.trabajadorID,
+                    data_anio = planilla.año,
+                    data_mes = planilla.mes })
+            </dd>
 
             <dt class="col-sm-3">Tipo planilla</dt>
             <dd class="col-sm-9">@planilla.tipoPlanillaDesc</dd>
@@ -85,45 +91,3 @@
         </div>
     </div>
 </div>
-
-<script type="text/javascript">
-    modalActivo = null;
-
-    $('.modal-body').on('change', '#cmbCategorias', function (event) {
-        event.preventDefault();
-
-        let parametros = {
-            trabajadorID: @Model.trabajadorID,
-            trabajadorPlanillaID: this.value,
-            anio: @planilla.año,
-            mes: @planilla.mes
-        };
-
-         $.ajax({
-             url: '@Url.Action("ObtenerInformacionCategoriaPlanillaGenerada", "Reportes")',
-             type: "GET",
-             data: parametros,
-             beforeSend: function () {
-                 //$('#content-body').hide();
-                 //$('#spin-loader').show();
-             },
-             success: function (data) {
-                 console.log(data);
-                 //$('#content-body').show();
-                 //$('#spin-loader').hide();
-
-                 //if (data.Success) {
-                 //    mostrarMensajeSistema(data.Message, MENSAJE.SUCCESS);
-                 //    generarDatatableConceptosAsignados();
-                 //} else {
-                 //    mostrarMensajeSistema(data.Message, MENSAJE.ERROR);
-                 //}
-             },
-             error: function (jqXHR, textStatus, errorThrown) {
-                 //$('#content-body').html('<p class="alert alert-danger">' + jqXHR.responseText + '</p>');
-                 //$('#spin-loader').hide();
-                 //$('#content-body').show();
-             }
-         });
-    });
-</script>

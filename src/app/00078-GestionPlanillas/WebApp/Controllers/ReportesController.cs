@@ -236,41 +236,38 @@ namespace WebApp.Controllers
         }
 
         [HttpGet]
-        public ActionResult DetallePlanilla(int trabajadorID, int anio, int mes)
+        public ActionResult DetallePlanilla(int trabajadorID, int anio, int mes, int? trabajadorPlanillaID)
         {
             ViewBag.Title = "Detalle del Trabajador";
 
-            var model = _trabajadorServiceFacade.ListarTrabajadoresConPlanilla(anio, mes)
-                .First(x => x.trabajadorID == trabajadorID);
+            var model = _trabajadorServiceFacade.ListarTrabajadoresConPlanilla(anio, mes).First(x => x.trabajadorID == trabajadorID);
 
-            var categoriasPlanilla = _planillaServiceFacade.ListarCategoriaPlanillaGeneradaPorTrabajador(trabajadorID, anio, mes);
+            var listaCategoriasPlanillaGeneradas = _planillaServiceFacade.ListarCategoriaPlanillaGeneradaPorTrabajador(trabajadorID, anio, mes);
 
-            var conceptosGenerados = _planillaServiceFacade.ListarConceptosGeneradosPorategoriaYTrabajador(categoriasPlanilla.First().trabajadorPlanillaID);
+            CategoriaPlanillaGeneradaParaTrabajadorModel categoriaPlanillaGenerada;
 
-            ViewBag.ListaCategorias = new SelectList(categoriasPlanilla, "trabajadorPlanillaID", "categoriaPlanillaDesc");
+            IEnumerable<ConceptoGeneradoModel> conceptosGenerados;
 
-            ViewBag.InformacionCategoriaPlanillaGenerada = categoriasPlanilla.First();
+            if (trabajadorPlanillaID.HasValue)
+            {
+                categoriaPlanillaGenerada = listaCategoriasPlanillaGeneradas.First(x => x.trabajadorPlanillaID == trabajadorPlanillaID.Value);
+
+                conceptosGenerados = _planillaServiceFacade.ListarConceptosGeneradosPorategoriaYTrabajador(trabajadorPlanillaID.Value);
+            }
+            else
+            {
+                categoriaPlanillaGenerada = listaCategoriasPlanillaGeneradas.First();
+
+                conceptosGenerados = _planillaServiceFacade.ListarConceptosGeneradosPorategoriaYTrabajador(categoriaPlanillaGenerada.trabajadorPlanillaID);
+            }
+
+            ViewBag.ListaCategorias = new SelectList(listaCategoriasPlanillaGeneradas, "trabajadorPlanillaID", "categoriaPlanillaDesc", trabajadorPlanillaID);
+
+            ViewBag.InformacionCategoriaPlanillaGenerada = categoriaPlanillaGenerada;
 
             ViewBag.ConceptosGenerados = conceptosGenerados;
 
             return PartialView("_DetallePlanilla", model);
-        }
-
-        [HttpGet]
-        public JsonResult ObtenerInformacionCategoriaPlanillaGenerada(int trabajadorID, int trabajadorPlanillaID, int anio, int mes)
-        {
-            var result = new AjaxResponse();
-
-            var informacionCategoriaPlanillaGenerada = _planillaServiceFacade.ListarCategoriaPlanillaGeneradaPorTrabajador(trabajadorID, anio, mes)
-                .First(x => x.trabajadorPlanillaID == trabajadorPlanillaID);
-
-            var conceptosGenerados = _planillaServiceFacade.ListarConceptosGeneradosPorategoriaYTrabajador(trabajadorPlanillaID);
-
-            result.success = true;
-
-            result.data = new { informacionCategoriaPlanillaGenerada = informacionCategoriaPlanillaGenerada, conceptosGenerados = conceptosGenerados };
-
-            return Json(result, JsonRequestBehavior.AllowGet);
         }
     }
 }
