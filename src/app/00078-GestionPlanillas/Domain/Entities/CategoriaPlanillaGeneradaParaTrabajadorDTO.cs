@@ -27,5 +27,17 @@ namespace Domain.Entities
         public string clasePlanillaDesc { get; set; }
 
         public string tipoPlanillaDesc { get; set; }
+
+        public decimal totalRemuneracion { get; set; }
+
+        public decimal totalReintegro { get; set; }
+
+        public decimal totalDeduccion { get; set; }
+
+        public decimal totalBruto { get; set; }
+
+        public decimal totalDescuento { get; set; }
+
+        public decimal totalSueldo { get; set; }
     }
 }

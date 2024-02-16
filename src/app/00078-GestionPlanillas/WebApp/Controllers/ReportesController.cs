@@ -245,22 +245,30 @@ namespace WebApp.Controllers
 
             var categoriasPlanilla = _planillaServiceFacade.ListarCategoriaPlanillaGeneradaPorTrabajador(trabajadorID, anio, mes);
 
-            ViewBag.ListaCategorias = new SelectList(categoriasPlanilla, "planillaID", "categoriaPlanillaDesc");
+            var conceptosGenerados = _planillaServiceFacade.ListarConceptosGeneradosPorategoriaYTrabajador(categoriasPlanilla.First().trabajadorPlanillaID);
+
+            ViewBag.ListaCategorias = new SelectList(categoriasPlanilla, "trabajadorPlanillaID", "categoriaPlanillaDesc");
 
             ViewBag.InformacionCategoriaPlanillaGenerada = categoriasPlanilla.First();
 
-            ViewBag.ConceptosGenerados = _planillaServiceFacade.ListarConceptosGeneradosPorategoriaYTrabajador(categoriasPlanilla.First().trabajadorPlanillaID);
+            ViewBag.ConceptosGenerados = conceptosGenerados;
 
             return PartialView("_DetallePlanilla", model);
         }
 
         [HttpGet]
-        public JsonResult ObtenerInformacionCategoriaPlanillaGenerada(int trabajadorID, int planillaID, int anio, int mes)
+        public JsonResult ObtenerInformacionCategoriaPlanillaGenerada(int trabajadorID, int trabajadorPlanillaID, int anio, int mes)
         {
             var result = new AjaxResponse();
 
-            result.data = _planillaServiceFacade.ListarCategoriaPlanillaGeneradaPorTrabajador(trabajadorID, anio, mes)
-                .First(x => x.planillaID == planillaID);
+            var informacionCategoriaPlanillaGenerada = _planillaServiceFacade.ListarCategoriaPlanillaGeneradaPorTrabajador(trabajadorID, anio, mes)
+                .First(x => x.trabajadorPlanillaID == trabajadorPlanillaID);
+
+            var conceptosGenerados = _planillaServiceFacade.ListarConceptosGeneradosPorategoriaYTrabajador(trabajadorPlanillaID);
+
+            result.success = true;
+
+            result.data = new { informacionCategoriaPlanillaGenerada = informacionCategoriaPlanillaGenerada, conceptosGenerados = conceptosGenerados };
 
             return Json(result, JsonRequestBehavior.AllowGet);
         }

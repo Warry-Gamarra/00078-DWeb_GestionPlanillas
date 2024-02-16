@@ -454,7 +454,13 @@ namespace WebApp.Models
                 categoriaPlanillaID = dto.categoriaPlanillaID,
                 categoriaPlanillaDesc = dto.categoriaPlanillaDesc,
                 clasePlanillaDesc = dto.clasePlanillaDesc,
-                tipoPlanillaDesc = dto.tipoPlanillaDesc
+                tipoPlanillaDesc = dto.tipoPlanillaDesc,
+                totalRemuneracion = dto.totalRemuneracion,
+                totalReintegro = dto.totalReintegro,
+                totalDeduccion = dto.totalDeduccion,
+                totalBruto = dto.totalBruto,
+                totalDescuento = dto.totalDescuento,
+                totalSueldo = dto.totalSueldo
             };
 
             return model;

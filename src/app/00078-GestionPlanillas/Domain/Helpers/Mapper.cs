@@ -752,7 +752,13 @@ namespace Domain.Helpers
                 categoriaPlanillaID = sp.I_CategoriaPlanillaID,
                 categoriaPlanillaDesc = sp.T_CategoriaPlanillaDesc,
                 clasePlanillaDesc = sp.T_ClasePlanillaDesc,
-                tipoPlanillaDesc = sp.T_TipoPlanillaDesc
+                tipoPlanillaDesc = sp.T_TipoPlanillaDesc,
+                totalRemuneracion = sp.I_TotalRemuneracion,
+                totalReintegro = sp.I_TotalReintegro,
+                totalDeduccion = sp.I_TotalDeduccion,
+                totalBruto = sp.I_TotalBruto,
+                totalDescuento = sp.I_TotalDescuento,
+                totalSueldo = sp.I_TotalSueldo
             };
 
             return dto;

@@ -125,6 +125,7 @@
     <Compile Include="Enums\CategoriaPlanilla.cs" />
     <Compile Include="Enums\Estado.cs" />
     <Compile Include="Enums\FormatoArchivo.cs" />
+    <Compile Include="Enums\TipoConcepto.cs" />
     <Compile Include="Helpers\Formats.cs" />
     <Compile Include="Enums\Operacion.cs" />
     <Compile Include="Enums\Vinculo.cs" />

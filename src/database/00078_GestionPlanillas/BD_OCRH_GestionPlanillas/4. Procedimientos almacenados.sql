@@ -2809,7 +2809,8 @@ BEGIN
 	SET NOCOUNT ON;
 
 	SELECT pl.I_PlanillaID, trabPla.I_TrabajadorPlanillaID, pr.I_Anio, pr.I_Mes, pr.T_MesDesc, 
-		dep.T_DependenciaDesc, cp.I_CategoriaPlanillaID, cp.T_CategoriaPlanillaDesc, cl.T_ClasePlanillaDesc, tp.T_TipoPlanillaDesc
+		dep.T_DependenciaDesc, cp.I_CategoriaPlanillaID, cp.T_CategoriaPlanillaDesc, cl.T_ClasePlanillaDesc, tp.T_TipoPlanillaDesc,
+		trabPla.I_TotalRemuneracion, trabPla.I_TotalReintegro, trabPla.I_TotalDeduccion, trabPla.I_TotalBruto, trabPla.I_TotalDescuento, trabPla.I_TotalSueldo
 	FROM dbo.TR_TrabajadorPlanilla trabPla
 	INNER  JOIN dbo.TR_Planilla pl ON pl.I_PlanillaID = trabPla.I_PlanillaID
 	INNER JOIN dbo.TR_Periodo pr ON pr.I_PeriodoID = pl.I_PeriodoID
@@ -2837,7 +2838,7 @@ BEGIN
 	SELECT t.I_TipoConceptoID, t.T_TipoConceptoDesc, cp.C_ConceptoCod, cp.T_ConceptoDesc, cp.T_ConceptoAbrv, cp.M_Monto FROM dbo.TR_Concepto_TrabajadorPlanilla cp
 	INNER JOIN dbo.TC_Concepto c ON c.I_ConceptoID = cp.I_ConceptoID
 	INNER JOIN dbo.TC_TipoConcepto t ON t.I_TipoConceptoID = c.I_TipoConceptoID
-	WHERE cp.I_TrabajadorPlanillaID = 1 AND cp.B_Anulado = 0
+	WHERE cp.I_TrabajadorPlanillaID = @I_TrabajadorPlanillaID AND cp.B_Anulado = 0
 	ORDER BY cp.I_Orden
 END
 GO

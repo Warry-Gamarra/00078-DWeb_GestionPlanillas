@@ -32,6 +32,18 @@ namespace Data.Procedures
 
         public string T_TipoPlanillaDesc { get; set; }
 
+        public decimal I_TotalRemuneracion {  get; set; }
+
+        public decimal I_TotalReintegro { get; set; }
+
+        public decimal I_TotalDeduccion { get; set; }
+
+        public decimal I_TotalBruto { get; set; }
+
+        public decimal I_TotalDescuento { get; set; }
+
+        public decimal I_TotalSueldo { get; set; }
+
         public static IEnumerable<USP_S_ListarCategoriaPlanillaGeneradaPorTrabajador> Execute(int I_TrabajadorID, int I_Anio, int I_Mes)
         {
             IEnumerable<USP_S_ListarCategoriaPlanillaGeneradaPorTrabajador> result;
