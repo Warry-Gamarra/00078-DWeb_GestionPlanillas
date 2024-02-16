@@ -34,11 +34,13 @@
         <dl class="row">
             <dt class="col-sm-3">Planilla</dt>
             <dd class="col-sm-9">
-                @Html.DropDownList("cmbCategorias", ViewBag.ListaCategorias as SelectList, new { 
-                    @class = "form-control text-uppercase", 
+                @Html.DropDownList("cmbCategorias", ViewBag.ListaCategorias as SelectList, new
+                {
+                    @class = "form-control text-uppercase",
                     data_trabajador_id = Model.trabajadorID,
                     data_anio = planilla.año,
-                    data_mes = planilla.mes })
+                    data_mes = planilla.mes
+                })
             </dd>
 
             <dt class="col-sm-3">Tipo planilla</dt>
@@ -51,6 +53,7 @@
             <dd class="col-sm-9">@planilla.dependenciaDesc</dd>
         </dl>
     </div>
+
     <div class="container-fluid" id="spin-loader" style="display:none;">
         <div class="d-flex justify-content-center">
             <div class="spinner-border text-info" role="status" style="width: 5rem; height: 5rem;">
@@ -61,8 +64,9 @@
             <span id="load-message" class="h5 mt-4"></span>
         </div>
     </div>
+
     <div class="container-fluid" id="content-body">
-        <div class="table-responsive mb-4">
+        <div class="table-responsive">
             <table class="table table-sm table-hover" id="dataTableConceptosAsignados" width="100%">
                 <thead class="thead-dark">
                     <tr>
@@ -89,5 +93,16 @@
                 </tbody>
             </table>
         </div>
+    </div>
+
+    <hr />
+
+    <div class="container-fluid">
+        <form action="@Url.Action("DescargaDetallePlanilla", "Reportes")" method="get" target="_blank">
+            <input type="hidden" name="trabajadorID" value="@Model.trabajadorID" />
+            <input type="hidden" name="anio" value="@planilla.año" />
+            <input type="hidden" name="mes" value="@planilla.mes" />
+            <button type="submit" id="btnExcelDescargar" class="btn btn-link pr-0 float-right">Descargar información en Excel [.xlsx]</button>
+        </form>
     </div>
 </div>

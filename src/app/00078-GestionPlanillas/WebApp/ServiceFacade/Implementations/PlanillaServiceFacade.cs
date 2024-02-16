@@ -18,13 +18,12 @@ namespace WebApp.ServiceFacade.Implementations
     public class PlanillaServiceFacade : IPlanillaServiceFacade
     {
         private IPlanillaService _planillaService;
-        private IPeriodoService _periodoService;
-        private object generacionArchivoService;
+        private ITrabajadorService _trabajadorService;
 
         public PlanillaServiceFacade()
         {
             _planillaService = new PlanillaService();
-            _periodoService = new PeriodoService();
+            _trabajadorService = new TrabajadorService();
         }
 
         public IEnumerable<ResumenPlanillaTrabajadorModel> ListarResumenPlanillaTrabajador(int año, int mes, int idCategoria)
@@ -144,6 +143,39 @@ namespace WebApp.ServiceFacade.Implementations
                 .Select(x => Mapper.ConceptoGeneradoDTO_To_ConceptoGeneradoModel(x));
 
             return lista;
+        }
+
+        public FileContent ObtenerReporteDetallePlanilla(int trabajadorID, int año, int mes, FormatoArchivo formatoArchivo)
+        {
+            IGeneracionArchivoService generacionArchivoService;
+            TrabajadorConPlanillaDTO trabajador;
+            IEnumerable<CategoriaPlanillaGeneradaParaTrabajadorDTO> listaCategoriasPlanilla;
+            List<ConceptoGeneradoDTO> conceptosGenerados;
+            FileContent fileContent;
+
+            try
+            {
+                trabajador = _trabajadorService.ListarTrabajadoresConPlanilla(año, mes).First(x => x.trabajadorID == trabajadorID);
+
+                listaCategoriasPlanilla = _planillaService.ListarCategoriaPlanillaGeneradaPorTrabajador(trabajadorID, año, mes);
+
+                conceptosGenerados = new List<ConceptoGeneradoDTO>();
+
+                foreach (var item in listaCategoriasPlanilla)
+                {
+                    conceptosGenerados.AddRange(_planillaService.ListarConceptosGeneradosPorategoriaYTrabajador(item.trabajadorPlanillaID));
+                }
+
+                generacionArchivoService = new GeneracionArchivoExcelService();
+
+                fileContent = generacionArchivoService.GenerarExcelDetallePlanilla(trabajador, listaCategoriasPlanilla, conceptosGenerados);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+
+            return fileContent;
         }
     }
 }

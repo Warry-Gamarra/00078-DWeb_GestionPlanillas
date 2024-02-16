@@ -18,5 +18,8 @@ namespace Domain.Services
         FileContent GenerarExcelResumenPorActividadYDependencia(ReporteResumenPorActividadYDependencia reporte);
 
         FileContent GenerarExcelResumenSIAF(ReporteResumenSIAF reporte);
+
+        FileContent GenerarExcelDetallePlanilla(TrabajadorConPlanillaDTO trabajador, IEnumerable<CategoriaPlanillaGeneradaParaTrabajadorDTO> listaCategoriasPlanilla,
+            List<ConceptoGeneradoDTO> conceptosGenerados);
     }
 }

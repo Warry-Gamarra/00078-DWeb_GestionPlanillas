@@ -269,5 +269,27 @@ namespace WebApp.Controllers
 
             return PartialView("_DetallePlanilla", model);
         }
+
+        [HttpGet]
+        public ActionResult DescargaDetallePlanilla(int trabajadorID, int anio, int mes)
+        {
+            FileContent fileContent;
+            string errorMessage;
+
+            try
+            {
+                fileContent = _planillaServiceFacade.ObtenerReporteDetallePlanilla(trabajadorID, anio, mes, FormatoArchivo.XLSX);
+
+                return File(fileContent.fileContent, fileContent.contentType, fileContent.fileName);
+            }
+            catch (Exception ex)
+            {
+                errorMessage = ex.Message;
+            }
+
+            ViewBag.ErrorMessage = errorMessage;
+
+            return View();
+        }
     }
 }
