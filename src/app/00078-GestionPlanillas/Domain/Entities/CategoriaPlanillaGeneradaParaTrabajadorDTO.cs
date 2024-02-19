@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Domain.Enums;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -39,5 +40,26 @@ namespace Domain.Entities
         public decimal totalDescuento { get; set; }
 
         public decimal totalSueldo { get; set; }
+
+        public decimal ObtenerTotal(TipoConcepto tipoConcepto)
+        {
+            switch (tipoConcepto)
+            {
+                case TipoConcepto.INGRESOS:
+                    return totalRemuneracion;
+
+                case TipoConcepto.REINTEGROS:
+                    return totalReintegro;
+
+                case TipoConcepto.DEDUCCION:
+                    return totalDeduccion;
+
+                case TipoConcepto.DESCUENTOS:
+                    return totalDescuento;
+
+                default:
+                    throw new Exception();
+            }
+        }
     }
 }

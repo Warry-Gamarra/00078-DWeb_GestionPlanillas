@@ -8,6 +8,8 @@ namespace Domain.Entities
 {
     public class ConceptoGeneradoDTO
     {
+        public int trabajadorPlanillaID { get; set; }
+
         public int tipoConceptoID { get; set; }
 
         public string tipoConceptoDesc { get; set; }

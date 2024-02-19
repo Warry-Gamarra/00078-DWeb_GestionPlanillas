@@ -2835,7 +2835,8 @@ AS
 BEGIN
 	SET NOCOUNT ON;
 
-	SELECT t.I_TipoConceptoID, t.T_TipoConceptoDesc, cp.C_ConceptoCod, cp.T_ConceptoDesc, cp.T_ConceptoAbrv, cp.M_Monto FROM dbo.TR_Concepto_TrabajadorPlanilla cp
+	SELECT cp.I_TrabajadorPlanillaID, t.I_TipoConceptoID, t.T_TipoConceptoDesc, cp.C_ConceptoCod, cp.T_ConceptoDesc, cp.T_ConceptoAbrv, cp.M_Monto 
+	FROM dbo.TR_Concepto_TrabajadorPlanilla cp
 	INNER JOIN dbo.TC_Concepto c ON c.I_ConceptoID = cp.I_ConceptoID
 	INNER JOIN dbo.TC_TipoConcepto t ON t.I_TipoConceptoID = c.I_TipoConceptoID
 	WHERE cp.I_TrabajadorPlanillaID = @I_TrabajadorPlanillaID AND cp.B_Anulado = 0

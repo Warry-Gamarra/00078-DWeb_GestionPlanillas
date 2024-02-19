@@ -8,6 +8,8 @@ namespace WebApp.Models
 {
     public class ConceptoGeneradoModel
     {
+        public int trabajadorPlanillaID { get; set; }
+
         public int tipoConceptoID { get; set; }
 
         public string tipoConceptoDesc { get; set; }

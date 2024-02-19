@@ -12,6 +12,8 @@ namespace Data.Procedures
 {
     public class USP_S_ListarConceptosGeneradosPorategoriaYTrabajador
     {
+        public int I_TrabajadorPlanillaID { get; set; }
+
         public int I_TipoConceptoID { get; set; }
 
         public string T_TipoConceptoDesc { get; set; }

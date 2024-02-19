@@ -1,5 +1,6 @@
 ﻿using ClosedXML.Excel;
 using Domain.Entities;
+using Domain.Enums;
 using Domain.Helpers;
 using Domain.Reports;
 using System;
@@ -488,53 +489,98 @@ namespace Domain.Services.Implementations
 
             using (var workbook = new XLWorkbook())
             {
-                var worksheet = workbook.Worksheets.Add("Resultado");
+                var worksheet = workbook.Worksheets.Add("Conceptos");
 
-                worksheet.Columns("B:D").Width = 15;
-                worksheet.Columns("E:F").Width = 30;
-                worksheet.Column("G").Width = 15;
-                worksheet.Column("H").Width = 30;
-                worksheet.Columns("I:J").Width = 15;
-                worksheet.Columns("K:L").Width = 30;
+                worksheet.Column("A").Width = 15;
+                worksheet.Column("B").Width = 40;
+                worksheet.Column("C").Width = 15;
 
                 currentRow = 1;
 
-                worksheet.Cell(currentRow, 1).Value = "Año";
-                worksheet.Cell(currentRow, 2).Value = "Mes";
-                worksheet.Cell(currentRow, 3).Value = "Tip.Doc.";
-                worksheet.Cell(currentRow, 4).Value = "Num.Doc.";
-                worksheet.Cell(currentRow, 5).Value = "Apellidos y Nombres";
-                worksheet.Cell(currentRow, 6).Value = "Planilla";
-                worksheet.Cell(currentRow, 7).Value = "Cod.Concepto";
-                worksheet.Cell(currentRow, 8).Value = "Descripción";
-                worksheet.Cell(currentRow, 9).Value = "Valor Concepto";
-                worksheet.Cell(currentRow, 10).Value = "Tipo Concepto";
-                worksheet.Cell(currentRow, 11).Value = "Origen";
-                worksheet.Cell(currentRow, 12).Value = "Observación";
+                worksheet.Cell(currentRow, 1).Value = "Código de trabajador";
+                worksheet.Cell(currentRow, 2).SetValue<string>(trabajador.trabajadorCod);
 
-                //foreach (var item in lista)
-                //{
-                //    currentRow++;
 
-                //    worksheet.Cell(currentRow, 1).SetValue<string>(item.anio.ToString());
-                //    worksheet.Cell(currentRow, 2).SetValue<string>(String.Format("{0} ({1})", item.mesDesc, item.mes));
-                //    worksheet.Cell(currentRow, 3).SetValue<string>(String.Format("{0} ({1})", item.tipoDocumentoDesc, item.tipoDocumentoID));
-                //    worksheet.Cell(currentRow, 4).SetValue<string>(item.numDocumento);
-                //    worksheet.Cell(currentRow, 5).SetValue<string>(item.datosPersona);
-                //    worksheet.Cell(currentRow, 6).SetValue<string>(String.Format("{0} ({1})", item.categoriaPlanillaDesc, item.categoriaPlanillaID));
-                //    worksheet.Cell(currentRow, 7).SetValue<string>(item.conceptoCod);
-                //    worksheet.Cell(currentRow, 8).SetValue<string>(item.conceptoDesc);
-                //    worksheet.Cell(currentRow, 9).SetValue<decimal?>(item.valorConcepto);
-                //    worksheet.Cell(currentRow, 10).SetValue<string>(item.simboloValorConcepto);
-                //    worksheet.Cell(currentRow, 11).SetValue<string>(String.Format("{0} ({1})", item.proveedorDesc, item.proveedorID));
+                currentRow++;
 
-                //    if (!item.esRegistroCorrecto)
-                //    {
-                //        var observacionesText = string.Join("\n", item.observaciones);
+                worksheet.Cell(currentRow, 1).Value = "Nombres completos";
+                worksheet.Cell(currentRow, 2).Value = String.Format("{0} {1}, {2}", trabajador.apellidoPaterno, trabajador.apellidoMaterno, trabajador.nombre).ToUpper();
 
-                //        worksheet.Cell(currentRow, 11).SetValue<string>(observacionesText);
-                //    }
-                //}
+                currentRow++;
+
+                worksheet.Cell(currentRow, 1).Value = "Tip. doc. identidad";
+                worksheet.Cell(currentRow, 2).Value = trabajador.tipoDocumentoDesc.ToUpper();
+
+                currentRow++;
+
+                worksheet.Cell(currentRow, 1).Value = "Num. doc. identidad";
+                worksheet.Cell(currentRow, 2).SetValue<string>(trabajador.numDocumento);
+
+                currentRow++;
+
+                worksheet.Cell(currentRow, 1).Value = "Estado";
+                worksheet.Cell(currentRow, 2).Value = trabajador.estadoDesc.ToUpper();
+
+                currentRow++;
+
+                worksheet.Cell(currentRow, 1).Value = "Vínculo";
+                worksheet.Cell(currentRow, 2).Value = trabajador.vinculoDesc.ToUpper();
+
+                worksheet.Range(worksheet.Cell(1, 1), worksheet.Cell(currentRow, 1)).Style.Font.Bold = true;
+
+                foreach (var categoria in listaCategoriasPlanilla)
+                {
+                    currentRow++;
+                    currentRow++;
+
+                    worksheet.Cell(currentRow, 1).Value = "Planilla";
+                    worksheet.Cell(currentRow, 1).Style.Font.Bold = true;
+                    worksheet.Cell(currentRow, 2).Value = categoria.categoriaPlanillaDesc.ToUpper();
+
+                    currentRow++;
+
+                    worksheet.Cell(currentRow, 1).Value = "Tipo";
+                    worksheet.Cell(currentRow, 1).Style.Font.Bold = true;
+                    worksheet.Cell(currentRow, 2).Value = categoria.tipoPlanillaDesc.ToUpper();
+
+                    currentRow++;
+
+                    worksheet.Cell(currentRow, 1).Value = "Clase";
+                    worksheet.Cell(currentRow, 1).Style.Font.Bold = true;
+                    worksheet.Cell(currentRow, 2).Value = categoria.clasePlanillaDesc.ToUpper();
+
+                    var listaConcepto = conceptosGenerados.Where(x => x.trabajadorPlanillaID == categoria.trabajadorPlanillaID);
+
+                    foreach (var conceptosAgrupados in listaConcepto.GroupBy(x => new { x.tipoConceptoID, x.tipoConceptoDesc }))
+                    {
+                        currentRow++;
+                        
+                        worksheet.Cell(currentRow, 1).Value = String.Format("TOTAL {0}", conceptosAgrupados.Key.tipoConceptoDesc.ToUpper());
+                        worksheet.Range(worksheet.Cell(currentRow, 1), worksheet.Cell(currentRow, 2)).Merge(true);
+                        worksheet.Cell(currentRow, 1).Style.Font.Bold = true;
+                        worksheet.Range(worksheet.Cell(currentRow, 1), worksheet.Cell(currentRow, 2)).Style.Border.OutsideBorder = XLBorderStyleValues.Thin;
+
+                        worksheet.Cell(currentRow, 3).SetValue<decimal>(categoria.ObtenerTotal((TipoConcepto)conceptosAgrupados.Key.tipoConceptoID));
+                        worksheet.Cell(currentRow, 3).Style.Font.Bold = true;
+                        worksheet.Cell(currentRow, 3).Style.NumberFormat.Format = Formats.BASIC_DECIMAL;
+                        worksheet.Cell(currentRow, 3).Style.Border.OutsideBorder = XLBorderStyleValues.Thin;
+
+                        foreach (var concepto in conceptosAgrupados)
+                        {
+                            currentRow++;
+
+                            worksheet.Cell(currentRow, 1).SetValue<string>(concepto.conceptoCod);
+                            worksheet.Cell(currentRow, 1).Style.Border.OutsideBorder = XLBorderStyleValues.Thin;
+
+                            worksheet.Cell(currentRow, 2).Value = concepto.conceptoDesc.ToUpper();
+                            worksheet.Cell(currentRow, 2).Style.Border.OutsideBorder = XLBorderStyleValues.Thin;
+
+                            worksheet.Cell(currentRow, 3).SetValue<decimal>(concepto.monto);
+                            worksheet.Cell(currentRow, 3).Style.NumberFormat.Format = Formats.BASIC_DECIMAL;
+                            worksheet.Cell(currentRow, 3).Style.Border.OutsideBorder = XLBorderStyleValues.Thin;
+                        }
+                    }
+                }
 
                 using (var stream = new MemoryStream())
                 {
@@ -546,7 +592,7 @@ namespace Domain.Services.Implementations
                     {
                         fileContent = content,
                         contentType = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
-                        fileName = "Resultado de la lectura de archivo.xlsx"
+                        fileName = "Detalle de planilla.xlsx"
                     };
 
                     return fileContent;

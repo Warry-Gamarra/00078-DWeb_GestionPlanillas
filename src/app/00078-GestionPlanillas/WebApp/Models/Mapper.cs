@@ -470,6 +470,7 @@ namespace WebApp.Models
         {
             var model = new ConceptoGeneradoModel()
             {
+                trabajadorPlanillaID = dto.trabajadorPlanillaID,
                 tipoConceptoID = dto.tipoConceptoID,
                 tipoConceptoDesc = dto.tipoConceptoDesc,
                 conceptoCod = dto.conceptoCod,

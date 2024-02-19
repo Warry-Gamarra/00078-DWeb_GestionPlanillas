@@ -769,6 +769,7 @@ namespace Domain.Helpers
         {
             var dto = new ConceptoGeneradoDTO()
             {
+                trabajadorPlanillaID = sp.I_TrabajadorPlanillaID,
                 tipoConceptoID = sp.I_TipoConceptoID,
                 tipoConceptoDesc = sp.T_TipoConceptoDesc,
                 conceptoCod = sp.C_ConceptoCod,
