@@ -66,7 +66,7 @@ namespace WebApp.ServiceFacade.Implementations
                 var item = new SelectListItem()
                 {
                     Value = x.metaID.ToString(),
-                    Text = String.Format("{0} {1}", x.metaCod, x.metaCodDesc)
+                    Text = String.Format("{0} {1}", x.metaCod, x.metaDesc)
                 };
 
                 result.Add(item);

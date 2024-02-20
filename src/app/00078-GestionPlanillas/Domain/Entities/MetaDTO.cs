@@ -13,13 +13,5 @@ namespace Domain.Entities
         public string metaDesc { get; set; }
 
         public string metaCod { get; set; }
-
-        public string metaCodDesc
-        {
-            get
-            {
-                return String.Format("{0} {1}", metaCod, metaDesc);
-            }
-        }
     }
 }

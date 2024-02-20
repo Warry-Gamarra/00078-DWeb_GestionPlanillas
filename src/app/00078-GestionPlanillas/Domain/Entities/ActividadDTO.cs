@@ -13,13 +13,5 @@ namespace Domain.Entities
         public string actividadDesc { get; set; }
 
         public string actividadCod { get; set; }
-
-        public string actividadCodDesc
-        {
-            get
-            {
-                return String.Format("{0} {1}", actividadCod, actividadDesc);
-            }
-        }
     }
 }
