@@ -36,7 +36,7 @@ namespace WebApp.Controllers
 
             var año = (listaAños.Count() > 0) ? int.Parse(listaAños.First().Value) : DateTime.Now.Year;
 
-            ViewBag.Title = "Resumen de Totales por Trabajador";
+            ViewBag.Title = "Resumen General";
 
             ViewBag.ListaAños = listaAños;
 
