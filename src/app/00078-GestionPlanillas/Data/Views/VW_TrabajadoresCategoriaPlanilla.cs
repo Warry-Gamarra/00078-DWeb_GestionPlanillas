@@ -59,6 +59,8 @@ namespace Data.Views
 
         public bool B_Habilitado { get; set; }
 
+        public bool B_EsJefe { get; set; }
+
         public static IEnumerable<VW_TrabajadoresCategoriaPlanilla> FindByFilters(int? I_CategoriaPlanillaID = null)
         {
             IEnumerable<VW_TrabajadoresCategoriaPlanilla> result;

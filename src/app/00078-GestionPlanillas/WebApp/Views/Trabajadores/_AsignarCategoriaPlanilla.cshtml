@@ -32,13 +32,24 @@
     </div>
 
     <div class="form-row">
-        <div class="col-12">
-            <div class="mb-3 row">
-                @Html.LabelFor(model => model.dependenciaID, new { @class = "col-sm-2 control-label" })
-                <div class="col-sm-10">
-                    @Html.DropDownListFor(model => model.dependenciaID, ViewBag.ListaDependencias as SelectList, "[ SELECCIONAR ]", new { @class = "form-control text-uppercase select-filter-modal" })
-                    @Html.ValidationMessageFor(model => model.dependenciaID, null, new { @class = "text-danger" })
-                </div>
+        <div class="col-6">
+            <div class="form-group">
+                @Html.LabelFor(model => model.dependenciaID, new { @class = "control-label" })
+                @Html.DropDownListFor(model => model.dependenciaID, ViewBag.ListaDependencias as SelectList, "[ SELECCIONAR ]", new { @class = "form-control text-uppercase select-filter-modal" })
+                @Html.ValidationMessageFor(model => model.dependenciaID, null, new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="col-6" id="divJefatura">
+            <label class="control-label">¿Tiene cargo?</label>
+            <br />
+            <div class="form-check form-check-inline">
+                @Html.RadioButtonFor(x => x.esJefe, true, new { @id = "esJefe1", @class="form-check-input" })
+                <label class="form-check-label" for="esJefe1">Sí</label>
+            </div>
+            <div class="form-check form-check-inline">
+                @Html.RadioButtonFor(x => x.esJefe, false, new { @id = "esJefe2", @class = "form-check-input" })
+                <label class="form-check-label" for="esJefe2">No</label>
             </div>
         </div>
     </div>
@@ -47,7 +58,6 @@
         <button type="submit" class="btn btn-primary center" id="btnsubmit"><i class="fa fa-save"></i> Guardar</button>
     </div>
 }
-
 
 <div class="modal-footer mt-4" id="div_msg">
     <a href="@Url.Action("CategoriasPlanillaAsignadas","Trabajadores", new { id = Model.trabajadorID })" class="btn btn-outline-primary" id="btn-return">
@@ -66,12 +76,29 @@
             loadForm(url, "cargando formulario...");
         });
 
-        $('.select-filter-modal').select2({
+        $('#content-body #grupoTrabajoID').select2({
             theme: 'bootstrap4',
             dropdownParent: $('#modal-container-lg'),
             placeholder: "[ SELECCIONAR ]"
         }).on('hide', function (e) {
             e.stopPropagation();
+        });
+
+        $('#content-body #dependenciaID').select2({
+            theme: 'bootstrap4',
+            dropdownParent: $('#modal-container-lg'),
+            placeholder: "[ SELECCIONAR ]"
+        }).on('hide', function (e) {
+            e.stopPropagation();
+        });
+
+        @if (!Model.esJefe)
+        {
+            <text>MostrarJefatura(@Model.categoriaPlanillaID);</text>
+        }
+
+        $('#content-body').on('change', '#categoriaPlanillaID', function () {
+            MostrarJefatura($(this).val());
         });
     });
 
@@ -86,5 +113,16 @@
         setTimeout(function () {
             modal.find('.modal-content').load(url)
         }, 600);
+    }
+
+    function MostrarJefatura(categoriaPlanillaID) {
+        console.log('categoriaPlanillaID=' + categoriaPlanillaID);
+        if (categoriaPlanillaID == 9) {
+            $('#divJefatura').css("display", "block");
+        } else {
+            $('#divJefatura').css("display", "none");
+            $('#esJefe1').prop("checked", false);
+            $('#esJefe2').prop("checked", true);
+        }
     }
 </script>

@@ -416,6 +416,7 @@ CREATE TABLE TC_Trabajador_CategoriaPlanilla
 	I_TrabajadorID INT NOT NULL,
 	I_CategoriaPlanillaID INT NOT NULL,
 	B_CategoriaPrincipal BIT NOT NULL,
+	B_EsJefe BIT NOT NULL,
 	I_DependenciaID INT NOT NULL,
 	I_GrupoTrabajoID INT,
 	B_Habilitado BIT NOT NULL,

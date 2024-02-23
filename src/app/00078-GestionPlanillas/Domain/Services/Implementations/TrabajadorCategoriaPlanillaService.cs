@@ -1,5 +1,6 @@
 ﻿using Data.Connection;
 using Data.Procedures;
+using Data.Tables;
 using Data.Views;
 using Domain.Entities;
 using Domain.Enums;
@@ -14,7 +15,7 @@ namespace Domain.Services.Implementations
 {
     public class TrabajadorCategoriaPlanillaService : ITrabajadorCategoriaPlanillaService
     {
-        public Response GrabarTrabajadorCategoriaPlanilla(Operacion operacion, TrabajadorCategoriaPlanillaEntity trabajadorCategoriaPlanillaEntity, int userID)
+        public Response GrabarTrabajadorCategoriaPlanilla(Operacion operacion, TrabajadorCategoriaPlanillaEntity entity, int userID)
         {
             Result result;
 
@@ -26,10 +27,11 @@ namespace Domain.Services.Implementations
 
                         var grabarTrabajadorCategoriaPlanilla = new USP_I_RegistrarTrabajadorCategoriaPlanilla()
                         {
-                            I_TrabajadorID = trabajadorCategoriaPlanillaEntity.trabajadorID,
-                            I_CategoriaPlanillaID = trabajadorCategoriaPlanillaEntity.categoriaPlanillaID,
-                            I_DependenciaID = trabajadorCategoriaPlanillaEntity.dependenciaID,
-                            I_GrupoTrabajoID = trabajadorCategoriaPlanillaEntity.grupoTrabajoID,
+                            I_TrabajadorID = entity.trabajadorID,
+                            I_CategoriaPlanillaID = entity.categoriaPlanillaID,
+                            I_DependenciaID = entity.dependenciaID,
+                            I_GrupoTrabajoID = entity.grupoTrabajoID,
+                            B_EsJefe = entity.esJefe,
                             I_UserID = userID
                         };
 
@@ -39,17 +41,18 @@ namespace Domain.Services.Implementations
 
                     case Operacion.Actualizar:
 
-                        if (!trabajadorCategoriaPlanillaEntity.trabajadorCategoriaPlanillaID.HasValue)
+                        if (!entity.trabajadorCategoriaPlanillaID.HasValue)
                         {
                             throw new Exception("Ha ocurrido un error al obtener los datos. Por favor recargue la página y vuelva a intentarlo.");
                         }
 
                         var actualizarTrabajadorCategoriaPlanilla = new USP_U_ActualizarTrabajadorCategoriaPlanilla()
                         {
-                            I_TrabajadorCategoriaPlanillaID = trabajadorCategoriaPlanillaEntity.trabajadorCategoriaPlanillaID.Value,
-                            I_CategoriaPlanillaID = trabajadorCategoriaPlanillaEntity.categoriaPlanillaID,
-                            I_DependenciaID = trabajadorCategoriaPlanillaEntity.dependenciaID,
-                            I_GrupoTrabajoID = trabajadorCategoriaPlanillaEntity.grupoTrabajoID,
+                            I_TrabajadorCategoriaPlanillaID = entity.trabajadorCategoriaPlanillaID.Value,
+                            I_CategoriaPlanillaID = entity.categoriaPlanillaID,
+                            I_DependenciaID = entity.dependenciaID,
+                            I_GrupoTrabajoID = entity.grupoTrabajoID,
+                            B_EsJefe = entity.esJefe,
                             I_UserID = userID
                         };
 
@@ -163,13 +166,32 @@ namespace Domain.Services.Implementations
 
             try
             {
-                var eliminar = new USP_U_EliminarTrabajadorCategoriaPlanilla()
-                {
-                    I_TrabajadorCategoriaPlanillaID = trabajadorCategoriaPlanillaID,
-                    I_UserID = userID
-                };
+                var view = VW_TrabajadoresCategoriaPlanilla.FindByID(trabajadorCategoriaPlanillaID);
 
-                result = eliminar.Execute();
+                if (view == null)
+                {
+                    result = new Result()
+                    {
+                        Message = "El registro seleccionado no está disponible."
+                    };
+                }
+                else if(TR_TrabajadorPlanilla.ExistePlanillaTrabajador(view.I_TrabajadorID, view.I_CategoriaPlanillaID))
+                {
+                    result = new Result()
+                    {
+                        Message = "No se puede eliminar el registro porque ya existe una planilla generada."
+                    };
+                }
+                else
+                {
+                    var eliminar = new USP_U_EliminarTrabajadorCategoriaPlanilla()
+                    {
+                        I_TrabajadorCategoriaPlanillaID = trabajadorCategoriaPlanillaID,
+                        I_UserID = userID
+                    };
+
+                    result = eliminar.Execute();
+                }
             }
             catch (Exception ex)
             {

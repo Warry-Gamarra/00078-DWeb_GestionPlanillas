@@ -22,7 +22,7 @@ namespace WebApp.ServiceFacade.Implementations
             _planillaService = new PlanillaService();
         }
 
-        public Response GrabarTrabajadorCategoriaPlanilla(Operacion operacion, TrabajadorCategoriaPlanillaModel trabajadorCategoriaPlanillaModel, int userID)
+        public Response GrabarTrabajadorCategoriaPlanilla(Operacion operacion, TrabajadorCategoriaPlanillaModel model, int userID)
         {
             Response response;
 
@@ -30,11 +30,12 @@ namespace WebApp.ServiceFacade.Implementations
             {
                 var trabajadorCategoriaPlanillaEntity = new TrabajadorCategoriaPlanillaEntity()
                 {
-                    trabajadorCategoriaPlanillaID = trabajadorCategoriaPlanillaModel.trabajadorCategoriaPlanillaID,
-                    trabajadorID = trabajadorCategoriaPlanillaModel.trabajadorID,
-                    categoriaPlanillaID = trabajadorCategoriaPlanillaModel.categoriaPlanillaID,
-                    dependenciaID = trabajadorCategoriaPlanillaModel.dependenciaID,
-                    grupoTrabajoID = trabajadorCategoriaPlanillaModel.grupoTrabajoID
+                    trabajadorCategoriaPlanillaID = model.trabajadorCategoriaPlanillaID,
+                    trabajadorID = model.trabajadorID,
+                    categoriaPlanillaID = model.categoriaPlanillaID,
+                    dependenciaID = model.dependenciaID,
+                    grupoTrabajoID = model.grupoTrabajoID,
+                    esJefe = model.esJefe
                 };
 
                 response = _trabajadorCategoriaPlanillaService.GrabarTrabajadorCategoriaPlanilla(operacion, trabajadorCategoriaPlanillaEntity, userID);

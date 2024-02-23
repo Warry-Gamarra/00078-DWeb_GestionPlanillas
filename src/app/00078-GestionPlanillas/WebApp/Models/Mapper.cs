@@ -177,7 +177,8 @@ namespace WebApp.Models
                 grupoTrabajoID = dto.grupoTrabajoID,
                 grupoTrabajoCod = dto.grupoTrabajoCod,
                 grupoTrabajoDesc = dto.grupoTrabajoDesc,
-                estaHabilitado = dto.estaHabilitado
+                estaHabilitado = dto.estaHabilitado,
+                esJefe = dto.esJefe
             };
 
             return model;

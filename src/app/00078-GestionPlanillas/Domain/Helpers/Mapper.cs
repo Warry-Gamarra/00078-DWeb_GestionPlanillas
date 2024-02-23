@@ -365,7 +365,8 @@ namespace Domain.Helpers
                 grupoTrabajoID = view.I_GrupoTrabajoID,
                 grupoTrabajoCod = view.C_GrupoTrabajoCod,
                 grupoTrabajoDesc = view.T_GrupoTrabajoDesc,
-                estaHabilitado = view.B_Habilitado
+                estaHabilitado = view.B_Habilitado,
+                esJefe = view.B_EsJefe
             };
 
             return trabajadorCategoriaPlanillaDTO;

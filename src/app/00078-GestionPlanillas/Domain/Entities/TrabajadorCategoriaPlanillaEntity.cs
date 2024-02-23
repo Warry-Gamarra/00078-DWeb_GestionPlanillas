@@ -17,5 +17,7 @@ namespace Domain.Entities
         public int dependenciaID { get; set; }
 
         public int? grupoTrabajoID { get; set; }
+
+        public bool esJefe {  get; set; }
     }
 }

@@ -20,6 +20,8 @@ namespace Data.Procedures
 
         public int? I_GrupoTrabajoID { get; set; }
 
+        public bool B_EsJefe { get; set; }
+
         public int I_UserID { get; set; }
 
         public Result Execute()
@@ -39,6 +41,7 @@ namespace Data.Procedures
                     parameters.Add(name: "I_CategoriaPlanillaID", dbType: DbType.Int32, value: I_CategoriaPlanillaID);
                     parameters.Add(name: "I_DependenciaID", dbType: DbType.Int32, value: I_DependenciaID);
                     parameters.Add(name: "I_GrupoTrabajoID", dbType: DbType.Int32, value: I_GrupoTrabajoID);
+                    parameters.Add(name: "B_EsJefe", dbType: DbType.Boolean, value: B_EsJefe);
                     parameters.Add(name: "I_UserID", dbType: DbType.Int32, value: I_UserID);
                     parameters.Add(name: "B_Result", dbType: DbType.Boolean, direction: ParameterDirection.Output);
                     parameters.Add(name: "T_Message", dbType: DbType.String, size: 4000, direction: ParameterDirection.Output);

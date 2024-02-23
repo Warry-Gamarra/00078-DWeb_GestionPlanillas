@@ -80,5 +80,7 @@ namespace WebApp.Models
         public string grupoTrabajoDesc { get; set; }
 
         public bool estaHabilitado { get; set; }
+
+        public bool esJefe {  get; set; }
     }
 }

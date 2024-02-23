@@ -2613,6 +2613,7 @@ CREATE PROCEDURE [dbo].[USP_I_RegistrarTrabajadorCategoriaPlanilla]
 @I_CategoriaPlanillaID INT,
 @I_DependenciaID INT,
 @I_GrupoTrabajoID INT = NULL,
+@B_EsJefe BIT,
 @I_UserID INT,
 @B_Result BIT OUTPUT,
 @T_Message VARCHAR(250) OUTPUT
@@ -2627,8 +2628,8 @@ BEGIN
 		SET @D_FecCre = GETDATE();
 
 		INSERT dbo.TC_Trabajador_CategoriaPlanilla(I_TrabajadorID, I_CategoriaPlanillaID, B_CategoriaPrincipal, I_DependenciaID, I_GrupoTrabajoID,
-			B_Habilitado, B_Eliminado, I_UsuarioCre, D_FecCre)
-		VALUES(@I_TrabajadorID, @I_CategoriaPlanillaID, 0, @I_DependenciaID, @I_GrupoTrabajoID, 1, 0, @I_UserID, @D_FecCre)
+			B_Habilitado, B_Eliminado, I_UsuarioCre, D_FecCre, B_EsJefe)
+		VALUES(@I_TrabajadorID, @I_CategoriaPlanillaID, 0, @I_DependenciaID, @I_GrupoTrabajoID, 1, 0, @I_UserID, @D_FecCre, @B_EsJefe)
 
 		COMMIT TRAN
 
@@ -2656,6 +2657,7 @@ CREATE PROCEDURE [dbo].[USP_U_ActualizarTrabajadorCategoriaPlanilla]
 @I_CategoriaPlanillaID INT,
 @I_DependenciaID INT,
 @I_GrupoTrabajoID INT = NULL,
+@B_EsJefe BIT,
 @I_UserID INT,
 @B_Result BIT OUTPUT,
 @T_Message VARCHAR(250) OUTPUT
@@ -2674,7 +2676,8 @@ BEGIN
 			I_DependenciaID = @I_DependenciaID,
 			I_GrupoTrabajoID = @I_GrupoTrabajoID,
 			I_UsuarioMod = @I_UserID,
-			D_FecMod = @D_FecMod
+			D_FecMod = @D_FecMod,
+			B_EsJefe = @B_EsJefe
 		WHERE I_TrabajadorCategoriaPlanillaID = @I_TrabajadorCategoriaPlanillaID
 
 		COMMIT TRAN

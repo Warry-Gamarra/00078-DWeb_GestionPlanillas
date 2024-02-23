@@ -46,7 +46,7 @@ SELECT
 	trabcat.B_CategoriaPrincipal,
 	dep.I_DependenciaID, dep.C_DependenciaCod, dep.T_DependenciaDesc,
 	grup.I_GrupoTrabajoID, grup.C_GrupoTrabajoCod, grup.T_GrupoTrabajoDesc,
-	trabcat.B_Habilitado
+	trabcat.B_Habilitado, trabcat.B_EsJefe
 FROM 
 	dbo.TC_Persona AS per INNER JOIN
 	dbo.TC_Trabajador AS trab ON trab.I_PersonaID = per.I_PersonaID INNER JOIN
