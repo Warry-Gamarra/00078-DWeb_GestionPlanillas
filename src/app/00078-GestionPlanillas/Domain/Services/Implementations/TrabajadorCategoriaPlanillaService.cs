@@ -175,7 +175,7 @@ namespace Domain.Services.Implementations
                         Message = "El registro seleccionado no está disponible."
                     };
                 }
-                else if(TR_TrabajadorPlanilla.ExistePlanillaTrabajador(view.I_TrabajadorID, view.I_CategoriaPlanillaID))
+                else if (TR_TrabajadorPlanilla.ExistePlanillaTrabajador(trabajadorCategoriaPlanillaID))
                 {
                     result = new Result()
                     {

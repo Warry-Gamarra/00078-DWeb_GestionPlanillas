@@ -57,8 +57,8 @@ BEGIN
 		
 		SET @C_VinculoCod = (SELECT v.C_VinculoCod FROM dbo.TC_Vinculo v WHERE v.I_VinculoID = @I_VinculoID);
 
-		INSERT dbo.TC_Trabajador_CategoriaPlanilla(I_TrabajadorID, I_CategoriaPlanillaID, B_CategoriaPrincipal, I_DependenciaID, B_Habilitado, B_Eliminado, I_UsuarioCre, D_FecCre)
-		VALUES(@I_TrabajadorID, @I_CategoriaPlanillaID, 1, @I_DependenciaID, 1, 0, @I_UserID, @D_FecCre);
+		INSERT dbo.TC_Trabajador_CategoriaPlanilla(I_TrabajadorID, I_CategoriaPlanillaID, B_CategoriaPrincipal, B_EsJefe, I_DependenciaID, B_Habilitado, B_Eliminado, I_UsuarioCre, D_FecCre)
+		VALUES(@I_TrabajadorID, @I_CategoriaPlanillaID, 1, 0, @I_DependenciaID, 1, 0, @I_UserID, @D_FecCre);
 
 		IF (@I_BancoID IS NOT NULL AND @T_NroCuentaBancaria IS NOT NULL AND LEN(@T_NroCuentaBancaria) > 0) BEGIN
 			INSERT dbo.TC_CuentaBancaria(I_TrabajadorID, I_BancoID, T_NroCuentaBancaria, B_Habilitado, B_Eliminado, I_UsuarioCre, D_FecCre)
@@ -166,7 +166,7 @@ BEGIN
 			I_DependenciaID = @I_DependenciaID,
 			I_UsuarioMod = @I_UserID,
 			D_FecMod = @D_FecMod
-		WHERE I_TrabajadorID = @I_TrabajadorID AND I_CategoriaPlanillaID = @I_CategoriaPlanillaID AND B_CategoriaPrincipal =1 AND B_Habilitado = 1 AND B_Eliminado = 0;
+		WHERE I_TrabajadorID = @I_TrabajadorID AND I_CategoriaPlanillaID = @I_CategoriaPlanillaID AND B_CategoriaPrincipal = 1 AND B_Habilitado = 1 AND B_Eliminado = 0;
 
 		--Actualizar Cuentas Bancarias
 		IF (@I_BancoID IS NULL) BEGIN
@@ -705,8 +705,8 @@ BEGIN
 						
 						IF (@I_TrabajadorPlanillaID = 0) BEGIN
 							INSERT dbo.TR_TrabajadorPlanilla(I_PlanillaID, I_TrabajadorID, I_DependenciaID, I_VinculoID, I_TotalRemuneracion, I_TotalReintegro, I_TotalDeduccion, I_TotalBruto, I_TotalDescuento,
-								I_TotalSueldo, B_Anulado, I_UsuarioCre, D_FecCre)
-							VALUES(@I_PlantillaID, @I_TrabajadorID, @I_DependenciaID, @I_VinculoID, 0, 0, 0, 0, 0, 0, 0, @I_UserID, @D_FecRegistro);
+								I_TotalSueldo, B_Anulado, I_UsuarioCre, D_FecCre, I_TrabajadorCategoriaPlanillaID)
+							VALUES(@I_PlantillaID, @I_TrabajadorID, @I_DependenciaID, @I_VinculoID, 0, 0, 0, 0, 0, 0, 0, @I_UserID, @D_FecRegistro, @I_TrabajadorCategoriaPlanillaID);
 
 							SET @I_TrabajadorPlanillaID = SCOPE_IDENTITY();
 						END
@@ -790,8 +790,8 @@ BEGIN
 
 						IF (@I_TrabajadorPlanillaID = 0) BEGIN
 							INSERT dbo.TR_TrabajadorPlanilla(I_PlanillaID, I_TrabajadorID, I_DependenciaID, I_VinculoID, I_TotalRemuneracion, I_TotalReintegro, I_TotalDeduccion, I_TotalBruto, I_TotalDescuento,
-								I_TotalSueldo, B_Anulado, I_UsuarioCre, D_FecCre)
-							VALUES(@I_PlantillaID, @I_TrabajadorID, @I_DependenciaID, @I_VinculoID, 0, 0, 0, 0, 0, 0, 0, @I_UserID, @D_FecRegistro);
+								I_TotalSueldo, B_Anulado, I_UsuarioCre, D_FecCre, I_TrabajadorCategoriaPlanillaID)
+							VALUES(@I_PlantillaID, @I_TrabajadorID, @I_DependenciaID, @I_VinculoID, 0, 0, 0, 0, 0, 0, 0, @I_UserID, @D_FecRegistro, @I_TrabajadorCategoriaPlanillaID);
 
 							SET @I_TrabajadorPlanillaID = SCOPE_IDENTITY();
 						END
@@ -875,8 +875,8 @@ BEGIN
 
 						IF (@I_TrabajadorPlanillaID = 0) BEGIN
 							INSERT dbo.TR_TrabajadorPlanilla(I_PlanillaID, I_TrabajadorID, I_DependenciaID, I_VinculoID, I_TotalRemuneracion, I_TotalReintegro, I_TotalDeduccion, I_TotalBruto, I_TotalDescuento,
-								I_TotalSueldo, B_Anulado, I_UsuarioCre, D_FecCre)
-							VALUES(@I_PlantillaID, @I_TrabajadorID, @I_DependenciaID, @I_VinculoID, 0, 0, 0, 0, 0, 0, 0, @I_UserID, @D_FecRegistro);
+								I_TotalSueldo, B_Anulado, I_UsuarioCre, D_FecCre, I_TrabajadorCategoriaPlanillaID)
+							VALUES(@I_PlantillaID, @I_TrabajadorID, @I_DependenciaID, @I_VinculoID, 0, 0, 0, 0, 0, 0, 0, @I_UserID, @D_FecRegistro, @I_TrabajadorCategoriaPlanillaID);
 
 							SET @I_TrabajadorPlanillaID = SCOPE_IDENTITY();
 						END
@@ -960,8 +960,8 @@ BEGIN
 
 						IF (@I_TrabajadorPlanillaID = 0) BEGIN
 							INSERT dbo.TR_TrabajadorPlanilla(I_PlanillaID, I_TrabajadorID, I_DependenciaID, I_VinculoID, I_TotalRemuneracion, I_TotalReintegro, I_TotalDeduccion, I_TotalBruto, I_TotalDescuento,
-								I_TotalSueldo, B_Anulado, I_UsuarioCre, D_FecCre)
-							VALUES(@I_PlantillaID, @I_TrabajadorID, @I_DependenciaID, @I_VinculoID, 0, 0, 0, 0, 0, 0, 0, @I_UserID, @D_FecRegistro);
+								I_TotalSueldo, B_Anulado, I_UsuarioCre, D_FecCre, I_TrabajadorCategoriaPlanillaID)
+							VALUES(@I_PlantillaID, @I_TrabajadorID, @I_DependenciaID, @I_VinculoID, 0, 0, 0, 0, 0, 0, 0, @I_UserID, @D_FecRegistro, @I_TrabajadorCategoriaPlanillaID);
 
 							SET @I_TrabajadorPlanillaID = SCOPE_IDENTITY();
 						END

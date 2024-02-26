@@ -481,6 +481,7 @@ CREATE TABLE TR_TrabajadorPlanilla
 	I_TrabajadorPlanillaID INT IDENTITY(1,1),
 	I_PlanillaID INT NOT NULL,
 	I_TrabajadorID INT NOT NULL,
+	I_TrabajadorCategoriaPlanillaID INT NOT NULL,
 	I_DependenciaID INT NOT NULL,
 	I_VinculoID INT NOT NULL,
 	I_TotalRemuneracion DECIMAL(15,2) NOT NULL,
@@ -496,6 +497,7 @@ CREATE TABLE TR_TrabajadorPlanilla
 	D_FecMod DATETIME,
 	CONSTRAINT PK_TrabajadorPlanilla PRIMARY KEY (I_TrabajadorPlanillaID),
 	CONSTRAINT FK_Planilla_TrabajadorPlanilla FOREIGN KEY (I_PlanillaID) REFERENCES TR_Planilla(I_PlanillaID),
+	CONSTRAINT FK_TrabajadorCategoriaPlanilla_TrabajadorPlanilla FOREIGN KEY (I_TrabajadorCategoriaPlanillaID) REFERENCES TC_Trabajador_CategoriaPlanilla(I_TrabajadorCategoriaPlanillaID),
 	CONSTRAINT FK_Trabajador_TrabajadorPlanilla FOREIGN KEY (I_TrabajadorID) REFERENCES TC_Trabajador(I_TrabajadorID),
 	CONSTRAINT FK_Dependencia_TrabajadorPlanilla FOREIGN KEY (I_DependenciaID) REFERENCES TC_Dependencia(I_DependenciaID),
 	CONSTRAINT FK_Vinculo_TrabajadorPlanilla FOREIGN KEY (I_VinculoID) REFERENCES TC_Vinculo(I_VinculoID)
