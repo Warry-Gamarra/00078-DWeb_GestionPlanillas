@@ -571,7 +571,8 @@ BEGIN
 			tca.B_Habilitado = 1 AND tca.B_Eliminado = 0 AND tca.I_CategoriaPlanillaID = @I_CategoriaPlanillaID AND
 			NOT EXISTS(SELECT pl.I_PlanillaID FROM dbo.TR_Planilla pl 
 				INNER JOIN dbo.TR_TrabajadorPlanilla tpl ON tpl.I_PlanillaID = pl.I_PlanillaID 
-				WHERE tpl.B_Anulado = 0 AND pl.I_PeriodoID = @I_PeriodoID AND pl.I_CategoriaPlanillaID = @I_CategoriaPlanillaID AND tpl.I_TrabajadorID = trab.I_TrabajadorID);
+				WHERE tpl.B_Anulado = 0 AND pl.I_PeriodoID = @I_PeriodoID AND pl.I_CategoriaPlanillaID = @I_CategoriaPlanillaID AND 
+					tpl.I_TrabajadorID = trab.I_TrabajadorID AND tpl.I_TrabajadorCategoriaPlanillaID = tca.I_TrabajadorCategoriaPlanillaID);
 	END
 
 	IF (@I_CategoriaPlanillaID = @I_DOCENTEID) BEGIN
@@ -588,7 +589,8 @@ BEGIN
 			tca.B_Habilitado = 1 AND tca.B_Eliminado = 0 AND tca.I_CategoriaPlanillaID = @I_CategoriaPlanillaID AND
 			NOT EXISTS(SELECT pl.I_PlanillaID FROM dbo.TR_Planilla pl 
 				INNER JOIN dbo.TR_TrabajadorPlanilla tpl ON tpl.I_PlanillaID = pl.I_PlanillaID 
-				WHERE tpl.B_Anulado = 0 AND pl.I_PeriodoID = @I_PeriodoID AND pl.I_CategoriaPlanillaID = @I_CategoriaPlanillaID AND tpl.I_TrabajadorID = trab.I_TrabajadorID);
+				WHERE tpl.B_Anulado = 0 AND pl.I_PeriodoID = @I_PeriodoID AND pl.I_CategoriaPlanillaID = @I_CategoriaPlanillaID AND 
+					tpl.I_TrabajadorID = trab.I_TrabajadorID AND tpl.I_TrabajadorCategoriaPlanillaID = tca.I_TrabajadorCategoriaPlanillaID);
 	END
 
 	IF (@I_CategoriaPlanillaID NOT IN (@I_ADMINISTRATIVOID, @I_DOCENTEID)) BEGIN
@@ -600,7 +602,8 @@ BEGIN
 			tca.B_Habilitado = 1 AND tca.B_Eliminado = 0 AND tca.I_CategoriaPlanillaID = @I_CategoriaPlanillaID AND
 			NOT EXISTS(SELECT pl.I_PlanillaID FROM dbo.TR_Planilla pl 
 				INNER JOIN dbo.TR_TrabajadorPlanilla tpl ON tpl.I_PlanillaID = pl.I_PlanillaID 
-				WHERE tpl.B_Anulado = 0 AND pl.I_PeriodoID = @I_PeriodoID AND pl.I_CategoriaPlanillaID = @I_CategoriaPlanillaID AND tpl.I_TrabajadorID = trab.I_TrabajadorID);
+				WHERE tpl.B_Anulado = 0 AND pl.I_PeriodoID = @I_PeriodoID AND pl.I_CategoriaPlanillaID = @I_CategoriaPlanillaID AND 
+					tpl.I_TrabajadorID = trab.I_TrabajadorID AND tpl.I_TrabajadorCategoriaPlanillaID = tca.I_TrabajadorCategoriaPlanillaID);
 	END
 
 	SET @I_Indicador = 1;
