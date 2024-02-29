@@ -51,7 +51,7 @@ namespace WebApp.Models
 
         public string vinculoDesc { get; set; }
 
-        public int? trabajadorCategoriaPlanillaID { get; set; }
+        public int trabajadorCategoriaPlanillaID { get; set; }
 
         [DisplayName("Planilla")]
         public int categoriaPlanillaID { get; set; }

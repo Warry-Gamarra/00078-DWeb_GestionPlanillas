@@ -87,7 +87,7 @@ namespace WebApp.Controllers
         }
 
         [HttpPost]
-        public JsonResult DeshabilitarTrabajador(int id, bool isChecked)
+        public JsonResult PermitirGeneracionPlanilla(int id, bool isChecked)
         {
             Response response;
 
@@ -96,7 +96,7 @@ namespace WebApp.Controllers
                 var lista = (List<TrabajadorCategoriaPlanillaModel>)Session["listaTrabajadoresAptos"];
 
                 lista.ForEach(x => {
-                    if (x.trabajadorID == id)
+                    if (x.trabajadorCategoriaPlanillaID == id)
                     {
                         x.seleccionado = isChecked;
                     }
@@ -140,7 +140,7 @@ namespace WebApp.Controllers
                 var lista = (List<TrabajadorCategoriaPlanillaModel>)Session["listaTrabajadoresAptos"];
 
                 response = _planillaServiceFacade.GenerarPlanilla(
-                    lista.Where(x => x.seleccionado).Select(x => x.trabajadorID).ToList(), anio, mes, categoriaPlanillaID, WebSecurity.CurrentUserId);
+                    lista.Where(x => x.seleccionado).Select(x => x.trabajadorCategoriaPlanillaID).ToList(), anio, mes, categoriaPlanillaID, WebSecurity.CurrentUserId);
             }
             catch (Exception ex)
             {

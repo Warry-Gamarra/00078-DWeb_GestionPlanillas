@@ -34,7 +34,7 @@ namespace Domain.Services.Implementations
         public Response GenerarPlanilla(List<int> trabajadores, int año, int mes, int categoriaPlanillaID, int userID)
         {
             DataTable dataTable = new DataTable();
-            dataTable.Columns.Add("I_TrabajadorID");
+            dataTable.Columns.Add("I_ID");
 
             trabajadores.ForEach(x => {
                 dataTable.Rows.Add(x);

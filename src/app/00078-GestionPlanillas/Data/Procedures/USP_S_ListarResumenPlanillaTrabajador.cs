@@ -68,6 +68,8 @@ namespace Data.Procedures
 
         public string T_CategoriaPlanillaDesc { get; }
 
+        public int I_TrabajadorCategoriaPlanillaID { get; }
+
         public static IEnumerable<USP_S_ListarResumenPlanillaTrabajador> Execute(int I_Anio, int I_Mes, int I_CategoriaPlanillaID)
         {
             IEnumerable<USP_S_ListarResumenPlanillaTrabajador> result;

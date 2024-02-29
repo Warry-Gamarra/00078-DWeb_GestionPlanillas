@@ -471,7 +471,6 @@ BEGIN
 			@I_TotalSueldo DECIMAL(15,2) = 0,
 			@I_CantPlanillasGeneradas INT = 0,
 			--Resumen por trabajador
-			@I_TrabajadorID INT,
 			@I_TrabajadorCategoriaPlanillaID INT,
 			@I_DependenciaID INT,
 			@I_VinculoID INT,
@@ -510,7 +509,6 @@ BEGIN
 	CREATE TABLE #tmp_trabajador
 	(
 		I_NroOrden INT IDENTITY(1,1),
-		I_TrabajadorID INT NOT NULL,
 		I_TrabajadorCategoriaPlanillaID INT NOT NULL,
 		I_DependenciaID INT NOT NULL,
 		I_VinculoID INT NOT NULL,
@@ -558,52 +556,52 @@ BEGIN
 
 	--2. Obtener la lista de trabajadores
 	IF (@I_CategoriaPlanillaID = @I_ADMINISTRATIVOID) BEGIN
-		INSERT #tmp_trabajador(I_TrabajadorID, I_TrabajadorCategoriaPlanillaID, I_DependenciaID, I_VinculoID, I_Filtro1, I_Filtro2)
-		SELECT adm.I_TrabajadorID, tca.I_TrabajadorCategoriaPlanillaID, tca.I_DependenciaID, trab.I_VinculoID, adm.I_GrupoOcupacionalID, adm.I_NivelRemunerativoID 
+		INSERT #tmp_trabajador(I_TrabajadorCategoriaPlanillaID, I_DependenciaID, I_VinculoID, I_Filtro1, I_Filtro2)
+		SELECT tca.I_TrabajadorCategoriaPlanillaID, tca.I_DependenciaID, trab.I_VinculoID, adm.I_GrupoOcupacionalID, adm.I_NivelRemunerativoID 
 		FROM dbo.TC_Administrativo adm
 		INNER JOIN dbo.TC_Trabajador trab ON trab.I_TrabajadorID = adm.I_TrabajadorID
 		INNER JOIN dbo.TC_Trabajador_CategoriaPlanilla tca ON tca.I_TrabajadorID = trab.I_TrabajadorID 
 		INNER JOIN dbo.TC_GrupoOcupacional gr ON gr.I_GrupoOcupacionalID = adm.I_GrupoOcupacionalID
 		INNER JOIN dbo.TC_NivelRemunerativo nivrem ON nivrem.I_NivelRemunerativoID = adm.I_NivelRemunerativoID
-		INNER JOIN @Tbl_Trabajador tmp ON tmp.I_ID = trab.I_TrabajadorID
+		INNER JOIN @Tbl_Trabajador tmp ON tmp.I_ID = tca.I_TrabajadorCategoriaPlanillaID
 		WHERE trab.B_Eliminado = 0 AND 
 			adm.B_Habilitado = 1 AND adm.B_Eliminado = 0 AND 
 			tca.B_Habilitado = 1 AND tca.B_Eliminado = 0 AND tca.I_CategoriaPlanillaID = @I_CategoriaPlanillaID AND
 			NOT EXISTS(SELECT pl.I_PlanillaID FROM dbo.TR_Planilla pl 
 				INNER JOIN dbo.TR_TrabajadorPlanilla tpl ON tpl.I_PlanillaID = pl.I_PlanillaID 
-				WHERE tpl.B_Anulado = 0 AND pl.I_PeriodoID = @I_PeriodoID AND pl.I_CategoriaPlanillaID = @I_CategoriaPlanillaID AND 
-					tpl.I_TrabajadorID = trab.I_TrabajadorID AND tpl.I_TrabajadorCategoriaPlanillaID = tca.I_TrabajadorCategoriaPlanillaID);
+				WHERE pl.B_Anulado = 0 AND tpl.B_Anulado = 0 AND pl.I_PeriodoID = @I_PeriodoID AND pl.I_CategoriaPlanillaID = @I_CategoriaPlanillaID AND 
+					tpl.I_TrabajadorCategoriaPlanillaID = tca.I_TrabajadorCategoriaPlanillaID);
 	END
 
 	IF (@I_CategoriaPlanillaID = @I_DOCENTEID) BEGIN
-		INSERT #tmp_trabajador(I_TrabajadorID, I_TrabajadorCategoriaPlanillaID, I_DependenciaID, I_VinculoID, I_Filtro1, I_Filtro2)
-		SELECT doc.I_TrabajadorID, tca.I_TrabajadorCategoriaPlanillaID, tca.I_DependenciaID, trab.I_VinculoID, doc.I_CategoriaDocenteID, doc.I_HorasDocenteID 
+		INSERT #tmp_trabajador(I_TrabajadorCategoriaPlanillaID, I_DependenciaID, I_VinculoID, I_Filtro1, I_Filtro2)
+		SELECT tca.I_TrabajadorCategoriaPlanillaID, tca.I_DependenciaID, trab.I_VinculoID, doc.I_CategoriaDocenteID, doc.I_HorasDocenteID 
 		FROM dbo.TC_Docente doc
 		INNER JOIN dbo.TC_Trabajador trab ON trab.I_TrabajadorID = doc.I_TrabajadorID
 		INNER JOIN dbo.TC_Trabajador_CategoriaPlanilla tca ON tca.I_TrabajadorID = trab.I_TrabajadorID 
 		INNER JOIN dbo.TC_CategoriaDocente cd ON cd.I_CategoriaDocenteID = doc.I_CategoriaDocenteID
 		INNER JOIN dbo.TC_HorasDocente hd ON hd.I_HorasDocenteID = doc.I_HorasDocenteID
-		INNER JOIN @Tbl_Trabajador tmp ON tmp.I_ID = trab.I_TrabajadorID
+		INNER JOIN @Tbl_Trabajador tmp ON tmp.I_ID = tca.I_TrabajadorCategoriaPlanillaID
 		WHERE trab.B_Eliminado = 0 AND 
 			doc.B_Habilitado = 1 AND doc.B_Eliminado = 0 AND 
 			tca.B_Habilitado = 1 AND tca.B_Eliminado = 0 AND tca.I_CategoriaPlanillaID = @I_CategoriaPlanillaID AND
 			NOT EXISTS(SELECT pl.I_PlanillaID FROM dbo.TR_Planilla pl 
 				INNER JOIN dbo.TR_TrabajadorPlanilla tpl ON tpl.I_PlanillaID = pl.I_PlanillaID 
-				WHERE tpl.B_Anulado = 0 AND pl.I_PeriodoID = @I_PeriodoID AND pl.I_CategoriaPlanillaID = @I_CategoriaPlanillaID AND 
-					tpl.I_TrabajadorID = trab.I_TrabajadorID AND tpl.I_TrabajadorCategoriaPlanillaID = tca.I_TrabajadorCategoriaPlanillaID);
+				WHERE pl.B_Anulado = 0 AND tpl.B_Anulado = 0 AND pl.I_PeriodoID = @I_PeriodoID AND pl.I_CategoriaPlanillaID = @I_CategoriaPlanillaID AND 
+					tpl.I_TrabajadorCategoriaPlanillaID = tca.I_TrabajadorCategoriaPlanillaID);
 	END
 
 	IF (@I_CategoriaPlanillaID NOT IN (@I_ADMINISTRATIVOID, @I_DOCENTEID)) BEGIN
-		INSERT #tmp_trabajador(I_TrabajadorID, I_TrabajadorCategoriaPlanillaID, I_DependenciaID, I_VinculoID)
-		SELECT trab.I_TrabajadorID, tca.I_TrabajadorCategoriaPlanillaID, tca.I_DependenciaID, trab.I_VinculoID FROM dbo.TC_Trabajador trab
+		INSERT #tmp_trabajador(I_TrabajadorCategoriaPlanillaID, I_DependenciaID, I_VinculoID)
+		SELECT tca.I_TrabajadorCategoriaPlanillaID, tca.I_DependenciaID, trab.I_VinculoID FROM dbo.TC_Trabajador trab
 		INNER JOIN dbo.TC_Trabajador_CategoriaPlanilla tca ON tca.I_TrabajadorID = trab.I_TrabajadorID 
-		INNER JOIN @Tbl_Trabajador tmp ON tmp.I_ID = trab.I_TrabajadorID
+		INNER JOIN @Tbl_Trabajador tmp ON tmp.I_ID = tca.I_TrabajadorCategoriaPlanillaID
 		WHERE trab.B_Eliminado = 0 AND 
 			tca.B_Habilitado = 1 AND tca.B_Eliminado = 0 AND tca.I_CategoriaPlanillaID = @I_CategoriaPlanillaID AND
 			NOT EXISTS(SELECT pl.I_PlanillaID FROM dbo.TR_Planilla pl 
 				INNER JOIN dbo.TR_TrabajadorPlanilla tpl ON tpl.I_PlanillaID = pl.I_PlanillaID 
-				WHERE tpl.B_Anulado = 0 AND pl.I_PeriodoID = @I_PeriodoID AND pl.I_CategoriaPlanillaID = @I_CategoriaPlanillaID AND 
-					tpl.I_TrabajadorID = trab.I_TrabajadorID AND tpl.I_TrabajadorCategoriaPlanillaID = tca.I_TrabajadorCategoriaPlanillaID);
+				WHERE pl.B_Anulado = 0 AND tpl.B_Anulado = 0 AND pl.I_PeriodoID = @I_PeriodoID AND pl.I_CategoriaPlanillaID = @I_CategoriaPlanillaID AND 
+					tpl.I_TrabajadorCategoriaPlanillaID = tca.I_TrabajadorCategoriaPlanillaID);
 	END
 
 	SET @I_Indicador = 1;
@@ -628,8 +626,7 @@ BEGIN
 		--4. Recorrer cada trabajador
 		WHILE (@I_Indicador <= @I_CantRegistros) BEGIN
 		
-			SELECT	@I_TrabajadorID = tmp.I_TrabajadorID,
-					@I_TrabajadorCategoriaPlanillaID = tmp.I_TrabajadorCategoriaPlanillaID,
+			SELECT	@I_TrabajadorCategoriaPlanillaID = tmp.I_TrabajadorCategoriaPlanillaID,
 					@I_DependenciaID = tmp.I_DependenciaID,
 					@I_VinculoID = tmp.I_VinculoID,
 					@I_Filtro1 = tmp.I_Filtro1,
@@ -707,9 +704,10 @@ BEGIN
 						END
 						
 						IF (@I_TrabajadorPlanillaID = 0) BEGIN
-							INSERT dbo.TR_TrabajadorPlanilla(I_PlanillaID, I_TrabajadorID, I_DependenciaID, I_VinculoID, I_TotalRemuneracion, I_TotalReintegro, I_TotalDeduccion, I_TotalBruto, I_TotalDescuento,
-								I_TotalSueldo, B_Anulado, I_UsuarioCre, D_FecCre, I_TrabajadorCategoriaPlanillaID)
-							VALUES(@I_PlantillaID, @I_TrabajadorID, @I_DependenciaID, @I_VinculoID, 0, 0, 0, 0, 0, 0, 0, @I_UserID, @D_FecRegistro, @I_TrabajadorCategoriaPlanillaID);
+							INSERT dbo.TR_TrabajadorPlanilla(I_PlanillaID, I_TrabajadorCategoriaPlanillaID, I_DependenciaID, I_VinculoID, 
+								I_TotalRemuneracion, I_TotalReintegro, I_TotalDeduccion, I_TotalBruto, I_TotalDescuento,
+								I_TotalSueldo, B_Anulado, I_UsuarioCre, D_FecCre)
+							VALUES(@I_PlantillaID, @I_TrabajadorCategoriaPlanillaID, @I_DependenciaID, @I_VinculoID, 0, 0, 0, 0, 0, 0, 0, @I_UserID, @D_FecRegistro);
 
 							SET @I_TrabajadorPlanillaID = SCOPE_IDENTITY();
 						END
@@ -792,9 +790,10 @@ BEGIN
 						END
 
 						IF (@I_TrabajadorPlanillaID = 0) BEGIN
-							INSERT dbo.TR_TrabajadorPlanilla(I_PlanillaID, I_TrabajadorID, I_DependenciaID, I_VinculoID, I_TotalRemuneracion, I_TotalReintegro, I_TotalDeduccion, I_TotalBruto, I_TotalDescuento,
-								I_TotalSueldo, B_Anulado, I_UsuarioCre, D_FecCre, I_TrabajadorCategoriaPlanillaID)
-							VALUES(@I_PlantillaID, @I_TrabajadorID, @I_DependenciaID, @I_VinculoID, 0, 0, 0, 0, 0, 0, 0, @I_UserID, @D_FecRegistro, @I_TrabajadorCategoriaPlanillaID);
+							INSERT dbo.TR_TrabajadorPlanilla(I_PlanillaID, I_TrabajadorCategoriaPlanillaID, I_DependenciaID, I_VinculoID, 
+								I_TotalRemuneracion, I_TotalReintegro, I_TotalDeduccion, I_TotalBruto, I_TotalDescuento,
+								I_TotalSueldo, B_Anulado, I_UsuarioCre, D_FecCre)
+							VALUES(@I_PlantillaID, @I_TrabajadorCategoriaPlanillaID, @I_DependenciaID, @I_VinculoID, 0, 0, 0, 0, 0, 0, 0, @I_UserID, @D_FecRegistro);
 
 							SET @I_TrabajadorPlanillaID = SCOPE_IDENTITY();
 						END
@@ -877,9 +876,10 @@ BEGIN
 						END
 
 						IF (@I_TrabajadorPlanillaID = 0) BEGIN
-							INSERT dbo.TR_TrabajadorPlanilla(I_PlanillaID, I_TrabajadorID, I_DependenciaID, I_VinculoID, I_TotalRemuneracion, I_TotalReintegro, I_TotalDeduccion, I_TotalBruto, I_TotalDescuento,
-								I_TotalSueldo, B_Anulado, I_UsuarioCre, D_FecCre, I_TrabajadorCategoriaPlanillaID)
-							VALUES(@I_PlantillaID, @I_TrabajadorID, @I_DependenciaID, @I_VinculoID, 0, 0, 0, 0, 0, 0, 0, @I_UserID, @D_FecRegistro, @I_TrabajadorCategoriaPlanillaID);
+							INSERT dbo.TR_TrabajadorPlanilla(I_PlanillaID, I_TrabajadorCategoriaPlanillaID, I_DependenciaID, I_VinculoID, 
+								I_TotalRemuneracion, I_TotalReintegro, I_TotalDeduccion, I_TotalBruto, I_TotalDescuento,
+								I_TotalSueldo, B_Anulado, I_UsuarioCre, D_FecCre)
+							VALUES(@I_PlantillaID, @I_TrabajadorCategoriaPlanillaID, @I_DependenciaID, @I_VinculoID, 0, 0, 0, 0, 0, 0, 0, @I_UserID, @D_FecRegistro);
 
 							SET @I_TrabajadorPlanillaID = SCOPE_IDENTITY();
 						END
@@ -962,9 +962,10 @@ BEGIN
 						END
 
 						IF (@I_TrabajadorPlanillaID = 0) BEGIN
-							INSERT dbo.TR_TrabajadorPlanilla(I_PlanillaID, I_TrabajadorID, I_DependenciaID, I_VinculoID, I_TotalRemuneracion, I_TotalReintegro, I_TotalDeduccion, I_TotalBruto, I_TotalDescuento,
-								I_TotalSueldo, B_Anulado, I_UsuarioCre, D_FecCre, I_TrabajadorCategoriaPlanillaID)
-							VALUES(@I_PlantillaID, @I_TrabajadorID, @I_DependenciaID, @I_VinculoID, 0, 0, 0, 0, 0, 0, 0, @I_UserID, @D_FecRegistro, @I_TrabajadorCategoriaPlanillaID);
+							INSERT dbo.TR_TrabajadorPlanilla(I_PlanillaID, I_TrabajadorCategoriaPlanillaID, I_DependenciaID, I_VinculoID, 
+								I_TotalRemuneracion, I_TotalReintegro, I_TotalDeduccion, I_TotalBruto, I_TotalDescuento,
+								I_TotalSueldo, B_Anulado, I_UsuarioCre, D_FecCre)
+							VALUES(@I_PlantillaID, @I_TrabajadorCategoriaPlanillaID, @I_DependenciaID, @I_VinculoID, 0, 0, 0, 0, 0, 0, 0, @I_UserID, @D_FecRegistro);
 
 							SET @I_TrabajadorPlanillaID = SCOPE_IDENTITY();
 						END
@@ -2497,9 +2498,9 @@ BEGIN
 		trab.I_TrabajadorID, trab.C_TrabajadorCod, trab.T_Nombre, trab.T_ApellidoPaterno, trab.T_ApellidoMaterno, trab.I_TipoDocumentoID, trab.T_TipoDocumentoDesc, trab.C_NumDocumento,
 		trab.I_RegimenID, trab.T_RegimenDesc, trab.I_EstadoID, trab.T_EstadoDesc, trab.I_VinculoID, trab.T_VinculoDesc,
 		trabpla.I_TrabajadorPlanillaID, trabpla.I_TotalRemuneracion, trabpla.I_TotalReintegro, trabpla.I_TotalDeduccion, trabpla.I_TotalBruto, trabpla.I_TotalDescuento, trabpla.I_TotalSueldo,
-		pla.I_PlanillaID, pla.I_PeriodoID, per.I_Anio, per.I_Mes, per.T_MesDesc, pla.I_CategoriaPlanillaID, catpla.T_CategoriaPlanillaDesc
-	FROM dbo.VW_Trabajadores AS trab INNER JOIN
-		dbo.TR_TrabajadorPlanilla AS trabpla ON trabpla.I_TrabajadorID = trab.I_TrabajadorID INNER JOIN
+		pla.I_PlanillaID, pla.I_PeriodoID, per.I_Anio, per.I_Mes, per.T_MesDesc, pla.I_CategoriaPlanillaID, catpla.T_CategoriaPlanillaDesc, trabpla.I_TrabajadorCategoriaPlanillaID
+	FROM dbo.VW_TrabajadoresCategoriaPlanilla AS trab INNER JOIN
+		dbo.TR_TrabajadorPlanilla AS trabpla ON trabpla.I_TrabajadorCategoriaPlanillaID = trab.I_TrabajadorCategoriaPlanillaID INNER JOIN
 		dbo.TR_Planilla AS pla ON pla.I_PlanillaID = trabpla.I_PlanillaID INNER JOIN
 		dbo.TR_Periodo AS per ON per.I_PeriodoID = pla.I_PeriodoID INNER JOIN
 		dbo.TC_CategoriaPlanilla AS catpla ON catpla.I_CategoriaPlanillaID = pla.I_CategoriaPlanillaID
@@ -2793,10 +2794,11 @@ BEGIN
 		dbo.TC_Vinculo AS vin ON vin.I_VinculoID = trab.I_VinculoID
 	WHERE	per.B_Eliminado = 0 AND 
 			trab.B_Eliminado = 0 AND 
-			EXISTS(SELECT tp.I_TrabajadorPlanillaID FROM dbo.TR_TrabajadorPlanilla tp 
-				INNER JOIN dbo.TR_Planilla pl ON pl.I_PlanillaID = tp.I_PlanillaID
-				INNER JOIN dbo.TR_Periodo pr ON pr.I_PeriodoID = pl.I_PeriodoID
-				WHERE tp.I_TrabajadorID = trab.I_TrabajadorID AND pr.I_Anio = @I_Anio AND pr.I_Mes = @I_Mes);
+			EXISTS(SELECT tp.I_TrabajadorPlanillaID FROM dbo.TR_TrabajadorPlanilla AS tp 
+				INNER JOIN dbo.TR_Planilla AS pl ON pl.I_PlanillaID = tp.I_PlanillaID
+				INNER JOIN dbo.TR_Periodo AS pr ON pr.I_PeriodoID = pl.I_PeriodoID
+				INNER JOIN dbo.TC_Trabajador_CategoriaPlanilla AS tc ON tc.I_TrabajadorCategoriaPlanillaID = tp.I_TrabajadorCategoriaPlanillaID
+				WHERE tp.B_Anulado = 0 AND pl.B_Anulado = 0 AND tc.I_TrabajadorID = trab.I_TrabajadorID AND pr.I_Anio = @I_Anio AND pr.I_Mes = @I_Mes);
 END
 GO
 
@@ -2817,15 +2819,16 @@ BEGIN
 	SELECT pl.I_PlanillaID, trabPla.I_TrabajadorPlanillaID, pr.I_Anio, pr.I_Mes, pr.T_MesDesc, 
 		dep.T_DependenciaDesc, cp.I_CategoriaPlanillaID, cp.T_CategoriaPlanillaDesc, cl.T_ClasePlanillaDesc, tp.T_TipoPlanillaDesc,
 		trabPla.I_TotalRemuneracion, trabPla.I_TotalReintegro, trabPla.I_TotalDeduccion, trabPla.I_TotalBruto, trabPla.I_TotalDescuento, trabPla.I_TotalSueldo
-	FROM dbo.TR_TrabajadorPlanilla trabPla
-	INNER  JOIN dbo.TR_Planilla pl ON pl.I_PlanillaID = trabPla.I_PlanillaID
-	INNER JOIN dbo.TR_Periodo pr ON pr.I_PeriodoID = pl.I_PeriodoID
-	INNER JOIN dbo.TC_Dependencia dep ON dep.I_DependenciaID = trabPla.I_DependenciaID
-	INNER JOIN dbo.TC_CategoriaPlanilla cp ON cp.I_CategoriaPlanillaID = pl.I_CategoriaPlanillaID
-	INNER JOIN dbo.TC_ClasePlanilla cl ON cl.I_ClasePlanillaID = cp.I_ClasePlanillaID
-	INNER JOIN dbo.TC_TipoPlanilla tp ON tp.I_TipoPlanillaID = cl.I_TipoPlanillaID
+	FROM dbo.TR_TrabajadorPlanilla AS trabPla
+	INNER  JOIN dbo.TR_Planilla AS pl ON pl.I_PlanillaID = trabPla.I_PlanillaID
+	INNER JOIN dbo.TR_Periodo AS pr ON pr.I_PeriodoID = pl.I_PeriodoID
+	INNER JOIN dbo.TC_Trabajador_CategoriaPlanilla AS tc ON tc.I_TrabajadorCategoriaPlanillaID = trabpla.I_TrabajadorCategoriaPlanillaID
+	INNER JOIN dbo.TC_Dependencia AS dep ON dep.I_DependenciaID = trabPla.I_DependenciaID
+	INNER JOIN dbo.TC_CategoriaPlanilla AS cp ON cp.I_CategoriaPlanillaID = pl.I_CategoriaPlanillaID
+	INNER JOIN dbo.TC_ClasePlanilla AS cl ON cl.I_ClasePlanillaID = cp.I_ClasePlanillaID
+	INNER JOIN dbo.TC_TipoPlanilla AS tp ON tp.I_TipoPlanillaID = cl.I_TipoPlanillaID
 	WHERE trabPla.B_Anulado = 0 AND pl.B_Anulado = 0 AND 
-		pr.I_Anio = @I_Anio AND pr.I_Mes = @I_Mes AND trabPla.I_TrabajadorID = @I_TrabajadorID;
+		pr.I_Anio = @I_Anio AND pr.I_Mes = @I_Mes AND tc.I_TrabajadorID = @I_TrabajadorID;
 END
 GO
 

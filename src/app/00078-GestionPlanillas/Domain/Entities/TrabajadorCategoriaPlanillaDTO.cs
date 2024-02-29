@@ -34,7 +34,7 @@ namespace Domain.Entities
 
         public string vinculoDesc { get; set; }
 
-        public int? trabajadorCategoriaPlanillaID { get; set; }
+        public int trabajadorCategoriaPlanillaID { get; set; }
 
         public int categoriaPlanillaID { get; set; }
 

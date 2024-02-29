@@ -63,11 +63,12 @@ namespace WebApp.ServiceFacade.Implementations
             var listaTrabajadoresConPlanilla = _planillaService.ListarResumenPlanillaTrabajadores(anio, mes, categoriaPlanillaID);
 
             var lista = _trabajadorCategoriaPlanillaService.ListarTrabajadoresCategoriaPlanilla(categoriaPlanillaID)
+                .Where(x => x.estaHabilitado)
                 .Select(x => Mapper.TrabajadorCategoriaPlanillaDTO_To_TrabajadorCategoriaPlanillaModel(x))
                 .ToList();
 
             lista.ForEach(x => {
-                x.tienePlanilla = listaTrabajadoresConPlanilla.Any(y => y.trabajadorID == x.trabajadorID);
+                x.tienePlanilla = listaTrabajadoresConPlanilla.Any(y => y.trabajadorCategoriaPlanillaID == x.trabajadorCategoriaPlanillaID);
                 x.seleccionado = x.estado.Equals(Estado.Activo);
             });
 

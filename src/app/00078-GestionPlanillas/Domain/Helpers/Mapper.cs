@@ -95,7 +95,8 @@ namespace Domain.Helpers
                 mes = sp.I_Mes,
                 mesDesc = sp.T_MesDesc,
                 categoriaPlanillaID = sp.I_CategoriaPlanillaID,
-                categoriaPlanillaDesc = sp.T_CategoriaPlanillaDesc
+                categoriaPlanillaDesc = sp.T_CategoriaPlanillaDesc,
+                trabajadorCategoriaPlanillaID = sp.I_TrabajadorCategoriaPlanillaID
             };
 
             return trabajadorDTO;

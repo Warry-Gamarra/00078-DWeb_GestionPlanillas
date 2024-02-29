@@ -41,7 +41,7 @@ AS
 SELECT
 	trab.I_TrabajadorID, trab.C_TrabajadorCod, per.I_PersonaID, per.T_Nombre, per.T_ApellidoPaterno, per.T_ApellidoMaterno, 
 	tipdoc.I_TipoDocumentoID, tipdoc.T_TipoDocumentoDesc, per.C_NumDocumento,
-	est.I_EstadoID, est.T_EstadoDesc, vin.I_VinculoID, vin.T_VinculoDesc,
+	est.I_EstadoID, est.T_EstadoDesc, vin.I_VinculoID, vin.T_VinculoDesc, reg.I_RegimenID, reg.T_RegimenDesc,
 	trabcat.I_TrabajadorCategoriaPlanillaID, catpla.I_CategoriaPlanillaID, catpla.T_CategoriaPlanillaDesc,
 	trabcat.B_CategoriaPrincipal,
 	dep.I_DependenciaID, dep.C_DependenciaCod, dep.T_DependenciaDesc,
@@ -50,7 +50,8 @@ SELECT
 FROM 
 	dbo.TC_Persona AS per INNER JOIN
 	dbo.TC_Trabajador AS trab ON trab.I_PersonaID = per.I_PersonaID INNER JOIN
-	dbo.TC_TipoDocumento AS tipdoc ON tipdoc.I_TipoDocumentoID = per.I_TipoDocumentoID INNER JOIN
+	dbo.TC_TipoDocumento AS tipdoc ON tipdoc.I_TipoDocumentoID = per.I_TipoDocumentoID LEFT JOIN
+	dbo.TC_Regimen AS reg ON reg.I_RegimenID = trab.I_RegimenID INNER JOIN
 	dbo.TC_Estado AS est ON est.I_EstadoID = trab.I_EstadoID INNER JOIN 
 	dbo.TC_Vinculo AS vin ON vin.I_VinculoID = trab.I_VinculoID INNER JOIN
 	dbo.TC_Trabajador_CategoriaPlanilla AS trabcat ON trabcat.I_TrabajadorID = trab.I_TrabajadorID INNER JOIN

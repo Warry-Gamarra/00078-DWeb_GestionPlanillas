@@ -57,11 +57,12 @@
                         <thead class="thead-dark">
                             <tr>
                                 <th>Planilla</th>
-                                <th>Vínculo</th>
+                                <th>Descripción</th>
                                 <th>Cod.Per.</th>
-                                <th>Tip.Doc.</th>
-                                <th>Num.Doc.</th>
+                                <th>Doc.Identidad</th>
                                 <th>Apellidos y Nombres</th>
+                                <th>Vínculo</th>
+                                <th>Dependencia</th>
                                 <th>Estado</th>
                                 <th></th>
                             </tr>
@@ -69,11 +70,12 @@
                         <tfoot>
                             <tr>
                                 <th>Planilla</th>
-                                <th>Vínculo</th>
+                                <th>Descripción</th>
                                 <th>Cod.Per.</th>
-                                <th>Tip.Doc.</th>
-                                <th>Num.Doc.</th>
+                                <th>Doc.Identidad</th>
                                 <th>Apellidos y Nombres</th>
+                                <th>Vínculo</th>
+                                <th>Dependencia</th>
                                 <th>Estado</th>
                                 <th></th>
                             </tr>
@@ -156,27 +158,38 @@
                 },
                 columns: [
                     { data: 'categoriaPlanillaDesc' },
-                    { data: 'vinculoDesc' },
+                    { data: 'grupoTrabajoDesc' },
                     { data: 'trabajadorCod' },
                     { data: 'tipoDocumentoDesc' },
-                    { data: 'numDocumento' },
                     { data: 'apellidosNombre' },
+                    { data: 'vinculoDesc' },
+                    { data: 'dependenciaDesc' },
                     { data: 'estadoDesc' },
-                    { data: 'trabajadorID' }
+                    { data: 'trabajadorCategoriaPlanillaID' }
                 ],
                 columnDefs: [
+                    {
+                        targets: 3,
+                        orderable: false,
+                        render: function (data, type, row) {
+                            return data + " - " + row.numDocumento;
+                        }
+                    },
                     {
                         targets: -1,
                         className: "text-center",
                         orderable: false,
                         render: function (data, type, row) {
-                            console.log(row.tienePlanilla);
                             let html = '';
                             if (!row.tienePlanilla) {
                                 if (row.seleccionado) {
-                                    html = `<input type="checkbox" name="chkTrabajador" value="${data}" checked="checked" onclick="deshabilitarTrabajador(this);" />`;
+                                    html = `<input type="checkbox" name="chkTrabajador" value="${data}" checked="checked" onclick="permitirGeneracionPlanilla(this);" />`;
                                 } else {
-                                    html = `<input type="checkbox" name="chkTrabajador" value="${data}" onclick="deshabilitarTrabajador(this);" />`;
+                                    let disabled = "";
+                                    if (!row.estaHabilitado) {
+                                        disabled = "disabled=\"disabled\"";
+                                    }
+                                    html = `<input type="checkbox" name="chkTrabajador" value="${data}" onclick="permitirGeneracionPlanilla(this);" ${disabled} />`;
                                 }
                             } else {
                                 html = '<span class="text-success">Planilla generada</span>';
@@ -223,7 +236,7 @@
             });
         }
 
-        function deshabilitarTrabajador(element) {
+        function permitirGeneracionPlanilla(element) {
             let parametros = {
                 id: element.value,
                 isChecked: $(element).is(':checked'),
@@ -232,7 +245,7 @@
 
             $.ajax({
                 type: 'POST',
-                url: '@Url.Action("DeshabilitarTrabajador", "Planillas")',
+                url: '@Url.Action("PermitirGeneracionPlanilla", "Planillas")',
                 data: parametros,
                 dataType: 'json',
                 beforeSend: function () {
