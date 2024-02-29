@@ -19,7 +19,7 @@ namespace Data.Tables
 
             try
             {
-                string s_command = @"SELECT tp.I_TrabajadorID, p.I_CategoriaPlanillaID FROM dbo.TR_Planilla p
+                string s_command = @"SELECT tp.I_TrabajadorPlanillaID FROM dbo.TR_Planilla p
                     INNER JOIN dbo.TR_TrabajadorPlanilla tp ON tp.I_PlanillaID = p.I_PlanillaID
                     WHERE p.B_Anulado = 0 AND tp.B_Anulado = 0 AND tp.I_TrabajadorCategoriaPlanillaID = @I_TrabajadorCategoriaPlanillaID;";
 

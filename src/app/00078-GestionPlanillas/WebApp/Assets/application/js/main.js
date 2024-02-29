@@ -73,23 +73,6 @@ function Stop() {
     $('#btnsubmit').removeClass('disabled');
     $('#btnCancel').removeClass('disabled');
 }
-
-//function Submited() {
-//    var submited = parseInt($("#submited").val());
-//    $("#submited").val(submited + 1);
-//}
-
-//function Begin() {
-//    $('#loading').show();
-//    $('#div-resultado').html('');
-//    $('#div-resultado').hide();
-//}
-
-//function onComplete() {
-//    $('#loading').hide();
-//    $('#div-resultado').show();
-//}
-
 function FormatearNumero(number, decimals = 2, round = true) {
     if (isNaN(number) || number.lenght == 0) number = 0;
 
@@ -114,40 +97,6 @@ function htmlDecode(input) {
     return element.value;
 }
 
-function ChangeStateReloadPage(rowID, estaHabilitado, actionName, token) {
-    var parametros = {
-        rowID: rowID,
-        estaHabilitado: estaHabilitado,
-        __RequestVerificationToken: token
-    };
-    $.ajax({
-        cache: false,
-        url: actionName,
-        type: "POST",
-        data: parametros,
-        dataType: "json",
-        beforeSend: function () {
-            $(`#${container} #loader` + rowID).css("display", "inline");
-        },
-        success: function (data) {
-            $(`#${container} #loader` + rowID).css("display", "none");
-            if (data['Success']) {
-                $(`#${container} #td` + rowID).html(data['Message']);
-
-                location.reload();
-            }
-            else {
-                toastr.warning(data['Message']);
-            }
-        },
-        error: function () {
-            $(`#${container} #loader` + rowID).css("display", "none");
-
-            toastr.error("No se pudo actualizar el estado. Intente nuevamente en unos segundos.<br />Si el problema persiste comun\u00EDquese con el \u00E1rea de soporte de la aplicaci\u00F3n");
-        }
-    });
-}
-
 function ChangeState(rowID, estaHabilitado, actionName, token, container) {
     var parametros = {
         rowID: rowID,
@@ -170,7 +119,7 @@ function ChangeState(rowID, estaHabilitado, actionName, token, container) {
                     $(`#${container} #td` + rowID).html(`<button type="submit" class="btn btn-xs btn-secondary" onclick="ChangeState(${rowID}, false, '${actionName}', '${token}', '${container}');"><i class="fa fa-minus-circle">&nbsp;</i><span class="d-none d-md-inline-block">Deshabilitado</span></button>`);
                 }
                 else {
-                    $(`#${container} #td` + rowID).html(`<button type="submit" class="btn btn-xs btn-success" onclick="ChangeState(${rowID}, true, '${actionName}', '${token}', '${container}');"><i class="fa fa-check-circle">&nbsp;</i><span class="d-none d-md-inline-block">Habilitado</span></button>`);
+                    $(`#${container} #td` + rowID).html(`<button type="submit" class="btn btn-xs btn-success" onclick="ChangeState(${rowID}, true, '${actionName}', '${token}', '${container}');"><i class="fa fa-check-circle">&nbsp;</i><span class="d-none d-md-inline-block">&nbsp;&nbsp;&nbsp;Habilitado&nbsp;&nbsp;&nbsp;</span></button>`);
                 }
 
                 toastr.success(data['Message']);

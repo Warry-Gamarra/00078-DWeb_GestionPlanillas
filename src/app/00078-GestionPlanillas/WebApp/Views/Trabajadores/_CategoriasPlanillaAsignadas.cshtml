@@ -141,11 +141,11 @@
             columns: [
                 { data: 'esCategoriaPrincipal' },
                 { data: 'dependenciaDesc' },
-                { data: 'esJefe' },
+                { data: 'esJefe', width: '10%' },
                 { data: 'grupoTrabajoDesc' },
                 { data: 'trabajadorCategoriaPlanillaID' },
-                { data: 'trabajadorCategoriaPlanillaID' },
-                { data: 'trabajadorCategoriaPlanillaID' }
+                { data: 'trabajadorCategoriaPlanillaID', width: '5%' },
+                { data: 'trabajadorCategoriaPlanillaID', width: '5%' }
             ],
             columnDefs: [
                 {
@@ -162,11 +162,12 @@
                 },
                 {
                     targets: -3,
+                    className: "text-center",
                     orderable: false,
                     render: function (data, type, row) {
                         let btnClass = (row.estaHabilitado === true) ? 'success' : 'secondary';
                         let iClass = (row.estaHabilitado === true) ? 'check-circle-o' : 'minus-circle';
-                        let estado = (row.estaHabilitado === true) ? 'Habilitado' : 'Deshabilitado';
+                        let estado = (row.estaHabilitado === true) ? '&nbsp;&nbsp;&nbsp;Habilitado&nbsp;&nbsp;&nbsp;' : 'Deshabilitado';
                         let token = $('input[name="__RequestVerificationToken"]').val();
                         let onClickFunction = `ChangeState(${data}, ${row.estaHabilitado}, '@Url.Action("CambiarEstadoCategoriaPlanilla", "Trabajadores")', '${token}', 'dataTableCategoriasPlanillaAsignadas')`;
 
@@ -181,6 +182,7 @@
                 },
                 {
                     targets: -2,
+                    className: "text-center",
                     orderable: false,
                     render: function (data, type, row) {
                         return row.esCategoriaPrincipal ? '' : `<a class="btn-editar" href="@Url.Action("EditarCategoriaPlanilla", "Trabajadores")/${data}` +
@@ -189,6 +191,7 @@
                 },
                 {
                     targets: -1,
+                    className: "text-center",
                     orderable: false,
                     render: function (data, type, row) {
                         return row.esCategoriaPrincipal ? '' : `<a class="btn-eliminar" href="#" data-id="${data}"` +

@@ -78,14 +78,14 @@
 
         $('#content-body #grupoTrabajoID').select2({
             theme: 'bootstrap4',
-            dropdownParent: $('#modal-container-lg')
+            dropdownParent: $('#modal-container-xl')
         }).on('hide', function (e) {
             e.stopPropagation();
         });
 
         $('#content-body #dependenciaID').select2({
             theme: 'bootstrap4',
-            dropdownParent: $('#modal-container-lg')
+            dropdownParent: $('#modal-container-xl')
         }).on('hide', function (e) {
             e.stopPropagation();
         });
@@ -106,7 +106,7 @@
         $('#content-body').hide();
         $('#spin-loader').show();
 
-        let modal = $('#modal-container-lg');
+        let modal = $('#modal-container-xl');
 
         setTimeout(function () {
             modal.find('.modal-content').load(url)
@@ -114,7 +114,6 @@
     }
 
     function MostrarJefatura(categoriaPlanillaID) {
-        console.log('categoriaPlanillaID=' + categoriaPlanillaID);
         if (categoriaPlanillaID == 9) {
             $('#divJefatura').css("display", "block");
         } else {
