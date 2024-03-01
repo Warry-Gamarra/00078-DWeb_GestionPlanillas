@@ -755,6 +755,7 @@ namespace Domain.Helpers
                 categoriaPlanillaDesc = sp.T_CategoriaPlanillaDesc,
                 clasePlanillaDesc = sp.T_ClasePlanillaDesc,
                 tipoPlanillaDesc = sp.T_TipoPlanillaDesc,
+                grupoTrabajoDesc = sp.T_GrupoTrabajoDesc,
                 totalRemuneracion = sp.I_TotalRemuneracion,
                 totalReintegro = sp.I_TotalReintegro,
                 totalDeduccion = sp.I_TotalDeduccion,

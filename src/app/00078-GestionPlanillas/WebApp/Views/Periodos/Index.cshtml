@@ -109,28 +109,34 @@
                 columns: [
                     { data: 'anio' },
                     { data: 'mesDesc' },
-                    { data: 'periodoID', width: '10%' },
-                    { data: 'periodoID', width: '10%' }
+                    { data: 'periodoID', width: '5%' },
+                    { data: 'periodoID', width: '5%' }
                 ],
                 columnDefs: [
                     {
-                        targets: -3,
+                        targets: 0,
                         orderable: false
                     },
                     {
-                        targets: -2,
+                        targets: 1,
+                        orderable: true
+                    },
+                    {
+                        targets: 2,
+                        className: "text-center",
                         orderable: false,
                         render: function (data, type, row) {
                             return `<a class="modal-link" href="@Url.Action("Editar", "Periodos")/${data}` +
-                                '"><i class="fa fa-pencil-square-o" aria-hidden="true"></i> <span class="d-none d-md-inline-block">Editar</span></a>';
+                                '" title="Editar"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a>';
                         }
                     },
                     {
-                        targets: -1,
+                        targets: 3,
+                        className: "text-center",
                         orderable: false,
                         render: function (data, type, row) {
                             return `<a class="btn-eliminar" href="#" data-id="${data}"` +
-                                '" title="Eliminar"><i class="fa fa-trash" aria-hidden="true"></i> <span class="d-none d-md-inline-block">Eliminar</span></a>';
+                                '" title="Eliminar"><i class="fa fa-trash" aria-hidden="true"></i></a>';
                         }
                     }
                 ],

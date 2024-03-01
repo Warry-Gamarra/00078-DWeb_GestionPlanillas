@@ -456,6 +456,7 @@ namespace WebApp.Models
                 categoriaPlanillaDesc = dto.categoriaPlanillaDesc,
                 clasePlanillaDesc = dto.clasePlanillaDesc,
                 tipoPlanillaDesc = dto.tipoPlanillaDesc,
+                grupoTrabajoDesc = dto.grupoTrabajoDesc,
                 totalRemuneracion = dto.totalRemuneracion,
                 totalReintegro = dto.totalReintegro,
                 totalDeduccion = dto.totalDeduccion,

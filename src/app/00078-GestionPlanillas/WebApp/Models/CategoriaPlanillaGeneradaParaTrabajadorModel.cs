@@ -29,6 +29,8 @@ namespace WebApp.Models
 
         public string tipoPlanillaDesc { get; set; }
 
+        public string grupoTrabajoDesc { get; set; }
+
         public decimal totalRemuneracion { get; set; }
 
         public string totalRemuneracionFormateado

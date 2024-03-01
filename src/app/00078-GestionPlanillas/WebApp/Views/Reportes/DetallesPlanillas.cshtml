@@ -144,8 +144,8 @@
                 columnDefs: [
                     {
                         targets: -1,
-                        orderable: false,
                         className: 'text-center',
+                        orderable: false,
                         render: function (data, type, row) {
                             return `<a class="modal-link-lg" href="@Url.Action("DetallePlanilla", "Reportes")?trabajadorID=${row.trabajadorID}&anio=${row.año}&mes=${row.mes}` +
                                 '" title="Ver planillas"><i class="fa fa-list-alt" aria-hidden="true"></i></a>';

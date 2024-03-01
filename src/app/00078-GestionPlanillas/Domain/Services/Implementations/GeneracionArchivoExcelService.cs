@@ -539,6 +539,21 @@ namespace Domain.Services.Implementations
 
                     currentRow++;
 
+                    worksheet.Cell(currentRow, 1).Value = "Dependencia";
+                    worksheet.Cell(currentRow, 1).Style.Font.Bold = true;
+                    worksheet.Cell(currentRow, 2).Value = categoria.dependenciaDesc.ToUpper();
+
+                    if (!string.IsNullOrEmpty(categoria.grupoTrabajoDesc))
+                    {
+                        currentRow++;
+
+                        worksheet.Cell(currentRow, 1).Value = "Grupo trabajo";
+                        worksheet.Cell(currentRow, 1).Style.Font.Bold = true;
+                        worksheet.Cell(currentRow, 2).Value = categoria.grupoTrabajoDesc.ToUpper();
+                    }
+                    
+                    currentRow++;
+
                     worksheet.Cell(currentRow, 1).Value = "Tipo";
                     worksheet.Cell(currentRow, 1).Style.Font.Bold = true;
                     worksheet.Cell(currentRow, 2).Value = categoria.tipoPlanillaDesc.ToUpper();

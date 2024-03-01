@@ -29,6 +29,8 @@ namespace Domain.Entities
 
         public string tipoPlanillaDesc { get; set; }
 
+        public string grupoTrabajoDesc { get; set; }
+
         public decimal totalRemuneracion { get; set; }
 
         public decimal totalReintegro { get; set; }

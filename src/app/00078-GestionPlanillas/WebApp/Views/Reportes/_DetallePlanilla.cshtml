@@ -46,14 +46,20 @@
                 })
             </dd>
 
+            <dt class="col-sm-3">Dependencia</dt>
+            <dd class="col-sm-9">@planilla.dependenciaDesc</dd>
+
+            @if (!string.IsNullOrEmpty(planilla.grupoTrabajoDesc))
+            {
+                <dt class="col-sm-3">Grupo trabajo</dt>
+                <dd class="col-sm-9">@planilla.grupoTrabajoDesc</dd>
+            }
+
             <dt class="col-sm-3">Tipo planilla</dt>
             <dd class="col-sm-9">@planilla.tipoPlanillaDesc</dd>
 
             <dt class="col-sm-3">Clase planilla</dt>
             <dd class="col-sm-9">@planilla.clasePlanillaDesc</dd>
-
-            <dt class="col-sm-3">Dependencia</dt>
-            <dd class="col-sm-9">@planilla.dependenciaDesc</dd>
         </dl>
     </div>
 

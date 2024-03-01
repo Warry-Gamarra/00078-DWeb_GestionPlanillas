@@ -281,24 +281,26 @@
                     { data: 'descripcion' },
                     { data: 'categoriaPresupCod' },
                     { data: 'categoriaPresupDesc' },
-                    { data: 'depActividadMetaID', width: '10%' },
-                    { data: 'depActividadMetaID', width: '10%' }
+                    { data: 'depActividadMetaID', width: '5%' },
+                    { data: 'depActividadMetaID', width: '5%' }
                 ],
                 columnDefs: [
                     {
                         targets: -2,
+                        className: "text-center",
                         orderable: false,
                         render: function (data, type, row) {
                             return `<a class="modal-link" href="@Url.Action("Editar", "DepActividadesMetas")/${data}` +
-                                '"><i class="fa fa-pencil-square-o" aria-hidden="true"></i> <span class="d-none d-md-inline-block">Editar</span></a>';
+                                '" title="Editar"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a>';
                         }
                     },
                     {
                         targets: -1,
+                        className: "text-center",
                         orderable: false,
                         render: function (data, type, row) {
                             return `<a class="btn-eliminar" href="#" data-id="${data}"` +
-                                '" title="Eliminar"><i class="fa fa-trash" aria-hidden="true"></i> <span class="d-none d-md-inline-block">Eliminar</span></a>';
+                                '" title="Eliminar"><i class="fa fa-trash" aria-hidden="true"></i></a>';
                         }
                     }
                 ],
@@ -365,24 +367,26 @@
                 columns: [
                     { data: 'actividadCod' },
                     { data: 'actividadDesc' },
-                    { data: 'actividadID', width: '10%' },
-                    { data: 'actividadID', width: '10%' }
+                    { data: 'actividadID', width: '8%' },
+                    { data: 'actividadID', width: '8%' }
                 ],
                 columnDefs: [
                     {
                         targets: -2,
+                        className: "text-center",
                         orderable: false,
                         render: function (data, type, row) {
                             return `<a class="modal-link" href="@Url.Action("Editar", "Actividades")/${data}` +
-                                '"><i class="fa fa-pencil-square-o" aria-hidden="true"></i> <span class="d-none d-md-inline-block">Editar</span></a>';
+                                '" title="Editar"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a>';
                         }
                     },
                     {
                         targets: -1,
+                        className: "text-center",
                         orderable: false,
                         render: function (data, type, row) {
                             return `<a class="btn-eliminar-actividad" href="#" data-id="${data}"` +
-                                '" title="Eliminar"><i class="fa fa-trash" aria-hidden="true"></i> <span class="d-none d-md-inline-block">Eliminar</span></a>';
+                                '" title="Eliminar"><i class="fa fa-trash" aria-hidden="true"></i></a>';
                         }
                     }
                 ],
@@ -423,24 +427,26 @@
                 columns: [
                     { data: 'metaCod' },
                     { data: 'metaDesc' },
-                    { data: 'metaID', width: '10%' },
-                    { data: 'metaID', width: '10%' }
+                    { data: 'metaID', width: '8%' },
+                    { data: 'metaID', width: '8%' }
                 ],
                 columnDefs: [
                     {
                         targets: -2,
+                        className: "text-center",
                         orderable: false,
                         render: function (data, type, row) {
                             return `<a class="modal-link" href="@Url.Action("Editar", "Metas")/${data}` +
-                                '"><i class="fa fa-pencil-square-o" aria-hidden="true"></i> <span class="d-none d-md-inline-block">Editar</span></a>';
+                                '" title="Editar"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a>';
                         }
                     },
                     {
                         targets: -1,
+                        className: "text-center",
                         orderable: false,
                         render: function (data, type, row) {
                             return `<a class="btn-eliminar-meta" href="#" data-id="${data}"` +
-                                '" title="Eliminar"><i class="fa fa-trash" aria-hidden="true"></i> <span class="d-none d-md-inline-block">Eliminar</span></a>';
+                                '" title="Eliminar"><i class="fa fa-trash" aria-hidden="true"></i></a>';
                         }
                     }
                 ],

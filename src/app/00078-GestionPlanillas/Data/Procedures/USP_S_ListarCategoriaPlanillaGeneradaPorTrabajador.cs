@@ -32,6 +32,8 @@ namespace Data.Procedures
 
         public string T_TipoPlanillaDesc { get; set; }
 
+        public string T_GrupoTrabajoDesc { get; set; }
+
         public decimal I_TotalRemuneracion {  get; set; }
 
         public decimal I_TotalReintegro { get; set; }
