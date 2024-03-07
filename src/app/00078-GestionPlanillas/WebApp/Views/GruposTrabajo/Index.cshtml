@@ -15,13 +15,13 @@
     <div class="card mb-4">
         <div class="card-header">
             <span class="h4">Dependencias</span>
-            <a href="@Url.Action("Nuevo", "Dependencias")" class="btn btn-primary pull-right modal-link">
-                <i class="fa fa-plus-circle" aria-hidden="true"></i> Nueva dependencia
+            <a href="@Url.Action("Nuevo", "GruposTrabajo")" class="btn btn-primary pull-right modal-link">
+                <i class="fa fa-plus-circle" aria-hidden="true"></i> Nuevo grupo de trabajo
             </a>
         </div>
         <div class="card-body">
             <div class="table-responsive">
-                <table class="table table-hover" id="dataTableDependencias" width="100%">
+                <table class="table table-hover" id="dataTableGruposTrabajo" width="100%">
                     <thead class="thead-dark">
                         <tr>
                             <th>Código</th>
@@ -49,13 +49,13 @@
 @section scripts {
     <script type="text/javascript">
         $(document).ready(function () {
-            generarDataTableDependencias();
+            generarDataTableGruposTrabajo();
 
             $(".modal").on('hide.bs.modal', function () {
-                generarDataTableDependencias();
+                generarDataTableGruposTrabajo();
             });
 
-            $('#dataTableDependencias').on('click', '.btn-eliminar', function (event) {
+            $('#dataTableGruposTrabajo').on('click', '.btn-eliminar', function (event) {
                 event.preventDefault();
 
                 let id = $(this).data("id");
@@ -73,7 +73,7 @@
                 }).then((result) => {
                     if (result.isConfirmed) {
                         $.ajax({
-                            url: '@Url.Action("Eliminar", "Dependencias")/' + id,
+                            url: '@Url.Action("Eliminar", "GruposTrabajo")/' + id,
                             type: "POST",
                             data: { __RequestVerificationToken: token },
                             beforeSend: function () {
@@ -81,7 +81,7 @@
                             success: function (data) {
                                 if (data.Success) {
                                     mostrarMensajeSistema(data.Message, MENSAJE.SUCCESS);
-                                    generarDataTableDependencias();
+                                    generarDataTableGruposTrabajo();
                                 } else {
                                     mostrarMensajeSistema(data.Message, MENSAJE.ERROR);
                                 }
@@ -95,18 +95,18 @@
             });
         });
 
-        function generarDataTableDependencias() {
-            $('#dataTableDependencias').DataTable({
+        function generarDataTableGruposTrabajo() {
+            $('#dataTableGruposTrabajo').DataTable({
                 ajax: {
-                    'url': '@Url.Action("ObtenerListaDependencias", "Dependencias")',
+                    'url': '@Url.Action("ObtenerListaGruposTrabajo", "GruposTrabajo")',
                     'type': 'get'
                 },
                 columns: [
-                    { data: 'dependenciaCod' },
-                    { data: 'dependenciaDesc' },
+                    { data: 'grupoTrabajoCod' },
+                    { data: 'grupoTrabajoDesc' },
                     { data: 'estaHabilitado' },
-                    { data: 'dependenciaID', width: '5%' },
-                    { data: 'dependenciaID', width: '5%' }
+                    { data: 'grupoTrabajoID', width: '5%' },
+                    { data: 'grupoTrabajoID', width: '5%' }
                 ],
                 columnDefs: [
                     {
@@ -118,13 +118,13 @@
                             let iClass = (row.estaHabilitado === true) ? 'check-circle-o' : 'minus-circle';
                             let estado = (row.estaHabilitado === true) ? '&nbsp;&nbsp;&nbsp;Habilitado&nbsp;&nbsp;&nbsp;' : 'Deshabilitado';
 
-                            let url = '@Url.Action("CambiarEstado", "Dependencias")';
+                            let url = '@Url.Action("CambiarEstado", "GruposTrabajo")';
                             let token = $('input[name="__RequestVerificationToken"]').val();
-                            let container = 'dataTableDependencias';
+                            let container = 'dataTableGruposTrabajo';
 
-                            let onClickFunction = `ChangeState(${row.dependenciaID}, ${row.estaHabilitado}, '${url}', '${token}', '${container}')`;
+                            let onClickFunction = `ChangeState(${row.grupoTrabajoID}, ${row.estaHabilitado}, '${url}', '${token}', '${container}')`;
 
-                            let html = `<span id="td${row.dependenciaID}">` +
+                            let html = `<span id="td${row.grupoTrabajoID}">` +
                                 `<button type="submit" class="btn btn-xs btn-${btnClass}" onclick="${onClickFunction}">` +
                                 `<i class="fa fa-${iClass}" aria-hidden="true"></i> <span class="d-none d-md-inline-block">${estado}</span>` +
                                 '</button>' +
@@ -138,7 +138,7 @@
                         className: "text-center",
                         orderable: false,
                         render: function (data, type, row) {
-                            return `<a class="modal-link" href="@Url.Action("Editar", "Dependencias")/${data}` +
+                            return `<a class="modal-link" href="@Url.Action("Editar", "GruposTrabajo")/${data}` +
                                 '" title="Editar"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a>';
                         }
                     },

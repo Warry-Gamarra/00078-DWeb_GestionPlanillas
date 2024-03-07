@@ -119,7 +119,7 @@
                         render: function (data, type, row) {
                             let btnClass = (row.estaHabilitado === true) ? 'success' : 'secondary';
                             let iClass = (row.estaHabilitado === true) ? 'check-circle-o' : 'minus-circle';
-                            let estado = (row.estaHabilitado === true) ? 'Habilitado' : 'Deshabilitado';
+                            let estado = (row.estaHabilitado === true) ? '&nbsp;&nbsp;&nbsp;Habilitado&nbsp;&nbsp;&nbsp;' : 'Deshabilitado';
                             let token = $('input[name="__RequestVerificationToken"]').val();
                             let onClickFunction = `ChangeState(${data}, ${row.estaHabilitado}, '@Url.Action("CambiarEstado", "Conceptos")', '${token}', 'dataTableConceptos')`;
 
@@ -215,7 +215,7 @@
                         render: function (data, type, row) {
                             let btnClass = (row.estaHabilitado === true) ? 'success' : 'secondary';
                             let iClass = (row.estaHabilitado === true) ? 'check-circle-o' : 'minus-circle';
-                            let estado = (row.estaHabilitado === true) ? 'Habilitado' : 'Deshabilitado';
+                            let estado = (row.estaHabilitado === true) ? '&nbsp;&nbsp;&nbsp;Habilitado&nbsp;&nbsp;&nbsp;' : 'Deshabilitado';
                             let token = $('input[name="__RequestVerificationToken"]').val();
                             let onClickFunction = `ChangeState(${data}, ${row.estaHabilitado}, '@Url.Action("CambiarEstado", "PlantillaPlanilla")', '${token}', 'dataTablePlantillaPlanilla')`;
 

@@ -112,9 +112,9 @@ namespace Data.Views
                         I_ActividadID = I_ActividadID,
                         I_MetaID = I_MetaID
                     },commandType: System.Data.CommandType.Text);
-                }
 
-                isDuplicate = result.Count() > 0;
+                    isDuplicate = result.Count() > 0;
+                }
             }
             catch (Exception ex)
             {
@@ -124,7 +124,7 @@ namespace Data.Views
             return isDuplicate;
         }
 
-        public static bool existsActividad(int I_ActividadID)
+        public static bool ExisteActividad(int I_ActividadID)
         {
             IEnumerable<VW_DepActividadMeta> result;
             bool existsActividad;
@@ -136,9 +136,9 @@ namespace Data.Views
                 using (var _dbConnection = new SqlConnection(Database.ConnectionString))
                 {
                     result = _dbConnection.Query<VW_DepActividadMeta>(s_command, new { I_ActividadID = I_ActividadID }, commandType: System.Data.CommandType.Text);
-                }
 
-                existsActividad = result.Count() > 0;
+                    existsActividad = result.Count() > 0;
+                }
             }
             catch (Exception ex)
             {
@@ -148,7 +148,7 @@ namespace Data.Views
             return existsActividad;
         }
 
-        public static bool existsMeta(int I_MetaID)
+        public static bool ExisteMeta(int I_MetaID)
         {
             IEnumerable<VW_DepActividadMeta> result;
             bool existsMeta;
@@ -160,9 +160,9 @@ namespace Data.Views
                 using (var _dbConnection = new SqlConnection(Database.ConnectionString))
                 {
                     result = _dbConnection.Query<VW_DepActividadMeta>(s_command, new { I_MetaID = I_MetaID }, commandType: System.Data.CommandType.Text);
-                }
 
-                existsMeta = result.Count() > 0;
+                    existsMeta = result.Count() > 0;
+                }
             }
             catch (Exception ex)
             {

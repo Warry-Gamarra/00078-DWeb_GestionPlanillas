@@ -39,5 +39,47 @@ namespace Data.Tables
 
             return result;
         }
+
+        public static TC_GrupoTrabajo FindByCod(string C_GrupoTrabajoCod)
+        {
+            TC_GrupoTrabajo result;
+
+            try
+            {
+                string s_command = "SELECT * FROM dbo.TC_GrupoTrabajo WHERE B_Eliminado = 0 AND C_GrupoTrabajoCod = @C_GrupoTrabajoCod;";
+
+                using (var _dbConnection = new SqlConnection(Database.ConnectionString))
+                {
+                    result = _dbConnection.QuerySingleOrDefault<TC_GrupoTrabajo>(s_command, new { C_GrupoTrabajoCod = C_GrupoTrabajoCod }, commandType: System.Data.CommandType.Text);
+                }
+            }
+            catch (Exception)
+            {
+                result = null;
+            }
+
+            return result;
+        }
+
+        public static TC_GrupoTrabajo FindByID(int I_GrupoTrabajoID)
+        {
+            TC_GrupoTrabajo result;
+
+            try
+            {
+                string s_command = "SELECT * FROM dbo.TC_GrupoTrabajo WHERE B_Eliminado = 0 AND I_GrupoTrabajoID = @I_GrupoTrabajoID;";
+
+                using (var _dbConnection = new SqlConnection(Database.ConnectionString))
+                {
+                    result = _dbConnection.QuerySingleOrDefault<TC_GrupoTrabajo>(s_command, new { I_GrupoTrabajoID = I_GrupoTrabajoID }, commandType: System.Data.CommandType.Text);
+                }
+            }
+            catch (Exception)
+            {
+                result = null;
+            }
+
+            return result;
+        }
     }
 }

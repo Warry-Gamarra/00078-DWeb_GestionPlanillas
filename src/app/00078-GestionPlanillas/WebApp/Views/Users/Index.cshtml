@@ -94,6 +94,7 @@
                     },
                     {
                         targets: -2,
+                        className: "text-center",
                         orderable: false,
                         render: function (data, type, row) {
                             return `<a class="modal-link" href="@Url.Action("Editar", "Users")/${data}` +
@@ -102,6 +103,7 @@
                     },
                     {
                         targets: -1,
+                        className: "text-center",
                         orderable: false,
                         render: function (data, type, row) {
                             return `<a class="modal-link" href="@Url.Action("ResetPassword", "Users")/${data}` +

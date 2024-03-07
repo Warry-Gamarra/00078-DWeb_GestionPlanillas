@@ -153,7 +153,7 @@ namespace Domain.Services.Implementations
 
                 if (actividad != null)
                 {
-                    if (!VW_DepActividadMeta.existsActividad(actividadID))
+                    if (!VW_DepActividadMeta.ExisteActividad(actividadID))
                     {
                         var eliminar = new USP_U_EliminarActividad()
                         {

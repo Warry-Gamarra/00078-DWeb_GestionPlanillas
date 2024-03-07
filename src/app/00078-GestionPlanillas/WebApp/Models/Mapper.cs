@@ -468,7 +468,7 @@ namespace WebApp.Models
             return model;
         }
 
-        public static ConceptoGeneradoModel ConceptoGeneradoDTO_To_ConceptoGeneradoModel( ConceptoGeneradoDTO dto)
+        public static ConceptoGeneradoModel ConceptoGeneradoDTO_To_ConceptoGeneradoModel(ConceptoGeneradoDTO dto)
         {
             var model = new ConceptoGeneradoModel()
             {
@@ -479,6 +479,19 @@ namespace WebApp.Models
                 conceptoDesc = dto.conceptoDesc,
                 conceptoAbrv = dto.conceptoAbrv,
                 monto = dto.monto
+            };
+
+            return model;
+        }
+
+        public static GrupoTrabajoModel GrupoTrabajoDTO_To_GrupoTrabajoModel(GrupoTrabajoDTO dto)
+        {
+            var model = new GrupoTrabajoModel()
+            { 
+                grupoTrabajoID = dto.grupoTrabajoID,
+                grupoTrabajoCod = dto.grupoTrabajoCod,
+                grupoTrabajoDesc = dto.grupoTrabajoDesc,
+                estaHabilitado = dto.estaHabilitado
             };
 
             return model;

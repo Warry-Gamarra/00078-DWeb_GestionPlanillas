@@ -152,7 +152,7 @@ namespace Domain.Services.Implementations
 
                 if (meta != null)
                 {
-                    if (!VW_DepActividadMeta.existsMeta(metaID))
+                    if (!VW_DepActividadMeta.ExisteMeta(metaID))
                     {
                         var eliminar = new USP_U_EliminarMeta()
                         {

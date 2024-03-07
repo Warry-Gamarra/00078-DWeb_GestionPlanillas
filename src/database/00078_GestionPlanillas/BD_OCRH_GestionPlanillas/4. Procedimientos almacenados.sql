@@ -2867,3 +2867,159 @@ BEGIN
 	ORDER BY cp.I_Orden
 END
 GO
+
+
+
+IF EXISTS (SELECT * FROM INFORMATION_SCHEMA.ROUTINES WHERE ROUTINE_TYPE = 'PROCEDURE' AND ROUTINE_NAME = 'USP_I_RegistrarGrupoTrabajo')
+	DROP PROCEDURE [dbo].[USP_I_RegistrarGrupoTrabajo]
+GO
+
+CREATE PROCEDURE [dbo].[USP_I_RegistrarGrupoTrabajo]
+@C_GrupoTrabajoCod VARCHAR(20),
+@T_GrupoTrabajoDesc VARCHAR(250),
+@I_UserID INT,
+@B_Result BIT OUTPUT,
+@T_Message VARCHAR(250) OUTPUT
+AS
+BEGIN
+	SET NOCOUNT ON;
+
+	DECLARE @D_FecCre DATETIME;
+
+	BEGIN TRAN
+	BEGIN TRY
+		SET @D_FecCre = GETDATE();
+
+		INSERT dbo.TC_GrupoTrabajo(C_GrupoTrabajoCod, T_GrupoTrabajoDesc, B_Habilitado, B_Eliminado, I_UsuarioCre, D_FecCre)
+		VALUES(@C_GrupoTrabajoCod, @T_GrupoTrabajoDesc, 1, 0, @I_UserID, @D_FecCre)
+
+		COMMIT TRAN
+
+		SET @B_Result = 1;
+
+		SET @T_Message = 'Registro correcto.';
+	END TRY
+	BEGIN CATCH
+		ROLLBACK TRAN
+		SET @B_Result = 0;
+
+		SET @T_Message = ERROR_MESSAGE();
+	END CATCH
+END
+GO
+
+
+
+IF EXISTS (SELECT * FROM INFORMATION_SCHEMA.ROUTINES WHERE ROUTINE_TYPE = 'PROCEDURE' AND ROUTINE_NAME = 'USP_U_ActualizarGrupoTrabajo')
+	DROP PROCEDURE [dbo].[USP_U_ActualizarGrupoTrabajo]
+GO
+
+CREATE PROCEDURE [dbo].[USP_U_ActualizarGrupoTrabajo]
+@I_GrupoTrabajoID INT,
+@C_GrupoTrabajoCod VARCHAR(20),
+@T_GrupoTrabajoDesc VARCHAR(250),
+@I_UserID INT,
+@B_Result BIT OUTPUT,
+@T_Message VARCHAR(250) OUTPUT
+AS
+BEGIN
+	SET NOCOUNT ON;
+
+	DECLARE @D_FecMod DATETIME;
+
+	BEGIN TRAN
+	BEGIN TRY
+		SET @D_FecMod = GETDATE();
+
+		UPDATE dbo.TC_GrupoTrabajo SET
+			C_GrupoTrabajoCod = @C_GrupoTrabajoCod,
+			T_GrupoTrabajoDesc = @T_GrupoTrabajoDesc,
+			I_UsuarioMod = @I_UserID,
+			D_FecMod = @D_FecMod
+		WHERE I_GrupoTrabajoID = @I_GrupoTrabajoID
+
+		COMMIT TRAN
+
+		SET @B_Result = 1;
+
+		SET @T_Message = 'Actualización correcta.';
+	END TRY
+	BEGIN CATCH
+		ROLLBACK TRAN
+		SET @B_Result = 0;
+
+		SET @T_Message = ERROR_MESSAGE();
+	END CATCH
+END
+GO
+
+
+
+IF EXISTS (SELECT * FROM INFORMATION_SCHEMA.ROUTINES WHERE ROUTINE_TYPE = 'PROCEDURE' AND ROUTINE_NAME = 'USP_U_CambiarEstadoGrupoTrabajo')
+	DROP PROCEDURE [dbo].[USP_U_CambiarEstadoGrupoTrabajo]
+GO
+
+CREATE PROCEDURE [dbo].[USP_U_CambiarEstadoGrupoTrabajo]
+@I_GrupoTrabajoID INT,
+@B_Habilitado BIT,
+@I_UserID INT,
+@B_Result BIT OUTPUT,
+@T_Message VARCHAR(250) OUTPUT
+AS
+BEGIN
+	SET NOCOUNT ON;
+	
+	BEGIN TRAN
+	BEGIN TRY
+		UPDATE dbo.TC_GrupoTrabajo SET
+			B_Habilitado = @B_Habilitado,
+			I_UsuarioMod = @I_UserID,
+			D_FecMod = GETDATE()
+		WHERE I_GrupoTrabajoID = @I_GrupoTrabajoID;
+
+		COMMIT TRAN
+		SET @B_Result = 1;
+		SET @T_Message = 'Actualización correcta.';
+	END TRY
+	BEGIN CATCH
+		ROLLBACK TRAN
+		SET @B_Result = 0;
+		SET @T_Message = ERROR_MESSAGE();
+	END CATCH
+END
+GO
+
+
+
+IF EXISTS (SELECT * FROM INFORMATION_SCHEMA.ROUTINES WHERE ROUTINE_TYPE = 'PROCEDURE' AND ROUTINE_NAME = 'USP_U_EliminarGrupoTrabajo')
+	DROP PROCEDURE [dbo].[USP_U_EliminarGrupoTrabajo]
+GO
+
+CREATE PROCEDURE [dbo].[USP_U_EliminarGrupoTrabajo]
+@I_GrupoTrabajoID INT,
+@I_UserID INT,
+@B_Result BIT OUTPUT,
+@T_Message VARCHAR(250) OUTPUT
+AS
+BEGIN
+	SET NOCOUNT ON;
+	
+	BEGIN TRAN
+	BEGIN TRY
+		UPDATE dbo.TC_GrupoTrabajo SET
+			B_Eliminado = 1,
+			I_UsuarioMod = @I_UserID,
+			D_FecMod = GETDATE()
+		WHERE I_GrupoTrabajoID = @I_GrupoTrabajoID;
+
+		COMMIT TRAN
+		SET @B_Result = 1;
+		SET @T_Message = 'Eliminación correcta.';
+	END TRY
+	BEGIN CATCH
+		ROLLBACK TRAN
+		SET @B_Result = 0;
+		SET @T_Message = ERROR_MESSAGE();
+	END CATCH
+END
+GO

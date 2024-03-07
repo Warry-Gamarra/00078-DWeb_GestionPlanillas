@@ -131,6 +131,7 @@
     <Compile Include="Controllers\DepActividadesMetasController.cs" />
     <Compile Include="Controllers\ConceptosController.cs" />
     <Compile Include="Controllers\DependenciasController.cs" />
+    <Compile Include="Controllers\GruposTrabajoController.cs" />
     <Compile Include="Controllers\MetasController.cs" />
     <Compile Include="Controllers\PeriodosController.cs" />
     <Compile Include="Controllers\ReportesController.cs" />
@@ -155,6 +156,7 @@
     <Compile Include="Models\DepActividadMetaModel.cs" />
     <Compile Include="Models\DependenciaModel.cs" />
     <Compile Include="Models\DocenteModel.cs" />
+    <Compile Include="Models\GrupoTrabajoModel.cs" />
     <Compile Include="Models\Mapper.cs" />
     <Compile Include="Models\MesModel.cs" />
     <Compile Include="Models\MetaModel.cs" />
@@ -510,6 +512,9 @@
     <Content Include="Views\Trabajadores\_CategoriasPlanillaAsignadas.cshtml" />
     <Content Include="Views\Reportes\DetallesPlanillas.cshtml" />
     <Content Include="Views\Reportes\_DetallePlanilla.cshtml" />
+    <Content Include="Views\GruposTrabajo\Index.cshtml" />
+    <Content Include="Views\GruposTrabajo\_MantenimientoGrupoTrabajo.cshtml" />
+    <Content Include="Views\GruposTrabajo\_MsgRegistrarGrupoTrabajo.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

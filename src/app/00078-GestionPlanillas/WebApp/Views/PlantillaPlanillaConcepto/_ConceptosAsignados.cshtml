@@ -166,7 +166,7 @@
                     render: function (data, type, row) {
                         let btnClass = (row.estaHabilitado === true) ? 'success' : 'secondary';
                         let iClass = (row.estaHabilitado === true) ? 'check-circle-o' : 'minus-circle';
-                        let estado = (row.estaHabilitado === true) ? 'Habilitado' : 'Deshabilitado';
+                        let estado = (row.estaHabilitado === true) ? '&nbsp;&nbsp;&nbsp;Habilitado&nbsp;&nbsp;&nbsp;' : 'Deshabilitado';
 
                         let url = '@Url.Action("CambiarEstado", "PlantillaPlanillaConcepto")';
                         let token = $('input[name="__RequestVerificationToken"]').val();

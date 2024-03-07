@@ -52,6 +52,7 @@
     <Compile Include="Procedures\USP_IU_GrabarValorExterno.cs" />
     <Compile Include="Procedures\USP_I_RegistrarActividad.cs" />
     <Compile Include="Procedures\USP_I_RegistrarAnio.cs" />
+    <Compile Include="Procedures\USP_I_RegistrarGrupoTrabajo.cs" />
     <Compile Include="Procedures\USP_I_RegistrarTrabajadorCategoriaPlanilla.cs" />
     <Compile Include="Procedures\USP_I_RegistrarDepActividadMeta.cs" />
     <Compile Include="Procedures\USP_I_RegistrarDependencia.cs" />
@@ -62,6 +63,7 @@
     <Compile Include="Procedures\USP_S_ListarResumenPorActividadYDependencia.cs" />
     <Compile Include="Procedures\USP_S_ListarTrabajadoresConPlanilla.cs" />
     <Compile Include="Procedures\USP_U_ActualizarActividad.cs" />
+    <Compile Include="Procedures\USP_U_ActualizarGrupoTrabajo.cs" />
     <Compile Include="Procedures\USP_U_ActualizarTrabajadorCategoriaPlanilla.cs" />
     <Compile Include="Procedures\USP_U_ActualizarDepActividadMeta.cs" />
     <Compile Include="Procedures\USP_U_ActualizarDependencia.cs" />
@@ -73,6 +75,7 @@
     <Compile Include="Procedures\USP_I_RegistrarPlantillaPlanillaConcepto.cs" />
     <Compile Include="Procedures\USP_I_RegistrarPlantillaPlanilla.cs" />
     <Compile Include="Procedures\USP_U_CambiarEstadoDependencia.cs" />
+    <Compile Include="Procedures\USP_U_CambiarEstadoGrupoTrabajo.cs" />
     <Compile Include="Procedures\USP_U_CambiarEstadoTrabajadorCategoriaPlanilla.cs" />
     <Compile Include="Procedures\USP_U_CambiarEstadoUsuario.cs" />
     <Compile Include="Procedures\USP_U_ActualizarPlantillaPlanillaConcepto.cs" />
@@ -88,6 +91,7 @@
     <Compile Include="Procedures\USP_U_CambiarEstadoConcepto.cs" />
     <Compile Include="Procedures\USP_U_EliminarActividad.cs" />
     <Compile Include="Procedures\USP_U_EliminarDependencia.cs" />
+    <Compile Include="Procedures\USP_U_EliminarGrupoTrabajo.cs" />
     <Compile Include="Procedures\USP_U_EliminarMeta.cs" />
     <Compile Include="Procedures\USP_U_EliminarPlantillaPlanillaConcepto.cs" />
     <Compile Include="Procedures\USP_U_EliminarTrabajadorCategoriaPlanilla.cs" />

@@ -15,7 +15,7 @@ namespace WebApp.Models
         [Required(ErrorMessage = "El {0} es obligatorio.")]
         public int anio { get; set; }
 
-        [DisplayName("Tipo de Planilla")]
+        [DisplayName("Categoría de Planilla")]
         [Required(ErrorMessage = "El {0} es obligatoria.")]
         public int categoriaPlanillaID { get; set; }
 

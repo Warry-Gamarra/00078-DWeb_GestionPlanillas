@@ -84,6 +84,7 @@
     <Compile Include="Entities\DepActividadMetaEntity.cs" />
     <Compile Include="Entities\DependenciaEntity.cs" />
     <Compile Include="Entities\GrupoTrabajoDTO.cs" />
+    <Compile Include="Entities\GrupoTrabajoEntity.cs" />
     <Compile Include="Entities\MetaDTO.cs" />
     <Compile Include="Entities\MetaEntity.cs" />
     <Compile Include="Entities\PeriodoDTO.cs" />
