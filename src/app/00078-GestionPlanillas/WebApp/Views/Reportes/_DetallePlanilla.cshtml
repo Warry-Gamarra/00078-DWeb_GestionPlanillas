@@ -35,6 +35,9 @@
         <hr />
 
         <dl class="row">
+            <dt class="col-sm-3">Periodo</dt>
+            <dd class="col-sm-9">@planilla.año - @planilla.mesDesc</dd>
+
             <dt class="col-sm-3">Planilla</dt>
             <dd class="col-sm-9">
                 @Html.DropDownList("cmbCategorias", ViewBag.ListaCategorias as SelectList, new

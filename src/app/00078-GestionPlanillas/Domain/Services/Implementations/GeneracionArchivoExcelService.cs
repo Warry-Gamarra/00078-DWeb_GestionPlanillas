@@ -526,6 +526,11 @@ namespace Domain.Services.Implementations
                 worksheet.Cell(currentRow, 1).Value = "Vínculo";
                 worksheet.Cell(currentRow, 2).Value = trabajador.vinculoDesc.ToUpper();
 
+                currentRow++;
+
+                worksheet.Cell(currentRow, 1).Value = "Periodo";
+                worksheet.Cell(currentRow, 2).SetValue<string>(String.Format("{0} - {1}", listaCategoriasPlanilla.First().año, listaCategoriasPlanilla.First().mesDesc.ToUpper()));
+
                 worksheet.Range(worksheet.Cell(1, 1), worksheet.Cell(currentRow, 1)).Style.Font.Bold = true;
 
                 foreach (var categoria in listaCategoriasPlanilla)
