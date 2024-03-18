@@ -241,6 +241,7 @@ CREATE TABLE TI_PlantillaPlanilla_Concepto_Referencia
 CREATE TABLE TC_TipoDocumento
 (
 	I_TipoDocumentoID INT IDENTITY(1,1),
+	T_TipoDocumentoCod VARCHAR(20),
 	T_TipoDocumentoDesc VARCHAR(250),
 	B_Habilitado BIT NOT NULL,
 	B_Eliminado BIT NOT NULL,
@@ -251,6 +252,20 @@ CREATE TABLE TC_TipoDocumento
 	CONSTRAINT PK_TipoDocumento PRIMARY KEY (I_TipoDocumentoID)
 )
 
+CREATE TABLE TC_Sexo
+(
+	I_SexoID INT IDENTITY(1,1),
+	T_SexoCod VARCHAR(20),
+	T_SexoDesc VARCHAR(250),
+	B_Habilitado BIT NOT NULL,
+	B_Eliminado BIT NOT NULL,
+	I_UsuarioCre INT,
+	D_FecCre DATETIME,
+	I_UsuarioMod INT,
+	D_FecMod DATETIME,
+	CONSTRAINT PK_Sexo PRIMARY KEY (I_SexoID)
+)
+
 CREATE TABLE TC_Persona
 (
 	I_PersonaID INT IDENTITY(1,1),
@@ -259,6 +274,7 @@ CREATE TABLE TC_Persona
 	T_Nombre VARCHAR(250) NOT NULL,
 	T_ApellidoPaterno VARCHAR(250),
 	T_ApellidoMaterno VARCHAR(250),
+	I_SexoID INT NOT NULL,
 	D_FecNac DATE,
 	C_Cui varchar(20),
 	B_Eliminado BIT NOT NULL,
@@ -267,7 +283,8 @@ CREATE TABLE TC_Persona
 	I_UsuarioMod INT,
 	D_FecMod DATETIME,
 	CONSTRAINT PK_Persona PRIMARY KEY (I_PersonaID),
-	CONSTRAINT FK_TipoDocumento_Persona FOREIGN KEY (I_TipoDocumentoID) REFERENCES TC_TipoDocumento(I_TipoDocumentoID)
+	CONSTRAINT FK_TipoDocumento_Persona FOREIGN KEY (I_TipoDocumentoID) REFERENCES TC_TipoDocumento(I_TipoDocumentoID),
+	CONSTRAINT FK_Sexo_Persona FOREIGN KEY (I_SexoID) REFERENCES TC_Sexo(I_SexoID)
 )
 
 CREATE TABLE TC_Vinculo
@@ -365,12 +382,27 @@ CREATE TABLE TC_Banco
 	CONSTRAINT PK_Banco PRIMARY KEY (I_BancoID)
 )
 
+CREATE TABLE TC_TipoCuentaBancaria
+(
+	I_TipoCuentaBancariaID INT IDENTITY(1,1),
+	T_TipoCuentaBancariaDesc VARCHAR(250) NOT NULL,
+	C_TipoCuentaBancariaCod VARCHAR(20) NOT NULL,
+	B_Habilitado BIT NOT NULL,
+	B_Eliminado BIT NOT NULL,
+	I_UsuarioCre INT,
+	D_FecCre DATETIME,
+	I_UsuarioMod INT,
+	D_FecMod DATETIME,
+	CONSTRAINT PK_TipoCuentaBancariaID PRIMARY KEY (I_TipoCuentaBancariaID)
+)
+
 CREATE TABLE TC_CuentaBancaria
 (
 	I_CuentaBancariaID INT IDENTITY(1,1),
 	I_TrabajadorID INT NOT NULL,
 	I_BancoID INT NOT NULL,
 	T_NroCuentaBancaria VARCHAR(250) NOT NULL,
+	I_TipoCuentaBancariaID INT NOT NULL,
 	B_Habilitado BIT NOT NULL,
 	B_Eliminado BIT NOT NULL,
 	I_UsuarioCre INT,
@@ -379,7 +411,8 @@ CREATE TABLE TC_CuentaBancaria
 	D_FecMod DATETIME,
 	CONSTRAINT PK_CuentaBancaria PRIMARY KEY (I_CuentaBancariaID),
 	CONSTRAINT PK_Trabajador_CuentaBancaria FOREIGN KEY (I_TrabajadorID) REFERENCES TC_Trabajador(I_TrabajadorID),
-	CONSTRAINT PK_Banco_CuentaBancaria FOREIGN KEY (I_BancoID) REFERENCES TC_Banco(I_BancoID)
+	CONSTRAINT PK_Banco_CuentaBancaria FOREIGN KEY (I_BancoID) REFERENCES TC_Banco(I_BancoID),
+	CONSTRAINT PK_TipoCuentaBancaria_CuentaBancaria FOREIGN KEY (I_TipoCuentaBancariaID) REFERENCES TC_TipoCuentaBancaria(I_TipoCuentaBancariaID)
 )
 
 CREATE TABLE TC_Dependencia
