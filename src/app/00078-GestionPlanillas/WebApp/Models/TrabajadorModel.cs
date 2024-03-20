@@ -45,6 +45,12 @@ namespace WebApp.Models
         [Required(ErrorMessage = "El Num.Documento es obligatorio.")]
         public string numDocumento { get; set; }
 
+        [Required(ErrorMessage = "El campo Sexo es obligatorio.")]
+        [DisplayName("Sexo")]
+        public int sexoID { get; set; }
+
+        public string sexoDesc { get; set; }
+
         [DisplayName("Fec.Ingreso")]
         public DateTime? fechaIngreso { get; set; }
 
@@ -98,6 +104,8 @@ namespace WebApp.Models
         public int? cuentaBancariaID { get; set; }
 
         public string nroCuentaBancaria { get; set; }
+
+        public int? tipoCuentaBancariaID { get; set; }
 
         [DisplayName("Cta.Banco")]
         public int? bancoID { get; set; }

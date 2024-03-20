@@ -40,6 +40,8 @@ namespace Domain.Helpers
                 tipoDocumentoID = view.I_TipoDocumentoID,
                 tipoDocumentoDesc = view.T_TipoDocumentoDesc,
                 numDocumento = view.C_NumDocumento,
+                sexoID = view.I_SexoID,
+                sexoDesc = view.T_SexoDesc,
                 fechaIngreso = view.D_FechaIngreso,
                 regimenID = view.I_RegimenID,
                 regimenDesc = view.T_RegimenDesc,
@@ -56,6 +58,7 @@ namespace Domain.Helpers
                 dependenciaDesc = view.T_DependenciaDesc,
                 cuentaBancariaID = view.I_CuentaBancariaID,
                 nroCuentaBancaria = view.T_NroCuentaBancaria,
+                tipoCuentaBancariaID = view.I_CuentaBancariaID,
                 bancoID = view.I_BancoID,
                 bancoDesc = view.T_BancoDesc,
                 bancoAbrv = view.T_BancoAbrv
@@ -782,6 +785,19 @@ namespace Domain.Helpers
             };
 
             return dto;
+        }
+
+        public static SexoDTO TC_Sexo_To_SexoDTO(TC_Sexo table)
+        {
+            var sexoDTO = new SexoDTO()
+            {
+                sexoID = table.I_SexoID,
+                sexoCod = table.T_SexoCod,
+                sexoDesc = table.T_SexoDesc,
+                estaHabilitado = table.B_Habilitado
+            };
+
+            return sexoDTO;
         }
     }
 }

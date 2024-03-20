@@ -26,6 +26,10 @@ namespace Domain.Entities
 
         public string numDocumento { get; set; }
 
+        public int sexoID { get; set; }
+
+        public string sexoDesc { get; set; }
+
         public DateTime? fechaIngreso { get; set; }
 
         public int? regimenID { get; set; }
@@ -57,6 +61,8 @@ namespace Domain.Entities
         public int? cuentaBancariaID { get; set; }
 
         public string nroCuentaBancaria { get; set; }
+
+        public int? tipoCuentaBancariaID { get; set; }
 
         public int? bancoID { get; set; }
 

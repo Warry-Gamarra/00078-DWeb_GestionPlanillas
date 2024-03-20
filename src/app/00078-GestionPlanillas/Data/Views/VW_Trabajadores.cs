@@ -29,6 +29,10 @@ namespace Data.Views
 
         public string C_NumDocumento { get; set; }
 
+        public int I_SexoID { get; set; }
+
+        public string T_SexoDesc { get; set; }
+
         public DateTime? D_FechaIngreso { get; set; }
 
         public int? I_RegimenID { get; set; }
@@ -60,6 +64,8 @@ namespace Data.Views
         public int? I_CuentaBancariaID { get; set; }
 
         public string T_NroCuentaBancaria { get; set; }
+
+        public int? I_TipoCuentaBancariaID { get; set; }
 
         public int? I_BancoID { get; set; }
 

@@ -1,4 +1,4 @@
-USE [BD_OCRH_GestionPlanillas]
+USE BD_OCRH_GestionPlanillas
 GO
 
 
@@ -14,12 +14,14 @@ CREATE PROCEDURE [dbo].[USP_I_RegistrarTrabajador]
 @T_Nombre VARCHAR(250),
 @I_TipoDocumentoID INT,
 @C_NumDocumento VARCHAR(20),
+@I_SexoID INT,
 @D_FechaIngreso DATETIME = NULL,
 @I_RegimenID INT,
 @I_EstadoID INT,
 @I_VinculoID INT,
 @I_BancoID INT = NULL,
 @T_NroCuentaBancaria VARCHAR(250) = NULL,
+@I_TipoCuentaBancariaID INT = NULL,
 @I_DependenciaID INT,
 @I_AfpID INT = NULL,
 @T_Cuspp VARCHAR(20) = NULL,
@@ -44,8 +46,9 @@ BEGIN
 		SET @D_FecCre = GETDATE();
 
 		IF (@I_PersonaID IS NULL OR @I_PersonaID = 0) BEGIN
-			INSERT dbo.TC_Persona(T_ApellidoPaterno, T_ApellidoMaterno, T_Nombre, I_TipoDocumentoID, C_NumDocumento, B_Eliminado, I_UsuarioCre, D_FecCre)
-			VALUES(@T_ApellidoPaterno, @T_ApellidoMaterno, @T_Nombre, @I_TipoDocumentoID, @C_NumDocumento, 0, @I_UserID, @D_FecCre);
+
+			INSERT dbo.TC_Persona(T_ApellidoPaterno, T_ApellidoMaterno, T_Nombre, I_TipoDocumentoID, C_NumDocumento, I_SexoID, B_Eliminado, I_UsuarioCre, D_FecCre)
+			VALUES(@T_ApellidoPaterno, @T_ApellidoMaterno, @T_Nombre, @I_TipoDocumentoID, @C_NumDocumento, @I_SexoID, 0, @I_UserID, @D_FecCre);
 
 			SET @I_PersonaID = SCOPE_IDENTITY();
 		END
@@ -60,9 +63,9 @@ BEGIN
 		INSERT dbo.TC_Trabajador_CategoriaPlanilla(I_TrabajadorID, I_CategoriaPlanillaID, B_CategoriaPrincipal, B_EsJefe, I_DependenciaID, B_Habilitado, B_Eliminado, I_UsuarioCre, D_FecCre)
 		VALUES(@I_TrabajadorID, @I_CategoriaPlanillaID, 1, 0, @I_DependenciaID, 1, 0, @I_UserID, @D_FecCre);
 
-		IF (@I_BancoID IS NOT NULL AND @T_NroCuentaBancaria IS NOT NULL AND LEN(@T_NroCuentaBancaria) > 0) BEGIN
-			INSERT dbo.TC_CuentaBancaria(I_TrabajadorID, I_BancoID, T_NroCuentaBancaria, B_Habilitado, B_Eliminado, I_UsuarioCre, D_FecCre)
-			VALUES(@I_TrabajadorID, @I_BancoID, @T_NroCuentaBancaria, 1, 0, @I_UserID, @D_FecCre);
+		IF (@I_BancoID IS NOT NULL AND @T_NroCuentaBancaria IS NOT NULL AND LEN(@T_NroCuentaBancaria) > 0 AND @I_TipoCuentaBancariaID IS NOT NULL) BEGIN
+			INSERT dbo.TC_CuentaBancaria(I_TrabajadorID, I_BancoID, T_NroCuentaBancaria, I_TipoCuentaBancariaID, B_Habilitado, B_Eliminado, I_UsuarioCre, D_FecCre)
+			VALUES(@I_TrabajadorID, @I_BancoID, @T_NroCuentaBancaria, @I_TipoCuentaBancariaID, 1, 0, @I_UserID, @D_FecCre);
 		END
 
 		IF (@C_VinculoCod IN ('AP','AC')) BEGIN
@@ -104,12 +107,14 @@ CREATE PROCEDURE [dbo].[USP_U_ActualizarTrabajador]
 @T_Nombre VARCHAR(250),
 @I_TipoDocumentoID INT,
 @C_NumDocumento VARCHAR(20),
+@I_SexoID INT,
 @D_FechaIngreso DATETIME = NULL,
 @I_RegimenID INT,
 @I_EstadoID INT,
 @I_VinculoID INT,
 @I_BancoID INT = NULL,
 @T_NroCuentaBancaria VARCHAR(250) = NULL,
+@I_TipoCuentaBancariaID INT = NULL,
 @I_DependenciaID INT,
 @I_AfpID INT = NULL,
 @T_Cuspp VARCHAR(20) = NULL,
@@ -142,6 +147,7 @@ BEGIN
 			per.T_Nombre = @T_Nombre,
 			per.I_TipoDocumentoID = @I_TipoDocumentoID,
 			per.C_NumDocumento = @C_NumDocumento,
+			per.I_SexoID = @I_SexoID,
 			per.I_UsuarioMod = @I_UserID,
 			per.D_FecMod = @D_FecMod
 		FROM dbo.TC_Persona per
@@ -187,6 +193,7 @@ BEGIN
 				BEGIN
 					UPDATE dbo.TC_CuentaBancaria SET
 						T_NroCuentaBancaria = @T_NroCuentaBancaria,
+						I_TipoCuentaBancariaID = @I_TipoCuentaBancariaID,
 						I_UsuarioMod = @I_UserID,
 						D_FecMod = @D_FecMod
 					WHERE I_TrabajadorID = @I_TrabajadorID AND I_BancoID = @I_BancoID AND B_Habilitado = 1 AND B_Eliminado = 0
@@ -199,6 +206,7 @@ BEGIN
 
 					UPDATE dbo.TC_CuentaBancaria SET
 						T_NroCuentaBancaria = @T_NroCuentaBancaria,
+						I_TipoCuentaBancariaID = @I_TipoCuentaBancariaID,
 						B_Habilitado = 1,
 						I_UsuarioMod = @I_UserID,
 						D_FecMod = @D_FecMod
@@ -211,8 +219,8 @@ BEGIN
 					D_FecMod = @D_FecMod
 				WHERE I_TrabajadorID = @I_TrabajadorID AND B_Habilitado = 1 AND B_Eliminado = 0
 
-				INSERT dbo.TC_CuentaBancaria(I_TrabajadorID, I_BancoID, T_NroCuentaBancaria, B_Habilitado, B_Eliminado, I_UsuarioCre, D_FecCre)
-				VALUES(@I_TrabajadorID, @I_BancoID, @T_NroCuentaBancaria, 1, 0, @I_UserID, @D_FecMod)
+				INSERT dbo.TC_CuentaBancaria(I_TrabajadorID, I_BancoID, T_NroCuentaBancaria, I_TipoCuentaBancariaID, B_Habilitado, B_Eliminado, I_UsuarioCre, D_FecCre)
+				VALUES(@I_TrabajadorID, @I_BancoID, @T_NroCuentaBancaria, @I_TipoCuentaBancariaID, 1, 0, @I_UserID, @D_FecMod)
 			END
 
 		END

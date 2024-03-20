@@ -10,16 +10,17 @@ CREATE VIEW [dbo].[VW_Trabajadores]
 AS
 SELECT 
 	trab.I_TrabajadorID, trab.C_TrabajadorCod, per.I_PersonaID, per.T_Nombre, per.T_ApellidoPaterno, per.T_ApellidoMaterno, 
-	tipdoc.I_TipoDocumentoID, tipdoc.T_TipoDocumentoDesc, per.C_NumDocumento, 
+	tipdoc.I_TipoDocumentoID, tipdoc.T_TipoDocumentoDesc, per.C_NumDocumento, per.I_SexoID, se.T_SexoDesc,
 	trab.D_FechaIngreso, reg.I_RegimenID, reg.T_RegimenDesc, afp.I_AfpID, afp.T_AfpDesc, trab.T_Cuspp, 
 	est.I_EstadoID, est.T_EstadoDesc, vin.I_VinculoID, vin.T_VinculoDesc,
 	dep.I_DependenciaID, dep.C_DependenciaCod, dep.T_DependenciaDesc,
-	cta.I_CuentaBancariaID, cta.T_NroCuentaBancaria, bco.I_BancoID, bco.T_BancoDesc, bco.T_BancoAbrv
+	cta.I_CuentaBancariaID, cta.T_NroCuentaBancaria, cta.I_TipoCuentaBancariaID, bco.I_BancoID, bco.T_BancoDesc, bco.T_BancoAbrv
 FROM 
 	dbo.TC_Persona AS per INNER JOIN
 	dbo.TC_Trabajador AS trab ON trab.I_PersonaID = per.I_PersonaID INNER JOIN
 	dbo.TC_Trabajador_CategoriaPlanilla AS trabcat ON trabcat.I_TrabajadorID = trab.I_TrabajadorID INNER JOIN
-	dbo.TC_TipoDocumento AS tipdoc ON tipdoc.I_TipoDocumentoID = per.I_TipoDocumentoID LEFT JOIN
+	dbo.TC_TipoDocumento AS tipdoc ON tipdoc.I_TipoDocumentoID = per.I_TipoDocumentoID INNER JOIN 
+	dbo.TC_Sexo AS se ON se.I_SexoID = per.I_SexoID LEFT JOIN
 	dbo.TC_Regimen AS reg ON reg.I_RegimenID = trab.I_RegimenID LEFT JOIN 
 	dbo.TC_Afp AS afp ON afp.I_AfpID = trab.I_AfpID INNER JOIN
 	dbo.TC_Estado AS est ON est.I_EstadoID = trab.I_EstadoID INNER JOIN 

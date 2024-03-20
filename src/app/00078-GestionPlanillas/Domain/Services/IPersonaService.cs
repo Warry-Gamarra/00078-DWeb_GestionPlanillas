@@ -12,5 +12,7 @@ namespace Domain.Services
         PersonaDTO ObtenerPersona(int tipoDocumentoID, string numDocumento);
 
         List<PersonaDTO> ListarPersonasPorDocIdentidad(int tipoDocumentoID, string numDocumento);
+
+        List<SexoDTO> ListarSexos(bool incluirDeshabilitados = false);
     }
 }

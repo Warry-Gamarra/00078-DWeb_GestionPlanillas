@@ -24,6 +24,8 @@ namespace WebApp.Models
                 tipoDocumentoID = dto.tipoDocumentoID,
                 tipoDocumentoDesc = dto.tipoDocumentoDesc,
                 numDocumento = dto.numDocumento,
+                sexoID = dto.sexoID,
+                sexoDesc = dto.sexoDesc,
                 fechaIngreso = dto.fechaIngreso,
                 regimenID = dto.regimenID,
                 regimenDesc = dto.regimenDesc,
@@ -39,6 +41,7 @@ namespace WebApp.Models
                 dependenciaDesc = dto.dependenciaDesc,
                 cuentaBancariaID = dto.cuentaBancariaID,
                 nroCuentaBancaria = dto.nroCuentaBancaria,
+                tipoCuentaBancariaID = dto.tipoCuentaBancariaID,
                 bancoID = dto.bancoID,
                 bancoDesc = dto.bancoDesc,
                 bancoAbrv = dto.bancoAbrv

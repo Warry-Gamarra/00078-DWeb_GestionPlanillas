@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
+using System.Web.Mvc;
 using WebApp.Models;
 
 namespace WebApp.ServiceFacade.Implementations
@@ -33,6 +34,20 @@ namespace WebApp.ServiceFacade.Implementations
             var result = lista.Select(x => Mapper.PersonaDTO_To_PersonaModel(x)).ToList();
 
             return result;
+        }
+
+        public SelectList ObtenerComboSexos(bool incluirDeshabilitados = false, int? selectedItem = null)
+        {
+            var lista = _personaService.ListarSexos(incluirDeshabilitados);
+
+            if (selectedItem.HasValue)
+            {
+                return new SelectList(lista, "sexoID", "sexoDesc", selectedItem.Value);
+            }
+            else
+            {
+                return new SelectList(lista, "sexoID", "sexoDesc");
+            }
         }
     }
 }

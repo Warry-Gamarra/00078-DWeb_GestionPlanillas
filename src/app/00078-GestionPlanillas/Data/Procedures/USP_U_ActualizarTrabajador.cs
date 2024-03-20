@@ -26,6 +26,8 @@ namespace Data.Procedures
 
         public string C_NumDocumento { get; set; }
 
+        public int I_SexoID { get; set; }
+
         public DateTime? D_FechaIngreso { get; set; }
 
         public int I_RegimenID { get; set; }
@@ -37,6 +39,8 @@ namespace Data.Procedures
         public int? I_BancoID { get; set; }
 
         public string T_NroCuentaBancaria { get; set; }
+
+        public int? I_TipoCuentaBancariaID { get; set; }
 
         public int? I_DependenciaID { get; set; }
 
@@ -76,12 +80,14 @@ namespace Data.Procedures
                     parameters.Add(name: "T_Nombre", dbType: DbType.String, value: T_Nombre);
                     parameters.Add(name: "I_TipoDocumentoID", dbType: DbType.Int32, value: I_TipoDocumentoID);
                     parameters.Add(name: "C_NumDocumento", dbType: DbType.String, value: C_NumDocumento);
+                    parameters.Add(name: "I_SexoID", dbType: DbType.Int32, value: I_SexoID);
                     parameters.Add(name: "D_FechaIngreso", dbType: DbType.DateTime, value: D_FechaIngreso);
                     parameters.Add(name: "I_RegimenID", dbType: DbType.Int32, value: I_RegimenID);
                     parameters.Add(name: "I_EstadoID", dbType: DbType.Int32, value: I_EstadoID);
                     parameters.Add(name: "I_VinculoID", dbType: DbType.Int32, value: I_VinculoID);
                     parameters.Add(name: "I_BancoID", dbType: DbType.Int32, value: I_BancoID);
                     parameters.Add(name: "T_NroCuentaBancaria", dbType: DbType.String, value: T_NroCuentaBancaria);
+                    parameters.Add(name: "I_TipoCuentaBancariaID", dbType: DbType.Int32, value: I_TipoCuentaBancariaID);
                     parameters.Add(name: "I_DependenciaID", dbType: DbType.Int32, value: I_DependenciaID);
                     parameters.Add(name: "I_AfpID", dbType: DbType.Int32, value: I_AfpID);
                     parameters.Add(name: "T_Cuspp", dbType: DbType.String, value: T_Cuspp);

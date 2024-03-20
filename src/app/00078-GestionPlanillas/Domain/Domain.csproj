@@ -94,6 +94,7 @@
     <Compile Include="Entities\ResumenSIAFDTO.cs" />
     <Compile Include="Entities\RolDTO.cs" />
     <Compile Include="Entities\ResumenPorActividadYDependenciaDTO.cs" />
+    <Compile Include="Entities\SexoDTO.cs" />
     <Compile Include="Entities\TrabajadorCategoriaPlanillaEntity.cs" />
     <Compile Include="Entities\TrabajadorConPlanillaDTO.cs" />
     <Compile Include="Entities\UsuarioDTO.cs" />

@@ -37,5 +37,21 @@ namespace Domain.Services.Implementations
 
             return result;
         }
+
+        public List<SexoDTO> ListarSexos(bool incluirDeshabilitados = false)
+        {
+            var lista = TC_Sexo.FindAll();
+
+            if (!incluirDeshabilitados)
+            {
+                lista = lista.Where(x => x.B_Habilitado);
+            }
+
+            var result = lista
+                .Select(x => Mapper.TC_Sexo_To_SexoDTO(x))
+                .ToList();
+
+            return result;
+        }
     }
 }

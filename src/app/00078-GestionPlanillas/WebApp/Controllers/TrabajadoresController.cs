@@ -17,6 +17,7 @@ namespace WebApp.Controllers
     [Authorize]
     public class TrabajadoresController : Controller
     {
+        private IPersonaServiceFacade _personaServiceFacade;
         private ITrabajadorServiceFacade _trabajadorServiceFacade;
         private ITrabajadorCategoriaPlanillaServiceFacade _trabajadorCategoriaPlanillaService;
         private IAdministrativoServiceFacade _administrativoServiceFacade;
@@ -39,6 +40,7 @@ namespace WebApp.Controllers
 
         public TrabajadoresController()
         {
+            _personaServiceFacade = new PersonaServiceFacade();
             _trabajadorServiceFacade = new TrabajadorServiceFacade();
             _trabajadorCategoriaPlanillaService = new TrabajadorCategoriaPlanillaServiceFacade();
             _administrativoServiceFacade = new AdministrativoServiceFacade();
@@ -92,6 +94,8 @@ namespace WebApp.Controllers
             ViewBag.ListaRegimenes = _regimenServiceFacade.ObtenerComboRegimenes();
 
             ViewBag.ListaTipoDocumentos = _tipoDocumentoServiceFacade.ObtenerComboTipoDocumentos();
+
+            ViewBag.ListaSexos = _personaServiceFacade.ObtenerComboSexos();
 
             ViewBag.ListaBancos = _bancoServiceFacade.ObtenerComboBancos();
 
@@ -152,6 +156,8 @@ namespace WebApp.Controllers
             ViewBag.ListaRegimenes = _regimenServiceFacade.ObtenerComboRegimenes(selectedItem: trabajador.regimenID);
 
             ViewBag.ListaTipoDocumentos = _tipoDocumentoServiceFacade.ObtenerComboTipoDocumentos(selectedItem: trabajador.tipoDocumentoID);
+
+            ViewBag.ListaSexos = _personaServiceFacade.ObtenerComboSexos(selectedItem: trabajador.sexoID);
 
             ViewBag.ListaBancos = _bancoServiceFacade.ObtenerComboBancos(selectedItem: trabajador.bancoID);
 
