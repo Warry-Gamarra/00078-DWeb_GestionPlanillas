@@ -60,15 +60,15 @@
         <div class="form-row">
             <div class="col-2">
                 <div class="form-group">
-                    @Html.LabelFor(model => model.trabajadorCod, new { @class = "control-label" })
-                    @Html.TextBoxFor(model => model.trabajadorCod, new { @class = "form-control" })
-                    @Html.ValidationMessageFor(model => model.trabajadorCod, null, new { @class = "text-danger" })
+                    @Html.LabelFor(model => model.sexoID, new { @class = "control-label" })
+                    @Html.DropDownListFor(model => model.sexoID, ViewBag.ListaSexos as SelectList, null, new { @class = "form-control text-uppercase" })
                 </div>
             </div>
             <div class="col-2">
                 <div class="form-group">
-                    @Html.LabelFor(model => model.sexoID, new { @class = "control-label" })
-                    @Html.DropDownListFor(model => model.sexoID, ViewBag.ListaSexos as SelectList, null, new { @class = "form-control text-uppercase" })
+                    @Html.LabelFor(model => model.trabajadorCod, new { @class = "control-label" })
+                    @Html.TextBoxFor(model => model.trabajadorCod, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(model => model.trabajadorCod, null, new { @class = "text-danger" })
                 </div>
             </div>
             <div class="col-4">
@@ -86,31 +86,31 @@
                     }
                 </div>
             </div>
-            <div class="col-3 administrativo">
+            <div class="col-4 administrativo">
                 <div class="form-group">
                     @Html.LabelFor(model => model.grupoOcupacionalID, new { @class = "control-label" })
                     @Html.DropDownListFor(model => model.grupoOcupacionalID, ViewBag.GruposOcupacionales as SelectList, new { @class = "form-control text-uppercase" })
                 </div>
             </div>
-            <div class="col-3 administrativo">
+            <div class="col-4 administrativo">
                 <div class="form-group">
                     @Html.LabelFor(model => model.nivelRemunerativoID, new { @class = "control-label" })
                     @Html.DropDownListFor(model => model.nivelRemunerativoID, ViewBag.NivelesRemunerativos as SelectList, new { @class = "form-control text-uppercase" })
                 </div>
             </div>
-            <div class="col-3 docente">
+            <div class="col-4 docente">
                 <div class="form-group">
                     <label for="categoriaDocenteID" class="control-label"></label>
                     @Html.DropDownListFor(model => model.categoriaDocenteID, ViewBag.CategoriasDocenteOrdinario as SelectList, new { @class = "form-control text-uppercase" })
                 </div>
             </div>
-            <div class="col-3 docente">
+            <div class="col-4 docente">
                 <div class="form-group">
                     <label for="horasDocenteID" class="control-label"></label>
                     @Html.DropDownListFor(model => model.horasDocenteID, new SelectList(new List<SelectListItem>()), new { @class = "form-control text-uppercase" })
                 </div>
             </div>
-            <div class="col-3">
+            <div class="col-4">
                 <div class="form-group">
                     @Html.LabelFor(model => model.fechaIngreso, new { @class = "control-label" })
                     <div class="input-group date">
@@ -121,17 +121,20 @@
                     </div>
                 </div>
             </div>
-            <div class="col-3">
+            <div class="col-4">
                 <div class="form-group">
                     @Html.LabelFor(model => model.estadoID, new { @class = "control-label" })
                     @Html.DropDownListFor(model => model.estadoID, ViewBag.ListaEstados as SelectList, null, new { @class = "form-control text-uppercase" })
                     @Html.ValidationMessageFor(model => model.estadoID, null, new { @class = "text-danger" })
                 </div>
             </div>
-            <div class="col-3">
+        </div>
+
+        <div class="form-row">
+            <div class="col-5">
                 <div class="form-group">
                     @Html.LabelFor(model => model.bancoID, new { @class = "control-label" })
-                    @Html.DropDownListFor(model => model.bancoID, ViewBag.ListaBancos as SelectList, "[ SELECCIONAR ]", new { @class = "form-control text-uppercase" })
+                    @Html.DropDownListFor(model => model.bancoID, ViewBag.ListaBancos as SelectList, "[ SELECCIONAR ]", new { @class = "form-control text-uppercase select-filter-modal" })
                     @Html.ValidationMessageFor(model => model.bancoID, null, new { @class = "text-danger" })
                 </div>
             </div>
@@ -140,6 +143,12 @@
                     <label class="control-label" for="nroCuentaBancaria">&nbsp;</label>
                     @Html.TextBoxFor(model => model.nroCuentaBancaria, new { @class = "form-control", @placeholder = "Num.Cuenta" })
                     @Html.ValidationMessageFor(model => model.nroCuentaBancaria, null, new { @class = "text-danger" })
+                </div>
+            </div>
+            <div class="col-4">
+                <div class="form-group">
+                    @Html.LabelFor(model => model.tipoCuentaBancariaID, new { @class = "control-label" })
+                    @Html.DropDownListFor(model => model.tipoCuentaBancariaID, ViewBag.ListaTipoCuentasBancarias as SelectList, "[ SELECCIONAR ]", new { @class = "form-control text-uppercase" })
                 </div>
             </div>
         </div>
@@ -194,8 +203,7 @@
     $(document).ready(function () {
         $('.select-filter-modal').select2({
             theme: 'bootstrap4',
-            dropdownParent: $('#modal-container-lg'),
-            placeholder: "[ SELECCIONAR ]"
+            dropdownParent: $('#modal-container-lg')
         }).on('hide', function (e) {
             e.stopPropagation();
         });

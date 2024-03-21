@@ -799,5 +799,18 @@ namespace Domain.Helpers
 
             return sexoDTO;
         }
+
+        public static TipoCuentaBancariaDTO TC_TipoCuentaBancaria_To_TipoCuentaBancariaDTO(TC_TipoCuentaBancaria table)
+        {
+            var dto = new TipoCuentaBancariaDTO()
+            {
+                tipoCuentaBancariaID = table.I_TipoCuentaBancariaID,
+                tipoCuentaBancariaCod = table.T_TipoCuentaBancariaCod,
+                tipoCuentaBancariaDesc = table.T_TipoCuentaBancariaDesc,
+                estaHabilitado=table.B_Habilitado
+            };
+
+            return dto;
+        }
     }
 }

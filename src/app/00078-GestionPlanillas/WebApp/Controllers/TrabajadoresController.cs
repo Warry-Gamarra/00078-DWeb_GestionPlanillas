@@ -99,6 +99,8 @@ namespace WebApp.Controllers
 
             ViewBag.ListaBancos = _bancoServiceFacade.ObtenerComboBancos();
 
+            ViewBag.ListaTipoCuentasBancarias = _personaServiceFacade.ObtenerComboTipoCuentasBancarias();
+
             ViewBag.ListaDependencias = _dependenciaServiceFacade.ObtenerComboDependencias();
 
             ViewBag.ListaAfps = _afpServiceFacade.ObtenerComboAfps();
@@ -160,6 +162,8 @@ namespace WebApp.Controllers
             ViewBag.ListaSexos = _personaServiceFacade.ObtenerComboSexos(selectedItem: trabajador.sexoID);
 
             ViewBag.ListaBancos = _bancoServiceFacade.ObtenerComboBancos(selectedItem: trabajador.bancoID);
+
+            ViewBag.ListaTipoCuentasBancarias = _personaServiceFacade.ObtenerComboTipoCuentasBancarias(selectedItem: trabajador.tipoCuentaBancariaID);
 
             ViewBag.ListaDependencias = _dependenciaServiceFacade.ObtenerComboDependencias(incluirDeshabilitados: true, selectedItem: trabajador.dependenciaID);
 

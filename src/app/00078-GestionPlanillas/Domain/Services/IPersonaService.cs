@@ -14,5 +14,7 @@ namespace Domain.Services
         List<PersonaDTO> ListarPersonasPorDocIdentidad(int tipoDocumentoID, string numDocumento);
 
         List<SexoDTO> ListarSexos(bool incluirDeshabilitados = false);
+
+        List<TipoCuentaBancariaDTO> ListarTipoCuentasBancarias(bool incluirDeshabilitados = false);
     }
 }

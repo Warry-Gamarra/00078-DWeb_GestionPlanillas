@@ -105,6 +105,7 @@ namespace WebApp.Models
 
         public string nroCuentaBancaria { get; set; }
 
+        [DisplayName("Tipo Cuenta Bancaria")]
         public int? tipoCuentaBancariaID { get; set; }
 
         [DisplayName("Cta.Banco")]

@@ -15,5 +15,7 @@ namespace WebApp.ServiceFacade
         List<PersonaModel> ListarPersonasPorDocIdentidad(int tipoDocumentoID, string numDocumento);
 
         SelectList ObtenerComboSexos(bool incluirDeshabilitados = false, int? selectedItem = null);
+
+        SelectList ObtenerComboTipoCuentasBancarias(bool incluirDeshabilitados = false, int? selectedItem = null);
     }
 }
