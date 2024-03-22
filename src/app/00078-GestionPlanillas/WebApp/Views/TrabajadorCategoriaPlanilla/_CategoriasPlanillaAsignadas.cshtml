@@ -61,7 +61,7 @@
             </table>
         </div>
         <div class="modal-footer" id="div_msg">
-            <a href="@Url.Action("AsignarCategoriaPlanilla","Trabajadores", new { id = Model.trabajadorID.Value })" class="btn btn-primary" id="btn-agregar">
+            <a href="@Url.Action("AsignarCategoriaPlanilla","TrabajadorCategoriaPlanilla", new { id = Model.trabajadorID.Value })" class="btn btn-primary" id="btn-agregar">
                 <i class="fa fa-plus-circle" aria-hidden="true"></i>&nbsp;Agregar planilla
             </a>
             <button type="button" class="btn btn-secondary" id="btnCancel" data-dismiss="modal"><i class="fa fa-times-circle-o"></i>&nbsp;Cerrar</button>
@@ -104,7 +104,7 @@
         }).then((result) => {
             if (result.isConfirmed) {
                 $.ajax({
-                    url: '@Url.Action("EliminarCategoriaPlanilla", "Trabajadores")/' + id,
+                    url: '@Url.Action("EliminarCategoriaPlanilla", "TrabajadorCategoriaPlanilla")/' + id,
                     type: "POST",
                     data: { __RequestVerificationToken: token },
                     beforeSend: function () {
@@ -135,7 +135,7 @@
     function generarDatatableCategoriasPlanillaAsignadas() {
         $('#dataTableCategoriasPlanillaAsignadas').DataTable({
             ajax: {
-                'url': '@Url.Action("ObtenerListaTrabajadoresCategoriaPlanilla", "Trabajadores", new { id = Model.trabajadorID.Value })',
+                'url': '@Url.Action("ObtenerListaCategoriasPlanillaAsignadas", "TrabajadorCategoriaPlanilla", new { id = Model.trabajadorID.Value })',
                 'type': 'get'
             },
             columns: [
@@ -169,7 +169,7 @@
                         let iClass = (row.estaHabilitado === true) ? 'check-circle-o' : 'minus-circle';
                         let estado = (row.estaHabilitado === true) ? '&nbsp;&nbsp;&nbsp;Habilitado&nbsp;&nbsp;&nbsp;' : 'Deshabilitado';
                         let token = $('input[name="__RequestVerificationToken"]').val();
-                        let onClickFunction = `ChangeState(${data}, ${row.estaHabilitado}, '@Url.Action("CambiarEstadoCategoriaPlanilla", "Trabajadores")', '${token}', 'dataTableCategoriasPlanillaAsignadas')`;
+                        let onClickFunction = `ChangeState(${data}, ${row.estaHabilitado}, '@Url.Action("CambiarEstadoCategoriaPlanilla", "TrabajadorCategoriaPlanilla")', '${token}', 'dataTableCategoriasPlanillaAsignadas')`;
 
                         let html = row.esCategoriaPrincipal ? '' : (`<span id="td${data}">` +
                             `<button type="submit" class="btn btn-xs btn-${btnClass}" onclick="${onClickFunction}">` +
@@ -185,7 +185,7 @@
                     className: "text-center",
                     orderable: false,
                     render: function (data, type, row) {
-                        return row.esCategoriaPrincipal ? '' : `<a class="btn-editar" href="@Url.Action("EditarCategoriaPlanilla", "Trabajadores")/${data}` +
+                        return row.esCategoriaPrincipal ? '' : `<a class="btn-editar" href="@Url.Action("EditarCategoriaPlanilla", "TrabajadorCategoriaPlanilla")/${data}` +
                             '" title="Editar"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a>';
                     }
                 },

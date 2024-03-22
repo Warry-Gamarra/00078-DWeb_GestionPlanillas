@@ -75,6 +75,15 @@ namespace WebApp.ServiceFacade.Implementations
             return lista;
         }
 
+        public List<TrabajadorCategoriaPlanillaModel> ListarTrabajadoresAsignadosCategoria(int categoriaPlanillaID)
+        {
+            var lista = _trabajadorCategoriaPlanillaService.ListarTrabajadoresCategoriaPlanilla(categoriaPlanillaID)
+                .Select(x => Mapper.TrabajadorCategoriaPlanillaDTO_To_TrabajadorCategoriaPlanillaModel(x))
+                .ToList();
+
+            return lista;
+        }
+
         public TrabajadorCategoriaPlanillaModel ObtenerTrabajadorCategoriaPlanilla(int trabajadorCategoriaPlanillaID)
         {
             TrabajadorCategoriaPlanillaModel trabajadorCategoriaPlanillaModel;

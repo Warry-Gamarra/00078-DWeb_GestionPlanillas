@@ -16,6 +16,8 @@ namespace WebApp.ServiceFacade
 
         List<TrabajadorCategoriaPlanillaModel> ListarTrabajadoresAptos(int anio, int mes, int categoriaPlanillaID);
 
+        List<TrabajadorCategoriaPlanillaModel> ListarTrabajadoresAsignadosCategoria(int categoriaPlanillaID);
+
         TrabajadorCategoriaPlanillaModel ObtenerTrabajadorCategoriaPlanilla(int trabajadorCategoriaPlanillaID);
 
         Response CambiarEstado(int trabajadorCategoriaPlanillaID, bool estaHabilitado, int userID);

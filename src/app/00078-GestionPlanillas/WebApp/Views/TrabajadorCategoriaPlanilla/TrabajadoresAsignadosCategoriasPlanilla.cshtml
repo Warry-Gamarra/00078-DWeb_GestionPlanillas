@@ -1,0 +1,152 @@
+﻿<div class="container-fluid">
+    <div class="col-12 mb-4">
+        <section class="content-header">
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb float-right small d-none d-sm-inline-flex">
+                    <li class="breadcrumb-item"><a href="@Url.Action("Index", "Home")"><i class="fa fa-home">&nbsp;</i>Inicio</a></li>
+                    <li class="breadcrumb-item"><span><i class="fa fa-refresh">&nbsp;</i>Operaciones </span></li>
+                    <li class="breadcrumb-item active"><span><i class="fa fa-table">&nbsp;</i>@ViewBag.Title </span></li>
+                </ol>
+            </nav>
+            <h1 class="">@ViewBag.Title <small></small></h1>
+        </section>
+    </div>
+
+    <div class="col-12 mt-4">
+        <div class="row">
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-body bg-light-gray">
+                        @using (Html.BeginForm("Generar", "TrabajadorCategoriaPlanilla", FormMethod.Get, new { id = "frmBusquedaTrabajadores" }))
+                        {
+                            @Html.AntiForgeryToken()
+                            <div class="form-row">
+                                <div class="form-group col-lg-3 col-md-4 col-6">
+                                    <label for="idCategoria">Categoria</label>
+                                    @Html.DropDownList("idCategoria", ViewBag.ListaCategoriasPlanillas as SelectList, new { @class = "form-control text-uppercase" })
+                                </div>
+
+                                <div class="form-group col-lg-2 col-4">
+                                    <label>&nbsp;</label>
+                                    @Html.Hidden("busqueda", true)
+                                    <button type="button" class="btn btn-block btn-outline-primary"><i class="fa fa-fw fa-search"></i> Consultar</button>
+                                </div>
+                            </div>
+                        }
+                    </div>
+                </div>
+
+                <div class="table-responsive mt-4">
+                    <table class="table table-hover" id="dataTableTrabajadoresAsignados" width="100%">
+                        <thead class="thead-dark">
+                            <tr>
+                                <th>Planilla</th>
+                                <th>Descripción</th>
+                                <th>Cod.Per.</th>
+                                <th>Doc.Identidad</th>
+                                <th>Apellidos y Nombres</th>
+                                <th>Vínculo</th>
+                                <th>Dependencia</th>
+                                <th>Estado</th>
+                            </tr>
+                        </thead>
+                        <tfoot>
+                            <tr>
+                                <th>Planilla</th>
+                                <th>Descripción</th>
+                                <th>Cod.Per.</th>
+                                <th>Doc.Identidad</th>
+                                <th>Apellidos y Nombres</th>
+                                <th>Vínculo</th>
+                                <th>Dependencia</th>
+                                <th>Estado</th>
+                            </tr>
+                        </tfoot>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section scripts {
+    <script type="text/javascript">
+        $(document).ready(function () {
+            generarDatatableTrabajadoresAsignados(null);
+
+            $("#frmBusquedaTrabajadores").on("click", "button", function () {
+                let idCategoria = $("#frmBusquedaTrabajadores #idCategoria").val();
+
+                generarDatatableTrabajadoresAsignados(idCategoria);
+            });
+        });
+
+        function generarDatatableTrabajadoresAsignados(idCategoria) {
+            let parametros = {
+                idCategoria: idCategoria
+            };
+
+            $('#dataTableTrabajadoresAsignados').DataTable({
+                ajax: {
+                    'url': '@Url.Action("ObtenerListaTrabajadoresAsignados", "TrabajadorCategoriaPlanilla")',
+                    'data': parametros,
+                    'type': 'get'
+                },
+                columns: [
+                    { data: 'categoriaPlanillaDesc' },
+                    { data: 'grupoTrabajoDesc' },
+                    { data: 'trabajadorCod' },
+                    { data: 'tipoDocumentoDesc' },
+                    { data: 'apellidosNombre' },
+                    { data: 'vinculoDesc' },
+                    { data: 'dependenciaDesc' },
+                    { data: 'estadoDesc' }
+                ],
+                columnDefs: [
+                    {
+                        targets: 3,
+                        orderable: false,
+                        render: function (data, type, row) {
+                            return data + " - " + row.numDocumento;
+                        }
+                    }
+                ],
+                bStateSave: false,
+                bDestroy: true,
+                lengthMenu: [[5, 10, 25, 50, -1], [5, 10, 25, 50, "Todas"]],
+                iDisplayLength: 10,
+                language: {
+                    search: "Buscar: ",
+                    lengthMenu: "Mostrar _MENU_ filas",
+                    info: "Mostrando del _START_ al _END_ de _TOTAL_ elementos.",
+                    infoEmpty: "No se encontraron registros.",
+                    zeroRecords: "No hay data disponible.",
+                    emptyTable: "No hay data disponible.",
+                    paginate: {
+                        first: "Primero",
+                        previous: "Previo",
+                        next: "Siguiente",
+                        last: "Último"
+                    },
+                    aria: {
+                        sortAscending: ": activar para ordenar la columna en orden ascendente",
+                        sortDescending: ": activar para ordenar la columna en orden descendente"
+                    },
+                    loadingRecords: "Cargando...",
+                    processing: "Procesando..."
+                },
+                searching: true,
+                initComplete: function (settings, json) {
+                    var api = this.api();
+                    var numRows = api.rows().count();
+
+                    if (numRows > 0) {
+                        $('#divBtnGenerar').css('display', 'block');
+                    } else {
+                        $('#divBtnGenerar').css('display', 'none');
+                    }
+                }
+            });
+        }
+    </script>
+}

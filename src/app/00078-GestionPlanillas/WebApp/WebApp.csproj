@@ -135,6 +135,7 @@
     <Compile Include="Controllers\MetasController.cs" />
     <Compile Include="Controllers\PeriodosController.cs" />
     <Compile Include="Controllers\ReportesController.cs" />
+    <Compile Include="Controllers\TrabajadorCategoriaPlanillaController.cs" />
     <Compile Include="Controllers\UsersController.cs" />
     <Compile Include="Controllers\ValoresExternosController.cs" />
     <Compile Include="Controllers\GeneralController.cs" />
@@ -507,14 +508,15 @@
     <Content Include="Views\Metas\_MsgRegistrarMeta.cshtml" />
     <Content Include="Views\Reportes\ResumenActividadYDependencia.cshtml" />
     <Content Include="Views\Reportes\ResumenSIAF.cshtml" />
-    <Content Include="Views\Trabajadores\_AsignarCategoriaPlanilla.cshtml" />
-    <Content Include="Views\Trabajadores\_MsgAsignarCategoriaPlanilla.cshtml" />
-    <Content Include="Views\Trabajadores\_CategoriasPlanillaAsignadas.cshtml" />
+    <Content Include="Views\TrabajadorCategoriaPlanilla\_AsignarCategoriaPlanilla.cshtml" />
+    <Content Include="Views\TrabajadorCategoriaPlanilla\_MsgAsignarCategoriaPlanilla.cshtml" />
+    <Content Include="Views\TrabajadorCategoriaPlanilla\_CategoriasPlanillaAsignadas.cshtml" />
     <Content Include="Views\Reportes\DetallesPlanillas.cshtml" />
     <Content Include="Views\Reportes\_DetallePlanilla.cshtml" />
     <Content Include="Views\GruposTrabajo\Index.cshtml" />
     <Content Include="Views\GruposTrabajo\_MantenimientoGrupoTrabajo.cshtml" />
     <Content Include="Views\GruposTrabajo\_MsgRegistrarGrupoTrabajo.cshtml" />
+    <Content Include="Views\TrabajadorCategoriaPlanilla\TrabajadoresAsignadosCategoriasPlanilla.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
