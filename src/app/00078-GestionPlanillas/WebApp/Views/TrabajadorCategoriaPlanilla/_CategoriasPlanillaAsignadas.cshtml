@@ -39,9 +39,9 @@
                 <thead class="thead-dark">
                     <tr>
                         <th>Planilla</th>
+                        <th>Descripción</th>
                         <th>Dependencia</th>
                         <th>Es Cargo</th>
-                        <th>Grupo</th>
                         <th>Estado</th>
                         <th></th>
                         <th></th>
@@ -50,9 +50,9 @@
                 <tfoot>
                     <tr>
                         <th>Planilla</th>
+                        <th>Descripción</th>
                         <th>Dependencia</th>
                         <th>Es cargo</th>
-                        <th>Grupo</th>
                         <th>Estado</th>
                         <th></th>
                         <th></th>
@@ -61,7 +61,7 @@
             </table>
         </div>
         <div class="modal-footer" id="div_msg">
-            <a href="@Url.Action("AsignarCategoriaPlanilla","TrabajadorCategoriaPlanilla", new { id = Model.trabajadorID.Value })" class="btn btn-primary" id="btn-agregar">
+            <a href="@Url.Action("Nuevo","TrabajadorCategoriaPlanilla", new { id = Model.trabajadorID.Value })" class="btn btn-primary" id="btn-agregar">
                 <i class="fa fa-plus-circle" aria-hidden="true"></i>&nbsp;Agregar planilla
             </a>
             <button type="button" class="btn btn-secondary" id="btnCancel" data-dismiss="modal"><i class="fa fa-times-circle-o"></i>&nbsp;Cerrar</button>
@@ -104,7 +104,7 @@
         }).then((result) => {
             if (result.isConfirmed) {
                 $.ajax({
-                    url: '@Url.Action("EliminarCategoriaPlanilla", "TrabajadorCategoriaPlanilla")/' + id,
+                    url: '@Url.Action("Eliminar", "TrabajadorCategoriaPlanilla")/' + id,
                     type: "POST",
                     data: { __RequestVerificationToken: token },
                     beforeSend: function () {
@@ -140,9 +140,9 @@
             },
             columns: [
                 { data: 'esCategoriaPrincipal' },
+                { data: 'grupoTrabajoDesc' },
                 { data: 'dependenciaDesc' },
                 { data: 'esJefe', width: '10%' },
-                { data: 'grupoTrabajoDesc' },
                 { data: 'trabajadorCategoriaPlanillaID' },
                 { data: 'trabajadorCategoriaPlanillaID', width: '5%' },
                 { data: 'trabajadorCategoriaPlanillaID', width: '5%' }
@@ -155,7 +155,7 @@
                     }
                 },
                 {
-                    targets: 2,
+                    targets: 3,
                     render: function (data, type, row) {
                         return data ? 'Sí' : 'No';
                     }
@@ -169,7 +169,7 @@
                         let iClass = (row.estaHabilitado === true) ? 'check-circle-o' : 'minus-circle';
                         let estado = (row.estaHabilitado === true) ? '&nbsp;&nbsp;&nbsp;Habilitado&nbsp;&nbsp;&nbsp;' : 'Deshabilitado';
                         let token = $('input[name="__RequestVerificationToken"]').val();
-                        let onClickFunction = `ChangeState(${data}, ${row.estaHabilitado}, '@Url.Action("CambiarEstadoCategoriaPlanilla", "TrabajadorCategoriaPlanilla")', '${token}', 'dataTableCategoriasPlanillaAsignadas')`;
+                        let onClickFunction = `ChangeState(${data}, ${row.estaHabilitado}, '@Url.Action("CambiarEstado", "TrabajadorCategoriaPlanilla")', '${token}', 'dataTableCategoriasPlanillaAsignadas')`;
 
                         let html = row.esCategoriaPrincipal ? '' : (`<span id="td${data}">` +
                             `<button type="submit" class="btn btn-xs btn-${btnClass}" onclick="${onClickFunction}">` +
@@ -185,7 +185,7 @@
                     className: "text-center",
                     orderable: false,
                     render: function (data, type, row) {
-                        return row.esCategoriaPrincipal ? '' : `<a class="btn-editar" href="@Url.Action("EditarCategoriaPlanilla", "TrabajadorCategoriaPlanilla")/${data}` +
+                        return row.esCategoriaPrincipal ? '' : `<a class="btn-editar" href="@Url.Action("Editar", "TrabajadorCategoriaPlanilla")/${data}` +
                             '" title="Editar"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a>';
                     }
                 },

@@ -516,7 +516,7 @@
     <Content Include="Views\GruposTrabajo\Index.cshtml" />
     <Content Include="Views\GruposTrabajo\_MantenimientoGrupoTrabajo.cshtml" />
     <Content Include="Views\GruposTrabajo\_MsgRegistrarGrupoTrabajo.cshtml" />
-    <Content Include="Views\TrabajadorCategoriaPlanilla\TrabajadoresAsignadosCategoriasPlanilla.cshtml" />
+    <Content Include="Views\TrabajadorCategoriaPlanilla\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

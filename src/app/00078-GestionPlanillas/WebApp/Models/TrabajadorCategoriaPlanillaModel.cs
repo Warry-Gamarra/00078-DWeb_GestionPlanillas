@@ -72,7 +72,7 @@ namespace WebApp.Models
 
         public string dependenciaDesc { get; set; }
 
-        [DisplayName("Agrupar")]
+        [DisplayName("Descripción")]
         public int? grupoTrabajoID { get; set; }
 
         public string grupoTrabajoCod { get; set; }

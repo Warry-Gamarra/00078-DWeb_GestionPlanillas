@@ -11,7 +11,7 @@
     <div class="text-center alert alert-@Model.Color"><i class="fa @Model.Icon">&nbsp;</i>@Html.Raw(Model.Message)</div>
 </div>
 
-<a href="@Url.Action("CategoriasPlanillaAsignadas","Trabajadores", new { id = ViewBag.TrabajadorID })" class="btn btn-outline-primary" id="btn-return">
+<a href="@Url.Action("CategoriasPlanillaAsignadas","TrabajadorCategoriaPlanilla", new { id = ViewBag.TrabajadorID })" class="btn btn-outline-primary" id="btn-return">
     <i class="fa fa-arrow-left" aria-hidden="true"></i>&nbsp;Volver a la lista
 </a>
 

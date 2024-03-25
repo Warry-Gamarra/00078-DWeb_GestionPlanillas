@@ -54,11 +54,11 @@ namespace WebApp.Controllers
         }
 
         [HttpGet]
-        public ActionResult AsignarCategoriaPlanilla(int id)
+        public ActionResult Nuevo(int id)
         {
             ViewBag.Title = "Asignar a Planilla";
 
-            ViewBag.Action = "AsignarCategoriaPlanilla";
+            ViewBag.Action = "Registrar";
 
             var trabajador = _trabajadorServiceFacade.ObtenerTrabajador(id);
 
@@ -80,7 +80,7 @@ namespace WebApp.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult AsignarCategoriaPlanilla(TrabajadorCategoriaPlanillaModel model)
+        public ActionResult Registrar(TrabajadorCategoriaPlanillaModel model)
         {
             Response response = new Response();
 
@@ -99,11 +99,11 @@ namespace WebApp.Controllers
         }
 
         [HttpGet]
-        public ActionResult EditarCategoriaPlanilla(int id)
+        public ActionResult Editar(int id)
         {
             ViewBag.Title = "Asignar a Planilla";
 
-            ViewBag.Action = "EditarCategoriaPlanilla";
+            ViewBag.Action = "Actualizar";
 
             var model = _trabajadorCategoriaPlanillaService.ObtenerTrabajadorCategoriaPlanilla(id);
 
@@ -123,7 +123,7 @@ namespace WebApp.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult EditarCategoriaPlanilla(TrabajadorCategoriaPlanillaModel model)
+        public ActionResult Actualizar(TrabajadorCategoriaPlanillaModel model)
         {
             Response response = new Response();
 
@@ -143,7 +143,7 @@ namespace WebApp.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public JsonResult CambiarEstadoCategoriaPlanilla(int rowID, bool estaHabilitado)
+        public JsonResult CambiarEstado(int rowID, bool estaHabilitado)
         {
             var result = _trabajadorCategoriaPlanillaService.CambiarEstado(rowID, estaHabilitado, WebSecurity.CurrentUserId);
 
@@ -152,7 +152,7 @@ namespace WebApp.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public JsonResult EliminarCategoriaPlanilla(int id)
+        public JsonResult Eliminar(int id)
         {
             var result = _trabajadorCategoriaPlanillaService.Eliminar(id, WebSecurity.CurrentUserId);
 
@@ -160,7 +160,7 @@ namespace WebApp.Controllers
         }
 
         [HttpGet]
-        public ActionResult TrabajadoresAsignadosCategoriasPlanilla()
+        public ActionResult Index()
         {
             ViewBag.Title = "Trabajadores Asignados";
 

@@ -42,12 +42,13 @@
                             <tr>
                                 <th>Planilla</th>
                                 <th>Descripción</th>
+                                <th>Dependencia</th>
                                 <th>Cod.Per.</th>
                                 <th>Doc.Identidad</th>
                                 <th>Apellidos y Nombres</th>
                                 <th>Vínculo</th>
-                                <th>Dependencia</th>
                                 <th>Estado</th>
+                                <th></th>
                             </tr>
                         </thead>
                         <tfoot>
@@ -60,6 +61,7 @@
                                 <th>Vínculo</th>
                                 <th>Dependencia</th>
                                 <th>Estado</th>
+                                <th></th>
                             </tr>
                         </tfoot>
                     </table>
@@ -79,6 +81,48 @@
 
                 generarDatatableTrabajadoresAsignados(idCategoria);
             });
+
+            $('#dataTableTrabajadoresAsignados').on('click', '.btn-eliminar', function (event) {
+                event.preventDefault();
+
+                let id = $(this).data("id");
+                let token = $('input[name="__RequestVerificationToken"]').val();
+
+                Swal.fire({
+                    title: '',
+                    text: '¿Desea eliminar este registro?',
+                    icon: MENSAJE.WARNING,
+                    showCancelButton: true,
+                    confirmButtonColor: '#3085d6',
+                    cancelButtonColor: '#d33',
+                    confirmButtonText: 'Si, continuar.',
+                    cancelButtonText: 'No, cancelar.'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        $.ajax({
+                            url: '@Url.Action("Eliminar", "TrabajadorCategoriaPlanilla")/' + id,
+                            type: "POST",
+                            data: { __RequestVerificationToken: token },
+                            beforeSend: function () {
+                            },
+                            success: function (data) {
+                                if (data.Success) {
+                                    mostrarMensajeSistema(data.Message, MENSAJE.SUCCESS);
+
+                                    let idCategoria = $("#frmBusquedaTrabajadores #idCategoria").val();
+
+                                    generarDatatableTrabajadoresAsignados(idCategoria);
+                                } else {
+                                    mostrarMensajeSistema(data.Message, MENSAJE.ERROR);
+                                }
+                            },
+                            error: function (jqXHR, textStatus, errorThrown) {
+                                toastr.error(errorThrown);
+                            }
+                        });
+                    }
+                });
+            });
         });
 
         function generarDatatableTrabajadoresAsignados(idCategoria) {
@@ -95,19 +139,49 @@
                 columns: [
                     { data: 'categoriaPlanillaDesc' },
                     { data: 'grupoTrabajoDesc' },
+                    { data: 'dependenciaDesc' },
                     { data: 'trabajadorCod' },
                     { data: 'tipoDocumentoDesc' },
                     { data: 'apellidosNombre' },
                     { data: 'vinculoDesc' },
-                    { data: 'dependenciaDesc' },
-                    { data: 'estadoDesc' }
+                    { data: 'trabajadorCategoriaPlanillaID' },
+                    { data: 'trabajadorCategoriaPlanillaID', width: '5%' }
                 ],
                 columnDefs: [
                     {
-                        targets: 3,
+                        targets: 4,
                         orderable: false,
                         render: function (data, type, row) {
                             return data + " - " + row.numDocumento;
+                        }
+                    },
+                    {
+                        targets: -2,
+                        className: "text-center",
+                        orderable: false,
+                        render: function (data, type, row) {
+                            let btnClass = (row.estaHabilitado === true) ? 'success' : 'secondary';
+                            let iClass = (row.estaHabilitado === true) ? 'check-circle-o' : 'minus-circle';
+                            let estado = (row.estaHabilitado === true) ? '&nbsp;&nbsp;&nbsp;Habilitado&nbsp;&nbsp;&nbsp;' : 'Deshabilitado';
+                            let token = $('input[name="__RequestVerificationToken"]').val();
+                            let onClickFunction = `ChangeState(${data}, ${row.estaHabilitado}, '@Url.Action("CambiarEstado", "TrabajadorCategoriaPlanilla")', '${token}', 'dataTableTrabajadoresAsignados')`;
+
+                            let html = row.esCategoriaPrincipal ? '<span class="text-success">Habilitado</span>' : (`<span id="td${data}">` +
+                                `<button type="submit" class="btn btn-xs btn-${btnClass}" onclick="${onClickFunction}">` +
+                                `<i class="fa fa-${iClass}" aria-hidden="true"></i> <span class="d-none d-md-inline-block">${estado}</span>` +
+                                '</button>' +
+                                '</span>');
+
+                            return html;
+                        }
+                    },
+                    {
+                        targets: -1,
+                        className: "text-center",
+                        orderable: false,
+                        render: function (data, type, row) {
+                            return row.esCategoriaPrincipal ? '' : `<a class="btn-eliminar" href="#" data-id="${data}"` +
+                                '" title="Eliminar"><i class="fa fa-trash" aria-hidden="true"></i></a>';
                         }
                     }
                 ],
