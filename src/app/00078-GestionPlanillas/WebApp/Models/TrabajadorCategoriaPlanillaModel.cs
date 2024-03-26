@@ -29,10 +29,12 @@ namespace WebApp.Models
             }
         }
 
+        [DisplayName("Tip.Documento")]
         public int tipoDocumentoID { get; set; }
 
         public string tipoDocumentoDesc { get; set; }
 
+        [DisplayName("Num.Documento")]
         public string numDocumento { get; set; }
 
         public int estadoID { get; set; }

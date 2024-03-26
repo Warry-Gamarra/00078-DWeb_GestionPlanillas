@@ -1,0 +1,201 @@
+﻿@model WebApp.Models.TrabajadorCategoriaPlanillaModel
+
+<div class="modal-header bg-dark-gray" style="border-radius: .2rem .2rem 0px 0px">
+    <h5 class="modal-title text-center"><i class="fa fa-tag">&nbsp;</i> @ViewBag.Title</h5>
+    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+</div>
+
+<div class="modal-body">
+    @using (Ajax.BeginForm((string)ViewBag.Action, "Dependencias", new { area = "" }, new AjaxOptions
+    {
+        HttpMethod = "POST",
+        InsertionMode = InsertionMode.Replace,
+        UpdateTargetId = "div_msg",
+        OnBegin = "Load",
+        OnComplete = "Stop"
+    }))
+    {
+        @Html.AntiForgeryToken()
+        @Html.HiddenFor(model => model.trabajadorID)
+        <div class="form-row">
+            <div class="col-12">
+                <div class="form-group">
+                    @Html.LabelFor(model => model.categoriaPlanillaID, new { @class = "control-label" })
+                    @Html.DropDownListFor(model => model.categoriaPlanillaID, ViewBag.ListaCategoriasPlanillas as SelectList, "[ SELECCIONAR ]", new { @class = "form-control text-uppercase" })
+                    @Html.ValidationMessageFor(model => model.categoriaPlanillaID, null, new { @class = "text-danger" })
+                </div>
+            </div>
+        </div>
+
+        <div class="form-row">
+            <div class="col-12">
+                <div class="form-group">
+                    @Html.LabelFor(model => model.grupoTrabajoID, new { @class = "control-label" })
+                    @Html.DropDownListFor(model => model.grupoTrabajoID, ViewBag.ListaGruposTrabajo as SelectList, "[ SELECCIONAR ]", new { @class = "form-control text-uppercase select-filter-modal" })
+                    @Html.ValidationMessageFor(model => model.grupoTrabajoID, null, new { @class = "text-danger" })
+                </div>
+            </div>
+        </div>
+
+        <div class="form-row">
+            <div class="col-12">
+                <div class="form-group">
+                    @Html.LabelFor(model => model.dependenciaID, new { @class = "control-label" })
+                    @Html.DropDownListFor(model => model.dependenciaID, ViewBag.ListaDependencias as SelectList, "[ SELECCIONAR ]", new { @class = "form-control text-uppercase select-filter-modal" })
+                    @Html.ValidationMessageFor(model => model.dependenciaID, null, new { @class = "text-danger" })
+                </div>
+            </div>
+        </div>
+
+        <div class="form-row" id="divJefatura">
+            <div class="col-12">
+                <label class="control-label">¿Tiene cargo?</label>
+                <br />
+                <div class="form-check form-check-inline">
+                    @Html.RadioButtonFor(x => x.esJefe, true, new { @id = "esJefe1", @class = "form-check-input" })
+                    <label class="form-check-label" for="esJefe1">Sí</label>
+                </div>
+                <div class="form-check form-check-inline">
+                    @Html.RadioButtonFor(x => x.esJefe, false, new { @id = "esJefe2", @class = "form-check-input" })
+                    <label class="form-check-label" for="esJefe2">No</label>
+                </div>
+            </div>
+        </div>
+
+        <div class="form-row">
+            <div class="col-12">
+                <div class="form-group">
+                    @Html.LabelFor(model => model.tipoDocumentoID, new { @class = "control-label" })
+                    @Html.DropDownListFor(model => model.tipoDocumentoID, ViewBag.ListaTipoDocumentos as SelectList, null, new { @class = "form-control text-uppercase" })
+                </div>
+            </div>
+        </div>
+
+        <div class="form-row">
+            <div class="col-12">
+                <div class="form-group">
+                    @Html.LabelFor(model => model.numDocumento, new { @class = "control-label" })
+                    @Html.TextBoxFor(model => model.numDocumento, new { @class = "form-control", @placeholder = "Num.Documento" })
+                </div>
+            </div>
+        </div>
+
+        <div class="form-row">
+            <div class="col-12">
+                <div class="form-group">
+                    <label for="apellidoPaterno" class="control-label">Ap.Paterno</label>
+                    <input type="text" id="apellidoPaterno" class="form-control" readonly="readonly" />
+                </div>
+            </div>
+        </div>
+
+        <div class="form-row">
+            <div class="col-12">
+                <div class="form-group">
+                    <label for="apellidoMaterno" class="control-label">Ap.Paterno</label>
+                    <input type="text" id="apellidoMaterno" class="form-control" readonly="readonly" />
+                </div>
+            </div>
+        </div>
+        
+        <div class="form-row">
+            <div class="col-12">
+                <div class="form-group">
+                    <label for="nombre" class="control-label">Ap.Paterno</label>
+                    <input type="text" id="nombre" class="form-control" readonly="readonly" />
+                </div>
+            </div>
+        </div>
+
+        <div class="row d-flex justify-content-center">
+            <button type="submit" class="btn btn-primary center" id="btnsubmit"><i class="fa fa-save"></i> Guardar</button>
+        </div>
+    }
+</div>
+
+<div class="modal-footer" id="div_msg">
+    <div class="col-md-12" style="display:none" id="loading">
+        <h6>Espere un momento...</h6>
+        <div class="progress">
+            <div class="indeterminate"></div>
+        </div>
+    </div>
+
+    <button type="button" class="btn btn-secondary" id="btnCancel" data-dismiss="modal">
+        <i class="fa fa-times-circle-o"></i> Cerrar
+    </button>
+</div>
+
+<script type="text/javascript">
+        $('#numDocumento').autocomplete({
+            source: function (request, response) {
+                var inputText = request.term.trim();
+
+                if (inputText.length >= 6) {
+                    $.ajax({
+                        url: '@Url.Action("ObtenerPersonasPorDocIdentidad", "General")/',
+                        data: {
+                            numDocumento: request.term,
+                            tipoDocumentoID: $('#tipoDocumentoID').val()
+                        },
+                        dataType: 'json',
+                        success: function (data) {
+                            if (data.Success) {
+                                var formattedData = data.Result.map(function (persona) {
+                                    return {
+                                        label: `${persona.apellidoPaterno} ${persona.apellidoMaterno}, ${persona.nombre} - ${persona.numDocumento}`,
+                                        value: persona.numDocumento,
+                                        persona: persona
+                                    };
+                                });
+                                response(formattedData.slice(0, 15));
+                            }
+                        }
+                    });
+                }
+            },
+            select: function (event, ui) {
+                var persona = ui.item.persona;
+                $('.modal-body #numDocumento').val(persona.numDocumento);
+                $('.modal-body #apellidoPaterno').val(persona.apellidoPaterno);
+                $('.modal-body #apellidoMaterno').val(persona.apellidoMaterno);
+                $('.modal-body #nombre').val(persona.nombre);
+                $('.modal-body #trabajadorID').val(0);
+                return false;
+            }
+        });
+
+        $('.modal-body #grupoTrabajoID').select2({
+            theme: 'bootstrap4',
+            dropdownParent: $('#modal-container')
+        }).on('hide', function (e) {
+            e.stopPropagation();
+        });
+
+        $('.modal-body #dependenciaID').select2({
+            theme: 'bootstrap4',
+            dropdownParent: $('#modal-container')
+        }).on('hide', function (e) {
+            e.stopPropagation();
+        });
+
+        @if (!Model.esJefe)
+        {
+            <text>MostrarJefatura(@Model.categoriaPlanillaID);</text>
+        }
+
+        $('.modal-body').on('change', '#categoriaPlanillaID', function () {
+            MostrarJefatura($(this).val());
+        });
+
+
+    function MostrarJefatura(categoriaPlanillaID) {
+        if (categoriaPlanillaID == 9) {
+            $('#divJefatura').css("display", "flex");
+        } else {
+            $('#divJefatura').css("display", "none");
+            $('#esJefe1').prop("checked", false);
+            $('#esJefe2').prop("checked", true);
+        }
+    }
+</script>

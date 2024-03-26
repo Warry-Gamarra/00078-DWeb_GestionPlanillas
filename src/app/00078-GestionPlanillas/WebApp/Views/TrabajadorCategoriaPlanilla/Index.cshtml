@@ -37,6 +37,16 @@
                 </div>
 
                 <div class="table-responsive mt-4">
+                    <p id="pAgregarTrabajador" class="h5 mt-2 mb-2" style="display:none;">
+                        Relación de trabajadores asignados a la planilla <b id="nomPlanilla"></b>
+                    </p>
+
+                    <div id="divAgregarTrabajador" class="form-group pull-right pr-0" style="display: none;">
+                        <a href="@Url.Action("BuscarTrabajador", "TrabajadorCategoriaPlanilla")" class="btn btn-primary modal-link">
+                            <i class="fa fa-plus-circle"></i> Agregar trabajador
+                        </a>
+                    </div>
+
                     <table class="table table-hover" id="dataTableTrabajadoresAsignados" width="100%">
                         <thead class="thead-dark">
                             <tr>
@@ -47,7 +57,7 @@
                                 <th>Doc.Identidad</th>
                                 <th>Apellidos y Nombres</th>
                                 <th>Vínculo</th>
-                                <th>Estado</th>
+                                <th></th>
                                 <th></th>
                             </tr>
                         </thead>
@@ -60,7 +70,7 @@
                                 <th>Apellidos y Nombres</th>
                                 <th>Vínculo</th>
                                 <th>Dependencia</th>
-                                <th>Estado</th>
+                                <th></th>
                                 <th></th>
                             </tr>
                         </tfoot>
@@ -74,12 +84,10 @@
 @section scripts {
     <script type="text/javascript">
         $(document).ready(function () {
-            generarDatatableTrabajadoresAsignados(null);
+            generarDatatableTrabajadoresAsignados();
 
             $("#frmBusquedaTrabajadores").on("click", "button", function () {
-                let idCategoria = $("#frmBusquedaTrabajadores #idCategoria").val();
-
-                generarDatatableTrabajadoresAsignados(idCategoria);
+                generarDatatableTrabajadoresAsignados();
             });
 
             $('#dataTableTrabajadoresAsignados').on('click', '.btn-eliminar', function (event) {
@@ -108,10 +116,7 @@
                             success: function (data) {
                                 if (data.Success) {
                                     mostrarMensajeSistema(data.Message, MENSAJE.SUCCESS);
-
-                                    let idCategoria = $("#frmBusquedaTrabajadores #idCategoria").val();
-
-                                    generarDatatableTrabajadoresAsignados(idCategoria);
+                                    generarDatatableTrabajadoresAsignados();
                                 } else {
                                     mostrarMensajeSistema(data.Message, MENSAJE.ERROR);
                                 }
@@ -125,7 +130,11 @@
             });
         });
 
-        function generarDatatableTrabajadoresAsignados(idCategoria) {
+        function generarDatatableTrabajadoresAsignados() {
+            let comboCategoria = $("#frmBusquedaTrabajadores #idCategoria");
+            let idCategoria = comboCategoria.val();
+            let descCategoria = comboCategoria.find('option:selected').text();
+
             let parametros = {
                 idCategoria: idCategoria
             };
@@ -144,7 +153,7 @@
                     { data: 'tipoDocumentoDesc' },
                     { data: 'apellidosNombre' },
                     { data: 'vinculoDesc' },
-                    { data: 'trabajadorCategoriaPlanillaID' },
+                    { data: 'trabajadorCategoriaPlanillaID', width: '10%' },
                     { data: 'trabajadorCategoriaPlanillaID', width: '5%' }
                 ],
                 columnDefs: [
@@ -213,12 +222,17 @@
                 initComplete: function (settings, json) {
                     var api = this.api();
                     var numRows = api.rows().count();
+                    var display = "none";
+                    var nomPlanilla = "";
 
                     if (numRows > 0) {
-                        $('#divBtnGenerar').css('display', 'block');
-                    } else {
-                        $('#divBtnGenerar').css('display', 'none');
+                        display = "block";
+                        nomPlanilla = descCategoria;
                     }
+
+                    $('#pAgregarTrabajador').css('display', display);
+                    $('#divAgregarTrabajador').css('display', display);
+                    $('#nomPlanilla').html(nomPlanilla);
                 }
             });
         }

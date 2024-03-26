@@ -19,8 +19,8 @@ namespace WebApp.Controllers
         private IDependenciaServiceFacade _dependenciaServiceFacade;
         private ICategoriaPlanillaServiceFacade _categoriaPlanillaServiceFacade;
         private IGrupoTrabajoServiceFacade _grupoTrabajoServiceFacade;
+        private ITipoDocumentoServiceFacade _tipoDocumentoServiceFacade;
 
-        
         public TrabajadorCategoriaPlanillaController()
         {
             _trabajadorServiceFacade = new TrabajadorServiceFacade();
@@ -28,6 +28,7 @@ namespace WebApp.Controllers
             _dependenciaServiceFacade = new DependenciaServiceFacade();
             _categoriaPlanillaServiceFacade = new CategoriaPlanillaServiceFacade();
             _grupoTrabajoServiceFacade = new GrupoTrabajoServiceFacade();
+            _tipoDocumentoServiceFacade = new TipoDocumentoServiceFacade();
         }
 
         [HttpGet]
@@ -184,6 +185,26 @@ namespace WebApp.Controllers
             }
 
             return Json(result, JsonRequestBehavior.AllowGet);
+        }
+
+        [HttpGet]
+        public ActionResult BuscarTrabajador()
+        {
+            ViewBag.Title = "Asignar a Planilla";
+
+            ViewBag.Action = "Registrar";
+
+            var model = new TrabajadorCategoriaPlanillaModel();
+
+            ViewBag.ListaCategoriasPlanillas = _categoriaPlanillaServiceFacade.ObtenerComboCategoriasPlanillas();
+
+            ViewBag.ListaGruposTrabajo = _grupoTrabajoServiceFacade.ObtenerComboGruposTrabajo();
+
+            ViewBag.ListaDependencias = _dependenciaServiceFacade.ObtenerComboDependencias(incluirDeshabilitados: false);
+
+            ViewBag.ListaTipoDocumentos = _tipoDocumentoServiceFacade.ObtenerComboTipoDocumentos();
+
+            return PartialView("_BuscarTrabajador", model);
         }
     }
 }
