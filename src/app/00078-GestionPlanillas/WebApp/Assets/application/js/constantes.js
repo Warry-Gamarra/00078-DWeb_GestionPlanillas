@@ -10,10 +10,7 @@
 };
 
 const REGIMEN = {
-    'SIN_REGIMEN': 1,
-    'ONP': 2,
-    '20530': 3,
-    'AFP': 4
+    'AFP': 3
 };
 
 const MENSAJE = {

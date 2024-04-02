@@ -2587,27 +2587,27 @@ BEGIN
     
 	SET @I_PeriodoID = (SELECT per.I_PeriodoID FROM dbo.TR_Periodo per WHERE per.I_Anio = @I_Anio AND per.I_Mes = @I_Mes);
 
-	SELECT DISTINCT ctp.T_ConceptoAbrv, ctp.I_Orden FROM dbo.TR_Concepto_TrabajadorPlanilla ctp
+	SELECT DISTINCT ctp.T_ConceptoDesc, ctp.I_Orden FROM dbo.TR_Concepto_TrabajadorPlanilla ctp
 	INNER JOIN dbo.TR_TrabajadorPlanilla trab ON trab.I_TrabajadorPlanillaID = ctp.I_TrabajadorPlanillaID
 	INNER JOIN dbo.TR_Planilla pla ON pla.I_PlanillaID = trab.I_PlanillaID
 	WHERE trab.B_Anulado = 0 AND ctp.B_Anulado = 0 AND pla.I_PeriodoID = @I_PeriodoID AND pla.I_CategoriaPlanillaID = @I_CategoriaPlanillaID
 	ORDER BY ctp.I_Orden;
 
-	WITH Tmp_Conceptos(T_ConceptoAbrv)
+	WITH Tmp_Conceptos(T_ConceptoDesc)
 	AS
 	(
-		SELECT DISTINCT ctp.T_ConceptoAbrv
+		SELECT DISTINCT ctp.T_ConceptoDesc
 		FROM dbo.TR_Concepto_TrabajadorPlanilla ctp
 		INNER JOIN dbo.TR_TrabajadorPlanilla trab ON trab.I_TrabajadorPlanillaID = ctp.I_TrabajadorPlanillaID
 		INNER JOIN dbo.TR_Planilla pla ON pla.I_PlanillaID = trab.I_PlanillaID
 		WHERE trab.B_Anulado = 0 AND ctp.B_Anulado = 0 AND pla.I_PeriodoID = @I_PeriodoID AND pla.I_CategoriaPlanillaID = @I_CategoriaPlanillaID
 	)
 	SELECT 
-		@Columns = STRING_AGG('[' + T_ConceptoAbrv + ']', ',')
+		@Columns = STRING_AGG('[' + T_ConceptoDesc + ']', ',')
 	FROM Tmp_Conceptos;
 
 	SET @SQLString = N'SELECT C_ActividadCod AS Actividad, C_MetaCod AS Meta, ' + @Columns + ' FROM
-		(SELECT dam.C_ActividadCod, dam.C_MetaCod, ctp.T_ConceptoAbrv, ctp.M_Monto FROM dbo.TR_Concepto_TrabajadorPlanilla ctp
+		(SELECT dam.C_ActividadCod, dam.C_MetaCod, ctp.T_ConceptoDesc, ctp.M_Monto FROM dbo.TR_Concepto_TrabajadorPlanilla ctp
 		INNER JOIN dbo.TR_TrabajadorPlanilla trabpla ON trabpla.I_TrabajadorPlanillaID = ctp.I_TrabajadorPlanillaID
 		INNER JOIN dbo.TR_Planilla pla ON pla.I_PlanillaID = trabpla.I_PlanillaID
 		INNER JOIN dbo.TR_Periodo per ON per.I_PeriodoID = pla.I_PeriodoID
@@ -2615,7 +2615,7 @@ BEGIN
 		WHERE trabpla.B_Anulado = 0 AND ctp.B_Anulado = 0 AND per.I_PeriodoID = @I_PeriodoID AND pla.I_CategoriaPlanillaID = @I_CategoriaPlanillaID
 		' + CASE WHEN @I_VinculoID IS NULL THEN '' ELSE ' AND trabpla.I_VinculoID = @I_VinculoID' END + ') AS SourceTable
 	PIVOT (
-		SUM(M_Monto) FOR T_ConceptoAbrv IN (' + @Columns + ')
+		SUM(M_Monto) FOR T_ConceptoDesc IN (' + @Columns + ')
 	) AS PivottABLE';
 
 	SET @ParmDefinition = N'@I_PeriodoID INT, @I_CategoriaPlanillaID INT, @I_VinculoID INT';

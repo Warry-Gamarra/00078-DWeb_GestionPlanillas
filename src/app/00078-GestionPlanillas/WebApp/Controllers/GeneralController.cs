@@ -74,5 +74,32 @@ namespace WebApp.Controllers
             
             return Json(response, JsonRequestBehavior.AllowGet);
         }
+
+        public FileResult DescargarFormatoCargaInformacionExterna()
+        {
+            var nombreArchivo = "Formato carga informacion externa.xlsx";
+
+            var rutaArchivo = Server.MapPath("~/Assets/application/formatos/" + nombreArchivo);
+
+            return File(rutaArchivo, "application/octet-stream", nombreArchivo);
+        }
+
+        public FileResult DescargarCatalogoFormatoCargaInformacionExterna()
+        {
+            var nombreArchivo = "Catalogo del formato de carga de informacion externa.xlsx";
+
+            var rutaArchivo = Server.MapPath("~/Assets/application/formatos/" + nombreArchivo);
+
+            return File(rutaArchivo, "application/octet-stream", nombreArchivo);
+        }
+
+        public FileResult ManualUsuario()
+        {
+            var nombreArchivo = "MCVS-O1-3131 Manual de Usuario.docx";
+
+            var rutaArchivo = Server.MapPath("~/Assets/application/manuales/" + nombreArchivo);
+
+            return File(rutaArchivo, "application/octet-stream", nombreArchivo);
+        }
     }
 }

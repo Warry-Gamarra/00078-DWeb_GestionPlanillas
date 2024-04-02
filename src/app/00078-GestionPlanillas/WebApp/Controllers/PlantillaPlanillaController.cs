@@ -28,7 +28,7 @@ namespace WebApp.Controllers
         [HttpGet]
         public ActionResult Index()
         {
-            ViewBag.Title = "Configuración de Plantillas";
+            ViewBag.Title = "Configuración de Planillas";
 
             return View();
         }
@@ -46,7 +46,7 @@ namespace WebApp.Controllers
         [HttpGet]
         public ActionResult Nuevo()
         {
-            ViewBag.Title = "Nueva Plantilla";
+            ViewBag.Title = "Nueva Planilla";
 
             ViewBag.Action = "Registrar";
 
@@ -78,7 +78,7 @@ namespace WebApp.Controllers
         [HttpGet]
         public ActionResult Editar(int id)
         {
-            ViewBag.Title = "Detalle de la Plantilla";
+            ViewBag.Title = "Detalle de la Planilla";
 
             ViewBag.Action = "Actualizar";
 

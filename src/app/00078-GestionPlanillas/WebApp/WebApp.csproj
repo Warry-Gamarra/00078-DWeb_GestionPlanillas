@@ -354,6 +354,11 @@
     <Content Include="Assets\images\logo-inverted.png" />
     <Content Include="Assets\images\logo.png" />
     <Content Include="Assets\images\unknown.png" />
+    <Content Include="Assets\application\formatos\Formato carga informacion externa.xlsx" />
+    <Content Include="Assets\application\manuales\MCVS-O1-3131 Manual de Usuario.docx" />
+    <Content Include="Assets\application\formatos\Formato carga actividades, dependencias y metas.xlsx" />
+    <Content Include="Assets\application\formatos\Formato carga categoría de planillas para trabajadores.xlsx" />
+    <Content Include="Assets\application\formatos\Catalogo del formato de carga de informacion externa.xlsx" />
     <None Include="Assets\jquery\js\jquery-3.3.1.intellisense.js" />
     <Content Include="Assets\jquery\css\jquery-ui.min.css" />
     <Content Include="Assets\jquery\js\jquery-3.3.1.min.js" />
