@@ -130,7 +130,16 @@ namespace WebApp.Controllers
             }
             else
             {
-                response.Message = "Ocurrió un error.";
+                string details = "";
+                foreach (ModelState modelState in ViewData.ModelState.Values)
+                {
+                    foreach (ModelError error in modelState.Errors)
+                    {
+                        details += "<li>" + error.ErrorMessage + "</li>";
+                    }
+                }
+
+                response.Message = details;
             }
 
             return PartialView("_MsgRegistrarTrabajador", response);
@@ -192,7 +201,16 @@ namespace WebApp.Controllers
             }
             else
             {
-                response.Message = "Ocurrió un error.";
+                string details = "";
+                foreach (ModelState modelState in ViewData.ModelState.Values)
+                {
+                    foreach (ModelError error in modelState.Errors)
+                    {
+                        details += "<li>" + error.ErrorMessage + "</li>";
+                    }
+                }
+
+                response.Message = details;
             }
 
             return PartialView("_MsgRegistrarTrabajador", response);

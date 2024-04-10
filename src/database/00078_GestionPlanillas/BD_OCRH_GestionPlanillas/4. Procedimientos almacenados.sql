@@ -2554,12 +2554,10 @@ BEGIN
 		SUM(trabpla.I_TotalSueldo) AS I_TotalSueldo
 	FROM dbo.TR_Planilla AS pla INNER JOIN
 		dbo.TR_Periodo AS per ON per.I_PeriodoID = pla.I_PeriodoID INNER JOIN
-		dbo.TC_CategoriaPlanilla AS catpla ON catpla.I_CategoriaPlanillaID = pla.I_CategoriaPlanillaID INNER JOIN
 		dbo.TR_TrabajadorPlanilla AS trabpla ON trabpla.I_PlanillaID = pla.I_PlanillaID INNER JOIN
 		dbo.VW_DepActividadMeta AS dam ON dam.I_DependenciaID = trabpla.I_DependenciaID AND dam.I_Anio = per.I_Anio AND dam.I_CategoriaPlanillaID = pla.I_CategoriaPlanillaID
 	WHERE trabpla.B_Anulado = 0 AND pla.B_Anulado = 0 AND per.I_Anio = @I_Anio AND per.I_Mes = @I_Mes AND pla.I_CategoriaPlanillaID = @I_CategoriaPlanillaID
-	GROUP BY dam.C_ActividadCod, dam.C_DependenciaCod, dam.T_DependenciaDesc,
-		trabpla.I_TotalRemuneracion, trabpla.I_TotalReintegro, trabpla.I_TotalDeduccion, trabpla.I_TotalBruto, trabpla.I_TotalDescuento, trabpla.I_TotalSueldo
+	GROUP BY dam.C_ActividadCod, dam.C_DependenciaCod, dam.T_DependenciaDesc
 END
 GO
 

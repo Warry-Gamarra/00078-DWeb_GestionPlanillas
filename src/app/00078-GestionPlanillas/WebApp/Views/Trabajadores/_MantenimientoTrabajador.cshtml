@@ -37,21 +37,21 @@
             <div class="col-2">
                 <div class="form-group">
                     @Html.LabelFor(model => model.apellidoPaterno, new { @class = "control-label" })
-                    @Html.TextBoxFor(model => model.apellidoPaterno, new { @class = "form-control" })
+                    @Html.TextBoxFor(model => model.apellidoPaterno, new { @class = "form-control", @style = "text-transform:uppercase;" })
                     @Html.ValidationMessageFor(model => model.apellidoPaterno, null, new { @class = "text-danger" })
                 </div>
             </div>
             <div class="col-2">
                 <div class="form-group">
                     @Html.LabelFor(model => model.apellidoMaterno, new { @class = "control-label" })
-                    @Html.TextBoxFor(model => model.apellidoMaterno, new { @class = "form-control" })
+                    @Html.TextBoxFor(model => model.apellidoMaterno, new { @class = "form-control", @style = "text-transform:uppercase;" })
                     @Html.ValidationMessageFor(model => model.apellidoMaterno, null, new { @class = "text-danger" })
                 </div>
             </div>
             <div class="col-3">
                 <div class="form-group">
                     @Html.LabelFor(model => model.nombre, new { @class = "control-label" })
-                    @Html.TextBoxFor(model => model.nombre, new { @class = "form-control" })
+                    @Html.TextBoxFor(model => model.nombre, new { @class = "form-control", @style = "text-transform:uppercase;" })
                     @Html.ValidationMessageFor(model => model.nombre, null, new { @class = "text-danger" })
                 </div>
             </div>
@@ -176,6 +176,7 @@
                 <div class="form-group">
                     @Html.LabelFor(model => model.afpID, new { @class = "control-label" })
                     @Html.DropDownListFor(model => model.afpID, ViewBag.ListaAfps as SelectList, "[ SELECCIONAR ]", new { @class = "form-control text-uppercase" })
+                    @Html.ValidationMessageFor(model => model.afpID, null, new { @class = "text-danger" })
                 </div>
             </div>
         </div>
@@ -214,7 +215,8 @@
             format: 'dd/mm/yyyy',
             autoclose: true,
             weekStart: 0,
-            orientation: 'auto'
+            orientation: 'auto',
+            endDate: new Date()
         }).on('hide', function (e) {
             e.stopPropagation();
         });
@@ -271,6 +273,91 @@
                 return false;
             }
         });
+
+        $.validator.addMethod("ValidarLongitudNumeroDocumento", function (value) {
+            var tipoDocumento = $("#tipoDocumentoID").val();
+
+            var longitud = value.length;
+
+            var longitudMinima = 0;
+            var longitudMaxima = 0;
+
+            if (tipoDocumento == TIPO_DOCUMENTO_IDENTIDAD.DNI) {
+                longitudMinima = 8;
+                longitudMaxima = 8;
+            } else {
+                longitudMinima = 1;
+                longitudMaxima = 20;
+            }
+
+            if (longitud < longitudMinima || longitud > longitudMaxima) {
+                return false;
+            } else {
+                return true;
+            }
+        }, "La cantidad de caracteres del número de documento es incorrecta.");
+
+        $.validator.addMethod("ValidarCaracteresNumeroDocumento", function (value) {
+            var tipoDocumento = $("#tipoDocumentoID").val();
+
+            var regex = /^\d{8}$/;
+
+            if (tipoDocumento == TIPO_DOCUMENTO_IDENTIDAD.DNI && !regex.test(value)) {
+                return false;
+            }
+
+            return true;
+        }, "El DNI sólo debe contener números.");
+
+        $.validator.addMethod("ValidarNombresYApellidos",
+            function (value) {
+                if (value !== null && value.trim().length > 0) {
+                    var regex = /^[^\d]+$/;
+
+                    if (!regex.test(value)) {
+                        return false;
+                    }
+                }
+
+                return true;
+            },
+            function (value, element) {
+                var nombreCampo = $(element).closest('.form-group').find('label').text();
+
+                return `El campo ${nombreCampo} no puede contener números.`;
+            }
+        );
+
+        $.validator.addMethod("ValidarAfpObligatorio", function (value) {
+            var regimenID = $("#regimenID").val();
+
+            if ((regimenID != null && regimenID != "") && regimenID == REGIMEN.SPP && (value == null || value == "")) {
+                return false;
+            }
+
+            return true;
+        }, "El campo AFP es obligatorio.");
+
+        $("#numDocumento").rules("add", {
+            ValidarLongitudNumeroDocumento: true,
+            ValidarCaracteresNumeroDocumento: true
+        });
+
+        $("#nombre").rules("add", {
+            ValidarNombresYApellidos: true
+        });
+
+        $("#apellidoPaterno").rules("add", {
+            ValidarNombresYApellidos: true
+        });
+
+        $("#apellidoMaterno").rules("add", {
+            ValidarNombresYApellidos: true
+        });
+
+        $("#afpID").rules("add", {
+            ValidarAfpObligatorio: true
+        });
     });
 
     function mostrarFiltroSegunVinculo(vinculoID) {
@@ -304,12 +391,11 @@
     }
 
     function habilitarAfp(regimenID) {
-        if (regimenID === REGIMEN.AFP) {
+        if (regimenID === REGIMEN.SPP) {
             $('.modal-body #afpID').prop("disabled", "");
-            $('.modal-body #cuspp').prop("disabled", "");
         } else {
             $('.modal-body #afpID').prop("disabled", "disabled");
-            $('.modal-body #cuspp').prop("disabled", "disabled");
+            $('.modal-body #afpID').val(null);
         }
     }
 

@@ -10,11 +10,20 @@
 };
 
 const REGIMEN = {
-    'AFP': 3
+    SPP: 3
 };
 
 const MENSAJE = {
     SUCCESS: 'success',
     ERROR: 'error',
     WARNING: 'warning'
+};
+
+const TIPO_DOCUMENTO_IDENTIDAD = {
+    DNI: 1,
+    CE: 2,
+    PASAPORTE: 3,
+    CPP: 4,
+    PTP: 5,
+    OTROS: 6
 };
