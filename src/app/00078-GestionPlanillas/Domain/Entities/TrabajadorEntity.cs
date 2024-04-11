@@ -14,6 +14,8 @@ namespace Domain.Entities
 
         public string trabajadorCod { get; set; }
 
+        public string codigoPlaza { get; set; }
+
         public string apellidoPaterno { get; set; }
 
         public string apellidoMaterno { get; set; }

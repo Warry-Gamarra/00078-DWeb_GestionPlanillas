@@ -17,6 +17,7 @@ namespace WebApp.Models
             {
                 trabajadorID = dto.trabajadorID,
                 trabajadorCod = dto.trabajadorCod,
+                codigoPlaza = dto.codigoPlaza,
                 personaID = dto.personaID,
                 nombre = dto.nombre,
                 apellidoPaterno = dto.apellidoPaterno,
@@ -158,6 +159,7 @@ namespace WebApp.Models
             {
                 trabajadorID = dto.trabajadorID,
                 trabajadorCod = dto.trabajadorCod,
+                codigoPlaza = dto.codigoPlaza,
                 personaID = dto.personaID,
                 nombre = dto.nombre,
                 apellidoPaterno = dto.apellidoPaterno,

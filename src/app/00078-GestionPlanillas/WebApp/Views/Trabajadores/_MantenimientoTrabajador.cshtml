@@ -30,28 +30,28 @@
             <div class="col-3">
                 <div class="form-group">
                     <label class="control-label" for="numDocumento">&nbsp;</label>
-                    @Html.TextBoxFor(model => model.numDocumento, new { @class = "form-control", @placeholder = "Num.Documento" })
+                    @Html.TextBoxFor(model => model.numDocumento, new { @class = "form-control", @placeholder = "Num.Documento", @maxlength = "20" })
                     @Html.ValidationMessageFor(model => model.numDocumento, null, new { @class = "text-danger" })
                 </div>
             </div>
             <div class="col-2">
                 <div class="form-group">
                     @Html.LabelFor(model => model.apellidoPaterno, new { @class = "control-label" })
-                    @Html.TextBoxFor(model => model.apellidoPaterno, new { @class = "form-control", @style = "text-transform:uppercase;" })
+                    @Html.TextBoxFor(model => model.apellidoPaterno, new { @class = "form-control", @style = "text-transform:uppercase;", @maxlength = "50" })
                     @Html.ValidationMessageFor(model => model.apellidoPaterno, null, new { @class = "text-danger" })
                 </div>
             </div>
             <div class="col-2">
                 <div class="form-group">
                     @Html.LabelFor(model => model.apellidoMaterno, new { @class = "control-label" })
-                    @Html.TextBoxFor(model => model.apellidoMaterno, new { @class = "form-control", @style = "text-transform:uppercase;" })
+                    @Html.TextBoxFor(model => model.apellidoMaterno, new { @class = "form-control", @style = "text-transform:uppercase;", @maxlength = "50" })
                     @Html.ValidationMessageFor(model => model.apellidoMaterno, null, new { @class = "text-danger" })
                 </div>
             </div>
             <div class="col-3">
                 <div class="form-group">
                     @Html.LabelFor(model => model.nombre, new { @class = "control-label" })
-                    @Html.TextBoxFor(model => model.nombre, new { @class = "form-control", @style = "text-transform:uppercase;" })
+                    @Html.TextBoxFor(model => model.nombre, new { @class = "form-control", @style = "text-transform:uppercase;", @maxlength = "50" })
                     @Html.ValidationMessageFor(model => model.nombre, null, new { @class = "text-danger" })
                 </div>
             </div>
@@ -67,7 +67,7 @@
             <div class="col-2">
                 <div class="form-group">
                     @Html.LabelFor(model => model.trabajadorCod, new { @class = "control-label" })
-                    @Html.TextBoxFor(model => model.trabajadorCod, new { @class = "form-control" })
+                    @Html.TextBoxFor(model => model.trabajadorCod, new { @class = "form-control", @maxlength = "20" })
                     @Html.ValidationMessageFor(model => model.trabajadorCod, null, new { @class = "text-danger" })
                 </div>
             </div>
@@ -131,6 +131,18 @@
         </div>
 
         <div class="form-row">
+            <div class="col-12">
+                <div class="mb-3 row">
+                    @Html.LabelFor(model => model.dependenciaID, new { @class = "col-sm-2 control-label" })
+                    <div class="col-sm-10">
+                        @Html.DropDownListFor(model => model.dependenciaID, ViewBag.ListaDependencias as SelectList, "[ SELECCIONAR ]", new { @class = "form-control text-uppercase select-filter-modal" })
+                        @Html.ValidationMessageFor(model => model.dependenciaID, null, new { @class = "text-danger" })
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="form-row">
             <div class="col-5">
                 <div class="form-group">
                     @Html.LabelFor(model => model.bancoID, new { @class = "control-label" })
@@ -141,7 +153,7 @@
             <div class="col-3">
                 <div class="form-group">
                     <label class="control-label" for="nroCuentaBancaria">&nbsp;</label>
-                    @Html.TextBoxFor(model => model.nroCuentaBancaria, new { @class = "form-control", @placeholder = "Num.Cuenta" })
+                    @Html.TextBoxFor(model => model.nroCuentaBancaria, new { @class = "form-control", @placeholder = "Num.Cuenta", @maxlength = "50" })
                     @Html.ValidationMessageFor(model => model.nroCuentaBancaria, null, new { @class = "text-danger" })
                 </div>
             </div>
@@ -149,18 +161,7 @@
                 <div class="form-group">
                     @Html.LabelFor(model => model.tipoCuentaBancariaID, new { @class = "control-label" })
                     @Html.DropDownListFor(model => model.tipoCuentaBancariaID, ViewBag.ListaTipoCuentasBancarias as SelectList, "[ SELECCIONAR ]", new { @class = "form-control text-uppercase" })
-                </div>
-            </div>
-        </div>
-
-        <div class="form-row">
-            <div class="col-12">
-                <div class="mb-3 row">
-                    @Html.LabelFor(model => model.dependenciaID, new { @class = "col-sm-2 control-label" })
-                    <div class="col-sm-10">
-                        @Html.DropDownListFor(model => model.dependenciaID, ViewBag.ListaDependencias as SelectList, "[ SELECCIONAR ]", new { @class = "form-control text-uppercase select-filter-modal" })
-                        @Html.ValidationMessageFor(model => model.dependenciaID, null, new { @class = "text-danger" })
-                    </div>
+                    @Html.ValidationMessageFor(model => model.tipoCuentaBancariaID, null, new { @class = "text-danger" })
                 </div>
             </div>
         </div>
@@ -309,24 +310,18 @@
             return true;
         }, "El DNI sólo debe contener números.");
 
-        $.validator.addMethod("ValidarNombresYApellidos",
-            function (value) {
-                if (value !== null && value.trim().length > 0) {
-                    var regex = /^[^\d]+$/;
+        $.validator.addMethod("ValidarNombresYApellidos", function (value, element, params) {
+            if (value !== null && value.trim().length > 0) {
+                var regex = /^[^\d]+$/;
 
-                    if (!regex.test(value)) {
-                        return false;
-                    }
+                if (!regex.test(value)) {
+                    $.validator.messages.ValidarNombresYApellidos = `El campo ${params.displayName} no puede contener números.`;
+                    return false;
                 }
-
-                return true;
-            },
-            function (value, element) {
-                var nombreCampo = $(element).closest('.form-group').find('label').text();
-
-                return `El campo ${nombreCampo} no puede contener números.`;
             }
-        );
+
+            return true;
+        });
 
         $.validator.addMethod("ValidarAfpObligatorio", function (value) {
             var regimenID = $("#regimenID").val();
@@ -338,26 +333,51 @@
             return true;
         }, "El campo AFP es obligatorio.");
 
+        $.validator.addMethod("ValidarNumeroCuentaBancaria", function (value) {
+            var bancoID = $("#bancoID").val();
+
+            if (bancoID != null && bancoID != "") {
+                var regex = /^\d+$/;
+
+                if (value == null || value.trim() == "") {
+                    $.validator.messages.ValidarNumeroCuentaBancaria = "El nro. de cuenta bancaria es obligatorio.";
+                    return false;
+                }
+                else if (!regex.test(value)) {
+                    $.validator.messages.ValidarNumeroCuentaBancaria = "El nro. de cuenta bancaria sólo debe contener números.";
+                    return false;
+                }
+            }
+
+            return true;
+        });
+
+        $.validator.addMethod("ValidarTipoCuentaBancaria", function (value) {
+            var bancoID = $("#bancoID").val();
+
+            if ((bancoID != null && bancoID != "") && (value == null || value == "")) {
+                return false;
+            }
+
+            return true;
+        }, "El tipo de cuenta bancaria es obligatorio.");
+
         $("#numDocumento").rules("add", {
             ValidarLongitudNumeroDocumento: true,
             ValidarCaracteresNumeroDocumento: true
         });
 
-        $("#nombre").rules("add", {
-            ValidarNombresYApellidos: true
-        });
+        $("#nombre").rules("add", { ValidarNombresYApellidos: { displayName: "Nombres" } });
 
-        $("#apellidoPaterno").rules("add", {
-            ValidarNombresYApellidos: true
-        });
+        $("#apellidoPaterno").rules("add", { ValidarNombresYApellidos: { displayName: "Ape.Paterno" } });
 
-        $("#apellidoMaterno").rules("add", {
-            ValidarNombresYApellidos: true
-        });
+        $("#apellidoMaterno").rules("add", { ValidarNombresYApellidos: { displayName: "Ape.Materno" } });
 
-        $("#afpID").rules("add", {
-            ValidarAfpObligatorio: true
-        });
+        $("#afpID").rules("add", { ValidarAfpObligatorio: true });
+
+        $("#nroCuentaBancaria").rules("add", { ValidarNumeroCuentaBancaria: true });
+
+        $("#tipoCuentaBancariaID").rules("add", { ValidarTipoCuentaBancaria: true });
     });
 
     function mostrarFiltroSegunVinculo(vinculoID) {

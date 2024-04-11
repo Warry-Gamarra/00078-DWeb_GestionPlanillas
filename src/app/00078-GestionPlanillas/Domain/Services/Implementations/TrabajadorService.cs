@@ -80,6 +80,7 @@ namespace Domain.Services.Implementations
                             var grabarDocente = new USP_I_RegistrarTrabajador()
                             {
                                 C_TrabajadorCod = trabajadorEntity.trabajadorCod,
+                                C_CodigoPlaza = trabajadorEntity.codigoPlaza,
                                 I_PersonaID = (persona != null) ? persona.I_PersonaID : 0,
                                 T_ApellidoPaterno = trabajadorEntity.apellidoPaterno,
                                 T_ApellidoMaterno = trabajadorEntity.apellidoMaterno,
@@ -140,6 +141,7 @@ namespace Domain.Services.Implementations
                             {
                                 I_TrabajadorID = trabajadorEntity.trabajadorID.Value,
                                 C_TrabajadorCod = trabajadorEntity.trabajadorCod,
+                                C_CodigoPlaza = trabajadorEntity.codigoPlaza,
                                 T_ApellidoPaterno = trabajadorEntity.apellidoPaterno,
                                 T_ApellidoMaterno = trabajadorEntity.apellidoMaterno,
                                 T_Nombre = trabajadorEntity.nombre,

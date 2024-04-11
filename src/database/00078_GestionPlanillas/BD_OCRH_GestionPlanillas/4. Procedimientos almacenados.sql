@@ -8,6 +8,7 @@ GO
 
 CREATE PROCEDURE [dbo].[USP_I_RegistrarTrabajador]
 @C_TrabajadorCod VARCHAR(20),
+@C_CodigoPlaza VARCHAR(20) = NULL,
 @I_PersonaID INT = NULL,
 @T_ApellidoPaterno VARCHAR(250),
 @T_ApellidoMaterno VARCHAR(250),
@@ -53,8 +54,8 @@ BEGIN
 			SET @I_PersonaID = SCOPE_IDENTITY();
 		END
 
-		INSERT dbo.TC_Trabajador(I_PersonaID, C_TrabajadorCod, D_FechaIngreso, I_EstadoID, I_VinculoID, I_RegimenID, I_AfpID, T_Cuspp, B_Eliminado, I_UsuarioCre, D_FecCre)
-		VALUES(@I_PersonaID, @C_TrabajadorCod, @D_FechaIngreso, @I_EstadoID, @I_VinculoID, @I_RegimenID, @I_AfpID, @T_Cuspp, 0, @I_UserID, @D_FecCre);
+		INSERT dbo.TC_Trabajador(I_PersonaID, C_TrabajadorCod, C_CodigoPlaza, D_FechaIngreso, I_EstadoID, I_VinculoID, I_RegimenID, I_AfpID, T_Cuspp, B_Eliminado, I_UsuarioCre, D_FecCre)
+		VALUES(@I_PersonaID, @C_TrabajadorCod, @C_CodigoPlaza, @D_FechaIngreso, @I_EstadoID, @I_VinculoID, @I_RegimenID, @I_AfpID, @T_Cuspp, 0, @I_UserID, @D_FecCre);
 
 		SET @I_TrabajadorID = SCOPE_IDENTITY();
 		
@@ -102,6 +103,7 @@ GO
 CREATE PROCEDURE [dbo].[USP_U_ActualizarTrabajador]
 @I_TrabajadorID INT,
 @C_TrabajadorCod VARCHAR(20),
+@C_CodigoPlaza VARCHAR(20) = NULL,
 @T_ApellidoPaterno VARCHAR(250),
 @T_ApellidoMaterno VARCHAR(250),
 @T_Nombre VARCHAR(250),
@@ -157,6 +159,7 @@ BEGIN
 		--Actualizar Trabajador
 		UPDATE dbo.TC_Trabajador SET
 			C_TrabajadorCod = @C_TrabajadorCod,
+			C_CodigoPlaza = @C_CodigoPlaza,
 			D_FechaIngreso = @D_FechaIngreso,
 			I_EstadoID = @I_EstadoID,
 			I_VinculoID = @I_VinculoID,

@@ -16,6 +16,8 @@ namespace Data.Procedures
 
         public string C_TrabajadorCod { get; set; }
 
+        public string C_CodigoPlaza { get; set; }
+
         public string T_ApellidoPaterno { get; set; }
 
         public string T_ApellidoMaterno { get; set; }
@@ -75,6 +77,7 @@ namespace Data.Procedures
                     parameters = new DynamicParameters();
                     parameters.Add(name: "I_TrabajadorID", dbType: DbType.Int32, value: I_TrabajadorID);
                     parameters.Add(name: "C_TrabajadorCod", dbType: DbType.String, value: C_TrabajadorCod);
+                    parameters.Add(name: "C_CodigoPlaza", dbType: DbType.String, value: C_CodigoPlaza);
                     parameters.Add(name: "T_ApellidoPaterno", dbType: DbType.String, value: T_ApellidoPaterno);
                     parameters.Add(name: "T_ApellidoMaterno", dbType: DbType.String, value: T_ApellidoMaterno);
                     parameters.Add(name: "T_Nombre", dbType: DbType.String, value: T_Nombre);

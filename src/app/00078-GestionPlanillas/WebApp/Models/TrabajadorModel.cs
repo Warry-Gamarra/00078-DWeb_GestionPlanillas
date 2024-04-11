@@ -20,6 +20,8 @@ namespace WebApp.Models
         [Required(ErrorMessage = "El {0} es obligatorio.")]
         public string trabajadorCod { get; set; }
 
+        public string codigoPlaza { get; set; }
+
         public int personaID { get; set; }
 
         [DisplayName("Nombres")]
@@ -111,9 +113,11 @@ namespace WebApp.Models
 
         public int? cuentaBancariaID { get; set; }
 
+        [CustomValidation(typeof(TrabajadorModel), "ValidarNumeroCuentaBancaria")]
         public string nroCuentaBancaria { get; set; }
 
         [DisplayName("Tipo Cuenta Bancaria")]
+        [CustomValidation(typeof(TrabajadorModel), "ValidarTipoCuentaBancaria")]
         public int? tipoCuentaBancariaID { get; set; }
 
         [DisplayName("Cta.Banco")]
@@ -218,6 +222,37 @@ namespace WebApp.Models
             if (trabajador.regimenID.HasValue && trabajador.regimenID.Value == (int)RegimenPensionario.SPP && !afpID.HasValue)
             {
                 return new ValidationResult("El campo AFP es obligatorio.");
+            }
+
+            return ValidationResult.Success;
+        }
+
+        public static ValidationResult ValidarNumeroCuentaBancaria(string nroCuentaBancaria, ValidationContext context)
+        {
+            var trabajador = (TrabajadorModel)context.ObjectInstance;
+
+            if (trabajador.bancoID.HasValue)
+            {
+                if (String.IsNullOrEmpty(nroCuentaBancaria))
+                {
+                    return new ValidationResult("El nro. de cuenta bancaria es obligatorio.");
+                }
+                else if (!EsNumero(nroCuentaBancaria))
+                {
+                    return new ValidationResult("El nro. de cuenta bancaria sólo debe contener números.");
+                }
+            }
+
+            return ValidationResult.Success;
+        }
+
+        public static ValidationResult ValidarTipoCuentaBancaria(int? tipoCuentaBancariaID, ValidationContext context)
+        {
+            var trabajador = (TrabajadorModel)context.ObjectInstance;
+
+            if (trabajador.bancoID.HasValue && !tipoCuentaBancariaID.HasValue)
+            {
+                return new ValidationResult("El tipo de cuenta bancaria es obligatorio.");
             }
 
             return ValidationResult.Success;

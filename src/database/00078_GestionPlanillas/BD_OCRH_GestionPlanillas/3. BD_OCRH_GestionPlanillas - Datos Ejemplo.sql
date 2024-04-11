@@ -251,6 +251,7 @@ GO
 
 INSERT dbo.TC_TipoCuentaBancaria(C_TipoCuentaBancariaCod, T_TipoCuentaBancariaDesc, B_Habilitado, B_Eliminado) VALUES('004', 'CUENTA DE AHORRO', 1, 0)
 INSERT dbo.TC_TipoCuentaBancaria(C_TipoCuentaBancariaCod, T_TipoCuentaBancariaDesc, B_Habilitado, B_Eliminado) VALUES('003', 'CUENTA CORRIENTE', 1, 0)
+INSERT dbo.TC_TipoCuentaBancaria(C_TipoCuentaBancariaCod, T_TipoCuentaBancariaDesc, B_Habilitado, B_Eliminado) VALUES('000', 'MULTIRED', 1, 0)
 GO
 
 

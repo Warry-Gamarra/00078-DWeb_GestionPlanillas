@@ -33,6 +33,7 @@ namespace Domain.Helpers
             {
                 trabajadorID = view.I_TrabajadorID,
                 trabajadorCod = view.C_TrabajadorCod,
+                codigoPlaza = view.C_CodigoPlaza,
                 personaID = view.I_PersonaID,
                 nombre = view.T_Nombre,
                 apellidoPaterno = view.T_ApellidoPaterno,
@@ -348,6 +349,7 @@ namespace Domain.Helpers
             {
                 trabajadorID = view.I_TrabajadorID,
                 trabajadorCod = view.C_TrabajadorCod,
+                codigoPlaza = view.C_CodigoPlaza,
                 personaID = view.I_PersonaID,
                 nombre = view.T_Nombre,
                 apellidoPaterno = view.T_ApellidoPaterno,

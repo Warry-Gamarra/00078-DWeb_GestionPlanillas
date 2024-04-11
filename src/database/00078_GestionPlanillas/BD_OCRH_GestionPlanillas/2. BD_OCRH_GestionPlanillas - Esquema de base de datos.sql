@@ -348,6 +348,7 @@ CREATE TABLE TC_Trabajador
 	I_TrabajadorID INT IDENTITY(1,1),
 	I_PersonaID INT NOT NULL,
 	C_TrabajadorCod VARCHAR(20) NOT NULL,
+	C_CodigoPlaza VARCHAR(20),
 	D_FechaIngreso DATE,
 	I_EstadoID INT NOT NULL,
 	I_VinculoID INT NOT NULL,

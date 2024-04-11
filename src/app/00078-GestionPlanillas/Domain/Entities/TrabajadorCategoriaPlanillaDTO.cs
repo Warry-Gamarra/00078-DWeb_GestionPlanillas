@@ -12,6 +12,8 @@ namespace Domain.Entities
 
         public string trabajadorCod { get; set; }
 
+        public string codigoPlaza { get; set; }
+
         public int personaID { get; set; }
 
         public string nombre { get; set; }
