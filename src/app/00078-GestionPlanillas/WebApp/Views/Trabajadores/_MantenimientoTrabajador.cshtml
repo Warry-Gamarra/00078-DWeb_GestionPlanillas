@@ -182,6 +182,16 @@
             </div>
         </div>
 
+        <div class="form-row">
+            <div class="col-6">
+                <div class="form-group">
+                    @Html.LabelFor(model => model.codigoPlaza, new { @class = "control-label" })
+                    @Html.TextBoxFor(model => model.codigoPlaza, new { @class = "form-control", @maxlength = "6" })
+                    @Html.ValidationMessageFor(model => model.codigoPlaza, null, new { @class = "text-danger" })
+                </div>
+            </div>
+        </div>
+
         <div class="row d-flex justify-content-center">
             <button type="submit" class="btn btn-primary center" id="btnsubmit"><i class="fa fa-save"></i> Guardar</button>
         </div>
@@ -362,6 +372,22 @@
             return true;
         }, "El tipo de cuenta bancaria es obligatorio.");
 
+        $.validator.addMethod("ValidarCodigoPlaza", function (value) {
+            var regex = /^\d+$/;
+
+            if (value !== null && value.trim() !== "") {
+                if (value.trim().length > 6) {
+                    $.validator.messages.ValidarCodigoPlaza = "El código de plaza no puede tener más de 6 dígitos.";
+                    return false;
+                } else if (!regex.test(value)) {
+                    $.validator.messages.ValidarCodigoPlaza = "El código de plaza sólo debe contener números.";
+                    return false;
+                }
+            }
+            
+            return true;
+        });
+
         $("#numDocumento").rules("add", {
             ValidarLongitudNumeroDocumento: true,
             ValidarCaracteresNumeroDocumento: true
@@ -378,6 +404,8 @@
         $("#nroCuentaBancaria").rules("add", { ValidarNumeroCuentaBancaria: true });
 
         $("#tipoCuentaBancariaID").rules("add", { ValidarTipoCuentaBancaria: true });
+
+        $("#codigoPlaza").rules("add", { ValidarCodigoPlaza: true });
     });
 
     function mostrarFiltroSegunVinculo(vinculoID) {

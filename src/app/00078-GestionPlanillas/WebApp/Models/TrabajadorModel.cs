@@ -20,6 +20,9 @@ namespace WebApp.Models
         [Required(ErrorMessage = "El {0} es obligatorio.")]
         public string trabajadorCod { get; set; }
 
+        [DisplayName("Código de Plaza")]
+        
+        [CustomValidation(typeof(TrabajadorModel), "ValidarCodigoPlaza")]
         public string codigoPlaza { get; set; }
 
         public int personaID { get; set; }
@@ -255,6 +258,24 @@ namespace WebApp.Models
                 return new ValidationResult("El tipo de cuenta bancaria es obligatorio.");
             }
 
+            return ValidationResult.Success;
+        }
+
+        public static ValidationResult ValidarCodigoPlaza(string codigoPlaza, ValidationContext context)
+        {
+            
+            if (!String.IsNullOrEmpty(codigoPlaza))
+            {
+                if (codigoPlaza.Trim().Length > 6) 
+                {
+                    return new ValidationResult("El código de plaza no puede tener más de 6 dígitos.");
+                }
+                else if (!EsNumero(codigoPlaza))
+                {
+                    return new ValidationResult("El código de plaza sólo debe contener números.");
+                }
+            }
+            
             return ValidationResult.Success;
         }
 

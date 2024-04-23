@@ -88,7 +88,7 @@ namespace WebApp.ServiceFacade.Implementations
                     trabajadorID = model.trabajadorID,
                     personaID = model.personaID,
                     trabajadorCod = model.trabajadorCod,
-                    codigoPlaza = model.codigoPlaza,
+                    codigoPlaza = model.codigoPlaza.PadLeft(6,'0'),
                     apellidoPaterno = model.apellidoPaterno.ToUpperInvariant(),
                     apellidoMaterno = model.apellidoMaterno.ToUpperInvariant(),
                     nombre = model.nombre.ToUpperInvariant(),
