@@ -215,5 +215,76 @@ namespace WebApp.Controllers
 
             return PartialView("_MsgRegistrarTrabajador", response);
         }
+
+        [HttpGet]
+        public ActionResult CargaMasiva()
+        {
+            ViewBag.Title = "Carga masiva";
+
+            return PartialView("_CargaMasiva");
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public JsonResult ObtenerInformacionArchivo(HttpPostedFileBase inputFile)
+        {
+            var result = new AjaxResponse();
+
+            try
+            {
+                if (inputFile == null)
+                {
+                    throw new NullReferenceException("Debe seleccionar un archivo.");
+                }
+
+                result.data = _trabajadorServiceFacade.ObtenerListaTrabajadores(inputFile);
+
+                result.success = true;
+            }
+            catch (Exception ex)
+            {
+                result.message = ex.Message;
+            }
+
+            return Json(result, JsonRequestBehavior.AllowGet);
+        }
+
+        //[HttpPost]
+        //[ValidateAntiForgeryToken]
+        //public JsonResult GuardarInformacion(string fileName)
+        //{
+        //    var result = _valorExternoConceptoServiceFacade.GrabarValoresExternos(fileName, WebSecurity.CurrentUserId);
+
+        //    var response = new AjaxResponse()
+        //    {
+        //        success = result.Success,
+        //        message = result.Message
+        //    };
+
+        //    return Json(response, JsonRequestBehavior.AllowGet);
+        //}
+
+        //[HttpPost]
+        //[ValidateAntiForgeryToken]
+        //public ActionResult DescargarResultadoLectura(string fileName)
+        //{
+        //    FileContent fileContent;
+        //    string errorMessage;
+
+        //    try
+        //    {
+        //        fileContent = _valorExternoConceptoServiceFacade.ObtenerResultadoLectura(FormatoArchivo.XLSX, fileName);
+
+        //        return File(fileContent.fileContent, fileContent.contentType, fileContent.fileName);
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        errorMessage = ex.Message;
+        //    }
+
+        //    ViewBag.ErrorMessage = errorMessage;
+
+        //    return View();
+        //}
     }
 }

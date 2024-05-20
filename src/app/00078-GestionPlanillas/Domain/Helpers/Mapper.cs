@@ -814,5 +814,128 @@ namespace Domain.Helpers
 
             return dto;
         }
+
+        public static TrabajadorLecturaDTO ExcelDataReader_To_TrabajadorLecturaDTO(IExcelDataReader reader)
+        {
+            string stringValue; int intValue;
+
+            var TrabajadorLecturaDTO = new TrabajadorLecturaDTO();
+
+            if (reader.GetValue(0) != null)
+            {
+                TrabajadorLecturaDTO.tipoDocumentoID = reader.GetValue(0).ToString();
+            }
+
+            if (reader.GetValue(1) != null)
+            {
+                TrabajadorLecturaDTO.numDocumento = reader.GetValue(1).ToString();
+            }
+
+            if (reader.GetValue(2) != null)
+            {
+                TrabajadorLecturaDTO.apePaterno = reader.GetValue(2).ToString();
+            }
+
+            if (reader.GetValue(3) != null)
+            {
+                TrabajadorLecturaDTO.apeMaterno = reader.GetValue(3).ToString();
+            }
+
+            if (reader.GetValue(4) != null)
+            {
+                TrabajadorLecturaDTO.nombres = reader.GetValue(4).ToString();
+            }
+
+            if (reader.GetValue(5) != null)
+            {
+                stringValue = reader.GetValue(5).ToString();
+
+                if (int.TryParse(stringValue, out intValue))
+                    TrabajadorLecturaDTO.sexo = intValue;
+            }
+
+            if (reader.GetValue(6) != null)
+            {
+                TrabajadorLecturaDTO.codigoTrabajador = reader.GetValue(6).ToString();
+            }
+
+            if (reader.GetValue(7) != null)
+            {
+                TrabajadorLecturaDTO.vinculoCod = reader.GetValue(7).ToString();
+            }
+
+            if (reader.GetValue(8) != null)
+            {
+                TrabajadorLecturaDTO.grupoOcupacionalCod = reader.GetValue(8).ToString();
+            }
+
+            if (reader.GetValue(9) != null)
+            {
+                TrabajadorLecturaDTO.nivelRemunerativoCod = reader.GetValue(9).ToString();
+            }
+
+            if (reader.GetValue(10) != null)
+            {
+                TrabajadorLecturaDTO.categoriaDocenteCod = reader.GetValue(10).ToString();
+            }
+
+            if (reader.GetValue(11) != null)
+            {
+                TrabajadorLecturaDTO.dedicacionDocenteCod = reader.GetValue(11).ToString();
+            }
+
+            if (reader.GetValue(12) != null)
+            {
+                stringValue = reader.GetValue(12).ToString();
+
+                if (int.TryParse(stringValue, out intValue))
+                    TrabajadorLecturaDTO.horasDocente = intValue;
+            }
+
+            if (reader.GetValue(13) != null)
+            {
+                TrabajadorLecturaDTO.fechaIngreso = reader.GetValue(13).ToString();
+            }
+
+            if (reader.GetValue(14) != null)
+            {
+                TrabajadorLecturaDTO.dependenciaCod = reader.GetValue(14).ToString();
+            }
+
+            if (reader.GetValue(15) != null)
+            {
+                TrabajadorLecturaDTO.bancoCod = reader.GetValue(15).ToString();
+            }
+
+            if (reader.GetValue(16) != null)
+            {
+                TrabajadorLecturaDTO.numeroCuentaBancaria = reader.GetValue(16).ToString();
+            }
+
+            if (reader.GetValue(17) != null)
+            {
+                TrabajadorLecturaDTO.tipoCuentaBancaria = reader.GetValue(17).ToString();
+            }
+
+            if (reader.GetValue(18) != null)
+            {
+                TrabajadorLecturaDTO.regimenPensionarioCod = reader.GetValue(18).ToString();
+            }
+
+            if (reader.GetValue(19) != null)
+            {
+                stringValue = reader.GetValue(19).ToString();
+
+                if (int.TryParse(stringValue, out intValue))
+                    TrabajadorLecturaDTO.afpCod = intValue;
+            }
+
+            if (reader.GetValue(20) != null)
+            {
+                TrabajadorLecturaDTO.codigoPlaza = reader.GetValue(20).ToString();
+            }
+
+            return TrabajadorLecturaDTO;
+        }
     }
 }

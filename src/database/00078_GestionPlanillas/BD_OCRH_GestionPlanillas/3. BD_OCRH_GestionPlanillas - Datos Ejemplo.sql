@@ -515,10 +515,10 @@ INSERT dbo.TC_Dependencia(T_DependenciaDesc, C_DependenciaCod, B_Habilitado, B_E
 GO
 
 
-INSERT dbo.TC_Afp(T_AfpDesc, C_AfpCod, B_Habilitado, B_Eliminado) VALUES('AFP Habitat', '', 1, 0)
-INSERT dbo.TC_Afp(T_AfpDesc, C_AfpCod, B_Habilitado, B_Eliminado) VALUES('AFP Integra', '', 1, 0)
-INSERT dbo.TC_Afp(T_AfpDesc, C_AfpCod, B_Habilitado, B_Eliminado) VALUES('Prima AFP', '', 1, 0)
-INSERT dbo.TC_Afp(T_AfpDesc, C_AfpCod, B_Habilitado, B_Eliminado) VALUES('Profuturo AFP', '', 1, 0)
+INSERT dbo.TC_Afp(T_AfpDesc, C_AfpCod, B_Habilitado, B_Eliminado) VALUES('AFP Habitat', '1', 1, 0)
+INSERT dbo.TC_Afp(T_AfpDesc, C_AfpCod, B_Habilitado, B_Eliminado) VALUES('AFP Integra', '2', 1, 0)
+INSERT dbo.TC_Afp(T_AfpDesc, C_AfpCod, B_Habilitado, B_Eliminado) VALUES('Prima AFP', '3', 1, 0)
+INSERT dbo.TC_Afp(T_AfpDesc, C_AfpCod, B_Habilitado, B_Eliminado) VALUES('Profuturo AFP', '4', 1, 0)
 GO
 
 

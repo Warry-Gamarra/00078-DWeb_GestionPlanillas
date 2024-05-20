@@ -55,9 +55,9 @@ namespace WebApp.ServiceFacade.Implementations
 
             try
             {
-                newFileName = GuardarArchivo(serverPath, file);
+                newFileName = FileManagement.GuardarArchivo(serverPath, file);
 
-                lecturaArchivoService = GetLecturaService(Path.GetExtension(newFileName));
+                lecturaArchivoService = FileManagement.GetLecturaService(Path.GetExtension(newFileName));
 
                 lectura = lecturaArchivoService.ObtenerListaValoresDeConceptos(Path.Combine(serverPath, newFileName));
 
@@ -85,7 +85,7 @@ namespace WebApp.ServiceFacade.Implementations
             
             try
             {
-                lecturaArchivoService = GetLecturaService(Path.GetExtension(fileName));
+                lecturaArchivoService = FileManagement.GetLecturaService(Path.GetExtension(fileName));
 
                 lectura = lecturaArchivoService.ObtenerListaValoresDeConceptos(Path.Combine(serverPath, fileName));
 
@@ -227,13 +227,13 @@ namespace WebApp.ServiceFacade.Implementations
 
             try
             {
-                lecturaArchivoService = GetLecturaService(Path.GetExtension(fileName));
+                lecturaArchivoService = FileManagement.GetLecturaService(Path.GetExtension(fileName));
 
                 lectura = lecturaArchivoService.ObtenerListaValoresDeConceptos(Path.Combine(serverPath, fileName));
 
                 lecturaProcesada = ObtenerLecturaProcesada(lectura);
 
-                generacionArchivoService = GetGeneracionArchivoService(formatoArchivo);
+                generacionArchivoService = FileManagement.GetGeneracionArchivoService(formatoArchivo);
 
                 fileContent = generacionArchivoService.GenerarExcelDeLecturaValoresDeConceptos(lecturaProcesada);
             }
@@ -243,63 +243,6 @@ namespace WebApp.ServiceFacade.Implementations
             }
 
             return fileContent;
-        }
-
-
-        private string GuardarArchivo(string serverPath, HttpPostedFileBase file)
-        {
-            if (serverPath == null || !Directory.Exists(serverPath))
-            {
-                throw new DirectoryNotFoundException("No existe el directorio para almacenar el archivo.");
-            }
-
-            string newFileName = Guid.NewGuid() + "_" + Path.GetFileName(file.FileName);
-
-            string filePath = Path.Combine(serverPath, newFileName);
-
-            file.SaveAs(filePath);
-
-            return newFileName;
-        }
-
-        private ILecturaArchivoService GetLecturaService(string extension)
-        {
-            ILecturaArchivoService _lecturaArchivoService;
-
-            switch (extension)
-            {
-                case ".xls":
-                    _lecturaArchivoService = new LecturaArchivoExcelService();
-                    break;
-
-                case ".xlsx":
-                    _lecturaArchivoService = new LecturaArchivoExcelService();
-                    break;
-
-                default:
-                    throw new Exception("Tipo de archivo desconocido.");
-            }
-
-            return _lecturaArchivoService;
-        }
-
-        private IGeneracionArchivoService GetGeneracionArchivoService(FormatoArchivo formatoArchivo)
-        {
-            IGeneracionArchivoService generacionArchivoService;
-
-            switch (formatoArchivo)
-            {
-                case FormatoArchivo.XLSX:
-                    
-                    generacionArchivoService = new GeneracionArchivoExcelService();
-
-                    break;
-
-                default:
-                    throw new NotImplementedException("Tipo de archivo no implementado.");
-            }
-
-            return generacionArchivoService;
         }
 
         private List<ValorExternoLecturaProcesadoDTO> ObtenerLecturaProcesada(List<ValorExternoLecturaDTO> lectura)

@@ -10,7 +10,6 @@ namespace WebApp
         {
             bundles.Add(new StyleBundle("~/content/css").Include(
                 "~/Assets/bootstrap/css/bootstrap.min.css",
-                "~/Assets/grid-mvc/css/Gridmvc.css",
                 "~/Assets/jquery/css/jquery-ui.min.css",
                 "~/Assets/toastr/css/toastr.min.css",
                 "~/Assets/application/css/main.css",
@@ -53,7 +52,6 @@ namespace WebApp
                 "~/Assets/bootstrap-datepicker/js/datetimepicker.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/app").Include(
-                "~/Assets/grid-mvc/js/gridmvc.js",
                 "~/Assets/toastr/js/toastr.min.js",
                 "~/Assets/toastr/js/toastr.config.js",
                 "~/Assets/application/js/main.js",

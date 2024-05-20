@@ -11,5 +11,7 @@ namespace Domain.Services
     public interface ILecturaArchivoService
     {
         List<ValorExternoLecturaDTO> ObtenerListaValoresDeConceptos(string filePath);
+
+        List<TrabajadorLecturaDTO> ObtenerListaTrabajadores(string filePath);
     }
 }

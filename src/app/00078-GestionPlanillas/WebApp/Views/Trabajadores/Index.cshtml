@@ -1,4 +1,7 @@
-﻿<div class="container-fluid">
+﻿@Styles.Render("~/content/fileinput")
+@Scripts.Render("~/bundles/fileinput")
+
+<div class="container-fluid">
     <div class="col-12 mb-4">
         <section class="content-header">
             <nav aria-label="breadcrumb">
@@ -15,6 +18,9 @@
     <div class="card mb-4">
         <div class="card-header">
             <span class="h4">Trabajadores</span>
+            <a href="@Url.Action("CargaMasiva", "Trabajadores")" class="btn btn-primary pull-right modal-link-xl ml-3">
+                <i class="fa fa-cloud-upload" aria-hidden="true"></i> Carga masiva
+            </a>
             <a href="@Url.Action("Nuevo", "Trabajadores")" class="btn btn-primary pull-right modal-link-lg">
                 <i class="fa fa-user-plus" aria-hidden="true"></i> Nuevo trabajador
             </a>
@@ -60,11 +66,17 @@
 
 @section scripts {
     <script type="text/javascript">
+        var modalActivo = null;
+
         $(document).ready(function () {
             generarDataTableTrabajadores();
 
             $(".modal").on('hide.bs.modal', function () {
-                generarDataTableTrabajadores();
+            //    if (modalActivo === "modal-mantenimiento-trabajador") {
+                    generarDataTableTrabajadores();
+            //    } else if (modalActivo === "modal-carga-masiva") {
+
+            //    }
             });
         });
 

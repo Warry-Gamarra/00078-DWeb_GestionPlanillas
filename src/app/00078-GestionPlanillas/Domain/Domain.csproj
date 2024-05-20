@@ -98,6 +98,8 @@
     <Compile Include="Entities\TipoCuentaBancariaDTO.cs" />
     <Compile Include="Entities\TrabajadorCategoriaPlanillaEntity.cs" />
     <Compile Include="Entities\TrabajadorConPlanillaDTO.cs" />
+    <Compile Include="Entities\TrabajadorLecturaDTO.cs" />
+    <Compile Include="Entities\TrabajadorLecturaProcesadoDTO.cs" />
     <Compile Include="Entities\UsuarioDTO.cs" />
     <Compile Include="Entities\UsuarioEntity.cs" />
     <Compile Include="Entities\ValorConceptoEntity.cs" />
@@ -131,6 +133,7 @@
     <Compile Include="Enums\RegimenPensionario.cs" />
     <Compile Include="Enums\TipoConcepto.cs" />
     <Compile Include="Enums\TipoDocumentoIdentidad.cs" />
+    <Compile Include="Helpers\FileManagement.cs" />
     <Compile Include="Helpers\Formats.cs" />
     <Compile Include="Enums\Operacion.cs" />
     <Compile Include="Enums\Vinculo.cs" />

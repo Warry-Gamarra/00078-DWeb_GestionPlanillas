@@ -101,5 +101,23 @@ namespace WebApp.Controllers
 
             return File(rutaArchivo, "application/octet-stream", nombreArchivo);
         }
+
+        public FileResult DescargarFormatoCargaMasivaTrabajador()
+        {
+            var nombreArchivo = "Formato carga trabajadores.xlsx";
+
+            var rutaArchivo = Server.MapPath("~/Assets/application/formatos/" + nombreArchivo);
+
+            return File(rutaArchivo, "application/octet-stream", nombreArchivo);
+        }
+
+        public FileResult DescargarCatalogoFormatoCargaMasivaTrabajador()
+        {
+            var nombreArchivo = "Catalogo del formato de carga de trabajadores.xlsx";
+
+            var rutaArchivo = Server.MapPath("~/Assets/application/formatos/" + nombreArchivo);
+
+            return File(rutaArchivo, "application/octet-stream", nombreArchivo);
+        }
     }
 }

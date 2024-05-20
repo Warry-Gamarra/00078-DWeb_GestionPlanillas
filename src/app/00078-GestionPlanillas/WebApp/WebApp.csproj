@@ -359,6 +359,8 @@
     <Content Include="Assets\application\formatos\Formato carga actividades, dependencias y metas.xlsx" />
     <Content Include="Assets\application\formatos\Formato carga categoría de planillas para trabajadores.xlsx" />
     <Content Include="Assets\application\formatos\Catalogo del formato de carga de informacion externa.xlsx" />
+    <Content Include="Assets\application\formatos\Catalogo del formato de carga de trabajadores.xlsx" />
+    <Content Include="Assets\application\formatos\Formato carga trabajadores.xlsx" />
     <None Include="Assets\jquery\js\jquery-3.3.1.intellisense.js" />
     <Content Include="Assets\jquery\css\jquery-ui.min.css" />
     <Content Include="Assets\jquery\js\jquery-3.3.1.min.js" />
@@ -523,6 +525,7 @@
     <Content Include="Views\GruposTrabajo\_MsgRegistrarGrupoTrabajo.cshtml" />
     <Content Include="Views\TrabajadorCategoriaPlanilla\Index.cshtml" />
     <Content Include="Views\TrabajadorCategoriaPlanilla\_BuscarTrabajador.cshtml" />
+    <Content Include="Views\Trabajadores\_CargaMasiva.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

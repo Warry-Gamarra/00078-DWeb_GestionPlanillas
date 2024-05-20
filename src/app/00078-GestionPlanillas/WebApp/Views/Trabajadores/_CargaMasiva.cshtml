@@ -1,0 +1,310 @@
+﻿@Scripts.Render("~/bundles/jqueryval")
+
+<div class="modal-header bg-dark-gray" style="border-radius: .2rem .2rem 0px 0px">
+    <h5 class="modal-title text-center"><i class="fa fa-tag">&nbsp;</i> @ViewBag.Title</h5>
+    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+</div>
+
+<div class="modal-body">
+    <div class="card mb-4">
+        <div class="card-header">
+            <span class="h4">Archivo externo</span>
+        </div>
+        <div class="card-body">
+            @using (Html.BeginForm("ObtenerInformacionArchivo", "Trabajadores", FormMethod.Post,
+                new { id = "form-upload", enctype = "multipart/form-data", @class = "form-inline" }))
+            {
+                <div class="form-group mr-2">
+                    <label class="control-label" for="inputFile">Seleccione archivo</label>
+                    <input type="file" class="form-control-file" id="inputFile" name="inputFile" />
+                </div>
+                <div class="form-group mr-2">
+                    @Html.AntiForgeryToken()
+                    <button type="submit" id="btnLeerArchivo" class="btn btn-primary"><i class="fa fa-search" aria-hidden="true"></i> Leer archivo</button>
+                    <div id="wating-section" class="d-none">
+                        <strong>Cargando información...</strong>
+                        <div class="spinner-border ml-auto text-primary" role="status" aria-hidden="true"></div>
+                    </div>
+                </div>
+            }
+            <div class="form-group" id="error-archivo"></div>
+        </div>
+        <div class="card-body">
+            <ul>
+                <li><a href="@Url.Action("DescargarFormatoCargaMasivaTrabajador", "General")">Descargar Formato para registrar trabajadores [.xlsx]</a></li>
+                <li><a href="@Url.Action("DescargarCatalogoFormatoCargaMasivaTrabajador", "General")">Descargar Catálogo de Datos para registrar trabajadores [.xlsx]</a></li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="card mb-4">
+        <div class="card-header">
+            @using (Html.BeginForm("DescargarResultadoLectura", "Trabajadores", FormMethod.Post, new { id = "form-register", target = "_blank" }))
+            {
+                @Html.AntiForgeryToken()
+                <span class="h4">Vista previa</span>
+                <input type="hidden" id="fileName" name="fileName" />
+                <button type="submit" class="btn btn-primary pull-right d-none" id="btnDescargarResultadoLectura">
+                    <i class="fa fa-download" aria-hidden="true"></i> Descargar [.xlsx]
+                </button>
+                <label class="pull-right">&nbsp;</label>
+                <button type="button" class="btn btn-primary pull-right d-none" id="btnGrabarArchivo">
+                    <i class="fa fa-save" aria-hidden="true"></i> Guardar información
+                </button>
+            }
+        </div>
+        <div class="card-body">
+            <div class="table-responsive">
+                <table class="table table-hover" id="dataTableLecturaTrabajadores" width="100%">
+                    <thead class="thead-dark">
+                        <tr>
+                            <th></th>
+                            <th>Tip.Doc.</th>
+                            <th>Num.Doc.</th>
+                            <th>Ap.Paterno</th>
+                            <th>Ap.Materno</th>
+                            <th>Nombres</th>
+                            <th>Sexo</th>
+                            <th>Cod.Trabajador</th>
+                            <th>Vínculo</th>
+                            <th>Grup.Ocup.</th>
+                            <th>Niv.Remu.</th>
+                            <th>Cat.Doc.</th>
+                            <th>Dedi.Doc.</th>
+                            <th>Hor.Doc.</th>
+                            <th>Fec.Ing.</th>
+                            <th>Dependencia</th>
+                            <th>Cta.Banco.</th>
+                            <th>Num.Cta.Banco</th>
+                            <th>Tip.Cta.Banco</th>
+                            <th>Regimen</th>
+                            <th>Afp</th>
+                            <th>Cod.Plaza</th>
+                            <th>Obs</th>
+                        </tr>
+                    </thead>
+                    <tfoot>
+                        <tr>
+                            <th></th>
+                            <th>Tip.Doc.</th>
+                            <th>Num.Doc.</th>
+                            <th>Ap.Paterno</th>
+                            <th>Ap.Materno</th>
+                            <th>Nombres</th>
+                            <th>Sexo</th>
+                            <th>Cod.Trabajador</th>
+                            <th>Vínculo</th>
+                            <th>Grup.Ocup.</th>
+                            <th>Niv.Remu.</th>
+                            <th>Cat.Doc.</th>
+                            <th>Dedi.Doc.</th>
+                            <th>Hor.Doc.</th>
+                            <th>Fec.Ing.</th>
+                            <th>Dependencia</th>
+                            <th>Cta.Banco.</th>
+                            <th>Num.Cta.Banco</th>
+                            <th>Tip.Cta.Banco</th>
+                            <th>Regimen</th>
+                            <th>Afp</th>
+                            <th>Cod.Plaza</th>
+                            <th>Obs</th>
+                        </tr>
+                    </tfoot>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal-footer" id="div_msg">
+    <button type="button" class="btn btn-secondary" id="btnCancel" data-dismiss="modal">
+        <i class="fa fa-times-circle-o"></i> Cerrar
+    </button>
+</div>
+
+<script type="text/javascript">
+    modalActivo = "modal-carga-masiva";
+
+    $(document).ready(function () {
+        limpiarData();
+
+        $("#inputFile").fileinput({
+            showCaption: true,
+            dropZoneEnabled: false,
+            language: 'es',
+            allowedFileExtensions: ["xls", "xlsx"],
+            showPreview: false,
+            showUpload: false,
+            elErrorContainer: '#error-archivo'
+        });
+
+        $('#inputFile').on('change filecleared', function (event) {
+            limpiarData();
+        });
+
+        $('#form-upload').on('submit', function (event) {
+            event.preventDefault();
+            var form = $(this);
+
+            form.ajaxSubmit({
+                cache: false,
+                url: form.attr("action"),
+                type: "POST",
+                processData: false,
+                dataType: "json",
+                beforeSend: function () {
+                    limpiarData();
+                    $("#btnLeerArchivo").addClass("d-none");
+                    $("#wating-section").removeClass("d-none");
+                },
+                success: function (result) {
+                    if (result.success) {
+                        let fileName = result.data.Item1;
+                        let jsonData = result.data.Item2;
+
+                        $("#fileName").val(fileName);
+                        generardataTableLecturaTrabajadores(jsonData);
+                    } else {
+                        toastr.error(result.message);
+                    }
+                },
+                error: function (jqXHR, textStatus, errorThrown) {
+                    toastr.error(errorThrown);
+                },
+                complete: function () {
+                    $("#btnLeerArchivo").removeClass("d-none");
+                    $("#wating-section").addClass("d-none");
+                }
+            });
+        });
+
+        $('#dataTableLecturaTrabajadores').DataTable().on('order.dt search.dt', function () {
+            $('#dataTableLecturaTrabajadores').DataTable().column(0, { search: 'applied', order: 'applied' }).nodes().each(function (cell, i) {
+                cell.innerHTML = i + 1;
+            });
+        });
+    });
+
+    function generardataTableLecturaTrabajadores(jsonObject) {
+        $('#dataTableLecturaTrabajadores').DataTable({
+            data: jsonObject,
+            columns: [
+                { data: 'tipoDocumentoID' },
+                { data: 'numDocumento' },
+                { data: 'apePaterno' },
+                { data: 'apeMaterno' },
+                { data: 'nombres' },
+                { data: 'numDocumento' },
+                { data: 'sexo' },
+                { data: 'codigoTrabajador' },
+                { data: 'vinculo' },
+                { data: 'vinculo' },
+                { data: 'vinculo' },
+                { data: 'vinculo' },
+                { data: 'vinculo' },
+                { data: 'vinculo' },
+                { data: 'vinculo' },
+                { data: 'vinculo' },
+                { data: 'vinculo' },
+                { data: 'vinculo' },
+                { data: 'vinculo' },
+                { data: 'vinculo' },
+                { data: 'vinculo' },
+                { data: 'codigoPlaza' },
+                { data: 'esRegistroCorrecto', width: '15%' }
+            ],
+            columnDefs: [
+                {
+                    targets: -1,
+                    render: function (data, type, row) {
+                        let obs = '';
+
+                        row.observaciones.forEach(function (item) {
+                            obs += `<li>${item}</li>`;
+                        });
+
+                        return obs;
+                    }
+                }
+            ],
+            bStateSave: false,
+            bDestroy: true,
+            lengthMenu: [[10, 25], [10, 25]],
+            iDisplayLength: 10,
+            language: {
+                search: "Buscar: ",
+                lengthMenu: "Mostrar _MENU_ filas",
+                info: "Mostrando del _START_ al _END_ de _TOTAL_ elementos.",
+                infoEmpty: "No se encontraron registros.",
+                zeroRecords: "No hay data disponible.",
+                emptyTable: "No hay data disponible.",
+                paginate: {
+                    first: "Primero",
+                    previous: "Previo",
+                    next: "Siguiente",
+                    last: "Último"
+                },
+                aria: {
+                    sortAscending: ": activar para ordenar la columna en orden ascendente",
+                    sortDescending: ": activar para ordenar la columna en orden descendente"
+                },
+                loadingRecords: "Cargando...",
+                processing: "Procesando..."
+            },
+            searching: true,
+            "initComplete": function (settings, json) {
+                var api = this.api();
+
+                var numRows = api.rows().count();
+
+                if (numRows > 0) {
+                    $("#btnGrabarArchivo").removeClass("d-none");
+                    $("#btnDescargarResultadoLectura").removeClass("d-none");
+                } else {
+                    $("#btnGrabarArchivo").addClass("d-none");
+                    $("#btnDescargarResultadoLectura").addClass("d-none");
+                }
+
+                //Filtro
+                api.columns([11]).every(function () {
+                    let column = this;
+
+                    let select = document.createElement('select');
+                    select.add(new Option('Observaciones', ''));
+                    column.footer().replaceChildren(select);
+
+                    select.addEventListener('change', function () {
+                        var val = $.fn.dataTable.util.escapeRegex(select.value);
+
+                        if (val === "true") {
+                            column.search('^.{0}$', true, false).draw();
+                        } else if (val === "false") {
+                            column.search('.{1,}', true, false).draw();
+                        } else {
+                            column.search('').draw();
+                        }
+                    });
+
+                    column.data().unique().sort().each(function (d, j) {
+                        let textValue = (d === true) ? "Sólo correctos" : "Sólo observados";
+
+                        if (column.search() === '^' + d + '$') {
+                            select.add(new Option(textValue, d, true, true));
+                        } else {
+                            select.add(new Option(textValue, d));
+                        }
+                    });
+
+                    $(select).click(function (e) {
+                        e.stopPropagation();
+                    });
+                });
+            }
+        });
+    }
+
+    function limpiarData() {
+        $("#fileName").val("");
+        generardataTableLecturaTrabajadores([]);
+    }
+</script>

@@ -16,5 +16,13 @@ namespace Domain.Helpers
                 return ConfigurationManager.AppSettings["DirectorioArchivosExternos"];
             }
         }
+
+        public static string DirectorioCargaTrabajadores
+        {
+            get
+            {
+                return ConfigurationManager.AppSettings["DirectorioCargaTrabajadores"];
+            }
+        }
     }
 }
