@@ -19,7 +19,6 @@
         @Html.AntiForgeryToken()
         @Html.HiddenFor(model => model.trabajadorID)
         @Html.HiddenFor(model => model.personaID)
-        @Html.HiddenFor(model => model.cuspp)
         <div class="form-row">
             <div class="col-2">
                 <div class="form-group">
@@ -114,10 +113,11 @@
                 <div class="form-group">
                     @Html.LabelFor(model => model.fechaIngreso, new { @class = "control-label" })
                     <div class="input-group date">
-                        @Html.TextBoxFor(model => model.fechaIngreso, "{0:dd/MM/yyyy}", new { @class = "form-control", @readonly = "readonly" })
+                        @Html.TextBoxFor(model => model.fechaIngreso, "{0:dd/MM/yyyy}", new { @class = "form-control", placeholder = "dd/mm/aaaa", @maxlength = "10" })
                         <div class="input-group-append">
                             <span class="input-group-text"><i class="fa fa-calendar-o"></i></span>
                         </div>
+                        @Html.ValidationMessageFor(model => model.fechaIngreso, null, new { @class = "text-danger" })
                     </div>
                 </div>
             </div>
@@ -173,16 +173,20 @@
                     @Html.DropDownListFor(model => model.regimenID, ViewBag.ListaRegimenes as SelectList, null, new { @class = "form-control text-uppercase" })
                 </div>
             </div>
-            <div class="col-6">
+            <div class="col-6 spp">
                 <div class="form-group">
                     @Html.LabelFor(model => model.afpID, new { @class = "control-label" })
                     @Html.DropDownListFor(model => model.afpID, ViewBag.ListaAfps as SelectList, "[ SELECCIONAR ]", new { @class = "form-control text-uppercase" })
                     @Html.ValidationMessageFor(model => model.afpID, null, new { @class = "text-danger" })
                 </div>
             </div>
-        </div>
-
-        <div class="form-row">
+            <div class="col-6 spp">
+                <div class="form-group">
+                    @Html.LabelFor(model => model.cuspp, new { @class = "control-label" })
+                    @Html.TextBoxFor(model => model.cuspp, new { @class = "form-control", @maxlength = "20" })
+                    @Html.ValidationMessageFor(model => model.cuspp, null, new { @class = "text-danger" })
+                </div>
+            </div>
             <div class="col-6">
                 <div class="form-group">
                     @Html.LabelFor(model => model.codigoPlaza, new { @class = "control-label" })
@@ -236,7 +240,7 @@
 
         mostrarFiltroSegunVinculo(parseInt($('.modal-body #vinculoID').val()));
 
-        habilitarAfp(parseInt($('.modal-body #regimenID').val()));
+        habilitarCamposSPP(parseInt($('.modal-body #regimenID').val()));
 
         $(".modal-body").on("change", "#vinculoID", function () {
             let vinculoID = parseInt(this.value);
@@ -247,7 +251,7 @@
         $(".modal-body").on("change", "#regimenID", function () {
             let regimenID = parseInt(this.value);
 
-            habilitarAfp(regimenID);
+            habilitarCamposSPP(regimenID);
         });
 
         $('#numDocumento').autocomplete({
@@ -343,7 +347,17 @@
             }
 
             return true;
-        }, "El campo AFP es obligatorio.");
+        }, "El campo AFP es obligatorio para el SPP.");
+
+        $.validator.addMethod("ValidarCUSPPObligatorio", function (value) {
+            var regimenID = $("#regimenID").val();
+
+            if ((regimenID != null && regimenID != "") && regimenID == REGIMEN.SPP && (value == null || value == "")) {
+                return false;
+            }
+
+            return true;
+        }, "El campo CUSPP es obligatorio para el SPP.");
 
         $.validator.addMethod("ValidarNumeroCuentaBancaria", function (value) {
             var bancoID = $("#bancoID").val();
@@ -377,14 +391,9 @@
         $.validator.addMethod("ValidarCodigoPlaza", function (value) {
             var regex = /^\d+$/;
 
-            if (value !== null && value.trim() !== "") {
-                if (value.trim().length > 6) {
-                    $.validator.messages.ValidarCodigoPlaza = "El código de plaza no puede tener más de 6 dígitos.";
-                    return false;
-                } else if (!regex.test(value)) {
-                    $.validator.messages.ValidarCodigoPlaza = "El código de plaza sólo debe contener números.";
-                    return false;
-                }
+            if (value !== null && value.trim() !== "" && !regex.test(value)) {
+                $.validator.messages.ValidarCodigoPlaza = "El código de plaza sólo debe contener números.";
+                return false;
             }
             
             return true;
@@ -402,6 +411,8 @@
         $("#apellidoMaterno").rules("add", { ValidarNombresYApellidos: { displayName: "Ape.Materno" } });
 
         $("#afpID").rules("add", { ValidarAfpObligatorio: true });
+
+        $("#cuspp").rules("add", { ValidarCUSPPObligatorio: true });
 
         $("#nroCuentaBancaria").rules("add", { ValidarNumeroCuentaBancaria: true });
 
@@ -440,12 +451,17 @@
         }
     }
 
-    function habilitarAfp(regimenID) {
+    function habilitarCamposSPP(regimenID) {
         if (regimenID === REGIMEN.SPP) {
+            $('.modal-body .spp').css("display", "block")
             $('.modal-body #afpID').prop("disabled", "");
+            $('.modal-body #cuspp').prop("disabled", "");
         } else {
+            $('.modal-body .spp').css("display", "none")
             $('.modal-body #afpID').prop("disabled", "disabled");
             $('.modal-body #afpID').val(null);
+            $('.modal-body #cuspp').prop("disabled", "disabled");
+            $('.modal-body #cuspp').val(null);
         }
     }
 

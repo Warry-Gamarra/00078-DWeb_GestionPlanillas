@@ -19,7 +19,12 @@ namespace WebApp.ServiceFacade.Implementations
         private ITrabajadorService _trabajadorService;
         private IAdministrativoService _administrativoService;
         private IDocenteService _docenteService;
-        private IPlanillaService _planillaService;
+        private ITipoDocumentoService _tipoDocumentoService;
+        private IPersonaService _personaService;
+        private IVinculoService _vinculoService;
+        private IRegimenService _regimenService;
+        private IBancoService _bancoService;
+        private IDependenciaService _dependenciaService;
 
         private readonly string serverPath;
 
@@ -28,7 +33,12 @@ namespace WebApp.ServiceFacade.Implementations
             _trabajadorService = new TrabajadorService();
             _administrativoService = new AdministrativoService();
             _docenteService = new DocenteService();
-            _planillaService = new PlanillaService();
+            _tipoDocumentoService = new TipoDocumentoService();
+            _personaService = new PersonaService();
+            _vinculoService = new VinculoService();
+            _regimenService = new RegimenService();
+            _bancoService = new BancoService();
+            _dependenciaService = new DependenciaService();
 
             serverPath = WebConfigParams.DirectorioCargaTrabajadores;
         }
@@ -94,9 +104,9 @@ namespace WebApp.ServiceFacade.Implementations
                     trabajadorID = model.trabajadorID,
                     personaID = model.personaID,
                     trabajadorCod = model.trabajadorCod,
-                    codigoPlaza = model.codigoPlaza.PadLeft(6,'0'),
+                    codigoPlaza = model.codigoPlaza == null ? null : model.codigoPlaza.Trim(),
                     apellidoPaterno = model.apellidoPaterno.ToUpperInvariant(),
-                    apellidoMaterno = model.apellidoMaterno.ToUpperInvariant(),
+                    apellidoMaterno = model.apellidoMaterno == null ? null : model.apellidoMaterno.ToUpperInvariant(),
                     nombre = model.nombre.ToUpperInvariant(),
                     tipoDocumentoID = model.tipoDocumentoID,
                     numDocumento = model.numDocumento,
@@ -169,234 +179,105 @@ namespace WebApp.ServiceFacade.Implementations
 
         private List<TrabajadorLecturaProcesadoDTO> ObtenerLecturaProcesada(List<TrabajadorLecturaDTO> lectura)
         {
-            //var listaTipoDocumento = _tipoDocumentoService.ListaTipoDocumentos();
+            var listaTipoDocumento = _tipoDocumentoService.ListaTipoDocumentos();
 
-            //var listaCategoriaPlanilla = _categoriaPlanillaService.ListarCategoriasPlanillas();
+            var listaSexos = _personaService.ListarSexos();
 
-            //var listaProveedores = _proveedorService.ListarProveedores();
+            var listaVinculos = _vinculoService.ListarVinculos();
+
+            var listaDependencias = _dependenciaService.ListarDependencias();
+
+            var listaRegimen = _regimenService.ListarRegimenes();
+
+            var listaBancos = _bancoService.ListarBancos();
 
             var lecturaProcesada = new List<TrabajadorLecturaProcesadoDTO>();
 
-            //foreach (var item in lectura)
-            //{
-            //    PeriodoDTO periodoDTO = null;
-            //    PersonaDTO personaDTO = null;
-            //    TrabajadorCategoriaPlanillaDTO trabajadorDTO = null;
-            //    ConceptoDTO conceptoDTO = null;
+            foreach (var item in lectura)
+            {
+                var dto = new TrabajadorLecturaProcesadoDTO()
+                {
+                    tipoDocumentoID = item.tipoDocumentoID,
+                    numDocumento = item.numDocumento,
+                    apePaterno = item.apePaterno,
+                    apeMaterno = item.apeMaterno,
+                    nombres = item.nombres,
+                    sexo = item.sexo,
+                    codigoTrabajador = item.codigoTrabajador,
+                    vinculoCod = item.vinculoCod,
+                    grupoOcupacionalCod = item.grupoOcupacionalCod,
+                    nivelRemunerativoCod = item.nivelRemunerativoCod,
+                    categoriaDocenteCod = item.categoriaDocenteCod,
+                    dedicacionDocenteCod = item.dedicacionDocenteCod,
+                    horasDocente = item.horasDocente,
+                    fechaIngreso = item.fechaIngreso,
+                    dependenciaCod = item.dependenciaCod,
+                    bancoCod = item.bancoCod,
+                    numeroCuentaBancaria = item.numeroCuentaBancaria,
+                    tipoCuentaBancaria = item.tipoCuentaBancaria,
+                    regimenPensionarioCod = item.regimenPensionarioCod,
+                    afpCod = item.afpCod,
+                    cuspp = item.cuspp,
+                    codigoPlaza = item.codigoPlaza
+                };
 
-            //    var dto = new TrabajadorLecturaProcesadoDTO()
-            //    {
-            //        anio = item.anio,
-            //        mes = item.mes,
-            //        tipoDocumentoID = item.tipoDocumentoID,
-            //        numDocumento = item.numDocumento,
-            //        categoriaPlanillaID = item.categoriaPlanillaID,
-            //        conceptoCod = item.conceptoCod,
-            //        valorConcepto = item.valorConcepto,
-            //        proveedorID = item.proveedorID
-            //    };
+                if (dto.tipoDocumentoID != null && listaTipoDocumento.Exists(x => x.tipoDocumentoID.ToString() == dto.tipoDocumentoID))
+                {
+                    dto.tipoDocumentoDesc = listaTipoDocumento.First(x => x.tipoDocumentoID.ToString() == dto.tipoDocumentoID).tipoDocumentoDesc;
 
-            //    dto.esDuplicadoEnArchivo = (lectura.Count(x => x.anio == item.anio && x.anio == item.anio &&
-            //        x.tipoDocumentoID == item.tipoDocumentoID && x.numDocumento == item.numDocumento && x.categoriaPlanillaID == item.categoriaPlanillaID &&
-            //        x.conceptoCod == item.conceptoCod) > 1);
+                    dto.esTipoDocumentoCorrecto = true;
+                }
+                else
+                {
+                    dto.observaciones.Add("Tipo de documento de identidad incorrecto.");
 
-            //    if (dto.esDuplicadoEnArchivo)
-            //    {
-            //        dto.observaciones.Add("El concepto se encuentra duplicado dentro del archivo para este trabajador.");
-            //    }
+                    dto.tipoDocumentoDesc = "";
+                }
 
-            //    if (dto.anio.HasValue && dto.anio.Value >= 1963 && dto.anio.Value <= 2099)
-            //    {
-            //        dto.esAnioCorrecto = true;
-            //    }
-            //    else
-            //    {
-            //        dto.observaciones.Add("Año incorrecto.");
-            //    }
+                if (dto.numDocumento != null && dto.numDocumento.Length > 0)
+                {
+                    dto.esNumDocumentoCorrecto = true;
+                }
+                else
+                {
+                    dto.observaciones.Add("Número de documento de identidad incorrecto.");
+                }
 
-            //    if (dto.mes.HasValue && dto.mes.Value >= 1 && dto.mes.Value <= 12)
-            //    {
-            //        dto.esMesCorrecto = true;
+                if (dto.sexo.HasValue && listaSexos.Exists(x => x.sexoID == dto.sexo.Value))
+                {
+                    dto.sexoDesc = listaSexos.First(x => x.sexoID == dto.sexo.Value).sexoDesc;
 
-            //        dto.mesDesc = _periodoService.ObtenerMesDesc(dto.mes.Value);
-            //    }
-            //    else
-            //    {
-            //        dto.observaciones.Add("Mes incorrecto.");
+                    dto.esSexoCorrecto = true;
+                }
+                else
+                {
+                    dto.observaciones.Add("Código de Sexo incorrecto.");
+                }
 
-            //        dto.mesDesc = "";
-            //    }
+                if (dto.vinculoCod != null && listaVinculos.Exists(x => x.vinculoCod == dto.vinculoCod))
+                {
+                    dto.vinculoDesc = listaVinculos.First(x => x.vinculoCod == dto.vinculoCod).vinculoDesc;
 
-            //    if (dto.esAnioCorrecto && dto.esMesCorrecto)
-            //    {
-            //        periodoDTO = _periodoService.ObtenerPeriodo(dto.anio.Value, dto.mes.Value);
+                    dto.esVinculoCorrecto = true;
+                }
+                else
+                {
+                    dto.observaciones.Add("El Vínculo es incorrecto.");
+                }
 
-            //        if (periodoDTO != null)
-            //        {
-            //            dto.periodoID = periodoDTO.periodoID;
+                if (dto.dependenciaCod != null && listaDependencias.Exists(x => x.dependenciaCod == dto.dependenciaCod))
+                {
+                    dto.dependenciaDesc = listaDependencias.First(x => x.dependenciaCod == dto.dependenciaCod).dependenciaDesc;
 
-            //            dto.mesDesc = periodoDTO.mesDesc;
+                    dto.esDependenciaCorrecta = true;
+                }
+                else
+                {
+                    dto.observaciones.Add("La Dependencia es incorrecta.");
+                }
 
-            //            dto.esPeriodoCorrecto = true;
-            //        }
-            //        else
-            //        {
-            //            dto.observaciones.Add("El periodo no se encuentra registrado en el sistema.");
-            //        }
-            //    }
-
-            //    if (dto.tipoDocumentoID.HasValue && listaTipoDocumento.Exists(x => x.tipoDocumentoID == dto.tipoDocumentoID.Value))
-            //    {
-            //        dto.tipoDocumentoDesc = listaTipoDocumento.First(x => x.tipoDocumentoID == dto.tipoDocumentoID.Value).tipoDocumentoDesc;
-
-            //        dto.esTipoDocumentoCorrecto = true;
-            //    }
-            //    else
-            //    {
-            //        dto.observaciones.Add("Tipo de documento de identidad incorrecto.");
-
-            //        dto.tipoDocumentoDesc = "";
-            //    }
-
-            //    if (dto.numDocumento != null && dto.numDocumento.Length > 0)
-            //    {
-            //        dto.esNumDocumentoCorrecto = true;
-            //    }
-            //    else
-            //    {
-            //        dto.observaciones.Add("Número de documento de identidad incorrecto");
-            //    }
-
-            //    if (dto.categoriaPlanillaID.HasValue && listaCategoriaPlanilla.Exists(x => x.categoriaPlanillaID == dto.categoriaPlanillaID.Value))
-            //    {
-            //        dto.categoriaPlanillaDesc = listaCategoriaPlanilla.First(x => x.categoriaPlanillaID == dto.categoriaPlanillaID.Value).categoriaPlanillaDesc;
-
-            //        dto.esCategoriaPlanillaCorrecto = true;
-            //    }
-            //    else
-            //    {
-            //        dto.observaciones.Add("Categoría de planilla incorrecto.");
-
-            //        dto.categoriaPlanillaDesc = "";
-            //    }
-
-            //    if (dto.esTipoDocumentoCorrecto && dto.esNumDocumentoCorrecto && dto.esCategoriaPlanillaCorrecto)
-            //    {
-            //        personaDTO = _personaService.ObtenerPersona(dto.tipoDocumentoID.Value, dto.numDocumento);
-
-            //        if (personaDTO != null)
-            //        {
-            //            dto.datosPersona = String.Format("{0} {1} {2}", personaDTO.apellidoPaterno, personaDTO.apellidoMaterno, personaDTO.nombre);
-
-            //            trabajadorDTO = _trabajadorCategoriaPlanillaService.ObtenerTrabajadorPorDocumentoYCategoria(dto.tipoDocumentoID.Value, dto.numDocumento, dto.categoriaPlanillaID.Value);
-
-            //            if (trabajadorDTO != null)
-            //            {
-            //                dto.trabajadorCategoriaPlanillaID = trabajadorDTO.trabajadorCategoriaPlanillaID;
-
-            //                dto.trabajadorExiste = true;
-            //            }
-            //            else
-            //            {
-            //                dto.observaciones.Add("El trabajador no existe en la categoria de planilla indicada.");
-            //            }
-            //        }
-            //        else
-            //        {
-            //            dto.observaciones.Add("El trabajador no existe en el sistema.");
-            //        }
-            //    }
-
-            //    if (dto.esPeriodoCorrecto && dto.trabajadorExiste)
-            //    {
-            //        dto.tienePlanilla = _planillaService.ExistePlanillaTrabajador(trabajadorDTO.trabajadorID, periodoDTO.anio, periodoDTO.mes, trabajadorDTO.categoriaPlanillaID);
-
-            //        if (dto.tienePlanilla)
-            //        {
-            //            dto.observaciones.Add("El trabajador ya tiene una planilla generada para este periodo.");
-            //        }
-            //    }
-
-            //    if (dto.conceptoCod != null && dto.conceptoCod.Length > 0)
-            //    {
-            //        conceptoDTO = _conceptoService.ObtenerConcepto(dto.conceptoCod);
-
-            //        if (conceptoDTO != null)
-            //        {
-            //            dto.conceptoID = conceptoDTO.conceptoID;
-
-            //            dto.conceptoDesc = conceptoDTO.conceptoDesc;
-
-            //            dto.tipoConceptoDesc = conceptoDTO.tipoConceptoDesc;
-
-            //            dto.conceptoExiste = true;
-
-            //            if (dto.esCategoriaPlanillaCorrecto)
-            //            {
-            //                var lista = _plantillaPlanillaConceptoService.ListarGrupoDeConceptosAsignados(dto.categoriaPlanillaID.Value, dto.conceptoID.Value);
-
-            //                if (lista != null && lista.Count > 0)
-            //                {
-            //                    dto.esValorFijo = lista.First().esValorFijo;
-            //                }
-            //                else
-            //                {
-            //                    dto.observaciones.Add("El concepto no se encuentra asignado a ninguna planilla.");
-            //                }
-            //            }
-
-            //            if (dto.valorConcepto.HasValue && dto.valorConcepto.Value > 0)
-            //            {
-            //                if (dto.esValorFijo.HasValue)
-            //                {
-            //                    if (dto.esValorFijo.Value)
-            //                    {
-            //                        dto.valorConceptoCorrecto = true;
-            //                    }
-            //                    else if (dto.valorConcepto.Value <= 100)
-            //                    {
-            //                        dto.valorConceptoCorrecto = true;
-            //                    }
-            //                    else
-            //                    {
-            //                        dto.observaciones.Add("Valor del concepto incorrecto (porcentaje superior al 100%).");
-            //                    }
-            //                }
-            //                else
-            //                {
-            //                    dto.observaciones.Add("No se reconoce si el concepto es un valor fijo o porcentual.");
-            //                }
-            //            }
-            //            else
-            //            {
-            //                dto.observaciones.Add("Valor del concepto incorrecto.");
-            //            }
-            //        }
-            //        else
-            //        {
-            //            dto.observaciones.Add("Código de concepto no existe en el sistema.");
-            //        }
-            //    }
-            //    else
-            //    {
-            //        dto.observaciones.Add("Se necesita el Código de concepto.");
-            //    }
-
-            //    if (dto.proveedorID.HasValue && listaProveedores.Exists(x => x.proveedorID == dto.proveedorID.Value))
-            //    {
-            //        dto.proveedorDesc = listaProveedores.First(x => x.proveedorID == dto.proveedorID.Value).proveedorDesc;
-
-            //        dto.esProveedorCorrecto = true;
-            //    }
-            //    else
-            //    {
-            //        dto.observaciones.Add("Proveedor de información incorrecto.");
-
-            //        dto.proveedorDesc = "";
-            //    }
-
-            //    lecturaProcesada.Add(dto);
-            //}
+                lecturaProcesada.Add(dto);
+            }
 
             return lecturaProcesada;
         }

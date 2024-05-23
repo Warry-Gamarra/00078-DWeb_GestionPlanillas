@@ -45,7 +45,7 @@
                 <span class="h4">Vista previa</span>
                 <input type="hidden" id="fileName" name="fileName" />
                 <button type="submit" class="btn btn-primary pull-right d-none" id="btnDescargarResultadoLectura">
-                    <i class="fa fa-download" aria-hidden="true"></i> Descargar [.xlsx]
+                    <i class="fa fa-download" aria-hidden="true"></i> Descargar observaciones [.xlsx]
                 </button>
                 <label class="pull-right">&nbsp;</label>
                 <button type="button" class="btn btn-primary pull-right d-none" id="btnGrabarArchivo">
@@ -79,6 +79,7 @@
                             <th>Tip.Cta.Banco</th>
                             <th>Regimen</th>
                             <th>Afp</th>
+                            <th>CUSPP</th>
                             <th>Cod.Plaza</th>
                             <th>Obs</th>
                         </tr>
@@ -106,6 +107,7 @@
                             <th>Tip.Cta.Banco</th>
                             <th>Regimen</th>
                             <th>Afp</th>
+                            <th>CUSPP</th>
                             <th>Cod.Plaza</th>
                             <th>Obs</th>
                         </tr>
@@ -189,27 +191,28 @@
         $('#dataTableLecturaTrabajadores').DataTable({
             data: jsonObject,
             columns: [
-                { data: 'tipoDocumentoID' },
+                { data: 'tipoDocumentoDesc' },
+                { data: 'tipoDocumentoDesc' },
                 { data: 'numDocumento' },
                 { data: 'apePaterno' },
                 { data: 'apeMaterno' },
                 { data: 'nombres' },
-                { data: 'numDocumento' },
-                { data: 'sexo' },
+                { data: 'sexoDesc' },
                 { data: 'codigoTrabajador' },
-                { data: 'vinculo' },
-                { data: 'vinculo' },
-                { data: 'vinculo' },
-                { data: 'vinculo' },
-                { data: 'vinculo' },
-                { data: 'vinculo' },
-                { data: 'vinculo' },
-                { data: 'vinculo' },
-                { data: 'vinculo' },
-                { data: 'vinculo' },
-                { data: 'vinculo' },
-                { data: 'vinculo' },
-                { data: 'vinculo' },
+                { data: 'vinculoDesc' },
+                { data: 'grupoOcupacionalCod' },
+                { data: 'nivelRemunerativoCod' },
+                { data: 'categoriaDocenteCod' },
+                { data: 'dedicacionDocenteCod' },
+                { data: 'horasDocente' },
+                { data: 'fechaIngreso' },
+                { data: 'dependenciaDesc' },
+                { data: 'bancoCod' },
+                { data: 'numeroCuentaBancaria' },
+                { data: 'tipoCuentaBancaria' },
+                { data: 'regimenPensionarioCod' },
+                { data: 'afpCod' },
+                { data: 'cuspp' },
                 { data: 'codigoPlaza' },
                 { data: 'esRegistroCorrecto', width: '15%' }
             ],
@@ -266,7 +269,7 @@
                 }
 
                 //Filtro
-                api.columns([11]).every(function () {
+                api.columns([22]).every(function () {
                     let column = this;
 
                     let select = document.createElement('select');

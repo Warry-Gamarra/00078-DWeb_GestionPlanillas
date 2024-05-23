@@ -932,7 +932,12 @@ namespace Domain.Helpers
 
             if (reader.GetValue(20) != null)
             {
-                TrabajadorLecturaDTO.codigoPlaza = reader.GetValue(20).ToString();
+                TrabajadorLecturaDTO.cuspp = reader.GetValue(20).ToString();
+            }
+
+            if (reader.GetValue(21) != null)
+            {
+                TrabajadorLecturaDTO.codigoPlaza = reader.GetValue(21).ToString();
             }
 
             return TrabajadorLecturaDTO;

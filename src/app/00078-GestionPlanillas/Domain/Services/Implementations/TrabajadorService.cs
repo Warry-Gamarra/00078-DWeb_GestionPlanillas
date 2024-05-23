@@ -53,7 +53,7 @@ namespace Domain.Services.Implementations
         public Response GrabarTrabajador(Operacion operacion, TrabajadorEntity trabajadorEntity, int userID)
         {
             Result result;
-            bool registroDuplicado = false;
+            bool registroDuplicado = false, codigoPlazaDuplicado = false;
             int categoriaPlanillaID;
             TC_Persona persona;
             VW_TrabajadoresCategoriaPlanilla trabajadoresCategoriaPlanilla;
@@ -77,42 +77,54 @@ namespace Domain.Services.Implementations
 
                         if (!registroDuplicado)
                         {
-                            var grabarDocente = new USP_I_RegistrarTrabajador()
-                            {
-                                C_TrabajadorCod = trabajadorEntity.trabajadorCod,
-                                C_CodigoPlaza = trabajadorEntity.codigoPlaza,
-                                I_PersonaID = (persona != null) ? persona.I_PersonaID : 0,
-                                T_ApellidoPaterno = trabajadorEntity.apellidoPaterno,
-                                T_ApellidoMaterno = trabajadorEntity.apellidoMaterno,
-                                T_Nombre = trabajadorEntity.nombre,
-                                I_TipoDocumentoID = trabajadorEntity.tipoDocumentoID,
-                                C_NumDocumento = trabajadorEntity.numDocumento,
-                                I_SexoID = trabajadorEntity.sexoID,
-                                D_FechaIngreso = trabajadorEntity.fechaIngreso,
-                                I_RegimenID = trabajadorEntity.regimenID,
-                                I_EstadoID = trabajadorEntity.estadoID,
-                                I_VinculoID = trabajadorEntity.vinculoID,
-                                I_BancoID = trabajadorEntity.bancoID,
-                                T_NroCuentaBancaria = trabajadorEntity.nroCuentaBancaria,
-                                I_TipoCuentaBancariaID = trabajadorEntity.tipoCuentaBancariaID,
-                                I_DependenciaID = trabajadorEntity.dependenciaID,
-                                I_AfpID = trabajadorEntity.afp,
-                                T_Cuspp = trabajadorEntity.cuspp,
-                                I_CategoriaDocenteID = trabajadorEntity.categoriaDocenteID,
-                                I_HorasDocenteID = trabajadorEntity.horasDocenteID,
-                                I_GrupoOcupacionalID = trabajadorEntity.grupoOcupacionalID,
-                                I_NivelRemunerativoID = trabajadorEntity.nivelRemunerativoID,
-                                I_CategoriaPlanillaID = categoriaPlanillaID,
-                                I_UserID = userID
-                            };
+                            codigoPlazaDuplicado = VW_Trabajadores.FindAll().Any(x => !String.IsNullOrEmpty(x.C_CodigoPlaza) && x.C_CodigoPlaza == trabajadorEntity.codigoPlaza);
 
-                            result = grabarDocente.Execute();
+                            if (!codigoPlazaDuplicado)
+                            {
+                                var grabarDocente = new USP_I_RegistrarTrabajador()
+                                {
+                                    C_TrabajadorCod = trabajadorEntity.trabajadorCod,
+                                    C_CodigoPlaza = trabajadorEntity.codigoPlaza,
+                                    I_PersonaID = (persona != null) ? persona.I_PersonaID : 0,
+                                    T_ApellidoPaterno = trabajadorEntity.apellidoPaterno,
+                                    T_ApellidoMaterno = trabajadorEntity.apellidoMaterno,
+                                    T_Nombre = trabajadorEntity.nombre,
+                                    I_TipoDocumentoID = trabajadorEntity.tipoDocumentoID,
+                                    C_NumDocumento = trabajadorEntity.numDocumento,
+                                    I_SexoID = trabajadorEntity.sexoID,
+                                    D_FechaIngreso = trabajadorEntity.fechaIngreso,
+                                    I_RegimenID = trabajadorEntity.regimenID,
+                                    I_EstadoID = trabajadorEntity.estadoID,
+                                    I_VinculoID = trabajadorEntity.vinculoID,
+                                    I_BancoID = trabajadorEntity.bancoID,
+                                    T_NroCuentaBancaria = trabajadorEntity.nroCuentaBancaria,
+                                    I_TipoCuentaBancariaID = trabajadorEntity.tipoCuentaBancariaID,
+                                    I_DependenciaID = trabajadorEntity.dependenciaID,
+                                    I_AfpID = trabajadorEntity.afp,
+                                    T_Cuspp = trabajadorEntity.cuspp,
+                                    I_CategoriaDocenteID = trabajadorEntity.categoriaDocenteID,
+                                    I_HorasDocenteID = trabajadorEntity.horasDocenteID,
+                                    I_GrupoOcupacionalID = trabajadorEntity.grupoOcupacionalID,
+                                    I_NivelRemunerativoID = trabajadorEntity.nivelRemunerativoID,
+                                    I_CategoriaPlanillaID = categoriaPlanillaID,
+                                    I_UserID = userID
+                                };
+
+                                result = grabarDocente.Execute();
+                            }
+                            else
+                            {
+                                result = new Result()
+                                {
+                                    Message = String.Format("El Código de plaza \"{0}\" se encuentra repetido.", trabajadorEntity.codigoPlaza)
+                                };
+                            }
                         }
                         else
                         {
                             result = new Result()
                             {
-                                Message = "El Num.Documento se encuentra repetido."
+                                Message = String.Format("El Num.Documento \"{0}\" se encuentra repetido.", trabajadorEntity.numDocumento)
                             };
                         }
 
@@ -137,42 +149,55 @@ namespace Domain.Services.Implementations
 
                         if (!registroDuplicado)
                         {
-                            var actualizarDocente = new USP_U_ActualizarTrabajador()
-                            {
-                                I_TrabajadorID = trabajadorEntity.trabajadorID.Value,
-                                C_TrabajadorCod = trabajadorEntity.trabajadorCod,
-                                C_CodigoPlaza = trabajadorEntity.codigoPlaza,
-                                T_ApellidoPaterno = trabajadorEntity.apellidoPaterno,
-                                T_ApellidoMaterno = trabajadorEntity.apellidoMaterno,
-                                T_Nombre = trabajadorEntity.nombre,
-                                I_TipoDocumentoID = trabajadorEntity.tipoDocumentoID,
-                                C_NumDocumento = trabajadorEntity.numDocumento,
-                                I_SexoID = trabajadorEntity.sexoID,
-                                D_FechaIngreso = trabajadorEntity.fechaIngreso,
-                                I_RegimenID = trabajadorEntity.regimenID,
-                                I_EstadoID = trabajadorEntity.estadoID,
-                                I_VinculoID = trabajadorEntity.vinculoID,
-                                I_BancoID = trabajadorEntity.bancoID,
-                                T_NroCuentaBancaria = trabajadorEntity.nroCuentaBancaria,
-                                I_TipoCuentaBancariaID = trabajadorEntity.tipoCuentaBancariaID,
-                                I_DependenciaID = trabajadorEntity.dependenciaID,
-                                I_AfpID = trabajadorEntity.afp,
-                                T_Cuspp = trabajadorEntity.cuspp,
-                                I_CategoriaDocenteID = trabajadorEntity.categoriaDocenteID,
-                                I_HorasDocenteID = trabajadorEntity.horasDocenteID,
-                                I_GrupoOcupacionalID = trabajadorEntity.grupoOcupacionalID,
-                                I_NivelRemunerativoID = trabajadorEntity.nivelRemunerativoID,
-                                I_CategoriaPlanillaID = categoriaPlanillaID,
-                                I_UserID = userID
-                            };
+                            codigoPlazaDuplicado = VW_Trabajadores.FindAll().Any(x => x.I_TrabajadorID != trabajadorEntity.trabajadorID.Value &&
+                                !String.IsNullOrEmpty(x.C_CodigoPlaza) && x.C_CodigoPlaza == trabajadorEntity.codigoPlaza);
 
-                            result = actualizarDocente.Execute();
+                            if (!codigoPlazaDuplicado)
+                            {
+                                var actualizarDocente = new USP_U_ActualizarTrabajador()
+                                {
+                                    I_TrabajadorID = trabajadorEntity.trabajadorID.Value,
+                                    C_TrabajadorCod = trabajadorEntity.trabajadorCod,
+                                    C_CodigoPlaza = trabajadorEntity.codigoPlaza,
+                                    T_ApellidoPaterno = trabajadorEntity.apellidoPaterno,
+                                    T_ApellidoMaterno = trabajadorEntity.apellidoMaterno,
+                                    T_Nombre = trabajadorEntity.nombre,
+                                    I_TipoDocumentoID = trabajadorEntity.tipoDocumentoID,
+                                    C_NumDocumento = trabajadorEntity.numDocumento,
+                                    I_SexoID = trabajadorEntity.sexoID,
+                                    D_FechaIngreso = trabajadorEntity.fechaIngreso,
+                                    I_RegimenID = trabajadorEntity.regimenID,
+                                    I_EstadoID = trabajadorEntity.estadoID,
+                                    I_VinculoID = trabajadorEntity.vinculoID,
+                                    I_BancoID = trabajadorEntity.bancoID,
+                                    T_NroCuentaBancaria = trabajadorEntity.nroCuentaBancaria,
+                                    I_TipoCuentaBancariaID = trabajadorEntity.tipoCuentaBancariaID,
+                                    I_DependenciaID = trabajadorEntity.dependenciaID,
+                                    I_AfpID = trabajadorEntity.afp,
+                                    T_Cuspp = trabajadorEntity.cuspp,
+                                    I_CategoriaDocenteID = trabajadorEntity.categoriaDocenteID,
+                                    I_HorasDocenteID = trabajadorEntity.horasDocenteID,
+                                    I_GrupoOcupacionalID = trabajadorEntity.grupoOcupacionalID,
+                                    I_NivelRemunerativoID = trabajadorEntity.nivelRemunerativoID,
+                                    I_CategoriaPlanillaID = categoriaPlanillaID,
+                                    I_UserID = userID
+                                };
+
+                                result = actualizarDocente.Execute();
+                            }
+                            else
+                            {
+                                result = new Result()
+                                {
+                                    Message = String.Format("El Código de plaza \"{0}\" se encuentra repetido.", trabajadorEntity.codigoPlaza)
+                                };
+                            }
                         }
                         else
                         {
                             result = new Result()
                             {
-                                Message = "El Num.Documento se encuentra repetido."
+                                Message = String.Format("El Num.Documento \"{0}\" se encuentra repetido.", trabajadorEntity.numDocumento)
                             };
                         }
 

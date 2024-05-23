@@ -21,8 +21,8 @@ namespace WebApp.Models
         public string trabajadorCod { get; set; }
 
         [DisplayName("Código de Plaza")]
-        
         [CustomValidation(typeof(TrabajadorModel), "ValidarCodigoPlaza")]
+        [StringLength(6, ErrorMessage = "El {0} debe tener {1} caracteres.", MinimumLength = 6)]
         public string codigoPlaza { get; set; }
 
         public int personaID { get; set; }
@@ -86,6 +86,8 @@ namespace WebApp.Models
 
         public string afpDesc { get; set; }
 
+        [DisplayName("CUSPP")]
+        [CustomValidation(typeof(TrabajadorModel), "ValidarCUSPPObligatorio")]
         public string cuspp { get; set; }
 
         [DisplayName("Estado")]
@@ -224,7 +226,19 @@ namespace WebApp.Models
 
             if (trabajador.regimenID.HasValue && trabajador.regimenID.Value == (int)RegimenPensionario.SPP && !afpID.HasValue)
             {
-                return new ValidationResult("El campo AFP es obligatorio.");
+                return new ValidationResult("El campo AFP es obligatorio para el SPP.");
+            }
+
+            return ValidationResult.Success;
+        }
+
+        public static ValidationResult ValidarCUSPPObligatorio(string cuspp, ValidationContext context)
+        {
+            var trabajador = (TrabajadorModel)context.ObjectInstance;
+
+            if (trabajador.regimenID.HasValue && trabajador.regimenID.Value == (int)RegimenPensionario.SPP && String.IsNullOrEmpty(cuspp))
+            {
+                return new ValidationResult("El campo CUSPP es obligatorio para el SPP.");
             }
 
             return ValidationResult.Success;
@@ -263,17 +277,9 @@ namespace WebApp.Models
 
         public static ValidationResult ValidarCodigoPlaza(string codigoPlaza, ValidationContext context)
         {
-            
-            if (!String.IsNullOrEmpty(codigoPlaza))
+            if (!String.IsNullOrEmpty(codigoPlaza) && !EsNumero(codigoPlaza))
             {
-                if (codigoPlaza.Trim().Length > 6) 
-                {
-                    return new ValidationResult("El código de plaza no puede tener más de 6 dígitos.");
-                }
-                else if (!EsNumero(codigoPlaza))
-                {
-                    return new ValidationResult("El código de plaza sólo debe contener números.");
-                }
+                return new ValidationResult("El código de plaza sólo debe contener números.");
             }
             
             return ValidationResult.Success;

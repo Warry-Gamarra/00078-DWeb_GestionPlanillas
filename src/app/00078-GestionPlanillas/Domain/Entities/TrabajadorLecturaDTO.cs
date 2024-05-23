@@ -10,6 +10,8 @@ namespace Domain.Entities
     {
         public string tipoDocumentoID { get; set; }
 
+        public string tipoDocumentoDesc { get; set; }
+
         public string numDocumento { get; set; }
 
         public string apePaterno { get; set; }
@@ -47,6 +49,8 @@ namespace Domain.Entities
         public string regimenPensionarioCod { get; set; }
 
         public int? afpCod { get; set; }
+
+        public string cuspp {  get; set; }
 
         public string codigoPlaza { get; set; }
     }
