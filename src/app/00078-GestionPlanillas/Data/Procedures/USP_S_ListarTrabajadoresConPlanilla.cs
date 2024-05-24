@@ -34,7 +34,7 @@ namespace Data.Procedures
 
         public int I_Mes { get; set; }
 
-        public static IEnumerable<USP_S_ListarTrabajadoresConPlanilla> Execute(int I_Anio, int I_Mes)
+        public static IEnumerable<USP_S_ListarTrabajadoresConPlanilla> Execute(int I_Anio, int I_Mes, int I_CategoriaPlanillaID)
         {
             IEnumerable<USP_S_ListarTrabajadoresConPlanilla> result;
             DynamicParameters parameters;
@@ -49,6 +49,8 @@ namespace Data.Procedures
                 parameters.Add(name: "I_Anio", dbType: DbType.Int32, value: I_Anio);
 
                 parameters.Add(name: "I_Mes", dbType: DbType.Int32, value: I_Mes);
+
+                parameters.Add(name: "I_CategoriaPlanillaID", dbType: DbType.Int32, value: I_CategoriaPlanillaID);
 
                 using (var _dbConnection = new SqlConnection(Database.ConnectionString))
                 {

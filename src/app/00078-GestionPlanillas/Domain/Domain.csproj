@@ -90,6 +90,7 @@
     <Compile Include="Entities\PeriodoDTO.cs" />
     <Compile Include="Entities\PeriodoEntity.cs" />
     <Compile Include="Entities\ProveedorDTO.cs" />
+    <Compile Include="Entities\ReporteDetallePlanillaTrabajadorDTO.cs" />
     <Compile Include="Entities\ResumenPorActividadDTO.cs" />
     <Compile Include="Entities\ResumenSIAFDTO.cs" />
     <Compile Include="Entities\RolDTO.cs" />

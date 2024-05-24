@@ -18,6 +18,6 @@ namespace Domain.Services
 
         Response GrabarTrabajador(Operacion operacion, TrabajadorEntity trabajadorEntity, int userID);
 
-        List<TrabajadorConPlanillaDTO> ListarTrabajadoresConPlanilla(int año, int mes);
+        List<TrabajadorConPlanillaDTO> ListarTrabajadoresConPlanilla(int año, int mes, int categoriaPlanillaID);
     }
 }

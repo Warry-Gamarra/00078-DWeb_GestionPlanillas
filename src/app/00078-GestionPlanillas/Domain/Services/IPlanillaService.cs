@@ -25,5 +25,7 @@ namespace Domain.Services
         IEnumerable<CategoriaPlanillaGeneradaParaTrabajadorDTO> ListarCategoriaPlanillaGeneradaPorTrabajador(int trabajadorID, int año, int mes);
 
         IEnumerable<ConceptoGeneradoDTO> ListarConceptosGeneradosPorategoriaYTrabajador(int trabajadorPlanillaID);
+
+        ReporteDetallePlanillaTrabajadorDTO ListarDetallePlanillaTrabajadores(int año, int mes, int idCategoria);
     }
 }

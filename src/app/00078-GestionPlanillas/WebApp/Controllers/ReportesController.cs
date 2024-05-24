@@ -211,19 +211,21 @@ namespace WebApp.Controllers
 
             ViewBag.ListaMeses = _periodoServiceFacade.ObtenerComboMesesSegunAño(año);
 
+            ViewBag.ListaCategoriasPlanillas = _categoriaPlanillaServiceFacade.ObtenerComboCategoriasPlanillas();
+
             return View();
         }
 
         [HttpGet]
-        public JsonResult ObtenerListaTrabajadoresConPlanilla(int? anio, int? mes)
+        public JsonResult ObtenerListaTrabajadoresConPlanilla(int? anio, int? mes, int? idCategoria)
         {
             var result = new AjaxResponse();
 
             IEnumerable<TrabajadorConPlanillaModel> lista;
 
-            if (anio.HasValue && mes.HasValue)
+            if (anio.HasValue && mes.HasValue && idCategoria.HasValue)
             {
-                lista = _trabajadorServiceFacade.ListarTrabajadoresConPlanilla(anio.Value, mes.Value);
+                lista = _trabajadorServiceFacade.ListarTrabajadoresConPlanilla(anio.Value, mes.Value, idCategoria.Value);
             }
             else
             {
@@ -240,7 +242,7 @@ namespace WebApp.Controllers
         {
             ViewBag.Title = "Detalle del Trabajador";
 
-            var model = _trabajadorServiceFacade.ListarTrabajadoresConPlanilla(anio, mes).First(x => x.trabajadorID == trabajadorID);
+            var model = _trabajadorServiceFacade.ObtenerTrabajador(trabajadorID);
 
             var listaCategoriasPlanillaGeneradas = _planillaServiceFacade.ListarCategoriaPlanillaGeneradaPorTrabajador(trabajadorID, anio, mes);
 
@@ -271,14 +273,36 @@ namespace WebApp.Controllers
         }
 
         [HttpGet]
-        public ActionResult DescargaDetallePlanilla(int trabajadorID, int anio, int mes)
+        public ActionResult DescargaDetallePlanillaDeTrabajador(int trabajadorID, int anio, int mes)
         {
             FileContent fileContent;
             string errorMessage;
 
             try
             {
-                fileContent = _planillaServiceFacade.ObtenerReporteDetallePlanilla(trabajadorID, anio, mes, FormatoArchivo.XLSX);
+                fileContent = _planillaServiceFacade.ObtenerReporteDetallePlanillaDeTrabajador(trabajadorID, anio, mes, FormatoArchivo.XLSX);
+
+                return File(fileContent.fileContent, fileContent.contentType, fileContent.fileName);
+            }
+            catch (Exception ex)
+            {
+                errorMessage = ex.Message;
+            }
+
+            ViewBag.ErrorMessage = errorMessage;
+
+            return View();
+        }
+
+        [HttpGet]
+        public ActionResult DescargaDetallePlanilla(int anio, int mes, int idCategoria)
+        {
+            FileContent fileContent;
+            string errorMessage;
+
+            try
+            {
+                fileContent = _planillaServiceFacade.ObtenerReporteDetallePlanillaTrabajadores(anio, mes, idCategoria, FormatoArchivo.XLSX);
 
                 return File(fileContent.fileContent, fileContent.contentType, fileContent.fileName);
             }

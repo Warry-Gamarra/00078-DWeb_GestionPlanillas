@@ -223,9 +223,9 @@ namespace Domain.Services.Implementations
             return Mapper.Result_To_Response(result);
         }
 
-        public List<TrabajadorConPlanillaDTO> ListarTrabajadoresConPlanilla(int año, int mes)
+        public List<TrabajadorConPlanillaDTO> ListarTrabajadoresConPlanilla(int año, int mes, int categoriaPlanillaID)
         {
-            var lista = USP_S_ListarTrabajadoresConPlanilla.Execute(año, mes)
+            var lista = USP_S_ListarTrabajadoresConPlanilla.Execute(año, mes, categoriaPlanillaID)
                 .Select(x => Mapper.USP_S_ListarTrabajadoresConPlanilla_To_TrabajadorConPlanillaDTO(x))
                 .ToList();
 

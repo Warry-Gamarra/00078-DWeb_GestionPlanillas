@@ -31,6 +31,8 @@ namespace WebApp.ServiceFacade
 
         IEnumerable<ConceptoGeneradoModel> ListarConceptosGeneradosPorategoriaYTrabajador(int trabajadorPlanillaID);
 
-        FileContent ObtenerReporteDetallePlanilla(int trabajadorID, int año, int mes, FormatoArchivo formatoArchivo);
+        FileContent ObtenerReporteDetallePlanillaDeTrabajador(int trabajadorID, int año, int mes, FormatoArchivo formatoArchivo);
+
+        FileContent ObtenerReporteDetallePlanillaTrabajadores(int año, int mes, int idCategoria, FormatoArchivo formatoArchivo);
     }
 }

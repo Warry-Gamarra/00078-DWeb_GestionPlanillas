@@ -120,5 +120,12 @@ namespace Domain.Services.Implementations
 
             return lista;
         }
+
+        public ReporteDetallePlanillaTrabajadorDTO ListarDetallePlanillaTrabajadores(int año, int mes, int idCategoria)
+        {
+            var spResult = USP_S_ListarDetallePlanillaTrabajador.Execute(año, mes, idCategoria);
+
+            return new ReporteDetallePlanillaTrabajadorDTO(spResult.cabecera, spResult.detalle);
+        }
     }
 }

@@ -14,7 +14,7 @@ namespace Domain.Services.Implementations
 {
     public class GeneracionArchivoExcelService : IGeneracionArchivoService
     {
-        public FileContent GenerarExcelDeLecturaValoresDeConceptos(List<ValorExternoLecturaProcesadoDTO> lista)
+        public FileContent GenerarDescargableDeLecturaValoresDeConceptos(List<ValorExternoLecturaProcesadoDTO> lista)
         {
             FileContent fileContent;
             int currentRow;
@@ -87,7 +87,7 @@ namespace Domain.Services.Implementations
             }
         }
 
-        public FileContent GenerarExcelResumenPlanillaTrabajador(IEnumerable<ResumenPlanillaTrabajadorDTO> data)
+        public FileContent GenerarDescargableResumenPlanillaTrabajador(IEnumerable<ResumenPlanillaTrabajadorDTO> data)
         {
             FileContent fileContent;
             int currentRow = 1;
@@ -155,7 +155,7 @@ namespace Domain.Services.Implementations
             }
         }
 
-        public FileContent GenerarExcelResumenPorActividadYDependencia(ReporteResumenPorActividadYDependencia reporte)
+        public FileContent GenerarDescargableResumenPorActividadYDependencia(ReporteResumenPorActividadYDependencia reporte)
         {
             FileContent fileContent;
             int currentRow;
@@ -373,7 +373,7 @@ namespace Domain.Services.Implementations
             }
         }
 
-        public FileContent GenerarExcelResumenSIAF(ReporteResumenSIAF reporte)
+        public FileContent GenerarDescargableResumenSIAF(ReporteResumenSIAF reporte)
         {
             FileContent fileContent;
             IXLCell cell;
@@ -481,7 +481,7 @@ namespace Domain.Services.Implementations
             }
         }
 
-        public FileContent GenerarExcelDetallePlanilla(TrabajadorConPlanillaDTO trabajador, IEnumerable<CategoriaPlanillaGeneradaParaTrabajadorDTO> listaCategoriasPlanilla,
+        public FileContent GenerarDescargableDetallePlanillaDeTrabajador(TrabajadorDTO trabajador, IEnumerable<CategoriaPlanillaGeneradaParaTrabajadorDTO> listaCategoriasPlanilla,
             List<ConceptoGeneradoDTO> conceptosGenerados)
         {
             FileContent fileContent;
@@ -613,6 +613,77 @@ namespace Domain.Services.Implementations
                         fileContent = content,
                         contentType = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
                         fileName = "Detalle de planilla.xlsx"
+                    };
+
+                    return fileContent;
+                }
+            }
+        }
+
+        public FileContent GenerarDescargableDetallePlanillaTrabajadores(ReporteDetallePlanillaTrabajadorDTO reporte)
+        {
+            FileContent fileContent;
+            IXLCell cell;
+            int currentRow = 1;
+            int currentCol = 1;
+            decimal monto;
+
+            using (var workbook = new XLWorkbook())
+            {
+                var worksheet = workbook.Worksheets.Add("Hoja1");
+                
+                if (reporte.detalle != null && reporte.detalle.Count() > 0)
+                {
+                    foreach (var columnName in reporte.cabecera)
+                    {
+                        cell = worksheet.Cell(currentRow, currentCol).SetValue<string>(columnName);
+                        cell.Style.Border.TopBorder = XLBorderStyleValues.Thin;
+                        cell.Style.Border.BottomBorder = XLBorderStyleValues.Thin;
+                        cell.Style.Border.LeftBorder = XLBorderStyleValues.Thin;
+                        cell.Style.Border.RightBorder = XLBorderStyleValues.Thin;
+                        currentCol++;
+                    }
+
+                    currentRow++;
+                    currentCol = 1;
+                    foreach (var item in reporte.detalle)
+                    {
+                        foreach (var columnName in reporte.cabecera)
+                        {
+                            if (columnName == "C_TrabajadorCod" || columnName == "T_Nombre" || columnName == "T_ApellidoPaterno" || 
+                                columnName == "T_ApellidoMaterno" || columnName == "T_TipoDocumentoDesc" || columnName == "C_NumDocumento")
+                            {
+                                cell = worksheet.Cell(currentRow, currentCol).SetValue<string>((string)item[columnName]);
+                            }
+                            else
+                            {
+                                monto = item[columnName] == null ? 0 : (decimal)item[columnName];
+                                cell = worksheet.Cell(currentRow, currentCol).SetValue<decimal>(monto);
+                                cell.Style.NumberFormat.Format = Formats.BASIC_DECIMAL;
+                            }
+
+                            cell.Style.Border.TopBorder = XLBorderStyleValues.Thin;
+                            cell.Style.Border.BottomBorder = XLBorderStyleValues.Thin;
+                            cell.Style.Border.LeftBorder = XLBorderStyleValues.Thin;
+                            cell.Style.Border.RightBorder = XLBorderStyleValues.Thin;
+                            currentCol++;
+                        }
+                        currentRow++;
+                        currentCol = 1;
+                    }
+                }
+                
+                using (var stream = new MemoryStream())
+                {
+                    workbook.SaveAs(stream);
+
+                    var content = stream.ToArray();
+
+                    fileContent = new FileContent()
+                    {
+                        fileContent = content,
+                        contentType = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+                        fileName = "Detalle de Planilla de Trabajadores.xlsx"
                     };
 
                     return fileContent;

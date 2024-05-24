@@ -19,7 +19,7 @@ namespace WebApp.ServiceFacade
 
         Response GrabarTrabajador(Operacion operacion, TrabajadorModel model, int userID);
 
-        IEnumerable<TrabajadorConPlanillaModel> ListarTrabajadoresConPlanilla(int año, int mes);
+        IEnumerable<TrabajadorConPlanillaModel> ListarTrabajadoresConPlanilla(int año, int mes, int categoriaPlanillaID);
 
         Tuple<string, List<TrabajadorLecturaProcesadoDTO>> ObtenerListaTrabajadores(HttpPostedFileBase file);
     }

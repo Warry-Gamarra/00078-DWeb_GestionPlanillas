@@ -117,10 +117,6 @@
             });
 
             $(document).on("click", "#btnExcelDescargar", function (e) {
-                let anio = $("#frmConsultaResumenPlanilla #anio").val();
-                let mes = $("#frmConsultaResumenPlanilla #mes").val();
-                let idCategoria = $("#frmConsultaResumenPlanilla #idCategoria").val();
-
                 document.forms.frmConsultaResumenPlanilla.action = "@Url.Action("DescargaResumenPlanilla", "Reportes")";
                 document.forms.frmConsultaResumenPlanilla.submit();
             });

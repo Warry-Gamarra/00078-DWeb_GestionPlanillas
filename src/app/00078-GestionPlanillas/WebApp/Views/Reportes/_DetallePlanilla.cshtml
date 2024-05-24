@@ -1,4 +1,4 @@
-﻿@model WebApp.Models.TrabajadorConPlanillaModel
+﻿@model WebApp.Models.TrabajadorModel
 
 @{ 
     var planilla = (WebApp.Models.CategoriaPlanillaGeneradaParaTrabajadorModel)ViewBag.InformacionCategoriaPlanillaGenerada;
@@ -43,7 +43,7 @@
                 @Html.DropDownList("cmbCategorias", ViewBag.ListaCategorias as SelectList, new
                 {
                     @class = "form-control text-uppercase",
-                    data_trabajador_id = Model.trabajadorID,
+                    data_trabajador_id = Model.trabajadorID.Value,
                     data_anio = planilla.año,
                     data_mes = planilla.mes
                 })
@@ -110,11 +110,11 @@
     <hr />
 
     <div class="container-fluid">
-        <form action="@Url.Action("DescargaDetallePlanilla", "Reportes")" method="get" target="_blank">
-            <input type="hidden" name="trabajadorID" value="@Model.trabajadorID" />
+        <form action="@Url.Action("DescargaDetallePlanillaDeTrabajador", "Reportes")" method="get" target="_blank">
+            <input type="hidden" name="trabajadorID" value="@Model.trabajadorID.Value" />
             <input type="hidden" name="anio" value="@planilla.año" />
             <input type="hidden" name="mes" value="@planilla.mes" />
-            <button type="submit" id="btnExcelDescargar" class="btn btn-link pr-0 float-right">Descargar información en Excel [.xlsx]</button>
+            <button type="submit" class="btn btn-link pr-0 float-right">Descargar información en Excel [.xlsx]</button>
         </form>
     </div>
 </div>

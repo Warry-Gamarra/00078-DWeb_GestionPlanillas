@@ -2621,6 +2621,8 @@ BEGIN
 
 	SET @ParmDefinition = N'@I_PeriodoID INT, @I_CategoriaPlanillaID INT, @I_VinculoID INT';
 
+	--PRINT @SQLString
+
 	EXECUTE SP_EXECUTESQL @SQLString, @ParmDefinition,
 	  @I_PeriodoID = @I_PeriodoID,
 	  @I_CategoriaPlanillaID = @I_CategoriaPlanillaID,
@@ -2800,7 +2802,8 @@ GO
 
 CREATE PROCEDURE [dbo].[USP_S_ListarTrabajadoresConPlanilla]
 @I_Anio INT,
-@I_Mes INT
+@I_Mes INT,
+@I_CategoriaPlanillaID INT
 AS
 BEGIN
 	SET NOCOUNT ON;
@@ -2813,14 +2816,19 @@ BEGIN
 		dbo.TC_Trabajador AS trab ON trab.I_PersonaID = per.I_PersonaID INNER JOIN
 		dbo.TC_TipoDocumento AS tipdoc ON tipdoc.I_TipoDocumentoID = per.I_TipoDocumentoID INNER JOIN
 		dbo.TC_Estado AS est ON est.I_EstadoID = trab.I_EstadoID INNER JOIN 
-		dbo.TC_Vinculo AS vin ON vin.I_VinculoID = trab.I_VinculoID
+		dbo.TC_Vinculo AS vin ON vin.I_VinculoID = trab.I_VinculoID INNER JOIN 
+		dbo.TC_Trabajador_CategoriaPlanilla cat ON cat.I_TrabajadorID = trab.I_TrabajadorID INNER JOIN
+		dbo.TR_TrabajadorPlanilla AS tp ON tp.I_TrabajadorCategoriaPlanillaID = cat.I_TrabajadorCategoriaPlanillaID INNER JOIN 
+		dbo.TR_Planilla AS pl ON pl.I_PlanillaID = tp.I_PlanillaID INNER JOIN
+		dbo.TR_Periodo AS pr ON pr.I_PeriodoID = pl.I_PeriodoID
 	WHERE	per.B_Eliminado = 0 AND 
 			trab.B_Eliminado = 0 AND 
-			EXISTS(SELECT tp.I_TrabajadorPlanillaID FROM dbo.TR_TrabajadorPlanilla AS tp 
-				INNER JOIN dbo.TR_Planilla AS pl ON pl.I_PlanillaID = tp.I_PlanillaID
-				INNER JOIN dbo.TR_Periodo AS pr ON pr.I_PeriodoID = pl.I_PeriodoID
-				INNER JOIN dbo.TC_Trabajador_CategoriaPlanilla AS tc ON tc.I_TrabajadorCategoriaPlanillaID = tp.I_TrabajadorCategoriaPlanillaID
-				WHERE tp.B_Anulado = 0 AND pl.B_Anulado = 0 AND tc.I_TrabajadorID = trab.I_TrabajadorID AND pr.I_Anio = @I_Anio AND pr.I_Mes = @I_Mes);
+			cat.B_Eliminado = 0 AND
+			tp.B_Anulado = 0 AND
+			pl.B_Anulado = 0 AND
+			pr.I_Anio = @I_Anio AND
+			pr.I_Mes = @I_Mes AND
+			cat.I_CategoriaPlanillaID = @I_CategoriaPlanillaID;
 END
 GO
 
@@ -3030,5 +3038,72 @@ BEGIN
 		SET @B_Result = 0;
 		SET @T_Message = ERROR_MESSAGE();
 	END CATCH
+END
+GO
+
+
+
+IF EXISTS (SELECT * FROM INFORMATION_SCHEMA.ROUTINES WHERE ROUTINE_TYPE = 'PROCEDURE' AND ROUTINE_NAME = 'USP_S_ListarDetallePlanillaTrabajador')
+	DROP PROCEDURE [dbo].[USP_S_ListarDetallePlanillaTrabajador]
+GO
+
+CREATE PROCEDURE [dbo].[USP_S_ListarDetallePlanillaTrabajador]
+@I_Anio INT,
+@I_Mes INT,
+@I_CategoriaPlanillaID INT
+AS
+BEGIN
+	SET NOCOUNT ON;
+
+	DECLARE @I_PeriodoID INT,
+			--Construcción de consulta
+			@SQLString NVARCHAR(2000),
+			@ParmDefinition NVARCHAR(1000),
+			@Columns VARCHAR(1000),
+			@ColumnNames VARCHAR(1000);
+    
+	SET @I_PeriodoID = (SELECT per.I_PeriodoID FROM dbo.TR_Periodo per WHERE per.I_Anio = @I_Anio AND per.I_Mes = @I_Mes);
+
+	SELECT DISTINCT ctp.T_ConceptoDesc, ctp.I_Orden FROM dbo.TR_Concepto_TrabajadorPlanilla ctp
+	INNER JOIN dbo.TR_TrabajadorPlanilla trab ON trab.I_TrabajadorPlanillaID = ctp.I_TrabajadorPlanillaID
+	INNER JOIN dbo.TR_Planilla pla ON pla.I_PlanillaID = trab.I_PlanillaID
+	WHERE pla.B_Anulado = 0 AND trab.B_Anulado = 0 AND ctp.B_Anulado = 0 AND pla.I_PeriodoID = @I_PeriodoID AND pla.I_CategoriaPlanillaID = @I_CategoriaPlanillaID
+	ORDER BY ctp.I_Orden;
+
+	WITH Tmp_Conceptos(T_ConceptoDesc, I_Orden)
+	AS
+	(
+		SELECT DISTINCT ctp.T_ConceptoDesc, ctp.I_Orden
+		FROM dbo.TR_Concepto_TrabajadorPlanilla ctp
+		INNER JOIN dbo.TR_TrabajadorPlanilla trab ON trab.I_TrabajadorPlanillaID = ctp.I_TrabajadorPlanillaID
+		INNER JOIN dbo.TR_Planilla pla ON pla.I_PlanillaID = trab.I_PlanillaID
+		WHERE pla.B_Anulado = 0 AND trab.B_Anulado = 0 AND ctp.B_Anulado = 0 AND pla.I_PeriodoID = @I_PeriodoID AND pla.I_CategoriaPlanillaID = @I_CategoriaPlanillaID
+	)
+	SELECT 
+		@Columns = STRING_AGG('[' + T_ConceptoDesc + ']', ',') WITHIN GROUP (ORDER BY I_Orden)
+	FROM Tmp_Conceptos;
+
+	SET @SQLString = N'SELECT C_TrabajadorCod, T_Nombre, T_ApellidoPaterno, T_ApellidoMaterno, T_TipoDocumentoDesc, C_NumDocumento, ' + @Columns + ' FROM
+		(SELECT trab.C_TrabajadorCod, trab.T_Nombre, trab.T_ApellidoPaterno, trab.T_ApellidoMaterno, trab.T_TipoDocumentoDesc, trab.C_NumDocumento, 
+			ctp.T_ConceptoDesc, ctp.M_Monto 
+		FROM dbo.TR_Concepto_TrabajadorPlanilla ctp
+		INNER JOIN dbo.TR_TrabajadorPlanilla trabpla ON trabpla.I_TrabajadorPlanillaID = ctp.I_TrabajadorPlanillaID
+		INNER JOIN dbo.TR_Planilla pla ON pla.I_PlanillaID = trabpla.I_PlanillaID
+		INNER JOIN dbo.TR_Periodo per ON per.I_PeriodoID = pla.I_PeriodoID
+		INNER JOIN dbo.TC_Trabajador_CategoriaPlanilla tcpl ON tcpl.I_TrabajadorCategoriaPlanillaID = trabpla.I_TrabajadorCategoriaPlanillaID 
+		INNER JOIN dbo.VW_Trabajadores trab ON trab.I_TrabajadorID = tcpl.I_TrabajadorID
+		WHERE tcpl.B_Eliminado = 0 AND  pla.B_Anulado = 0 AND trabpla.B_Anulado = 0 AND ctp.B_Anulado = 0 AND per.I_PeriodoID = @I_PeriodoID AND pla.I_CategoriaPlanillaID = @I_CategoriaPlanillaID
+		) AS SourceTable
+	PIVOT (
+		SUM(M_Monto) FOR T_ConceptoDesc IN (' + @Columns + ')
+	) AS PivotTable';
+
+	SET @ParmDefinition = N'@I_PeriodoID INT, @I_CategoriaPlanillaID INT';
+
+	--PRINT @SQLString
+
+	EXECUTE SP_EXECUTESQL @SQLString, @ParmDefinition,
+	  @I_PeriodoID = @I_PeriodoID,
+	  @I_CategoriaPlanillaID = @I_CategoriaPlanillaID;
 END
 GO

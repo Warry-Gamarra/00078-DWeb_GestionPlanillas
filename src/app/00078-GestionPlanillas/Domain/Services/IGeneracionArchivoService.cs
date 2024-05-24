@@ -11,15 +11,17 @@ namespace Domain.Services
 {
     public interface IGeneracionArchivoService
     {
-        FileContent GenerarExcelDeLecturaValoresDeConceptos(List<ValorExternoLecturaProcesadoDTO> lista);
+        FileContent GenerarDescargableDeLecturaValoresDeConceptos(List<ValorExternoLecturaProcesadoDTO> lista);
 
-        FileContent GenerarExcelResumenPlanillaTrabajador(IEnumerable<ResumenPlanillaTrabajadorDTO> data);
+        FileContent GenerarDescargableResumenPlanillaTrabajador(IEnumerable<ResumenPlanillaTrabajadorDTO> data);
 
-        FileContent GenerarExcelResumenPorActividadYDependencia(ReporteResumenPorActividadYDependencia reporte);
+        FileContent GenerarDescargableResumenPorActividadYDependencia(ReporteResumenPorActividadYDependencia reporte);
 
-        FileContent GenerarExcelResumenSIAF(ReporteResumenSIAF reporte);
+        FileContent GenerarDescargableResumenSIAF(ReporteResumenSIAF reporte);
 
-        FileContent GenerarExcelDetallePlanilla(TrabajadorConPlanillaDTO trabajador, IEnumerable<CategoriaPlanillaGeneradaParaTrabajadorDTO> listaCategoriasPlanilla,
+        FileContent GenerarDescargableDetallePlanillaDeTrabajador(TrabajadorDTO trabajador, IEnumerable<CategoriaPlanillaGeneradaParaTrabajadorDTO> listaCategoriasPlanilla,
             List<ConceptoGeneradoDTO> conceptosGenerados);
+
+        FileContent GenerarDescargableDetallePlanillaTrabajadores(ReporteDetallePlanillaTrabajadorDTO reporte);
     }
 }

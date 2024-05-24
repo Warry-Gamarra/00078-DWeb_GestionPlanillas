@@ -235,7 +235,7 @@ namespace WebApp.ServiceFacade.Implementations
 
                 generacionArchivoService = FileManagement.GetGeneracionArchivoService(formatoArchivo);
 
-                fileContent = generacionArchivoService.GenerarExcelDeLecturaValoresDeConceptos(lecturaProcesada);
+                fileContent = generacionArchivoService.GenerarDescargableDeLecturaValoresDeConceptos(lecturaProcesada);
             }
             catch (Exception ex)
             {

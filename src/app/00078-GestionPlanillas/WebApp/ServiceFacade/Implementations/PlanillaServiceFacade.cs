@@ -44,9 +44,9 @@ namespace WebApp.ServiceFacade.Implementations
             {
                 data = _planillaService.ListarResumenPlanillaTrabajadores(año, mes, idCategoria);
 
-                generacionArchivoService = new GeneracionArchivoExcelService();
+                generacionArchivoService = FileManagement.GetGeneracionArchivoService(formatoArchivo);
 
-                fileContent = generacionArchivoService.GenerarExcelResumenPlanillaTrabajador(data);
+                fileContent = generacionArchivoService.GenerarDescargableResumenPlanillaTrabajador(data);
             }
             catch (Exception ex)
             {
@@ -90,9 +90,9 @@ namespace WebApp.ServiceFacade.Implementations
             {
                 reporte = _planillaService.ObtenerReporteResumenActividadPorDependencia(año, mes, idCategoria);
 
-                generacionArchivoService = new GeneracionArchivoExcelService();
+                generacionArchivoService = FileManagement.GetGeneracionArchivoService(formatoArchivo);
 
-                fileContent = generacionArchivoService.GenerarExcelResumenPorActividadYDependencia(reporte);
+                fileContent = generacionArchivoService.GenerarDescargableResumenPorActividadYDependencia(reporte);
             }
             catch (Exception ex)
             {
@@ -117,9 +117,9 @@ namespace WebApp.ServiceFacade.Implementations
             {
                 reporte = _planillaService.ObtenerReporteResumenSIAF(año, mes);
 
-                generacionArchivoService = new GeneracionArchivoExcelService();
+                generacionArchivoService = FileManagement.GetGeneracionArchivoService(formatoArchivo);
 
-                fileContent = generacionArchivoService.GenerarExcelResumenSIAF(reporte);
+                fileContent = generacionArchivoService.GenerarDescargableResumenSIAF(reporte);
             }
             catch (Exception ex)
             {
@@ -145,17 +145,17 @@ namespace WebApp.ServiceFacade.Implementations
             return lista;
         }
 
-        public FileContent ObtenerReporteDetallePlanilla(int trabajadorID, int año, int mes, FormatoArchivo formatoArchivo)
+        public FileContent ObtenerReporteDetallePlanillaDeTrabajador(int trabajadorID, int año, int mes, FormatoArchivo formatoArchivo)
         {
             IGeneracionArchivoService generacionArchivoService;
-            TrabajadorConPlanillaDTO trabajador;
+            TrabajadorDTO trabajador;
             IEnumerable<CategoriaPlanillaGeneradaParaTrabajadorDTO> listaCategoriasPlanilla;
             List<ConceptoGeneradoDTO> conceptosGenerados;
             FileContent fileContent;
 
             try
             {
-                trabajador = _trabajadorService.ListarTrabajadoresConPlanilla(año, mes).First(x => x.trabajadorID == trabajadorID);
+                trabajador = _trabajadorService.ObtenerTrabajador(trabajadorID);
 
                 listaCategoriasPlanilla = _planillaService.ListarCategoriaPlanillaGeneradaPorTrabajador(trabajadorID, año, mes);
 
@@ -166,9 +166,31 @@ namespace WebApp.ServiceFacade.Implementations
                     conceptosGenerados.AddRange(_planillaService.ListarConceptosGeneradosPorategoriaYTrabajador(item.trabajadorPlanillaID));
                 }
 
-                generacionArchivoService = new GeneracionArchivoExcelService();
+                generacionArchivoService = FileManagement.GetGeneracionArchivoService(formatoArchivo);
 
-                fileContent = generacionArchivoService.GenerarExcelDetallePlanilla(trabajador, listaCategoriasPlanilla, conceptosGenerados);
+                fileContent = generacionArchivoService.GenerarDescargableDetallePlanillaDeTrabajador(trabajador, listaCategoriasPlanilla, conceptosGenerados);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+
+            return fileContent;
+        }
+
+        public FileContent ObtenerReporteDetallePlanillaTrabajadores(int año, int mes, int idCategoria, FormatoArchivo formatoArchivo)
+        {
+            IGeneracionArchivoService generacionArchivoService;
+            ReporteDetallePlanillaTrabajadorDTO reporte;
+            FileContent fileContent;
+
+            try
+            {
+                reporte = _planillaService.ListarDetallePlanillaTrabajadores(año, mes, idCategoria);
+
+                generacionArchivoService = FileManagement.GetGeneracionArchivoService(formatoArchivo);
+
+                fileContent = generacionArchivoService.GenerarDescargableDetallePlanillaTrabajadores(reporte);
             }
             catch (Exception ex)
             {
