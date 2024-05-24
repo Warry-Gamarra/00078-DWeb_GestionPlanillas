@@ -74,9 +74,9 @@
                             <th>Hor.Doc.</th>
                             <th>Fec.Ing.</th>
                             <th>Dependencia</th>
-                            <th>Cta.Banco.</th>
-                            <th>Num.Cta.Banco</th>
-                            <th>Tip.Cta.Banco</th>
+                            <th>Banco</th>
+                            <th>Num.Cta</th>
+                            <th>Tip.Cta</th>
                             <th>Regimen</th>
                             <th>Afp</th>
                             <th>CUSPP</th>
@@ -102,9 +102,9 @@
                             <th>Hor.Doc.</th>
                             <th>Fec.Ing.</th>
                             <th>Dependencia</th>
-                            <th>Cta.Banco.</th>
-                            <th>Num.Cta.Banco</th>
-                            <th>Tip.Cta.Banco</th>
+                            <th>Banco</th>
+                            <th>Num.Cta</th>
+                            <th>Tip.Cta</th>
                             <th>Regimen</th>
                             <th>Afp</th>
                             <th>CUSPP</th>
@@ -180,6 +180,31 @@
             });
         });
 
+        $('#form-register #btnGrabarArchivo').on('click', function () {
+            $.ajax({
+                url: '@Url.Action("GuardarInformacion", "Trabajadores")',
+                type: "POST",
+                data: {
+                    __RequestVerificationToken: $('#form-register input[name="__RequestVerificationToken"]').val(),
+                    fileName: $('#form-register #fileName').val()
+                },
+                beforeSend: function () {
+                },
+                success: function (result) {
+                    if (result.success) {
+                        toastr.success(result.message);
+                        limpiarData();
+                        $("#inputFile").fileinput("clear");
+                    } else {
+                        toastr.error(result.message);
+                    }
+                },
+                error: function (jqXHR, textStatus, errorThrown) {
+                    toastr.error(errorThrown);
+                }
+            });
+        });
+
         $('#dataTableLecturaTrabajadores').DataTable().on('order.dt search.dt', function () {
             $('#dataTableLecturaTrabajadores').DataTable().column(0, { search: 'applied', order: 'applied' }).nodes().each(function (cell, i) {
                 cell.innerHTML = i + 1;
@@ -200,18 +225,18 @@
                 { data: 'sexoDesc' },
                 { data: 'codigoTrabajador' },
                 { data: 'vinculoDesc' },
-                { data: 'grupoOcupacionalCod' },
-                { data: 'nivelRemunerativoCod' },
-                { data: 'categoriaDocenteCod' },
+                { data: 'grupoOcupacionalDesc' },
+                { data: 'nivelRemunerativoDesc' },
+                { data: 'categoriaDocenteDesc' },
                 { data: 'dedicacionDocenteCod' },
                 { data: 'horasDocente' },
                 { data: 'fechaIngreso' },
                 { data: 'dependenciaDesc' },
-                { data: 'bancoCod' },
+                { data: 'bancoDesc' },
                 { data: 'numeroCuentaBancaria' },
-                { data: 'tipoCuentaBancaria' },
-                { data: 'regimenPensionarioCod' },
-                { data: 'afpCod' },
+                { data: 'tipoCuentaBancariaDesc' },
+                { data: 'regimenDesc' },
+                { data: 'afpDesc' },
                 { data: 'cuspp' },
                 { data: 'codigoPlaza' },
                 { data: 'esRegistroCorrecto', width: '15%' }
@@ -232,8 +257,8 @@
             ],
             bStateSave: false,
             bDestroy: true,
-            lengthMenu: [[10, 25], [10, 25]],
-            iDisplayLength: 10,
+            lengthMenu: [[5, 10, 25], [5, 10, 25]],
+            iDisplayLength: 5,
             language: {
                 search: "Buscar: ",
                 lengthMenu: "Mostrar _MENU_ filas",
@@ -269,7 +294,7 @@
                 }
 
                 //Filtro
-                api.columns([22]).every(function () {
+                api.columns([23]).every(function () {
                     let column = this;
 
                     let select = document.createElement('select');

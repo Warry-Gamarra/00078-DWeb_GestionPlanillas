@@ -49,19 +49,5 @@ namespace WebApp.ServiceFacade.Implementations
                 return new SelectList(lista, "sexoID", "sexoDesc");
             }
         }
-
-        public SelectList ObtenerComboTipoCuentasBancarias(bool incluirDeshabilitados = false, int? selectedItem = null)
-        {
-            var lista = _personaService.ListarTipoCuentasBancarias(incluirDeshabilitados);
-
-            if (selectedItem.HasValue)
-            {
-                return new SelectList(lista, "tipoCuentaBancariaID", "tipoCuentaBancariaDesc", selectedItem.Value);
-            }
-            else
-            {
-                return new SelectList(lista, "tipoCuentaBancariaID", "tipoCuentaBancariaDesc");
-            }
-        }
     }
 }

@@ -24,5 +24,9 @@ namespace WebApp.ServiceFacade
         IEnumerable<TrabajadorConPlanillaModel> ListarTrabajadoresConPlanilla(int año, int mes, int categoriaPlanillaID);
 
         Tuple<string, List<TrabajadorLecturaProcesadoDTO>> ObtenerListaTrabajadores(HttpPostedFileBase file);
+
+        FileContent ObtenerResultadoLectura(FormatoArchivo formatoArchivo, string fileName);
+
+        Response GrabarValoresExternos(string fileName, int userID);
     }
 }

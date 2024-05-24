@@ -30,5 +30,19 @@ namespace WebApp.ServiceFacade.Implementations
                 return new SelectList(lista, "bancoID", "bancoDesc");
             }
         }
+
+        public SelectList ObtenerComboTipoCuentasBancarias(bool incluirDeshabilitados = false, int? selectedItem = null)
+        {
+            var lista = _bancoService.ListarTipoCuentasBancarias(incluirDeshabilitados);
+
+            if (selectedItem.HasValue)
+            {
+                return new SelectList(lista, "tipoCuentaBancariaID", "tipoCuentaBancariaDesc", selectedItem.Value);
+            }
+            else
+            {
+                return new SelectList(lista, "tipoCuentaBancariaID", "tipoCuentaBancariaDesc");
+            }
+        }
     }
 }

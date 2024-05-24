@@ -115,7 +115,7 @@ namespace WebApp.Controllers
 
             ViewBag.ListaBancos = _bancoServiceFacade.ObtenerComboBancos();
 
-            ViewBag.ListaTipoCuentasBancarias = _personaServiceFacade.ObtenerComboTipoCuentasBancarias();
+            ViewBag.ListaTipoCuentasBancarias = _bancoServiceFacade.ObtenerComboTipoCuentasBancarias();
 
             ViewBag.ListaDependencias = _dependenciaServiceFacade.ObtenerComboDependencias();
 
@@ -188,7 +188,7 @@ namespace WebApp.Controllers
 
             ViewBag.ListaBancos = _bancoServiceFacade.ObtenerComboBancos(selectedItem: trabajador.bancoID);
 
-            ViewBag.ListaTipoCuentasBancarias = _personaServiceFacade.ObtenerComboTipoCuentasBancarias(selectedItem: trabajador.tipoCuentaBancariaID);
+            ViewBag.ListaTipoCuentasBancarias = _bancoServiceFacade.ObtenerComboTipoCuentasBancarias(selectedItem: trabajador.tipoCuentaBancariaID);
 
             ViewBag.ListaDependencias = _dependenciaServiceFacade.ObtenerComboDependencias(incluirDeshabilitados: true, selectedItem: trabajador.dependenciaID);
 
@@ -271,42 +271,42 @@ namespace WebApp.Controllers
             return Json(result, JsonRequestBehavior.AllowGet);
         }
 
-        //[HttpPost]
-        //[ValidateAntiForgeryToken]
-        //public JsonResult GuardarInformacion(string fileName)
-        //{
-        //    var result = _valorExternoConceptoServiceFacade.GrabarValoresExternos(fileName, WebSecurity.CurrentUserId);
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public JsonResult GuardarInformacion(string fileName)
+        {
+            var result = _trabajadorServiceFacade.GrabarValoresExternos(fileName, WebSecurity.CurrentUserId);
 
-        //    var response = new AjaxResponse()
-        //    {
-        //        success = result.Success,
-        //        message = result.Message
-        //    };
+            var response = new AjaxResponse()
+            {
+                success = result.Success,
+                message = result.Message
+            };
 
-        //    return Json(response, JsonRequestBehavior.AllowGet);
-        //}
+            return Json(response, JsonRequestBehavior.AllowGet);
+        }
 
-        //[HttpPost]
-        //[ValidateAntiForgeryToken]
-        //public ActionResult DescargarResultadoLectura(string fileName)
-        //{
-        //    FileContent fileContent;
-        //    string errorMessage;
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult DescargarResultadoLectura(string fileName)
+        {
+            FileContent fileContent;
+            string errorMessage;
 
-        //    try
-        //    {
-        //        fileContent = _valorExternoConceptoServiceFacade.ObtenerResultadoLectura(FormatoArchivo.XLSX, fileName);
+            try
+            {
+                fileContent = _trabajadorServiceFacade.ObtenerResultadoLectura(FormatoArchivo.XLSX, fileName);
 
-        //        return File(fileContent.fileContent, fileContent.contentType, fileContent.fileName);
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        errorMessage = ex.Message;
-        //    }
+                return File(fileContent.fileContent, fileContent.contentType, fileContent.fileName);
+            }
+            catch (Exception ex)
+            {
+                errorMessage = ex.Message;
+            }
 
-        //    ViewBag.ErrorMessage = errorMessage;
+            ViewBag.ErrorMessage = errorMessage;
 
-        //    return View();
-        //}
+            return View();
+        }
     }
 }

@@ -13,7 +13,7 @@ namespace Data.Tables
     {
         public int I_TipoCuentaBancariaID { get; set; }
 
-        public string T_TipoCuentaBancariaCod { get; set; }
+        public string C_TipoCuentaBancariaCod { get; set; }
 
         public string T_TipoCuentaBancariaDesc { get; set; }
 

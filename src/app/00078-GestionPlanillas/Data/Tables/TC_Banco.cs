@@ -17,6 +17,8 @@ namespace Data.Tables
 
         public string T_BancoAbrv { get; set; }
 
+        public string C_BancoCod { get; set; }
+
         public bool B_Habilitado { get; set; }
 
         public static IEnumerable<TC_Banco> FindAll()

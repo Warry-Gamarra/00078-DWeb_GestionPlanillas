@@ -13,6 +13,8 @@ namespace Data.Tables
     {
         public int I_TipoDocumentoID { get; set; } 
 
+        public string T_TipoDocumentoCod {  get; set; }
+
         public string T_TipoDocumentoDesc { get; set; }
 
         public bool B_Habilitado { get; set; }

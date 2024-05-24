@@ -25,6 +25,10 @@ namespace WebApp.ServiceFacade.Implementations
         private IRegimenService _regimenService;
         private IBancoService _bancoService;
         private IDependenciaService _dependenciaService;
+        private IGrupoOcupacionalService _grupoOcupacionalService;
+        private INivelRemunerativoService _nivoRemunerativoService;
+        private ICategoriaDocenteService _categoriaDocenteService;
+        private IAfpService _afpService;
 
         private readonly string serverPath;
 
@@ -39,6 +43,10 @@ namespace WebApp.ServiceFacade.Implementations
             _regimenService = new RegimenService();
             _bancoService = new BancoService();
             _dependenciaService = new DependenciaService();
+            _grupoOcupacionalService = new GrupoOcupacionalService();
+            _nivoRemunerativoService = new NivelRemunerativoService();
+            _categoriaDocenteService = new CategoriaDocenteService();
+            _afpService = new AfpService();
 
             serverPath = WebConfigParams.DirectorioCargaTrabajadores;
         }
@@ -198,27 +206,114 @@ namespace WebApp.ServiceFacade.Implementations
             return new Tuple<string, List<TrabajadorLecturaProcesadoDTO>>(newFileName, lecturaProcesada);
         }
 
+        public FileContent ObtenerResultadoLectura(FormatoArchivo formatoArchivo, string fileName)
+        {
+            ILecturaArchivoService lecturaArchivoService;
+            IGeneracionArchivoService generacionArchivoService;
+            List<TrabajadorLecturaDTO> lectura;
+            List<TrabajadorLecturaProcesadoDTO> lecturaProcesada;
+            FileContent fileContent;
+
+            try
+            {
+                lecturaArchivoService = FileManagement.GetLecturaService(Path.GetExtension(fileName));
+
+                lectura = lecturaArchivoService.ObtenerListaTrabajadores(Path.Combine(serverPath, fileName));
+
+                lecturaProcesada = ObtenerLecturaProcesada(lectura);
+
+                generacionArchivoService = FileManagement.GetGeneracionArchivoService(formatoArchivo);
+
+                fileContent = null;//generacionArchivoService.GenerarDescargableDeLecturaCargaDeTrabajadores(lecturaProcesada);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+
+            return fileContent;
+        }
+
+        public Response GrabarValoresExternos(string fileName, int userID)
+        {
+            Response response;
+            ILecturaArchivoService lecturaArchivoService;
+            List<TrabajadorLecturaDTO> lectura;
+            List<TrabajadorLecturaProcesadoDTO> lecturaProcesada;
+            List<TrabajadorEntity> registrosAptos;
+
+            try
+            {
+                lecturaArchivoService = FileManagement.GetLecturaService(Path.GetExtension(fileName));
+
+                lectura = lecturaArchivoService.ObtenerListaTrabajadores(Path.Combine(serverPath, fileName));
+
+                lecturaProcesada = ObtenerLecturaProcesada(lectura);
+
+                if (lecturaProcesada != null && lecturaProcesada.Count() > 0)
+                {
+                    registrosAptos = lecturaProcesada
+                       .Where(x => x.esRegistroCorrecto)
+                       .Select(x => new TrabajadorEntity()
+                       {
+                           trabajadorCod = x.codigoTrabajador,
+                           codigoPlaza = x.codigoPlaza,
+                           apellidoPaterno = x.apePaterno,
+                           apellidoMaterno = x.apeMaterno,
+                           nombre = x.nombres
+                       }).ToList();
+
+                    if (registrosAptos.Count() > 0)
+                    {
+                        response = _trabajadorService.GrabarTrabajador(Operacion.Registrar, registrosAptos.First(), userID);
+                    }
+                    else
+                    {
+                        response = new Response()
+                        {
+                            Message = "No hay registros aptos para ser grabados."
+                        };
+                    }
+                }
+                else
+                {
+                    response = new Response()
+                    {
+                        Message = "No hay registros en el archivo."
+                    };
+                }
+            }
+            catch (Exception ex)
+            {
+                response = new Response()
+                {
+                    Message = ex.Message
+                };
+            }
+
+            return response;
+        }
+
         private List<TrabajadorLecturaProcesadoDTO> ObtenerLecturaProcesada(List<TrabajadorLecturaDTO> lectura)
         {
             var listaTipoDocumento = _tipoDocumentoService.ListaTipoDocumentos();
-
             var listaSexos = _personaService.ListarSexos();
-
             var listaVinculos = _vinculoService.ListarVinculos();
-
+            var listaGruposOcupacionales = _grupoOcupacionalService.ListarGruposOcupacionales();
+            var listaNivelesRemunerativos = _nivoRemunerativoService.ListarNivelesRemunerativos();
+            var listaCategoriasDocente = _categoriaDocenteService.ListarCategoriasDocente(null);
             var listaDependencias = _dependenciaService.ListarDependencias();
-
             var listaRegimen = _regimenService.ListarRegimenes();
-
+            var listaAfps = _afpService.ListarAfps();
             var listaBancos = _bancoService.ListarBancos();
-
+            var listaTipCuentasBancarias = _bancoService.ListarTipoCuentasBancarias();
             var lecturaProcesada = new List<TrabajadorLecturaProcesadoDTO>();
 
             foreach (var item in lectura)
             {
                 var dto = new TrabajadorLecturaProcesadoDTO()
                 {
-                    tipoDocumentoID = item.tipoDocumentoID,
+                    tipoDocumentoCod = item.tipoDocumentoCod,
                     numDocumento = item.numDocumento,
                     apePaterno = item.apePaterno,
                     apeMaterno = item.apeMaterno,
@@ -242,17 +337,15 @@ namespace WebApp.ServiceFacade.Implementations
                     codigoPlaza = item.codigoPlaza
                 };
 
-                if (dto.tipoDocumentoID != null && listaTipoDocumento.Exists(x => x.tipoDocumentoID.ToString() == dto.tipoDocumentoID))
+                if (dto.tipoDocumentoCod != null && listaTipoDocumento.Exists(x => x.tipoDocumentoCod == dto.tipoDocumentoCod))
                 {
-                    dto.tipoDocumentoDesc = listaTipoDocumento.First(x => x.tipoDocumentoID.ToString() == dto.tipoDocumentoID).tipoDocumentoDesc;
+                    dto.tipoDocumentoDesc = listaTipoDocumento.First(x => x.tipoDocumentoCod == dto.tipoDocumentoCod).tipoDocumentoDesc;
 
                     dto.esTipoDocumentoCorrecto = true;
                 }
                 else
                 {
                     dto.observaciones.Add("Tipo de documento de identidad incorrecto.");
-
-                    dto.tipoDocumentoDesc = "";
                 }
 
                 if (dto.numDocumento != null && dto.numDocumento.Length > 0)
@@ -279,11 +372,73 @@ namespace WebApp.ServiceFacade.Implementations
                 {
                     dto.vinculoDesc = listaVinculos.First(x => x.vinculoCod == dto.vinculoCod).vinculoDesc;
 
+                    dto.vinculo = (Vinculo)listaVinculos.First(x => x.vinculoCod == dto.vinculoCod).vinculoID;
+
                     dto.esVinculoCorrecto = true;
+
+                    if (dto.vinculo == Vinculo.AdministrativoPermanente || dto.vinculo == Vinculo.AdministrativoContratado)
+                    {
+                        if (dto.grupoOcupacionalCod != null && listaGruposOcupacionales.Exists(x => x.grupoOcupacionalCod == dto.grupoOcupacionalCod))
+                        {
+                            dto.grupoOcupacionalDesc = listaGruposOcupacionales.First(x => x.grupoOcupacionalCod == dto.grupoOcupacionalCod).grupoOcupacionalDesc;
+
+                            dto.esGrupoOcupacionalCorrecto = true;
+                        }
+                        else
+                        {
+                            dto.observaciones.Add("El Grupo Ocupacional es incorrecto.");
+                        }
+
+                        if (dto.nivelRemunerativoCod != null && listaNivelesRemunerativos.Exists(x => x.nivelRemunerativoCod == dto.nivelRemunerativoCod))
+                        {
+                            dto.nivelRemunerativoDesc = listaNivelesRemunerativos.First(x => x.nivelRemunerativoCod == dto.nivelRemunerativoCod).nivelRemunerativoDesc;
+
+                            dto.esNivelRemunerativoCorrecto = true;
+                        }
+                        else
+                        {
+                            dto.observaciones.Add("El Nivel Remunerativo es incorrecto.");
+                        }
+                    }
+                    else if(dto.vinculo == Vinculo.DocentePermanente || dto.vinculo == Vinculo.DocenteContratado)
+                    {
+                        if (dto.categoriaDocenteCod != null && listaCategoriasDocente.Exists(x => x.categoriaDocenteCod == dto.categoriaDocenteCod))
+                        {
+                            dto.categoriaDocenteDesc = listaCategoriasDocente.First(x => x.categoriaDocenteCod == dto.categoriaDocenteCod).categoriaDocenteDesc;
+
+                            dto.esCategoriaDocenteCorrecta = true;
+                        }
+                        else
+                        {
+                            dto.observaciones.Add("La Categoría de Docente es incorrecto.");
+                        }
+                    }
                 }
                 else
                 {
                     dto.observaciones.Add("El Vínculo es incorrecto.");
+                }
+
+                if (dto.bancoCod != null && listaBancos.Exists(x => x.bancoCod == dto.bancoCod))
+                {
+                    dto.bancoDesc = listaBancos.First(x => x.bancoCod == dto.bancoCod).bancoDesc;
+
+                    dto.esBancoCorrecto = true;
+
+                    if (dto.bancoCod != null && dto.tipoCuentaBancaria != null && listaTipCuentasBancarias.Exists(x => x.tipoCuentaBancariaCod == dto.tipoCuentaBancaria))
+                    {
+                        dto.tipoCuentaBancariaDesc = listaTipCuentasBancarias.First(x => x.tipoCuentaBancariaCod == dto.tipoCuentaBancaria).tipoCuentaBancariaDesc;
+
+                        dto.esTipoCtaBancariaCorrecta = true;
+                    }
+                    else
+                    {
+                        dto.observaciones.Add("El Tipo de Cuenta Bancaria es incorrecto.");
+                    }
+                }
+                else
+                {
+                    dto.observaciones.Add("El Código de Banco no existe en el sistema.");
                 }
 
                 if (dto.dependenciaCod != null && listaDependencias.Exists(x => x.dependenciaCod == dto.dependenciaCod))
@@ -295,6 +450,28 @@ namespace WebApp.ServiceFacade.Implementations
                 else
                 {
                     dto.observaciones.Add("La Dependencia es incorrecta.");
+                }
+
+                if (dto.regimenPensionarioCod != null && listaRegimen.Exists(x => x.regimenCod == dto.regimenPensionarioCod))
+                {
+                    dto.regimenDesc = listaRegimen.First(x => x.regimenCod == dto.regimenPensionarioCod).regimenDesc;
+
+                    dto.esRegimenCorrecto = true;
+
+                    if (dto.afpCod != null && listaAfps.Exists(x => x.afpCod == dto.afpCod))
+                    {
+                        dto.afpDesc = listaAfps.First(x => x.afpCod == dto.afpCod).afpDesc;
+
+                        dto.esAFPCorrecto = true;
+                    }
+                    else
+                    {
+                        dto.observaciones.Add("El Código de AFP no existe en el sistema.");
+                    }
+                }
+                else
+                {
+                    dto.observaciones.Add("El Régimen Pensionario es incorrecto.");
                 }
 
                 lecturaProcesada.Add(dto);

@@ -10,5 +10,7 @@ namespace Domain.Services
     public interface IBancoService
     {
         List<BancoDTO> ListarBancos(bool incluirDeshabilitados = false);
+
+        List<TipoCuentaBancariaDTO> ListarTipoCuentasBancarias(bool incluirDeshabilitados = false);
     }
 }

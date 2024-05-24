@@ -68,7 +68,7 @@ namespace Domain.Services.Implementations
         {
             string[] expectedColNames = { "tip_documento", "num_documento", "apellido_paterno", "apellido_materno", "nombres",
                 "sexo", "codigo_trabajador", "vinculo", "grupo_ocupacional", "nivel_remunerativo", "categoria_docente", "dedicacion_docente", "horas",
-                "fecha_ingreso", "dependencia", "cuenta_banco", "numero_cuenta", "tipo_cuenta", "regimen", "afp", "cuspp", "codigo_plaza" };
+                "fecha_ingreso", "dependencia", "banco", "numero_cuenta", "tipo_cuenta", "regimen", "afp", "cuspp", "codigo_plaza" };
 
             var lista = new List<TrabajadorLecturaDTO>();
 
@@ -106,7 +106,8 @@ namespace Domain.Services.Implementations
                                     reader.GetValue(17)?.ToString(),
                                     reader.GetValue(18)?.ToString(),
                                     reader.GetValue(19)?.ToString(),
-                                    reader.GetValue(20)?.ToString()
+                                    reader.GetValue(20)?.ToString(),
+                                    reader.GetValue(21)?.ToString()
                                 };
 
                                 if (!expectedColNames.SequenceEqual(colNames))

@@ -53,21 +53,5 @@ namespace Domain.Services.Implementations
 
             return result;
         }
-
-        public List<TipoCuentaBancariaDTO> ListarTipoCuentasBancarias(bool incluirDeshabilitados = false)
-        {
-            var lista = TC_TipoCuentaBancaria.FindAll();
-
-            if (!incluirDeshabilitados)
-            {
-                lista = lista.Where(x => x.B_Habilitado);
-            }
-
-            var result = lista
-                .Select(x => Mapper.TC_TipoCuentaBancaria_To_TipoCuentaBancariaDTO(x))
-                .ToList();
-
-            return result;
-        }
     }
 }

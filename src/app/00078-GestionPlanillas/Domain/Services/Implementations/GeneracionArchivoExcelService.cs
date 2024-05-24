@@ -180,24 +180,26 @@ namespace Domain.Services.Implementations
                 var worksheet = workbook.Worksheets.Add("Hoja1");
 
                 worksheet.Column("A").Width = 20;
-                worksheet.Column("F").Width = 35;
-                worksheet.Column("G").Width = 15;
+                worksheet.Column("G").Width = 35;
+                worksheet.Columns("H:I").Width = 15;
 
                 worksheet.Cell(currentRow, 1).SetValue<string>("Planilla");
                 worksheet.Cell(currentRow, 2).SetValue<string>("Año");
                 worksheet.Cell(currentRow, 3).SetValue<string>("Mes");
-                worksheet.Cell(currentRow, 4).SetValue<string>("Tip.Doc.");
-                worksheet.Cell(currentRow, 5).SetValue<string>("Num.Doc.");
-                worksheet.Cell(currentRow, 6).SetValue<string>("Apellidos y Nombres");
-                worksheet.Cell(currentRow, 7).SetValue<string>("Régimen");
-                worksheet.Cell(currentRow, 8).SetValue<string>("Remu.");
-                worksheet.Cell(currentRow, 9).SetValue<string>("Reint.");
-                worksheet.Cell(currentRow, 10).SetValue<string>("Deducc.");
-                worksheet.Cell(currentRow, 11).SetValue<string>("Bruto");
-                worksheet.Cell(currentRow, 12).SetValue<string>("Desc.");
-                worksheet.Cell(currentRow, 13).SetValue<string>("Total");
+                worksheet.Cell(currentRow, 4).SetValue<string>("Cod.Trabajador");
+                worksheet.Cell(currentRow, 5).SetValue<string>("Tip.Doc.");
+                worksheet.Cell(currentRow, 6).SetValue<string>("Num.Doc.");
+                worksheet.Cell(currentRow, 7).SetValue<string>("Apellidos y Nombres");
+                worksheet.Cell(currentRow, 8).SetValue<string>("Estado");
+                worksheet.Cell(currentRow, 9).SetValue<string>("Régimen");
+                worksheet.Cell(currentRow, 10).SetValue<string>("Remu.");
+                worksheet.Cell(currentRow, 11).SetValue<string>("Reint.");
+                worksheet.Cell(currentRow, 12).SetValue<string>("Deducc.");
+                worksheet.Cell(currentRow, 13).SetValue<string>("Bruto");
+                worksheet.Cell(currentRow, 14).SetValue<string>("Desc.");
+                worksheet.Cell(currentRow, 15).SetValue<string>("Total");
 
-                worksheet.Range(worksheet.Cell(1, 1), worksheet.Cell(currentRow, 13)).Style.Font.Bold = true;
+                worksheet.Range(worksheet.Cell(1, 1), worksheet.Cell(currentRow, 15)).Style.Font.Bold = true;
 
                 foreach (var item in data)
                 {
@@ -206,19 +208,21 @@ namespace Domain.Services.Implementations
                     worksheet.Cell(currentRow, 1).SetValue<string>(item.categoriaPlanillaDesc);
                     worksheet.Cell(currentRow, 2).SetValue<string>(item.anio.ToString());
                     worksheet.Cell(currentRow, 3).SetValue<string>(item.mesDesc);
-                    worksheet.Cell(currentRow, 4).SetValue<string>(item.tipoDocumentoDesc);
-                    worksheet.Cell(currentRow, 5).SetValue<string>(item.numDocumento);
-                    worksheet.Cell(currentRow, 6).SetValue<string>(String.Format("{0} {1}, {2}", item.apellidoPaterno, item.apellidoMaterno, item.nombre));
-                    worksheet.Cell(currentRow, 7).SetValue<string>(item.regimenDesc);
-                    worksheet.Cell(currentRow, 8).SetValue<decimal>(item.totalRemuneracion);
-                    worksheet.Cell(currentRow, 9).SetValue<decimal>(item.totalReintegro);
-                    worksheet.Cell(currentRow, 10).SetValue<decimal>(item.totalDeduccion);
-                    worksheet.Cell(currentRow, 11).SetValue<decimal>(item.totalBruto);
-                    worksheet.Cell(currentRow, 12).SetValue<decimal>(item.totalDescuento);
-                    worksheet.Cell(currentRow, 13).SetValue<decimal>(item.totalSueldo);
+                    worksheet.Cell(currentRow, 4).SetValue<string>(item.estadoDesc);
+                    worksheet.Cell(currentRow, 5).SetValue<string>(item.tipoDocumentoDesc);
+                    worksheet.Cell(currentRow, 6).SetValue<string>(item.numDocumento);
+                    worksheet.Cell(currentRow, 7).SetValue<string>(String.Format("{0} {1}, {2}", item.apellidoPaterno, item.apellidoMaterno, item.nombre));
+                    worksheet.Cell(currentRow, 8).SetValue<string>(item.estadoDesc);
+                    worksheet.Cell(currentRow, 9).SetValue<string>(item.regimenDesc);
+                    worksheet.Cell(currentRow, 10).SetValue<decimal>(item.totalRemuneracion);
+                    worksheet.Cell(currentRow, 11).SetValue<decimal>(item.totalReintegro);
+                    worksheet.Cell(currentRow, 12).SetValue<decimal>(item.totalDeduccion);
+                    worksheet.Cell(currentRow, 13).SetValue<decimal>(item.totalBruto);
+                    worksheet.Cell(currentRow, 14).SetValue<decimal>(item.totalDescuento);
+                    worksheet.Cell(currentRow, 15).SetValue<decimal>(item.totalSueldo);
                 }
 
-                worksheet.Range(worksheet.Cell(2, 7), worksheet.Cell(currentRow, 13)).Style.NumberFormat.Format = Formats.BASIC_DECIMAL;
+                worksheet.Range(worksheet.Cell(2, 10), worksheet.Cell(currentRow, 15)).Style.NumberFormat.Format = Formats.BASIC_DECIMAL;
 
                 using (var stream = new MemoryStream())
                 {
@@ -738,7 +742,7 @@ namespace Domain.Services.Implementations
                         foreach (var columnName in reporte.cabecera)
                         {
                             if (columnName == "MES" || columnName == "COD.TRABAJADOR" || columnName == "APELLIDOS Y NOMBRES" || 
-                                columnName == "TIP.DOC." || columnName == "NUM.DOC.")
+                                columnName == "TIP.DOC." || columnName == "NUM.DOC." || columnName == "ESTADO")
                             {
                                 cell = worksheet.Cell(currentRow, currentCol).SetValue<string>((string)item[columnName]);
                             }

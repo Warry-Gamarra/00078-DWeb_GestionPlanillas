@@ -14,6 +14,8 @@ namespace Domain.Entities
 
         public string bancoAbrv { get; set; }
 
+        public string bancoCod { get; set; }
+
         public bool estaHabilitado { get; set; }
     }
 }

@@ -9,5 +9,7 @@ namespace WebApp.ServiceFacade
     public interface IBancoServiceFacade
     {
         SelectList ObtenerComboBancos(bool incluirDeshabilitados = false, int? selectedItem = null);
+
+        SelectList ObtenerComboTipoCuentasBancarias(bool incluirDeshabilitados = false, int? selectedItem = null);
     }
 }

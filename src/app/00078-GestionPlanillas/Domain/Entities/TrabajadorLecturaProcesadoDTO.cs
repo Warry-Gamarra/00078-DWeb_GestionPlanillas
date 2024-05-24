@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Domain.Enums;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,7 +9,7 @@ namespace Domain.Entities
 {
     public class TrabajadorLecturaProcesadoDTO
     {
-        public string tipoDocumentoID { get; set; }
+        public string tipoDocumentoCod { get; set; }
 
         public string tipoDocumentoDesc {  get; set; }
 
@@ -36,13 +37,27 @@ namespace Domain.Entities
 
         public string vinculoDesc { get; set; }
 
+        public Vinculo vinculo {  get; set; }
+
         public bool esVinculoCorrecto { get; set; }
 
         public string grupoOcupacionalCod { get; set; }
 
+        public string grupoOcupacionalDesc { get; set; }
+
+        public bool esGrupoOcupacionalCorrecto { get; set; }
+
         public string nivelRemunerativoCod { get; set; }
 
+        public string nivelRemunerativoDesc { get; set; }
+
+        public bool esNivelRemunerativoCorrecto {  get; set; }
+
         public string categoriaDocenteCod { get; set; }
+
+        public string categoriaDocenteDesc { get; set; }
+
+        public bool esCategoriaDocenteCorrecta {  get; set; }
 
         public string dedicacionDocenteCod { get; set; }
 
@@ -58,13 +73,29 @@ namespace Domain.Entities
 
         public string bancoCod { get; set; }
 
+        public string bancoDesc { get; set; }
+
+        public bool esBancoCorrecto { get; set; }
+
         public string numeroCuentaBancaria { get; set; }
 
         public string tipoCuentaBancaria { get; set; }
 
+        public string tipoCuentaBancariaDesc { get; set; }
+
+        public bool esTipoCtaBancariaCorrecta { get; set; }
+
         public string regimenPensionarioCod { get; set; }
 
-        public int? afpCod { get; set; }
+        public string regimenDesc { get; set; }
+
+        public bool esRegimenCorrecto { get; set; }
+
+        public string afpCod { get; set; }
+
+        public string afpDesc { get; set; }
+
+        public bool esAFPCorrecto { get; set; }
 
         public string cuspp { get; set; }
 
@@ -74,7 +105,11 @@ namespace Domain.Entities
         {
             get
             {
-                return esTipoDocumentoCorrecto && esNumDocumentoCorrecto && esSexoCorrecto && esVinculoCorrecto && esDependenciaCorrecta;
+                return esTipoDocumentoCorrecto && esNumDocumentoCorrecto && esSexoCorrecto && esVinculoCorrecto &&
+                    esGrupoOcupacionalCorrecto && esNivelRemunerativoCorrecto &&
+                    esCategoriaDocenteCorrecta &&
+                    esDependenciaCorrecta && esBancoCorrecto && esTipoCtaBancariaCorrecta &&
+                    esRegimenCorrecto && esAFPCorrecto;
             }
         }
 

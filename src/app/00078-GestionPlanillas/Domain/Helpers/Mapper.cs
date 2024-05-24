@@ -218,6 +218,7 @@ namespace Domain.Helpers
             {
                 tipoDocumentoID = table.I_TipoDocumentoID,
                 tipoDocumentoDesc = table.T_TipoDocumentoDesc,
+                tipoDocumentoCod = table.T_TipoDocumentoCod,
                 estaHabilitado = table.B_Habilitado
             };
 
@@ -231,6 +232,7 @@ namespace Domain.Helpers
                 bancoID = table.I_BancoID,
                 bancoDesc = table.T_BancoDesc,
                 bancoAbrv = table.T_BancoAbrv,
+                bancoCod = table.C_BancoCod,
                 estaHabilitado = table.B_Habilitado
             };
 
@@ -808,7 +810,7 @@ namespace Domain.Helpers
             var dto = new TipoCuentaBancariaDTO()
             {
                 tipoCuentaBancariaID = table.I_TipoCuentaBancariaID,
-                tipoCuentaBancariaCod = table.T_TipoCuentaBancariaCod,
+                tipoCuentaBancariaCod = table.C_TipoCuentaBancariaCod,
                 tipoCuentaBancariaDesc = table.T_TipoCuentaBancariaDesc,
                 estaHabilitado=table.B_Habilitado
             };
@@ -824,7 +826,7 @@ namespace Domain.Helpers
 
             if (reader.GetValue(0) != null)
             {
-                TrabajadorLecturaDTO.tipoDocumentoID = reader.GetValue(0).ToString();
+                TrabajadorLecturaDTO.tipoDocumentoCod = reader.GetValue(0).ToString();
             }
 
             if (reader.GetValue(1) != null)
@@ -925,10 +927,7 @@ namespace Domain.Helpers
 
             if (reader.GetValue(19) != null)
             {
-                stringValue = reader.GetValue(19).ToString();
-
-                if (int.TryParse(stringValue, out intValue))
-                    TrabajadorLecturaDTO.afpCod = intValue;
+                TrabajadorLecturaDTO.afpCod = reader.GetValue(19).ToString();
             }
 
             if (reader.GetValue(20) != null)

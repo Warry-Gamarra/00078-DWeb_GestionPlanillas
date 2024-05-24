@@ -2621,8 +2621,6 @@ BEGIN
 
 	SET @ParmDefinition = N'@I_PeriodoID INT, @I_CategoriaPlanillaID INT, @I_VinculoID INT';
 
-	--PRINT @SQLString
-
 	EXECUTE SP_EXECUTESQL @SQLString, @ParmDefinition,
 	  @I_PeriodoID = @I_PeriodoID,
 	  @I_CategoriaPlanillaID = @I_CategoriaPlanillaID,
@@ -3084,9 +3082,9 @@ BEGIN
 	FROM Tmp_Conceptos;
 
 	SET @SQLString = N'SELECT I_Anio AS [AÑO], T_MesDesc AS [MES], C_TrabajadorCod AS [COD.TRABAJADOR], T_ApellidoPaterno + '' '' +  ISNULL(T_ApellidoMaterno, '''') + '', '' + T_Nombre AS [APELLIDOS Y NOMBRES], 
-		T_TipoDocumentoDesc AS [TIP.DOC.] , C_NumDocumento AS [NUM.DOC.], ' + @Columns + ' FROM
+		T_TipoDocumentoDesc AS [TIP.DOC.] , C_NumDocumento AS [NUM.DOC.], T_EstadoDesc AS [ESTADO], ' + @Columns + ' FROM
 		(SELECT per.I_Anio, per.T_MesDesc, trab.C_TrabajadorCod, trab.T_Nombre, trab.T_ApellidoPaterno, trab.T_ApellidoMaterno, trab.T_TipoDocumentoDesc, trab.C_NumDocumento, 
-			ctp.T_ConceptoDesc, ctp.M_Monto 
+			trab.T_EstadoDesc, ctp.T_ConceptoDesc, ctp.M_Monto 
 		FROM dbo.TR_Concepto_TrabajadorPlanilla ctp
 		INNER JOIN dbo.TR_TrabajadorPlanilla trabpla ON trabpla.I_TrabajadorPlanillaID = ctp.I_TrabajadorPlanillaID
 		INNER JOIN dbo.TR_Planilla pla ON pla.I_PlanillaID = trabpla.I_PlanillaID
@@ -3100,8 +3098,6 @@ BEGIN
 	) AS PivotTable';
 
 	SET @ParmDefinition = N'@I_PeriodoID INT, @I_CategoriaPlanillaID INT';
-
-	--PRINT @SQLString
 
 	EXECUTE SP_EXECUTESQL @SQLString, @ParmDefinition,
 	  @I_PeriodoID = @I_PeriodoID,

@@ -8,7 +8,7 @@ namespace Domain.Entities
 {
     public class TrabajadorLecturaDTO
     {
-        public string tipoDocumentoID { get; set; }
+        public string tipoDocumentoCod { get; set; }
 
         public string tipoDocumentoDesc { get; set; }
 
@@ -48,7 +48,7 @@ namespace Domain.Entities
 
         public string regimenPensionarioCod { get; set; }
 
-        public int? afpCod { get; set; }
+        public string afpCod { get; set; }
 
         public string cuspp {  get; set; }
 
