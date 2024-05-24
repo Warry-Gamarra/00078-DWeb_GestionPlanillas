@@ -66,6 +66,8 @@ namespace Domain.Entities
 
         public int? tipoCuentaBancariaID { get; set; }
 
+        public string tipoCuentaBancariaDesc { get; set; }
+
         public int? bancoID { get; set; }
 
         public string bancoDesc { get; set; }

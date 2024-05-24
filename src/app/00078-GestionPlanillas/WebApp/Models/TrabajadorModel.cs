@@ -125,6 +125,8 @@ namespace WebApp.Models
         [CustomValidation(typeof(TrabajadorModel), "ValidarTipoCuentaBancaria")]
         public int? tipoCuentaBancariaID { get; set; }
 
+        public string tipoCuentaBancariaDesc { get; set; }
+
         [DisplayName("Cta.Banco")]
         public int? bancoID { get; set; }
 

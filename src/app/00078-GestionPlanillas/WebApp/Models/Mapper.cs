@@ -43,6 +43,7 @@ namespace WebApp.Models
                 cuentaBancariaID = dto.cuentaBancariaID,
                 nroCuentaBancaria = dto.nroCuentaBancaria,
                 tipoCuentaBancariaID = dto.tipoCuentaBancariaID,
+                tipoCuentaBancariaDesc = dto.tipoCuentaBancariaDesc,
                 bancoID = dto.bancoID,
                 bancoDesc = dto.bancoDesc,
                 bancoAbrv = dto.bancoAbrv

@@ -51,6 +51,27 @@ namespace WebApp.ServiceFacade.Implementations
             return lista;
         }
 
+        public FileContent ListarTrabajadores(FormatoArchivo formatoArchivo)
+        {
+            IGeneracionArchivoService generacionArchivoService;
+            FileContent fileContent;
+
+            try
+            {
+                var data = _trabajadorService.ListarTrabajadores();
+
+                generacionArchivoService = FileManagement.GetGeneracionArchivoService(formatoArchivo);
+
+                fileContent = generacionArchivoService.GenerarDescargableListaTrabajadores(data);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            
+            return fileContent;
+        }
+
         public TrabajadorModel ObtenerTrabajador(int trabajadorID)
         {
             TrabajadorModel trabajadorModel;

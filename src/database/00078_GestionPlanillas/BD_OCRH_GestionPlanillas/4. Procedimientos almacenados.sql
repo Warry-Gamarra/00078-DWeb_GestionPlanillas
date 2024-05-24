@@ -3083,8 +3083,9 @@ BEGIN
 		@Columns = STRING_AGG('[' + T_ConceptoDesc + ']', ',') WITHIN GROUP (ORDER BY I_Orden)
 	FROM Tmp_Conceptos;
 
-	SET @SQLString = N'SELECT C_TrabajadorCod, T_Nombre, T_ApellidoPaterno, T_ApellidoMaterno, T_TipoDocumentoDesc, C_NumDocumento, ' + @Columns + ' FROM
-		(SELECT trab.C_TrabajadorCod, trab.T_Nombre, trab.T_ApellidoPaterno, trab.T_ApellidoMaterno, trab.T_TipoDocumentoDesc, trab.C_NumDocumento, 
+	SET @SQLString = N'SELECT I_Anio AS [AÑO], T_MesDesc AS [MES], C_TrabajadorCod AS [COD.TRABAJADOR], T_ApellidoPaterno + '' '' +  ISNULL(T_ApellidoMaterno, '''') + '', '' + T_Nombre AS [APELLIDOS Y NOMBRES], 
+		T_TipoDocumentoDesc AS [TIP.DOC.] , C_NumDocumento AS [NUM.DOC.], ' + @Columns + ' FROM
+		(SELECT per.I_Anio, per.T_MesDesc, trab.C_TrabajadorCod, trab.T_Nombre, trab.T_ApellidoPaterno, trab.T_ApellidoMaterno, trab.T_TipoDocumentoDesc, trab.C_NumDocumento, 
 			ctp.T_ConceptoDesc, ctp.M_Monto 
 		FROM dbo.TR_Concepto_TrabajadorPlanilla ctp
 		INNER JOIN dbo.TR_TrabajadorPlanilla trabpla ON trabpla.I_TrabajadorPlanillaID = ctp.I_TrabajadorPlanillaID

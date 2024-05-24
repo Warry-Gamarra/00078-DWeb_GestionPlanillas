@@ -14,6 +14,89 @@ namespace Domain.Services.Implementations
 {
     public class GeneracionArchivoExcelService : IGeneracionArchivoService
     {
+        public FileContent GenerarDescargableListaTrabajadores(List<TrabajadorDTO> data)
+        {
+            FileContent fileContent;
+            int currentRow;
+
+            using (var workbook = new XLWorkbook())
+            {
+                var worksheet = workbook.Worksheets.Add("Hoja1");
+
+                worksheet.Columns("A:D").Width = 15;
+                worksheet.Column("E").Width = 30;
+                worksheet.Columns("F:G").Width = 15;
+                worksheet.Columns("H:I").Width = 30;
+                worksheet.Column("J").Width = 15;
+                worksheet.Columns("K:L").Width = 30;
+                worksheet.Column("M").Width = 15;
+                worksheet.Columns("N:O").Width = 30;
+                worksheet.Column("P").Width = 15;
+
+                currentRow = 1;
+
+                worksheet.Cell(currentRow, 1).Value = "Cod.Trabajador";
+                worksheet.Cell(currentRow, 2).Value = "Cod.Plaza";
+                worksheet.Cell(currentRow, 3).Value = "Tip.Doc.";
+                worksheet.Cell(currentRow, 4).Value = "Num.Doc.";
+                worksheet.Cell(currentRow, 5).Value = "Apellidos y Nombres";
+                worksheet.Cell(currentRow, 6).Value = "Sexo";
+                worksheet.Cell(currentRow, 7).Value = "Fec.Ingreso";
+                worksheet.Cell(currentRow, 8).Value = "Vínculo";
+                worksheet.Cell(currentRow, 9).Value = "Dependencia";
+                worksheet.Cell(currentRow, 10).Value = "Estado";
+                worksheet.Cell(currentRow, 11).Value = "Régimen";
+                worksheet.Cell(currentRow, 12).Value = "AFP";
+                worksheet.Cell(currentRow, 13).Value = "CUSPP";
+                worksheet.Cell(currentRow, 14).Value = "Banco";
+                worksheet.Cell(currentRow, 15).Value = "Tip.Cuenta";
+                worksheet.Cell(currentRow, 16).Value = "Nro.Cuenta";
+
+                worksheet.Range(worksheet.Cell(currentRow, 1), worksheet.Cell(currentRow, 16)).Style.Font.Bold = true;
+
+                foreach (var item in data)
+                {
+                    currentRow++;
+
+                    worksheet.Cell(currentRow, 1).SetValue<string>(item.trabajadorCod);
+                    worksheet.Cell(currentRow, 2).SetValue<string>(item.codigoPlaza);
+                    worksheet.Cell(currentRow, 3).SetValue<string>(item.tipoDocumentoDesc);
+                    worksheet.Cell(currentRow, 4).SetValue<string>(item.numDocumento);
+                    worksheet.Cell(currentRow, 5).SetValue<string>(String.Format("{0} {1}, {2}", item.apellidoPaterno, item.apellidoMaterno, item.nombre));
+                    worksheet.Cell(currentRow, 6).SetValue<string>(item.sexoDesc);
+                    
+                    worksheet.Cell(currentRow, 7).SetValue<DateTime?>(item.fechaIngreso);
+                    worksheet.Cell(currentRow, 7).Style.DateFormat.Format = Formats.BASIC_DATE;
+
+                    worksheet.Cell(currentRow, 8).SetValue<string>(item.vinculoDesc);
+                    worksheet.Cell(currentRow, 9).SetValue<string>(item.dependenciaDesc);
+                    worksheet.Cell(currentRow, 10).SetValue<string>(item.estadoDesc);
+                    worksheet.Cell(currentRow, 11).SetValue<string>(item.regimenDesc);
+                    worksheet.Cell(currentRow, 12).SetValue<string>(item.afpDesc);
+                    worksheet.Cell(currentRow, 13).SetValue<string>(item.cuspp);
+                    worksheet.Cell(currentRow, 14).SetValue<string>(item.bancoDesc);
+                    worksheet.Cell(currentRow, 15).SetValue<string>(item.tipoCuentaBancariaDesc);
+                    worksheet.Cell(currentRow, 16).SetValue<string>(item.nroCuentaBancaria);
+                }
+
+                using (var stream = new MemoryStream())
+                {
+                    workbook.SaveAs(stream);
+
+                    var content = stream.ToArray();
+
+                    fileContent = new FileContent()
+                    {
+                        fileContent = content,
+                        contentType = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+                        fileName = "Lista de trabajadores.xlsx"
+                    };
+
+                    return fileContent;
+                }
+            }
+        }
+
         public FileContent GenerarDescargableDeLecturaValoresDeConceptos(List<ValorExternoLecturaProcesadoDTO> lista)
         {
             FileContent fileContent;
@@ -631,7 +714,10 @@ namespace Domain.Services.Implementations
             using (var workbook = new XLWorkbook())
             {
                 var worksheet = workbook.Worksheets.Add("Hoja1");
-                
+                worksheet.Column("C").Width = 15;
+                worksheet.Column("D").Width = 30;
+                worksheet.Columns("E:F").Width = 15;
+
                 if (reporte.detalle != null && reporte.detalle.Count() > 0)
                 {
                     foreach (var columnName in reporte.cabecera)
@@ -641,6 +727,7 @@ namespace Domain.Services.Implementations
                         cell.Style.Border.BottomBorder = XLBorderStyleValues.Thin;
                         cell.Style.Border.LeftBorder = XLBorderStyleValues.Thin;
                         cell.Style.Border.RightBorder = XLBorderStyleValues.Thin;
+                        cell.Style.Font.Bold = true;
                         currentCol++;
                     }
 
@@ -650,10 +737,14 @@ namespace Domain.Services.Implementations
                     {
                         foreach (var columnName in reporte.cabecera)
                         {
-                            if (columnName == "C_TrabajadorCod" || columnName == "T_Nombre" || columnName == "T_ApellidoPaterno" || 
-                                columnName == "T_ApellidoMaterno" || columnName == "T_TipoDocumentoDesc" || columnName == "C_NumDocumento")
+                            if (columnName == "MES" || columnName == "COD.TRABAJADOR" || columnName == "APELLIDOS Y NOMBRES" || 
+                                columnName == "TIP.DOC." || columnName == "NUM.DOC.")
                             {
                                 cell = worksheet.Cell(currentRow, currentCol).SetValue<string>((string)item[columnName]);
+                            }
+                            else if(columnName == "AÑO")
+                            {
+                                cell = worksheet.Cell(currentRow, currentCol).SetValue<int>((int)item[columnName]);
                             }
                             else
                             {

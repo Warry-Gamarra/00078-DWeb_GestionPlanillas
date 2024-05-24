@@ -14,7 +14,7 @@ SELECT
 	trab.D_FechaIngreso, reg.I_RegimenID, reg.T_RegimenDesc, afp.I_AfpID, afp.T_AfpDesc, trab.T_Cuspp, 
 	est.I_EstadoID, est.T_EstadoDesc, vin.I_VinculoID, vin.T_VinculoDesc,
 	dep.I_DependenciaID, dep.C_DependenciaCod, dep.T_DependenciaDesc,
-	cta.I_CuentaBancariaID, cta.T_NroCuentaBancaria, cta.I_TipoCuentaBancariaID, bco.I_BancoID, bco.T_BancoDesc, bco.T_BancoAbrv
+	cta.I_CuentaBancariaID, cta.T_NroCuentaBancaria, cta.I_TipoCuentaBancariaID, tcb.T_TipoCuentaBancariaDesc, bco.I_BancoID, bco.T_BancoDesc, bco.T_BancoAbrv
 FROM 
 	dbo.TC_Persona AS per INNER JOIN
 	dbo.TC_Trabajador AS trab ON trab.I_PersonaID = per.I_PersonaID INNER JOIN
@@ -27,7 +27,8 @@ FROM
 	dbo.TC_Vinculo AS vin ON vin.I_VinculoID = trab.I_VinculoID INNER JOIN
 	dbo.TC_Dependencia AS dep ON dep.I_DependenciaID = trabcat.I_DependenciaID LEFT JOIN
 	dbo.TC_CuentaBancaria AS cta ON cta.I_TrabajadorID = trab.I_TrabajadorID AND cta.B_Habilitado = 1 LEFT JOIN
-	dbo.TC_Banco AS bco ON bco.I_BancoID = cta.I_BancoID
+	dbo.TC_Banco AS bco ON bco.I_BancoID = cta.I_BancoID LEFT JOIN
+	dbo.TC_TipoCuentaBancaria AS tcb ON tcb.I_TipoCuentaBancariaID = cta.I_TipoCuentaBancariaID
 WHERE per.B_Eliminado = 0 AND trab.B_Eliminado = 0 AND trabcat.B_Eliminado = 0 AND trabcat.B_CategoriaPrincipal = 1
 GO
 

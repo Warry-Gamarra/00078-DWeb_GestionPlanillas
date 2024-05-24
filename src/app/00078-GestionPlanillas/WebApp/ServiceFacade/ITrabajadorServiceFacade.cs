@@ -15,6 +15,8 @@ namespace WebApp.ServiceFacade
     {
         IEnumerable<TrabajadorModel> ListarTrabajadores();
 
+        FileContent ListarTrabajadores(FormatoArchivo formatoArchivo);
+
         TrabajadorModel ObtenerTrabajador(int trabajadorID);
 
         Response GrabarTrabajador(Operacion operacion, TrabajadorModel model, int userID);

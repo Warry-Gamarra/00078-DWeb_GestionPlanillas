@@ -14,8 +14,7 @@ namespace Data.Procedures
     {
         public USP_S_ListarDetallePlanillaTrabajador(IEnumerable<string> columnasConcepto, IEnumerable<IDictionary<string, object>> detalle)
         {
-            this.cabecera = new List<string>() { "C_TrabajadorCod", "T_Nombre", "T_ApellidoPaterno", "T_ApellidoMaterno", 
-                "T_TipoDocumentoDesc", "C_NumDocumento" };
+            this.cabecera = new List<string>() { "AÑO", "MES", "COD.TRABAJADOR", "APELLIDOS Y NOMBRES", "TIP.DOC.", "NUM.DOC." };
 
             this.cabecera = this.cabecera.Concat(columnasConcepto);
 

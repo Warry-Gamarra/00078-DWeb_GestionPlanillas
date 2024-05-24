@@ -11,6 +11,8 @@ namespace Domain.Services
 {
     public interface IGeneracionArchivoService
     {
+        FileContent GenerarDescargableListaTrabajadores(List<TrabajadorDTO> data);
+
         FileContent GenerarDescargableDeLecturaValoresDeConceptos(List<ValorExternoLecturaProcesadoDTO> lista);
 
         FileContent GenerarDescargableResumenPlanillaTrabajador(IEnumerable<ResumenPlanillaTrabajadorDTO> data);

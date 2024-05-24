@@ -69,6 +69,8 @@ namespace Data.Views
 
         public int? I_TipoCuentaBancariaID { get; set; }
 
+        public string T_TipoCuentaBancariaDesc { get; set; }
+
         public int? I_BancoID { get; set; }
 
         public string T_BancoDesc { get;set; }

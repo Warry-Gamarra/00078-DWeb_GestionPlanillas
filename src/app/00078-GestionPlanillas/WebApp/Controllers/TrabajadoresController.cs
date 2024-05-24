@@ -75,6 +75,28 @@ namespace WebApp.Controllers
         }
 
         [HttpGet]
+        public ActionResult DescargarListaTrabajadores()
+        {
+            FileContent fileContent;
+            string errorMessage;
+
+            try
+            {
+                fileContent = _trabajadorServiceFacade.ListarTrabajadores(FormatoArchivo.XLSX);
+
+                return File(fileContent.fileContent, fileContent.contentType, fileContent.fileName);
+            }
+            catch (Exception ex)
+            {
+                errorMessage = ex.Message;
+            }
+
+            ViewBag.ErrorMessage = errorMessage;
+
+            return View();
+        }
+
+        [HttpGet]
         public ActionResult Nuevo()
         {
             ViewBag.Title = "Nuevo Trabajador";

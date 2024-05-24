@@ -60,6 +60,7 @@ namespace Domain.Helpers
                 cuentaBancariaID = view.I_CuentaBancariaID,
                 nroCuentaBancaria = view.T_NroCuentaBancaria,
                 tipoCuentaBancariaID = view.I_TipoCuentaBancariaID,
+                tipoCuentaBancariaDesc = view.T_TipoCuentaBancariaDesc,
                 bancoID = view.I_BancoID,
                 bancoDesc = view.T_BancoDesc,
                 bancoAbrv = view.T_BancoAbrv
