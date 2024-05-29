@@ -20,7 +20,7 @@ namespace Domain.Entities
 
         public string nombres { get; set; }
 
-        public int? sexo { get; set; }
+        public string sexoCod { get; set; }
 
         public string codigoTrabajador { get; set; }
 
@@ -44,7 +44,7 @@ namespace Domain.Entities
 
         public string numeroCuentaBancaria { get; set; }
 
-        public string tipoCuentaBancaria { get; set; }
+        public string tipoCuentaBancariaCod { get; set; }
 
         public string regimenPensionarioCod { get; set; }
 

@@ -40,7 +40,6 @@ namespace WebApp.Models
                 dependenciaID = dto.dependenciaID,
                 dependenciaCod = dto.dependenciaCod,
                 dependenciaDesc = dto.dependenciaDesc,
-                cuentaBancariaID = dto.cuentaBancariaID,
                 nroCuentaBancaria = dto.nroCuentaBancaria,
                 tipoCuentaBancariaID = dto.tipoCuentaBancariaID,
                 tipoCuentaBancariaDesc = dto.tipoCuentaBancariaDesc,

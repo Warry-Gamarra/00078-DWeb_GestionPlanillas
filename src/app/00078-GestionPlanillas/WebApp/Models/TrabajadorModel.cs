@@ -47,6 +47,7 @@ namespace WebApp.Models
         }
 
         [DisplayName("Doc.Identidad")]
+        [Required(ErrorMessage = "El Tipo de Documento es obligatorio.")]
         public int tipoDocumentoID { get; set; }
 
         public string tipoDocumentoDesc { get; set; }
@@ -115,8 +116,6 @@ namespace WebApp.Models
         public string dependenciaCod { get; set; }
 
         public string dependenciaDesc { get; set; }
-
-        public int? cuentaBancariaID { get; set; }
 
         [CustomValidation(typeof(TrabajadorModel), "ValidarNumeroCuentaBancaria")]
         public string nroCuentaBancaria { get; set; }

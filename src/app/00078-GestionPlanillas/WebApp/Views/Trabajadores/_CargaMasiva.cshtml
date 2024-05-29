@@ -1,5 +1,22 @@
 ﻿@Scripts.Render("~/bundles/jqueryval")
 
+<style>
+    .table-observations {
+        max-height: 120px;
+        overflow-y: hidden;
+        position: relative;
+    }
+
+    .table-observations::after {
+        content: '...';
+        position: absolute;
+        bottom: 0;
+        right: 0;
+        background: white;
+        padding-left: 5px;
+    }
+</style>
+
 <div class="modal-header bg-dark-gray" style="border-radius: .2rem .2rem 0px 0px">
     <h5 class="modal-title text-center"><i class="fa fa-tag">&nbsp;</i> @ViewBag.Title</h5>
     <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
@@ -216,18 +233,18 @@
         $('#dataTableLecturaTrabajadores').DataTable({
             data: jsonObject,
             columns: [
-                { data: 'tipoDocumentoDesc' },
-                { data: 'tipoDocumentoDesc' },
+                { data: 'esRegistroCorrecto' },
+                { data: 'tipoDocumentoCod' },
                 { data: 'numDocumento' },
                 { data: 'apePaterno' },
                 { data: 'apeMaterno' },
                 { data: 'nombres' },
-                { data: 'sexoDesc' },
+                { data: 'sexoCod' },
                 { data: 'codigoTrabajador' },
-                { data: 'vinculoDesc' },
-                { data: 'grupoOcupacionalDesc' },
-                { data: 'nivelRemunerativoDesc' },
-                { data: 'categoriaDocenteDesc' },
+                { data: 'vinculoCod' },
+                { data: 'grupoOcupacionalCod' },
+                { data: 'nivelRemunerativoCod' },
+                { data: 'categoriaDocenteCod' },
                 { data: 'dedicacionDocenteCod' },
                 { data: 'horasDocente' },
                 { data: 'fechaIngreso' },
@@ -243,13 +260,52 @@
             ],
             columnDefs: [
                 {
+                    targets: 1,
+                    render: function (data, type, row) {
+                        return row.esTipoDocumentoCorrecto ? row.tipoDocumentoDesc : data;
+                    }
+                },
+                {
+                    targets: 6,
+                    render: function (data, type, row) {
+                        return row.esSexoCorrecto ? row.sexoDesc : data;
+                    }
+                },
+                {
+                    targets: 8,
+                    render: function (data, type, row) {
+                        return row.esVinculoCorrecto ? row.vinculoDesc : data;
+                    }
+                },
+                {
+                    targets: 9,
+                    render: function (data, type, row) {
+                        return row.esGrupoOcupacionalCorrecto ? row.grupoOcupacionalDesc : data;
+                    }
+                },
+                {
+                    targets: 11,
+                    render: function (data, type, row) {
+                        return row.esCategoriaDocenteCorrecta ? row.categoriaDocenteDesc : data;
+                    }
+                },
+                {
+                    targets: 12,
+                    render: function (data, type, row) {
+                        return row.esDedicacionDocenteCorrecta ? row.dedicacionDocenteDesc : data;
+                    }
+                },
+                {
+
                     targets: -1,
                     render: function (data, type, row) {
-                        let obs = '';
+                        let obs = '<ul class="table-observations">';
 
                         row.observaciones.forEach(function (item) {
                             obs += `<li>${item}</li>`;
                         });
+
+                        obs += '</ul>';
 
                         return obs;
                     }

@@ -851,10 +851,7 @@ namespace Domain.Helpers
 
             if (reader.GetValue(5) != null)
             {
-                stringValue = reader.GetValue(5).ToString();
-
-                if (int.TryParse(stringValue, out intValue))
-                    TrabajadorLecturaDTO.sexo = intValue;
+                TrabajadorLecturaDTO.sexoCod = reader.GetValue(5).ToString();
             }
 
             if (reader.GetValue(6) != null)
@@ -917,7 +914,7 @@ namespace Domain.Helpers
 
             if (reader.GetValue(17) != null)
             {
-                TrabajadorLecturaDTO.tipoCuentaBancaria = reader.GetValue(17).ToString();
+                TrabajadorLecturaDTO.tipoCuentaBancariaCod = reader.GetValue(17).ToString();
             }
 
             if (reader.GetValue(18) != null)

@@ -785,5 +785,96 @@ namespace Domain.Services.Implementations
                 }
             }
         }
+
+        public FileContent GenerarDescargableDeLecturaCargaDeTrabajadores(List<TrabajadorLecturaProcesadoDTO> lista)
+        {
+            FileContent fileContent;
+            int currentRow;
+
+            using (var workbook = new XLWorkbook())
+            {
+                var worksheet = workbook.Worksheets.Add("Resultado");
+
+                worksheet.Columns("A:V").Width = 15;
+                worksheet.Column("Z").Width = 30;
+
+                currentRow = 1;
+
+                worksheet.Cell(currentRow, 1).Value = "Tip.Doc.";
+                worksheet.Cell(currentRow, 2).Value = "Num.Doc.";
+                worksheet.Cell(currentRow, 3).Value = "Ape.Paterno";
+                worksheet.Cell(currentRow, 4).Value = "Ape.Materno";
+                worksheet.Cell(currentRow, 5).Value = "Nombres";
+                worksheet.Cell(currentRow, 6).Value = "Sexo";
+                worksheet.Cell(currentRow, 7).Value = "Cod.Trabajador";
+                worksheet.Cell(currentRow, 8).Value = "Vínculo";
+                worksheet.Cell(currentRow, 9).Value = "Grup.Ocupacional";
+                worksheet.Cell(currentRow, 10).Value = "Niv.Remunerativo";
+                worksheet.Cell(currentRow, 11).Value = "Cat.Docente";
+                worksheet.Cell(currentRow, 12).Value = "Ded.Docente";
+                worksheet.Cell(currentRow, 13).Value = "Horas Docente";
+                worksheet.Cell(currentRow, 14).Value = "Fecha ingreso";
+                worksheet.Cell(currentRow, 15).Value = "Dependencia";
+                worksheet.Cell(currentRow, 16).Value = "Banco";
+                worksheet.Cell(currentRow, 17).Value = "Num.Cuenta";
+                worksheet.Cell(currentRow, 18).Value = "Tip.Cuenta";
+                worksheet.Cell(currentRow, 19).Value = "Régimen";
+                worksheet.Cell(currentRow, 20).Value = "AFP";
+                worksheet.Cell(currentRow, 21).Value = "CUSPP";
+                worksheet.Cell(currentRow, 22).Value = "Cod.Plaza";
+                worksheet.Cell(currentRow, 23).Value = "Observación";
+
+                foreach (var item in lista)
+                {
+                    currentRow++;
+
+                    worksheet.Cell(currentRow, 1).SetValue<string>(item.tipoDocumentoCod);
+                    worksheet.Cell(currentRow, 2).SetValue<string>(item.numDocumento);
+                    worksheet.Cell(currentRow, 3).SetValue<string>(item.apePaterno);
+                    worksheet.Cell(currentRow, 4).SetValue<string>(item.apeMaterno);
+                    worksheet.Cell(currentRow, 5).SetValue<string>(item.nombres);
+                    worksheet.Cell(currentRow, 6).SetValue<string>(item.sexoCod);
+                    worksheet.Cell(currentRow, 7).SetValue<string>(item.codigoTrabajador);
+                    worksheet.Cell(currentRow, 8).SetValue<string>(item.vinculoCod);
+                    worksheet.Cell(currentRow, 9).SetValue<string>(item.grupoOcupacionalCod);
+                    worksheet.Cell(currentRow, 10).SetValue<string>(item.nivelRemunerativoCod);
+                    worksheet.Cell(currentRow, 11).SetValue<string>(item.categoriaDocenteCod);
+                    worksheet.Cell(currentRow, 12).SetValue<string>(item.dedicacionDocenteCod);
+                    worksheet.Cell(currentRow, 13).SetValue<int?>(item.horasDocente);
+                    worksheet.Cell(currentRow, 14).SetValue<string>(item.fechaIngreso);
+                    worksheet.Cell(currentRow, 15).SetValue<string>(item.dependenciaCod);
+                    worksheet.Cell(currentRow, 16).SetValue<string>(item.bancoCod);
+                    worksheet.Cell(currentRow, 17).SetValue<string>(item.numeroCuentaBancaria);
+                    worksheet.Cell(currentRow, 18).SetValue<string>(item.tipoCuentaBancariaCod);
+                    worksheet.Cell(currentRow, 19).SetValue<string>(item.regimenPensionarioCod);
+                    worksheet.Cell(currentRow, 20).SetValue<string>(item.afpCod);
+                    worksheet.Cell(currentRow, 21).SetValue<string>(item.cuspp);
+                    worksheet.Cell(currentRow, 22).SetValue<string>(item.codigoPlaza);
+
+                    if (!item.esRegistroCorrecto)
+                    {
+                        var observacionesText = string.Join("\n", item.observaciones);
+
+                        worksheet.Cell(currentRow, 23).SetValue<string>(observacionesText);
+                    }
+                }
+
+                using (var stream = new MemoryStream())
+                {
+                    workbook.SaveAs(stream);
+
+                    var content = stream.ToArray();
+
+                    fileContent = new FileContent()
+                    {
+                        fileContent = content,
+                        contentType = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+                        fileName = "Resultado de la lectura de archivo de trabajadores.xlsx"
+                    };
+
+                    return fileContent;
+                }
+            }
+        }
     }
 }

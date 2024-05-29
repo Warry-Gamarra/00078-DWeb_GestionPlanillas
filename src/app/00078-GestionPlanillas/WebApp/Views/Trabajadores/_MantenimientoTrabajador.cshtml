@@ -24,6 +24,7 @@
                 <div class="form-group">
                     @Html.LabelFor(model => model.tipoDocumentoID, new { @class = "control-label" })
                     @Html.DropDownListFor(model => model.tipoDocumentoID, ViewBag.ListaTipoDocumentos as SelectList, null, new { @class = "form-control text-uppercase" })
+                    @Html.ValidationMessageFor(model => model.tipoDocumentoID, null, new { @class = "text-danger" })
                 </div>
             </div>
             <div class="col-3">

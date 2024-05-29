@@ -25,5 +25,7 @@ namespace Domain.Services
             List<ConceptoGeneradoDTO> conceptosGenerados);
 
         FileContent GenerarDescargableDetallePlanillaTrabajadores(ReporteDetallePlanillaTrabajadorDTO reporte);
+
+        FileContent GenerarDescargableDeLecturaCargaDeTrabajadores(List<TrabajadorLecturaProcesadoDTO> lista);
     }
 }
