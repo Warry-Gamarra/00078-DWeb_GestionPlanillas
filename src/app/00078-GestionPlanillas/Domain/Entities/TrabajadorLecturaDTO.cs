@@ -53,5 +53,7 @@ namespace Domain.Entities
         public string cuspp {  get; set; }
 
         public string codigoPlaza { get; set; }
+
+        public string estadoTrabajadorCod { get; set; }
     }
 }

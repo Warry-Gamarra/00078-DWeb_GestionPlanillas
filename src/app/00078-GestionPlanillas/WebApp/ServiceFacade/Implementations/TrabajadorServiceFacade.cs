@@ -29,6 +29,7 @@ namespace WebApp.ServiceFacade.Implementations
         private INivelRemunerativoService _nivoRemunerativoService;
         private ICategoriaDocenteService _categoriaDocenteService;
         private IAfpService _afpService;
+        private IEstadoService _estadoService;
 
         private readonly string serverPath;
 
@@ -47,6 +48,7 @@ namespace WebApp.ServiceFacade.Implementations
             _nivoRemunerativoService = new NivelRemunerativoService();
             _categoriaDocenteService = new CategoriaDocenteService();
             _afpService = new AfpService();
+            _estadoService = new EstadoService();
 
             serverPath = WebConfigParams.DirectorioCargaTrabajadores;
         }
@@ -324,6 +326,7 @@ namespace WebApp.ServiceFacade.Implementations
             var listaAfps = _afpService.ListarAfps();
             var listaBancos = _bancoService.ListarBancos();
             var listaTipCuentasBancarias = _bancoService.ListarTipoCuentasBancarias();
+            var listaEstados = _estadoService.ListarEstados();
 
             VinculoDTO vinculoDTO;
             RegimenDTO regimenDTO;
@@ -355,7 +358,8 @@ namespace WebApp.ServiceFacade.Implementations
                     regimenPensionarioCod = item.regimenPensionarioCod,
                     afpCod = item.afpCod,
                     cuspp = item.cuspp,
-                    codigoPlaza = item.codigoPlaza
+                    codigoPlaza = item.codigoPlaza,
+                    estadoTrabajadorCod = item.estadoTrabajadorCod
                 };
 
                 if (String.IsNullOrEmpty(dto.tipoDocumentoCod))
@@ -388,6 +392,17 @@ namespace WebApp.ServiceFacade.Implementations
                 else
                 {
                     dto.observaciones.Add("La cantidad de caracteres del Número de documento es incorrecto.");
+                }
+
+                if (dto.esTipoDocumentoCorrecto && dto.esNumDocumentoCorrecto)
+                {
+                    dto.esNumDocIdentDuplicadoEnArchivo = lectura.Count(x => !String.IsNullOrEmpty(x.numDocumento) && !String.IsNullOrEmpty(x.tipoDocumentoCod) &&
+                        x.numDocumento ==  dto.numDocumento && x.tipoDocumentoCod == dto.tipoDocumentoCod) > 1;
+
+                    if (dto.esNumDocIdentDuplicadoEnArchivo)
+                    {
+                        dto.observaciones.Add("El Documento de Identidad se repite en el archivo.");
+                    }
                 }
 
                 if (String.IsNullOrEmpty(dto.apePaterno))
@@ -442,6 +457,14 @@ namespace WebApp.ServiceFacade.Implementations
                 else if (dto.codigoTrabajador.Trim().Length > 0 && dto.codigoTrabajador.Trim().Length <= 20)
                 {
                     dto.esCodigoTrabajadorCorrecto = true;
+
+                    dto.esCodTrabajadorDuplicadoEnArchivo = lectura.Count(x => !String.IsNullOrEmpty(x.codigoTrabajador) &&
+                        x.codigoTrabajador.Trim() == dto.codigoTrabajador.Trim()) > 1;
+
+                    if (dto.esCodTrabajadorDuplicadoEnArchivo)
+                    {
+                        dto.observaciones.Add("El Código de Trabajador se repite en el archivo.");
+                    }
                 }
                 else
                 {
@@ -731,6 +754,9 @@ namespace WebApp.ServiceFacade.Implementations
 
                     dto.afpCod = null;
                     dto.esAFPCorrecto = true;
+
+                    dto.cuspp = null;
+                    dto.esCusppCorrecto = true;
                 }
 
                 if (!String.IsNullOrEmpty(dto.codigoPlaza))
@@ -738,13 +764,45 @@ namespace WebApp.ServiceFacade.Implementations
                     if (dto.codigoPlaza.Trim().Length > 0 && dto.codigoPlaza.Trim().Length <= 6)
                     {
                         dto.esCodigoPlazaCorrecto = true;
+
+                        dto.esCodPlazaDuplicadoEnArchivo = lectura.Count(x => !String.IsNullOrEmpty(x.codigoPlaza) &&
+                            x.codigoPlaza.Trim() == dto.codigoPlaza.Trim()) > 1;
+
+                        if (dto.esCodPlazaDuplicadoEnArchivo)
+                        {
+                            dto.observaciones.Add("El Código de plaza se repite en el archivo.");
+                        }
                     }
                     else
                     {
                         dto.observaciones.Add("La cantidad de caracteres del Código de Plaza es incorreco.");
                     }
                 }
-                
+                else
+                {
+                    dto.codigoPlaza = null;
+                    dto.esCodigoPlazaCorrecto = true;
+                }
+
+                if (String.IsNullOrEmpty(dto.estadoTrabajadorCod))
+                {
+                    dto.observaciones.Add("El campo Estado es obligatorio.");
+                }
+                else if (listaEstados.Exists(x => x.estadoCod == dto.estadoTrabajadorCod.Trim()))
+                {
+                    dto.estadoTrabajadorDesc = listaEstados.First(x => x.estadoCod == dto.estadoTrabajadorCod.Trim())
+                                    .estadoDesc;
+
+                    dto.estadoTrabajadorID = listaEstados.First(x => x.estadoCod == dto.estadoTrabajadorCod.Trim())
+                                    .estadoID;
+
+                    dto.esEstadoTrabajadorCorrecto = true;
+                }
+                else
+                {
+                    dto.observaciones.Add("El código del Estado del Trabajador no existe en el sistema.");
+                }
+
                 lecturaProcesada.Add(dto);
             }
 

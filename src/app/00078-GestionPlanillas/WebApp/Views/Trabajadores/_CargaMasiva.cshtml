@@ -98,6 +98,7 @@
                             <th>Afp</th>
                             <th>CUSPP</th>
                             <th>Cod.Plaza</th>
+                            <th>Estado</th>
                             <th>Obs</th>
                         </tr>
                     </thead>
@@ -126,6 +127,7 @@
                             <th>Afp</th>
                             <th>CUSPP</th>
                             <th>Cod.Plaza</th>
+                            <th>Estado</th>
                             <th>Obs</th>
                         </tr>
                     </tfoot>
@@ -256,7 +258,8 @@
                 { data: 'afpDesc' },
                 { data: 'cuspp' },
                 { data: 'codigoPlaza' },
-                { data: 'esRegistroCorrecto', width: '15%' }
+                { data: 'estadoTrabajadorCod' },
+                { data: 'esRegistroCorrecto', width: '20%' }
             ],
             columnDefs: [
                 {
@@ -293,6 +296,12 @@
                     targets: 12,
                     render: function (data, type, row) {
                         return row.esDedicacionDocenteCorrecta ? row.dedicacionDocenteDesc : data;
+                    }
+                },
+                {
+                    targets: 23,
+                    render: function (data, type, row) {
+                        return row.esEstadoTrabajadorCorrecto ? row.estadoTrabajadorDesc : data;
                     }
                 },
                 {
@@ -354,7 +363,7 @@
                     let column = this;
 
                     let select = document.createElement('select');
-                    select.add(new Option('Observaciones', ''));
+                    select.add(new Option('Todos', ''));
                     column.footer().replaceChildren(select);
 
                     select.addEventListener('change', function () {

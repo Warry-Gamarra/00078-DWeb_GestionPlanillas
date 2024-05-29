@@ -937,6 +937,11 @@ namespace Domain.Helpers
                 TrabajadorLecturaDTO.codigoPlaza = reader.GetValue(21).ToString();
             }
 
+            if (reader.GetValue(22) != null)
+            {
+                TrabajadorLecturaDTO.estadoTrabajadorCod = reader.GetValue(22).ToString();
+            }
+
             return TrabajadorLecturaDTO;
         }
     }

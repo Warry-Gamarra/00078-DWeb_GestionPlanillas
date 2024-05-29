@@ -9,6 +9,12 @@ namespace Domain.Entities
 {
     public class TrabajadorLecturaProcesadoDTO
     {
+        public bool esNumDocIdentDuplicadoEnArchivo {  get; set; }
+
+        public bool esCodTrabajadorDuplicadoEnArchivo { get; set; }
+
+        public bool esCodPlazaDuplicadoEnArchivo { get; set; }
+
         public string tipoDocumentoCod { get; set; }
 
         public int? tipoDocumentoID { get; set; }
@@ -145,11 +151,20 @@ namespace Domain.Entities
 
         public bool esCodigoPlazaCorrecto {  get; set; }
 
+        public string estadoTrabajadorCod { get; set; }
+
+        public int? estadoTrabajadorID { get; set; }
+
+        public string estadoTrabajadorDesc { get; set; }
+
+        public bool esEstadoTrabajadorCorrecto { get; set; }
+
         public bool esRegistroCorrecto
         {
             get
             {
-                return esTipoDocumentoCorrecto && esNumDocumentoCorrecto &&
+                return !esNumDocIdentDuplicadoEnArchivo && !esCodTrabajadorDuplicadoEnArchivo && !esCodPlazaDuplicadoEnArchivo &&
+                    esTipoDocumentoCorrecto && esNumDocumentoCorrecto &&
                     esApePaternoCorrecto && esNombreCorrecto && esSexoCorrecto &&
                     esCodigoTrabajadorCorrecto && esVinculoCorrecto &&
                     esGrupoOcupacionalCorrecto && esNivelRemunerativoCorrecto &&
@@ -157,7 +172,7 @@ namespace Domain.Entities
                     esFechaIngresoCorrecto && esDependenciaCorrecta && 
                     esBancoCorrecto && esNumeroCuentaBancariaCorrecto && esTipoCtaBancariaCorrecta &&
                     esRegimenCorrecto && esAFPCorrecto && esCusppCorrecto &&
-                    esCodigoPlazaCorrecto;
+                    esCodigoPlazaCorrecto && esEstadoTrabajadorCorrecto;
             }
         }
 
