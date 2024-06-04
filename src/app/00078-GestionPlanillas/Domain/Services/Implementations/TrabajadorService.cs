@@ -53,10 +53,9 @@ namespace Domain.Services.Implementations
         public Response GrabarTrabajador(Operacion operacion, TrabajadorEntity trabajadorEntity, int userID)
         {
             Result result;
-            bool registroDuplicado = false, codigoPlazaDuplicado = false;
             int categoriaPlanillaID;
             TC_Persona persona;
-            VW_TrabajadoresCategoriaPlanilla trabajadoresCategoriaPlanilla;
+
             try
             {
                 switch (operacion)
@@ -65,22 +64,12 @@ namespace Domain.Services.Implementations
 
                         categoriaPlanillaID = (int)_trabajadorCategoriaPlanillaService.ObtenerCategoriaPlanillaSegunVinculo(trabajadorEntity.vinculoID);
 
-                        persona = TC_Persona.FindByNumDocumento(trabajadorEntity.tipoDocumentoID, trabajadorEntity.numDocumento);
-
-                        trabajadoresCategoriaPlanilla = VW_TrabajadoresCategoriaPlanilla.FindByDocumentoYCategoria(
-                            trabajadorEntity.tipoDocumentoID, trabajadorEntity.numDocumento, categoriaPlanillaID);
-
-                        if (trabajadoresCategoriaPlanilla != null)
+                        if (!EsNumeroDocumentoIdentidadDuplicado(trabajadorEntity.tipoDocumentoID, trabajadorEntity.numDocumento, categoriaPlanillaID))
                         {
-                            registroDuplicado = true;
-                        }
-
-                        if (!registroDuplicado)
-                        {
-                            codigoPlazaDuplicado = VW_Trabajadores.FindAll().Any(x => !String.IsNullOrEmpty(x.C_CodigoPlaza) && x.C_CodigoPlaza == trabajadorEntity.codigoPlaza);
-
-                            if (!codigoPlazaDuplicado)
+                            if (!EsCodigoPlazaDuplicado(trabajadorEntity.codigoPlaza))
                             {
+                                persona = TC_Persona.FindByNumDocumento(trabajadorEntity.tipoDocumentoID, trabajadorEntity.numDocumento);
+
                                 var grabarDocente = new USP_I_RegistrarTrabajador()
                                 {
                                     C_TrabajadorCod = trabajadorEntity.trabajadorCod,
@@ -139,20 +128,10 @@ namespace Domain.Services.Implementations
 
                         categoriaPlanillaID = (int)_trabajadorCategoriaPlanillaService.ObtenerCategoriaPlanillaSegunVinculo(trabajadorEntity.vinculoID);
 
-                        trabajadoresCategoriaPlanilla = VW_TrabajadoresCategoriaPlanilla.FindByDocumentoYCategoria(
-                            trabajadorEntity.tipoDocumentoID, trabajadorEntity.numDocumento, categoriaPlanillaID);
-
-                        if (trabajadoresCategoriaPlanilla != null && trabajadoresCategoriaPlanilla.I_TrabajadorID != trabajadorEntity.trabajadorID.Value)
+                        if (!EsNumeroDocumentoIdentidadDuplicado(trabajadorEntity.tipoDocumentoID, trabajadorEntity.numDocumento,
+                                            categoriaPlanillaID, trabajadorEntity.trabajadorID.Value))
                         {
-                            registroDuplicado = true;
-                        }
-
-                        if (!registroDuplicado)
-                        {
-                            codigoPlazaDuplicado = VW_Trabajadores.FindAll().Any(x => x.I_TrabajadorID != trabajadorEntity.trabajadorID.Value &&
-                                !String.IsNullOrEmpty(x.C_CodigoPlaza) && x.C_CodigoPlaza == trabajadorEntity.codigoPlaza);
-
-                            if (!codigoPlazaDuplicado)
+                            if (!EsCodigoPlazaDuplicado(trabajadorEntity.codigoPlaza, trabajadorEntity.trabajadorID.Value))
                             {
                                 var actualizarDocente = new USP_U_ActualizarTrabajador()
                                 {
@@ -230,6 +209,41 @@ namespace Domain.Services.Implementations
                 .ToList();
 
             return lista;
+        }
+
+        public bool EsNumeroDocumentoIdentidadDuplicado(int tipoDocumentoID, string numDocumento, int categoriaPlanillaID, int? trabajadorID = null)
+        {
+            bool esRegistroDuplicado;
+
+            var trabajador = VW_TrabajadoresCategoriaPlanilla.FindByDocumentoYCategoria(tipoDocumentoID, numDocumento, categoriaPlanillaID);
+
+            if (trabajadorID.HasValue)
+            {
+                esRegistroDuplicado = trabajador != null && trabajador.I_TrabajadorID != trabajadorID.Value;
+            }
+            else
+            {
+                esRegistroDuplicado = trabajador != null;
+            }
+            
+            return esRegistroDuplicado;
+        }
+
+        public bool EsCodigoPlazaDuplicado(string codigoPlaza, int? trabajadorID = null)
+        {
+            bool esRegistroDuplicado;
+
+            if (trabajadorID.HasValue)
+            {
+                esRegistroDuplicado = VW_Trabajadores.FindAll().Any(x => x.I_TrabajadorID != trabajadorID.Value &&
+                                !String.IsNullOrEmpty(x.C_CodigoPlaza) && x.C_CodigoPlaza == codigoPlaza);
+            }
+            else
+            {
+                esRegistroDuplicado = VW_Trabajadores.FindAll().Any(x => !String.IsNullOrEmpty(x.C_CodigoPlaza) && x.C_CodigoPlaza == codigoPlaza);
+            }
+
+            return esRegistroDuplicado;
         }
     }
 }

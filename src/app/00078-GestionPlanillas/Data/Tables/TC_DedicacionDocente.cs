@@ -21,6 +21,27 @@ namespace Data.Tables
 
         public bool B_ParaDocenteOrdinario { get; set; }
 
+        public static IEnumerable<TC_DedicacionDocente> FindAll()
+        {
+            IEnumerable<TC_DedicacionDocente> result;
+
+            try
+            {
+                string s_command = "SELECT * FROM dbo.TC_DedicacionDocente WHERE B_Eliminado = 0;";
+
+                using (var _dbConnection = new SqlConnection(Database.ConnectionString))
+                {
+                    result = _dbConnection.Query<TC_DedicacionDocente>(s_command, null, commandType: System.Data.CommandType.Text);
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+
+            return result;
+        }
+
         public static TC_DedicacionDocente FindByID(int I_DedicacionDocenteID)
         {
             TC_DedicacionDocente result;

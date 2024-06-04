@@ -19,5 +19,9 @@ namespace Domain.Services
         Response GrabarTrabajador(Operacion operacion, TrabajadorEntity trabajadorEntity, int userID);
 
         List<TrabajadorConPlanillaDTO> ListarTrabajadoresConPlanilla(int año, int mes, int categoriaPlanillaID);
+
+        bool EsNumeroDocumentoIdentidadDuplicado(int tipoDocumentoID, string numDocumento, int categoriaPlanillaID, int? trabajadorID = null);
+
+        bool EsCodigoPlazaDuplicado(string codigoPlaza, int? trabajadorID = null);
     }
 }

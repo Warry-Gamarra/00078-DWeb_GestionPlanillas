@@ -305,6 +305,20 @@ namespace Domain.Helpers
             return categoriaDocenteDTO;
         }
 
+        public static DedicacionDocenteDTO TC_DedicacionDocente_To_DedicacionDocenteDTO(TC_DedicacionDocente table)
+        {
+            var dedicacionDocenteDTO = new DedicacionDocenteDTO()
+            {
+                dedicacionDocenteID = table.I_DedicacionDocenteID,
+                dedicacionDocenteCod = table.C_DedicacionDocenteCod,
+                dedicacionDocenteDesc = table.T_DedicacionDocenteDesc,
+                esParaDocenteOrdinario = table.B_ParaDocenteOrdinario,
+                estaHabilitado = table.B_Habilitado
+            };
+
+            return dedicacionDocenteDTO;
+        }
+
         public static PersonaDTO TC_Persona_To_PersonaDTO(TC_Persona table)
         {
             var personaDTO = new PersonaDTO()

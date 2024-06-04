@@ -5,6 +5,7 @@ using Domain.Services;
 using Domain.Services.Implementations;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -30,6 +31,9 @@ namespace WebApp.ServiceFacade.Implementations
         private ICategoriaDocenteService _categoriaDocenteService;
         private IAfpService _afpService;
         private IEstadoService _estadoService;
+        private IDedicacionDocenteService _dedicacionDocenteService;
+        private IHorasDocenteService _horasDocenteService;
+        private ITrabajadorCategoriaPlanillaService _trabajadorCategoriaPlanillaService;
 
         private readonly string serverPath;
 
@@ -49,6 +53,9 @@ namespace WebApp.ServiceFacade.Implementations
             _categoriaDocenteService = new CategoriaDocenteService();
             _afpService = new AfpService();
             _estadoService = new EstadoService();
+            _dedicacionDocenteService = new DedicacionDocenteService();
+            _horasDocenteService = new HorasDocenteService();
+            _trabajadorCategoriaPlanillaService = new TrabajadorCategoriaPlanillaService();
 
             serverPath = WebConfigParams.DirectorioCargaTrabajadores;
         }
@@ -242,7 +249,6 @@ namespace WebApp.ServiceFacade.Implementations
             ILecturaArchivoService lecturaArchivoService;
             List<TrabajadorLecturaDTO> lectura;
             List<TrabajadorLecturaProcesadoDTO> lecturaProcesada;
-            List<TrabajadorModel> trabajadoresModel;
             List<TrabajadorEntity> registrosAptos;
 
             try
@@ -255,9 +261,9 @@ namespace WebApp.ServiceFacade.Implementations
 
                 if (lecturaProcesada != null && lecturaProcesada.Count() > 0)
                 {
-                    trabajadoresModel = lecturaProcesada
+                    registrosAptos = lecturaProcesada
                        .Where(x => x.esRegistroCorrecto)
-                       .Select(x => new TrabajadorModel()
+                       .Select(x => new TrabajadorEntity()
                        {
                            trabajadorCod = x.codigoTrabajador,
                            codigoPlaza = x.codigoPlaza,
@@ -267,30 +273,41 @@ namespace WebApp.ServiceFacade.Implementations
                            tipoDocumentoID = x.tipoDocumentoID.Value,
                            numDocumento = x.numDocumento,
                            sexoID = x.sexoID.Value,
-                           fechaIngreso = x.fechaIngresoDT.Value,
-                           regimenID = x.regimenID,
-                           afpID = x.afpID,
-                           cuspp = x.cuspp,
-                           //ESTADO
+                           fechaIngreso = x.fechaIngresoDT,
+                           regimenID = x.regimenID.Value,
+                           estadoID = x.estadoTrabajadorID.Value,
                            vinculoID = x.vinculoID.Value,
-                           dependenciaID = x.dependenciaID.Value,
                            bancoID = x.bancoID,
                            nroCuentaBancaria = x.numeroCuentaBancaria,
                            tipoCuentaBancariaID = x.tipoCuentaBancariaID,
+                           dependenciaID = x.dependenciaID.Value,
+                           afp = x.afpID,
+                           cuspp = x.cuspp,
                            categoriaDocenteID = x.categoriaDocenteID,
+                           horasDocenteID = x.horasDocenteID,
                            grupoOcupacionalID = x.grupoOcupacionalID,
                            nivelRemunerativoID = x.nivelRemunerativoID
                        }).ToList();
 
-                    if (trabajadoresModel.Count() > 0)
+                    if (registrosAptos.Count() > 0)
                     {
-                        response = _trabajadorService.GrabarTrabajador(Operacion.Registrar, new TrabajadorEntity(), userID);
+                        foreach (var item in registrosAptos)
+                        {
+                            _trabajadorService.GrabarTrabajador(Operacion.Registrar, item, userID);
+                        }
+
+                        response = new Response()
+                        {
+                            Success = true,
+                            Message = "La información del archivo se registró correctamente."
+                        };
+
                     }
                     else
                     {
                         response = new Response()
                         {
-                            Message = "No hay registros aptos para ser grabados."
+                            Message = "No se puede registrar la información por que todos los registros están observados."
                         };
                     }
                 }
@@ -321,6 +338,9 @@ namespace WebApp.ServiceFacade.Implementations
             var listaGruposOcupacionales = _grupoOcupacionalService.ListarGruposOcupacionales();
             var listaNivelesRemunerativos = _nivoRemunerativoService.ListarNivelesRemunerativos();
             var listaCategoriasDocente = _categoriaDocenteService.ListarCategoriasDocente(null);
+            var listaDedicacionDocenteOrd = _dedicacionDocenteService.ListarDedicacionDocente(esParaDocenteOrdinario: true);
+            var listaDedicacionDocenteContr = _dedicacionDocenteService.ListarDedicacionDocente(esParaDocenteOrdinario: false);
+            var listaHorasDedicacionDocente = _horasDocenteService.ListarHorasDedicacionDocente(null);
             var listaDependencias = _dependenciaService.ListarDependencias();
             var listaRegimen = _regimenService.ListarRegimenes();
             var listaAfps = _afpService.ListarAfps();
@@ -331,36 +351,16 @@ namespace WebApp.ServiceFacade.Implementations
             VinculoDTO vinculoDTO;
             RegimenDTO regimenDTO;
             DateTime dateTimeOut;
+            bool existeDedicacion;
+            string dedicacionDocenteDesc;
+            int? dedicacionDocenteID;
+            int categoriaPlanillaID;
+
             var lecturaProcesada = new List<TrabajadorLecturaProcesadoDTO>();
 
             foreach (var item in lectura)
             {
-                var dto = new TrabajadorLecturaProcesadoDTO()
-                {
-                    tipoDocumentoCod = item.tipoDocumentoCod,
-                    numDocumento = item.numDocumento,
-                    apePaterno = item.apePaterno,
-                    apeMaterno = item.apeMaterno,
-                    nombres = item.nombres,
-                    sexoCod = item.sexoCod,
-                    codigoTrabajador = item.codigoTrabajador,
-                    vinculoCod = item.vinculoCod,
-                    grupoOcupacionalCod = item.grupoOcupacionalCod,
-                    nivelRemunerativoCod = item.nivelRemunerativoCod,
-                    categoriaDocenteCod = item.categoriaDocenteCod,
-                    dedicacionDocenteCod = item.dedicacionDocenteCod,
-                    horasDocente = item.horasDocente,
-                    fechaIngreso = item.fechaIngreso,
-                    dependenciaCod = item.dependenciaCod,
-                    bancoCod = item.bancoCod,
-                    numeroCuentaBancaria = item.numeroCuentaBancaria,
-                    tipoCuentaBancariaCod = item.tipoCuentaBancariaCod,
-                    regimenPensionarioCod = item.regimenPensionarioCod,
-                    afpCod = item.afpCod,
-                    cuspp = item.cuspp,
-                    codigoPlaza = item.codigoPlaza,
-                    estadoTrabajadorCod = item.estadoTrabajadorCod
-                };
+                var dto = Mapper.TrabajadorLecturaProcesado(item);
 
                 if (String.IsNullOrEmpty(dto.tipoDocumentoCod))
                 {
@@ -563,6 +563,77 @@ namespace WebApp.ServiceFacade.Implementations
                             else
                             {
                                 dto.observaciones.Add("La Categoría de Docente no existe en el sistema.");
+                            }
+
+                            if (String.IsNullOrEmpty(dto.dedicacionDocenteCod))
+                            {
+                                dto.observaciones.Add("La Dedicación de Docente es obligatoria.");
+                            }
+                            else
+                            {
+                                dedicacionDocenteDesc = null;
+                                dedicacionDocenteID = null;
+
+                                if (dto.vinculo == Vinculo.DocentePermanente)
+                                {
+                                    existeDedicacion = listaDedicacionDocenteOrd.Exists(x => x.dedicacionDocenteCod == dto.dedicacionDocenteCod.Trim());
+
+                                    if (existeDedicacion)
+                                    {
+                                        dedicacionDocenteDesc = listaDedicacionDocenteOrd
+                                                            .First(x => x.dedicacionDocenteCod == dto.dedicacionDocenteCod.Trim())
+                                                            .dedicacionDocenteDesc;
+
+                                        dedicacionDocenteID = listaDedicacionDocenteOrd
+                                                                .First(x => x.dedicacionDocenteCod == dto.dedicacionDocenteCod.Trim())
+                                                                .dedicacionDocenteID;
+                                    }
+                                }
+                                else
+                                {
+                                    existeDedicacion = listaDedicacionDocenteContr.Exists(x => x.dedicacionDocenteCod == dto.dedicacionDocenteCod.Trim());
+
+                                    if (existeDedicacion)
+                                    {
+                                        dedicacionDocenteDesc = listaDedicacionDocenteContr
+                                                            .First(x => x.dedicacionDocenteCod == dto.dedicacionDocenteCod.Trim())
+                                                            .dedicacionDocenteDesc;
+
+                                        dedicacionDocenteID = listaDedicacionDocenteContr
+                                                                .First(x => x.dedicacionDocenteCod == dto.dedicacionDocenteCod.Trim())
+                                                                .dedicacionDocenteID;
+                                    }
+                                }
+
+                                if (existeDedicacion)
+                                {
+                                    dto.dedicacionDocenteDesc = dedicacionDocenteDesc;
+
+                                    dto.dedicacionDocenteID = dedicacionDocenteID.Value;
+
+                                    dto.esDedicacionDocenteCorrecta = true;
+
+                                    if (!dto.horasDocente.HasValue)
+                                    {
+                                        dto.observaciones.Add("La Hora docente es obligatoria.");
+                                    }
+                                    else if (listaHorasDedicacionDocente.Exists(x => x.dedicacionDocenteID == dedicacionDocenteID.Value && x.horas == dto.horasDocente.Value))
+                                    {
+                                        dto.horasDocenteID = listaHorasDedicacionDocente
+                                                            .First(x => x.dedicacionDocenteID == dedicacionDocenteID.Value && x.horas == dto.horasDocente.Value)
+                                                            .horasDocenteID;
+
+                                        dto.esHorasDocentesCorrecta = true;   
+                                    }
+                                    else
+                                    {
+                                        dto.observaciones.Add("La Hora no existe en el sistema.");
+                                    }
+                                }
+                                else
+                                {
+                                    dto.observaciones.Add("La Dedicación de Docente no existe en el sistema.");
+                                }
                             }
                         }
                         else
@@ -801,6 +872,43 @@ namespace WebApp.ServiceFacade.Implementations
                 else
                 {
                     dto.observaciones.Add("El código del Estado del Trabajador no existe en el sistema.");
+                }
+
+                if (dto.esRegistroCasiCorrecto)
+                {
+                    var model = Mapper.TrabajadorModel(dto);
+
+                    var results = new List<ValidationResult>();
+
+                    var context = new ValidationContext(model, null, null);
+
+                    dto.esModelStateValid = Validator.TryValidateObject(model, context, results, true);
+
+                    if (!dto.esModelStateValid)
+                    {
+                        foreach (var error in results)
+                        {
+                            dto.observaciones.Add(error.ErrorMessage);
+                        }
+                    }
+                    else
+                    {
+                        categoriaPlanillaID = (int)_trabajadorCategoriaPlanillaService.ObtenerCategoriaPlanillaSegunVinculo(dto.vinculoID.Value);
+
+                        if (_trabajadorService.EsNumeroDocumentoIdentidadDuplicado(dto.tipoDocumentoID.Value, dto.numDocumento, categoriaPlanillaID))
+                        {
+                            dto.esNumDocIdentDuplicadoEnBD = true;
+
+                            dto.observaciones.Add("El Número de Documento de Identida se repite en el sistema.");
+                        }
+                        
+                        if (_trabajadorService.EsCodigoPlazaDuplicado(dto.codigoPlaza))
+                        {
+                            dto.esCodPlazaDuplicadoEnBD = true;
+
+                            dto.observaciones.Add("El Código de Plaza se repite en el sistema.");
+                        }
+                    }
                 }
 
                 lecturaProcesada.Add(dto);

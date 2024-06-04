@@ -501,5 +501,67 @@ namespace WebApp.Models
 
             return model;
         }
+
+        public static TrabajadorLecturaProcesadoDTO TrabajadorLecturaProcesado(TrabajadorLecturaDTO dto)
+        {
+            var trabajadorLecturaProcesado = new TrabajadorLecturaProcesadoDTO()
+            {
+                tipoDocumentoCod = dto.tipoDocumentoCod,
+                numDocumento = dto.numDocumento,
+                apePaterno = dto.apePaterno,
+                apeMaterno = dto.apeMaterno,
+                nombres = dto.nombres,
+                sexoCod = dto.sexoCod,
+                codigoTrabajador = dto.codigoTrabajador,
+                vinculoCod = dto.vinculoCod,
+                grupoOcupacionalCod = dto.grupoOcupacionalCod,
+                nivelRemunerativoCod = dto.nivelRemunerativoCod,
+                categoriaDocenteCod = dto.categoriaDocenteCod,
+                dedicacionDocenteCod = dto.dedicacionDocenteCod,
+                horasDocente = dto.horasDocente,
+                fechaIngreso = dto.fechaIngreso,
+                dependenciaCod = dto.dependenciaCod,
+                bancoCod = dto.bancoCod,
+                numeroCuentaBancaria = dto.numeroCuentaBancaria,
+                tipoCuentaBancariaCod = dto.tipoCuentaBancariaCod,
+                regimenPensionarioCod = dto.regimenPensionarioCod,
+                afpCod = dto.afpCod,
+                cuspp = dto.cuspp,
+                codigoPlaza = dto.codigoPlaza,
+                estadoTrabajadorCod = dto.estadoTrabajadorCod
+            };
+
+            return trabajadorLecturaProcesado;
+        }
+
+        public static TrabajadorModel TrabajadorModel(TrabajadorLecturaProcesadoDTO dto)
+        {
+            var model = new TrabajadorModel()
+            {
+                trabajadorCod = dto.codigoTrabajador,
+                codigoPlaza = dto.codigoPlaza,
+                nombre = dto.nombres,
+                apellidoPaterno = dto.apePaterno,
+                apellidoMaterno = dto.apeMaterno,
+                tipoDocumentoID = dto.tipoDocumentoID.Value,
+                numDocumento = dto.numDocumento,
+                sexoID = dto.sexoID.Value,
+                fechaIngreso = dto.fechaIngresoDT,
+                regimenID = dto.regimenID,
+                afpID = dto.afpID,
+                cuspp = dto.cuspp,
+                estadoID = dto.estadoTrabajadorID.Value,
+                vinculoID = dto.vinculoID.Value,
+                dependenciaID = dto.dependenciaID.Value,
+                bancoID = dto.bancoID,
+                nroCuentaBancaria = dto.numeroCuentaBancaria,
+                tipoCuentaBancariaID = dto.tipoCuentaBancariaID,
+                categoriaDocenteID = dto.categoriaDocenteID,
+                grupoOcupacionalID = dto.grupoOcupacionalID,
+                nivelRemunerativoID = dto.nivelRemunerativoID
+            };
+
+            return model;
+        }
     }
 }

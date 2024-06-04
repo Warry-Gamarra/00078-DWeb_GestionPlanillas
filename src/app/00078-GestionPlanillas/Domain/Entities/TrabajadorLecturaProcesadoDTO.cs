@@ -9,12 +9,6 @@ namespace Domain.Entities
 {
     public class TrabajadorLecturaProcesadoDTO
     {
-        public bool esNumDocIdentDuplicadoEnArchivo {  get; set; }
-
-        public bool esCodTrabajadorDuplicadoEnArchivo { get; set; }
-
-        public bool esCodPlazaDuplicadoEnArchivo { get; set; }
-
         public string tipoDocumentoCod { get; set; }
 
         public int? tipoDocumentoID { get; set; }
@@ -85,11 +79,15 @@ namespace Domain.Entities
 
         public string dedicacionDocenteCod { get; set; }
 
+        public int? dedicacionDocenteID { get; set; }
+
         public string dedicacionDocenteDesc { get; set; }
 
         public bool esDedicacionDocenteCorrecta { get; set; }
 
         public int? horasDocente { get; set; }
+
+        public int? horasDocenteID { get; set; }
 
         public bool esHorasDocentesCorrecta { get; set; }
 
@@ -159,7 +157,13 @@ namespace Domain.Entities
 
         public bool esEstadoTrabajadorCorrecto { get; set; }
 
-        public bool esRegistroCorrecto
+        public bool esNumDocIdentDuplicadoEnArchivo { get; set; }
+
+        public bool esCodTrabajadorDuplicadoEnArchivo { get; set; }
+
+        public bool esCodPlazaDuplicadoEnArchivo { get; set; }
+
+        public bool esRegistroCasiCorrecto
         {
             get
             {
@@ -173,6 +177,20 @@ namespace Domain.Entities
                     esBancoCorrecto && esNumeroCuentaBancariaCorrecto && esTipoCtaBancariaCorrecta &&
                     esRegimenCorrecto && esAFPCorrecto && esCusppCorrecto &&
                     esCodigoPlazaCorrecto && esEstadoTrabajadorCorrecto;
+            }
+        }
+
+        public bool esModelStateValid { get; set; }
+
+        public bool esNumDocIdentDuplicadoEnBD { get; set; }
+
+        public bool esCodPlazaDuplicadoEnBD { get; set; }
+
+        public bool esRegistroCorrecto
+        {
+            get
+            {
+                return esRegistroCasiCorrecto && esModelStateValid && !esNumDocIdentDuplicadoEnBD && !esCodPlazaDuplicadoEnBD;
             }
         }
 
