@@ -119,14 +119,14 @@
 
         $('.select-filter-modal').select2({
             theme: 'bootstrap4',
-            dropdownParent: $('#modal-container-lg'),
+            dropdownParent: $('#modal-container-xl'),
             placeholder: "[ SELECCIONAR ]"
         }).on('hide', function (e) {
             e.stopPropagation();
         });
 
         $('.select-multiple').select2({
-            dropdownParent: $('#modal-container-lg'),
+            dropdownParent: $('#modal-container-xl'),
             placeholder: "[ SELECCIONAR ]"
         }).on('closing', function (e) {
             e.stopPropagation();
@@ -174,7 +174,7 @@
         $('#content-body').hide();
         $('#spin-loader').show();
 
-        let modal = $('#modal-container-lg');
+        let modal = $('#modal-container-xl');
 
         setTimeout(function () {
             modal.find('.modal-content').load(url)
