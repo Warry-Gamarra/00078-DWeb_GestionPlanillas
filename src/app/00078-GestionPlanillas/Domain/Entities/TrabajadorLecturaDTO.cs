@@ -8,6 +8,8 @@ namespace Domain.Entities
 {
     public class TrabajadorLecturaDTO
     {
+        public string operacion {  get; set; }
+
         public string tipoDocumentoCod { get; set; }
 
         public string tipoDocumentoDesc { get; set; }

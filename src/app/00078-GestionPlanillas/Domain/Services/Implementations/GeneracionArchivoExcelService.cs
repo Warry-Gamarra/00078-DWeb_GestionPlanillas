@@ -800,62 +800,64 @@ namespace Domain.Services.Implementations
 
                 currentRow = 1;
 
-                worksheet.Cell(currentRow, 1).Value = "Tip.Doc.";
-                worksheet.Cell(currentRow, 2).Value = "Num.Doc.";
-                worksheet.Cell(currentRow, 3).Value = "Ape.Paterno";
-                worksheet.Cell(currentRow, 4).Value = "Ape.Materno";
-                worksheet.Cell(currentRow, 5).Value = "Nombres";
-                worksheet.Cell(currentRow, 6).Value = "Sexo";
-                worksheet.Cell(currentRow, 7).Value = "Cod.Trabajador";
-                worksheet.Cell(currentRow, 8).Value = "Vínculo";
-                worksheet.Cell(currentRow, 9).Value = "Grup.Ocupacional";
-                worksheet.Cell(currentRow, 10).Value = "Niv.Remunerativo";
-                worksheet.Cell(currentRow, 11).Value = "Cat.Docente";
-                worksheet.Cell(currentRow, 12).Value = "Ded.Docente";
-                worksheet.Cell(currentRow, 13).Value = "Horas Docente";
-                worksheet.Cell(currentRow, 14).Value = "Fecha ingreso";
-                worksheet.Cell(currentRow, 15).Value = "Dependencia";
-                worksheet.Cell(currentRow, 16).Value = "Banco";
-                worksheet.Cell(currentRow, 17).Value = "Num.Cuenta";
-                worksheet.Cell(currentRow, 18).Value = "Tip.Cuenta";
-                worksheet.Cell(currentRow, 19).Value = "Régimen";
-                worksheet.Cell(currentRow, 20).Value = "AFP";
-                worksheet.Cell(currentRow, 21).Value = "CUSPP";
-                worksheet.Cell(currentRow, 22).Value = "Cod.Plaza";
-                worksheet.Cell(currentRow, 23).Value = "Observación";
+                worksheet.Cell(currentRow, 1).Value = "Acción";
+                worksheet.Cell(currentRow, 2).Value = "Tip.Doc.";
+                worksheet.Cell(currentRow, 3).Value = "Num.Doc.";
+                worksheet.Cell(currentRow, 4).Value = "Ape.Paterno";
+                worksheet.Cell(currentRow, 5).Value = "Ape.Materno";
+                worksheet.Cell(currentRow, 6).Value = "Nombres";
+                worksheet.Cell(currentRow, 7).Value = "Sexo";
+                worksheet.Cell(currentRow, 8).Value = "Cod.Trabajador";
+                worksheet.Cell(currentRow, 9).Value = "Vínculo";
+                worksheet.Cell(currentRow, 10).Value = "Grup.Ocupacional";
+                worksheet.Cell(currentRow, 11).Value = "Niv.Remunerativo";
+                worksheet.Cell(currentRow, 12).Value = "Cat.Docente";
+                worksheet.Cell(currentRow, 13).Value = "Ded.Docente";
+                worksheet.Cell(currentRow, 14).Value = "Horas Docente";
+                worksheet.Cell(currentRow, 15).Value = "Fecha ingreso";
+                worksheet.Cell(currentRow, 16).Value = "Dependencia";
+                worksheet.Cell(currentRow, 17).Value = "Banco";
+                worksheet.Cell(currentRow, 18).Value = "Num.Cuenta";
+                worksheet.Cell(currentRow, 19).Value = "Tip.Cuenta";
+                worksheet.Cell(currentRow, 20).Value = "Régimen";
+                worksheet.Cell(currentRow, 21).Value = "AFP";
+                worksheet.Cell(currentRow, 22).Value = "CUSPP";
+                worksheet.Cell(currentRow, 23).Value = "Cod.Plaza";
+                worksheet.Cell(currentRow, 24).Value = "Observación";
 
                 foreach (var item in lista)
                 {
                     currentRow++;
 
-                    worksheet.Cell(currentRow, 1).SetValue<string>(item.tipoDocumentoCod);
-                    worksheet.Cell(currentRow, 2).SetValue<string>(item.numDocumento);
-                    worksheet.Cell(currentRow, 3).SetValue<string>(item.apePaterno);
-                    worksheet.Cell(currentRow, 4).SetValue<string>(item.apeMaterno);
-                    worksheet.Cell(currentRow, 5).SetValue<string>(item.nombres);
-                    worksheet.Cell(currentRow, 6).SetValue<string>(item.sexoCod);
-                    worksheet.Cell(currentRow, 7).SetValue<string>(item.codigoTrabajador);
-                    worksheet.Cell(currentRow, 8).SetValue<string>(item.vinculoCod);
-                    worksheet.Cell(currentRow, 9).SetValue<string>(item.grupoOcupacionalCod);
-                    worksheet.Cell(currentRow, 10).SetValue<string>(item.nivelRemunerativoCod);
-                    worksheet.Cell(currentRow, 11).SetValue<string>(item.categoriaDocenteCod);
-                    worksheet.Cell(currentRow, 12).SetValue<string>(item.dedicacionDocenteCod);
-                    worksheet.Cell(currentRow, 13).SetValue<int?>(item.horasDocente);
-                    worksheet.Cell(currentRow, 14).SetValue<string>(item.fechaIngreso);
-                    worksheet.Cell(currentRow, 15).SetValue<string>(item.dependenciaCod);
-                    worksheet.Cell(currentRow, 16).SetValue<string>(item.bancoCod);
-                    worksheet.Cell(currentRow, 17).SetValue<string>(item.numeroCuentaBancaria);
-                    worksheet.Cell(currentRow, 18).SetValue<string>(item.tipoCuentaBancariaCod);
-                    worksheet.Cell(currentRow, 19).SetValue<string>(item.regimenPensionarioCod);
-                    worksheet.Cell(currentRow, 20).SetValue<string>(item.afpCod);
-                    worksheet.Cell(currentRow, 21).SetValue<string>(item.cuspp);
-                    worksheet.Cell(currentRow, 22).SetValue<string>(item.codigoPlaza);
+                    worksheet.Cell(currentRow, 1).SetValue<string>(item.operacionDesc);
+                    worksheet.Cell(currentRow, 2).SetValue<string>(item.tipoDocumentoCod);
+                    worksheet.Cell(currentRow, 3).SetValue<string>(item.numDocumento);
+                    worksheet.Cell(currentRow, 4).SetValue<string>(item.apePaterno);
+                    worksheet.Cell(currentRow, 5).SetValue<string>(item.apeMaterno);
+                    worksheet.Cell(currentRow, 6).SetValue<string>(item.nombres);
+                    worksheet.Cell(currentRow, 7).SetValue<string>(item.sexoCod);
+                    worksheet.Cell(currentRow, 8).SetValue<string>(item.codigoTrabajador);
+                    worksheet.Cell(currentRow, 9).SetValue<string>(item.vinculoCod);
+                    worksheet.Cell(currentRow, 10).SetValue<string>(item.grupoOcupacionalCod);
+                    worksheet.Cell(currentRow, 11).SetValue<string>(item.nivelRemunerativoCod);
+                    worksheet.Cell(currentRow, 12).SetValue<string>(item.categoriaDocenteCod);
+                    worksheet.Cell(currentRow, 13).SetValue<string>(item.dedicacionDocenteCod);
+                    worksheet.Cell(currentRow, 14).SetValue<int?>(item.horasDocente);
+                    worksheet.Cell(currentRow, 15).SetValue<string>(item.fechaIngreso);
+                    worksheet.Cell(currentRow, 16).SetValue<string>(item.dependenciaCod);
+                    worksheet.Cell(currentRow, 17).SetValue<string>(item.bancoCod);
+                    worksheet.Cell(currentRow, 18).SetValue<string>(item.numeroCuentaBancaria);
+                    worksheet.Cell(currentRow, 19).SetValue<string>(item.tipoCuentaBancariaCod);
+                    worksheet.Cell(currentRow, 10).SetValue<string>(item.regimenPensionarioCod);
+                    worksheet.Cell(currentRow, 21).SetValue<string>(item.afpCod);
+                    worksheet.Cell(currentRow, 22).SetValue<string>(item.cuspp);
+                    worksheet.Cell(currentRow, 23).SetValue<string>(item.codigoPlaza);
 
                     if (!item.esRegistroCorrecto)
                     {
                         var observacionesText = string.Join("\n", item.observaciones);
 
-                        worksheet.Cell(currentRow, 23).SetValue<string>(observacionesText);
+                        worksheet.Cell(currentRow, 24).SetValue<string>(observacionesText);
                     }
                 }
 

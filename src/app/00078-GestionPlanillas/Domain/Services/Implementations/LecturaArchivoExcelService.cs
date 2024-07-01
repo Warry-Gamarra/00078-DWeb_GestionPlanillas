@@ -66,7 +66,7 @@ namespace Domain.Services.Implementations
 
         public List<TrabajadorLecturaDTO> ObtenerListaTrabajadores(string filePath)
         {
-            string[] expectedColNames = { "tip_documento", "num_documento", "apellido_paterno", "apellido_materno", "nombres",
+            string[] expectedColNames = { "accion", "tip_documento", "num_documento", "apellido_paterno", "apellido_materno", "nombres",
                 "sexo", "codigo_trabajador", "vinculo", "grupo_ocupacional", "nivel_remunerativo", "categoria_docente", "dedicacion_docente", "horas",
                 "fecha_ingreso", "dependencia", "banco", "numero_cuenta", "tipo_cuenta", "regimen", "afp", "cuspp", "codigo_plaza", "estado" };
 
@@ -108,7 +108,8 @@ namespace Domain.Services.Implementations
                                     reader.GetValue(19)?.ToString(),
                                     reader.GetValue(20)?.ToString(),
                                     reader.GetValue(21)?.ToString(),
-                                    reader.GetValue(22)?.ToString()
+                                    reader.GetValue(22)?.ToString(),
+                                    reader.GetValue(23)?.ToString()
                                 };
 
                                 if (!expectedColNames.SequenceEqual(colNames))

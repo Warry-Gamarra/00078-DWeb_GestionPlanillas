@@ -506,6 +506,7 @@ namespace WebApp.Models
         {
             var trabajadorLecturaProcesado = new TrabajadorLecturaProcesadoDTO()
             {
+                operacionDesc = dto.operacion,
                 tipoDocumentoCod = dto.tipoDocumentoCod,
                 numDocumento = dto.numDocumento,
                 apePaterno = dto.apePaterno,
@@ -538,6 +539,7 @@ namespace WebApp.Models
         {
             var model = new TrabajadorModel()
             {
+                trabajadorID = dto.trabajadorID,
                 trabajadorCod = dto.codigoTrabajador,
                 codigoPlaza = dto.codigoPlaza,
                 nombre = dto.nombres,

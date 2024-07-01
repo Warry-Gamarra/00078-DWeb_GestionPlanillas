@@ -9,6 +9,16 @@ namespace Domain.Entities
 {
     public class TrabajadorLecturaProcesadoDTO
     {
+        public Operacion operacion { get; set; }
+
+        public string operacionDesc { get; set; }
+
+        public bool esOperacionCorrecta { get; set; }
+
+        public int? trabajadorID { get; set; }
+
+        public bool esTrabajadorIDCorrecto {  get; set; }        
+
         public string tipoDocumentoCod { get; set; }
 
         public int? tipoDocumentoID { get; set; }
@@ -176,7 +186,8 @@ namespace Domain.Entities
                     esFechaIngresoCorrecto && esDependenciaCorrecta && 
                     esBancoCorrecto && esNumeroCuentaBancariaCorrecto && esTipoCtaBancariaCorrecta &&
                     esRegimenCorrecto && esAFPCorrecto && esCusppCorrecto &&
-                    esCodigoPlazaCorrecto && esEstadoTrabajadorCorrecto;
+                    esCodigoPlazaCorrecto && esEstadoTrabajadorCorrecto &&
+                    esOperacionCorrecta && esTrabajadorIDCorrecto;
             }
         }
 
@@ -199,6 +210,7 @@ namespace Domain.Entities
         public TrabajadorLecturaProcesadoDTO()
         {
             observaciones = new List<string>();
+            esTrabajadorIDCorrecto = true;
         }
     }
 }

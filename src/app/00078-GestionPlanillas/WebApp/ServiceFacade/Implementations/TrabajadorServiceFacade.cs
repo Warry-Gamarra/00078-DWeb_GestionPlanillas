@@ -249,7 +249,8 @@ namespace WebApp.ServiceFacade.Implementations
             ILecturaArchivoService lecturaArchivoService;
             List<TrabajadorLecturaDTO> lectura;
             List<TrabajadorLecturaProcesadoDTO> lecturaProcesada;
-            List<TrabajadorEntity> registrosAptos;
+            TrabajadorEntity trabajadorEntity;
+            TrabajadorModel trabajadorOld = null;
 
             try
             {
@@ -261,39 +262,71 @@ namespace WebApp.ServiceFacade.Implementations
 
                 if (lecturaProcesada != null && lecturaProcesada.Count() > 0)
                 {
-                    registrosAptos = lecturaProcesada
-                       .Where(x => x.esRegistroCorrecto)
-                       .Select(x => new TrabajadorEntity()
-                       {
-                           trabajadorCod = x.codigoTrabajador,
-                           codigoPlaza = x.codigoPlaza,
-                           nombre = x.nombres,
-                           apellidoPaterno = x.apePaterno,
-                           apellidoMaterno = x.apeMaterno,
-                           tipoDocumentoID = x.tipoDocumentoID.Value,
-                           numDocumento = x.numDocumento,
-                           sexoID = x.sexoID.Value,
-                           fechaIngreso = x.fechaIngresoDT,
-                           regimenID = x.regimenID.Value,
-                           estadoID = x.estadoTrabajadorID.Value,
-                           vinculoID = x.vinculoID.Value,
-                           bancoID = x.bancoID,
-                           nroCuentaBancaria = x.numeroCuentaBancaria,
-                           tipoCuentaBancariaID = x.tipoCuentaBancariaID,
-                           dependenciaID = x.dependenciaID.Value,
-                           afp = x.afpID,
-                           cuspp = x.cuspp,
-                           categoriaDocenteID = x.categoriaDocenteID,
-                           horasDocenteID = x.horasDocenteID,
-                           grupoOcupacionalID = x.grupoOcupacionalID,
-                           nivelRemunerativoID = x.nivelRemunerativoID
-                       }).ToList();
-
-                    if (registrosAptos.Count() > 0)
+                    if (lecturaProcesada.Where(x => x.esRegistroCorrecto).Count() > 0)
                     {
-                        foreach (var item in registrosAptos)
+                        foreach (var item in lecturaProcesada.Where(x => x.esRegistroCorrecto))
                         {
-                            _trabajadorService.GrabarTrabajador(Operacion.Registrar, item, userID);
+                            if (item.operacion == Operacion.Actualizar)
+                            {
+                                trabajadorOld = this.ObtenerTrabajador(item.trabajadorID.Value);
+
+                                trabajadorEntity = new TrabajadorEntity()
+                                {
+                                    trabajadorID = item.trabajadorID,
+                                    trabajadorCod = String.IsNullOrWhiteSpace(item.codigoTrabajador) ? trabajadorOld.trabajadorCod : item.codigoTrabajador,
+                                    codigoPlaza = String.IsNullOrWhiteSpace(item.codigoPlaza) ? trabajadorOld.codigoPlaza : item.codigoPlaza,
+                                    nombre = String.IsNullOrWhiteSpace(item.nombres) ? trabajadorOld.nombre : item.nombres,
+                                    apellidoPaterno = String.IsNullOrWhiteSpace(item.apePaterno) ? trabajadorOld.apellidoPaterno : item.apePaterno,
+                                    apellidoMaterno = String.IsNullOrWhiteSpace(item.apeMaterno) ? trabajadorOld.apellidoMaterno : item.apeMaterno,
+                                    tipoDocumentoID = item.tipoDocumentoID.HasValue ? item.tipoDocumentoID.Value : trabajadorOld.tipoDocumentoID,
+                                    numDocumento = String.IsNullOrWhiteSpace(item.numDocumento) ? trabajadorOld.numDocumento : item.numDocumento,
+                                    sexoID = item.sexoID.HasValue ? item.sexoID.Value : trabajadorOld.sexoID,
+                                    fechaIngreso = item.fechaIngresoDT.HasValue ? item.fechaIngresoDT.Value : trabajadorOld.fechaIngreso,
+                                    regimenID = item.regimenID.HasValue ? item.regimenID.Value : trabajadorOld.regimenID.Value,
+                                    estadoID = item.estadoTrabajadorID.HasValue ? item.estadoTrabajadorID.Value : trabajadorOld.estadoID,
+                                    vinculoID = item.vinculoID.HasValue ? item.vinculoID.Value : trabajadorOld.vinculoID,
+                                    bancoID = item.bancoID.HasValue ? item.bancoID.Value : trabajadorOld.bancoID,
+                                    nroCuentaBancaria = String.IsNullOrWhiteSpace(item.numeroCuentaBancaria) ? trabajadorOld.nroCuentaBancaria : item.numeroCuentaBancaria,
+                                    tipoCuentaBancariaID = item.tipoCuentaBancariaID.HasValue ? item.tipoCuentaBancariaID.Value : trabajadorOld.tipoCuentaBancariaID,
+                                    dependenciaID = item.dependenciaID.HasValue ? item.dependenciaID.Value : trabajadorOld.dependenciaID,
+                                    afp = item.afpID.HasValue ? item.afpID.Value : trabajadorOld.afpID,
+                                    cuspp = String.IsNullOrWhiteSpace(item.cuspp) ? trabajadorOld.cuspp : item.cuspp,
+                                    categoriaDocenteID = item.categoriaDocenteID.HasValue ? item.categoriaDocenteID.Value : trabajadorOld.categoriaDocenteID,
+                                    horasDocenteID = item.horasDocenteID.HasValue ? item.horasDocenteID.Value : trabajadorOld.horasDocenteID,
+                                    grupoOcupacionalID = item.grupoOcupacionalID.HasValue ? item.grupoOcupacionalID.Value : trabajadorOld.grupoOcupacionalID,
+                                    nivelRemunerativoID = item.nivelRemunerativoID.HasValue ? item.nivelRemunerativoID.Value : trabajadorOld.nivelRemunerativoID
+                                };
+                            }
+                            else
+                            {
+                                trabajadorEntity = new TrabajadorEntity()
+                                {
+                                    trabajadorCod = item.codigoTrabajador,
+                                    codigoPlaza = item.codigoPlaza,
+                                    nombre = item.nombres,
+                                    apellidoPaterno = item.apePaterno,
+                                    apellidoMaterno = item.apeMaterno,
+                                    tipoDocumentoID = item.tipoDocumentoID.Value,
+                                    numDocumento = item.numDocumento,
+                                    sexoID = item.sexoID.Value,
+                                    fechaIngreso = item.fechaIngresoDT,
+                                    regimenID = item.regimenID.Value,
+                                    estadoID = item.estadoTrabajadorID.Value,
+                                    vinculoID = item.vinculoID.Value,
+                                    bancoID = item.bancoID,
+                                    nroCuentaBancaria = item.numeroCuentaBancaria,
+                                    tipoCuentaBancariaID = item.tipoCuentaBancariaID,
+                                    dependenciaID = item.dependenciaID.Value,
+                                    afp = item.afpID,
+                                    cuspp = item.cuspp,
+                                    categoriaDocenteID = item.categoriaDocenteID,
+                                    horasDocenteID = item.horasDocenteID,
+                                    grupoOcupacionalID = item.grupoOcupacionalID,
+                                    nivelRemunerativoID = item.nivelRemunerativoID
+                                };
+                            }
+                            
+                            _trabajadorService.GrabarTrabajador(item.operacion, trabajadorEntity, userID);
                         }
 
                         response = new Response()
@@ -348,13 +381,14 @@ namespace WebApp.ServiceFacade.Implementations
             var listaTipCuentasBancarias = _bancoService.ListarTipoCuentasBancarias();
             var listaEstados = _estadoService.ListarEstados();
 
+            Operacion operacion;
             VinculoDTO vinculoDTO;
             RegimenDTO regimenDTO;
             DateTime dateTimeOut;
             bool existeDedicacion;
             string dedicacionDocenteDesc;
             int? dedicacionDocenteID;
-            int categoriaPlanillaID;
+            int categoriaPlanillaID = 0;
 
             var lecturaProcesada = new List<TrabajadorLecturaProcesadoDTO>();
 
@@ -362,551 +396,599 @@ namespace WebApp.ServiceFacade.Implementations
             {
                 var dto = Mapper.TrabajadorLecturaProcesado(item);
 
-                if (String.IsNullOrEmpty(dto.tipoDocumentoCod))
+                if (Enum.TryParse(dto.operacionDesc, out operacion))
                 {
-                    dto.observaciones.Add("El Tipo de documento es obligatorio.");
-                }
-                else if (listaTipoDocumento.Exists(x => x.tipoDocumentoCod == dto.tipoDocumentoCod.Trim()))
-                {
-                    dto.tipoDocumentoDesc = listaTipoDocumento.First(x => x.tipoDocumentoCod == dto.tipoDocumentoCod)
-                                            .tipoDocumentoDesc;
+                    dto.operacion = operacion;
 
-                    dto.tipoDocumentoID = listaTipoDocumento.First(x => x.tipoDocumentoCod == dto.tipoDocumentoCod)
-                                            .tipoDocumentoID;
-
-                    dto.esTipoDocumentoCorrecto = true;
+                    dto.esOperacionCorrecta = true;
                 }
                 else
                 {
-                    dto.observaciones.Add("El código del Tipo de documento no existe en el sistema.");
+                    dto.observaciones.Add("No se reconoce la acción a realizar.");
                 }
 
-                if (String.IsNullOrEmpty(dto.numDocumento))
+                if (dto.esOperacionCorrecta)
                 {
-                    dto.observaciones.Add("El Número de documento es obligatorio.");
-                }
-                else if (dto.numDocumento.Trim().Length > 0 && dto.numDocumento.Trim().Length <= 20)
-                {
-                    dto.esNumDocumentoCorrecto = true;
-                }
-                else
-                {
-                    dto.observaciones.Add("La cantidad de caracteres del Número de documento es incorrecto.");
-                }
-
-                if (dto.esTipoDocumentoCorrecto && dto.esNumDocumentoCorrecto)
-                {
-                    dto.esNumDocIdentDuplicadoEnArchivo = lectura.Count(x => !String.IsNullOrEmpty(x.numDocumento) && !String.IsNullOrEmpty(x.tipoDocumentoCod) &&
-                        x.numDocumento ==  dto.numDocumento && x.tipoDocumentoCod == dto.tipoDocumentoCod) > 1;
-
-                    if (dto.esNumDocIdentDuplicadoEnArchivo)
+                    if (String.IsNullOrWhiteSpace(dto.tipoDocumentoCod))
                     {
-                        dto.observaciones.Add("El Documento de Identidad se repite en el archivo.");
+                        dto.observaciones.Add("El Tipo de documento es obligatorio.");
                     }
-                }
-
-                if (String.IsNullOrEmpty(dto.apePaterno))
-                {
-                    dto.observaciones.Add("El Apellido paterno es obligatorio.");
-                }
-                else if (dto.apePaterno.Trim().Length > 0 && dto.apePaterno.Trim().Length <= 50)
-                {
-                    dto.esApePaternoCorrecto = true;
-                }
-                else
-                {
-                    dto.observaciones.Add("La cantidad de caracteres del Apellido paterno es incorrecto.");
-                }
-
-                if (String.IsNullOrEmpty(dto.nombres))
-                {
-                    dto.observaciones.Add("El Nombre es obligatorio.");
-                }
-                else if (dto.nombres.Trim().Length > 0 && dto.nombres.Trim().Length <= 50)
-                {
-                    dto.esNombreCorrecto = true;
-                }
-                else
-                {
-                    dto.observaciones.Add("La cantidad de caracteres del Nombre es incorrecto.");
-                }
-
-                if (String.IsNullOrEmpty(dto.sexoCod))
-                {
-                    dto.observaciones.Add("El campo Sexo es obligatorio.");
-                }
-                else if(listaSexos.Exists(x => x.sexoCod == dto.sexoCod.Trim()))
-                {
-                    dto.sexoDesc = listaSexos.First(x => x.sexoCod == dto.sexoCod.Trim())
-                                    .sexoDesc;
-
-                    dto.sexoID = listaSexos.First(x => x.sexoCod == dto.sexoCod.Trim())
-                                    .sexoID;
-
-                    dto.esSexoCorrecto = true;
-                }
-                else
-                {
-                    dto.observaciones.Add("El código del campo Sexo no existe en el sistema.");
-                }
-
-                if (String.IsNullOrEmpty(dto.codigoTrabajador))
-                {
-                    dto.observaciones.Add("El Código de Trabajador es obligatorio.");
-                }
-                else if (dto.codigoTrabajador.Trim().Length > 0 && dto.codigoTrabajador.Trim().Length <= 20)
-                {
-                    dto.esCodigoTrabajadorCorrecto = true;
-
-                    dto.esCodTrabajadorDuplicadoEnArchivo = lectura.Count(x => !String.IsNullOrEmpty(x.codigoTrabajador) &&
-                        x.codigoTrabajador.Trim() == dto.codigoTrabajador.Trim()) > 1;
-
-                    if (dto.esCodTrabajadorDuplicadoEnArchivo)
+                    else if (listaTipoDocumento.Exists(x => x.tipoDocumentoCod == dto.tipoDocumentoCod.Trim()))
                     {
-                        dto.observaciones.Add("El Código de Trabajador se repite en el archivo.");
+                        dto.tipoDocumentoDesc = listaTipoDocumento.First(x => x.tipoDocumentoCod == dto.tipoDocumentoCod)
+                                                .tipoDocumentoDesc;
+
+                        dto.tipoDocumentoID = listaTipoDocumento.First(x => x.tipoDocumentoCod == dto.tipoDocumentoCod)
+                                                .tipoDocumentoID;
+
+                        dto.esTipoDocumentoCorrecto = true;
                     }
-                }
-                else
-                {
-                    dto.observaciones.Add("La cantidad de caracteres del Código de trabajador es incorrecto.");
-                }
-
-                if (String.IsNullOrEmpty(dto.vinculoCod))
-                {
-                    dto.observaciones.Add("El Vínculo de Trabajador es obligatorio.");
-                }
-                else
-                {
-                    if (listaVinculos.Exists(x => x.vinculoCod == dto.vinculoCod.Trim()))
+                    else
                     {
-                        vinculoDTO = listaVinculos.First(x => x.vinculoCod == dto.vinculoCod.Trim());
-                        
-                        dto.vinculoDesc = vinculoDTO.vinculoDesc;
+                        dto.observaciones.Add("El código del Tipo de documento no existe en el sistema.");
+                    }
 
-                        dto.vinculoID = vinculoDTO.vinculoID;
+                    if (String.IsNullOrWhiteSpace(dto.numDocumento))
+                    {
+                        dto.observaciones.Add("El Número de documento es obligatorio.");
+                    }
+                    else if (dto.numDocumento.Trim().Length > 0 && dto.numDocumento.Trim().Length <= 20)
+                    {
+                        dto.esNumDocumentoCorrecto = true;
+                    }
+                    else
+                    {
+                        dto.observaciones.Add("La cantidad de caracteres del Número de documento es incorrecto.");
+                    }
 
-                        dto.vinculo = (Vinculo)vinculoDTO.vinculoID;
+                    if (dto.esTipoDocumentoCorrecto && dto.esNumDocumentoCorrecto)
+                    {
+                        dto.esNumDocIdentDuplicadoEnArchivo = lectura.Count(x => !String.IsNullOrWhiteSpace(x.numDocumento) && x.numDocumento == dto.numDocumento && 
+                            x.tipoDocumentoCod == dto.tipoDocumentoCod) > 1;
 
-                        dto.esVinculoCorrecto = true;
-
-                        if (dto.vinculo == Vinculo.AdministrativoPermanente || dto.vinculo == Vinculo.AdministrativoContratado)
+                        if (dto.esNumDocIdentDuplicadoEnArchivo)
                         {
-                            dto.categoriaDocenteCod = null;
-                            dto.esCategoriaDocenteCorrecta = true;
+                            dto.observaciones.Add("El Documento de Identidad se repite en el archivo.");
+                        }
+                    }
 
-                            dto.dedicacionDocenteCod = null;
-                            dto.esDedicacionDocenteCorrecta = true;
+                    if (dto.operacion == Operacion.Registrar && String.IsNullOrWhiteSpace(dto.apePaterno))
+                    {
+                        dto.observaciones.Add("El Apellido paterno es obligatorio.");
+                    }
+                    else if (
+                        (dto.operacion == Operacion.Registrar && dto.apePaterno.Trim().Length > 0 && dto.apePaterno.Trim().Length <= 50) || 
+                        (dto.operacion == Operacion.Actualizar && (dto.apePaterno == null || (dto.apePaterno.Trim().Length > 0 && dto.apePaterno.Trim().Length <= 50)))
+                        )
+                    {
+                        dto.esApePaternoCorrecto = true;
+                    }
+                    else
+                    {
+                        dto.observaciones.Add("La cantidad de caracteres del Apellido paterno es incorrecto.");
+                    }
 
-                            dto.horasDocente = null;
-                            dto.esHorasDocentesCorrecta = true;
+                    if (dto.operacion == Operacion.Registrar && String.IsNullOrWhiteSpace(dto.nombres))
+                    {
+                        dto.observaciones.Add("El Nombre es obligatorio.");
+                    }
+                    else if (
+                        (dto.operacion == Operacion.Registrar && dto.nombres.Trim().Length > 0 && dto.nombres.Trim().Length <= 50) ||
+                        (dto.operacion == Operacion.Actualizar && (dto.nombres == null || (dto.nombres.Trim().Length > 0 && dto.nombres.Trim().Length <= 50)))
+                        )
+                    {
+                        dto.esNombreCorrecto = true;
+                    }
+                    else
+                    {
+                        dto.observaciones.Add("La cantidad de caracteres del Nombre es incorrecto.");
+                    }
 
-                            if (String.IsNullOrEmpty(dto.grupoOcupacionalCod))
+                    if (dto.operacion == Operacion.Registrar && String.IsNullOrWhiteSpace(dto.sexoCod))
+                    {
+                        dto.observaciones.Add("El campo Sexo es obligatorio.");
+                    }
+                    else if (
+                        (dto.operacion == Operacion.Registrar && listaSexos.Exists(x => x.sexoCod == dto.sexoCod.Trim())) ||
+                        (dto.operacion == Operacion.Actualizar && (dto.sexoCod == null || listaSexos.Exists(x => x.sexoCod == dto.sexoCod.Trim())))
+                        )
+                    {
+                        dto.esSexoCorrecto = true;
+
+                        if (dto.sexoCod != null)
+                        {
+                            dto.sexoDesc = listaSexos.First(x => x.sexoCod == dto.sexoCod.Trim())
+                                        .sexoDesc;
+
+                            dto.sexoID = listaSexos.First(x => x.sexoCod == dto.sexoCod.Trim())
+                                            .sexoID;
+                        }
+                    }
+                    else
+                    {
+                        dto.observaciones.Add("El código del campo Sexo no existe en el sistema.");
+                    }
+
+                    if (dto.operacion == Operacion.Registrar && String.IsNullOrWhiteSpace(dto.codigoTrabajador))
+                    {
+                        dto.observaciones.Add("El Código de Trabajador es obligatorio.");
+                    }
+                    else if (
+                        (dto.operacion == Operacion.Registrar && dto.codigoTrabajador.Trim().Length > 0 && dto.codigoTrabajador.Trim().Length <= 20) ||
+                        (dto.operacion == Operacion.Actualizar && (dto.codigoTrabajador == null || (dto.codigoTrabajador.Trim().Length > 0 && dto.codigoTrabajador.Trim().Length <= 20)))
+                        )
+                    {
+                        dto.esCodigoTrabajadorCorrecto = true;
+
+                        if (dto.codigoTrabajador != null)
+                        {
+                            dto.esCodTrabajadorDuplicadoEnArchivo = lectura.Count(x => !String.IsNullOrWhiteSpace(x.codigoTrabajador) &&
+                            x.codigoTrabajador.Trim() == dto.codigoTrabajador.Trim()) > 1;
+
+                            if (dto.esCodTrabajadorDuplicadoEnArchivo)
                             {
-                                dto.observaciones.Add("El Grupo ocupacional es obligatorio.");
-                            }
-                            else if (listaGruposOcupacionales.Exists(x => x.grupoOcupacionalCod == dto.grupoOcupacionalCod.Trim()))
-                            {
-                                dto.grupoOcupacionalDesc = listaGruposOcupacionales.First(x => x.grupoOcupacionalCod == dto.grupoOcupacionalCod.Trim())
-                                                        .grupoOcupacionalDesc;
-
-                                dto.grupoOcupacionalID = listaGruposOcupacionales.First(x => x.grupoOcupacionalCod == dto.grupoOcupacionalCod.Trim())
-                                                        .grupoOcupacionalID;
-
-                                dto.esGrupoOcupacionalCorrecto = true;
-                            }
-                            else
-                            {
-                                dto.observaciones.Add("El código del Grupo Ocupacional no existe en el sistema.");
-                            }
-
-                            if (String.IsNullOrEmpty(dto.nivelRemunerativoCod))
-                            {
-                                dto.observaciones.Add("El Nivel Remunerativo es obligatorio.");
-                            }
-                            else if (listaNivelesRemunerativos.Exists(x => x.nivelRemunerativoCod == dto.nivelRemunerativoCod.Trim()))
-                            {
-                                dto.nivelRemunerativoDesc = listaNivelesRemunerativos.First(x => x.nivelRemunerativoCod == dto.nivelRemunerativoCod.Trim())
-                                                            .nivelRemunerativoDesc;
-
-                                dto.nivelRemunerativoID = listaNivelesRemunerativos.First(x => x.nivelRemunerativoCod == dto.nivelRemunerativoCod.Trim())
-                                                            .nivelRemunerativoID;
-
-                                dto.esNivelRemunerativoCorrecto = true;
-                            }
-                            else
-                            {
-                                dto.observaciones.Add("El código del Nivel Remunerativo no existe en el sistema.");
+                                dto.observaciones.Add("El Código de Trabajador se repite en el archivo.");
                             }
                         }
-                        else if (dto.vinculo == Vinculo.DocentePermanente || dto.vinculo == Vinculo.DocenteContratado)
+                    }
+                    else
+                    {
+                        dto.observaciones.Add("La cantidad de caracteres del Código de trabajador es incorrecto.");
+                    }
+
+                    if (String.IsNullOrEmpty(dto.vinculoCod))
+                    {
+                        dto.observaciones.Add("El Vínculo de Trabajador es obligatorio.");
+                    }
+                    else
+                    {
+                        if (listaVinculos.Exists(x => x.vinculoCod == dto.vinculoCod.Trim()))
                         {
-                            dto.grupoOcupacionalCod = null;
-                            dto. esGrupoOcupacionalCorrecto = true;
+                            vinculoDTO = listaVinculos.First(x => x.vinculoCod == dto.vinculoCod.Trim());
 
-                            dto.nivelRemunerativoCod = null;
-                            dto.esNivelRemunerativoCorrecto = true;
+                            dto.vinculoDesc = vinculoDTO.vinculoDesc;
 
-                            if (String.IsNullOrEmpty(dto.categoriaDocenteCod))
+                            dto.vinculoID = vinculoDTO.vinculoID;
+
+                            dto.vinculo = (Vinculo)vinculoDTO.vinculoID;
+
+                            categoriaPlanillaID = (int)_trabajadorCategoriaPlanillaService.ObtenerCategoriaPlanillaSegunVinculo(dto.vinculoID.Value);
+
+                            dto.esVinculoCorrecto = true;
+
+                            if (dto.vinculo == Vinculo.AdministrativoPermanente || dto.vinculo == Vinculo.AdministrativoContratado)
                             {
-                                dto.observaciones.Add("La Categoría de Docente es obligatoria.");
-                            }
-                            else if(listaCategoriasDocente.Exists(x => x.categoriaDocenteCod == dto.categoriaDocenteCod.Trim()))
-                            {
-                                dto.categoriaDocenteDesc = listaCategoriasDocente.First(x => x.categoriaDocenteCod == dto.categoriaDocenteCod.Trim())
-                                                            .categoriaDocenteDesc;
-
-                                dto.categoriaDocenteID = listaCategoriasDocente.First(x => x.categoriaDocenteCod == dto.categoriaDocenteCod.Trim())
-                                                            .categoriaDocenteID;
-
+                                dto.categoriaDocenteCod = null;
                                 dto.esCategoriaDocenteCorrecta = true;
-                            }
-                            else
-                            {
-                                dto.observaciones.Add("La Categoría de Docente no existe en el sistema.");
-                            }
 
-                            if (String.IsNullOrEmpty(dto.dedicacionDocenteCod))
-                            {
-                                dto.observaciones.Add("La Dedicación de Docente es obligatoria.");
-                            }
-                            else
-                            {
-                                dedicacionDocenteDesc = null;
-                                dedicacionDocenteID = null;
+                                dto.dedicacionDocenteCod = null;
+                                dto.esDedicacionDocenteCorrecta = true;
 
-                                if (dto.vinculo == Vinculo.DocentePermanente)
+                                dto.horasDocente = null;
+                                dto.esHorasDocentesCorrecta = true;
+
+                                if (String.IsNullOrEmpty(dto.grupoOcupacionalCod))
                                 {
-                                    existeDedicacion = listaDedicacionDocenteOrd.Exists(x => x.dedicacionDocenteCod == dto.dedicacionDocenteCod.Trim());
+                                    dto.observaciones.Add("El Grupo ocupacional es obligatorio.");
+                                }
+                                else if (listaGruposOcupacionales.Exists(x => x.grupoOcupacionalCod == dto.grupoOcupacionalCod.Trim()))
+                                {
+                                    dto.grupoOcupacionalDesc = listaGruposOcupacionales.First(x => x.grupoOcupacionalCod == dto.grupoOcupacionalCod.Trim())
+                                                            .grupoOcupacionalDesc;
 
-                                    if (existeDedicacion)
-                                    {
-                                        dedicacionDocenteDesc = listaDedicacionDocenteOrd
-                                                            .First(x => x.dedicacionDocenteCod == dto.dedicacionDocenteCod.Trim())
-                                                            .dedicacionDocenteDesc;
+                                    dto.grupoOcupacionalID = listaGruposOcupacionales.First(x => x.grupoOcupacionalCod == dto.grupoOcupacionalCod.Trim())
+                                                            .grupoOcupacionalID;
 
-                                        dedicacionDocenteID = listaDedicacionDocenteOrd
-                                                                .First(x => x.dedicacionDocenteCod == dto.dedicacionDocenteCod.Trim())
-                                                                .dedicacionDocenteID;
-                                    }
+                                    dto.esGrupoOcupacionalCorrecto = true;
                                 }
                                 else
                                 {
-                                    existeDedicacion = listaDedicacionDocenteContr.Exists(x => x.dedicacionDocenteCod == dto.dedicacionDocenteCod.Trim());
-
-                                    if (existeDedicacion)
-                                    {
-                                        dedicacionDocenteDesc = listaDedicacionDocenteContr
-                                                            .First(x => x.dedicacionDocenteCod == dto.dedicacionDocenteCod.Trim())
-                                                            .dedicacionDocenteDesc;
-
-                                        dedicacionDocenteID = listaDedicacionDocenteContr
-                                                                .First(x => x.dedicacionDocenteCod == dto.dedicacionDocenteCod.Trim())
-                                                                .dedicacionDocenteID;
-                                    }
+                                    dto.observaciones.Add("El código del Grupo Ocupacional no existe en el sistema.");
                                 }
 
-                                if (existeDedicacion)
+                                if (String.IsNullOrEmpty(dto.nivelRemunerativoCod))
                                 {
-                                    dto.dedicacionDocenteDesc = dedicacionDocenteDesc;
+                                    dto.observaciones.Add("El Nivel Remunerativo es obligatorio.");
+                                }
+                                else if (listaNivelesRemunerativos.Exists(x => x.nivelRemunerativoCod == dto.nivelRemunerativoCod.Trim()))
+                                {
+                                    dto.nivelRemunerativoDesc = listaNivelesRemunerativos.First(x => x.nivelRemunerativoCod == dto.nivelRemunerativoCod.Trim())
+                                                                .nivelRemunerativoDesc;
 
-                                    dto.dedicacionDocenteID = dedicacionDocenteID.Value;
+                                    dto.nivelRemunerativoID = listaNivelesRemunerativos.First(x => x.nivelRemunerativoCod == dto.nivelRemunerativoCod.Trim())
+                                                                .nivelRemunerativoID;
 
-                                    dto.esDedicacionDocenteCorrecta = true;
+                                    dto.esNivelRemunerativoCorrecto = true;
+                                }
+                                else
+                                {
+                                    dto.observaciones.Add("El código del Nivel Remunerativo no existe en el sistema.");
+                                }
+                            }
+                            else if (dto.vinculo == Vinculo.DocentePermanente || dto.vinculo == Vinculo.DocenteContratado)
+                            {
+                                dto.grupoOcupacionalCod = null;
+                                dto.esGrupoOcupacionalCorrecto = true;
 
-                                    if (!dto.horasDocente.HasValue)
+                                dto.nivelRemunerativoCod = null;
+                                dto.esNivelRemunerativoCorrecto = true;
+
+                                if (String.IsNullOrEmpty(dto.categoriaDocenteCod))
+                                {
+                                    dto.observaciones.Add("La Categoría de Docente es obligatoria.");
+                                }
+                                else if (listaCategoriasDocente.Exists(x => x.categoriaDocenteCod == dto.categoriaDocenteCod.Trim()))
+                                {
+                                    dto.categoriaDocenteDesc = listaCategoriasDocente.First(x => x.categoriaDocenteCod == dto.categoriaDocenteCod.Trim())
+                                                                .categoriaDocenteDesc;
+
+                                    dto.categoriaDocenteID = listaCategoriasDocente.First(x => x.categoriaDocenteCod == dto.categoriaDocenteCod.Trim())
+                                                                .categoriaDocenteID;
+
+                                    dto.esCategoriaDocenteCorrecta = true;
+                                }
+                                else
+                                {
+                                    dto.observaciones.Add("La Categoría de Docente no existe en el sistema.");
+                                }
+
+                                if (String.IsNullOrEmpty(dto.dedicacionDocenteCod))
+                                {
+                                    dto.observaciones.Add("La Dedicación de Docente es obligatoria.");
+                                }
+                                else
+                                {
+                                    dedicacionDocenteDesc = null;
+                                    dedicacionDocenteID = null;
+
+                                    if (dto.vinculo == Vinculo.DocentePermanente)
                                     {
-                                        dto.observaciones.Add("La Hora docente es obligatoria.");
-                                    }
-                                    else if (listaHorasDedicacionDocente.Exists(x => x.dedicacionDocenteID == dedicacionDocenteID.Value && x.horas == dto.horasDocente.Value))
-                                    {
-                                        dto.horasDocenteID = listaHorasDedicacionDocente
-                                                            .First(x => x.dedicacionDocenteID == dedicacionDocenteID.Value && x.horas == dto.horasDocente.Value)
-                                                            .horasDocenteID;
+                                        existeDedicacion = listaDedicacionDocenteOrd.Exists(x => x.dedicacionDocenteCod == dto.dedicacionDocenteCod.Trim());
 
-                                        dto.esHorasDocentesCorrecta = true;   
+                                        if (existeDedicacion)
+                                        {
+                                            dedicacionDocenteDesc = listaDedicacionDocenteOrd
+                                                                .First(x => x.dedicacionDocenteCod == dto.dedicacionDocenteCod.Trim())
+                                                                .dedicacionDocenteDesc;
+
+                                            dedicacionDocenteID = listaDedicacionDocenteOrd
+                                                                    .First(x => x.dedicacionDocenteCod == dto.dedicacionDocenteCod.Trim())
+                                                                    .dedicacionDocenteID;
+                                        }
                                     }
                                     else
                                     {
-                                        dto.observaciones.Add("La Hora no existe en el sistema.");
+                                        existeDedicacion = listaDedicacionDocenteContr.Exists(x => x.dedicacionDocenteCod == dto.dedicacionDocenteCod.Trim());
+
+                                        if (existeDedicacion)
+                                        {
+                                            dedicacionDocenteDesc = listaDedicacionDocenteContr
+                                                                .First(x => x.dedicacionDocenteCod == dto.dedicacionDocenteCod.Trim())
+                                                                .dedicacionDocenteDesc;
+
+                                            dedicacionDocenteID = listaDedicacionDocenteContr
+                                                                    .First(x => x.dedicacionDocenteCod == dto.dedicacionDocenteCod.Trim())
+                                                                    .dedicacionDocenteID;
+                                        }
                                     }
+
+                                    if (existeDedicacion)
+                                    {
+                                        dto.dedicacionDocenteDesc = dedicacionDocenteDesc;
+
+                                        dto.dedicacionDocenteID = dedicacionDocenteID.Value;
+
+                                        dto.esDedicacionDocenteCorrecta = true;
+
+                                        if (!dto.horasDocente.HasValue)
+                                        {
+                                            dto.observaciones.Add("La Hora docente es obligatoria.");
+                                        }
+                                        else if (listaHorasDedicacionDocente.Exists(x => x.dedicacionDocenteID == dedicacionDocenteID.Value && x.horas == dto.horasDocente.Value))
+                                        {
+                                            dto.horasDocenteID = listaHorasDedicacionDocente
+                                                                .First(x => x.dedicacionDocenteID == dedicacionDocenteID.Value && x.horas == dto.horasDocente.Value)
+                                                                .horasDocenteID;
+
+                                            dto.esHorasDocentesCorrecta = true;
+                                        }
+                                        else
+                                        {
+                                            dto.observaciones.Add("La Hora no existe en el sistema.");
+                                        }
+                                    }
+                                    else
+                                    {
+                                        dto.observaciones.Add("La Dedicación de Docente no existe en el sistema.");
+                                    }
+                                }
+                            }
+                            else
+                            {
+                                dto.grupoOcupacionalCod = null;
+                                dto.esGrupoOcupacionalCorrecto = true;
+
+                                dto.nivelRemunerativoCod = null;
+                                dto.esNivelRemunerativoCorrecto = true;
+
+                                dto.categoriaDocenteCod = null;
+                                dto.esCategoriaDocenteCorrecta = true;
+
+                                dto.dedicacionDocenteCod = null;
+                                dto.esDedicacionDocenteCorrecta = true;
+
+                                dto.horasDocente = null;
+                                dto.esHorasDocentesCorrecta = true;
+                            }
+                        }
+                        else
+                        {
+                            dto.observaciones.Add("El código del Vínculo de trabajador no existe en el sistema.");
+                        }
+                    }
+
+                    if (String.IsNullOrEmpty(dto.fechaIngreso))
+                    {
+                        dto.observaciones.Add("La Fecha de ingreso es obligatoria.");
+                    }
+                    else
+                    {
+                        dto.esFechaIngresoCorrecto = DateTime.TryParseExact(dto.fechaIngreso, "dd/MM/yyyy",
+                                                              System.Globalization.CultureInfo.InvariantCulture,
+                                                              System.Globalization.DateTimeStyles.None,
+                                                              out dateTimeOut);
+                        if (dto.esFechaIngresoCorrecto)
+                        {
+                            dto.fechaIngresoDT = dateTimeOut;
+
+                            dto.esFechaIngresoCorrecto = true;
+                        }
+                        else
+                        {
+                            dto.observaciones.Add("El formato de la Fecha de ingreso es incorrecta.");
+                        }
+                    }
+
+                    if (String.IsNullOrEmpty(dto.dependenciaCod))
+                    {
+                        dto.observaciones.Add("La Dependencia es obligatoria.");
+                    }
+                    else if (listaDependencias.Exists(x => x.dependenciaCod == dto.dependenciaCod.Trim()))
+                    {
+                        dto.dependenciaDesc = listaDependencias.First(x => x.dependenciaCod == dto.dependenciaCod.Trim())
+                                            .dependenciaDesc;
+
+                        dto.dependenciaID = listaDependencias.First(x => x.dependenciaCod == dto.dependenciaCod.Trim())
+                                            .dependenciaID;
+
+                        dto.esDependenciaCorrecta = true;
+                    }
+                    else
+                    {
+                        dto.observaciones.Add("El código de Dependencia no existe en el sistema.");
+                    }
+
+                    if (!String.IsNullOrEmpty(dto.bancoCod))
+                    {
+                        if (listaBancos.Exists(x => x.bancoCod == dto.bancoCod.Trim()))
+                        {
+                            dto.bancoDesc = listaBancos.First(x => x.bancoCod == dto.bancoCod.Trim()).bancoDesc;
+
+                            dto.bancoID = listaBancos.First(x => x.bancoCod == dto.bancoCod.Trim()).bancoID;
+
+                            dto.esBancoCorrecto = true;
+
+                            if (String.IsNullOrEmpty(dto.numeroCuentaBancaria))
+                            {
+                                dto.observaciones.Add("El Número de Cuenta Bancaria es Obligatorio.");
+                            }
+                            else if (dto.numeroCuentaBancaria.Trim().Length > 0 && dto.numeroCuentaBancaria.Trim().Length <= 50)
+                            {
+                                dto.esNumeroCuentaBancariaCorrecto = true;
+                            }
+                            else
+                            {
+                                dto.observaciones.Add("La cantidad de caracteres del Número de Cuenta Bancaria es incorrecto.");
+                            }
+
+                            if (String.IsNullOrEmpty(dto.tipoCuentaBancariaCod))
+                            {
+                                dto.observaciones.Add("El Tipo de Cuenta Bancaria es obligatorio.");
+                            }
+                            else if (listaTipCuentasBancarias.Exists(x => x.tipoCuentaBancariaCod == dto.tipoCuentaBancariaCod.Trim()))
+                            {
+                                dto.tipoCuentaBancariaDesc = listaTipCuentasBancarias.First(x => x.tipoCuentaBancariaCod == dto.tipoCuentaBancariaCod.Trim())
+                                                            .tipoCuentaBancariaDesc;
+
+                                dto.tipoCuentaBancariaID = listaTipCuentasBancarias.First(x => x.tipoCuentaBancariaCod == dto.tipoCuentaBancariaCod.Trim())
+                                                            .tipoCuentaBancariaID;
+
+                                dto.esTipoCtaBancariaCorrecta = true;
+                            }
+                            else
+                            {
+                                dto.observaciones.Add("El Tipo de Cuenta Bancaria no existe en el sistema.");
+                            }
+                        }
+                        else
+                        {
+                            dto.observaciones.Add("El código de Banco no existe en el sistema.");
+                        }
+                    }
+                    else
+                    {
+                        dto.bancoCod = null;
+                        dto.esBancoCorrecto = true;
+
+                        dto.numeroCuentaBancaria = null;
+                        dto.esNumeroCuentaBancariaCorrecto = true;
+
+                        dto.tipoCuentaBancariaCod = null;
+                        dto.esTipoCtaBancariaCorrecta = true;
+                    }
+
+                    if (!String.IsNullOrEmpty(dto.regimenPensionarioCod))
+                    {
+                        if (listaRegimen.Exists(x => x.regimenCod == dto.regimenPensionarioCod.Trim()))
+                        {
+                            regimenDTO = listaRegimen.First(x => x.regimenCod == dto.regimenPensionarioCod.Trim());
+
+                            dto.regimenDesc = regimenDTO.regimenDesc;
+
+                            dto.regimenID = regimenDTO.regimenID;
+
+                            dto.esRegimenCorrecto = true;
+
+                            if (regimenDTO.regimenID == (int)RegimenPensionario.SPP)
+                            {
+                                if (String.IsNullOrEmpty(dto.afpCod))
+                                {
+                                    dto.observaciones.Add("El código de AFP es obligatorio.");
+                                }
+                                else if (listaAfps.Exists(x => x.afpCod == dto.afpCod.Trim()))
+                                {
+                                    dto.afpDesc = listaAfps.First(x => x.afpCod == dto.afpCod.Trim()).afpDesc;
+
+                                    dto.afpID = listaAfps.First(x => x.afpCod == dto.afpCod.Trim()).afpID;
+
+                                    dto.esAFPCorrecto = true;
                                 }
                                 else
                                 {
-                                    dto.observaciones.Add("La Dedicación de Docente no existe en el sistema.");
+                                    dto.observaciones.Add("El código de AFP no existe en el sistema.");
+                                }
+
+                                if (String.IsNullOrEmpty(dto.cuspp))
+                                {
+                                    dto.observaciones.Add("El CUSPP es obligatorio.");
+                                }
+                                else if (dto.cuspp.Trim().Length > 0 && dto.cuspp.Trim().Length <= 20)
+                                {
+                                    dto.esCusppCorrecto = true;
+                                }
+                                else
+                                {
+                                    dto.observaciones.Add("La cantidad de caracteres del CUSPP es incorrecto.");
                                 }
                             }
-                        }
-                        else
-                        {
-                            dto.grupoOcupacionalCod = null;
-                            dto.esGrupoOcupacionalCorrecto = true;
-
-                            dto.nivelRemunerativoCod = null;
-                            dto.esNivelRemunerativoCorrecto = true;
-
-                            dto.categoriaDocenteCod = null;
-                            dto.esCategoriaDocenteCorrecta = true;
-
-                            dto.dedicacionDocenteCod = null;
-                            dto.esDedicacionDocenteCorrecta = true;
-
-                            dto.horasDocente = null;
-                            dto.esHorasDocentesCorrecta = true;
-                        }
-                    }
-                    else
-                    {
-                        dto.observaciones.Add("El código del Vínculo de trabajador no existe en el sistema.");
-                    }
-                }
-
-                if (String.IsNullOrEmpty(dto.fechaIngreso))
-                {
-                    dto.observaciones.Add("La Fecha de ingreso es obligatoria.");
-                }
-                else
-                {
-                    dto.esFechaIngresoCorrecto = DateTime.TryParseExact(dto.fechaIngreso, "dd/MM/yyyy",
-                                                          System.Globalization.CultureInfo.InvariantCulture,
-                                                          System.Globalization.DateTimeStyles.None,
-                                                          out dateTimeOut);
-                    if (dto.esFechaIngresoCorrecto)
-                    {
-                        dto.fechaIngresoDT = dateTimeOut;
-
-                        dto.esFechaIngresoCorrecto = true;
-                    }
-                    else
-                    {
-                        dto.observaciones.Add("El formato de la Fecha de ingreso es incorrecta.");
-                    }
-                }
-
-                if (String.IsNullOrEmpty(dto.dependenciaCod))
-                {
-                    dto.observaciones.Add("La Dependencia es obligatoria.");
-                }
-                else if(listaDependencias.Exists(x => x.dependenciaCod == dto.dependenciaCod.Trim()))
-                {
-                    dto.dependenciaDesc = listaDependencias.First(x => x.dependenciaCod == dto.dependenciaCod.Trim())
-                                        .dependenciaDesc;
-
-                    dto.dependenciaID = listaDependencias.First(x => x.dependenciaCod == dto.dependenciaCod.Trim())
-                                        .dependenciaID;
-
-                    dto.esDependenciaCorrecta = true;
-                }
-                else
-                {
-                    dto.observaciones.Add("El código de Dependencia no existe en el sistema.");
-                }
-
-                if (!String.IsNullOrEmpty(dto.bancoCod))
-                {
-                    if (listaBancos.Exists(x => x.bancoCod == dto.bancoCod.Trim()))
-                    {
-                        dto.bancoDesc = listaBancos.First(x => x.bancoCod == dto.bancoCod.Trim()).bancoDesc;
-
-                        dto.bancoID = listaBancos.First(x => x.bancoCod == dto.bancoCod.Trim()).bancoID;
-
-                        dto.esBancoCorrecto = true;
-
-                        if (String.IsNullOrEmpty(dto.numeroCuentaBancaria))
-                        {
-                            dto.observaciones.Add("El Número de Cuenta Bancaria es Obligatorio.");
-                        }
-                        else if (dto.numeroCuentaBancaria.Trim().Length > 0 && dto.numeroCuentaBancaria.Trim().Length <= 50)
-                        {
-                            dto.esNumeroCuentaBancariaCorrecto = true;
-                        }
-                        else
-                        {
-                            dto.observaciones.Add("La cantidad de caracteres del Número de Cuenta Bancaria es incorrecto.");
-                        }
-                        
-                        if (String.IsNullOrEmpty(dto.tipoCuentaBancariaCod))
-                        {
-                            dto.observaciones.Add("El Tipo de Cuenta Bancaria es obligatorio.");
-                        }
-                        else if (listaTipCuentasBancarias.Exists(x => x.tipoCuentaBancariaCod == dto.tipoCuentaBancariaCod.Trim()))
-                        {
-                            dto.tipoCuentaBancariaDesc = listaTipCuentasBancarias.First(x => x.tipoCuentaBancariaCod == dto.tipoCuentaBancariaCod.Trim())
-                                                        .tipoCuentaBancariaDesc;
-
-                            dto.tipoCuentaBancariaID = listaTipCuentasBancarias.First(x => x.tipoCuentaBancariaCod == dto.tipoCuentaBancariaCod.Trim())
-                                                        .tipoCuentaBancariaID;
-
-                            dto.esTipoCtaBancariaCorrecta = true;
-                        }
-                        else
-                        {
-                            dto.observaciones.Add("El Tipo de Cuenta Bancaria no existe en el sistema.");
-                        }
-                    }
-                    else
-                    {
-                        dto.observaciones.Add("El código de Banco no existe en el sistema.");
-                    }
-                }
-                else
-                {
-                    dto.bancoCod = null;
-                    dto.esBancoCorrecto = true;
-
-                    dto.numeroCuentaBancaria = null;
-                    dto.esNumeroCuentaBancariaCorrecto = true;
-
-                    dto.tipoCuentaBancariaCod = null;
-                    dto.esTipoCtaBancariaCorrecta = true;
-                }
-                
-                if (!String.IsNullOrEmpty(dto.regimenPensionarioCod))
-                {
-                    if (listaRegimen.Exists(x => x.regimenCod == dto.regimenPensionarioCod.Trim()))
-                    {
-                        regimenDTO = listaRegimen.First(x => x.regimenCod == dto.regimenPensionarioCod.Trim());
-
-                        dto.regimenDesc = regimenDTO.regimenDesc;
-
-                        dto.regimenID = regimenDTO.regimenID;
-
-                        dto.esRegimenCorrecto = true;
-
-                        if (regimenDTO.regimenID == (int)RegimenPensionario.SPP)
-                        {
-                            if (String.IsNullOrEmpty(dto.afpCod))
-                            {
-                                dto.observaciones.Add("El código de AFP es obligatorio.");
-                            }
-                            else if (listaAfps.Exists(x => x.afpCod == dto.afpCod.Trim()))
-                            {
-                                dto.afpDesc = listaAfps.First(x => x.afpCod == dto.afpCod.Trim()).afpDesc;
-
-                                dto.afpID = listaAfps.First(x => x.afpCod == dto.afpCod.Trim()).afpID;
-
-                                dto.esAFPCorrecto = true;
-                            }
                             else
                             {
-                                dto.observaciones.Add("El código de AFP no existe en el sistema.");
-                            }
+                                dto.afpCod = null;
+                                dto.esAFPCorrecto = true;
 
-                            if (String.IsNullOrEmpty(dto.cuspp))
-                            {
-                                dto.observaciones.Add("El CUSPP es obligatorio.");
-                            }
-                            else if (dto.cuspp.Trim().Length > 0 && dto.cuspp.Trim().Length <= 20)
-                            {
+                                dto.cuspp = null;
                                 dto.esCusppCorrecto = true;
                             }
-                            else
+                        }
+                        else
+                        {
+                            dto.observaciones.Add("El código de Régimen Pensionario no existe en el sistema.");
+                        }
+                    }
+                    else
+                    {
+                        dto.regimenPensionarioCod = null;
+                        dto.esRegimenCorrecto = true;
+
+                        dto.afpCod = null;
+                        dto.esAFPCorrecto = true;
+
+                        dto.cuspp = null;
+                        dto.esCusppCorrecto = true;
+                    }
+
+                    if (!String.IsNullOrEmpty(dto.codigoPlaza))
+                    {
+                        if (dto.codigoPlaza.Trim().Length > 0 && dto.codigoPlaza.Trim().Length <= 6)
+                        {
+                            dto.esCodigoPlazaCorrecto = true;
+
+                            dto.esCodPlazaDuplicadoEnArchivo = lectura.Count(x => !String.IsNullOrEmpty(x.codigoPlaza) &&
+                                x.codigoPlaza.Trim() == dto.codigoPlaza.Trim()) > 1;
+
+                            if (dto.esCodPlazaDuplicadoEnArchivo)
                             {
-                                dto.observaciones.Add("La cantidad de caracteres del CUSPP es incorrecto.");
+                                dto.observaciones.Add("El Código de plaza se repite en el archivo.");
                             }
                         }
                         else
                         {
-                            dto.afpCod = null;
-                            dto.esAFPCorrecto = true;
-
-                            dto.cuspp = null;
-                            dto.esCusppCorrecto = true;
+                            dto.observaciones.Add("La cantidad de caracteres del Código de Plaza es incorreco.");
                         }
                     }
                     else
                     {
-                        dto.observaciones.Add("El código de Régimen Pensionario no existe en el sistema.");
-                    }
-                }
-                else
-                {
-                    dto.regimenPensionarioCod = null;
-                    dto.esRegimenCorrecto = true;
-
-                    dto.afpCod = null;
-                    dto.esAFPCorrecto = true;
-
-                    dto.cuspp = null;
-                    dto.esCusppCorrecto = true;
-                }
-
-                if (!String.IsNullOrEmpty(dto.codigoPlaza))
-                {
-                    if (dto.codigoPlaza.Trim().Length > 0 && dto.codigoPlaza.Trim().Length <= 6)
-                    {
+                        dto.codigoPlaza = null;
                         dto.esCodigoPlazaCorrecto = true;
+                    }
 
-                        dto.esCodPlazaDuplicadoEnArchivo = lectura.Count(x => !String.IsNullOrEmpty(x.codigoPlaza) &&
-                            x.codigoPlaza.Trim() == dto.codigoPlaza.Trim()) > 1;
+                    if (String.IsNullOrEmpty(dto.estadoTrabajadorCod))
+                    {
+                        dto.observaciones.Add("El campo Estado es obligatorio.");
+                    }
+                    else if (listaEstados.Exists(x => x.estadoCod == dto.estadoTrabajadorCod.Trim()))
+                    {
+                        dto.estadoTrabajadorDesc = listaEstados.First(x => x.estadoCod == dto.estadoTrabajadorCod.Trim())
+                                        .estadoDesc;
 
-                        if (dto.esCodPlazaDuplicadoEnArchivo)
-                        {
-                            dto.observaciones.Add("El Código de plaza se repite en el archivo.");
-                        }
+                        dto.estadoTrabajadorID = listaEstados.First(x => x.estadoCod == dto.estadoTrabajadorCod.Trim())
+                                        .estadoID;
+
+                        dto.esEstadoTrabajadorCorrecto = true;
                     }
                     else
                     {
-                        dto.observaciones.Add("La cantidad de caracteres del Código de Plaza es incorreco.");
+                        dto.observaciones.Add("El código del Estado del Trabajador no existe en el sistema.");
                     }
-                }
-                else
-                {
-                    dto.codigoPlaza = null;
-                    dto.esCodigoPlazaCorrecto = true;
-                }
 
-                if (String.IsNullOrEmpty(dto.estadoTrabajadorCod))
-                {
-                    dto.observaciones.Add("El campo Estado es obligatorio.");
-                }
-                else if (listaEstados.Exists(x => x.estadoCod == dto.estadoTrabajadorCod.Trim()))
-                {
-                    dto.estadoTrabajadorDesc = listaEstados.First(x => x.estadoCod == dto.estadoTrabajadorCod.Trim())
-                                    .estadoDesc;
-
-                    dto.estadoTrabajadorID = listaEstados.First(x => x.estadoCod == dto.estadoTrabajadorCod.Trim())
-                                    .estadoID;
-
-                    dto.esEstadoTrabajadorCorrecto = true;
-                }
-                else
-                {
-                    dto.observaciones.Add("El código del Estado del Trabajador no existe en el sistema.");
-                }
-
-                if (dto.esRegistroCasiCorrecto)
-                {
-                    var model = Mapper.TrabajadorModel(dto);
-
-                    var results = new List<ValidationResult>();
-
-                    var context = new ValidationContext(model, null, null);
-
-                    dto.esModelStateValid = Validator.TryValidateObject(model, context, results, true);
-
-                    if (!dto.esModelStateValid)
+                    if (dto.esTipoDocumentoCorrecto && dto.esNumDocumentoCorrecto && dto.esVinculoCorrecto && dto.operacion == Operacion.Actualizar)
                     {
-                        foreach (var error in results)
+                        var trabajador = _trabajadorCategoriaPlanillaService.ObtenerTrabajadorPorDocumentoYCategoria(dto.tipoDocumentoID.Value, dto.numDocumento, categoriaPlanillaID);
+
+                        if (trabajador != null)
                         {
-                            dto.observaciones.Add(error.ErrorMessage);
+                            dto.trabajadorID = trabajador.trabajadorID;
+                        }
+                        else
+                        {
+                            dto.esTrabajadorIDCorrecto = false;
+
+                            dto.observaciones.Add("El trabajador no existe en el sistema.");
                         }
                     }
-                    else
+
+                    if (dto.esRegistroCasiCorrecto)
                     {
-                        categoriaPlanillaID = (int)_trabajadorCategoriaPlanillaService.ObtenerCategoriaPlanillaSegunVinculo(dto.vinculoID.Value);
+                        var model = Mapper.TrabajadorModel(dto);
 
-                        if (_trabajadorService.EsNumeroDocumentoIdentidadDuplicado(dto.tipoDocumentoID.Value, dto.numDocumento, categoriaPlanillaID))
+                        var results = new List<ValidationResult>();
+
+                        var context = new ValidationContext(model, null, null);
+
+                        dto.esModelStateValid = Validator.TryValidateObject(model, context, results, true);
+
+                        if (!dto.esModelStateValid)
                         {
-                            dto.esNumDocIdentDuplicadoEnBD = true;
-
-                            dto.observaciones.Add("El Número de Documento de Identida se repite en el sistema.");
+                            foreach (var error in results)
+                            {
+                                dto.observaciones.Add(error.ErrorMessage);
+                            }
                         }
-                        
-                        if (_trabajadorService.EsCodigoPlazaDuplicado(dto.codigoPlaza))
+                        else
                         {
-                            dto.esCodPlazaDuplicadoEnBD = true;
+                            if (_trabajadorService.EsNumeroDocumentoIdentidadDuplicado(dto.tipoDocumentoID.Value, dto.numDocumento, categoriaPlanillaID, dto.trabajadorID))
+                            {
+                                dto.esNumDocIdentDuplicadoEnBD = true;
 
-                            dto.observaciones.Add("El Código de Plaza se repite en el sistema.");
+                                dto.observaciones.Add("El Número de Documento de Identida se repite en el sistema.");
+                            }
+
+                            if (_trabajadorService.EsCodigoPlazaDuplicado(dto.codigoPlaza, dto.trabajadorID))
+                            {
+                                dto.esCodPlazaDuplicadoEnBD = true;
+
+                                dto.observaciones.Add("El Código de Plaza se repite en el sistema.");
+                            }
                         }
                     }
                 }
