@@ -171,6 +171,8 @@ namespace WebApp.Models
                 estadoDesc = dto.estadoDesc,
                 vinculoID = dto.vinculoID,
                 vinculoDesc = dto.vinculoDesc,
+                regimenID = dto.regimenID,
+                regimenDesc = dto.regimenDesc,
                 trabajadorCategoriaPlanillaID = dto.trabajadorCategoriaPlanillaID,
                 categoriaPlanillaID = dto.categoriaPlanillaID,
                 categoriaPlanillaDesc = dto.categoriaPlanillaDesc,

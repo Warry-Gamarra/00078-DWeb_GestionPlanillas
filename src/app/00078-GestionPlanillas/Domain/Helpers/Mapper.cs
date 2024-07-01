@@ -378,6 +378,8 @@ namespace Domain.Helpers
                 estadoDesc = view.T_EstadoDesc,
                 vinculoID = view.I_VinculoID,
                 vinculoDesc = view.T_VinculoDesc,
+                regimenID = view.I_RegimenID,
+                regimenDesc = view.T_RegimenDesc,
                 trabajadorCategoriaPlanillaID = view.I_TrabajadorCategoriaPlanillaID,
                 categoriaPlanillaID = view.I_CategoriaPlanillaID,
                 categoriaPlanillaDesc = view.T_CategoriaPlanillaDesc,

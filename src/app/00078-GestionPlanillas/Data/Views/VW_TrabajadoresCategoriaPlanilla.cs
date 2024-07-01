@@ -39,6 +39,10 @@ namespace Data.Views
 
         public string T_VinculoDesc { get; set; }
 
+        public int I_RegimenID { get; set; }
+
+        public string T_RegimenDesc { get; set; }
+
         public int I_TrabajadorCategoriaPlanillaID { get; set; }
 
         public int I_CategoriaPlanillaID { get; set; }

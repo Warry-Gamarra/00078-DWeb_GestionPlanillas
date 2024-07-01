@@ -22,7 +22,7 @@ namespace WebApp.Models
 
         [DisplayName("Código de Plaza")]
         [CustomValidation(typeof(TrabajadorModel), "ValidarCodigoPlaza")]
-        [StringLength(6, ErrorMessage = "El {0} debe tener {1} caracteres.", MinimumLength = 6)]
+        [StringLength(6, ErrorMessage = "El {0} debe tener {1} dígitos.", MinimumLength = 6)]
         public string codigoPlaza { get; set; }
 
         public int personaID { get; set; }

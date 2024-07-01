@@ -55,6 +55,10 @@ namespace WebApp.Models
 
         public string vinculoDesc { get; set; }
 
+        public int regimenID { get; set; }
+
+        public string regimenDesc { get; set; }
+
         public int trabajadorCategoriaPlanillaID { get; set; }
 
         [DisplayName("Planilla")]
