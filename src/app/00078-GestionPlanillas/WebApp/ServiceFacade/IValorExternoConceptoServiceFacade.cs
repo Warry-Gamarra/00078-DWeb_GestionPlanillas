@@ -24,5 +24,7 @@ namespace WebApp.ServiceFacade
         Response Eliminar(int conceptoExternoValorID, int userID);
 
         FileContent ObtenerResultadoLectura(FormatoArchivo formatoArchivo, string fileName);
+
+        bool? EsValorFijo(int plantillaPlanillaID, int conceptoID, int? filtro1, int? filtro2);
     }
 }

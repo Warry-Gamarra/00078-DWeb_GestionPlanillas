@@ -478,5 +478,10 @@ namespace WebApp.ServiceFacade.Implementations
 
             return lecturaProcesada;
         }
+
+        public bool? EsValorFijo(int plantillaPlanillaID, int conceptoID, int? filtro1, int? filtro2)
+        {
+            return _valorExternoConceptoService.EsValorFijo(plantillaPlanillaID, conceptoID, filtro1, filtro2);
+        }
     }
 }

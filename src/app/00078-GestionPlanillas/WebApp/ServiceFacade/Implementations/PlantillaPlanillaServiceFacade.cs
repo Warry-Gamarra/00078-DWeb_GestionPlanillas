@@ -77,6 +77,24 @@ namespace WebApp.ServiceFacade.Implementations
             return plantillaPlanillaModel;
         }
 
+        public PlantillaPlanillaModel ObtenerPlantillaPlanillaPorCategoria(int categoriaPlanillaID)
+        {
+            PlantillaPlanillaModel plantillaPlanillaModel;
+
+            var plantillaPlanillaDTO = _plantillaPlanillaService.ObtenerPlantillaPlanillaPorCategoria(categoriaPlanillaID);
+
+            if (plantillaPlanillaDTO == null)
+            {
+                plantillaPlanillaModel = null;
+            }
+            else
+            {
+                plantillaPlanillaModel = Mapper.PlantillaPlanillaDTO_To_PlantillaPlanillaModel(plantillaPlanillaDTO);
+            }
+
+            return plantillaPlanillaModel;
+        }
+
         public Response CambiarEstado(int plantillaPlanillaID, bool estaHabilitado, int userID)
         {
             var plantillaPlanillaActua1 = _plantillaPlanillaService.ObtenerPlantillaPlanilla(plantillaPlanillaID);

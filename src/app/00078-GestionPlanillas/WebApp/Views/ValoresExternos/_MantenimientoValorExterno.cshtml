@@ -95,7 +95,7 @@
         <div class="form-row">
             <div class="col-12">
                 <div class="form-group">
-                    <label class="control-label" for="valorConcepto">Valor</label>
+                    <label class="control-label" for="valorConcepto">@ViewBag.TipoValor</label>
                     @if (Model.tienePlanilla)
                     {
                         @Html.TextBoxFor(model => model.valorConcepto, new { @class = "form-control", @disabled = "disabled" })

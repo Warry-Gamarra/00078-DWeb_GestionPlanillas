@@ -102,5 +102,37 @@ namespace Data.Views
 
             return result;
         }
+
+        public static bool? EsValorFijo(int I_PlantillaPlanillaID, int I_ConceptoID, int? I_Filtro1, int? I_Filtro2)
+        {
+            bool? B_EsValorFijo;
+
+            try
+            {
+                using (var _dbConnection = new SqlConnection(Database.ConnectionString))
+                {
+                    var parameters = new DynamicParameters();
+                    parameters.Add("@I_PlantillaPlanillaID", I_PlantillaPlanillaID);
+                    parameters.Add("@I_ConceptoID", I_ConceptoID);
+                    parameters.Add("@I_Filtro1", I_Filtro1);
+                    parameters.Add("@I_Filtro2", I_Filtro2);
+                    parameters.Add("@I_PlantillaPlanillaConceptoID", dbType: DbType.Int32, direction: ParameterDirection.Output);
+                    parameters.Add("@B_EsValorFijo", dbType: DbType.Boolean, direction: ParameterDirection.Output);
+                    parameters.Add("@B_ValorEsExterno", dbType: DbType.Boolean, direction: ParameterDirection.Output);
+                    parameters.Add("@M_ValorConcepto", dbType: DbType.Decimal, direction: ParameterDirection.Output);
+                    parameters.Add("@B_ConceptoObtenido", dbType: DbType.Boolean, direction: ParameterDirection.Output);
+
+                    _dbConnection.Execute("USP_S_ObtenerParametros_PlantillaPlanilla", parameters, commandType: CommandType.StoredProcedure);
+
+                    B_EsValorFijo = parameters.Get<bool?>("@B_EsValorFijo");
+                    
+                    return B_EsValorFijo;
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
     }
 }

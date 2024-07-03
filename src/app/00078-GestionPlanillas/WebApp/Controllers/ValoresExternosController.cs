@@ -19,12 +19,16 @@ namespace WebApp.Controllers
         private IValorExternoConceptoServiceFacade _valorExternoConceptoServiceFacade;
         private IPeriodoServiceFacade _periodoServiceFacade;
         private ICategoriaPlanillaServiceFacade _categoriaPlanillaServiceFacade;
+        private ITrabajadorServiceFacade _tabajadorServiceFacade;
+        private IPlantillaPlanillaServiceFacade _plantillaPlanillaServiceFacade;
 
         public ValoresExternosController()
         {
             _valorExternoConceptoServiceFacade = new ValorExternoConceptoServiceFacade();
             _periodoServiceFacade = new PeriodoServiceFacade();
             _categoriaPlanillaServiceFacade = new CategoriaPlanillaServiceFacade();
+            _tabajadorServiceFacade = new TrabajadorServiceFacade();
+            _plantillaPlanillaServiceFacade = new PlantillaPlanillaServiceFacade();
         }
 
         [HttpGet]
@@ -146,6 +150,30 @@ namespace WebApp.Controllers
             ViewBag.Action = "Actualizar";
 
             var valorExterno = _valorExternoConceptoServiceFacade.ObtenerValorExterno(id);
+
+            var trabajador = _tabajadorServiceFacade.ObtenerTrabajador(valorExterno.trabajadorID);
+
+            int? filtro1 = null, filtro2 = null;
+
+            if (trabajador.Vinculo.Equals(Vinculo.AdministrativoPermanente) || trabajador.Vinculo.Equals(Vinculo.AdministrativoContratado))
+            {
+                filtro1 = trabajador.grupoOcupacionalID;
+
+                filtro2 = trabajador.nivelRemunerativoID;
+            }
+            else if (trabajador.Vinculo.Equals(Vinculo.DocentePermanente) || trabajador.Vinculo.Equals(Vinculo.DocenteContratado))
+            {
+                filtro1 = trabajador.categoriaDocenteID;
+
+                filtro2 = trabajador.horasDocenteID;
+            }
+
+            var plantillaPlanilla = _plantillaPlanillaServiceFacade.ObtenerPlantillaPlanillaPorCategoria(valorExterno.categoriaPlanillaID);
+
+            var esValorFijo = _valorExternoConceptoServiceFacade.EsValorFijo((plantillaPlanilla == null ? 0 : plantillaPlanilla.plantillaPlanillaID.Value), 
+                valorExterno.conceptoID, filtro1, filtro2);
+
+            ViewBag.TipoValor = esValorFijo.HasValue ? (esValorFijo.Value ? "Valor Fijo (S/.)" : "Valor Porcentual (%)") : "Tipo de valor sin definir";
 
             return PartialView("_MantenimientoValorExterno", valorExterno);
         }

@@ -147,6 +147,24 @@ namespace Domain.Services.Implementations
             return plantillaPlanillaDTO;
         }
 
+        public PlantillaPlanillaDTO ObtenerPlantillaPlanillaPorCategoria(int categoriaPlanillaID)
+        {
+            PlantillaPlanillaDTO plantillaPlanillaDTO;
+
+            var view = VW_PlantillasPlanilla.FindByCategoriaID(categoriaPlanillaID);
+
+            if (view == null)
+            {
+                plantillaPlanillaDTO = null;
+            }
+            else
+            {
+                plantillaPlanillaDTO = Mapper.VW_PlantillasPlanilla_To_PlantillaPlanillaDTO(view);
+            }
+
+            return plantillaPlanillaDTO;
+        }
+
         public Response CambiarEstado(int plantillaPlanillaID, bool estaHabilitado, int userID)
         {
             Result result;

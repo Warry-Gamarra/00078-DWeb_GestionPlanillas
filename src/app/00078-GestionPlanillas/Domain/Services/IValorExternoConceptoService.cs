@@ -19,5 +19,7 @@ namespace Domain.Services
         Response ActualizarValorExternoConcepto(int conceptoExternoValorID, decimal valorConcepto, int userID);
 
         Response Eliminar(int conceptoExternoValorID, int userID);
+
+        bool? EsValorFijo(int plantillaPlanillaID, int conceptoID, int? filtro1, int? filtro2);
     }
 }

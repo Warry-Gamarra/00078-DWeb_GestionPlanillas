@@ -66,5 +66,26 @@ namespace Data.Views
 
             return result;
         }
+
+        public static VW_PlantillasPlanilla FindByCategoriaID(int I_CategoriaPlanillaID)
+        {
+            VW_PlantillasPlanilla result;
+
+            try
+            {
+                string s_command = "SELECT * FROM dbo.VW_PlantillasPlanilla WHERE B_Habilitado = 1 AND I_CategoriaPlanillaID = @I_CategoriaPlanillaID;";
+
+                using (var _dbConnection = new SqlConnection(Database.ConnectionString))
+                {
+                    result = _dbConnection.QueryFirst<VW_PlantillasPlanilla>(s_command, new { I_CategoriaPlanillaID = I_CategoriaPlanillaID }, commandType: System.Data.CommandType.Text);
+                }
+            }
+            catch (Exception)
+            {
+                result = null;
+            }
+
+            return result;
+        }
     }
 }

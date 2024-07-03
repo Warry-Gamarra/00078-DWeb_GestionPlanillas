@@ -17,6 +17,8 @@ namespace Domain.Services
 
         PlantillaPlanillaDTO ObtenerPlantillaPlanilla(int plantillaPlanillaID);
 
+        PlantillaPlanillaDTO ObtenerPlantillaPlanillaPorCategoria(int categoriaPlanillaID);
+
         Response CambiarEstado(int plantillaPlanillaID, bool estaHabilitado, int userID);
     }
 }

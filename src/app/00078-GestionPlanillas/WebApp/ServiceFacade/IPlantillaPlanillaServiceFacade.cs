@@ -18,6 +18,8 @@ namespace WebApp.ServiceFacade
 
         PlantillaPlanillaModel ObtenerPlantillaPlanilla(int plantillaPlanillaID);
 
+        PlantillaPlanillaModel ObtenerPlantillaPlanillaPorCategoria(int categoriaPlanillaID);
+        
         Response CambiarEstado(int plantillaPlanillaID, bool estaHabilitado, int userID);
     }
 }

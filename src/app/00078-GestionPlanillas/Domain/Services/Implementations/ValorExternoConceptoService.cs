@@ -187,5 +187,10 @@ namespace Domain.Services.Implementations
 
             return Mapper.Result_To_Response(result);
         }
+
+        public bool? EsValorFijo(int plantillaPlanillaID, int conceptoID, int? filtro1, int? filtro2)
+        {
+            return VW_ValoresExternos.EsValorFijo(plantillaPlanillaID, conceptoID, filtro1, filtro2);
+        }
     }
 }
