@@ -171,6 +171,31 @@
                             e.stopPropagation();
                         });
                     });
+
+                    this.api().columns([6]).every(function () {
+                        let column = this;
+
+                        let select = document.createElement('select');
+                        select.add(new Option('Régimen', ''));
+                        column.footer().replaceChildren(select);
+
+                        select.addEventListener('change', function () {
+                            var val = $.fn.dataTable.util.escapeRegex(select.value);
+                            column.search(val ? '^' + val + '$' : '', true, false).draw();
+                        });
+
+                        column.data().unique().sort().each(function (d, j) {
+                            if (column.search() === '^' + d + '$') {
+                                select.add(new Option(d, d, true, true));
+                            } else {
+                                select.add(new Option(d, d));
+                            }
+                        });
+
+                        $(select).click(function (e) {
+                            e.stopPropagation();
+                        });
+                    });
                 }
             });
         }
