@@ -48,7 +48,7 @@
 
                 <div class="table-responsive mt-4">
                     <p class="h5">Relación de trabajadores registrados en el sistema</p>
-                    
+
                     <div id="divBtnGenerar" class="form-group col-lg-2 col-4 pl-0" style="display: none;">
                         <button type="button" id="btnGenerar" class="btn btn-block btn-outline-primary"><i class="fa fa-fw fa-cogs"></i> Generar Planilla</button>
                     </div>
@@ -81,6 +81,12 @@
                             </tr>
                         </tfoot>
                     </table>
+                </div>
+
+                <div class="row" id="divDescargaExcel">
+                    <div class="col-lg-12">
+                        <button type="button" id="btnExcelDescargar" class="btn btn-link pl-0">Descargar información en Excel [.xlsx]</button>
+                    </div>
                 </div>
             </div>
         </div>
@@ -140,6 +146,11 @@
                         mostrarMensajeSistema(thrownError, MENSAJE.ERROR);
                     }
                 });
+            });
+
+            $(document).on("click", "#btnExcelDescargar", function (e) {
+                document.forms.frmBusquedaTrabajador.action = "@Url.Action("DescargaTrabajadoresParaPlanilla", "Reportes")";
+                document.forms.frmBusquedaTrabajador.submit();
             });
         });
 
@@ -226,11 +237,13 @@
                 initComplete: function (settings, json) {
                     var api = this.api();
                     var numRows = api.rows().count();
-                    
+
                     if (numRows > 0) {
                         $('#divBtnGenerar').css('display', 'block');
+                        $('#divDescargaExcel').css('display', 'flex');
                     } else {
                         $('#divBtnGenerar').css('display', 'none');
+                        $('#divDescargaExcel').css('display', 'none');
                     }
                 }
             });

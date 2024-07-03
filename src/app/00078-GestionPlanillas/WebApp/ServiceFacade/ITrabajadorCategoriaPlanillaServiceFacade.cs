@@ -16,6 +16,8 @@ namespace WebApp.ServiceFacade
 
         List<TrabajadorCategoriaPlanillaModel> ListarTrabajadoresAptos(int anio, int mes, int categoriaPlanillaID);
 
+        FileContent ListarTrabajadoresAptos(int año, int mes, int categoriaPlanillaID, FormatoArchivo formatoArchivo);
+
         List<TrabajadorCategoriaPlanillaModel> ListarTrabajadoresAsignadosCategoria(int categoriaPlanillaID);
 
         TrabajadorCategoriaPlanillaModel ObtenerTrabajadorCategoriaPlanilla(int trabajadorCategoriaPlanillaID);
@@ -24,6 +26,6 @@ namespace WebApp.ServiceFacade
 
         Response Eliminar(int trabajadorCategoriaPlanillaID, int userID);
 
-        CategoriaPlanilla ObtenerCategoriaPlanillaSegunVinculo(int vinculoID);
+        CategoriaPlanilla ObtenerCategoriaPlanillaSegunVinculo(int vinculoID);       
     }
 }

@@ -170,6 +170,7 @@ namespace WebApp.Models
                 estadoID = dto.estadoID,
                 estadoDesc = dto.estadoDesc,
                 vinculoID = dto.vinculoID,
+                vinculoCod = dto.vinculoCod,
                 vinculoDesc = dto.vinculoDesc,
                 regimenID = dto.regimenID,
                 regimenDesc = dto.regimenDesc,

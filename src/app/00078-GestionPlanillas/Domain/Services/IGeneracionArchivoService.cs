@@ -27,5 +27,7 @@ namespace Domain.Services
         FileContent GenerarDescargableDetallePlanillaTrabajadores(ReporteDetallePlanillaTrabajadorDTO reporte);
 
         FileContent GenerarDescargableDeLecturaCargaDeTrabajadores(List<TrabajadorLecturaProcesadoDTO> lista);
+
+        FileContent GenerarDescargableTrabajadoresAptos(IEnumerable<TrabajadorCategoriaPlanillaDTO> data, int año, string mesDesc);
     }
 }

@@ -20,6 +20,7 @@ namespace WebApp.Controllers
         private ICategoriaPlanillaServiceFacade _categoriaPlanillaServiceFacade;
         private IPeriodoServiceFacade _periodoServiceFacade;
         private ITrabajadorServiceFacade _trabajadorServiceFacade;
+        private ITrabajadorCategoriaPlanillaServiceFacade _trabajadorCategoriaPlanillasServiceFacade;
 
         public ReportesController()
         {
@@ -27,6 +28,7 @@ namespace WebApp.Controllers
             _categoriaPlanillaServiceFacade = new CategoriaPlanillaServiceFacade();
             _periodoServiceFacade = new PeriodoServiceFacade();
             _trabajadorServiceFacade = new TrabajadorServiceFacade();
+            _trabajadorCategoriaPlanillasServiceFacade = new TrabajadorCategoriaPlanillaServiceFacade();
         }
 
         [HttpGet]
@@ -303,6 +305,28 @@ namespace WebApp.Controllers
             try
             {
                 fileContent = _planillaServiceFacade.ObtenerReporteDetallePlanillaTrabajadores(anio, mes, idCategoria, FormatoArchivo.XLSX);
+
+                return File(fileContent.fileContent, fileContent.contentType, fileContent.fileName);
+            }
+            catch (Exception ex)
+            {
+                errorMessage = ex.Message;
+            }
+
+            ViewBag.ErrorMessage = errorMessage;
+
+            return View();
+        }
+
+        [HttpGet]
+        public ActionResult DescargaTrabajadoresParaPlanilla(int anio, int mes, int idCategoria)
+        {
+            FileContent fileContent;
+            string errorMessage;
+
+            try
+            {
+                fileContent = _trabajadorCategoriaPlanillasServiceFacade.ListarTrabajadoresAptos(anio, mes, idCategoria, FormatoArchivo.XLSX);
 
                 return File(fileContent.fileContent, fileContent.contentType, fileContent.fileName);
             }

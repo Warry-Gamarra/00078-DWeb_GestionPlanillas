@@ -208,7 +208,7 @@ namespace Domain.Services.Implementations
                     worksheet.Cell(currentRow, 1).SetValue<string>(item.categoriaPlanillaDesc);
                     worksheet.Cell(currentRow, 2).SetValue<string>(item.anio.ToString());
                     worksheet.Cell(currentRow, 3).SetValue<string>(item.mesDesc);
-                    worksheet.Cell(currentRow, 4).SetValue<string>(item.estadoDesc);
+                    worksheet.Cell(currentRow, 4).SetValue<string>(item.trabajadorCod);
                     worksheet.Cell(currentRow, 5).SetValue<string>(item.tipoDocumentoDesc);
                     worksheet.Cell(currentRow, 6).SetValue<string>(item.numDocumento);
                     worksheet.Cell(currentRow, 7).SetValue<string>(String.Format("{0} {1}, {2}", item.apellidoPaterno, item.apellidoMaterno, item.nombre));
@@ -872,6 +872,86 @@ namespace Domain.Services.Implementations
                         fileContent = content,
                         contentType = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
                         fileName = "Resultado de la lectura de archivo de trabajadores.xlsx"
+                    };
+
+                    return fileContent;
+                }
+            }
+        }
+
+        public FileContent GenerarDescargableTrabajadoresAptos(IEnumerable<TrabajadorCategoriaPlanillaDTO> data, int año, string mesDesc)
+        {
+            FileContent fileContent;
+            string nomArchivo;
+            int currentRow = 1;
+
+            using (var workbook = new XLWorkbook())
+            {
+                var worksheet = workbook.Worksheets.Add("Hoja1");
+
+                worksheet.Column("A").Width = 35;
+                worksheet.Column("F").Width = 20;
+                worksheet.Column("G").Width = 35;
+                worksheet.Column("I").Width = 35;
+                worksheet.Column("K").Width = 45;
+                worksheet.Columns("L:M").Width = 20;
+
+                worksheet.Cell(currentRow, 1).SetValue<string>("Planilla");
+                worksheet.Cell(currentRow, 2).SetValue<string>("Año");
+                worksheet.Cell(currentRow, 3).SetValue<string>("Mes");
+                worksheet.Cell(currentRow, 4).SetValue<string>("Cod.Trabajador");
+                worksheet.Cell(currentRow, 5).SetValue<string>("Tip.Doc.");
+                worksheet.Cell(currentRow, 6).SetValue<string>("Num.Doc.");
+                worksheet.Cell(currentRow, 7).SetValue<string>("Apellidos y Nombres");
+                worksheet.Cell(currentRow, 8).SetValue<string>("Cod.Vínculo");
+                worksheet.Cell(currentRow, 9).SetValue<string>("Vínculo");
+                worksheet.Cell(currentRow, 10).SetValue<string>("Cod.Dependencia");
+                worksheet.Cell(currentRow, 11).SetValue<string>("Dependencia");
+                worksheet.Cell(currentRow, 12).SetValue<string>("Estado Trabajador");
+                worksheet.Cell(currentRow, 13).SetValue<string>("Estado Planilla");
+                
+                worksheet.Range(worksheet.Cell(1, 1), worksheet.Cell(currentRow, 13)).Style.Font.Bold = true;
+
+                foreach (var item in data)
+                {
+                    currentRow++;
+
+                    worksheet.Cell(currentRow, 1).SetValue<string>(item.categoriaPlanillaDesc);
+                    worksheet.Cell(currentRow, 2).SetValue<string>(año.ToString());
+                    worksheet.Cell(currentRow, 3).SetValue<string>(mesDesc);
+                    worksheet.Cell(currentRow, 4).SetValue<string>(item.trabajadorCod);
+                    worksheet.Cell(currentRow, 5).SetValue<string>(item.tipoDocumentoDesc);
+                    worksheet.Cell(currentRow, 6).SetValue<string>(item.numDocumento);
+                    worksheet.Cell(currentRow, 7).SetValue<string>(String.Format("{0} {1}, {2}", item.apellidoPaterno, item.apellidoMaterno, item.nombre));
+                    worksheet.Cell(currentRow, 8).SetValue<string>(item.vinculoCod);
+                    worksheet.Cell(currentRow, 9).SetValue<string>(item.vinculoDesc);
+                    worksheet.Cell(currentRow, 10).SetValue<string>(item.dependenciaCod);
+                    worksheet.Cell(currentRow, 11).SetValue<string>(item.dependenciaDesc);
+                    worksheet.Cell(currentRow, 12).SetValue<string>(item.estadoDesc);
+                    worksheet.Cell(currentRow, 13).SetValue<string>(item.tienePlanilla ? "Planilla generada" : "Sin planilla");
+                }
+
+                if (data.Count() > 0)
+                {
+                    nomArchivo = String.Format("Lista de trabajadores para generar planilla {0} {1}-{2}.xlsx",
+                        data.First().categoriaPlanillaDesc, año, mesDesc);
+                }
+                else
+                {
+                    nomArchivo = String.Format("Lista de trabajadores para generar planilla {0}-{1}.xlsx", año, mesDesc);
+                }
+
+                using (var stream = new MemoryStream())
+                {
+                    workbook.SaveAs(stream);
+
+                    var content = stream.ToArray();
+
+                    fileContent = new FileContent()
+                    {
+                        fileContent = content,
+                        contentType = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+                        fileName = nomArchivo
                     };
 
                     return fileContent;

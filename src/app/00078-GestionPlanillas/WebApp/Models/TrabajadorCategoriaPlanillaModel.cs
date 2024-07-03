@@ -53,6 +53,8 @@ namespace WebApp.Models
 
         public int vinculoID { get; set; }
 
+        public string vinculoCod { get; set; }
+
         public string vinculoDesc { get; set; }
 
         public int regimenID { get; set; }

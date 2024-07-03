@@ -37,6 +37,8 @@ namespace Data.Views
 
         public int I_VinculoID { get; set; }
 
+        public string C_VinculoCod { get; set; }
+
         public string T_VinculoDesc { get; set; }
 
         public int I_RegimenID { get; set; }

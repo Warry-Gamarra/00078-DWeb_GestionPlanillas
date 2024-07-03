@@ -34,6 +34,8 @@ namespace Domain.Entities
 
         public int vinculoID { get; set; }
 
+        public string vinculoCod { get; set; }
+
         public string vinculoDesc { get; set; }
 
         public int regimenID { get; set; }
@@ -63,5 +65,7 @@ namespace Domain.Entities
         public bool estaHabilitado { get; set; }
 
         public bool esJefe { get; set; }
+
+        public bool tienePlanilla { get; set; }
     }
 }

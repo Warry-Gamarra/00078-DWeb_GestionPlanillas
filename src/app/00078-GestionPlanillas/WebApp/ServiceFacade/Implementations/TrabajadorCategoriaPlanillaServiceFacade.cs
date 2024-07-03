@@ -15,11 +15,13 @@ namespace WebApp.ServiceFacade.Implementations
     {
         private ITrabajadorCategoriaPlanillaService _trabajadorCategoriaPlanillaService;
         private IPlanillaService _planillaService;
+        private IPeriodoService _periodoService;
 
         public TrabajadorCategoriaPlanillaServiceFacade()
         {
             _trabajadorCategoriaPlanillaService = new TrabajadorCategoriaPlanillaService();
             _planillaService = new PlanillaService();
+            _periodoService = new PeriodoService();
         }
 
         public Response GrabarTrabajadorCategoriaPlanilla(Operacion operacion, TrabajadorCategoriaPlanillaModel model, int userID)
@@ -73,6 +75,35 @@ namespace WebApp.ServiceFacade.Implementations
             });
 
             return lista;
+        }
+
+        public FileContent ListarTrabajadoresAptos(int año, int mes, int categoriaPlanillaID, FormatoArchivo formatoArchivo)
+        {
+            IGeneracionArchivoService generacionArchivoService;
+            FileContent fileContent;
+
+            try
+            {
+                var listaTrabajadoresConPlanilla = _planillaService.ListarResumenPlanillaTrabajadores(año, mes, categoriaPlanillaID);
+
+                var data = _trabajadorCategoriaPlanillaService.ListarTrabajadoresCategoriaPlanilla(categoriaPlanillaID)
+                    .Where(x => x.estaHabilitado)
+                    .ToList();
+
+                data.ForEach(x => {
+                    x.tienePlanilla = listaTrabajadoresConPlanilla.Any(y => y.trabajadorCategoriaPlanillaID == x.trabajadorCategoriaPlanillaID);
+                });
+
+                generacionArchivoService = FileManagement.GetGeneracionArchivoService(formatoArchivo);
+
+                fileContent = generacionArchivoService.GenerarDescargableTrabajadoresAptos(data, año, _periodoService.ObtenerMesDesc(mes));
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+
+            return fileContent;
         }
 
         public List<TrabajadorCategoriaPlanillaModel> ListarTrabajadoresAsignadosCategoria(int categoriaPlanillaID)

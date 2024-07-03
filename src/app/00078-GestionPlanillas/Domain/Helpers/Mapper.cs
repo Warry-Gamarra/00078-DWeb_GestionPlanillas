@@ -377,6 +377,7 @@ namespace Domain.Helpers
                 estadoID = view.I_EstadoID,
                 estadoDesc = view.T_EstadoDesc,
                 vinculoID = view.I_VinculoID,
+                vinculoCod = view.C_VinculoCod,
                 vinculoDesc = view.T_VinculoDesc,
                 regimenID = view.I_RegimenID,
                 regimenDesc = view.T_RegimenDesc,
