@@ -272,9 +272,27 @@
                     }
                 },
                 {
+                    targets: 4,
+                    render: function (data, type, row) {
+                        return data === '*' ? '' : data;
+                    }
+                },
+                {
+                    targets: 6,
+                    render: function (data, type, row) {
+                        return data === '*' ? '' : data;
+                    }
+                },
+                {
                     targets: 7,
                     render: function (data, type, row) {
                         return row.esSexoCorrecto ? row.sexoDesc : data;
+                    }
+                },
+                {
+                    targets: 8,
+                    render: function (data, type, row) {
+                        return data === '*' ? '' : data;
                     }
                 },
                 {
@@ -299,6 +317,12 @@
                     targets: 13,
                     render: function (data, type, row) {
                         return row.esDedicacionDocenteCorrecta ? row.dedicacionDocenteDesc : data;
+                    }
+                },
+                {
+                    targets: 15,
+                    render: function (data, type, row) {
+                        return row.esFechaIngresoCorrecto && data != null ? data.substring(0,10) : data;
                     }
                 },
                 {
