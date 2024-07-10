@@ -36,6 +36,7 @@ namespace WebApp.Models
                 estadoID = dto.estadoID,
                 estadoDesc = dto.estadoDesc,
                 vinculoID = dto.vinculoID,
+                vinculoCod = dto.vinculoCod,
                 vinculoDesc = dto.vinculoDesc,
                 dependenciaID = dto.dependenciaID,
                 dependenciaCod = dto.dependenciaCod,
@@ -45,7 +46,8 @@ namespace WebApp.Models
                 tipoCuentaBancariaDesc = dto.tipoCuentaBancariaDesc,
                 bancoID = dto.bancoID,
                 bancoDesc = dto.bancoDesc,
-                bancoAbrv = dto.bancoAbrv
+                bancoAbrv = dto.bancoAbrv,
+                tipoDocumentoCod = dto.tipoDocumentoCod
             };
 
             return model;
@@ -323,7 +325,12 @@ namespace WebApp.Models
                 tipoConceptoDesc = dto.tipoConceptoDesc,
                 valorConcepto = dto.valorConcepto,
                 proveedorID = dto.proveedorID,
-                proveedorDesc = dto.proveedorDesc
+                proveedorDesc = dto.proveedorDesc,
+                trabajadorCod = dto.trabajadorCod,
+                vinculoCod = dto.vinculoCod,
+                vinculoDesc = dto.vinculoDesc,
+                estadoDesc = dto.estadoDesc,
+                tipoDocumentoCod = dto.tipoDocumentoCod
             };
 
             return model;

@@ -150,6 +150,62 @@ namespace WebApp.ServiceFacade.Implementations
             return lista;
         }
 
+        public FileContent ListarValoresExternos(int anio, int mes, int categoriaPlanillaID, FormatoArchivo formatoArchivo)
+        {
+            IGeneracionArchivoService generacionArchivoService;
+            FileContent fileContent;
+
+            try
+            {
+                var listaTrabajadoresConPlanilla = _planillaService.ListarResumenPlanillaTrabajadores(anio, mes, categoriaPlanillaID);
+
+                var lista = _valorExternoConceptoService.ListarValoresExternosConceptos(anio, mes, categoriaPlanillaID)
+                    .ToList();
+
+                lista.ForEach(x => {
+                    x.tienePlanilla = listaTrabajadoresConPlanilla.Any(y => y.trabajadorID == x.trabajadorID);
+                });
+
+                generacionArchivoService = FileManagement.GetGeneracionArchivoService(formatoArchivo);
+
+                fileContent = generacionArchivoService.GenerarDescargableInformacionExterna(lista, anio, _periodoService.ObtenerMesDesc(mes));
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+
+            return fileContent;
+        }
+
+        public FileContent DescargarFormatoValoresExternosRegistrados(int anio, int mes, int categoriaPlanillaID, FormatoArchivo formatoArchivo)
+        {
+            IGeneracionArchivoService generacionArchivoService;
+            FileContent fileContent;
+
+            try
+            {
+                var listaTrabajadoresConPlanilla = _planillaService.ListarResumenPlanillaTrabajadores(anio, mes, categoriaPlanillaID);
+
+                var lista = _valorExternoConceptoService.ListarValoresExternosConceptos(anio, mes, categoriaPlanillaID)
+                    .ToList();
+
+                lista.ForEach(x => {
+                    x.tienePlanilla = listaTrabajadoresConPlanilla.Any(y => y.trabajadorID == x.trabajadorID);
+                });
+
+                generacionArchivoService = FileManagement.GetGeneracionArchivoService(formatoArchivo);
+
+                fileContent = generacionArchivoService.GenerarDescargableInformacionExterna(lista, anio, _periodoService.ObtenerMesDesc(mes), mes);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+
+            return fileContent;
+        }
+
         public ValorExternoConceptoModel ObtenerValorExterno(int conceptoExternoValorID)
         {
             ValorExternoConceptoModel model;
@@ -266,7 +322,7 @@ namespace WebApp.ServiceFacade.Implementations
                 {
                     anio = item.anio,
                     mes = item.mes,
-                    tipoDocumentoID = item.tipoDocumentoID,
+                    tipoDocumentoCod = item.tipoDocumentoCod,
                     numDocumento = item.numDocumento,
                     categoriaPlanillaID = item.categoriaPlanillaID,
                     conceptoCod = item.conceptoCod,
@@ -275,7 +331,7 @@ namespace WebApp.ServiceFacade.Implementations
                 };
 
                 dto.esDuplicadoEnArchivo = (lectura.Count(x => x.anio == item.anio && x.anio == item.anio &&
-                    x.tipoDocumentoID == item.tipoDocumentoID && x.numDocumento == item.numDocumento && x.categoriaPlanillaID == item.categoriaPlanillaID &&
+                    x.tipoDocumentoCod == item.tipoDocumentoCod && x.numDocumento == item.numDocumento && x.categoriaPlanillaID == item.categoriaPlanillaID &&
                     x.conceptoCod == item.conceptoCod) > 1);
 
                 if (dto.esDuplicadoEnArchivo)
@@ -323,9 +379,11 @@ namespace WebApp.ServiceFacade.Implementations
                     }
                 }
 
-                if (dto.tipoDocumentoID.HasValue && listaTipoDocumento.Exists(x => x.tipoDocumentoID == dto.tipoDocumentoID.Value))
+                if (!String.IsNullOrWhiteSpace(dto.tipoDocumentoCod) && listaTipoDocumento.Exists(x => x.tipoDocumentoCod == dto.tipoDocumentoCod))
                 {
-                    dto.tipoDocumentoDesc = listaTipoDocumento.First(x => x.tipoDocumentoID == dto.tipoDocumentoID.Value).tipoDocumentoDesc;
+                    dto.tipoDocumentoDesc = listaTipoDocumento.First(x => x.tipoDocumentoCod == dto.tipoDocumentoCod).tipoDocumentoDesc;
+
+                    dto.tipoDocumentoID = listaTipoDocumento.First(x => x.tipoDocumentoCod == dto.tipoDocumentoCod).tipoDocumentoID;
 
                     dto.esTipoDocumentoCorrecto = true;
                 }
@@ -360,13 +418,13 @@ namespace WebApp.ServiceFacade.Implementations
 
                 if (dto.esTipoDocumentoCorrecto && dto.esNumDocumentoCorrecto && dto.esCategoriaPlanillaCorrecto)
                 {
-                    personaDTO = _personaService.ObtenerPersona(dto.tipoDocumentoID.Value, dto.numDocumento);
+                    personaDTO = _personaService.ObtenerPersona(dto.tipoDocumentoID, dto.numDocumento);
 
                     if (personaDTO != null)
                     {
                         dto.datosPersona = String.Format("{0} {1} {2}", personaDTO.apellidoPaterno, personaDTO.apellidoMaterno, personaDTO.nombre);
 
-                        trabajadorDTO = _trabajadorCategoriaPlanillaService.ObtenerTrabajadorPorDocumentoYCategoria(dto.tipoDocumentoID.Value, dto.numDocumento, dto.categoriaPlanillaID.Value);
+                        trabajadorDTO = _trabajadorCategoriaPlanillaService.ObtenerTrabajadorPorDocumentoYCategoria(dto.tipoDocumentoID, dto.numDocumento, dto.categoriaPlanillaID.Value);
 
                         if (trabajadorDTO != null)
                         {

@@ -50,6 +50,8 @@ namespace Domain.Entities
 
         public int vinculoID { get; set; }
 
+        public string vinculoCod {  get; set; }
+
         public string vinculoDesc { get; set; }
 
         public int? trabajadorDependenciaID { get; set; }
@@ -73,5 +75,7 @@ namespace Domain.Entities
         public string bancoDesc { get; set; }
 
         public string bancoAbrv { get; set; }
+
+        public string tipoDocumentoCod { get; set; }
     }
 }

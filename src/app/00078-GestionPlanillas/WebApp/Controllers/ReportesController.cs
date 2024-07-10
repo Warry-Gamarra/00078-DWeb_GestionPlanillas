@@ -21,6 +21,7 @@ namespace WebApp.Controllers
         private IPeriodoServiceFacade _periodoServiceFacade;
         private ITrabajadorServiceFacade _trabajadorServiceFacade;
         private ITrabajadorCategoriaPlanillaServiceFacade _trabajadorCategoriaPlanillasServiceFacade;
+        private IValorExternoConceptoServiceFacade _valorExternoConceptoServiceFacade;
 
         public ReportesController()
         {
@@ -29,6 +30,7 @@ namespace WebApp.Controllers
             _periodoServiceFacade = new PeriodoServiceFacade();
             _trabajadorServiceFacade = new TrabajadorServiceFacade();
             _trabajadorCategoriaPlanillasServiceFacade = new TrabajadorCategoriaPlanillaServiceFacade();
+            _valorExternoConceptoServiceFacade = new ValorExternoConceptoServiceFacade();
         }
 
         [HttpGet]
@@ -327,6 +329,50 @@ namespace WebApp.Controllers
             try
             {
                 fileContent = _trabajadorCategoriaPlanillasServiceFacade.ListarTrabajadoresAptos(anio, mes, idCategoria, FormatoArchivo.XLSX);
+
+                return File(fileContent.fileContent, fileContent.contentType, fileContent.fileName);
+            }
+            catch (Exception ex)
+            {
+                errorMessage = ex.Message;
+            }
+
+            ViewBag.ErrorMessage = errorMessage;
+
+            return View();
+        }
+
+        [HttpGet]
+        public ActionResult DescargaInformacionExterna(int anio, int mes, int idCategoria)
+        {
+            FileContent fileContent;
+            string errorMessage;
+
+            try
+            {
+                fileContent = _valorExternoConceptoServiceFacade.ListarValoresExternos(anio, mes, idCategoria, FormatoArchivo.XLSX);
+
+                return File(fileContent.fileContent, fileContent.contentType, fileContent.fileName);
+            }
+            catch (Exception ex)
+            {
+                errorMessage = ex.Message;
+            }
+
+            ViewBag.ErrorMessage = errorMessage;
+
+            return View();
+        }
+
+        [HttpGet]
+        public ActionResult DescargaFormatoInformacionExternaRegistrada(int anio, int mes, int idCategoria)
+        {
+            FileContent fileContent;
+            string errorMessage;
+
+            try
+            {
+                fileContent = _valorExternoConceptoServiceFacade.DescargarFormatoValoresExternosRegistrados(anio, mes, idCategoria, FormatoArchivo.XLSX);
 
                 return File(fileContent.fileContent, fileContent.contentType, fileContent.fileName);
             }

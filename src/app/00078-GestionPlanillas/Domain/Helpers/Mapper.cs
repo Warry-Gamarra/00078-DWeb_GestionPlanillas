@@ -52,6 +52,7 @@ namespace Domain.Helpers
                 estadoID = view.I_EstadoID,
                 estadoDesc = view.T_EstadoDesc,
                 vinculoID = view.I_VinculoID,
+                vinculoCod = view.C_VinculoCod,
                 vinculoDesc = view.T_VinculoDesc,
                 trabajadorDependenciaID = view.I_TrabajadorDependenciaID,
                 dependenciaID = view.I_DependenciaID,
@@ -63,7 +64,8 @@ namespace Domain.Helpers
                 tipoCuentaBancariaDesc = view.T_TipoCuentaBancariaDesc,
                 bancoID = view.I_BancoID,
                 bancoDesc = view.T_BancoDesc,
-                bancoAbrv = view.T_BancoAbrv
+                bancoAbrv = view.T_BancoAbrv,
+                tipoDocumentoCod = view.T_TipoDocumentoCod
             };
 
             return trabajadorDTO;
@@ -515,10 +517,7 @@ namespace Domain.Helpers
 
             if (reader.GetValue(2) != null)
             {
-                stringValue = reader.GetValue(2).ToString();
-
-                if (int.TryParse(stringValue, out intValue))
-                    dtoConceptoExternoValorDTO.tipoDocumentoID = intValue;
+                dtoConceptoExternoValorDTO.tipoDocumentoCod = reader.GetValue(2).ToString();
             }
 
             if (reader.GetValue(3) != null)
@@ -609,7 +608,12 @@ namespace Domain.Helpers
                 tipoConceptoDesc = view.T_TipoConceptoDesc,
                 valorConcepto = view.M_ValorConcepto,
                 proveedorID = view.I_ProveedorID,
-                proveedorDesc = view.T_ProveedorDesc
+                proveedorDesc = view.T_ProveedorDesc,
+                trabajadorCod = view.C_TrabajadorCod,
+                vinculoCod = view.C_VinculoCod,
+                vinculoDesc = view.T_VinculoDesc,
+                estadoDesc = view.T_EstadoDesc,
+                tipoDocumentoCod = view.T_TipoDocumentoCod
             };
 
             return valorExternoConceptoDTO;

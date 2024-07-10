@@ -121,7 +121,7 @@ namespace WebApp.Controllers
         }
 
         [HttpGet]
-        public JsonResult ObtenerListaInformaciónExterna(int? anio, int? mes, int? idCategoria)
+        public JsonResult ObtenerListaInformacionExterna(int? anio, int? mes, int? idCategoria)
         {
             var result = new AjaxResponse();
 

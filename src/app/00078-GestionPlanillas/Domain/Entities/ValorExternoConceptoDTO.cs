@@ -49,5 +49,17 @@ namespace Domain.Entities
         public int proveedorID { get; set; }
 
         public string proveedorDesc { get; set; }
+
+        public bool tienePlanilla {  get; set; }
+
+        public string trabajadorCod { get; set; }
+
+        public string vinculoCod { get; set; }
+
+        public string vinculoDesc { get; set; }
+
+        public string estadoDesc { get; set; }
+
+        public string tipoDocumentoCod { get; set; }
     }
 }

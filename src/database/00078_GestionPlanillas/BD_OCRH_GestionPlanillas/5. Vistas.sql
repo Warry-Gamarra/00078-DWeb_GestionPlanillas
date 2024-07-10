@@ -12,9 +12,10 @@ SELECT
 	trab.I_TrabajadorID, trab.C_TrabajadorCod, trab.C_CodigoPlaza, per.I_PersonaID, per.T_Nombre, per.T_ApellidoPaterno, per.T_ApellidoMaterno, 
 	tipdoc.I_TipoDocumentoID, tipdoc.T_TipoDocumentoDesc, per.C_NumDocumento, per.I_SexoID, se.T_SexoDesc,
 	trab.D_FechaIngreso, reg.I_RegimenID, reg.T_RegimenDesc, afp.I_AfpID, afp.T_AfpDesc, trab.T_Cuspp, 
-	est.I_EstadoID, est.T_EstadoDesc, vin.I_VinculoID, vin.T_VinculoDesc,
+	est.I_EstadoID, est.T_EstadoDesc, vin.I_VinculoID,vin.C_VinculoCod, vin.T_VinculoDesc,
 	dep.I_DependenciaID, dep.C_DependenciaCod, dep.T_DependenciaDesc,
-	cta.I_CuentaBancariaID, cta.T_NroCuentaBancaria, cta.I_TipoCuentaBancariaID, tcb.T_TipoCuentaBancariaDesc, bco.I_BancoID, bco.T_BancoDesc, bco.T_BancoAbrv
+	cta.I_CuentaBancariaID, cta.T_NroCuentaBancaria, cta.I_TipoCuentaBancariaID, tcb.T_TipoCuentaBancariaDesc, bco.I_BancoID, bco.T_BancoDesc, bco.T_BancoAbrv,
+	tipdoc.T_TipoDocumentoCod
 FROM 
 	dbo.TC_Persona AS per INNER JOIN
 	dbo.TC_Trabajador AS trab ON trab.I_PersonaID = per.I_PersonaID INNER JOIN
@@ -192,7 +193,8 @@ GO
 CREATE VIEW [dbo].[VW_ValoresExternos]
 AS
 	SELECT excon.I_ConceptoExternoValorID, per.I_PeriodoID, per.I_Anio, per.I_Mes, per.T_MesDesc, trab.I_TrabajadorID, trab.T_TipoDocumentoDesc, trab.C_NumDocumento, trab.T_ApellidoPaterno, trab.T_ApellidoMaterno, trab.T_Nombre,
-		catrab.I_TrabajadorCategoriaPlanillaID, catrab.I_CategoriaPlanillaID, cat.T_CategoriaPlanillaDesc, con.I_ConceptoID, con.C_ConceptoCod, con.T_ConceptoDesc, con.T_TipoConceptoDesc, excon.M_ValorConcepto, pro.I_ProveedorID, pro.T_ProveedorDesc
+		catrab.I_TrabajadorCategoriaPlanillaID, catrab.I_CategoriaPlanillaID, cat.T_CategoriaPlanillaDesc, con.I_ConceptoID, con.C_ConceptoCod, con.T_ConceptoDesc, con.T_TipoConceptoDesc, excon.M_ValorConcepto, pro.I_ProveedorID, pro.T_ProveedorDesc,
+		trab.C_TrabajadorCod, trab.C_VinculoCod, trab.T_VinculoDesc, trab.T_EstadoDesc, trab.T_TipoDocumentoCod
 	FROM dbo.TI_ValorExternoPeriodo exper
 	INNER JOIN dbo.TI_ValorExternoConcepto excon ON exper.I_ValorExternoPeriodoID = excon.I_ValorExternoPeriodoID
 	INNER JOIN dbo.TC_Trabajador_CategoriaPlanilla catrab ON catrab.I_TrabajadorCategoriaPlanillaID = exper.I_TrabajadorCategoriaPlanillaID

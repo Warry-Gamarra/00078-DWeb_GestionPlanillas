@@ -52,6 +52,8 @@ namespace WebApp.Models
 
         public string tipoDocumentoDesc { get; set; }
 
+        public string tipoDocumentoCod { get; set; }
+
         [Required(ErrorMessage = "El Num.Documento es obligatorio.")]
         [CustomValidation(typeof(TrabajadorModel), "ValidarLongitudNumeroDocumento")]
         [CustomValidation(typeof(TrabajadorModel), "ValidarCaracteresNumeroDocumento")]
@@ -98,6 +100,8 @@ namespace WebApp.Models
 
         [DisplayName("Vínculo")]
         public int vinculoID { get; set; }
+
+        public string vinculoCod {  get; set; }
 
         public Vinculo Vinculo
         {

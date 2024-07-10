@@ -17,6 +17,10 @@ namespace WebApp.ServiceFacade
 
         List<ValorExternoConceptoModel> ListarValoresExternos(int anio, int mes, int categoriaPlanillaID);
 
+        FileContent ListarValoresExternos(int anio, int mes, int categoriaPlanillaID, FormatoArchivo formatoArchivo);
+
+        FileContent DescargarFormatoValoresExternosRegistrados(int anio, int mes, int categoriaPlanillaID, FormatoArchivo formatoArchivo);
+
         ValorExternoConceptoModel ObtenerValorExterno(int conceptoExternoValorID);
 
         Response ActualizarValorExternoConcepto(int conceptoExternoValorID, decimal valorConcepto, int userID);

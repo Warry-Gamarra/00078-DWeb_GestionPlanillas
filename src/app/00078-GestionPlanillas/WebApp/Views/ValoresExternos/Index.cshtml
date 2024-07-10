@@ -208,7 +208,7 @@
                     { data: 'numDocumento' },
                     { data: 'anio' },
                     { data: 'mes' },
-                    { data: 'tipoDocumentoID' },
+                    { data: 'tipoDocumentoCod' },
                     { data: 'numDocumento' },
                     { data: 'datosPersona', width: '15%' },
                     { data: 'categoriaPlanillaDesc' },
@@ -228,7 +228,7 @@
                     {
                         targets: 3,
                         render: function (data, type, row) {
-                            return row.tipoDocumentoDesc + ' (' + row.tipoDocumentoID + ')';
+                            return row.tipoDocumentoDesc + ' (' + row.tipoDocumentoCod + ')';
                         }
                     },
                     {

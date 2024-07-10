@@ -22,7 +22,7 @@ namespace Domain.Entities
 
         public string mesDesc { get; set; }
 
-        public int? tipoDocumentoID { get; set; }
+        public string tipoDocumentoCod { get; set; }
 
         public bool esTipoDocumentoCorrecto { get; set; }
 
@@ -39,6 +39,8 @@ namespace Domain.Entities
         public string datosPersona { get; set; }
 
         public string tipoDocumentoDesc { get; set; }
+
+        public int tipoDocumentoID { get; set; }
 
         public int? trabajadorCategoriaPlanillaID { get; set; }
 

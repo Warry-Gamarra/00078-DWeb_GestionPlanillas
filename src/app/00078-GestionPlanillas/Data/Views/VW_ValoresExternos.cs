@@ -54,6 +54,16 @@ namespace Data.Views
 
         public string T_ProveedorDesc { get; set; }
 
+        public string C_TrabajadorCod { get; set; }
+
+        public string C_VinculoCod { get; set; }
+
+        public string T_VinculoDesc { get; set; }
+
+        public string T_EstadoDesc { get; set; }
+
+        public string T_TipoDocumentoCod { get; set; }
+
         public static IEnumerable<VW_ValoresExternos> FindAll(int I_Anio, int I_Mes, int I_CategoriaPlanillaID)
         {
             IEnumerable<VW_ValoresExternos> result;

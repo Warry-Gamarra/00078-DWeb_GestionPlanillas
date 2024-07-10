@@ -12,7 +12,7 @@ namespace Domain.Entities
 
         public int? mes { get; set; }
 
-        public int? tipoDocumentoID { get; set; }
+        public string tipoDocumentoCod { get; set; }
 
         public string numDocumento { get; set; }
 

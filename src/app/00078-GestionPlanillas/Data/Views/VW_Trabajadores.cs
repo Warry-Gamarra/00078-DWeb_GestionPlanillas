@@ -53,6 +53,8 @@ namespace Data.Views
 
         public int I_VinculoID { get; set; }
 
+        public string C_VinculoCod {  get; set; }
+
         public string T_VinculoDesc { get; set; }
 
         public int? I_TrabajadorDependenciaID { get; set; }
@@ -76,6 +78,8 @@ namespace Data.Views
         public string T_BancoDesc { get;set; }
 
         public string T_BancoAbrv { get; set; }
+
+        public string T_TipoDocumentoCod {  get; set; }
 
         public static IEnumerable<VW_Trabajadores> FindAll()
         {
